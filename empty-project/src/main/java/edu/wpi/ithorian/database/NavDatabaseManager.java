@@ -1,6 +1,8 @@
 package edu.wpi.ithorian.database;
 
-public class NavDatabaseManager {
+import org.sqlite.core.DB;
+
+public class NavDatabaseManager extends DatabaseManager {
 
   private static final String DB_URL = "jdbc:derby:navDB;create=true";
 
@@ -10,13 +12,21 @@ public class NavDatabaseManager {
     return ourInstance;
   }
 
-  public static void init() {
-    ourInstance = new NavDatabaseManager();
+  public static void init(boolean regen) {
+    ourInstance = new NavDatabaseManager(regen);
   }
 
-  private DatabaseRef databaseRef;
 
-  private NavDatabaseManager() {
-    databaseRef = DatabaseRef.getConnection(DB_URL);
+
+  private NavDatabaseManager(boolean regen) {
+    super(DB_URL, regen);
+  }
+
+  void dropTables() {
+
+  }
+
+  void createTables() {
+
   }
 }
