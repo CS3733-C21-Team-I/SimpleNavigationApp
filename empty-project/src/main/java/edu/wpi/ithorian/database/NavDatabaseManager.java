@@ -2,13 +2,9 @@ package edu.wpi.ithorian.database;
 
 public class NavDatabaseManager extends DatabaseManager {
 
-  private static final String DB_URL = "jdbc:derby:navDB;create=true";
+  private static final String DB_URL = "jdbc:derby:navDB";
 
   private static NavDatabaseManager ourInstance;
-
-  public static NavDatabaseManager getInstance() {
-    return ourInstance;
-  }
 
   public static void init(boolean regen) {
     ourInstance = new NavDatabaseManager(regen);
@@ -21,4 +17,4 @@ public class NavDatabaseManager extends DatabaseManager {
   void dropTables() {}
 
   void createTables() {}
-git }
+}
