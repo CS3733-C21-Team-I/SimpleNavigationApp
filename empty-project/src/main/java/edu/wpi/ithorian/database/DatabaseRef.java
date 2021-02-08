@@ -14,8 +14,7 @@ public class DatabaseRef {
   private DatabaseRef(String url, boolean connect) {
     this.dbUrl = url;
 
-    if (connect)
-        url = url + ";create=true";
+    if (connect) url = url + ";create=true";
     try {
       Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
     } catch (ClassNotFoundException c) {
