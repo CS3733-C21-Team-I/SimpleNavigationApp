@@ -2,19 +2,16 @@ package edu.wpi.ithorian.database;
 
 public abstract class DatabaseManager {
 
-  private DatabaseRef databaseRef;
+    DatabaseRef databaseRef;
 
-  public DatabaseManager(String url, boolean regenerate) {
-    if (regenerate) {
-      dropTables();
-      createTables();
-      url = url + "create=true";
+    DatabaseManager(String url, boolean regen) {
+        databaseRef = DatabaseRef.getConnection(url, regen);
+        if (regen) {
+            dropTables();
+            createTables();
+        }
     }
 
-    databaseRef = DatabaseRef.getConnection(url);
-  }
-
-  abstract void createTables();
-
-  abstract void dropTables();
+    abstract void createTables();
+    abstract void dropTables();
 }

@@ -11,16 +11,18 @@ public class DatabaseRef {
 
   private Connection connection;
 
-  private DatabaseRef(String url) {
+  private DatabaseRef(String url, boolean connect) {
     this.dbUrl = url;
 
+    if (connect)
+        url = url + ";create=true";
     try {
       Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
     } catch (ClassNotFoundException c) {
       // TODO Logging BIG error
     }
     try {
-      connection = DriverManager.getConnection(dbUrl);
+      connection = DriverManager.getConnection(url);
     } catch (SQLException e) {
       System.out.println("Failed to connect to Database");
       connection = null;
@@ -47,12 +49,12 @@ public class DatabaseRef {
    */
   private static HashMap<String, DatabaseRef> openConnections;
 
-  public static DatabaseRef getConnection(String url) {
+  public static DatabaseRef getConnection(String url, boolean create) {
     if (openConnections == null) openConnections = new HashMap<>();
     if (openConnections.containsKey(url)) {
       return openConnections.get(url);
     } else {
-      DatabaseRef newRef = new DatabaseRef(url);
+      DatabaseRef newRef = new DatabaseRef(url, create);
       openConnections.put(url, newRef);
       return newRef;
     }
