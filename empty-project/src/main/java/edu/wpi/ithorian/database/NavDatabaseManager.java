@@ -1,5 +1,7 @@
 package edu.wpi.ithorian.database;
 
+import edu.wpi.ithorian.HospitalMap;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -17,6 +19,11 @@ public class NavDatabaseManager extends DatabaseManager {
 
   private NavDatabaseManager(boolean regen) {
     super(DB_URL, regen);
+  }
+
+  public HospitalMap loadMapFromMemory(int id) {
+
+      return null;
   }
   
   void dropTables() {
