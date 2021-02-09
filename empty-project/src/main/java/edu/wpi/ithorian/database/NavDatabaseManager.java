@@ -18,8 +18,8 @@ public class NavDatabaseManager extends DatabaseManager {
   private NavDatabaseManager(boolean regen) {
     super(DB_URL, regen);
   }
-
-    void dropTables() {
+  
+  void dropTables() {
         try{
             Statement stmt = connection.createStatement();
             try {
@@ -50,7 +50,7 @@ public class NavDatabaseManager extends DatabaseManager {
         }
     }
 
-    void createTables() {
+  void createTables() {
         try {
             Statement stmt = connection.createStatement();
             try {
