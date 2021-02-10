@@ -1,12 +1,13 @@
-package Graph;
+package edu.wpi.ithorian.Graph;
 
-import java.util.Set;
-import java.util.*;
+import java.util.List;
 
 public interface GraphNode<T extends GraphNode<T>> {
-    String getID();
-    int getXcoord();
-    int getYcoord();
+  String getID();
 
-    List<T> getConnections();
+  int getXcoord();
+
+  int getYcoord();
+
+  List<T> getConnections();
 }

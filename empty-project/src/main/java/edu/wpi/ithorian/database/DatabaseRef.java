@@ -58,4 +58,8 @@ public class DatabaseRef {
       return newRef;
     }
   }
+
+  public Connection getConnection() {
+    return connection;
+  }
 }
