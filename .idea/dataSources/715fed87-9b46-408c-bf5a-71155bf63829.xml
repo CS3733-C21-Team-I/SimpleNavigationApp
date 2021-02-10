@@ -17,5 +17,140 @@
     <schema id="10" parent="1" name="SYSIBM"/>
     <schema id="11" parent="1" name="SYSPROC"/>
     <schema id="12" parent="1" name="SYSSTAT"/>
+    <table id="13" parent="2" name="NAVEDGES"/>
+    <table id="14" parent="2" name="NAVMAPS"/>
+    <table id="15" parent="2" name="NAVNODES"/>
+    <column id="16" parent="13" name="EDGE_ID">
+      <Position>1</Position>
+      <DataType>VARCHAR(45)|12s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="17" parent="13" name="FROM_NODE">
+      <Position>2</Position>
+      <DataType>VARCHAR(45)|12s</DataType>
+    </column>
+    <column id="18" parent="13" name="TO_NODE">
+      <Position>3</Position>
+      <DataType>VARCHAR(45)|12s</DataType>
+    </column>
+    <index id="19" parent="13" name="SQL210210162950730">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>EDGE_ID</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <index id="20" parent="13" name="SQL210210162950731">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>FROM_NODE</ColNames>
+    </index>
+    <index id="21" parent="13" name="SQL210210162950740">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>TO_NODE</ColNames>
+    </index>
+    <key id="22" parent="13" name="SQL210210162950730">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>EDGE_ID</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="23" parent="13" name="SQL210210162950731">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>FROM_NODE</ColNames>
+      <RefTableName>NAVNODES</RefTableName>
+      <RefKeyName>SQL210210162950250</RefKeyName>
+      <RefColNames>NODE_ID</RefColNames>
+    </foreign-key>
+    <foreign-key id="24" parent="13" name="SQL210210162950740">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>TO_NODE</ColNames>
+      <RefTableName>NAVNODES</RefTableName>
+      <RefKeyName>SQL210210162950250</RefKeyName>
+      <RefColNames>NODE_ID</RefColNames>
+    </foreign-key>
+    <column id="25" parent="14" name="MAP_ID">
+      <Position>1</Position>
+      <DataType>VARCHAR(45)|12s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="26" parent="14" name="MAP_NAME">
+      <Position>2</Position>
+      <DataType>VARCHAR(45)|12s</DataType>
+    </column>
+    <column id="27" parent="14" name="FLOOR_NUMBER">
+      <Position>3</Position>
+      <DataType>INTEGER|4s</DataType>
+    </column>
+    <column id="28" parent="14" name="BUILDING_NAME">
+      <Position>4</Position>
+      <DataType>VARCHAR(45)|12s</DataType>
+    </column>
+    <column id="29" parent="14" name="TEAMASSIGNED">
+      <Position>5</Position>
+      <DataType>VARCHAR(1)|12s</DataType>
+    </column>
+    <index id="30" parent="14" name="SQL210210162950120">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>MAP_ID</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="31" parent="14" name="SQL210210162950120">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>MAP_ID</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="32" parent="15" name="NODE_ID">
+      <Position>1</Position>
+      <DataType>VARCHAR(45)|12s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="33" parent="15" name="X_COORD">
+      <Position>2</Position>
+      <DataType>INTEGER|4s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="34" parent="15" name="Y_COORD">
+      <Position>3</Position>
+      <DataType>INTEGER|4s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="35" parent="15" name="IS_NAMED">
+      <Position>4</Position>
+      <DataType>BOOLEAN|16s</DataType>
+    </column>
+    <column id="36" parent="15" name="NODE_TYPE">
+      <Position>5</Position>
+      <DataType>VARCHAR(4)|12s</DataType>
+    </column>
+    <column id="37" parent="15" name="LONG_NAME">
+      <Position>6</Position>
+      <DataType>VARCHAR(45)|12s</DataType>
+    </column>
+    <column id="38" parent="15" name="SHORT_NAME">
+      <Position>7</Position>
+      <DataType>VARCHAR(45)|12s</DataType>
+    </column>
+    <column id="39" parent="15" name="MAP_ID">
+      <Position>8</Position>
+      <DataType>VARCHAR(45)|12s</DataType>
+    </column>
+    <index id="40" parent="15" name="SQL210210162950250">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>NODE_ID</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <index id="41" parent="15" name="SQL210210162950251">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>MAP_ID</ColNames>
+    </index>
+    <key id="42" parent="15" name="SQL210210162950250">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>NODE_ID</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="43" parent="15" name="SQL210210162950251">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>MAP_ID</ColNames>
+      <RefTableName>NAVMAPS</RefTableName>
+      <RefKeyName>SQL210209230944630</RefKeyName>
+      <RefColNames>MAP_ID</RefColNames>
+    </foreign-key>
   </database-model>
 </dataSource>
