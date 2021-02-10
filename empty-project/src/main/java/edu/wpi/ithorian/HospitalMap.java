@@ -1,7 +1,14 @@
-import Graph.Graph;
-import Graph.GraphNode;
+package edu.wpi.ithorian;
 
-import java.util.*;
+
+
+import edu.wpi.ithorian.Graph.Graph;
+import edu.wpi.ithorian.Graph.GraphNode;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class HospitalMap extends Graph<HospitalMap.Node> {
     // Lists that hold arrays of map nodes and edges based on csv input
@@ -9,6 +16,9 @@ public class HospitalMap extends Graph<HospitalMap.Node> {
 
     public HospitalMap(){
         nodes = new HashSet<>();
+    }
+    public HospitalMap(Set<Node> nodes) {
+        this.nodes = nodes;
     }
 
     public void generateElementFromData(List<List<String>> nodesList, List<List<String>> edgesList){
@@ -42,6 +52,19 @@ public class HospitalMap extends Graph<HospitalMap.Node> {
             this.longname = (String) nodeInit.get(6);
             this.shortname = (String) nodeInit.get(7);
             this.teamassigned = (String) nodeInit.get(8);
+        }
+
+        public Node(String id, String building, String nodeType, String longname, String shortname, String teamassigned, int xcoord, int ycoord, int floor, List<Node> connections) {
+            this.id = id;
+            this.building = building;
+            this.nodeType = nodeType;
+            this.longname = longname;
+            this.shortname = shortname;
+            this.teamassigned = teamassigned;
+            this.xcoord = xcoord;
+            this.ycoord = ycoord;
+            this.floor = floor;
+            this.connectedNodes = connections;
         }
 
         public int getXcoord() {
