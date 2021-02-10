@@ -61,7 +61,7 @@ public class NavDatabaseManager extends DatabaseManager {
         try {
             Statement stmt = connection.createStatement();
             try {
-                stmt.execute("CREATE TABLE navMaps(map_ID integer NOT NULL," +
+                stmt.execute("CREATE TABLE navMaps(map_ID varchar(45) NOT NULL," +
                         " map_Name varchar(45), floor_Number integer, building_Name varchar(45)," +
                         " teamAssigned varchar(1), PRIMARY KEY (map_ID))");
             } catch (SQLException e) {
@@ -69,7 +69,7 @@ public class NavDatabaseManager extends DatabaseManager {
             }
 
             try{
-                stmt.execute("CREATE TABLE navNodes(node_ID integer NOT NULL," +
+                stmt.execute("CREATE TABLE navNodes(node_ID varchar(45) NOT NULL," +
                         " x_Coord integer NOT NULL, y_Coord integer NOT NULL,is_Named boolean, node_Type varchar(4)," +
                         "long_Name varchar(45), short_Name varchar(45),map_ID integer, " +
                         "PRIMARY KEY(node_ID), FOREIGN KEY (map_ID) references navMaps(map_ID))");
@@ -78,8 +78,8 @@ public class NavDatabaseManager extends DatabaseManager {
             }
 
             try{
-                stmt.execute("CREATE TABLE navEdges(edge_ID integer NOT NULL, " +
-                        "from_node integer, to_node integer, PRIMARY KEY(edge_ID), " +
+                stmt.execute("CREATE TABLE navEdges(edge_ID varchar(45) NOT NULL, " +
+                        "from_node varchar(45), to_node varchar(45), PRIMARY KEY(edge_ID), " +
                         "FOREIGN KEY (from_node) references navNodes(node_ID)," +
                         "FOREIGN KEY (to_node) references navNodes(node_ID))");
             } catch (SQLException e){
