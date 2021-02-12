@@ -81,14 +81,8 @@ public class NavDatabaseManager extends DatabaseManager {
 						nodeId,
 						new HospitalMapNode(
 								nodeId,
-								buildingName,
-								nodeType,
-								longname,
-								shortname,
-								teamAssigned,
 								xCoord,
 								yCoord,
-								floor,
 								null));
 			}
 		} catch (SQLException e) {
@@ -102,7 +96,7 @@ public class NavDatabaseManager extends DatabaseManager {
 
 			while (nodeIterator.hasNext()) {
 				Map.Entry nodeEntry = (Map.Entry) nodeIterator.next();
-				List<HospitalMapNode> connected = new ArrayList<>();
+				Set<HospitalMapNode> connected = new HashSet<>();
 				Statement stmt = databaseRef.getConnection().createStatement();
 				ResultSet fromEdgeResults =
 						stmt.executeQuery(
@@ -135,7 +129,7 @@ public class NavDatabaseManager extends DatabaseManager {
 			return null;
 		}
 
-		return new HospitalMap(new HashSet<>(nodeMap.values()));
+		return new HospitalMap(mapId, mapName, buildingName, floor, new HashSet<>(nodeMap.values()));
 	}
 
 	protected void dropTables() {

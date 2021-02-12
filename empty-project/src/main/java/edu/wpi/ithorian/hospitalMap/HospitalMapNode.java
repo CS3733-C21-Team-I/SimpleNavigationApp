@@ -12,6 +12,13 @@ public class HospitalMapNode implements GraphNode<HospitalMapNode> {
 	private int xCoord;
 	private int yCoord;
 
+	public HospitalMapNode(String id, int xCoord, int yCoord, Set<HospitalMapNode> connections) {
+		this.id = id;
+		this.connections = connections;
+		this.xCoord = xCoord;
+		this.yCoord = yCoord;
+	}
+
 	@Override
 	public String getID() {
 		return null;
@@ -20,5 +27,9 @@ public class HospitalMapNode implements GraphNode<HospitalMapNode> {
 	@Override
 	public List<HospitalMapNode> getConnections() {
 		return null;
+	}
+
+	public void setConnections(Set<HospitalMapNode> connections) {
+		this.connections = connections;
 	}
 }
