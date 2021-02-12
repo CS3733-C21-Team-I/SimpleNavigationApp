@@ -39,7 +39,7 @@ public class NavDatabaseManager extends DatabaseManager {
       return null;
     }
 
-    String mapName, buildingName, teamAssigned;
+    String mapName, buildingName, teamAssigned, image_path;
     int floor;
 
     try {
@@ -47,6 +47,7 @@ public class NavDatabaseManager extends DatabaseManager {
       floor = mapResult.getInt("floor_Number");
       buildingName = mapResult.getString("building_Name");
       teamAssigned = mapResult.getString("teamAssigned");
+      image_path = mapResult.getString("image_path");
     } catch (SQLException e) {
       e.printStackTrace();
       System.out.println("Log navMap column names not correct");
@@ -133,7 +134,7 @@ public class NavDatabaseManager extends DatabaseManager {
       return null;
     }
 
-    return new HospitalMap(new HashSet<>(nodeMap.values()));
+    return new HospitalMap(new HashSet<>(nodeMap.values()), image_path);
   }
 
   void dropTables() {
@@ -178,7 +179,7 @@ public class NavDatabaseManager extends DatabaseManager {
         stmt.execute(
             "CREATE TABLE navMaps(map_ID varchar(45) NOT NULL,"
                 + " map_Name varchar(45), floor_Number integer, building_Name varchar(45),"
-                + " teamAssigned varchar(1), PRIMARY KEY (map_ID))");
+                + " teamAssigned varchar(1), image_path varchar(45),PRIMARY KEY (map_ID)) ");
       } catch (SQLException e) {
         System.out.println("Error generating Map table");
       }

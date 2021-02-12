@@ -11,12 +11,15 @@ public class HospitalMap extends Graph<HospitalMap.Node> {
   // Lists that hold arrays of map nodes and edges based on csv input
   // static HashMap<String, Node> nodesHash = new HashMap<String, Node>();
 
+  public static String image_path;
+
   public HospitalMap() {
     nodes = new HashSet<>();
   }
 
-  public HospitalMap(Set<Node> nodes) {
+  public HospitalMap(Set<Node> nodes, String image_path) {
     this.nodes = nodes;
+    this.image_path = image_path;
   }
 
   public void generateElementFromData(List<List<String>> nodesList, List<List<String>> edgesList) {
