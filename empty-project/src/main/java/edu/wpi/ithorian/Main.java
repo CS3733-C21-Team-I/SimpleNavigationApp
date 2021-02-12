@@ -1,6 +1,9 @@
 package edu.wpi.ithorian;
 
 import edu.wpi.ithorian.database.NavDatabaseManager;
+import edu.wpi.ithorian.hospitalMap.HospitalMap;
+import edu.wpi.ithorian.hospitalMap.HospitalMapNode;
+
 import java.util.Arrays;
 
 public class Main {
@@ -14,14 +17,5 @@ public class Main {
     }
 
     HospitalMap hm = NavDatabaseManager.getInstance().loadMapFromMemory("Map1");
-
-    for (HospitalMap.Node n : hm.nodes) {
-      System.out.println(n.longToString());
-      System.out.println("\tConnections:");
-      for (HospitalMap.Node c : n.connectedNodes) {
-        System.out.println("\t\t" + c);
-      }
-    }
-    // App.launch(App.class, args);
   }
 }
