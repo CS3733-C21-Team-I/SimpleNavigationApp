@@ -61,9 +61,9 @@ public class MapEditManager {
    * edited node Usage, editNode(nodeId, new HospitalMapNode(newInfo)
    *
    * @param nodeId the Id of the node prior to editing
-   * @param node A new instance of HospitalMapNode representing the edited node
    */
-  public void editNode(String nodeId, HospitalMapNode node) {
+  public void editNode(String nodeId) {
+    HospitalMapNode node = activeMap.getNode(nodeId);
     // TODO reset node.id using hashing?
     dataOperations.add(new NavEditOperation(EDIT_NODE, nodeId, node, null));
   }
