@@ -12,7 +12,7 @@ public abstract class DatabaseManager {
     }
   }
 
-  abstract void createTables();
+  protected abstract void createTables();
 
-  abstract void dropTables();
+  protected abstract void dropTables();
 }
