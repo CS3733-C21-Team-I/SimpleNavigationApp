@@ -17,7 +17,8 @@ public class MapEditManager {
         return ourInstance;
     }
 
-
+    private HospitalMap activeMap;
+    private Queue<NavEditOperation> dataOperations;
 
     private MapEditManager() {
 
