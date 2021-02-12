@@ -16,4 +16,11 @@ public class NavEditOperation {
     private String targetNode;
     private HospitalMapNode newNode;
     private String toNode;
+
+    public NavEditOperation(OperationType opType, String targetNode, HospitalMapNode newNode, String toNode) {
+        this.opType = opType;
+        this.targetNode = targetNode;
+        this.newNode = newNode;
+        this.toNode = toNode;
+    }
 }
