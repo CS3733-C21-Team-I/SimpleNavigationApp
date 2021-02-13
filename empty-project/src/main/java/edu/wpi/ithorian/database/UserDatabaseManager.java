@@ -16,12 +16,12 @@ public class UserDatabaseManager extends DatabaseManager {
   }
 
   /** @param regen */
-  public void init(boolean regen) {
+  public static void init(boolean regen) {
     // TODO - implement UserDatabaseManager.init
     throw new UnsupportedOperationException();
   }
 
-  public UserDatabaseManager getInstance() {
+  public static UserDatabaseManager getInstance() {
     // TODO - implement UserDatabaseManager.getInstance
     throw new UnsupportedOperationException();
   }
