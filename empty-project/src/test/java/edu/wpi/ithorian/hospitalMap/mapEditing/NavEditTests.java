@@ -29,7 +29,6 @@ public class NavEditTests {
     for (int i = 0; i < 100; i++) {
       assertNotNull(map.getNode("N100" + i));
     }
-
   }
 
   public static List<List<String>> readFromFile(String path) {

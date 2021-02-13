@@ -1,8 +1,9 @@
 package edu.wpi.ithorian.hospitalMap;
 
+import java.io.*;
 import java.util.Set;
 
-public class LocationNode extends HospitalMapNode {
+public class LocationNode extends HospitalMapNode implements Serializable{
 
   private String shortName;
   private String longName;
