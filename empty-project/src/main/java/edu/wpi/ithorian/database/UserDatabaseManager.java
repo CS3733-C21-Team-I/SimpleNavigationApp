@@ -21,6 +21,7 @@ public class UserDatabaseManager extends DatabaseManager {
     // TODO reload from CSV
   }
 
+
   /**
    * Singleton access
    *
@@ -38,6 +39,7 @@ public class UserDatabaseManager extends DatabaseManager {
   private UserDatabaseManager(boolean regen) {
     super(DB_URL, regen);
     // TODO probably more stuff
+
   }
 
   /** @param userId */

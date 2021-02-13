@@ -13,7 +13,12 @@ public class HospitalMap implements Graph<HospitalMapNode> {
   private int floorNumber;
 
   public HospitalMap(
-      String id, String mapName, String buildingName, int floorNumber, String imagePath, Set<HospitalMapNode> nodes) {
+      String id,
+      String mapName,
+      String buildingName,
+      int floorNumber,
+      String imagePath,
+      Set<HospitalMapNode> nodes) {
     this.nodes = nodes;
     this.id = id;
     this.mapName = mapName;
@@ -32,5 +37,25 @@ public class HospitalMap implements Graph<HospitalMapNode> {
 
   public Set<HospitalMapNode> getNodes() {
     return nodes;
+  }
+
+  public String getId() {
+    return id;
+  }
+
+  public String getMapName() {
+    return mapName;
+  }
+
+  public String getBuildingName() {
+    return buildingName;
+  }
+
+  public String getImagePath() {
+    return imagePath;
+  }
+
+  public int getFloorNumber() {
+    return floorNumber;
   }
 }
