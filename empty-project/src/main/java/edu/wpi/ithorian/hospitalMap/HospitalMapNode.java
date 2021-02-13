@@ -29,12 +29,12 @@ public class HospitalMapNode implements GraphNode<HospitalMapNode> {
 
   @Override
   public String getID() {
-    return null;
+    return id;
   }
 
   @Override
-  public List<HospitalMapNode> getConnections() {
-    return null;
+  public Set<HospitalMapNode> getConnections() {
+    return connections;
   }
 
   public void setConnections(Set<HospitalMapNode> connections) {
