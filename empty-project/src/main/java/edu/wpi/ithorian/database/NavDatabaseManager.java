@@ -238,6 +238,14 @@ public class NavDatabaseManager extends DatabaseManager {
 
 			try {
 				Statement stmt = databaseRef.getConnection().createStatement();
+		ResultSet nodeResults;
+		try {
+			Statement stmt = databaseRef.getConnection().createStatement();
+			nodeResults = stmt.executeQuery("SELECT * FROM navNodes WHERE map_ID='" + mapId + "'");
+		} catch (SQLException e) {
+			System.out.println("Log error queerying map database");
+			return null;
+		}
 
 
 				for (HospitalMapNode connectionNode : hNode.getConnections()) {
@@ -260,6 +268,107 @@ public class NavDatabaseManager extends DatabaseManager {
 					} catch (SQLException e) {
 
 					}
+				nodeMap.put(
+						nodeId,
+						new HospitalMapNode(
+								nodeId,
+								xCoord,
+								yCoord,
+								null));
+			}
+		} catch (SQLException e) {
+			System.out.println("Error handling for pulling data from navNodes");
+			return null;
+		}
+
+		try {
+
+			Iterator nodeIterator = nodeMap.entrySet().iterator();
+
+			while (nodeIterator.hasNext()) {
+				Map.Entry nodeEntry = (Map.Entry) nodeIterator.next();
+				Set<HospitalMapNode> connected = new HashSet<>();
+				Statement stmt = databaseRef.getConnection().createStatement();
+				ResultSet fromEdgeResults =
+						stmt.executeQuery(
+								"SELECT * FROM navEdges WHERE from_Node='" + (String) nodeEntry.getKey() + "'");
+				while (fromEdgeResults.next()) {
+					HospitalMapNode n = nodeMap.get(fromEdgeResults.getString("to_Node"));
+					if (n == null) {
+						System.out.println("Warning edge connection to nonexistant node");
+						return null;
+					}
+					connected.add(n);
+				}
+				stmt = databaseRef.getConnection().createStatement();
+				ResultSet toEdgeResults =
+						stmt.executeQuery(
+								"SELECT * FROM navEdges WHERE to_Node='" + (String) nodeEntry.getKey() + "'");
+				while (toEdgeResults.next()) {
+					HospitalMapNode n = nodeMap.get(toEdgeResults.getString("from_Node"));
+					if (n == null) {
+						System.out.println("Warning edge connection to nonexistant node");
+						return null;
+					}
+					connected.add(n);
+				}
+				((HospitalMapNode) nodeEntry.getValue()).setConnections(connected);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("Log error querying edge database");
+			return null;
+		}
+
+		return new HospitalMap(mapId, mapName, buildingName, floor, image_path, new HashSet<>(nodeMap.values()));
+	}
+
+	protected void dropTables() {
+		try {
+
+			try {
+				Statement stmt = databaseRef.getConnection().createStatement();
+				// Drop the Edges table.
+				stmt.execute("DROP TABLE navEdges ");
+			} catch (SQLException ex) {
+				// No need to report an error.
+				// The table simply did not exist.
+			}
+
+			try {
+				Statement stmt = databaseRef.getConnection().createStatement();
+				// Drop the Nodes table.
+				stmt.execute("DROP TABLE navNodes ");
+			} catch (SQLException ex) {
+				// No need to report an error.
+				// The table simply did not exist.
+			}
+
+			try {
+				Statement stmt = databaseRef.getConnection().createStatement();
+				// Drop the Maps table.
+				stmt.execute("DROP TABLE navMaps ");
+			} catch (SQLException ex) {
+				// No need to report an error.
+				// The table simply did not exist.
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	protected void createTables() {
+		try {
+
+			try {
+				Statement stmt = databaseRef.getConnection().createStatement();
+				stmt.execute(
+						"CREATE TABLE navMaps(map_ID varchar(45) NOT NULL,"
+								+ " map_Name varchar(45), floor_Number integer, building_Name varchar(45),"
+								+ " teamAssigned varchar(1), image_path varchar(45),PRIMARY KEY (map_ID)) ");
+			} catch (SQLException e) {
+				System.out.println("Error generating Map table");
+			}
 
 				}
 				try {
