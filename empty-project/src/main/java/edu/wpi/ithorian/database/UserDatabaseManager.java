@@ -5,25 +5,36 @@ import java.util.List;
 
 public class UserDatabaseManager extends DatabaseManager {
 
-  private static final String DB_URL = "";
-  private UserDatabaseManager ourInstance;
+  private static final String DB_URL = "jdbc:derby:navDB";
+  private static UserDatabaseManager ourInstance;
 
-  /** @param regen */
+  /**
+   * Singleton init
+   *
+   * @param regen Set true if database should be wiped and reloaded from sources
+   */
+  public static void init(boolean regen) {
+    ourInstance = new UserDatabaseManager(regen);
+    // TODO reload from CSV
+  }
+
+  /**
+   * Singleton access
+   *
+   * @return the singleton
+   */
+  public static UserDatabaseManager getInstance() {
+    return ourInstance;
+  }
+
+  /**
+   * Constructor for UserDatabase
+   *
+   * @param regen
+   */
   private UserDatabaseManager(boolean regen) {
     super(DB_URL, regen);
-    // TODO - implement UserDatabaseManager.UserDatabaseManager
-    throw new UnsupportedOperationException();
-  }
-
-  /** @param regen */
-  public void init(boolean regen) {
-    // TODO - implement UserDatabaseManager.init
-    throw new UnsupportedOperationException();
-  }
-
-  public UserDatabaseManager getInstance() {
-    // TODO - implement UserDatabaseManager.getInstance
-    throw new UnsupportedOperationException();
+    // TODO probably more stuff
   }
 
   /** @param userId */
