@@ -1,6 +1,9 @@
 package edu.wpi.ithorian.database;
 
 import edu.wpi.ithorian.user.User;
+
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 
 public class UserDatabaseManager extends DatabaseManager {
@@ -55,8 +58,53 @@ public class UserDatabaseManager extends DatabaseManager {
   }
 
   @Override
-  protected void createTables() {}
+  protected void createTables() {
+    try {
+      Statement stmt = databaseRef.getConnection().createStatement();
+      stmt.execute(
+              "CREATE TABLE `hopital_Users`" +
+                      "(" +
+                      " `user_ID`    integer NOT NULL GENERATED ALWAYS AS IDENTITY," +
+                      " `screenName` varchar(45) NOT NULL ," +
+                      "PRIMARY KEY (`user_ID`)" +
+                      ");");
+    } catch (SQLException e) {
+      System.out.println("Error generating User table");
+    }
+
+    try {
+      Statement stmt = databaseRef.getConnection().createStatement();
+      stmt.execute(
+              "CREATE TABLE `hospital_Roles`" +
+                      "(" +
+                      " `role_ID`          integer NOT NULL GENERATED ALWAYS AS IDENTITY," +
+                      " `role_Name`        varchar(45) NOT NULL ," +
+                      " `role_Description` varchar(500) NOT NULL ," +
+                      "PRIMARY KEY (`role_ID`)\n" +
+                      ");");
+    } catch (SQLException e) {
+      System.out.println("Error generating Map table");
+    }
+  }
 
   @Override
-  protected void dropTables() {}
+  protected void dropTables() {
+    try {
+      Statement stmt = databaseRef.getConnection().createStatement();
+      // Drop the Edges table.
+      stmt.execute("DROP TABLE hopital_Users ");
+    } catch (SQLException ex) {
+      // No need to report an error.
+      // The table simply did not exist.
+    }
+
+    try {
+      Statement stmt = databaseRef.getConnection().createStatement();
+      // Drop the Edges table.
+      stmt.execute("DROP TABLE hopital_Roles ");
+    } catch (SQLException ex) {
+      // No need to report an error.
+      // The table simply did not exist.
+    }
+  }
 }

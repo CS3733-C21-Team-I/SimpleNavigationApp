@@ -189,7 +189,7 @@ public class NavDatabaseManager extends DatabaseManager {
       try {
         Statement stmt = databaseRef.getConnection().createStatement();
         stmt.execute(
-            "CREATE TABLE navEdges(edge_ID varchar(45) NOT NULL, "
+            "CREATE TABLE navEdges(edge_ID varchar(45) NOT NULL GENERATED ALWAYS AS IDENTITY , "
                 + "from_Node varchar(45), to_Node varchar(45), PRIMARY KEY(edge_ID), "
                 + "FOREIGN KEY (from_Node) references navNodes(node_ID),"
                 + "FOREIGN KEY (to_Node) references navNodes(node_ID))");
