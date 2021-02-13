@@ -3,8 +3,6 @@ package edu.wpi.ithorian.database;
 import edu.wpi.ithorian.hospitalMap.HospitalMap;
 import edu.wpi.ithorian.hospitalMap.HospitalMapNode;
 import edu.wpi.ithorian.hospitalMap.LocationNode;
-
-import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -192,7 +190,7 @@ public class NavDatabaseManager extends DatabaseManager {
       try {
         Statement stmt = databaseRef.getConnection().createStatement();
         stmt.execute(
-            "CREATE TABLE navEdges(edge_ID varchar(45) NOT NULL GENERATED ALWAYS AS IDENTITY , "
+            "CREATE TABLE navEdges(edge_ID integer NOT NULL GENERATED ALWAYS AS IDENTITY , "
                 + "from_Node varchar(45), to_Node varchar(45), PRIMARY KEY(edge_ID), "
                 + "FOREIGN KEY (from_Node) references navNodes(node_ID),"
                 + "FOREIGN KEY (to_Node) references navNodes(node_ID))");
