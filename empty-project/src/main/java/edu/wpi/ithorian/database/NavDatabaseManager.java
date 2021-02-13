@@ -2,6 +2,7 @@ package edu.wpi.ithorian.database;
 
 import edu.wpi.ithorian.hospitalMap.HospitalMap;
 import edu.wpi.ithorian.hospitalMap.HospitalMapNode;
+import edu.wpi.ithorian.hospitalMap.LocationNode;
 
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
@@ -175,7 +176,7 @@ public class NavDatabaseManager extends DatabaseManager {
 				stmt.execute(
 						"CREATE TABLE navMaps(map_ID varchar(45) NOT NULL,"
 								+ " map_Name varchar(45), floor_Number integer, building_Name varchar(45),"
-								+ " teamAssigned varchar(1), image_path varchar(45),PRIMARY KEY (map_ID)) ");
+								+ " team_Assigned varchar(1), image_Path varchar(45),PRIMARY KEY (map_ID)) ");
 			} catch (SQLException e) {
 				System.out.println("Error generating Map table");
 			}
@@ -184,7 +185,7 @@ public class NavDatabaseManager extends DatabaseManager {
 				Statement stmt = databaseRef.getConnection().createStatement();
 				stmt.execute(
 						"CREATE TABLE navNodes(node_ID varchar(45) NOT NULL,"
-								+ " x_Coord integer NOT NULL, y_Coord integer NOT NULL,is_Named boolean, node_Type varchar(4),"
+								+ " x_Coord integer NOT NULL, y_Coord integer NOT NULL, node_Type varchar(3),"
 								+ "long_Name varchar(45), short_Name varchar(45),map_ID varchar(45), "
 								+ "PRIMARY KEY(node_ID), FOREIGN KEY (map_ID) references navMaps(map_ID))");
 			} catch (SQLException e) {
@@ -214,173 +215,59 @@ public class NavDatabaseManager extends DatabaseManager {
 		}
 	}
 
-	void loadingHospitalMapIntoDatabase(HospitalMap hMap) {
-		// gets nodes from hospitalMap and stores them into the Map table
+	void saveMapIntoMemory(HospitalMap hMap) {
+		class EdgePair {
+			String fromId;
+			String toId;
 
+			public EdgePair(String fromId, String toId) {
+				this.fromId = fromId;
+				this.toId = toId;
+			}
+
+			public boolean equals(EdgePair other) {
+				return (this.fromId.equals(other.fromId) && this.toId.equals(other.toId)) ||
+						(this.fromId.equals(other.toId) && this.toId.equals(other.fromId));
+			}
+		}
 
 		try {
-			Statement stmt = databaseRef.getConnection().createStatement();
-
-			stmt.execute("INSERT INTO  navMaps(map_ID,map_Name,floor_Number, building_Name,\"\n" +
-					"                + \" teamAssigned) VALUES( hmap.getMapID(),hmap.getMapName(), hMap.getMapFloorNumber(), " +
-					"hMap.getBuildingName(), I ");
-		}
-		catch (SQLException e){
-			//error
+			Statement statement = databaseRef.getConnection().createStatement();
+			statement.executeQuery("INSERT INTO navNodes (map_ID, map_Name, floor_Number, building_Name, team_Assigned, image_Path) " +
+					"VALUES ('" + hMap.getId() + "', '" + hMap.getMapName() + "', " + hMap.getFloorNumber() + ", '" +
+					hMap.getBuildingName() + "', " + ")");
+		} catch (SQLException e) {
+			//TODO handle e
 		}
 
-		for (HospitalMapNode hNode : hMap.getNodes()) { // how do you go through a set?
-			String nodeId;
-			int xcoord, ycoord;
-			nodeId = hNode.getID();
-			xcoord = hNode.getxCoord();
-			ycoord = hNode.getyCoord();
+		Set<EdgePair> edgePairSet = new HashSet<>();
+		for (HospitalMapNode node : hMap.getNodes()) {
+			for (HospitalMapNode toNode: node.getConnections()) {
+				edgePairSet.add(new EdgePair(node.getID(), toNode.getID()));
+			}
 
 			try {
-				Statement stmt = databaseRef.getConnection().createStatement();
-		ResultSet nodeResults;
-		try {
-			Statement stmt = databaseRef.getConnection().createStatement();
-			nodeResults = stmt.executeQuery("SELECT * FROM navNodes WHERE map_ID='" + mapId + "'");
-		} catch (SQLException e) {
-			System.out.println("Log error queerying map database");
-			return null;
-		}
-
-
-				for (HospitalMapNode connectionNode : hNode.getConnections()) {
-
-					ResultSet edgesResult = null;
-					try {
-						edgesResult = stmt.executeQuery("SELECT * FROM navEdges WHERE from_node='" + nodeId + "' to_node='"+ connectionNode.getID()+"'");
-						if (!edgesResult.next()) {
-
-							String edgeId = nodeId + "_" + connectionNode.getID();
-							try {
-								stmt.execute(
-										"INSERT INTO navEdges (edge_ID,from_Node, to_Node)\n"
-												+ "VALUES (edgeId,hNode, connectionNode);");
-							} catch (SQLException se) {
-								// error in adding node;
-							}
-						}
-
-					} catch (SQLException e) {
-
-					}
-				nodeMap.put(
-						nodeId,
-						new HospitalMapNode(
-								nodeId,
-								xCoord,
-								yCoord,
-								null));
-			}
-		} catch (SQLException e) {
-			System.out.println("Error handling for pulling data from navNodes");
-			return null;
-		}
-
-		try {
-
-			Iterator nodeIterator = nodeMap.entrySet().iterator();
-
-			while (nodeIterator.hasNext()) {
-				Map.Entry nodeEntry = (Map.Entry) nodeIterator.next();
-				Set<HospitalMapNode> connected = new HashSet<>();
-				Statement stmt = databaseRef.getConnection().createStatement();
-				ResultSet fromEdgeResults =
-						stmt.executeQuery(
-								"SELECT * FROM navEdges WHERE from_Node='" + (String) nodeEntry.getKey() + "'");
-				while (fromEdgeResults.next()) {
-					HospitalMapNode n = nodeMap.get(fromEdgeResults.getString("to_Node"));
-					if (n == null) {
-						System.out.println("Warning edge connection to nonexistant node");
-						return null;
-					}
-					connected.add(n);
+				Statement statement = databaseRef.getConnection().createStatement();
+				if (node instanceof LocationNode) {
+					// TODO locationNode handling
+				} else {
+					statement.executeQuery("INSERT INTO navNodes (node_ID, x_Coord, y_Coord, node_Type) " +
+							"VALUES ('" + node.getID() + "', " + node.getxCoord() + ", " + node.getyCoord() + ", " +
+							"'POS')");
 				}
-				stmt = databaseRef.getConnection().createStatement();
-				ResultSet toEdgeResults =
-						stmt.executeQuery(
-								"SELECT * FROM navEdges WHERE to_Node='" + (String) nodeEntry.getKey() + "'");
-				while (toEdgeResults.next()) {
-					HospitalMapNode n = nodeMap.get(toEdgeResults.getString("from_Node"));
-					if (n == null) {
-						System.out.println("Warning edge connection to nonexistant node");
-						return null;
-					}
-					connected.add(n);
-				}
-				((HospitalMapNode) nodeEntry.getValue()).setConnections(connected);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-			System.out.println("Log error querying edge database");
-			return null;
-		}
 
-		return new HospitalMap(mapId, mapName, buildingName, floor, image_path, new HashSet<>(nodeMap.values()));
-	}
-
-	protected void dropTables() {
-		try {
-
-			try {
-				Statement stmt = databaseRef.getConnection().createStatement();
-				// Drop the Edges table.
-				stmt.execute("DROP TABLE navEdges ");
-			} catch (SQLException ex) {
-				// No need to report an error.
-				// The table simply did not exist.
-			}
-
-			try {
-				Statement stmt = databaseRef.getConnection().createStatement();
-				// Drop the Nodes table.
-				stmt.execute("DROP TABLE navNodes ");
-			} catch (SQLException ex) {
-				// No need to report an error.
-				// The table simply did not exist.
-			}
-
-			try {
-				Statement stmt = databaseRef.getConnection().createStatement();
-				// Drop the Maps table.
-				stmt.execute("DROP TABLE navMaps ");
-			} catch (SQLException ex) {
-				// No need to report an error.
-				// The table simply did not exist.
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	protected void createTables() {
-		try {
-
-			try {
-				Statement stmt = databaseRef.getConnection().createStatement();
-				stmt.execute(
-						"CREATE TABLE navMaps(map_ID varchar(45) NOT NULL,"
-								+ " map_Name varchar(45), floor_Number integer, building_Name varchar(45),"
-								+ " teamAssigned varchar(1), image_path varchar(45),PRIMARY KEY (map_ID)) ");
 			} catch (SQLException e) {
-				System.out.println("Error generating Map table");
+				//TODO catch e
 			}
+		}
 
-				}
-				try {
-					stmt.execute(
-							"INSERT INTO navNodes(nodeID,x_coord, y_coord) VALUES(nodeID,xcoord,ycoord)");
-
-				} catch (SQLException se) {
-
-					// error in adding nodes to navNode table
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
+		for (EdgePair pair: edgePairSet) {
+			try {
+				Statement statement = databaseRef.getConnection().createStatement();
+				statement.executeQuery("INSERT INTO navEdges (from_Node, to_Node) " +
+						"VALUES ('" + pair.fromId + "', '" + pair.toId + "')");
+			} catch (SQLException e) {
+				//TODO catch e
 			}
 		}
 	}
