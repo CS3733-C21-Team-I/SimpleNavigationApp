@@ -8,6 +8,15 @@ public class HospitalMapNode implements GraphNode<HospitalMapNode> {
 
   private String id;
   private Set<HospitalMapNode> connections;
+
+  public int getxCoord() {
+    return xCoord;
+  }
+
+  public int getyCoord() {
+    return yCoord;
+  }
+
   private int xCoord;
   private int yCoord;
 
