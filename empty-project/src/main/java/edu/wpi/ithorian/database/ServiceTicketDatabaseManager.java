@@ -14,25 +14,21 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
   /** @param regen */
   private ServiceTicketDatabaseManager(boolean regen) {
     super(DB_URL, regen);
-    // TODO - implement ServiceTicket.ServiceTicketDatabaseManager
     // throw new UnsupportedOperationException();
   }
 
   /** @param regen */
   public static void init(boolean regen) {
     ourInstance = new ServiceTicketDatabaseManager(regen);
-    // TODO - implement ServiceTicket.init
     // throw new UnsupportedOperationException();
   }
 
   public ServiceTicketDatabaseManager getInstance() {
-    // TODO - implement ServiceTicket.getInstance
     return ourInstance;
   }
 
   /** @param id */
   public ServiceTicketDatabaseManager getTicketForId(int id) {
-    // TODO - implement ServiceTicket.getTicketForId
     try {
       Statement stmt = connection.createStatement();
       ResultSet rs =
@@ -108,5 +104,34 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
     } catch (Exception e) {
       e.printStackTrace();
     }
+  }
+
+
+  public void closeTicket(int id) {
+    try {
+      Statement stmt = connection.createStatement();
+      ResultSet rs = stmt.executeQuery("DELETE FROM serviceticket WHERE ticketID = '" + id + "'");
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+  }
+
+  public boolean updateTicket(int id) {
+    // Update the complete-ness of a ticket
+    try {
+      Statement stmt = connection.createStatement();
+      ResultSet rs = stmt.executeQuery("SELECT  * FROM serviceticket WHERE ticketID = '" + id + "'");
+      if (!rs.next()) {
+        return false;
+      }
+      stmt.execute("UPDATE serviceticket SET completed='" + true + "' WHERE ticketID='" + id + "'");
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    return true;
+  }
+
+  public void openTicket(int id) {
+    getTicketForId(id);
   }
 }

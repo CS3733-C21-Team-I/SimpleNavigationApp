@@ -12,36 +12,22 @@ public class ServiceTicket {
   private String description;
   private boolean completed;
 
+
   public ServiceTicket() {}
 
   public ServiceTicket(
       int requestID,
       int assignID,
-      TicketType tickeType,
+      TicketType ticketType,
       LocationNode location,
       String desc,
       boolean complete) {
     this.requestingUserID = requestID;
     this.assignedUserID = assignID;
-    this.ticketType = tickeType;
+    this.ticketType = ticketType;
     this.location = location;
     this.description = desc;
     this.completed = complete;
-  }
-
-  public void closeTicket() {
-    // TODO - implement ServiceTicket.closeTicket
-    throw new UnsupportedOperationException();
-  }
-
-  public void updateTicket() {
-    // TODO - implement ServiceTicket.updateTicket
-    throw new UnsupportedOperationException();
-  }
-
-  public void openTicket() {
-    // TODO - implement ServiceTicket.openTicket
-    throw new UnsupportedOperationException();
   }
 
   public enum TicketType {
@@ -50,4 +36,12 @@ public class ServiceTicket {
     SECURITY,
     MAINTENANCE
   }
+
+  @Override
+  public String toString() {
+    return "NO. " + ticketId + " FR0M: " + requestingUserID + " TO: " + assignedUserID +
+            "\nTYPE: " + ticketType + "\nAT: " + location.toString() +
+            "\nDESCPRIPTION: " + description + " COMPLETED: "+ completed;
+  }
+
 }
