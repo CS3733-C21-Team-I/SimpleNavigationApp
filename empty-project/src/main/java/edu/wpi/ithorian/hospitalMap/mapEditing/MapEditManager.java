@@ -1,12 +1,10 @@
 package edu.wpi.ithorian.hospitalMap.mapEditing;
 
-
 import static edu.wpi.ithorian.hospitalMap.mapEditing.NavEditOperation.OperationType.*;
 
 import edu.wpi.ithorian.hospitalMap.HospitalMap;
 import edu.wpi.ithorian.hospitalMap.HospitalMapNode;
 import java.util.LinkedList;
-
 import java.util.Queue;
 
 public class MapEditManager {
@@ -88,11 +86,10 @@ public class MapEditManager {
     dataOperations.add(new NavEditOperation(ADD_NODE, fromNode, null, toNode));
     activeMap.getNode(fromNode).getConnections().add(activeMap.getNode(toNode));
     activeMap.getNode(toNode).getConnections().add(activeMap.getNode(fromNode));
-
   }
 
   public void saveChanges() {
-    //TODO send to Database
+    // TODO send to Database
     activeMap = null;
   }
 }
