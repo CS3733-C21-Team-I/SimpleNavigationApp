@@ -2,8 +2,7 @@ package edu.wpi.ithorian;
 
 import edu.wpi.ithorian.database.NavDatabaseManager;
 import edu.wpi.ithorian.hospitalMap.HospitalMap;
-import edu.wpi.ithorian.hospitalMap.HospitalMapNode;
-
+import edu.wpi.ithorian.hospitalMap.mapEditing.MapEditManager;
 import java.util.Arrays;
 
 public class Main {
@@ -17,5 +16,8 @@ public class Main {
     }
 
     HospitalMap hm = NavDatabaseManager.getInstance().loadMapFromMemory("Map1");
+    MapEditManager mapManager = new MapEditManager();
+    mapManager.setActiveMap(hm);
+    mapManager.startView();
   }
 }

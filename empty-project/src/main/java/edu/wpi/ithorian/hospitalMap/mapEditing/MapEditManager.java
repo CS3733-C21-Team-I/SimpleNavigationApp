@@ -1,17 +1,24 @@
 package edu.wpi.ithorian.hospitalMap.mapEditing;
 
-
 import static edu.wpi.ithorian.hospitalMap.mapEditing.NavEditOperation.OperationType.*;
 
 import edu.wpi.ithorian.hospitalMap.HospitalMap;
 import edu.wpi.ithorian.hospitalMap.HospitalMapNode;
 import java.util.LinkedList;
-
 import java.util.Queue;
+import java.util.Set;
 
 public class MapEditManager {
 
   private static MapEditManager ourInstance;
+  private int scale = 2; // scales image to 1/scale
+  private MapEditView mapView = null;
+
+  /**
+   * Represents the map that is activelyBeing edited should be referenced from this class's getter
+   * for all UI calls
+   */
+  private HospitalMap activeMap;
 
   public static void init() {
     ourInstance = new MapEditManager();
@@ -21,18 +28,13 @@ public class MapEditManager {
     return ourInstance;
   }
 
-  /**
-   * Represents the map that is activelyBeing edited should be referenced from this class's getter
-   * for all UI calls
-   */
-  private HospitalMap activeMap;
-
   /** FIFO Queue of operations for passing to the databaseManager */
   private Queue<NavEditOperation> dataOperations;
 
-  private MapEditManager() {
+  public MapEditManager() {
     activeMap = null;
     dataOperations = new LinkedList<>();
+    mapView = new MapEditView(this);
   }
 
   /**
@@ -88,11 +90,26 @@ public class MapEditManager {
     dataOperations.add(new NavEditOperation(ADD_NODE, fromNode, null, toNode));
     activeMap.getNode(fromNode).getConnections().add(activeMap.getNode(toNode));
     activeMap.getNode(toNode).getConnections().add(activeMap.getNode(fromNode));
-
   }
 
   public void saveChanges() {
-    //TODO send to Database
+    // TODO send to Database
     activeMap = null;
+  }
+
+  public int getScale() {
+    return scale;
+  }
+
+  public Set<HospitalMapNode> getEntityNodes() {
+    return activeMap.getNodes();
+  }
+
+  public String getImagePath() {
+    return activeMap.getImagePath();
+  }
+
+  public void startView() {
+    mapView.init();
   }
 }

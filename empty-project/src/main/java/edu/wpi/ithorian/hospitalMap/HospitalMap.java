@@ -12,6 +12,8 @@ public class HospitalMap implements Graph<HospitalMapNode> {
   private String imagePath;
   private int floorNumber;
 
+  private HospitalMapNode selectedNode;
+
   public HospitalMap(
       String id,
       String mapName,
@@ -57,5 +59,13 @@ public class HospitalMap implements Graph<HospitalMapNode> {
 
   public int getFloorNumber() {
     return floorNumber;
+  }
+
+  public HospitalMapNode getSelectedNode() {
+    return selectedNode;
+  }
+
+  public void setSelectedNode(HospitalMapNode selectedNode) {
+    this.selectedNode = selectedNode;
   }
 }
