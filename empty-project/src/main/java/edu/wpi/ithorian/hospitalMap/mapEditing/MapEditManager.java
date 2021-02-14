@@ -105,14 +105,11 @@ public class MapEditManager {
   }
 
   public String getImagePath() {
-    System.out.println("active map 2: " + activeMap);
-    System.out.println(activeMap.getImagePath());
     return activeMap.getImagePath();
   }
 
   public void startView() {
     mapView = new MapEditView(this);
-    System.out.println("acgtive map: " + activeMap);
     mapView.saveManager();
   }
 

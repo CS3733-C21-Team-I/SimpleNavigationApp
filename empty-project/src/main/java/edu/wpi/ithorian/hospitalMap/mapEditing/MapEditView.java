@@ -81,9 +81,10 @@ public class MapEditView extends Application {
     this.root.getChildren().add(imageView);
     for (HospitalMapNode node : mapManager.getEntityNodes()) {
       drawEdges(node);
+    }
+    for (HospitalMapNode node : mapManager.getEntityNodes()) {
       makeNodeCircle(node);
     }
-    System.out.println(root.getChildren());
   }
 
   private void onRightClick(MouseEvent e, HospitalMapNode node) {
@@ -92,21 +93,24 @@ public class MapEditView extends Application {
       for (HospitalMapNode newNode : this.mapManager.getEntityNodes()) {
         drawEdges(newNode);
       }
+      update();
     }
   }
 
   private void drawEdges(HospitalMapNode parent) {
     for (HospitalMapNode child : parent.getConnections()) {
-      Line line =
-          LineBuilder.create()
-              .startX(parent.getxCoord() / scale)
-              .startY(parent.getyCoord() / scale)
-              .endX(child.getxCoord() / scale)
-              .endY(child.getyCoord() / scale)
-              .stroke(Color.RED)
-              .strokeWidth(14 / scale)
-              .build();
-      root.getChildren().add(line);
+      if (mapManager.getEntityNodes().contains(child)) {
+        Line line =
+            LineBuilder.create()
+                .startX(parent.getxCoord() / scale)
+                .startY(parent.getyCoord() / scale)
+                .endX(child.getxCoord() / scale)
+                .endY(child.getyCoord() / scale)
+                .stroke(Color.RED)
+                .strokeWidth(14 / scale)
+                .build();
+        root.getChildren().add(line);
+      }
     }
   }
 
