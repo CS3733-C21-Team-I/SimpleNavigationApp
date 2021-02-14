@@ -26,7 +26,6 @@ public class HospitalMap implements Graph<HospitalMapNode> {
     this.mapName = mapName;
     this.buildingName = buildingName;
     this.floorNumber = floorNumber;
-    System.out.println(imagePath);
     this.imagePath = imagePath;
   }
 

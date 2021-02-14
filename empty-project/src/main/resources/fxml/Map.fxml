@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="800.0" maxWidth="973.0" minHeight="800.0" minWidth="972.0" prefHeight="800.0" prefWidth="972.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.ithorian.hospitalMap.mapEditing.ApplicationView">
+    <stylesheets>
+        <URL value="@fxmlResources/main.css" />
+    </stylesheets>
+    <ImageView fx:id="mapImage" fitHeight="800.0" fitWidth="973.0" layoutX="-1.0" pickOnBounds="true" preserveRatio="true">
+        <cursor>
+            <Cursor fx:constant="DEFAULT" />
+        </cursor>
+        <Image url="@fxmlResources/FaulknerCampus.png" />
+    </ImageView>
+    <HBox fx:id="destinationPoint" alignment="CENTER_LEFT" layoutX="386.0" layoutY="170.0" prefHeight="18.0" prefWidth="78.0" />
+    <Button fx:id="mapReturn" layoutX="24.0" layoutY="20.0" mnemonicParsing="false" onAction="#navigate" prefHeight="63.0" prefWidth="67.0" style="-fx-background-color: transparent;" styleClass="hover" AnchorPane.bottomAnchor="717.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="881.0" AnchorPane.topAnchor="20.0">
+        <cursor>
+          <Cursor fx:constant="HAND" />
+        </cursor>
+    </Button>
+    <VBox alignment="CENTER" layoutX="850.0" layoutY="13.0" prefHeight="244.0" prefWidth="67.0" style="-fx-background-color: rgba(220,189,156, 0.6);" styleClass="zoomSlider" stylesheets="@fxmlResources/main.css" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
+        <Label prefHeight="19.0" prefWidth="42.0" text="Zoom">
+            <VBox.margin>
+                <Insets top="8.0" />
+            </VBox.margin>
+            <font>
+                <Font size="16.0" />
+            </font>
+        </Label>
+        <Label prefHeight="16.0" prefWidth="18.0" text="+">
+            <font>
+                <Font name="System Bold" size="24.0" />
+            </font>
+            <VBox.margin>
+                <Insets />
+            </VBox.margin>
+        </Label>
+        <Slider minHeight="150.0" orientation="VERTICAL" prefHeight="200.0" prefWidth="46.0" snapToTicks="true" />
+        <Label prefHeight="28.0" prefWidth="10.0" text="-">
+            <font>
+                <Font name="System Bold" size="24.0" />
+            </font>
+        </Label>
+        <AnchorPane prefHeight="200.0" prefWidth="200.0" />
+    </VBox>
+    <AnchorPane layoutX="321.0" layoutY="20.0" prefHeight="63.0" prefWidth="330.0" style="-fx-background-color: transparent;">
+        <Region prefHeight="78.0" prefWidth="330.0" style="-fx-background-color: rgba(1, 45, 90, 0.6); -fx-background-radius: 10 10 10 10;" />
+        <HBox alignment="CENTER" prefHeight="78.0" prefWidth="330.0">
+            <VBox prefHeight="200.0" prefWidth="120.0">
+                <HBox.margin>
+                    <Insets top="8.0" />
+                </HBox.margin>
+                <Label text="Start" textFill="WHITE">
+                    <font>
+                        <Font size="16.0" />
+                    </font>
+                </Label>
+                <TextField fx:id="start" onKeyTyped="#lookup" promptText="Search" />
+            </VBox>
+            <VBox prefHeight="100.0" prefWidth="120.0">
+                <HBox.margin>
+                    <Insets left="25.0" top="8.0" />
+                </HBox.margin>
+                <Label text="Destination" textFill="WHITE">
+                    <font>
+                        <Font size="16.0" />
+                    </font>
+                </Label>
+                <TextField fx:id="destination" onKeyTyped="#lookup" promptText="Search" />
+            </VBox>
+        </HBox>
+    </AnchorPane>
+    <VBox layoutX="353.0" layoutY="88.0" prefWidth="119.0" AnchorPane.leftAnchor="353.0" AnchorPane.topAnchor="93.0">
+        <Button fx:id="start1" graphicTextGap="0.0" mnemonicParsing="false" onMouseClicked="#autoFillStart" prefHeight="32.0" prefWidth="122.0" style="-fx-background-color: F1F1F1; -fx-text-fill: black; -fx-alignment: bottom-left;" visible="false">
+            <font>
+                <Font size="10.0" />
+            </font>
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+        </Button>
+        <Button fx:id="start2" graphicTextGap="0.0" mnemonicParsing="false" onMouseClicked="#autoFillStart" prefHeight="32.0" prefWidth="122.0" style="-fx-background-color: F1F1F1; -fx-text-fill: black; -fx-alignment: bottom-left;" visible="false">
+            <font>
+                <Font size="10.0" />
+            </font>
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+        </Button>
+        <Button fx:id="start3" graphicTextGap="0.0" mnemonicParsing="false" onMouseClicked="#autoFillStart" prefHeight="32.0" prefWidth="122.0" style="-fx-background-color: F1F1F1; -fx-text-fill: black; -fx-alignment: bottom-left;" visible="false">
+            <font>
+                <Font size="10.0" />
+            </font>
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+        </Button>
+        <Button fx:id="start4" graphicTextGap="0.0" mnemonicParsing="false" onMouseClicked="#autoFillStart" prefHeight="32.0" prefWidth="122.0" style="-fx-background-color: F1F1F1; -fx-text-fill: black; -fx-alignment: bottom-left;" visible="false">
+            <font>
+                <Font size="10.0" />
+            </font>
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+        </Button>
+        <Button fx:id="start5" graphicTextGap="0.0" mnemonicParsing="false" onMouseClicked="#autoFillStart" prefHeight="32.0" prefWidth="122.0" style="-fx-background-color: F1F1F1; -fx-text-fill: black; -fx-alignment: bottom-left;" visible="false">
+            <font>
+                <Font size="10.0" />
+            </font>
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+        </Button>
+    </VBox>
+    <VBox layoutX="507.0" layoutY="93.0" prefWidth="119.0" AnchorPane.rightAnchor="353.0" AnchorPane.topAnchor="93.0">
+        <Button fx:id="dest1" mnemonicParsing="false" onMouseClicked="#autoFillDest" prefHeight="32.0" prefWidth="122.0" style="-fx-background-color: F1F1F1; -fx-text-fill: black; -fx-alignment: bottom-left;" visible="false">
+            <font>
+                <Font size="10.0" />
+            </font>
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+        </Button>
+        <Button fx:id="dest2" mnemonicParsing="false" onMouseClicked="#autoFillDest" prefHeight="32.0" prefWidth="122.0" style="-fx-background-color: F1F1F1; -fx-text-fill: black; -fx-alignment: bottom-left;" visible="false">
+            <font>
+                <Font size="10.0" />
+            </font>
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+        </Button>
+        <Button fx:id="dest3" mnemonicParsing="false" onMouseClicked="#autoFillDest" prefHeight="32.0" prefWidth="122.0" style="-fx-background-color: F1F1F1; -fx-text-fill: black; -fx-alignment: bottom-left;" visible="false">
+            <font>
+                <Font size="10.0" />
+            </font>
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+        </Button>
+        <Button fx:id="dest4" mnemonicParsing="false" onMouseClicked="#autoFillDest" prefHeight="32.0" prefWidth="122.0" style="-fx-background-color: F1F1F1; -fx-text-fill: black; -fx-alignment: bottom-left;" visible="false">
+            <font>
+                <Font size="10.0" />
+            </font>
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+        </Button>
+        <Button fx:id="dest5" mnemonicParsing="false" onMouseClicked="#autoFillDest" prefHeight="32.0" prefWidth="122.0" style="-fx-background-color: F1F1F1; -fx-text-fill: black; -fx-alignment: bottom-left;" visible="false">
+            <font>
+                <Font size="10.0" />
+            </font>
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+        </Button>
+    </VBox>
+   <Button layoutX="671.0" layoutY="34.0" maxHeight="50.0" maxWidth="50.0" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: rgb(1, 45, 90); -fx-background-radius: 100;">
+      <cursor>
+         <Cursor fx:constant="HAND" />
+      </cursor>
+      <graphic>
+         <ImageView fitHeight="277.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+               <Image url="@fxmlResources/white_right_arrow.png" />
+            </image>
+         </ImageView>
+      </graphic>
+   </Button>
+   <Button layoutX="813.0" layoutY="35.0" maxHeight="50.0" maxWidth="50.0" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" onAction="#toggleEditMap" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: rgb(1, 45, 90); -fx-background-radius: 100;">
+      <cursor>
+         <Cursor fx:constant="HAND" />
+      </cursor>
+      <graphic>
+         <ImageView fx:id="adminPath1" fitHeight="277.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+               <Image url="@fxmlResources/white_pencil_and_ruler.png" />
+            </image>
+         </ImageView>
+      </graphic>
+   </Button>
+   <Button fx:id="mapReturn" layoutX="29.0" layoutY="32.0" maxHeight="50.0" maxWidth="50.0" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" onAction="#navigate" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: rgb(1, 45, 90); -fx-background-radius: 100;">
+      <cursor>
+         <Cursor fx:constant="HAND" />
+      </cursor>
+      <graphic>
+         <ImageView fx:id="adminPath11" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+               <Image url="@fxmlResources/baseline_arrow_back_centered.png" />
+            </image>
+         </ImageView>
+      </graphic>
+   </Button>
+   <ImageView fx:id="adminPath" fitHeight="277.0" fitWidth="420.0" layoutX="123.0" layoutY="174.0" pickOnBounds="true" preserveRatio="true" visible="false">
+      <image>
+         <Image url="@fxmlResources/nodesNoBackground.png" />
+      </image>
+   </ImageView>
+   <Button layoutX="744.0" layoutY="35.0" maxHeight="50.0" maxWidth="50.0" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: rgb(1, 45, 90); -fx-background-radius: 100;">
+      <cursor>
+         <Cursor fx:constant="HAND" />
+      </cursor>
+      <graphic>
+         <ImageView fx:id="adminPath2" fitHeight="35.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+               <Image url="@fxmlResources/white_x.png" />
+            </image>
+         </ImageView>
+      </graphic>
+   </Button>
+   <AnchorPane fx:id="nodeMenu" layoutX="716.0" layoutY="323.0" prefHeight="477.0" prefWidth="256.0" style="-fx-background-color: #F1F1F1; -fx-border-style: solid;" visible="false">
+      <children>
+         <Label layoutX="74.0" layoutY="3.0" text="Edit Node">
+            <padding>
+               <Insets bottom="16.0" left="16.0" right="16.0" top="16.0" />
+            </padding>
+            <font>
+               <Font size="18.0" />
+            </font>
+         </Label>
+         <Label layoutX="12.0" layoutY="48.0" text="Floor">
+            <padding>
+               <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+            </padding>
+         </Label>
+         <TextField layoutX="42.0" layoutY="88.0">
+            <padding>
+               <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+            </padding>
+         </TextField>
+         <Label layoutX="12.0" layoutY="381.0" text="Long Name">
+            <padding>
+               <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+            </padding>
+         </Label>
+         <TextField layoutX="42.0" layoutY="258.0">
+            <padding>
+               <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+            </padding></TextField>
+         <Label layoutX="12.0" layoutY="128.0" text="Building">
+            <padding>
+               <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+            </padding>
+         </Label>
+         <TextField layoutX="42.0" layoutY="168.0">
+            <padding>
+               <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+            </padding></TextField>
+         <Label layoutX="12.0" layoutY="218.0" text="Type">
+            <padding>
+               <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+            </padding>
+         </Label>
+         <TextField layoutX="42.0" layoutY="421.0">
+            <padding>
+               <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+            </padding></TextField>
+         <Label layoutX="12.0" layoutY="298.0" text="Short Name">
+            <padding>
+               <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+            </padding>
+         </Label>
+         <TextField layoutX="42.0" layoutY="341.0">
+            <padding>
+               <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+            </padding>
+         </TextField>
+      </children>
+   </AnchorPane>
+</AnchorPane>

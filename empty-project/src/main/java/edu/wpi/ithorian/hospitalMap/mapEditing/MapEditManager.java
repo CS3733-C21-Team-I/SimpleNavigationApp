@@ -4,21 +4,28 @@ import static edu.wpi.ithorian.hospitalMap.mapEditing.NavEditOperation.Operation
 
 import edu.wpi.ithorian.hospitalMap.HospitalMap;
 import edu.wpi.ithorian.hospitalMap.HospitalMapNode;
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Set;
+import javafx.scene.Group;
+import javafx.stage.Stage;
 
 public class MapEditManager {
 
   private static MapEditManager ourInstance;
-  private int scale = 2; // scales image to 1/scale
-  private MapEditView mapView = null;
+  private int scale = 3; // scales image to 1/scale
+  private MapEditView mapEditorView = null;
+  private ApplicationView applicationView = null;
 
   /**
    * Represents the map that is activelyBeing edited should be referenced from this class's getter
    * for all UI calls
    */
   private HospitalMap activeMap;
+
+  private Group root = null;
+  private Stage stage = null;
 
   public static void init() {
     ourInstance = new MapEditManager();
@@ -108,12 +115,32 @@ public class MapEditManager {
     return activeMap.getImagePath();
   }
 
-  public void startView() {
-    mapView = new MapEditView(this);
-    mapView.saveManager();
+  public void startEditorView() throws IOException {
+    System.out.println("Starting editor");
+    mapEditorView = new MapEditView(this);
+    mapEditorView.start(stage);
+    mapEditorView.saveManager();
   }
 
-  public HospitalMap getActive() {
-    return activeMap;
+  public void startApplicationView() {
+    this.root = new Group();
+    applicationView = new ApplicationView(this);
+    applicationView.saveManager();
+  }
+
+  public void setRoot(Group root) {
+    this.root = root;
+  }
+
+  public void setStage(Stage stage) {
+    this.stage = stage;
+  }
+
+  public Group getRoot() {
+    return root;
+  }
+
+  public Stage getStage() {
+    return stage;
   }
 }
