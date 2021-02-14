@@ -26,6 +26,7 @@ public class MapEditManager {
 
   private Group root = null;
   private Stage stage = null;
+  public LinkedList<HospitalMapNode> selectedNode = new LinkedList();
 
   public static void init() {
     ourInstance = new MapEditManager();
@@ -64,6 +65,7 @@ public class MapEditManager {
     activeMap.getNodes().add(node);
   }
 
+
   /**
    * Called when editing a node. Should be passed a new instance of HospitalMapNode representing the
    * edited node Usage, editNode(nodeId, new HospitalMapNode(newInfo)
@@ -85,6 +87,36 @@ public class MapEditManager {
     dataOperations.add(new NavEditOperation(DELETE_NODE, nodeId, null, null));
     activeMap.getNodes().remove(activeMap.getNode(nodeId));
   }
+
+  /**
+   * takes in a node object and assigns / de-assigns it to the selectedNode variable in MapState
+   *
+   * @param node the node to be assigned or de-assigned
+   */
+  public void toggleNode(HospitalMapNode node){
+    if(selectedNode.isEmpty()){
+      selectedNode.add(node);
+    }
+    else{
+      int index = -1;
+      for(int i = 0; i < selectedNode.size(); i++){
+        if(node.getID().equals(selectedNode.get(i).getID())){
+          index = i;
+        }
+      }
+      if(index != -1){
+        selectedNode.remove(index);
+      }
+      else if(selectedNode.size() == 1){
+        selectedNode.add(node);
+      }
+      else{
+        selectedNode.removeFirst();
+        selectedNode.add(node);
+      }
+    }
+  }
+
 
   public void addConnection(String fromNode, String toNode) {
     dataOperations.add(new NavEditOperation(ADD_NODE, fromNode, null, toNode));
