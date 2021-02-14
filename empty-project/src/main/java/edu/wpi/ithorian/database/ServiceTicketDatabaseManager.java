@@ -49,28 +49,19 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
   protected void createTables() {
     try {
       Statement stmt = connection.createStatement();
-      try {
-        // Make locationNode type
-        stmt.execute(
-            "CREATE TYPE locationNode\n"
-                + "EXTERNAL NAME 'edu.wpi.ithorian.hospitalMap.LocationNode'\n"
-                + "LANGUAGE JAVA");
-      } catch (SQLException e) {
-        System.out.println("Error in generating locationNode type");
-      }
-
       try { // Creating the ServiceTicket table
         stmt.execute(
-            "create table serviceticket(\n"
-                + "ticketID         int,\n"
-                + "requestingUserID int,\n"
-                + "assignedUserID   int,\n"
-                + "ticketType       varchar(25),\n"
-                + "location         locationNode,\n"
-                + "description      varchar(50),\n"
-                + "completed        boolean,\n"
-                + "CONSTRAINT ticketID_PK PRIMARY KEY (ticketID),\n"
-                + "CONSTRAINT ticket_ck CHECK (ticketType in ('LAUNDRY', 'FOOD', 'SECURITY', 'MAINTENANCE')))");
+            "create table serviceticket(\n" +
+                    "    ticketID         int,\n" +
+                    "    requestingUserID int,\n" +
+                    "    assignedUserID   int,\n" +
+                    "    ticketType       varchar(25),\n" +
+                    "    location         varchar(45),\n" +
+                    "    description      varchar(50),\n" +
+                    "    completed        boolean,\n" +
+                    "    CONSTRAINT ticketID_PK PRIMARY KEY (ticketID),\n" +
+                    "    CONSTRAINT ticket_ck CHECK (serviceticket.ticketType in ('LAUNDRY', 'FOOD', 'SECURITY', 'MAINTENANCE'),\n" +
+                    "    CONSTRAINT location_FK FOREIGN KEY (location) REFERENCES navNodes(node_ID))");
         System.out.println("ServiceTicket table created.");
       } catch (SQLException e) {
         System.out.println("Error in generating ServiceTicket Table");
@@ -88,15 +79,6 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
         // Drop the ServiceTicket table.
         stmt.execute("DROP TABLE serviceticket ");
         System.out.println("ServiceTicket table dropped.");
-      } catch (SQLException ex) {
-        // No need to report an error.
-        // The table simply did not exist.
-      }
-
-      try {
-        // Drop the LOCATIONNODE type.
-        stmt.execute("DROP TYPE LOCATIONNODE ");
-        System.out.println("LOCATIONNODE type dropped.");
       } catch (SQLException ex) {
         // No need to report an error.
         // The table simply did not exist.

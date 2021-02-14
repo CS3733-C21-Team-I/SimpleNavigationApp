@@ -19,6 +19,7 @@ public class HospitalMapNode implements GraphNode<HospitalMapNode> {
   private int xCoord;
   private int yCoord;
 
+  public HospitalMapNode(){}
   public HospitalMapNode(String id, int xCoord, int yCoord, Set<HospitalMapNode> connections) {
     this.id = id;
     this.connections = connections;
