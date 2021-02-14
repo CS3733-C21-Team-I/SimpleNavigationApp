@@ -1,23 +1,37 @@
 package edu.wpi.ithorian;
 
-import edu.wpi.ithorian.database.NavDatabaseManager;
 import edu.wpi.ithorian.hospitalMap.HospitalMap;
+import edu.wpi.ithorian.hospitalMap.HospitalMapNode;
 import edu.wpi.ithorian.hospitalMap.mapEditing.MapEditManager;
-import java.util.Arrays;
+import edu.wpi.ithorian.hospitalMap.mapEditing.MapEditView;
+import java.util.Set;
+import javafx.application.Application;
 
 public class Main {
 
   public static void main(String[] args) {
 
-    if ((args.length > 0) && Arrays.asList(args).contains("regenerate")) {
-      NavDatabaseManager.init(true);
-    } else {
-      NavDatabaseManager.init(false);
-    }
+    //    if ((args.length > 0) && Arrays.asList(args).contains("regenerate")) {
+    //      NavDatabaseManager.init(true);
+    //    } else {
+    //      NavDatabaseManager.init(false);
+    //    }
+    //
+    //    HospitalMap hm = NavDatabaseManager.getInstance().loadMapFromMemory("Map1");
 
-    HospitalMap hm = NavDatabaseManager.getInstance().loadMapFromMemory("Map1");
+    String path =
+        System.getProperty("user.dir")
+            + "\\empty-project\\src\\main\\java\\edu\\wpi\\ithorian\\hospitalMap\\mapEditing\\";
+    Set<HospitalMapNode> nodes =
+        HospitalMap.generateElementFromData(
+            ReadCSV.readFromFile(path + "MapPFaulkner1Nodes.csv"),
+            ReadCSV.readFromFile(path + "MapPFaulkner1Edges.csv"));
+    HospitalMap map =
+        new HospitalMap("Test_Map", "Test Map", "Building1", 1, path + "FaulknerFloor1.png", nodes);
     MapEditManager mapManager = new MapEditManager();
-    mapManager.setActiveMap(hm);
-    mapManager.startView();
+    mapManager.init();
+    mapManager.getInstance().setActiveMap(map);
+    mapManager.getInstance().startView();
+    Application.launch(MapEditView.class);
   }
 }

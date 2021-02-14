@@ -1,7 +1,7 @@
 package edu.wpi.ithorian.hospitalMap;
 
 import edu.wpi.ithorian.pathfinding.Graph;
-import java.util.Set;
+import java.util.*;
 
 public class HospitalMap implements Graph<HospitalMapNode> {
 
@@ -26,7 +26,36 @@ public class HospitalMap implements Graph<HospitalMapNode> {
     this.mapName = mapName;
     this.buildingName = buildingName;
     this.floorNumber = floorNumber;
+    System.out.println(imagePath);
     this.imagePath = imagePath;
+  }
+
+  // this will be deleted before merging to main, just can't find the read from csv function so
+  // improvising for now
+  public static Set<HospitalMapNode> generateElementFromData(
+      List<List<String>> nodesList, List<List<String>> edgesList) {
+    HashMap<String, HospitalMapNode> nodesHash = new HashMap<String, HospitalMapNode>();
+    HashSet<HospitalMapNode> nodes = new HashSet<>();
+    for (List<String> value : nodesList) {
+      HospitalMapNode currNode =
+          new HospitalMapNode(
+              value.get(0),
+              Integer.parseInt(value.get(1)),
+              Integer.parseInt(value.get(2)),
+              new HashSet());
+      nodes.add(currNode);
+      nodesHash.put(currNode.getID(), currNode);
+    }
+
+    // iterates through edges and connects respective nodes
+    for (List<String> values : edgesList) {
+      HospitalMapNode a = nodesHash.get(values.get(1));
+      HospitalMapNode b = nodesHash.get(values.get(2));
+      a.addConnection(b);
+      b.addConnection(a);
+    }
+
+    return nodes;
   }
 
   @Override

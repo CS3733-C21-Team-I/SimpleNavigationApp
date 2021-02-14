@@ -40,6 +40,11 @@ public class HospitalMapNode implements GraphNode<HospitalMapNode> {
     this.connections = connections;
   }
 
+  // REMOVE WHEN CSVREADER THINGS ARE REMOVED
+  public void addConnection(HospitalMapNode connection) {
+    this.connections.add(connection);
+  }
+
   @Override
   public String toString() {
     return "HospitalMapNode{" + "id='" + id + ", xCoord=" + xCoord + ", yCoord=" + yCoord + '}';

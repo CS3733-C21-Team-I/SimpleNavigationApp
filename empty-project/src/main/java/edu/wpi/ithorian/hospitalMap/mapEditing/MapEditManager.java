@@ -34,7 +34,6 @@ public class MapEditManager {
   public MapEditManager() {
     activeMap = null;
     dataOperations = new LinkedList<>();
-    mapView = new MapEditView(this);
   }
 
   /**
@@ -106,10 +105,18 @@ public class MapEditManager {
   }
 
   public String getImagePath() {
+    System.out.println("active map 2: " + activeMap);
+    System.out.println(activeMap.getImagePath());
     return activeMap.getImagePath();
   }
 
   public void startView() {
-    mapView.init();
+    mapView = new MapEditView(this);
+    System.out.println("acgtive map: " + activeMap);
+    mapView.saveManager();
+  }
+
+  public HospitalMap getActive() {
+    return activeMap;
   }
 }

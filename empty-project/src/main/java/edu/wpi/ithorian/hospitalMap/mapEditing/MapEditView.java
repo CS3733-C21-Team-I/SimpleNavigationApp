@@ -1,9 +1,11 @@
 package edu.wpi.ithorian.hospitalMap.mapEditing;
 
 import edu.wpi.ithorian.hospitalMap.HospitalMapNode;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.*;
@@ -15,24 +17,37 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.LineBuilder;
 import javafx.stage.Stage;
 
-public class MapEditView {
+public class MapEditView extends Application {
 
   private Group root;
-  private final int scale;
-  private final MapEditManager mapManager;
+  private int scale = 2;
+  private MapEditManager mapManager;
   private ImageView imageView;
+  private Scene scene;
+  private static MapEditManager ourManager;
+
+  public MapEditView() {
+    this.mapManager = ourManager;
+    System.out.println("Manager? " + mapManager);
+  }
 
   public MapEditView(MapEditManager mapManager) {
     this.mapManager = mapManager;
     this.scale = mapManager.getScale();
-    init();
-    update();
   }
 
-  public void init() {
+  public static void saveManager() {
+    ourManager = new MapEditManager().getInstance();
+  }
+
+  @Override
+  public void init() throws Exception {
     // creating the image object
     InputStream stream = null;
+
     try {
+      System.out.println(new File(".").getAbsolutePath());
+
       stream = new FileInputStream(mapManager.getImagePath());
     } catch (FileNotFoundException e) {
       e.printStackTrace();
@@ -48,21 +63,27 @@ public class MapEditView {
     imageView.setFitWidth(image.getWidth() / scale);
     imageView.setPreserveRatio(true);
     // Setting the Scene object
-    this.root = new Group();
+    this.root = new Group(imageView);
     this.imageView = imageView;
-    Scene scene = new Scene(root, image.getWidth() / scale, image.getHeight() / scale);
-    Stage stage = new Stage();
-    stage.setTitle("Floor Map");
-    stage.setScene(scene);
-    stage.show();
+    this.scene = new Scene(this.root, image.getWidth() / scale, image.getHeight() / scale);
+  }
+
+  @Override
+  public void start(Stage primaryStage) throws Exception {
+    primaryStage.setTitle("Floor Map");
+    primaryStage.setScene(scene);
+    primaryStage.show();
+    update();
   }
 
   public void update() {
-    root.getChildren().clear();
-    root.getChildren().add(imageView);
+    this.root.getChildren().clear();
+    this.root.getChildren().add(imageView);
     for (HospitalMapNode node : mapManager.getEntityNodes()) {
       drawEdges(node);
+      makeNodeCircle(node);
     }
+    System.out.println(root.getChildren());
   }
 
   private void onRightClick(MouseEvent e, HospitalMapNode node) {
@@ -89,9 +110,12 @@ public class MapEditView {
     }
   }
 
-  private Circle makeNodeCircle(HospitalMapNode node) {
+  private void makeNodeCircle(HospitalMapNode node) {
     Circle circle = new Circle();
     circle.setFill(Color.RED);
+    circle.setCenterX(node.getxCoord() / scale);
+    circle.setCenterY(node.getyCoord() / scale);
+    circle.setRadius(14 / scale);
     circle.setOnMousePressed(
         e -> {
           onRightClick(e, node);
@@ -107,6 +131,6 @@ public class MapEditView {
           Circle newCircle = (Circle) root.getChildren().get(root.getChildren().indexOf(circle));
           newCircle.setFill(Color.RED);
         });
-    return circle;
+    root.getChildren().add(circle);
   }
 }
