@@ -32,7 +32,7 @@ public class UserDatabaseTests {
       e.printStackTrace();
     }
 
-    User admin = UserDatabaseManager.getInstance().getUserForId("TestAdmin");
+    User admin = UserDatabaseManager.getInstance().getUserForScreenname("TestAdmin");
 
     assertTrue(admin.userRoles.contains(User.Role.BASE));
     assertTrue(admin.userRoles.contains(User.Role.EMPLOYEE));
@@ -43,7 +43,7 @@ public class UserDatabaseTests {
     assertTrue(admin.hasPermission(User.Permission.REQUEST_TICKET));
     assertTrue(admin.hasPermission(User.Permission.EDIT_ANNOUNCEMENTS));
 
-    User employee = UserDatabaseManager.getInstance().getUserForId("TestEmployee");
+    User employee = UserDatabaseManager.getInstance().getUserForScreenname("TestEmployee");
 
     assertTrue(employee.userRoles.contains(User.Role.BASE));
     assertTrue(employee.userRoles.contains(User.Role.EMPLOYEE));
@@ -55,7 +55,7 @@ public class UserDatabaseTests {
     assertFalse(employee.hasPermission(User.Permission.EDIT_ANNOUNCEMENTS));
   }
 
-  public void populateTestData() throws SQLException {
+  void populateTestData() throws SQLException {
     Statement stmt =
         UserDatabaseManager.getInstance().databaseRef.getConnection().createStatement();
     stmt.addBatch("INSERT INTO HOSPITAL_USERS (SCREENNAME) VALUES ('TestVisitor')");

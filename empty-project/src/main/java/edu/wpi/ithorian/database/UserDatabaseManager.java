@@ -56,7 +56,7 @@ public class UserDatabaseManager extends DatabaseManager {
    * We should fix this once we have our next push
    * @param screenName
    * */
-  public User getUserForId(String screenName) {
+  public User getUserForScreenname(String screenName) {
     // TODO - implement UserDatabaseManager.getUserForId
 
     int userId;
@@ -103,7 +103,7 @@ public class UserDatabaseManager extends DatabaseManager {
           ResultSet rs = statement.executeQuery("SELECT RP.RESOURCE_NAME FROM ROLE_TO_PERMISSION INNER JOIN RESOURCE_PERMISSIONS RP on ROLE_TO_PERMISSION.RESOURCE_ID = RP.RESOURCE_ID WHERE ROLE_ID=(SELECT ROLE_ID FROM HOSPITAL_ROLES WHERE ROLE_NAME='" + getDatabaseNameForRole(role) + "')");
 
           permissionSet.add(getPermissionForDatabaseName(rs.getString("RESOURCE_NAME")));
-      }
+        }
     } catch (SQLException e) {
         //TODO ERROR Logging
         e.printStackTrace();
@@ -267,6 +267,7 @@ public class UserDatabaseManager extends DatabaseManager {
 
   /**
    * A hack probably want to implement custom typing?
+   *
    * @param role the role to lookup
    * @return String coresponding to ROLE_NAME column in database
    */
@@ -289,6 +290,7 @@ public class UserDatabaseManager extends DatabaseManager {
 
   /**
    * A hack probably want to implement custom typing?
+   *
    * @param name the role to lookup
    * @return Role coresponding to ROLE_NAME column in database
    */
@@ -310,44 +312,46 @@ public class UserDatabaseManager extends DatabaseManager {
     }
   }
 
-    /**
-     * A hack probably want to implement custom typing?
-     * @param permission the role to lookup
-     * @return String coresponding to ROLE_NAME column in database
-     */
-    private String getDatabaseNameForPermission(User.Permission permission) {
-        switch (permission) {
-            case EDIT_MAP:
-                return "EDIT_MAP";
-            case VIEW_TICKET:
-                return "VIEW_TICKET";
-            case REQUEST_TICKET:
-                return "REQUEST_TICKET";
-            case EDIT_ANNOUNCEMENTS:
-                return "EDIT_ANNOUNCEMENTS";
-            default:
-                return "ERROR";
-        }
+  /**
+   * A hack probably want to implement custom typing?
+   *
+   * @param permission the role to lookup
+   * @return String coresponding to ROLE_NAME column in database
+   */
+  private String getDatabaseNameForPermission(User.Permission permission) {
+    switch (permission) {
+      case EDIT_MAP:
+        return "EDIT_MAP";
+      case VIEW_TICKET:
+        return "VIEW_TICKET";
+      case REQUEST_TICKET:
+        return "REQUEST_TICKET";
+      case EDIT_ANNOUNCEMENTS:
+        return "EDIT_ANNOUNCEMENTS";
+      default:
+        return "ERROR";
     }
+  }
 
-    /**
-     * A hack probably want to implement custom typing?
-     * @param name the role to lookup
-     * @return Role coresponding to ROLE_NAME column in database
-     */
-    private User.Permission getPermissionForDatabaseName(String name) {
-        switch (name) {
-            case "EDIT_MAP":
-                return EDIT_MAP;
-            case "VIEW_TICKET":
-                return VIEW_TICKET;
-            case "REQUEST_TICKET":
-                return REQUEST_TICKET;
-            case "EDIT_ANNOUNCEMENTS":
-                return EDIT_ANNOUNCEMENTS;
-            default:
-                new Exception("ERROR value found in ResourcePermissions").printStackTrace();
-                return null;
-        }
+  /**
+   * A hack probably want to implement custom typing?
+   *
+   * @param name the role to lookup
+   * @return Role coresponding to ROLE_NAME column in database
+   */
+  private User.Permission getPermissionForDatabaseName(String name) {
+    switch (name) {
+      case "EDIT_MAP":
+        return EDIT_MAP;
+      case "VIEW_TICKET":
+        return VIEW_TICKET;
+      case "REQUEST_TICKET":
+        return REQUEST_TICKET;
+      case "EDIT_ANNOUNCEMENTS":
+        return EDIT_ANNOUNCEMENTS;
+      default:
+        new Exception("ERROR value found in ResourcePermissions").printStackTrace();
+        return null;
     }
+  }
 }
