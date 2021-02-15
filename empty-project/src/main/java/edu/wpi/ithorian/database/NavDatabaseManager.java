@@ -170,6 +170,7 @@ public class NavDatabaseManager extends DatabaseManager {
             "CREATE TABLE navMaps(map_ID varchar(45) NOT NULL,"
                 + " map_Name varchar(45), floor_Number integer, building_Name varchar(45),"
                 + " team_Assigned varchar(1), image_Path varchar(45),PRIMARY KEY (map_ID)) ");
+
       } catch (SQLException e) {
         System.out.println("Error generating Map table");
       }
@@ -189,7 +190,7 @@ public class NavDatabaseManager extends DatabaseManager {
       try {
         Statement stmt = databaseRef.getConnection().createStatement();
         stmt.execute(
-            "CREATE TABLE navEdges(edge_ID integer NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), "
+            "CREATE TABLE navEdges(edge_ID integer NOT NULL GENERATED ALWAYS AS IDENTITY , "
                 + "from_Node varchar(45), to_Node varchar(45), PRIMARY KEY(edge_ID), "
                 + "FOREIGN KEY (from_Node) references navNodes(node_ID),"
                 + "FOREIGN KEY (to_Node) references navNodes(node_ID))");
