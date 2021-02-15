@@ -36,7 +36,7 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
       if (rs.next())
         return new serviceTicket(
             rs.getInt("requestingUserID"), rs.getInt("assignedUserID"),
-            rs.getString("ticketType"), rs.getObject("locationNode"),
+            rs.getString("ticketType"), rs.getString("locationNode"),
             rs.getString("description"), rs.getBoolean("completed"));
       else return null;
     } catch (SQLException e) {
