@@ -18,5 +18,6 @@
     <schema id="13" parent="1" name="TEAMI">
       <Current>1</Current>
     </schema>
+    <alias-type id="14" parent="13" name="LOCATIONNODE"/>
   </database-model>
 </dataSource>
