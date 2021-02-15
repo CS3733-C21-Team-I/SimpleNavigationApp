@@ -5,6 +5,18 @@ import java.util.Set;
 
 public class HospitalMapNode implements GraphNode<HospitalMapNode> {
 
+  public void setId(String id) {
+    this.id = id;
+  }
+
+  public void setxCoord(int xCoord) {
+    this.xCoord = xCoord;
+  }
+
+  public void setyCoord(int yCoord) {
+    this.yCoord = yCoord;
+  }
+
   private String id;
   private Set<HospitalMapNode> connections;
 
@@ -18,6 +30,7 @@ public class HospitalMapNode implements GraphNode<HospitalMapNode> {
 
   private int xCoord;
   private int yCoord;
+  public HospitalMapNode(){}
 
   public HospitalMapNode(String id, int xCoord, int yCoord, Set<HospitalMapNode> connections) {
     this.id = id;

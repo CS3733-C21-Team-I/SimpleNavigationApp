@@ -3,12 +3,14 @@ package edu.wpi.ithorian.hospitalMap;
 import java.io.*;
 import java.util.Set;
 
-public class LocationNode extends HospitalMapNode implements Serializable{
+public class LocationNode extends HospitalMapNode {
 
   private String shortName;
   private String longName;
   private String teamAssigned;
 
+  public LocationNode() {
+  };
   public LocationNode(
       String id,
       int xCoord,
@@ -22,4 +24,5 @@ public class LocationNode extends HospitalMapNode implements Serializable{
     this.longName = longName;
     this.teamAssigned = teamAssigned;
   }
+
 }
