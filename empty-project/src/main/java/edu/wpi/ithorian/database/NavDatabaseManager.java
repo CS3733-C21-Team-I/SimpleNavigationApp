@@ -3,7 +3,6 @@ package edu.wpi.ithorian.database;
 import edu.wpi.ithorian.hospitalMap.HospitalMap;
 import edu.wpi.ithorian.hospitalMap.HospitalMapNode;
 import edu.wpi.ithorian.hospitalMap.LocationNode;
-import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;

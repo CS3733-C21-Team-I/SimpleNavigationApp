@@ -1,14 +1,12 @@
 package edu.wpi.ithorian.database;
 
-import edu.wpi.ithorian.database.DatabaseManager;
-
 public class ServiceTicketDatabaseManager extends DatabaseManager {
 
 	private static final String DB_URL = "";
 	private ServiceTicketDatabaseManager ourInstance;
 
 	/**
-	 * 
+	 *
 	 * @param regen
 	 */
 	private ServiceTicketDatabaseManager(boolean regen) {
@@ -18,7 +16,7 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param regen
 	 */
 	public void init(boolean regen) {
@@ -32,7 +30,7 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param id
 	 */
 	public ServiceTicketDatabaseManager getTicketForId(int id) {
