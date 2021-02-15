@@ -1,16 +1,15 @@
 package edu.wpi.ithorian.database;
 
-import edu.wpi.ithorian.user.User;
+import static edu.wpi.ithorian.user.User.Permission.*;
+import static edu.wpi.ithorian.user.User.Role.*;
 
+import edu.wpi.ithorian.user.User;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import static edu.wpi.ithorian.user.User.Role.*;
-import static edu.wpi.ithorian.user.User.Permission.*;
 
 public class UserDatabaseManager extends DatabaseManager {
 
@@ -47,15 +46,14 @@ public class UserDatabaseManager extends DatabaseManager {
 
   }
 
-
-
   /**
    * Gets a User for their given screenname
    *
-   * THIS REALLY IS NOT THE SECURE METHOD OF DOING ANYTHING
-   * We should fix this once we have our next push
+   * <p>THIS REALLY IS NOT THE SECURE METHOD OF DOING ANYTHING We should fix this once we have our
+   * next push
+   *
    * @param screenName
-   * */
+   */
   public User getUserForScreenname(String screenName) {
     // TODO - implement UserDatabaseManager.getUserForId
 
@@ -63,35 +61,41 @@ public class UserDatabaseManager extends DatabaseManager {
 
     try {
       Statement statement = databaseRef.getConnection().createStatement();
-      ResultSet rs = statement.executeQuery("SELECT * FROM HOSPITAL_USERS WHERE SCREENNAME='"+screenName+"'");
+      ResultSet rs =
+          statement.executeQuery(
+              "SELECT * FROM HOSPITAL_USERS WHERE SCREENNAME='" + screenName + "'");
 
       if (!rs.next()) {
-        //TODO error handling
+        // TODO error handling
         throw new IllegalArgumentException("Attempted to acess nonexistant user");
       }
       userId = rs.getInt("USER_ID");
     } catch (SQLException e) {
-        //TODO Error logging
-        e.printStackTrace();
-        return null;
+      // TODO Error logging
+      e.printStackTrace();
+      return null;
     }
 
     Set<User.Role> rolesSet = new HashSet<>();
 
     try {
-        Statement statement = databaseRef.getConnection().createStatement();
-        ResultSet rs = statement.executeQuery("SELECT HR.ROLE_NAME FROM USER_TO_ROLE INNER JOIN HOSPITAL_ROLES HR on HR.ROLE_ID = USER_TO_ROLE.ROLE_ID WHERE USER_ID=" + userId);
+      Statement statement = databaseRef.getConnection().createStatement();
+      ResultSet rs =
+          statement.executeQuery(
+              "SELECT HR.ROLE_NAME FROM USER_TO_ROLE INNER JOIN HOSPITAL_ROLES HR on HR.ROLE_ID = USER_TO_ROLE.ROLE_ID WHERE USER_ID="
+                  + userId);
 
-        while (rs.next()) {
-            rolesSet.add(getRoleForDatabaseName(rs.getString("ROLE_NAME")));
-        }
+      while (rs.next()) {
+        rolesSet.add(getRoleForDatabaseName(rs.getString("ROLE_NAME")));
+      }
 
-        if (!rolesSet.contains(User.Role.BASE)) {
-            //TODO Error Logging
-            throw new IllegalStateException("Requested user: " + screenName + " does not contain role BASE");
-        }
+      if (!rolesSet.contains(User.Role.BASE)) {
+        // TODO Error Logging
+        throw new IllegalStateException(
+            "Requested user: " + screenName + " does not contain role BASE");
+      }
     } catch (SQLException e) {
-        e.printStackTrace();
+      e.printStackTrace();
     }
 
     Set<User.Permission> permissionSet = new HashSet<>();
@@ -99,37 +103,43 @@ public class UserDatabaseManager extends DatabaseManager {
     try {
 
       for (User.Role role : rolesSet) {
-          Statement statement = databaseRef.getConnection().createStatement();
-          ResultSet rs = statement.executeQuery("SELECT RP.RESOURCE_NAME FROM ROLE_TO_PERMISSION INNER JOIN RESOURCE_PERMISSIONS RP on ROLE_TO_PERMISSION.RESOURCE_ID = RP.RESOURCE_ID WHERE ROLE_ID=(SELECT ROLE_ID FROM HOSPITAL_ROLES WHERE ROLE_NAME='" + getDatabaseNameForRole(role) + "')");
+        Statement statement = databaseRef.getConnection().createStatement();
+        ResultSet rs =
+            statement.executeQuery(
+                "SELECT RP.RESOURCE_NAME FROM ROLE_TO_PERMISSION INNER JOIN RESOURCE_PERMISSIONS RP on ROLE_TO_PERMISSION.RESOURCE_ID = RP.RESOURCE_ID WHERE ROLE_ID=(SELECT ROLE_ID FROM HOSPITAL_ROLES WHERE ROLE_NAME='"
+                    + getDatabaseNameForRole(role)
+                    + "')");
 
-          permissionSet.add(getPermissionForDatabaseName(rs.getString("RESOURCE_NAME")));
-        }
+        permissionSet.add(getPermissionForDatabaseName(rs.getString("RESOURCE_NAME")));
+      }
     } catch (SQLException e) {
-        //TODO ERROR Logging
-        e.printStackTrace();
+      // TODO ERROR Logging
+      e.printStackTrace();
     }
 
     return new User(userId, screenName, rolesSet, permissionSet);
   }
 
-    /**
-     * Gets a screename for a user id
-     * @param id
-     * @return
-     */
+  /**
+   * Gets a screename for a user id
+   *
+   * @param id
+   * @return
+   */
   public String getDisplayNameForId(int id) {
     // TODO - implement UserDatabaseManager.getDisplayNameForId
     try {
-        Statement statement = databaseRef.getConnection().createStatement();
-        ResultSet rs = statement.executeQuery("SELECT SCREENNAME FROM HOSPITAL_USERS WHERE USER_ID=" + id);
-        if (!rs.next()) {
-            throw new IllegalArgumentException("Attempted to acess records of nonexistant user");
-        }
-        return rs.getString("SCREENNAME");
+      Statement statement = databaseRef.getConnection().createStatement();
+      ResultSet rs =
+          statement.executeQuery("SELECT SCREENNAME FROM HOSPITAL_USERS WHERE USER_ID=" + id);
+      if (!rs.next()) {
+        throw new IllegalArgumentException("Attempted to acess records of nonexistant user");
+      }
+      return rs.getString("SCREENNAME");
     } catch (SQLException e) {
-        //TODO error handling
-        e.printStackTrace();
-        return "ERROR";
+      // TODO error handling
+      e.printStackTrace();
+      return "ERROR";
     }
   }
 

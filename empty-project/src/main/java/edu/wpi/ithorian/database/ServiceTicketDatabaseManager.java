@@ -2,7 +2,6 @@ package edu.wpi.ithorian.database;
 
 public class ServiceTicketDatabaseManager extends DatabaseManager {
 
-
   private static final String DB_URL = "";
   private static ServiceTicketDatabaseManager ourInstance;
 
@@ -35,5 +34,4 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
 
   @Override
   protected void dropTables() {}
-
 }
