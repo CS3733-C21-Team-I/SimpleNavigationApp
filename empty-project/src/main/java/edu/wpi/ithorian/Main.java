@@ -18,10 +18,11 @@ public class Main {
     //    }
     //
     //    HospitalMap hm = NavDatabaseManager.getInstance().loadMapFromMemory("Map1");
-
+    String os = System.getProperty("os.name");
+    System.out.println(os);
     String path =
         System.getProperty("user.dir")
-            + "\\empty-project\\src\\main\\java\\edu\\wpi\\ithorian\\hospitalMap\\mapEditing\\";
+            + "/empty-project/src/main/java/edu/wpi/ithorian/hospitalMap/mapEditing/";
     Set<HospitalMapNode> nodes =
         HospitalMap.generateElementFromData(
             ReadCSV.readFromFile(path + "MapINodes.csv"),

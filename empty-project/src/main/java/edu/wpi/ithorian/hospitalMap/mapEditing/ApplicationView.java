@@ -75,8 +75,8 @@ public class ApplicationView extends Application {
   public void start(Stage primaryStage) throws IOException {
     System.out.println("Application manager: " + mapManager);
     Group root = mapManager.getRoot();
-    root.getChildren().add(FXMLLoader.load(getClass().getResource("/fxml/Home.fxml")));
-    primaryStage.setTitle("Map View");
+    root.getChildren().add(FXMLLoader.load(getClass().getResource("/fxml/NodeTable.fxml"))); //Home
+    primaryStage.setTitle("Table View");
     mapManager.setRoot(root);
     Scene applictionScene = new Scene(root, 973, 800);
     primaryStage.setScene(applictionScene);
