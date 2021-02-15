@@ -1,9 +1,10 @@
 package edu.wpi.ithorian.hospitalMap.mapEditing;
 
 import edu.wpi.ithorian.hospitalMap.HospitalMapNode;
-import java.io.*;
+import java.util.stream.Collectors;
 import javafx.application.Application;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -15,7 +16,7 @@ import javafx.stage.Stage;
 
 public class MapEditView extends Application {
 
-  private int scale = 2;
+  private double scale = 1.5;
   private MapEditManager mapManager;
   private Scene scene;
   private static MapEditManager ourManager;
@@ -56,37 +57,56 @@ public class MapEditView extends Application {
 
     // Setting the Scene object
     // this.imageView = imageView;
-    System.out.println("Editor time");
-    //        new Scene(mapManager.getRoot() /*, image.getWidth() / scale, image.getHeight() /
-    // scale*/);
+    //        new Scene(mapManager.getRoot() /*, image.getWidth() / scale, image.getHeight()
+    // /scale*/);
   }
 
   @Override
-  public void start(Stage primaryStage) throws IOException {
+  public void start(Stage primaryStage) {
     primaryStage.setTitle("Map Editor");
+    //    primaryStage.setScene(mapManager.getMapChildren().getScene());
     primaryStage.show();
     mapManager.setStage(primaryStage);
-    update();
-  }
-
-  public void update() {
-    Group root = mapManager.getRoot();
     for (HospitalMapNode node : mapManager.getEntityNodes()) {
       drawEdges(node);
     }
     for (HospitalMapNode node : mapManager.getEntityNodes()) {
       makeNodeCircle(node);
     }
-    mapManager.setRoot(root);
+    // update();
+  }
+
+  public void update() {
+    Group root = new Group();
+    root.getChildren().addAll((Node[]) mapManager.getMapChildren());
+    mapManager.getStage().getScene().setRoot(root);
+    //    mapManager.getStage().setScene(root);
+    //    System.out.println(mapManager.getEntityNodes());
+
+    //    for (HospitalMapNode node : mapManager.getEntityNodes()) {
+    //      drawEdges(node);
+    //    }
+    //    for (HospitalMapNode node : mapManager.getEntityNodes()) {
+    //      makeNodeCircle(node);
+    //    }
   }
 
   private void onRightClick(MouseEvent e, HospitalMapNode node) {
     System.out.println("Node " + node.getID() + " clicked");
+    System.out.println(
+        "Before: "
+            + this.mapManager.getEntityNodes().stream()
+                .map(HospitalMapNode::getID)
+                .collect(Collectors.joining(", ")));
     if (e.getButton() == MouseButton.SECONDARY) {
       mapManager.deleteNode(node.getID());
-      for (HospitalMapNode newNode : this.mapManager.getEntityNodes()) {
-        drawEdges(newNode);
-      }
+      System.out.println(
+          "After: "
+              + this.mapManager.getEntityNodes().stream()
+                  .map(HospitalMapNode::getID)
+                  .collect(Collectors.joining(", ")));
+      //      Group root = mapManager.getRoot();
+      //      System.out.println(root.getChildren());
       update();
     }
   }
@@ -97,15 +117,14 @@ public class MapEditView extends Application {
       if (mapManager.getEntityNodes().contains(child)) {
         Line line =
             LineBuilder.create()
-                .startX(parent.getxCoord() / scale)
-                .startY(parent.getyCoord() / scale)
-                .endX(child.getxCoord() / scale)
-                .endY(child.getyCoord() / scale)
+                .startX((parent.getxCoord() - 5) / scale)
+                .startY((parent.getyCoord() - 5) / scale)
+                .endX((child.getxCoord() - 5) / scale)
+                .endY((child.getyCoord() - 5) / scale)
                 .stroke(Color.RED)
                 .strokeWidth(14 / scale)
                 .build();
         root.getChildren().add(line);
-        mapManager.setRoot(root);
       }
     }
   }
@@ -113,8 +132,8 @@ public class MapEditView extends Application {
   private void makeNodeCircle(HospitalMapNode node) {
     Circle circle = new Circle();
     circle.setFill(Color.RED);
-    circle.setCenterX(node.getxCoord() / scale);
-    circle.setCenterY(node.getyCoord() / scale);
+    circle.setCenterX(node.getxCoord() / scale - 5);
+    circle.setCenterY(node.getyCoord() / scale - 5);
     circle.setRadius(14 / scale);
     circle.setOnMousePressed(
         e -> {
@@ -143,6 +162,5 @@ public class MapEditView extends Application {
         });
     Group root = mapManager.getRoot();
     root.getChildren().add(circle);
-    mapManager.setRoot(root);
   }
 }

@@ -78,10 +78,10 @@ public class ApplicationView extends Application {
     root.getChildren().add(FXMLLoader.load(getClass().getResource("/fxml/Home.fxml")));
     primaryStage.setTitle("Map View");
     mapManager.setRoot(root);
-    Scene applictionScene = new Scene(root, 973, 800);
-    primaryStage.setScene(applictionScene);
+    Scene applicationScene = new Scene(root, 973, 800);
+    primaryStage.setScene(applicationScene);
     mapManager.setStage(primaryStage);
-    System.out.println("Application scene: " + applictionScene);
+    System.out.println("Application scene: " + applicationScene);
     primaryStage.show();
   }
 
@@ -259,6 +259,8 @@ public class ApplicationView extends Application {
 
   @FXML
   public void toggleEditMap(ActionEvent e) throws IOException {
+    mapManager.setMapChildren(
+        ((Button) e.getSource()).getScene().getRoot().getChildrenUnmodifiable());
     mapManager.startEditorView();
     adminMap = !adminMap;
     if (adminMap) {

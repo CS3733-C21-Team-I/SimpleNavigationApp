@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Set;
+import javafx.collections.ObservableList;
 import javafx.scene.Group;
 import javafx.stage.Stage;
 
@@ -26,6 +27,7 @@ public class MapEditManager {
 
   private Group root = null;
   private Stage stage = null;
+  private Object[] mapChildren;
 
   public static void init() {
     ourInstance = new MapEditManager();
@@ -136,11 +138,19 @@ public class MapEditManager {
     this.stage = stage;
   }
 
+  public void setMapChildren(ObservableList mapChildren) {
+    this.mapChildren = mapChildren.toArray().clone();
+  }
+
   public Group getRoot() {
     return root;
   }
 
   public Stage getStage() {
     return stage;
+  }
+
+  public Object[] getMapChildren() {
+    return mapChildren;
   }
 }
