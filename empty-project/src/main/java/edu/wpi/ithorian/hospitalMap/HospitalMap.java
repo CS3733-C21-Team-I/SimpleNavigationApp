@@ -1,6 +1,7 @@
 package edu.wpi.ithorian.hospitalMap;
 
 import edu.wpi.ithorian.pathfinding.Graph;
+
 import java.util.List;
 import java.util.Set;
 
@@ -40,6 +41,7 @@ public class HospitalMap implements Graph<HospitalMapNode> {
     return nodes;
   }
 
+
   public static class Edge {
     public final String id, startNode, endNode;
 
@@ -62,5 +64,25 @@ public class HospitalMap implements Graph<HospitalMapNode> {
           + id
           + '}';
     }
+
+  public String getId() {
+    return id;
+  }
+
+  public String getMapName() {
+    return mapName;
+  }
+
+  public String getBuildingName() {
+    return buildingName;
+  }
+
+  public String getImagePath() {
+    return imagePath;
+  }
+
+  public int getFloorNumber() {
+    return floorNumber;
+
   }
 }

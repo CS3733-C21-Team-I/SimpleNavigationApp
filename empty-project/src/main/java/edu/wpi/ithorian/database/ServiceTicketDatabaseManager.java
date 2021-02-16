@@ -3,7 +3,7 @@ package edu.wpi.ithorian.database;
 public class ServiceTicketDatabaseManager extends DatabaseManager {
 
   private static final String DB_URL = "";
-  private ServiceTicketDatabaseManager ourInstance;
+  private static ServiceTicketDatabaseManager ourInstance;
 
   /** @param regen */
   private ServiceTicketDatabaseManager(boolean regen) {
