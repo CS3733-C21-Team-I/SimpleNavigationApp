@@ -12,19 +12,6 @@ public class HospitalMap implements Graph<HospitalMapNode> {
   private String imagePath;
   private int floorNumber;
 
-  public void setaNodes(ArrayList<Node> aNodes) {
-    aNodes = aNodes;
-  }
-
-  public void setNodesHash(HashMap<String, Node> nodesHash) {
-    nodesHash = nodesHash;
-  }
-
-  // Lists that hold arrays of map nodes and edges based on csv input
-private  ArrayList<HospitalMap.Node> aNodes = new ArrayList<>();
-  // static ArrayList<Edge> edges = new ArrayList<>(); //potentially not needed as a global variable
-  // here
-// private  HashMap<String, HospitalMap.Node> nodesHash = new HashMap<String, HospitalMap.Node>();
 
   public HospitalMap(
           int floorNumber,
