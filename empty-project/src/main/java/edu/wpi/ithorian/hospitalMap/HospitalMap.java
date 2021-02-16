@@ -1,7 +1,6 @@
 package edu.wpi.ithorian.hospitalMap;
 
 import edu.wpi.ithorian.pathfinding.Graph;
-
 import java.util.List;
 import java.util.Set;
 
@@ -15,7 +14,12 @@ public class HospitalMap implements Graph<HospitalMapNode> {
   private int floorNumber;
 
   public HospitalMap(
-      String id, String mapName, String buildingName, int floorNumber, String imagePath, Set<HospitalMapNode> nodes) {
+      String id,
+      String mapName,
+      String buildingName,
+      int floorNumber,
+      String imagePath,
+      Set<HospitalMapNode> nodes) {
     this.nodes = nodes;
     this.id = id;
     this.mapName = mapName;
@@ -36,7 +40,6 @@ public class HospitalMap implements Graph<HospitalMapNode> {
     return nodes;
   }
 
-
   public static class Edge {
     public final String id, startNode, endNode;
 
@@ -48,11 +51,16 @@ public class HospitalMap implements Graph<HospitalMapNode> {
 
     @Override
     public String toString() {
-      return "MapEdge{" +
-              "startNode='" + startNode + '\'' +
-              ", endNode='" + endNode + '\'' +
-              ", id=" + id +
-              '}';
+      return "MapEdge{"
+          + "startNode='"
+          + startNode
+          + '\''
+          + ", endNode='"
+          + endNode
+          + '\''
+          + ", id="
+          + id
+          + '}';
     }
   }
 }
