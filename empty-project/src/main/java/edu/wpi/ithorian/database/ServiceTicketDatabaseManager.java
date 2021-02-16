@@ -51,17 +51,17 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
       Statement stmt = connection.createStatement();
       try { // Creating the ServiceTicket table
         stmt.execute(
-            "create table serviceticket(\n" +
-                    "    ticketID         int,\n" +
-                    "    requestingUserID int,\n" +
-                    "    assignedUserID   int,\n" +
-                    "    ticketType       varchar(25),\n" +
-                    "    location         varchar(45),\n" +
-                    "    description      varchar(50),\n" +
-                    "    completed        boolean,\n" +
-                    "    CONSTRAINT ticketID_PK PRIMARY KEY (ticketID),\n" +
-                    "    CONSTRAINT ticket_ck CHECK (serviceticket.ticketType in ('LAUNDRY', 'FOOD', 'SECURITY', 'MAINTENANCE'),\n" +
-                    "    CONSTRAINT location_FK FOREIGN KEY (location) REFERENCES navNodes(node_ID))");
+            "create table serviceticket(\n"
+                + "    ticketID         int,\n"
+                + "    requestingUserID int,\n"
+                + "    assignedUserID   int,\n"
+                + "    ticketType       varchar(25),\n"
+                + "    location         varchar(45),\n"
+                + "    description      varchar(50),\n"
+                + "    completed        boolean,\n"
+                + "    CONSTRAINT ticketID_PK PRIMARY KEY (ticketID),\n"
+                + "    CONSTRAINT ticket_ck CHECK (serviceticket.ticketType in ('LAUNDRY', 'FOOD', 'SECURITY', 'MAINTENANCE'),\n"
+                + "    CONSTRAINT location_FK FOREIGN KEY (location) REFERENCES navNodes(node_ID))");
         System.out.println("ServiceTicket table created.");
       } catch (SQLException e) {
         System.out.println("Error in generating ServiceTicket Table");
@@ -88,7 +88,6 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
     }
   }
 
-
   public void closeTicket(int id) {
     try {
       Statement stmt = connection.createStatement();
@@ -102,7 +101,8 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
     // Update the complete-ness of a ticket
     try {
       Statement stmt = connection.createStatement();
-      ResultSet rs = stmt.executeQuery("SELECT  * FROM serviceticket WHERE ticketID = '" + id + "'");
+      ResultSet rs =
+          stmt.executeQuery("SELECT * FROM serviceticket WHERE ticketID = '" + id + "'");
       if (!rs.next()) {
         return false;
       }

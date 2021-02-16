@@ -2,6 +2,7 @@ package edu.wpi.ithorian.database;
 
 import edu.wpi.ithorian.hospitalMap.HospitalMap;
 import edu.wpi.ithorian.hospitalMap.HospitalMapNode;
+import edu.wpi.ithorian.hospitalMap.LocationNode;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -78,7 +79,7 @@ public class NavDatabaseManager extends DatabaseManager {
 
         nodeMap.put(
             nodeId,
-            new HospitalMapNode(
+            new LocationNode(
                 nodeId,
                 buildingName,
                 nodeType,
@@ -126,7 +127,7 @@ public class NavDatabaseManager extends DatabaseManager {
           }
           connected.add(n);
         }
-        ((HospitalMapNode) nodeEntry.getValue()).setConnections(connected);
+        ((HospitalMapNode) nodeEntry.getValue()).setConnections((Set<HospitalMapNode>) connected);
       }
     } catch (SQLException e) {
       e.printStackTrace();
