@@ -1,6 +1,7 @@
 package edu.wpi.ithorian.hospitalMap;
 
 import edu.wpi.ithorian.pathfinding.Graph;
+import java.util.HashSet;
 import java.util.Set;
 
 public class HospitalMap implements Graph<HospitalMapNode> {
@@ -11,6 +12,8 @@ public class HospitalMap implements Graph<HospitalMapNode> {
   private String buildingName;
   private String imagePath;
   private int floorNumber;
+
+  public HospitalMap() {}
 
   public HospitalMap(
       String id,
@@ -25,6 +28,10 @@ public class HospitalMap implements Graph<HospitalMapNode> {
     this.buildingName = buildingName;
     this.floorNumber = floorNumber;
     this.imagePath = imagePath;
+  }
+
+  public HospitalMap(HashSet<HospitalMapNode> hospitalMapNodes) {
+    this.nodes = hospitalMapNodes;
   }
 
   @Override

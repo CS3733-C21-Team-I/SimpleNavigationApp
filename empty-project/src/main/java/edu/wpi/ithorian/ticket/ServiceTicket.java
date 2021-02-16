@@ -12,7 +12,6 @@ public class ServiceTicket {
   private String description;
   private boolean completed;
 
-
   public ServiceTicket() {}
 
   public ServiceTicket(
@@ -39,9 +38,19 @@ public class ServiceTicket {
 
   @Override
   public String toString() {
-    return "NO. " + ticketId + " FR0M: " + requestingUserID + " TO: " + assignedUserID +
-            "\nTYPE: " + ticketType + "\nAT: " + location.toString() +
-            "\nDESCPRIPTION: " + description + " COMPLETED: "+ completed;
+    return "NO. "
+        + ticketId
+        + " FR0M: "
+        + requestingUserID
+        + " TO: "
+        + assignedUserID
+        + "\nTYPE: "
+        + ticketType
+        + "\nAT: "
+        + location.toString()
+        + "\nDESCPRIPTION: "
+        + description
+        + " COMPLETED: "
+        + completed;
   }
-
 }
