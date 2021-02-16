@@ -42,7 +42,6 @@ public class HospitalMap implements Graph<HospitalMapNode> {
   }
 
 
-
   public static class Edge {
     public final String id, startNode, endNode;
 
@@ -54,11 +53,16 @@ public class HospitalMap implements Graph<HospitalMapNode> {
 
     @Override
     public String toString() {
-      return "MapEdge{" +
-              "startNode='" + startNode + '\'' +
-              ", endNode='" + endNode + '\'' +
-              ", id=" + id +
-              '}';
+      return "MapEdge{"
+          + "startNode='"
+          + startNode
+          + '\''
+          + ", endNode='"
+          + endNode
+          + '\''
+          + ", id="
+          + id
+          + '}';
     }
 
   public String getId() {

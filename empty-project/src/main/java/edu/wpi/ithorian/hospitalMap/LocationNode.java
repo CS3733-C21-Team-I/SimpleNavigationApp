@@ -13,12 +13,12 @@ public class LocationNode extends HospitalMapNode {
   private String building;
   private String nodeType;
   private int floor;
-  public static List<LocationNode> connectedNodes= new ArrayList<>();
-
+  public static List<LocationNode> connectedNodes = new ArrayList<>();
 
   public LocationNode() {};
-  public LocationNode(List<String> nodeInit){
-    this.setId ((String) nodeInit.get(0));
+
+  public LocationNode(List<String> nodeInit) {
+    this.setId((String) nodeInit.get(0));
     this.setxCoord(Integer.parseInt((String) nodeInit.get(1)));
     this.setyCoord(Integer.parseInt((String) nodeInit.get(2)));
     this.floor = Integer.parseInt((String) nodeInit.get(3));
@@ -27,17 +27,16 @@ public class LocationNode extends HospitalMapNode {
     this.longName = (String) nodeInit.get(6);
     this.shortName = (String) nodeInit.get(7);
     this.teamAssigned = (String) nodeInit.get(8);
-
-
   }
+
   public LocationNode(
-          String id,
-          int xCoord,
-          int yCoord,
-          String shortName,
-          String longName,
-          String teamAssigned,
-          Set<HospitalMapNode> connections) {
+      String id,
+      int xCoord,
+      int yCoord,
+      String shortName,
+      String longName,
+      String teamAssigned,
+      Set<HospitalMapNode> connections) {
     super(id, xCoord, yCoord, connections);
     this.shortName = shortName;
     this.longName = longName;
@@ -56,18 +55,20 @@ public class LocationNode extends HospitalMapNode {
   public String getLongName() {
     return longName;
   }
+
   public String getShortName() {
     return longName;
   }
-  public void setShortName(String shortName){
-    this.shortName= shortName;
+
+  public void setShortName(String shortName) {
+    this.shortName = shortName;
   }
-  public void setLongName(String longName){
-    this.longName= longName;
+
+  public void setLongName(String longName) {
+    this.longName = longName;
   }
 
   public void setTeamAssigned(String teamAssigned) {
     this.teamAssigned = teamAssigned;
   }
 }
-

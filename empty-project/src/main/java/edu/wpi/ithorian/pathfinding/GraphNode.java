@@ -9,7 +9,7 @@ public interface GraphNode<T extends GraphNode> {
 
   String getID();
 
-	Set<T> getConnections();
-
+  Set<T> getConnections();
 }
+
 
