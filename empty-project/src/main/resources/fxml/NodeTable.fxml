@@ -4,20 +4,19 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.StackPane?>
 
-
 <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <TableView prefHeight="358.0" prefWidth="878.0">
+      <TableView fx:id="tableView" prefHeight="358.0" prefWidth="878.0">
         <columns>
-          <TableColumn prefWidth="75.0" text="Node ID" />
-          <TableColumn prefWidth="75.0" text="XCoord" />
-            <TableColumn prefWidth="75.0" text="YCoord" />
-            <TableColumn prefWidth="66.0" text="Floor" />
-            <TableColumn prefWidth="76.0" text="Building" />
-            <TableColumn prefWidth="75.0" text="NodeType" />
-            <TableColumn prefWidth="95.0" text="Long Name" />
-            <TableColumn prefWidth="137.0" text="Short Name" />
-            <TableColumn minWidth="4.0" prefWidth="134.0" text="TeamAssigned" />
+          <TableColumn fx:id="nodeIdCol" prefWidth="79.0" text="Node ID" />
+          <TableColumn prefWidth="71.0" text="XCoord" fx:id="xCoordCol" />
+            <TableColumn fx:id="yCoordCol" prefWidth="75.0" text="YCoord" />
+            <TableColumn fx:id="floorCol" prefWidth="66.0" text="Floor" />
+            <TableColumn fx:id="buildingCol" prefWidth="76.0" text="Building" />
+            <TableColumn fx:id="nodeTypeCol" prefWidth="75.0" text="NodeType" />
+            <TableColumn fx:id="longNameCol" prefWidth="95.0" text="Long Name" />
+            <TableColumn fx:id="shortNameCol" prefWidth="137.0" text="Short Name" />
+            <TableColumn fx:id="teamAssignedCol" minWidth="4.0" prefWidth="134.0" text="TeamAssigned" />
         </columns>
       </TableView>
    </children>

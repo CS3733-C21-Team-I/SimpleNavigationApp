@@ -32,6 +32,7 @@ public class Main {
     TableController tableController = new TableController();
     tableController.init();
     tableController.getInstance().startTableAppView();
+    tableController.addNodesToTable();
     Application.launch(TableAppView.class);
     //    Application.launch(ApplicationView.class);
   }
