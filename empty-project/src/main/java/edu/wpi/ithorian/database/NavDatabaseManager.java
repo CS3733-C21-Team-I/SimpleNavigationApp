@@ -203,7 +203,7 @@ public class NavDatabaseManager extends DatabaseManager {
     }
   }
 
-  void saveMapIntoMemory(HospitalMap hMap) {
+  public void saveMapIntoMemory(HospitalMap hMap) {
     class EdgePair implements Comparable<EdgePair> {
       String fromId;
       String toId;
