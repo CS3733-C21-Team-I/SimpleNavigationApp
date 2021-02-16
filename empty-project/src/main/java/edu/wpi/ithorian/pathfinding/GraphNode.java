@@ -1,10 +1,11 @@
 package edu.wpi.ithorian.pathfinding;
 
-import java.util.Set;
+import edu.wpi.ithorian.hospitalMap.HospitalMapNode;
+import java.util.List;
 
 public interface GraphNode<T extends GraphNode> {
 
   String getID();
 
-  Set<T> getConnections();
+  List<HospitalMapNode> getConnections();
 }

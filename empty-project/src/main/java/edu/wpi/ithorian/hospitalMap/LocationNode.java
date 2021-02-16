@@ -1,7 +1,7 @@
 package edu.wpi.ithorian.hospitalMap;
 
 import java.io.Serializable;
-import java.util.Set;
+import java.util.List;
 
 public class LocationNode extends HospitalMapNode implements Serializable {
 
@@ -18,7 +18,7 @@ public class LocationNode extends HospitalMapNode implements Serializable {
       String shortName,
       String longName,
       String teamAssigned,
-      Set<HospitalMapNode> connections) {
+      List<HospitalMapNode> connections) {
     super(id, xCoord, yCoord, connections);
     this.shortName = shortName;
     this.longName = longName;
@@ -35,7 +35,7 @@ public class LocationNode extends HospitalMapNode implements Serializable {
       int xCoord,
       int yCoord,
       int floor,
-      Set<HospitalMapNode> connections) {
+      List<HospitalMapNode> connections) {
     super(id, xCoord, yCoord, buildingName, nodeType, floor, connections);
     this.shortName = shortName;
     this.longName = longName;
