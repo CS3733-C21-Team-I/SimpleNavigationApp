@@ -2,6 +2,8 @@ package edu.wpi.ithorian.hospitalMap.mapEditing;
 
 import edu.wpi.ithorian.hospitalMap.HospitalMap;
 import edu.wpi.ithorian.hospitalMap.HospitalMapNode;
+import edu.wpi.ithorian.hospitalMap.LocationNode;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -10,32 +12,34 @@ import java.util.*;
 
 public class CSVOperator {
 
+  public static ArrayList<LocationNode> aNodes= new ArrayList<>();
 
-
-  public static   Set<HospitalMap.Node> generateElementFromData(
+  public static   void generateElementFromData(
 
       List<List<String>> nodesList, List<List<String>> edgesList) {
-    Set<HospitalMap.Node> nodes= new HashSet<>();
 
-    ArrayList<HospitalMap.Node> aNodes= new ArrayList<>();
-    HashMap<String, HospitalMap.Node> nodesHash =new HashMap<>();
+    Set<LocationNode> nodes= new HashSet<>();
+
+
+
+    HashMap<String, LocationNode> nodesHash =new HashMap<>();
     for (List<String> values : nodesList) {
 
-      HospitalMap.Node currNode = new HospitalMap.Node(values);
+      LocationNode currNode = new LocationNode(values);
 //      aNodes.add(currNode);
       aNodes.add(currNode);
-      nodesHash.put(currNode.id, currNode);
+      nodesHash.put(currNode.getID(), currNode);
     }
 
     // iterates through edges and connects respective nodes
     for (List<String> values : edgesList) {
       HospitalMap.Edge currEdge = new HospitalMap.Edge(values);
-      HospitalMap.Node a = nodesHash.get(currEdge.startNode);
-      HospitalMap.Node b = nodesHash.get(currEdge.endNode);
+      LocationNode a = nodesHash.get(currEdge.startNode);
+      LocationNode b = nodesHash.get(currEdge.endNode);
       a.connectedNodes.add(b);
       b.connectedNodes.add(a);
     }
-    return nodes;
+
 
 
   }

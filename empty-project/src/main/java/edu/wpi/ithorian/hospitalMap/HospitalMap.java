@@ -84,54 +84,6 @@ private  ArrayList<HospitalMap.Node> aNodes = new ArrayList<>();
     Edge
   }
 
-  public static class Node {
-    public final String id, building, nodeType, longname, shortname, teamassigned;
-    public ArrayList<Node> connectedNodes = new ArrayList<>();
-    public final int xcoord, ycoord, floor;
-
-    public Node(List nodeInit) {
-      this.id = (String) nodeInit.get(0);
-      this.xcoord = Integer.parseInt((String) nodeInit.get(1));
-      this.ycoord = Integer.parseInt((String) nodeInit.get(2));
-      this.floor = Integer.parseInt((String) nodeInit.get(3));
-      this.building = (String) nodeInit.get(4);
-      this.nodeType = (String) nodeInit.get(5);
-      this.longname = (String) nodeInit.get(6);
-      this.shortname = (String) nodeInit.get(7);
-      this.teamassigned = (String) nodeInit.get(8);
-    }
-
-    @Override
-    public String toString() {
-      return "MapNode{"
-          + "id='"
-          + id
-          + '\''
-          + ", building='"
-          + building
-          + '\''
-          + ", nodeType='"
-          + nodeType
-          + '\''
-          + ", longname='"
-          + longname
-          + '\''
-          + ", shortname='"
-          + shortname
-          + '\''
-          + ", teamassigned='"
-          + teamassigned
-          + '\''
-          + ", xcoord="
-          + xcoord
-          + ", ycoord="
-          + ycoord
-          + ", floor="
-          + floor
-          + '}';
-    }
-  }
-
   public static class Edge {
     public final String id, startNode, endNode;
 
