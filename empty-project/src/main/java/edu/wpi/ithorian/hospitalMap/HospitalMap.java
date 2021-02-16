@@ -1,7 +1,6 @@
 package edu.wpi.ithorian.hospitalMap;
 
 import edu.wpi.ithorian.pathfinding.Graph;
-
 import java.util.*;
 
 public class HospitalMap implements Graph<HospitalMapNode> {
@@ -13,6 +12,26 @@ public class HospitalMap implements Graph<HospitalMapNode> {
   private String imagePath;
   private int floorNumber;
 
+  public void setaNodes(ArrayList<Node> aNodes) {
+    aNodes = aNodes;
+  }
+
+  public void setNodesHash(HashMap<String, Node> nodesHash) {
+    nodesHash = nodesHash;
+  }
+
+  // Lists that hold arrays of map nodes and edges based on csv input
+private  ArrayList<HospitalMap.Node> aNodes = new ArrayList<>();
+  // static ArrayList<Edge> edges = new ArrayList<>(); //potentially not needed as a global variable
+  // here
+// private  HashMap<String, HospitalMap.Node> nodesHash = new HashMap<String, HospitalMap.Node>();
+
+  public HospitalMap(
+          int floorNumber,
+          Set<HospitalMapNode> nodes){
+    this.nodes= nodes;
+    this.floorNumber= floorNumber;
+  }
   public HospitalMap(
       String id,
       String mapName,
@@ -27,7 +46,6 @@ public class HospitalMap implements Graph<HospitalMapNode> {
     this.floorNumber = floorNumber;
     this.imagePath = imagePath;
   }
-
 
   @Override
   public HospitalMapNode getNode(String id) {
@@ -61,29 +79,9 @@ public class HospitalMap implements Graph<HospitalMapNode> {
     return floorNumber;
   }
 
-
-  // Lists that hold arrays of map nodes and edges based on csv input
-  static ArrayList<Node> aNodes = new ArrayList<>();
-  //static ArrayList<Edge> edges = new ArrayList<>(); //potentially not needed as a global variable here
-  static HashMap<String, Node> nodesHash = new HashMap<String, Node>();
-
-  public enum Element { Node, Edge }
-
-  public static void generateElementFromData(List<List<String>> nodesList, List<List<String>> edgesList){
-    for (List<String> values:nodesList) {
-      Node currNode = new Node(values);
-      aNodes.add(currNode);
-      nodesHash.put(currNode.id, currNode);
-    }
-
-    //iterates through edges and connects respective nodes
-    for (List<String> values:edgesList) {
-      Edge currEdge = new Edge(values);
-      Node a = nodesHash.get(currEdge.startNode);
-      Node b = nodesHash.get(currEdge.endNode);
-      a.connectedNodes.add(b);
-      b.connectedNodes.add(a);
-    }
+  public enum Element {
+    Node,
+    Edge
   }
 
   public static class Node {
@@ -91,7 +89,7 @@ public class HospitalMap implements Graph<HospitalMapNode> {
     public ArrayList<Node> connectedNodes = new ArrayList<>();
     public final int xcoord, ycoord, floor;
 
-    private Node(List nodeInit) {
+    public Node(List nodeInit) {
       this.id = (String) nodeInit.get(0);
       this.xcoord = Integer.parseInt((String) nodeInit.get(1));
       this.ycoord = Integer.parseInt((String) nodeInit.get(2));
@@ -103,27 +101,41 @@ public class HospitalMap implements Graph<HospitalMapNode> {
       this.teamassigned = (String) nodeInit.get(8);
     }
 
-
     @Override
     public String toString() {
-      return "MapNode{" +
-              "id='" + id + '\'' +
-              ", building='" + building + '\'' +
-              ", nodeType='" + nodeType + '\'' +
-              ", longname='" + longname + '\'' +
-              ", shortname='" + shortname + '\'' +
-              ", teamassigned='" + teamassigned + '\'' +
-              ", xcoord=" + xcoord +
-              ", ycoord=" + ycoord +
-              ", floor=" + floor +
-              '}';
+      return "MapNode{"
+          + "id='"
+          + id
+          + '\''
+          + ", building='"
+          + building
+          + '\''
+          + ", nodeType='"
+          + nodeType
+          + '\''
+          + ", longname='"
+          + longname
+          + '\''
+          + ", shortname='"
+          + shortname
+          + '\''
+          + ", teamassigned='"
+          + teamassigned
+          + '\''
+          + ", xcoord="
+          + xcoord
+          + ", ycoord="
+          + ycoord
+          + ", floor="
+          + floor
+          + '}';
     }
   }
 
   public static class Edge {
     public final String id, startNode, endNode;
 
-    private Edge(List nodeInit) {
+    public Edge(List nodeInit) {
       this.id = (String) nodeInit.get(0);
       this.startNode = (String) nodeInit.get(1);
       this.endNode = (String) nodeInit.get(2);
@@ -131,14 +143,16 @@ public class HospitalMap implements Graph<HospitalMapNode> {
 
     @Override
     public String toString() {
-      return "MapEdge{" +
-              "startNode='" + startNode + '\'' +
-              ", endNode='" + endNode + '\'' +
-              ", id=" + id +
-              '}';
+      return "MapEdge{"
+          + "startNode='"
+          + startNode
+          + '\''
+          + ", endNode='"
+          + endNode
+          + '\''
+          + ", id="
+          + id
+          + '}';
     }
   }
-
-
-
 }
