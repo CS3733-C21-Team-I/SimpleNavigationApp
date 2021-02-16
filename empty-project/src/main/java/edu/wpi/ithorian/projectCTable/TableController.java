@@ -44,8 +44,7 @@ public class TableController {
   @FXML
   public void addNodesToTable() {
     String path =
-        System.getProperty("user.dir")
-            + "/empty-project/src/main/java/edu/wpi/ithorian/hospitalMap/mapEditing/";
+        System.getProperty("user.dir") + "/src/main/java/edu/wpi/ithorian/hospitalMap/mapEditing/";
     List<List<String>> tableNodes = ReadCSV.readFromFile(path + "MapINodes.csv");
     for (List<String> tableNode : tableNodes) {
       NodeRow nodeRow =
