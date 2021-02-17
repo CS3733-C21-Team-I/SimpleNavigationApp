@@ -10,15 +10,15 @@ import java.util.HashSet;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
+import javafx.scene.control.*;
 import javafx.scene.control.TableColumn.CellEditEvent;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.util.Callback;
+
 
 public class NodeTableController {
   @FXML TextField Node_ID, Xcod, Ycod, Floor, Building, Type, Long, Short, Team;
@@ -78,6 +78,7 @@ public class NodeTableController {
             new HashSet<>());
     mapManager.addNode(newNode);
     addNodesToTable();
+//    setup();
   }
 
   public static void init() {};
@@ -135,40 +136,70 @@ public class NodeTableController {
       columns.add(new TableColumn(headers.get(i)));
       columns.get(i).setCellFactory(TextFieldTableCell.forTableColumn());
       columns
-          .get(i)
-          .setCellValueFactory(new PropertyValueFactory<NodeRow, String>(columnIDs.get(i)));
+              .get(i)
+              .setCellValueFactory(new PropertyValueFactory<NodeRow, String>(columnIDs.get(i)));
       columns
-          .get(i)
-          .setOnEditCommit(
-              (EventHandler<CellEditEvent>)
-                  event -> {
-                    System.out.println(event.getNewValue());
-                    NodeRow row = (NodeRow) event.getRowValue();
-                    System.out.println(row.getNodeIdCol());
-                    row = setValue(event);
-                    FullLocationNode newNode =
-                        new FullLocationNode(
-                            row.nodeIdCol,
-                            Integer.parseInt(row.xCoordCol),
-                            Integer.parseInt(row.yCoordCol),
-                            row.floorCol,
-                            row.buildingCol,
-                            row.nodeTypeCol,
-                            row.longNameCol,
-                            row.shortNameCol,
-                            row.teamAssignedCol,
-                            new HashSet());
-                    System.out.println(row.getNodeIdCol());
-                    System.out.println(newNode);
-                    try {
-                      mapManager.editNode(row.getNodeIdCol(), newNode);
-                    } catch (IOException e) {
-                      e.printStackTrace();
-                    }
-                    addNodesToTable();
-                  });
+              .get(i)
+              .setOnEditCommit(
+                      (EventHandler<CellEditEvent>)
+                              event -> {
+                                System.out.println(event.getNewValue());
+                                NodeRow row = (NodeRow) event.getRowValue();
+                                System.out.println(row.getNodeIdCol());
+                                row = setValue(event);
+                                FullLocationNode newNode =
+                                        new FullLocationNode(
+                                                row.nodeIdCol,
+                                                Integer.parseInt(row.xCoordCol),
+                                                Integer.parseInt(row.yCoordCol),
+                                                row.floorCol,
+                                                row.buildingCol,
+                                                row.nodeTypeCol,
+                                                row.longNameCol,
+                                                row.shortNameCol,
+                                                row.teamAssignedCol,
+                                                new HashSet());
+                                System.out.println(row.getNodeIdCol());
+                                System.out.println(newNode);
+                                try {
+                                  mapManager.editNode(row.getNodeIdCol(), newNode);
+                                } catch (IOException e) {
+                                  e.printStackTrace();
+                                }
+                                addNodesToTable();
+                              });
       tableView.getColumns().add(columns.get(i));
     }
+    TableColumn deleteBtnCol = new TableColumn(" ");
+    deleteBtnCol.setCellValueFactory(new PropertyValueFactory<>("deleteBtnCol"));
+    Callback<TableColumn<NodeRow, String>, TableCell<NodeRow, String>> cellFactory =
+            new Callback<TableColumn<NodeRow, String>, TableCell<NodeRow, String>>() {
+              @Override
+              public TableCell<NodeRow, String> call(TableColumn<NodeRow, String> param) {
+                final TableCell<NodeRow, String> cell = new TableCell<NodeRow, String>(){
+                  final Button btn = new Button("Del");
+                  @Override
+                  public void updateItem(String item, boolean empty){
+                    super.updateItem(item, empty);
+                    if (empty){
+                      setGraphic(null);
+                    } else {
+                      btn.setOnAction(event -> {
+                        NodeRow nr = getTableView().getItems().get(getIndex());
+                        System.out.println("ID of the node is: " + nr.getNodeIdCol());
+                        mapManager.deleteNode(nr.getNodeIdCol());
+//                        setup();
+                      });
+                      setGraphic(btn);
+                    }
+                    setText(null);
+                  }
+                };
+                return cell;
+              }
+            };
+    deleteBtnCol.setCellFactory(cellFactory);
+    tableView.getColumns().add(deleteBtnCol);
   }
 
   private NodeRow setValue(CellEditEvent event) {
