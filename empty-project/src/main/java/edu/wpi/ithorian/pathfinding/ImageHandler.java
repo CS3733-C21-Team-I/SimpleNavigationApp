@@ -106,7 +106,7 @@ public class ImageHandler {
               .endX(nextNode.getxCoord() / scale)
               .endY(nextNode.getyCoord() / scale)
               .stroke(Color.BLUE)
-              .strokeWidth(14 / scale)
+              .strokeWidth(10 / scale)
               .build();
       root.getChildren().add(line);
     }

@@ -48,7 +48,7 @@ public class TableAppView extends Application {
             ReadCSV.readFromFile(path + "MapIEdges.csv"));
     HospitalMap map =
         new HospitalMap("Test_Map", "Test Map", "Building1", 1, path + "FaulknerCampus.png", nodes);
-    int scale = 2;
+    int scale = 3;
 
     System.out.println(map.getNodes());
 
@@ -59,7 +59,7 @@ public class TableAppView extends Application {
 
     // creating the image object
     InputStream stream =
-        new FileInputStream("build/resources/main/fxml/fxmlResources/FaulknerFloor1.png");
+        new FileInputStream("build/resources/main/fxml/fxmlResources/FaulknerCampus.png");
     Image image = new Image(stream);
     // Creating the image view
     ImageView imageView = new ImageView();
