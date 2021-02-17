@@ -1,7 +1,10 @@
 package edu.wpi.ithorian.projectCTable;
 
-import com.opencsv.CSVWriter;
+import edu.wpi.ithorian.hospitalMap.HospitalMapNode;
+import edu.wpi.ithorian.hospitalMap.LocationNode;
+import edu.wpi.ithorian.hospitalMap.mapEditing.MapEditManager;
 import java.io.*;
+import java.util.HashSet;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -10,8 +13,25 @@ public class TableController {
   @FXML TextField Node_ID, Xcod, Ycod, Floor, Building, Type, Long, Short, Team;
   @FXML Button Add;
 
+  private static MapEditManager ourManager;
+  private MapEditManager mapManager;
+
+  public TableController(MapEditManager mapEditManager) {
+    this.mapManager = mapEditManager;
+  }
+
+  public TableController() {
+    this.mapManager = ourManager;
+  }
+
+  public static void saveManager() {
+    ourManager = new MapEditManager().getInstance();
+  }
+
   @FXML
   public void onAddAction() {
+    System.out.println(mapManager.getEntityNodes());
+    System.out.println("Map manager: " + mapManager);
     String nID = Node_ID.getText();
     String lName = Long.getText();
     String sName = Short.getText();
@@ -21,22 +41,18 @@ public class TableController {
     String fName = Floor.getText();
     String bName = Building.getText();
     String type = Type.getText();
-    String is = getCurrentDirectory();
-    is =
-        is.substring(0, is.length() - 1)
-            + "empty-project\\src\\main\\java\\edu\\wpi\\ithorian\\hospitalMap\\mapEditing\\MapINodes.csv";
-    try {
-      CSVWriter writer =
-          new CSVWriter(
-              new FileWriter(is, true), CSVWriter.DEFAULT_SEPARATOR, CSVWriter.NO_QUOTE_CHARACTER);
-      String line[] = {nID, xCord, yCord, fName, bName, type, lName, sName, tName, "", ""};
-      writer.writeNext(line);
-      writer.close();
-    } catch (FileNotFoundException e) {
-      System.out.println("File not Found");
-    } catch (IOException e) {
-      System.out.println("IO Exception");
-    }
+
+    LocationNode newNode =
+        new LocationNode(
+            nID,
+            Integer.parseInt(xCord),
+            Integer.parseInt(yCord),
+            sName,
+            lName,
+            tName,
+            new HashSet<HospitalMapNode>());
+    mapManager.addNode(newNode);
+    System.out.println(mapManager.getEntityNodes());
   }
 
   private String getCurrentDirectory() {
