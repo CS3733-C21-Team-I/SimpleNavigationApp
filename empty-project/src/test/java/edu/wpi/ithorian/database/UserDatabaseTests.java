@@ -53,6 +53,8 @@ public class UserDatabaseTests {
     assertTrue(employee.hasPermission(User.Permission.VIEW_TICKET));
     assertTrue(employee.hasPermission(User.Permission.REQUEST_TICKET));
     assertFalse(employee.hasPermission(User.Permission.EDIT_ANNOUNCEMENTS));
+
+    UserDatabaseManager.getInstance().databaseRef.disconnect();
   }
 
   void populateTestData() throws SQLException {

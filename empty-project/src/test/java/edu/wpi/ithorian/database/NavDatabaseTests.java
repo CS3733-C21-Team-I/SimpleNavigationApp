@@ -1,17 +1,17 @@
-package edu.wpi.ithorian.database;
+ package edu.wpi.ithorian.database;
 
-import static org.junit.jupiter.api.Assertions.*;
+ import static org.junit.jupiter.api.Assertions.*;
 
-import edu.wpi.ithorian.hospitalMap.HospitalMap;
-import edu.wpi.ithorian.hospitalMap.HospitalMapNode;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.HashSet;
-import java.util.Set;
-import org.junit.jupiter.api.Test;
+ import edu.wpi.ithorian.hospitalMap.HospitalMap;
+ import edu.wpi.ithorian.hospitalMap.HospitalMapNode;
+ import java.sql.ResultSet;
+ import java.sql.SQLException;
+ import java.sql.Statement;
+ import java.util.HashSet;
+ import java.util.Set;
+ import org.junit.jupiter.api.Test;
 
-public class NavDatabaseTests {
+ public class NavDatabaseTests {
 
   @Test
   public void saveMapTest() {
@@ -88,4 +88,4 @@ public class NavDatabaseTests {
 
     return testMap;
   }
-}
+ }

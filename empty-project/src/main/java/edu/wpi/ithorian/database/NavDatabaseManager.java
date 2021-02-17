@@ -3,15 +3,12 @@ package edu.wpi.ithorian.database;
 import edu.wpi.ithorian.hospitalMap.HospitalMap;
 import edu.wpi.ithorian.hospitalMap.HospitalMapNode;
 import edu.wpi.ithorian.hospitalMap.LocationNode;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.*;
 
 public class NavDatabaseManager extends DatabaseManager {
 
   private static final String DB_URL = "jdbc:derby:navDB";
-
   private static NavDatabaseManager ourInstance;
 
   public static void init(boolean regen) {
@@ -212,23 +209,23 @@ public class NavDatabaseManager extends DatabaseManager {
     }
   }
 
-  public void saveMapIntoMemory(HospitalMap hMap) {
-    class EdgePair implements Comparable<EdgePair> {
-      String fromId;
-      String toId;
+    public void saveMapIntoMemory(HospitalMap hMap) {
+      class EdgePair implements Comparable<EdgePair> {
+        String fromId;
+        String toId;
 
-      public EdgePair(String fromId, String toId) {
-        this.fromId = fromId;
-        this.toId = toId;
-      }
+        public EdgePair(String fromId, String toId) {
+          this.fromId = fromId;
+          this.toId = toId;
+        }
 
-      DatabaseMetaData md = databaseRef.getConnection().getMetaData();
-      ResultSet rs = md.getTables(null, null, "%", null);
-      while (rs.next()) {
-        System.out.println(rs.getString(3));
+        DatabaseMetaData md = databaseRef.getConnection().getMetaData();
+        ResultSet rs = md.getTables(null, null, "%", null);
+        while (rs.next()) {
+          System.out.println(rs.getString(3));
+        }
+      } catch (Exception e) {
+        e.printStackTrace();
       }
-    } catch (Exception e) {
-      e.printStackTrace();
     }
-  }
 }

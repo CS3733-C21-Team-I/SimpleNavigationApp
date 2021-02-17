@@ -4,9 +4,7 @@ import static edu.wpi.ithorian.user.User.Permission.*;
 import static edu.wpi.ithorian.user.User.Role.*;
 
 import edu.wpi.ithorian.user.User;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;

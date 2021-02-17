@@ -35,7 +35,7 @@ public class ServiceTicket {
     SECURITY,
     MAINTENANCE
   }
-  
+
   @Override
   public String toString() {
     return " NO. "
@@ -62,8 +62,8 @@ public class ServiceTicket {
     return assignedUserID;
   }
 
-  public TicketType getTicketType() {
-    return ticketType;
+  public String getTicketType() {
+    return ticketType.toString();
   }
 
   public String getLocation() {
