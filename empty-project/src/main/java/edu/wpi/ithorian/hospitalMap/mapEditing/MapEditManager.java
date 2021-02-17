@@ -4,6 +4,7 @@ import static edu.wpi.ithorian.hospitalMap.mapEditing.NavEditOperation.Operation
 
 import edu.wpi.ithorian.hospitalMap.HospitalMap;
 import edu.wpi.ithorian.hospitalMap.HospitalMapNode;
+import edu.wpi.ithorian.projectCTable.TableController;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -17,6 +18,7 @@ public class MapEditManager {
   private int scale = 3; // scales image to 1/scale
   private MapEditView mapEditorView = null;
   private ApplicationView applicationView = null;
+  private TableController tableView = null;
 
   /**
    * Represents the map that is activelyBeing edited should be referenced from this class's getter
@@ -126,6 +128,12 @@ public class MapEditManager {
     this.root = new Group();
     applicationView = new ApplicationView(this);
     applicationView.saveManager();
+  }
+
+  public void startTableView() {
+    this.root = new Group();
+    tableView = new TableController(this);
+    tableView.saveManager();
   }
 
   public void setRoot(Group root) {

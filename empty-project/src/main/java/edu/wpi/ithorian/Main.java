@@ -2,8 +2,8 @@ package edu.wpi.ithorian;
 
 import edu.wpi.ithorian.hospitalMap.HospitalMap;
 import edu.wpi.ithorian.hospitalMap.HospitalMapNode;
-import edu.wpi.ithorian.hospitalMap.mapEditing.ApplicationView;
 import edu.wpi.ithorian.hospitalMap.mapEditing.MapEditManager;
+import edu.wpi.ithorian.projectCTable.TableAppView;
 import java.util.Set;
 import javafx.application.Application;
 
@@ -32,7 +32,7 @@ public class Main {
     MapEditManager mapManager = new MapEditManager();
     mapManager.init();
     mapManager.getInstance().setActiveMap(map);
-    mapManager.getInstance().startApplicationView();
-    Application.launch(ApplicationView.class);
+    mapManager.getInstance().startTableView();
+    Application.launch(TableAppView.class);
   }
 }
