@@ -79,4 +79,8 @@ public class FullHospitalMap implements Graph<FullLocationNode> {
   public String getId() {
     return id;
   }
+
+  public void removeNode(String nodeId) {
+    nodes.remove(getNode(nodeId));
+  }
 }

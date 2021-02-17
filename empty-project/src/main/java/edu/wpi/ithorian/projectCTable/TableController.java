@@ -25,6 +25,18 @@ public class TableController {
   @FXML Button Add;
   @FXML TableView tableView;
 
+  ArrayList<String> headers =
+      new ArrayList<>(
+          Arrays.asList(
+              "X Coord",
+              "Y Coord",
+              "Floor",
+              "Building",
+              "Node Type",
+              "Long Name",
+              "Short Name",
+              "Team Assigned"));
+
   private static FullMapEditManager ourManager;
   private FullMapEditManager mapManager;
 
@@ -106,17 +118,6 @@ public class TableController {
     nodeIdCol.setCellValueFactory(new PropertyValueFactory<NodeRow, String>("nodeIdCol"));
     tableView.getColumns().add(nodeIdCol);
 
-    ArrayList<String> headers =
-        new ArrayList<>(
-            Arrays.asList(
-                "X Coord",
-                "Y Coord",
-                "Floor",
-                "Building",
-                "Node Type",
-                "Long Name",
-                "Short Name",
-                "Team Assigned"));
     ArrayList<String> columnIDs =
         new ArrayList<>(
             Arrays.asList(
@@ -142,9 +143,56 @@ public class TableController {
               (EventHandler<CellEditEvent>)
                   event -> {
                     System.out.println(event.getNewValue());
+                    NodeRow row = (NodeRow) event.getRowValue();
+                    System.out.println(row.getNodeIdCol());
+                    row = setValue(event);
+                    FullLocationNode newNode =
+                        new FullLocationNode(
+                            row.nodeIdCol,
+                            Integer.parseInt(row.xCoordCol),
+                            Integer.parseInt(row.yCoordCol),
+                            row.floorCol,
+                            row.buildingCol,
+                            row.nodeTypeCol,
+                            row.longNameCol,
+                            row.shortNameCol,
+                            row.teamAssignedCol,
+                            new HashSet());
+                    System.out.println(row.getNodeIdCol());
+                    System.out.println(newNode);
+                    try {
+                      mapManager.editNode(row.getNodeIdCol(), newNode);
+                    } catch (IOException e) {
+                      e.printStackTrace();
+                    }
+                    addNodesToTable();
                   });
       tableView.getColumns().add(columns.get(i));
     }
+  }
+
+  private NodeRow setValue(CellEditEvent event) {
+    int headerIndex = headers.indexOf(event.getTableColumn().getText());
+    String value = (String) event.getNewValue();
+    NodeRow row = (NodeRow) event.getRowValue();
+    if (headerIndex == 0) {
+      row.xCoordCol = value;
+    } else if (headerIndex == 1) {
+      row.yCoordCol = value;
+    } else if (headerIndex == 2) {
+      row.floorCol = value;
+    } else if (headerIndex == 3) {
+      row.buildingCol = value;
+    } else if (headerIndex == 4) {
+      row.nodeTypeCol = value;
+    } else if (headerIndex == 5) {
+      row.longNameCol = value;
+    } else if (headerIndex == 6) {
+      row.shortNameCol = value;
+    } else if (headerIndex == 7) {
+      row.teamAssignedCol = value;
+    }
+    return row;
   }
 
   public static class NodeRow {

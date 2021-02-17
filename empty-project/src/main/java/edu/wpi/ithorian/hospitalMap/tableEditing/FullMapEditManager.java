@@ -74,10 +74,12 @@ public class FullMapEditManager {
    *
    * @param nodeId the Id of the node prior to editing
    */
-  public void editNode(String nodeId) {
+  public void editNode(String nodeId, FullLocationNode newNode) throws IOException {
     FullLocationNode node = activeMap.getNode(nodeId);
-    // TODO reset node.id using hashing?
     dataOperations.add(new NavEditOperation(EDIT_NODE, nodeId, node, null));
+    activeMap.removeNode(nodeId);
+    activeMap.getNodes().add(newNode);
+    ReadCSV.writeCSVFull(activeMap);
   }
 
   /**
