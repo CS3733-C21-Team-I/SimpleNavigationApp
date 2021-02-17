@@ -6,7 +6,7 @@ import edu.wpi.ithorian.ReadCSV;
 import edu.wpi.ithorian.hospitalMap.mapEditing.ApplicationView;
 import edu.wpi.ithorian.hospitalMap.mapEditing.MapEditView;
 import edu.wpi.ithorian.hospitalMap.mapEditing.NavEditOperation;
-import edu.wpi.ithorian.projectCTable.TableController;
+import edu.wpi.ithorian.projectCTable.NodeTableController;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -20,7 +20,7 @@ public class FullMapEditManager {
   private int scale = 3; // scales image to 1/scale
   private MapEditView mapEditorView = null;
   private ApplicationView applicationView = null;
-  private TableController tableView = null;
+  private NodeTableController tableView = null;
 
   /**
    * Represents the map that is activelyBeing edited should be referenced from this class's getter
@@ -110,7 +110,7 @@ public class FullMapEditManager {
 
   public void startTableView() {
     this.root = new Group();
-    tableView = new TableController(this);
+    tableView = new NodeTableController(this);
     tableView.saveManager();
   }
 }

@@ -20,7 +20,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 
-public class TableController {
+public class NodeTableController {
   @FXML TextField Node_ID, Xcod, Ycod, Floor, Building, Type, Long, Short, Team;
   @FXML Button Add;
   @FXML TableView tableView;
@@ -40,11 +40,11 @@ public class TableController {
   private static FullMapEditManager ourManager;
   private FullMapEditManager mapManager;
 
-  public TableController() {
+  public NodeTableController() {
     this.mapManager = ourManager;
   }
 
-  public TableController(FullMapEditManager fullMapEditManager) {
+  public NodeTableController(FullMapEditManager fullMapEditManager) {
     this.mapManager = fullMapEditManager;
   }
 

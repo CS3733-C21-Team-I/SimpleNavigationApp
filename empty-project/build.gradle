@@ -90,7 +90,7 @@ jacocoTestCoverageVerification {
 
 check.dependsOn jacocoTestCoverageVerification
 jacocoTestCoverageVerification.dependsOn jacocoTestReport
-compileJava.dependsOn 'spotlessApply'
+//compileJava.dependsOn 'spotlessApply'
 
 spotless {
     java {
