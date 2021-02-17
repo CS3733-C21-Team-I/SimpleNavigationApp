@@ -110,7 +110,9 @@ public class UserDatabaseManager extends DatabaseManager {
                     + getDatabaseNameForRole(role)
                     + "')");
 
-        permissionSet.add(getPermissionForDatabaseName(rs.getString("RESOURCE_NAME")));
+        while (rs.next()) {
+          permissionSet.add(getPermissionForDatabaseName(rs.getString("RESOURCE_NAME")));
+        }
       }
     } catch (SQLException e) {
       // TODO ERROR Logging
