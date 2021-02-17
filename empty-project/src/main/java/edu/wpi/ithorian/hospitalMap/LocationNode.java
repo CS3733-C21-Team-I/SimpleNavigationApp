@@ -8,6 +8,18 @@ public class LocationNode extends HospitalMapNode {
   private String longName;
   private String teamAssigned;
 
+  public String getShortName() {
+    return shortName;
+  }
+
+  public String getLongName() {
+    return longName;
+  }
+
+  public String getTeamAssigned() {
+    return teamAssigned;
+  }
+
   public LocationNode(
       String id,
       int xCoord,

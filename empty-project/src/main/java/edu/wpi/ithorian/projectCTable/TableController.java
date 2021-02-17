@@ -1,8 +1,7 @@
 package edu.wpi.ithorian.projectCTable;
 
-import edu.wpi.ithorian.hospitalMap.HospitalMapNode;
-import edu.wpi.ithorian.hospitalMap.LocationNode;
-import edu.wpi.ithorian.hospitalMap.mapEditing.MapEditManager;
+import edu.wpi.ithorian.hospitalMap.tableEditing.FullLocationNode;
+import edu.wpi.ithorian.hospitalMap.tableEditing.FullMapEditManager;
 import java.io.*;
 import java.util.HashSet;
 import javafx.fxml.FXML;
@@ -13,11 +12,11 @@ public class TableController {
   @FXML TextField Node_ID, Xcod, Ycod, Floor, Building, Type, Long, Short, Team;
   @FXML Button Add;
 
-  private static MapEditManager ourManager;
-  private MapEditManager mapManager;
+  private static FullMapEditManager ourManager;
+  private FullMapEditManager mapManager;
 
-  public TableController(MapEditManager mapEditManager) {
-    this.mapManager = mapEditManager;
+  public TableController(FullMapEditManager fullMapEditManager) {
+    this.mapManager = fullMapEditManager;
   }
 
   public TableController() {
@@ -25,11 +24,11 @@ public class TableController {
   }
 
   public static void saveManager() {
-    ourManager = new MapEditManager().getInstance();
+    ourManager = new FullMapEditManager().getInstance();
   }
 
   @FXML
-  public void onAddAction() {
+  public void onAddAction() throws IOException {
     System.out.println(mapManager.getEntityNodes());
     System.out.println("Map manager: " + mapManager);
     String nID = Node_ID.getText();
@@ -42,15 +41,18 @@ public class TableController {
     String bName = Building.getText();
     String type = Type.getText();
 
-    LocationNode newNode =
-        new LocationNode(
+    FullLocationNode newNode =
+        new FullLocationNode(
             nID,
             Integer.parseInt(xCord),
             Integer.parseInt(yCord),
+            fName,
+            bName,
+            type,
             sName,
             lName,
             tName,
-            new HashSet<HospitalMapNode>());
+            new HashSet<FullLocationNode>());
     mapManager.addNode(newNode);
     System.out.println(mapManager.getEntityNodes());
     //    String is = getCurrentDirectory();

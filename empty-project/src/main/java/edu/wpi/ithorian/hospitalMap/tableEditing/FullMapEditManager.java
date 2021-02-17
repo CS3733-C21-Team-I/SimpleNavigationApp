@@ -1,9 +1,11 @@
-package edu.wpi.ithorian.hospitalMap.mapEditing;
+package edu.wpi.ithorian.hospitalMap.tableEditing;
 
 import static edu.wpi.ithorian.hospitalMap.mapEditing.NavEditOperation.OperationType.*;
 
-import edu.wpi.ithorian.hospitalMap.HospitalMap;
-import edu.wpi.ithorian.hospitalMap.HospitalMapNode;
+import edu.wpi.ithorian.ReadCSV;
+import edu.wpi.ithorian.hospitalMap.mapEditing.ApplicationView;
+import edu.wpi.ithorian.hospitalMap.mapEditing.MapEditView;
+import edu.wpi.ithorian.hospitalMap.mapEditing.NavEditOperation;
 import edu.wpi.ithorian.projectCTable.TableController;
 import java.io.IOException;
 import java.util.LinkedList;
@@ -12,9 +14,9 @@ import java.util.Set;
 import javafx.scene.Group;
 import javafx.stage.Stage;
 
-public class MapEditManager {
+public class FullMapEditManager {
 
-  private static MapEditManager ourInstance;
+  private static FullMapEditManager ourInstance;
   private int scale = 3; // scales image to 1/scale
   private MapEditView mapEditorView = null;
   private ApplicationView applicationView = null;
@@ -24,23 +26,23 @@ public class MapEditManager {
    * Represents the map that is activelyBeing edited should be referenced from this class's getter
    * for all UI calls
    */
-  private HospitalMap activeMap;
+  private FullHospitalMap activeMap;
 
   private Group root = null;
   private Stage stage = null;
 
   public static void init() {
-    ourInstance = new MapEditManager();
+    ourInstance = new FullMapEditManager();
   }
 
-  public static MapEditManager getInstance() {
+  public static FullMapEditManager getInstance() {
     return ourInstance;
   }
 
   /** FIFO Queue of operations for passing to the databaseManager */
   private Queue<NavEditOperation> dataOperations;
 
-  public MapEditManager() {
+  public FullMapEditManager() {
     activeMap = null;
     dataOperations = new LinkedList<>();
   }
@@ -51,7 +53,7 @@ public class MapEditManager {
    *
    * @param activeMap The instance of map being edited.
    */
-  public void setActiveMap(HospitalMap activeMap) {
+  public void setActiveMap(FullHospitalMap activeMap) {
     this.activeMap = activeMap;
   }
 
@@ -60,10 +62,10 @@ public class MapEditManager {
    *
    * @param node the node to be added, currently requires assigning a uniqueNode ID
    */
-  public void addNode(HospitalMapNode node) {
-    // TODO set node id using hashing?
+  public void addNode(FullLocationNode node) throws IOException {
     dataOperations.add(new NavEditOperation(ADD_NODE, null, node, null));
     activeMap.getNodes().add(node);
+    ReadCSV.writeCSVFull(activeMap);
   }
 
   /**
@@ -73,7 +75,7 @@ public class MapEditManager {
    * @param nodeId the Id of the node prior to editing
    */
   public void editNode(String nodeId) {
-    HospitalMapNode node = activeMap.getNode(nodeId);
+    FullLocationNode node = activeMap.getNode(nodeId);
     // TODO reset node.id using hashing?
     dataOperations.add(new NavEditOperation(EDIT_NODE, nodeId, node, null));
   }
@@ -100,49 +102,13 @@ public class MapEditManager {
     activeMap.getNode(toNode).getConnections().add(activeMap.getNode(fromNode));
   }
 
-  public void saveChanges() {
-    // TODO send to Database
-    activeMap = null;
-  }
-
-  public int getScale() {
-    return scale;
-  }
-
-  public Set<HospitalMapNode> getEntityNodes() {
+  public Set<FullLocationNode> getEntityNodes() {
     return activeMap.getNodes();
   }
 
-  public String getImagePath() {
-    return activeMap.getImagePath();
-  }
-
-  public void startEditorView() throws IOException {
-    System.out.println("Starting editor");
-    mapEditorView = new MapEditView(this);
-    mapEditorView.start(stage);
-    mapEditorView.saveManager();
-  }
-
-  public void startApplicationView() {
+  public void startTableView() {
     this.root = new Group();
-    applicationView = new ApplicationView(this);
-    applicationView.saveManager();
-  }
-
-  public void setRoot(Group root) {
-    this.root = root;
-  }
-
-  public void setStage(Stage stage) {
-    this.stage = stage;
-  }
-
-  public Group getRoot() {
-    return root;
-  }
-
-  public Stage getStage() {
-    return stage;
+    tableView = new TableController(this);
+    tableView.saveManager();
   }
 }

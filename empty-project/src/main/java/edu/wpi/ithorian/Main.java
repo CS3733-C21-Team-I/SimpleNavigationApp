@@ -1,8 +1,8 @@
 package edu.wpi.ithorian;
 
-import edu.wpi.ithorian.hospitalMap.HospitalMap;
-import edu.wpi.ithorian.hospitalMap.HospitalMapNode;
-import edu.wpi.ithorian.hospitalMap.mapEditing.MapEditManager;
+import edu.wpi.ithorian.hospitalMap.tableEditing.FullHospitalMap;
+import edu.wpi.ithorian.hospitalMap.tableEditing.FullLocationNode;
+import edu.wpi.ithorian.hospitalMap.tableEditing.FullMapEditManager;
 import edu.wpi.ithorian.projectCTable.TableAppView;
 import java.util.Set;
 import javafx.application.Application;
@@ -23,13 +23,14 @@ public class Main {
     String path =
         System.getProperty("user.dir")
             + "/empty-project/src/main/java/edu/wpi/ithorian/hospitalMap/mapEditing/";
-    Set<HospitalMapNode> nodes =
-        HospitalMap.generateElementFromData(
+    Set<FullLocationNode> nodes =
+        FullHospitalMap.generateElementFromData(
             ReadCSV.readFromFile(path + "MapINodes.csv"),
             ReadCSV.readFromFile(path + "MapIEdges.csv"));
-    HospitalMap map =
-        new HospitalMap("Test_Map", "Test Map", "Building1", 1, path + "FaulknerCampus.png", nodes);
-    MapEditManager mapManager = new MapEditManager();
+    FullHospitalMap map =
+        new FullHospitalMap(
+            "Test_Map", "Test Map", "Building1", 1, path + "FaulknerCampus.png", nodes);
+    FullMapEditManager mapManager = new FullMapEditManager();
     mapManager.init();
     mapManager.getInstance().setActiveMap(map);
     mapManager.getInstance().startTableView();

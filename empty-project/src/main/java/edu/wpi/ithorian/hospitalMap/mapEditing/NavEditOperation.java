@@ -4,7 +4,7 @@ import edu.wpi.ithorian.hospitalMap.HospitalMapNode;
 
 public class NavEditOperation {
 
-  enum OperationType {
+  public enum OperationType {
     ADD_NODE,
     EDIT_NODE,
     DELETE_NODE,

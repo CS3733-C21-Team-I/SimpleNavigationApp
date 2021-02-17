@@ -1,26 +1,27 @@
-package edu.wpi.ithorian.hospitalMap;
+package edu.wpi.ithorian.hospitalMap.tableEditing;
 
 import edu.wpi.ithorian.pathfinding.Graph;
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
-public class HospitalMap implements Graph<HospitalMapNode> {
+public class FullHospitalMap implements Graph<FullLocationNode> {
 
-  private Set<HospitalMapNode> nodes;
+  private Set<FullLocationNode> nodes;
   private String id;
   private String mapName;
   private String buildingName;
   private String imagePath;
   private int floorNumber;
 
-  private HospitalMapNode selectedNode;
-
-  public HospitalMap(
+  public FullHospitalMap(
       String id,
       String mapName,
       String buildingName,
       int floorNumber,
       String imagePath,
-      Set<HospitalMapNode> nodes) {
+      Set<FullLocationNode> nodes) {
     this.nodes = nodes;
     this.id = id;
     this.mapName = mapName;
@@ -31,16 +32,22 @@ public class HospitalMap implements Graph<HospitalMapNode> {
 
   // this will be deleted before merging to main, just can't find the read from csv function so
   // improvising for now
-  public static Set<HospitalMapNode> generateElementFromData(
+  public static Set<FullLocationNode> generateElementFromData(
       List<List<String>> nodesList, List<List<String>> edgesList) {
-    HashMap<String, HospitalMapNode> nodesHash = new HashMap<String, HospitalMapNode>();
-    HashSet<HospitalMapNode> nodes = new HashSet<>();
+    HashMap<String, FullLocationNode> nodesHash = new HashMap<String, FullLocationNode>();
+    HashSet<FullLocationNode> nodes = new HashSet<>();
     for (List<String> value : nodesList) {
-      HospitalMapNode currNode =
-          new HospitalMapNode(
+      FullLocationNode currNode =
+          new FullLocationNode(
               value.get(0),
               Integer.parseInt(value.get(1)),
               Integer.parseInt(value.get(2)),
+              value.get(3),
+              value.get(4),
+              value.get(5),
+              value.get(6),
+              value.get(7),
+              value.get(8),
               new HashSet());
       nodes.add(currNode);
       nodesHash.put(currNode.getID(), currNode);
@@ -48,8 +55,8 @@ public class HospitalMap implements Graph<HospitalMapNode> {
 
     // iterates through edges and connects respective nodes
     for (List<String> values : edgesList) {
-      HospitalMapNode a = nodesHash.get(values.get(1));
-      HospitalMapNode b = nodesHash.get(values.get(2));
+      FullLocationNode a = nodesHash.get(values.get(1));
+      FullLocationNode b = nodesHash.get(values.get(2));
       a.addConnection(b);
       b.addConnection(a);
     }
@@ -58,42 +65,18 @@ public class HospitalMap implements Graph<HospitalMapNode> {
   }
 
   @Override
-  public HospitalMapNode getNode(String id) {
+  public FullLocationNode getNode(String id) {
     return nodes.stream()
         .filter(n -> n.getID().equals(id))
         .findFirst()
         .orElseThrow(() -> new IllegalArgumentException("No node for given id:" + id));
   }
 
-  public Set<HospitalMapNode> getNodes() {
+  public Set<FullLocationNode> getNodes() {
     return nodes;
   }
 
   public String getId() {
     return id;
-  }
-
-  public String getMapName() {
-    return mapName;
-  }
-
-  public String getBuildingName() {
-    return buildingName;
-  }
-
-  public String getImagePath() {
-    return imagePath;
-  }
-
-  public int getFloorNumber() {
-    return floorNumber;
-  }
-
-  public HospitalMapNode getSelectedNode() {
-    return selectedNode;
-  }
-
-  public void setSelectedNode(HospitalMapNode selectedNode) {
-    this.selectedNode = selectedNode;
   }
 }
