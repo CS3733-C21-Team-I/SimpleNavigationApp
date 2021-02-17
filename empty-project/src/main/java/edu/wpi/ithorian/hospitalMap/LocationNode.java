@@ -1,12 +1,16 @@
 package edu.wpi.ithorian.hospitalMap;
 
 import java.util.ArrayList;
+import java.io.Serializable;
+import java.util.Set;
 
-public class LocationNode extends HospitalMapNode {
+public class LocationNode extends HospitalMapNode implements Serializable {
 
   private String shortName;
   private String longName;
   private String teamAssigned;
+
+  public LocationNode() {}
 
   public LocationNode(
       String id,
@@ -21,5 +25,9 @@ public class LocationNode extends HospitalMapNode {
     this.shortName = shortName;
     this.longName = longName;
     this.teamAssigned = teamAssigned;
+  }
+  @Override
+  public String toString() {
+    return "Node: " + longName + " (a.k.a) " + shortName + " for team: " + teamAssigned;
   }
 }

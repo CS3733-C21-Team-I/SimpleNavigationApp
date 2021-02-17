@@ -4,9 +4,7 @@
     <root id="1">
       <ServerVersion>10.15.1.3</ServerVersion>
     </root>
-    <schema id="2" parent="1" name="APP">
-      <Current>1</Current>
-    </schema>
+    <schema id="2" parent="1" name="APP"/>
     <schema id="3" parent="1" name="NULLID"/>
     <schema id="4" parent="1" name="SQLJ"/>
     <schema id="5" parent="1" name="SYS"/>
@@ -17,5 +15,9 @@
     <schema id="10" parent="1" name="SYSIBM"/>
     <schema id="11" parent="1" name="SYSPROC"/>
     <schema id="12" parent="1" name="SYSSTAT"/>
+    <schema id="13" parent="1" name="TEAMI">
+      <Current>1</Current>
+    </schema>
+    <alias-type id="14" parent="13" name="LOCATIONNODE"/>
   </database-model>
 </dataSource>
