@@ -1,7 +1,6 @@
 package edu.wpi.ithorian.pathfinding;
 
-import edu.wpi.ithorian.hospitalMap.HospitalMapNode;
-import java.util.List;
+import java.util.Set;
 
 public interface GraphNode<T extends GraphNode> {
 
