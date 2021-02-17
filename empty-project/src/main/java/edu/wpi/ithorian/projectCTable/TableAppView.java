@@ -40,7 +40,7 @@ public class TableAppView extends Application {
     FXMLLoader edgePaneLoader = new FXMLLoader();
     URL edgeLoadPath = getClass().getResource("/fxml/EdgeTable.fxml");
     edgePaneLoader.setLocation(edgeLoadPath);
-    rootNodeLayout = (StackPane) nodePaneLoader.load();
+    rootEdgeLayout = (StackPane) edgePaneLoader.load();
 //    root2.getChildren().add(FXMLLoader.load(getClass().getResource("/fxml/EdgeTable.fxml")));
     stage2.setTitle("Edge Editor");
     Scene tableScene2 = new Scene(rootEdgeLayout, 1000, 400);

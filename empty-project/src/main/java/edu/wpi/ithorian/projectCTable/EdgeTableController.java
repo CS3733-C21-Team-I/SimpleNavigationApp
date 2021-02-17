@@ -51,6 +51,7 @@ public class EdgeTableController {
     String aIDString = aID.getText();
     String bIDString = bID.getText();
 
+    System.out.println(mapManager);
     mapManager.addConnection(aIDString, bIDString);
     addEdgesToTable();
   }
