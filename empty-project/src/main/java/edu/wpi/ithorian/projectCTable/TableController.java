@@ -55,24 +55,6 @@ public class TableController {
             new HashSet<FullLocationNode>());
     mapManager.addNode(newNode);
     System.out.println(mapManager.getEntityNodes());
-    //    String is = getCurrentDirectory();
-    //    is =
-    //        is.substring(0, is.length() - 1)
-    //            +
-    // "empty-project\\src\\main\\java\\edu\\wpi\\ithorian\\hospitalMap\\mapEditing\\MapINodes.csv";
-    //    try {
-    //      CSVWriter writer =
-    //          new CSVWriter(
-    //              new FileWriter(is, true), CSVWriter.DEFAULT_SEPARATOR,
-    // CSVWriter.NO_QUOTE_CHARACTER);
-    //      String line[] = {nID, xCord, yCord, fName, bName, type, lName, sName, tName};
-    //      writer.writeNext(line);
-    //      writer.close();
-    //    } catch (FileNotFoundException e) {
-    //      System.out.println("File not Found");
-    //    } catch (IOException e) {
-    //      System.out.println("IO Exception");
-    //    }
   }
 
   private String getCurrentDirectory() {
