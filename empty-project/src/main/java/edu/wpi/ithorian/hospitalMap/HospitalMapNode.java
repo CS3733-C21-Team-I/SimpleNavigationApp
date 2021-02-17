@@ -1,7 +1,6 @@
 package edu.wpi.ithorian.hospitalMap;
 
 import edu.wpi.ithorian.pathfinding.GraphNode;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,8 +11,6 @@ public class HospitalMapNode implements GraphNode<HospitalMapNode> {
   private List<HospitalMapNode> connections = new ArrayList<>();
   private int xCoord;
   private int yCoord;
-
-
 
   public void setxCoord(int xCoord) {
     this.xCoord = xCoord;
@@ -26,8 +23,6 @@ public class HospitalMapNode implements GraphNode<HospitalMapNode> {
   public void setId(String id) {
     this.id = id;
   }
-
-
 
   public int getxCoord() {
     return xCoord;

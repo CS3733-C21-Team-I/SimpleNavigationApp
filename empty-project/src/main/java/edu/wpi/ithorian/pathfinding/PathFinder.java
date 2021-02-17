@@ -4,7 +4,6 @@ import java.util.*;
 
 public class PathFinder<T extends GraphNode> {
 
-
   public static <T extends GraphNode> List<T> findPath(
       T start, T end, PriorityCalc<T> scorer, List<String> nodeTypesToAvoid) {
 
@@ -72,6 +71,5 @@ public class PathFinder<T extends GraphNode> {
     }
 
     return path;
-
   }
 }

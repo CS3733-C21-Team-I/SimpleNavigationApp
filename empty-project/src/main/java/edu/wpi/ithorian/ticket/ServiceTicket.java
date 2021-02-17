@@ -28,7 +28,6 @@ public class ServiceTicket {
     this.location = location;
     this.description = desc;
     this.completed = complete;
-
   }
 
   public enum TicketType {
@@ -37,7 +36,6 @@ public class ServiceTicket {
     SECURITY,
     MAINTENANCE
   }
-
 
   @Override
   public String toString() {
@@ -80,5 +78,4 @@ public class ServiceTicket {
   public boolean isCompleted() {
     return completed;
   }
-
 }

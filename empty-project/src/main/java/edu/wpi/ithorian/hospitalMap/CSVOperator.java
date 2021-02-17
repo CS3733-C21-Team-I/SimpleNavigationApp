@@ -10,29 +10,29 @@ public class CSVOperator {
 
   public static ArrayList<LocationNode> aNodes = new ArrayList<>();
 
-  public static void generateElementFromData(
-      List<List<String>> nodesList, List<List<String>> edgesList) {
-
-    Set<LocationNode> nodes = new HashSet<>();
-
-    HashMap<String, LocationNode> nodesHash = new HashMap<>();
-    for (List<String> values : nodesList) {
-
-      LocationNode currNode = new LocationNode(values);
-
-      aNodes.add(currNode);
-      nodesHash.put(currNode.getID(), currNode);
-    }
-
-    // iterates through edges and connects respective nodes
-    for (List<String> values : edgesList) {
-      HospitalMap.Edge currEdge = new HospitalMap.Edge(values);
-      LocationNode a = nodesHash.get(currEdge.startNode);
-      LocationNode b = nodesHash.get(currEdge.endNode);
-      a.connectedNodes.add(b);
-      b.connectedNodes.add(a);
-    }
-  }
+  //  public static void generateElementFromData(
+  //      List<List<String>> nodesList, List<List<String>> edgesList) {
+  //
+  //    Set<LocationNode> nodes = new HashSet<>();
+  //
+  //    HashMap<String, LocationNode> nodesHash = new HashMap<>();
+  //    for (List<String> values : nodesList) {
+  //
+  //      LocationNode currNode = new LocationNode(values);
+  //
+  //      aNodes.add(currNode);
+  //      nodesHash.put(currNode.getID(), currNode);
+  //    }
+  //
+  //    // iterates through edges and connects respective nodes
+  //    for (List<String> values : edgesList) {
+  //      HospitalMap.Edge currEdge = new HospitalMap.Edge(values);
+  //      LocationNode a = nodesHash.get(currEdge.startNode);
+  //      LocationNode b = nodesHash.get(currEdge.endNode);
+  //      a.connectedNodes.add(b);
+  //      b.connectedNodes.add(a);
+  //    }
+  //  }
 
   public static List<List<String>> readCSV(String path) {
     List<List<String>> allElements = new ArrayList<>();

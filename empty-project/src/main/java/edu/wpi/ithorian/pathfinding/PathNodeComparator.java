@@ -13,7 +13,6 @@ public class PathNodeComparator implements Comparator<PathNode> {
     } else {
       return 1;
     }
-
   }
 
   public int equals(PathNode o1) {

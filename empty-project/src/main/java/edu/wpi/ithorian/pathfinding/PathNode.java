@@ -2,7 +2,6 @@ package edu.wpi.ithorian.pathfinding;
 
 public class PathNode<T extends GraphNode> {
 
-
   private final T node;
   private T previous;
   private double priority;
@@ -28,5 +27,4 @@ public class PathNode<T extends GraphNode> {
   public double getPriority() {
     return priority;
   }
-
 }
