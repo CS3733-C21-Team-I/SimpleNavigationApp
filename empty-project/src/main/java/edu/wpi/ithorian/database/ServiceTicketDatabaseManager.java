@@ -26,7 +26,7 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
     // throw new UnsupportedOperationException();
   }
 
-  public ServiceTicketDatabaseManager getInstance() {
+  public static ServiceTicketDatabaseManager getInstance() {
     return ourInstance;
   }
 
@@ -59,9 +59,9 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
       try { // Creating the ServiceTicket table
         stmt.execute(
             "create table serviceticket(\n"
-                + "    ticketID         int,\n"
-                + "    requestingUserID int,\n"
-                + "    assignedUserID   int,\n"
+                + "    ticketID         integer NOT NULL GENERATED ALWAYS AS IDENTITY,\n"
+                + "    requestingUserID integer,\n"
+                + "    assignedUserID   integer,\n"
                 + "    ticketType       varchar(25),\n"
                 + "    location         varchar(40),\n"
                 + "    description      varchar(50),\n"

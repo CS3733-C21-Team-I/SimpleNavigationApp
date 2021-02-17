@@ -9,7 +9,6 @@ public class DatabaseStructureTesting {
   @Test
   public void testDatabaseRefAllocation() {
     DatabaseRef ref1 = DatabaseRef.getConnection("jdbc:derby:navDB", false);
-
     DatabaseRef ref2 = DatabaseRef.getConnection("jdbc:derby:navDB", false);
 
     assertNotNull(ref2);
@@ -20,18 +19,21 @@ public class DatabaseStructureTesting {
   void testInitMultipleManagers() {
     NavDatabaseManager.init(false);
     UserDatabaseManager.init(false);
-    ServiceTicketDatabaseManager.init(true);
+    ServiceTicketDatabaseManager.init(false);
 
     assertNotNull(NavDatabaseManager.getInstance());
     assertNotNull(UserDatabaseManager.getInstance());
+    assertNotNull(ServiceTicketDatabaseManager.getInstance());
   }
 
   @Test
   void testInitMultipleManagersWithRegen() {
     NavDatabaseManager.init(true);
     UserDatabaseManager.init(true);
+    ServiceTicketDatabaseManager.init(true);
 
     assertNotNull(NavDatabaseManager.getInstance());
     assertNotNull(UserDatabaseManager.getInstance());
+    assertNotNull(ServiceTicketDatabaseManager.getInstance());
   }
 }
