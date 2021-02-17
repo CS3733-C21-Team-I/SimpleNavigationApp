@@ -38,7 +38,7 @@ public class ServiceTicket {
 
   @Override
   public String toString() {
-    return "NO. "
+    return " NO. "
         + ticketId
         + " FR0M: "
         + requestingUserID
