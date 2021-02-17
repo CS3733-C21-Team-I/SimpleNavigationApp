@@ -4,10 +4,13 @@ import edu.wpi.ithorian.ReadCSV;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 
 public class TableController {
 
@@ -75,34 +78,114 @@ public class TableController {
     tableView.getColumns().add(nodeIdCol);
 
     TableColumn xCoordCol = new TableColumn("x coord");
+    xCoordCol.setCellFactory(TextFieldTableCell.forTableColumn());
     xCoordCol.setCellValueFactory(new PropertyValueFactory<NodeRow, String>("xCoordCol"));
+    xCoordCol.setOnEditCommit(
+        new EventHandler<CellEditEvent>() {
+          @Override
+          public void handle(CellEditEvent event) {
+            NodeRow row =
+                (NodeRow) event.getTableView().getItems().get(event.getTablePosition().getRow());
+            row.setXCoordCol((String) event.getNewValue());
+          }
+        });
     tableView.getColumns().add(xCoordCol);
 
     TableColumn yCoordCol = new TableColumn("y coord");
+    yCoordCol.setCellFactory(TextFieldTableCell.forTableColumn());
+    yCoordCol.setOnEditCommit(
+        new EventHandler<CellEditEvent>() {
+          @Override
+          public void handle(CellEditEvent event) {
+            NodeRow row =
+                (NodeRow) event.getTableView().getItems().get(event.getTablePosition().getRow());
+            row.setYCoordCol((String) event.getNewValue());
+          }
+        });
     yCoordCol.setCellValueFactory(new PropertyValueFactory<NodeRow, String>("yCoordCol"));
     tableView.getColumns().add(yCoordCol);
 
     TableColumn floorCol = new TableColumn("floor");
+    floorCol.setCellFactory(TextFieldTableCell.forTableColumn());
+    floorCol.setOnEditCommit(
+        new EventHandler<CellEditEvent>() {
+          @Override
+          public void handle(CellEditEvent event) {
+            NodeRow row =
+                (NodeRow) event.getTableView().getItems().get(event.getTablePosition().getRow());
+            row.setFloorCol((String) event.getNewValue());
+          }
+        });
     floorCol.setCellValueFactory(new PropertyValueFactory<NodeRow, String>("floorCol"));
     tableView.getColumns().add(floorCol);
 
     TableColumn buildingCol = new TableColumn("building");
+    buildingCol.setCellFactory(TextFieldTableCell.forTableColumn());
+    buildingCol.setOnEditCommit(
+        new EventHandler<CellEditEvent>() {
+          @Override
+          public void handle(CellEditEvent event) {
+            NodeRow row =
+                (NodeRow) event.getTableView().getItems().get(event.getTablePosition().getRow());
+            row.setBuildingCol((String) event.getNewValue());
+          }
+        });
     buildingCol.setCellValueFactory(new PropertyValueFactory<NodeRow, String>("buildingCol"));
     tableView.getColumns().add(buildingCol);
 
     TableColumn nodeTypeCol = new TableColumn("node type");
+    nodeTypeCol.setCellFactory(TextFieldTableCell.forTableColumn());
+    nodeTypeCol.setOnEditCommit(
+        new EventHandler<CellEditEvent>() {
+          @Override
+          public void handle(CellEditEvent event) {
+            NodeRow row =
+                (NodeRow) event.getTableView().getItems().get(event.getTablePosition().getRow());
+            row.setNodeTypeCol((String) event.getNewValue());
+          }
+        });
     nodeTypeCol.setCellValueFactory(new PropertyValueFactory<NodeRow, String>("nodeTypeCol"));
     tableView.getColumns().add(nodeTypeCol);
 
     TableColumn longNameCol = new TableColumn("long name");
+    longNameCol.setCellFactory(TextFieldTableCell.forTableColumn());
+    longNameCol.setOnEditCommit(
+        new EventHandler<CellEditEvent>() {
+          @Override
+          public void handle(CellEditEvent event) {
+            NodeRow row =
+                (NodeRow) event.getTableView().getItems().get(event.getTablePosition().getRow());
+            row.setLongNameCol((String) event.getNewValue());
+          }
+        });
     longNameCol.setCellValueFactory(new PropertyValueFactory<NodeRow, String>("longNameCol"));
     tableView.getColumns().add(longNameCol);
 
     TableColumn shortNameCol = new TableColumn("short name");
+    shortNameCol.setCellFactory(TextFieldTableCell.forTableColumn());
+    shortNameCol.setOnEditCommit(
+        new EventHandler<CellEditEvent>() {
+          @Override
+          public void handle(CellEditEvent event) {
+            NodeRow row =
+                (NodeRow) event.getTableView().getItems().get(event.getTablePosition().getRow());
+            row.setShortNameCol((String) event.getNewValue());
+          }
+        });
     shortNameCol.setCellValueFactory(new PropertyValueFactory<NodeRow, String>("shortNameCol"));
     tableView.getColumns().add(shortNameCol);
 
     TableColumn teamAssignedCol = new TableColumn("team assigned");
+    teamAssignedCol.setCellFactory(TextFieldTableCell.forTableColumn());
+    teamAssignedCol.setOnEditCommit(
+        new EventHandler<CellEditEvent>() {
+          @Override
+          public void handle(CellEditEvent event) {
+            NodeRow row =
+                (NodeRow) event.getTableView().getItems().get(event.getTablePosition().getRow());
+            row.setTeamAssignedCol((String) event.getNewValue());
+          }
+        });
     teamAssignedCol.setCellValueFactory(
         new PropertyValueFactory<NodeRow, String>("teamAssignedCol"));
     tableView.getColumns().add(teamAssignedCol);
@@ -119,15 +202,15 @@ public class TableController {
   }
 
   public static class NodeRow {
-    public String nodeIdCol,
-        xCoordCol,
-        yCoordCol,
-        floorCol,
-        buildingCol,
-        nodeTypeCol,
-        longNameCol,
-        shortNameCol,
-        teamAssignedCol;
+    public String nodeIdCol;
+    public String xCoordCol;
+    public String yCoordCol;
+    public String floorCol;
+    public String buildingCol;
+    public String nodeTypeCol;
+    public String longNameCol;
+    public String shortNameCol;
+    public String teamAssignedCol;
 
     public String getNodeIdCol() {
       return nodeIdCol;
@@ -135,6 +218,10 @@ public class TableController {
 
     public String getXCoordCol() {
       return xCoordCol;
+    }
+
+    public void setXCoordCol(String xCoordCol) {
+      this.xCoordCol = xCoordCol;
     }
 
     public String getYCoordCol() {
@@ -163,6 +250,34 @@ public class TableController {
 
     public String getTeamAssignedCol() {
       return teamAssignedCol;
+    }
+
+    public void setYCoordCol(String yCoordCol) {
+      this.yCoordCol = yCoordCol;
+    }
+
+    public void setFloorCol(String floorCol) {
+      this.floorCol = floorCol;
+    }
+
+    public void setBuildingCol(String buildingCol) {
+      this.buildingCol = buildingCol;
+    }
+
+    public void setNodeTypeCol(String nodeTypeCol) {
+      this.nodeTypeCol = nodeTypeCol;
+    }
+
+    public void setLongNameCol(String longNameCol) {
+      this.longNameCol = longNameCol;
+    }
+
+    public void setShortNameCol(String shortNameCol) {
+      this.shortNameCol = shortNameCol;
+    }
+
+    public void setTeamAssignedCol(String teamAssignedCol) {
+      this.teamAssignedCol = teamAssignedCol;
     }
 
     public NodeRow(
