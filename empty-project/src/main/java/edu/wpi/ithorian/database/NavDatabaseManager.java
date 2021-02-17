@@ -127,7 +127,7 @@ public class NavDatabaseManager extends DatabaseManager {
           }
           connected.add(n);
         }
-        ((HospitalMapNode) nodeEntry.getValue()).setConnections((Set<HospitalMapNode>) connected);
+        ((HospitalMapNode) nodeEntry.getValue()).setConnections(connected);
       }
     } catch (SQLException e) {
       e.printStackTrace();

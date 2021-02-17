@@ -1,26 +1,26 @@
 package edu.wpi.ithorian.ticket;
 
-import edu.wpi.ithorian.hospitalMap.LocationNode;
-
 public class ServiceTicket {
 
   private int ticketId;
   private int requestingUserID;
   private int assignedUserID;
   private TicketType ticketType;
-  private LocationNode location;
+  private String location;
   private String description;
   private boolean completed;
 
   public ServiceTicket() {}
 
   public ServiceTicket(
+      int ticketId,
       int requestID,
       int assignID,
       TicketType ticketType,
-      LocationNode location,
+      String location,
       String desc,
       boolean complete) {
+    this.ticketId = ticketId;
     this.requestingUserID = requestID;
     this.assignedUserID = assignID;
     this.ticketType = ticketType;
@@ -38,7 +38,7 @@ public class ServiceTicket {
 
   @Override
   public String toString() {
-    return "NO. "
+    return " NO. "
         + ticketId
         + " FR0M: "
         + requestingUserID
@@ -47,10 +47,34 @@ public class ServiceTicket {
         + "\nTYPE: "
         + ticketType
         + "\nAT: "
-        + location.toString()
+        + location
         + "\nDESCPRIPTION: "
         + description
         + " COMPLETED: "
         + completed;
+  }
+
+  public int getRequestingUserID() {
+    return requestingUserID;
+  }
+
+  public int getAssignedUserID() {
+    return assignedUserID;
+  }
+
+  public TicketType getTicketType() {
+    return ticketType;
+  }
+
+  public String getLocation() {
+    return location;
+  }
+
+  public String getDescription() {
+    return description;
+  }
+
+  public boolean isCompleted() {
+    return completed;
   }
 }
