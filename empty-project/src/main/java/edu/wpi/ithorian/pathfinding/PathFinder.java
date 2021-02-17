@@ -4,8 +4,7 @@ import java.util.*;
 
 public class PathFinder<T extends GraphNode> {
 
-  public static <T extends GraphNode> List<T> findPath(
-      T start, T end, PriorityCalc<T> scorer, List<String> nodeTypesToAvoid) {
+  public static <T extends GraphNode> List<T> findPath(T start, T end, PriorityCalc<T> scorer) {
 
     Boolean foundLocation = false;
     PriorityQueue<PathNode> frontier = new PriorityQueue<>(new PathNodeComparator());
@@ -35,7 +34,7 @@ public class PathFinder<T extends GraphNode> {
 
       List<T> connectedNodes = currentNode.getConnections();
       for (T next : connectedNodes) {
-        Boolean shouldAvoid = scorer.isValid(next);
+        Boolean shouldAvoid = !scorer.isValid(next);
 
         double newCost = current.getPriority() + scorer.calculateDistance(currentNode, next);
         if ((!visited.containsKey(next.getID())

@@ -67,6 +67,11 @@ public class HospitalMapNode implements GraphNode<HospitalMapNode> {
     this.connections.add(add);
   }
 
+  @Override
+  public void removeConnection(HospitalMapNode take) {
+    this.connections.remove(take);
+  }
+
   public void setConnections(List<HospitalMapNode> connections) {
     this.connections = connections;
   }
