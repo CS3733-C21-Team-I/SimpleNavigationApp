@@ -77,7 +77,7 @@ public class NavDatabaseManager extends DatabaseManager {
         longname = nodeResults.getString("long_Name");
         shortname = nodeResults.getString("short_Name");
 
-        nodeMap.put(nodeId, new HospitalMapNode(nodeId, xCoord, yCoord, null));
+        nodeMap.put(nodeId, new HospitalMapNode(nodeId, "", xCoord, yCoord, null));
       }
     } catch (SQLException e) {
       System.out.println("Error handling for pulling data from navNodes");
@@ -90,7 +90,7 @@ public class NavDatabaseManager extends DatabaseManager {
 
       while (nodeIterator.hasNext()) {
         Map.Entry nodeEntry = (Map.Entry) nodeIterator.next();
-        Set<HospitalMapNode> connected = new HashSet<>();
+        List<HospitalMapNode> connected = new ArrayList<>();
         Statement stmt = databaseRef.getConnection().createStatement();
         ResultSet fromEdgeResults =
             stmt.executeQuery(

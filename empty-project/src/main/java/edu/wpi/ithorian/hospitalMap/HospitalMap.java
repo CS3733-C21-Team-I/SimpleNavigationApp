@@ -12,7 +12,7 @@ public class HospitalMap implements Graph<HospitalMapNode> {
   private String imagePath;
   private int floorNumber;
 
-  private HospitalMapNode selectedNode;
+  public HospitalMap() {}
 
   public HospitalMap(
       String id,
@@ -39,9 +39,10 @@ public class HospitalMap implements Graph<HospitalMapNode> {
       HospitalMapNode currNode =
           new HospitalMapNode(
               value.get(0),
+              "",
               Integer.parseInt(value.get(1)),
               Integer.parseInt(value.get(2)),
-              new HashSet());
+              new ArrayList());
       nodes.add(currNode);
       nodesHash.put(currNode.getID(), currNode);
     }
@@ -54,18 +55,6 @@ public class HospitalMap implements Graph<HospitalMapNode> {
       b.addConnection(a);
     }
 
-    return nodes;
-  }
-
-  @Override
-  public HospitalMapNode getNode(String id) {
-    return nodes.stream()
-        .filter(n -> n.getID().equals(id))
-        .findFirst()
-        .orElseThrow(() -> new IllegalArgumentException("No node for given id:" + id));
-  }
-
-  public Set<HospitalMapNode> getNodes() {
     return nodes;
   }
 
@@ -89,11 +78,15 @@ public class HospitalMap implements Graph<HospitalMapNode> {
     return floorNumber;
   }
 
-  public HospitalMapNode getSelectedNode() {
-    return selectedNode;
+  @Override
+  public HospitalMapNode getNode(String id) {
+    return nodes.stream()
+        .filter(n -> n.getID().equals(id))
+        .findFirst()
+        .orElseThrow(() -> new IllegalArgumentException("No node for given id:" + id));
   }
 
-  public void setSelectedNode(HospitalMapNode selectedNode) {
-    this.selectedNode = selectedNode;
+  public Set<HospitalMapNode> getNodes() {
+    return nodes;
   }
 }

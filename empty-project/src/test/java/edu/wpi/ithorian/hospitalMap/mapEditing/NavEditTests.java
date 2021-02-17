@@ -24,7 +24,7 @@ public class NavEditTests {
 
     MapEditManager.getInstance().setActiveMap(map);
     for (int i = 0; i < 100; i++) {
-      MapEditManager.getInstance().addNode(new HospitalMapNode("N100" + i, 0, 0, null));
+      MapEditManager.getInstance().addNode(new HospitalMapNode("N100" + i, "", 0, 0, null));
     }
     for (int i = 0; i < 100; i++) {
       assertNotNull(map.getNode("N100" + i));

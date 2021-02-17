@@ -7,6 +7,7 @@ import edu.wpi.ithorian.hospitalMap.HospitalMapNode;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 import org.junit.jupiter.api.Test;
@@ -69,9 +70,9 @@ public class NavDatabaseTests {
   private HospitalMap getTestData() {
     Set<HospitalMapNode> testNodes = new HashSet<>();
 
-    HospitalMapNode n1 = new HospitalMapNode("TestNode1", 10, -10, new HashSet<>());
-    HospitalMapNode n2 = new HospitalMapNode("TestNode2", 20, -20, new HashSet<>());
-    HospitalMapNode n3 = new HospitalMapNode("TestNode3", 30, -30, new HashSet<>());
+    HospitalMapNode n1 = new HospitalMapNode("TestNode1", "", 10, -10, new ArrayList<>());
+    HospitalMapNode n2 = new HospitalMapNode("TestNode2", "", 20, -20, new ArrayList<>());
+    HospitalMapNode n3 = new HospitalMapNode("TestNode3", "", 30, -30, new ArrayList<>());
 
     n1.getConnections().add(n2);
     n1.getConnections().add(n3);
