@@ -20,6 +20,7 @@ public class DatabaseStructureTesting {
   void testInitMultipleManagers() {
     NavDatabaseManager.init(false);
     UserDatabaseManager.init(false);
+    ServiceTicketDatabaseManager.init(true);
 
     assertNotNull(NavDatabaseManager.getInstance());
     assertNotNull(UserDatabaseManager.getInstance());

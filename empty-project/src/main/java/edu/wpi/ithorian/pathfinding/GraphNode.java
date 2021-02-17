@@ -6,5 +6,5 @@ public interface GraphNode<T extends GraphNode> {
 
   String getID();
 
-  Set<T> getConnections();
+  List<HospitalMapNode> getConnections();
 }

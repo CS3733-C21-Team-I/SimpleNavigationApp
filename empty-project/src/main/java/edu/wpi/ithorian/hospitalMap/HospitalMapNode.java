@@ -6,7 +6,44 @@ import java.util.Set;
 public class HospitalMapNode implements GraphNode<HospitalMapNode> {
 
   private String id;
-  private Set<HospitalMapNode> connections;
+  private int xCoord;
+  private int yCoord;
+  private String buildingName;
+
+  private String nodeType;
+  private int floor;
+  private List<HospitalMapNode> connections = new ArrayList<>();
+
+  public HospitalMapNode() {}
+
+  public HospitalMapNode(String id, int xCoord, int yCoord, List<HospitalMapNode> connections) {
+    this.id = id;
+    this.connections = connections;
+    this.xCoord = xCoord;
+    this.yCoord = yCoord;
+  }
+
+  public HospitalMapNode(
+      String id,
+      int xCoord,
+      int yCoord,
+      String buildingName,
+      String nodeType,
+      int floor,
+      List<HospitalMapNode> connections) {
+    this.id = id;
+    this.connections = connections;
+    this.xCoord = xCoord;
+    this.yCoord = yCoord;
+    this.buildingName = buildingName;
+    this.nodeType = nodeType;
+    this.floor = floor;
+  }
+
+  @Override
+  public String getID() {
+    return id;
+  }
 
   public int getxCoord() {
     return xCoord;
@@ -16,27 +53,24 @@ public class HospitalMapNode implements GraphNode<HospitalMapNode> {
     return yCoord;
   }
 
-  private int xCoord;
-  private int yCoord;
+  public String getBuildingName() {
+    return buildingName;
+  }
 
-  public HospitalMapNode(String id, int xCoord, int yCoord, Set<HospitalMapNode> connections) {
-    this.id = id;
-    this.connections = connections;
-    this.xCoord = xCoord;
-    this.yCoord = yCoord;
+  public String getNodeType() {
+    return nodeType;
+  }
+
+  public int getFloor() {
+    return floor;
   }
 
   @Override
-  public String getID() {
-    return id;
-  }
-
-  @Override
-  public Set<HospitalMapNode> getConnections() {
+  public List<HospitalMapNode> getConnections() {
     return connections;
   }
 
-  public void setConnections(Set<HospitalMapNode> connections) {
+  public void setConnections(List<HospitalMapNode> connections) {
     this.connections = connections;
   }
 
