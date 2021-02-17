@@ -18,13 +18,11 @@ public class TableAppView extends Application {
 
   @Override
   public void start(Stage primaryStage) throws IOException {
-    System.out.println("Table manager: " + tableController);
     Group root = new Group();
     root.getChildren().add(FXMLLoader.load(getClass().getResource("/fxml/NodeTable.fxml")));
     primaryStage.setTitle("Table View");
     Scene tableScene = new Scene(root, 1000, 400);
     primaryStage.setScene(tableScene);
-    System.out.println("Table scene: " + tableScene);
     primaryStage.show();
   }
 

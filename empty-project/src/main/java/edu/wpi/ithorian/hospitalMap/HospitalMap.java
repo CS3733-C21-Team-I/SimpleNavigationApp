@@ -35,7 +35,9 @@ public class HospitalMap implements Graph<HospitalMapNode> {
       List<List<String>> nodesList, List<List<String>> edgesList) {
     HashMap<String, HospitalMapNode> nodesHash = new HashMap<String, HospitalMapNode>();
     HashSet<HospitalMapNode> nodes = new HashSet<>();
+    System.out.println(nodesList);
     for (List<String> value : nodesList) {
+      System.out.println(value);
       HospitalMapNode currNode =
           new HospitalMapNode(
               value.get(0),
