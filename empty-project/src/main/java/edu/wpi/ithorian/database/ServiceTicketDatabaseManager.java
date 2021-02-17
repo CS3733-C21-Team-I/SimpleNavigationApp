@@ -1,5 +1,6 @@
 package edu.wpi.ithorian.database;
 
+
 import edu.wpi.ithorian.ticket.ServiceTicket;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -8,19 +9,25 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class ServiceTicketDatabaseManager extends DatabaseManager {
 
   private static final String DB_URL = "";
   private static ServiceTicketDatabaseManager ourInstance;
   private Connection connection = databaseRef.getConnection();
 
-  /** @param regen */
+
+  /**
+   * @param regen
+   */
   private ServiceTicketDatabaseManager(boolean regen) {
     super(DB_URL, regen);
     // throw new UnsupportedOperationException();
   }
 
-  /** @param regen */
+  /**
+   * @param regen
+   */
   public static void init(boolean regen) {
     ourInstance = new ServiceTicketDatabaseManager(regen);
     // throw new UnsupportedOperationException();
@@ -30,21 +37,23 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
     return ourInstance;
   }
 
-  /** @param id */
+  /**
+   * @param id
+   */
   public ServiceTicket getTicketForId(int id) {
     try {
       Statement stmt = connection.createStatement();
       ResultSet rs =
-          stmt.executeQuery("SELECT * FROM serviceticket WHERE ticketID=" + String.valueOf(id));
+              stmt.executeQuery("SELECT * FROM serviceticket WHERE ticketID=" + String.valueOf(id));
       if (rs.next())
         return new ServiceTicket(
-            id,
-            rs.getInt("requestingUserID"),
-            rs.getInt("assignedUserID"),
-            ServiceTicket.TicketType.valueOf(rs.getString("ticketType")),
-            rs.getString("locationNode"),
-            rs.getString("description"),
-            rs.getBoolean("completed"));
+                id,
+                rs.getInt("requestingUserID"),
+                rs.getInt("assignedUserID"),
+                ServiceTicket.TicketType.valueOf(rs.getString("ticketType")),
+                rs.getString("locationNode"),
+                rs.getString("description"),
+                rs.getBoolean("completed"));
       else return null;
     } catch (SQLException e) {
       e.printStackTrace();
@@ -58,17 +67,17 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
       Statement stmt = connection.createStatement();
       try { // Creating the ServiceTicket table
         stmt.execute(
-            "create table serviceticket(\n"
-                + "    ticketID         int,\n"
-                + "    requestingUserID int,\n"
-                + "    assignedUserID   int,\n"
-                + "    ticketType       varchar(25),\n"
-                + "    location         varchar(40),\n"
-                + "    description      varchar(50),\n"
-                + "    completed        boolean,\n"
-                + "    CONSTRAINT ticketID_PK PRIMARY KEY (ticketID),\n"
-                + "    CONSTRAINT ticket_ck CHECK (serviceticket.ticketType in ('LAUNDRY', 'FOOD', 'SECURITY', 'MAINTENANCE')),\n"
-                + "    CONSTRAINT location_FK FOREIGN KEY (location) REFERENCES navNodes(node_ID))");
+                "create table serviceticket(\n"
+                        + "    ticketID         int,\n"
+                        + "    requestingUserID int,\n"
+                        + "    assignedUserID   int,\n"
+                        + "    ticketType       varchar(25),\n"
+                        + "    location         varchar(40),\n"
+                        + "    description      varchar(50),\n"
+                        + "    completed        boolean,\n"
+                        + "    CONSTRAINT ticketID_PK PRIMARY KEY (ticketID),\n"
+                        + "    CONSTRAINT ticket_ck CHECK (serviceticket.ticketType in ('LAUNDRY', 'FOOD', 'SECURITY', 'MAINTENANCE')),\n"
+                        + "    CONSTRAINT location_FK FOREIGN KEY (location) REFERENCES navNodes(node_ID))");
         System.out.println("ServiceTicket table created.");
       } catch (SQLException e) {
         System.out.println("Error in generating ServiceTicket Table");
@@ -127,21 +136,21 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
     try {
       Statement stmt = connection.createStatement();
       ResultSet rs =
-          stmt.executeQuery(
-              "INSERT INTO serviceticket(requestingUserID, assignedUserID, ticketType, location, description, completed)\n"
-                  + "VALUES ("
-                  + t.getRequestingUserID()
-                  + ","
-                  + t.getAssignedUserID()
-                  + ","
-                  + t.getTicketType()
-                  + ","
-                  + t.getLocation()
-                  + ","
-                  + t.getDescription()
-                  + ","
-                  + t.isCompleted()
-                  + ")");
+              stmt.executeQuery(
+                      "INSERT INTO serviceticket(requestingUserID, assignedUserID, ticketType, location, description, completed)\n"
+                              + "VALUES ("
+                              + t.getRequestingUserID()
+                              + ","
+                              + t.getAssignedUserID()
+                              + ","
+                              + t.getTicketType()
+                              + ","
+                              + t.getLocation()
+                              + ","
+                              + t.getDescription()
+                              + ","
+                              + t.isCompleted()
+                              + ")");
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -154,14 +163,14 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
       ResultSet rs = stmt.executeQuery("SELECT * FROM serviceticket");
       while (rs.next()) {
         ServiceTicket cur =
-            new ServiceTicket(
-                rs.getInt("ticketID"),
-                rs.getInt("requestingUserID"),
-                rs.getInt("assignedUserID"),
-                ServiceTicket.TicketType.valueOf(rs.getString("ticketType")),
-                rs.getString("location"),
-                rs.getString("description"),
-                rs.getBoolean("completed"));
+                new ServiceTicket(
+                        rs.getInt("ticketID"),
+                        rs.getInt("requestingUserID"),
+                        rs.getInt("assignedUserID"),
+                        ServiceTicket.TicketType.valueOf(rs.getString("ticketType")),
+                        rs.getString("location"),
+                        rs.getString("description"),
+                        rs.getBoolean("completed"));
         tix.add(cur);
       }
     } catch (SQLException e) {

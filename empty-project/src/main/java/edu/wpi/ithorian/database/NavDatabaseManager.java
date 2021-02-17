@@ -2,7 +2,9 @@ package edu.wpi.ithorian.database;
 
 import edu.wpi.ithorian.hospitalMap.HospitalMap;
 import edu.wpi.ithorian.hospitalMap.HospitalMapNode;
+
 import java.sql.*;
+
 import java.util.*;
 
 public class NavDatabaseManager extends DatabaseManager {
@@ -166,7 +168,9 @@ public class NavDatabaseManager extends DatabaseManager {
         stmt.execute(
             "CREATE TABLE navMaps(map_ID varchar(45) NOT NULL,"
                 + " map_Name varchar(45), floor_Number integer, building_Name varchar(45),"
-                + " teamAssigned varchar(1), PRIMARY KEY (map_ID))");
+                + " team_Assigned varchar(1), image_Path varchar(45),PRIMARY KEY (map_ID)) ");
+
+
       } catch (SQLException e) {
         System.out.println("Error generating Map table");
       }
@@ -186,7 +190,8 @@ public class NavDatabaseManager extends DatabaseManager {
       try {
         Statement stmt = databaseRef.getConnection().createStatement();
         stmt.execute(
-            "CREATE TABLE navEdges(edge_ID varchar(45) NOT NULL, "
+
+            "CREATE TABLE navEdges(edge_ID integer NOT NULL GENERATED ALWAYS AS IDENTITY , "
                 + "from_Node varchar(45), to_Node varchar(45), PRIMARY KEY(edge_ID), "
                 + "FOREIGN KEY (from_Node) references navNodes(node_ID),"
                 + "FOREIGN KEY (to_Node) references navNodes(node_ID))");

@@ -2,7 +2,9 @@ package edu.wpi.ithorian;
 
 import edu.wpi.ithorian.database.NavDatabaseManager;
 import edu.wpi.ithorian.hospitalMap.HospitalMap;
+
 import edu.wpi.ithorian.projectCTable.TableAppView;
+
 import java.util.Arrays;
 import javafx.application.Application;
 
@@ -16,19 +18,13 @@ public class Main {
       NavDatabaseManager.init(false);
     }
 
-    HospitalMap hm = NavDatabaseManager.getInstance().loadMapFromMemory("Map1");
+
     String os = System.getProperty("os.name");
     System.out.println(os);
     String path =
         System.getProperty("user.dir")
             + "\\src\\main\\java\\edu\\wpi\\ithorian\\hospitalMap\\mapEditing\\";
-    //    Set<HospitalMapNode> nodes =
-    //        HospitalMap.generateElementFromData(
-    //            ReadCSV.readFromFile(path + "MapINodes.csv"),
-    //            ReadCSV.readFromFile(path + "MapIEdges.csv"));
-    //    HospitalMap map =
-    //        new HospitalMap("Test_Map", "Test Map", "Building1", 1, path + "FaulknerCampus.png",
-    // nodes);
+
     Application.launch(TableAppView.class);
     // Application.launch(ApplicationView.class);
   }
