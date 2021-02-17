@@ -62,7 +62,7 @@ public class TableController {
       rows.add(nodeRow);
     }
     System.out.println("added rows to list: " + rows);
-    System.out.println("row 1 x: " + rows.get(0).getxCoordCol());
+    System.out.println("row 1 x: " + rows.get(0).getXCoordCol());
     tableView.getItems().addAll(rows);
   }
 
@@ -127,17 +127,17 @@ public class TableController {
         nodeTypeCol,
         longNameCol,
         shortNameCol,
-        teamAssigned;
+        teamAssignedCol;
 
     public String getNodeIdCol() {
       return nodeIdCol;
     }
 
-    public String getxCoordCol() {
+    public String getXCoordCol() {
       return xCoordCol;
     }
 
-    public String getyCoordCol() {
+    public String getYCoordCol() {
       return yCoordCol;
     }
 
@@ -161,8 +161,8 @@ public class TableController {
       return shortNameCol;
     }
 
-    public String getTeamAssigned() {
-      return teamAssigned;
+    public String getTeamAssignedCol() {
+      return teamAssignedCol;
     }
 
     public NodeRow(
@@ -174,7 +174,7 @@ public class TableController {
         String nodeTypeCol,
         String longNameCol,
         String shortNameCol,
-        String teamAssigned) {
+        String teamAssignedCol) {
       this.nodeIdCol = nodeIdCol;
       this.xCoordCol = xCoordCol;
       this.yCoordCol = yCoordCol;
@@ -183,7 +183,7 @@ public class TableController {
       this.nodeTypeCol = nodeTypeCol;
       this.longNameCol = longNameCol;
       this.shortNameCol = shortNameCol;
-      this.teamAssigned = teamAssigned;
+      this.teamAssignedCol = teamAssignedCol;
     }
   }
 }
