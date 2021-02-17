@@ -1,5 +1,6 @@
 package edu.wpi.ithorian;
 
+import edu.wpi.ithorian.projectCTable.TableAppView;
 import edu.wpi.ithorian.hospitalMap.HospitalMap;
 import edu.wpi.ithorian.hospitalMap.HospitalMapNode;
 import edu.wpi.ithorian.hospitalMap.mapEditing.MapEditManager;
