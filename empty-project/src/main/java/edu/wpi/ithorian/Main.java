@@ -1,9 +1,5 @@
 package edu.wpi.ithorian;
 
-import edu.wpi.ithorian.projectCTable.TableAppView;
-import edu.wpi.ithorian.hospitalMap.HospitalMap;
-import edu.wpi.ithorian.hospitalMap.HospitalMapNode;
-import edu.wpi.ithorian.hospitalMap.mapEditing.MapEditManager;
 import edu.wpi.ithorian.hospitalMap.tableEditing.FullHospitalMap;
 import edu.wpi.ithorian.hospitalMap.tableEditing.FullLocationNode;
 import edu.wpi.ithorian.hospitalMap.tableEditing.FullMapEditManager;
@@ -22,8 +18,6 @@ public class Main {
     //    }
     //
     //    HospitalMap hm = NavDatabaseManager.getInstance().loadMapFromMemory("Map1");
-    String os = System.getProperty("os.name");
-    System.out.println(os);
     String path =
         System.getProperty("user.dir")
             + "/empty-project/src/main/java/edu/wpi/ithorian/hospitalMap/mapEditing/";
