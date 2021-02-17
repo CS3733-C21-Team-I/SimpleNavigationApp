@@ -18,7 +18,7 @@ public class NavDatabaseTests {
   public void saveMapTest() {
     NavDatabaseManager.init(true);
 
-    NavDatabaseManager.getInstance().saveMapIntoMemory(getTestData());
+    // NavDatabaseManager.getInstance().saveMapIntoMemory(getTestData());
 
     try {
       Statement statement =

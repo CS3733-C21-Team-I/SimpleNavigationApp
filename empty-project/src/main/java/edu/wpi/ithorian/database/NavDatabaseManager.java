@@ -2,8 +2,6 @@ package edu.wpi.ithorian.database;
 
 import edu.wpi.ithorian.hospitalMap.HospitalMap;
 import edu.wpi.ithorian.hospitalMap.HospitalMapNode;
-import edu.wpi.ithorian.hospitalMap.LocationNode;
-
 import java.sql.*;
 import java.util.*;
 
@@ -39,15 +37,15 @@ public class NavDatabaseManager extends DatabaseManager {
       return null;
     }
 
-    String mapName, buildingName, teamAssigned, image_path;
+    String mapName, buildingName, imagePath;
     int floor;
 
     try {
       mapName = mapResult.getString("map_Name");
       floor = mapResult.getInt("floor_Number");
       buildingName = mapResult.getString("building_Name");
-      teamAssigned = mapResult.getString("teamAssigned");
-      image_path = mapResult.getString("image_path");
+
+      imagePath = mapResult.getString("image_Path");
     } catch (SQLException e) {
       e.printStackTrace();
       System.out.println("Log navMap column names not correct");
@@ -114,7 +112,7 @@ public class NavDatabaseManager extends DatabaseManager {
           }
           connected.add(n);
         }
-        ((HospitalMapNode) nodeEntry.getValue()).setConnections( connected);
+        ((HospitalMapNode) nodeEntry.getValue()).setConnections(connected);
       }
     } catch (SQLException e) {
       e.printStackTrace();
@@ -122,7 +120,8 @@ public class NavDatabaseManager extends DatabaseManager {
       return null;
     }
 
-    return new HospitalMap(new ArrayList<>(nodeMap.values()));
+    return new HospitalMap(
+        mapId, mapName, buildingName, floor, imagePath, new HashSet<>(nodeMap.values()));
   }
 
   protected void dropTables() {
