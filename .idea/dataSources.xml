@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="navDB" uuid="70cb5f2f-08cb-4911-9f5d-2a81962abd67">
+    <data-source source="LOCAL" name="navDB" uuid="715fed87-9b46-408c-bf5a-71155bf63829">
       <driver-ref>derby.embedded</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.apache.derby.jdbc.EmbeddedDriver</jdbc-driver>
