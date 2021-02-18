@@ -10,12 +10,10 @@ import org.junit.jupiter.api.Test;
 public class ServiceTicketDatabaseTests {
   @Test
   public void testServiceTicketDatabase() throws SQLException {
-    NavDatabaseManager.init(true);
-    ServiceTicketDatabaseManager.init(true);
-    Statement stmtTix =
-        ServiceTicketDatabaseManager.getInstance().databaseRef.getConnection().createStatement();
-    Statement stmtNav =
-        NavDatabaseManager.getInstance().databaseRef.getConnection().createStatement();
+    //    NavDatabaseManager.init(true);
+    //    ServiceTicketDatabaseManager.init(true);
+
+    // populateServiceTicket();
     ServiceTicketDatabaseManager.getInstance().databaseRef.disconnect();
     NavDatabaseManager.getInstance().databaseRef.disconnect();
   }
@@ -51,9 +49,10 @@ public class ServiceTicketDatabaseTests {
     try {
       NavDatabaseManager.init(true);
       ServiceTicketDatabaseManager.init(true);
+
       Statement stmt =
           ServiceTicketDatabaseManager.getInstance().databaseRef.getConnection().createStatement();
-      assertNotNull(stmt);
+
       stmt.addBatch("INSERT INTO navMaps(MAP_ID) VALUES ('MAPG')\n");
       stmt.addBatch(
           "INSERT INTO navNodes(NODE_ID, X_COORD, Y_COORD, MAP_ID) VALUES ('ROOM304', 1, 2, 'MAPG')\n");
@@ -72,6 +71,7 @@ public class ServiceTicketDatabaseTests {
           "INSERT INTO serviceticket(requestingUserID, assignedUserID, ticketType, location, description, completed)\n"
               + "VALUES (234567, 789123, 'FOOD', 'ROOM205', 'Dinner for patient', true)\n");
       stmt.executeLargeBatch();
+      stmt.close();
     } catch (SQLException e) {
       e.printStackTrace();
     }

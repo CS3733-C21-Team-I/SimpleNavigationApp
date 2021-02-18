@@ -104,11 +104,13 @@ public class UserDatabaseManager extends DatabaseManager {
         Statement statement = databaseRef.getConnection().createStatement();
         ResultSet rs =
             statement.executeQuery(
-                "SELECT RP.RESOURCE_NAME FROM ROLE_TO_PERMISSION INNER JOIN RESOURCE_PERMISSIONS RP on ROLE_TO_PERMISSION.RESOURCE_ID = RP.RESOURCE_ID WHERE ROLE_ID=(SELECT ROLE_ID FROM HOSPITAL_ROLES WHERE ROLE_NAME='"
+                "SELECT RP.RESOURCE_NAME AS RNAME FROM ROLE_TO_PERMISSION  RLP\n"
+                    + " JOIN RESOURCE_PERMISSIONS RP on RLP.RESOURCE_ID = RP.RESOURCE_ID \n"
+                    + "WHERE ROLE_ID in (SELECT ROLE_ID FROM HOSPITAL_ROLES WHERE ROLE_NAME='"
                     + getDatabaseNameForRole(role)
                     + "')");
 
-        permissionSet.add(getPermissionForDatabaseName(rs.getString("RESOURCE_NAME")));
+        permissionSet.add(getPermissionForDatabaseName(rs.getString("RNAME")));
       }
     } catch (SQLException e) {
       // TODO ERROR Logging
