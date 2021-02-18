@@ -61,7 +61,7 @@ public class UserDatabaseManager extends DatabaseManager {
       Statement statement = databaseRef.getConnection().createStatement();
       ResultSet rs =
           statement.executeQuery(
-              "SELECT * FROM hospitalUsers WHERE SCREENNAME='" + screenName + "'");
+              "SELECT * FROM HOSPITAL_USERS WHERE SCREENNAME='" + screenName + "'");
 
       if (!rs.next()) {
         // TODO error handling
@@ -80,7 +80,7 @@ public class UserDatabaseManager extends DatabaseManager {
       Statement statement = databaseRef.getConnection().createStatement();
       ResultSet rs =
           statement.executeQuery(
-              "SELECT HR.ROLE_NAME FROM USER_TO_ROLE INNER JOIN hospitalRoles HR on HR.ROLE_ID = USER_TO_ROLE.ROLE_ID WHERE USER_ID="
+              "SELECT HR.ROLE_NAME FROM USER_TO_ROLE INNER JOIN HOSPITAL_ROLES HR on HR.ROLE_ID = USER_TO_ROLE.ROLE_ID WHERE USER_ID="
                   + userId);
 
       while (rs.next()) {
@@ -104,7 +104,7 @@ public class UserDatabaseManager extends DatabaseManager {
         Statement statement = databaseRef.getConnection().createStatement();
         ResultSet rs =
             statement.executeQuery(
-                "SELECT RP.RESOURCE_NAME FROM ROLE_TO_PERMISSION INNER JOIN resourcePermissions RP on ROLE_TO_PERMISSION.RESOURCE_ID = RP.RESOURCE_ID WHERE ROLE_ID=(SELECT ROLE_ID FROM hospitalRoles WHERE ROLE_NAME='"
+                "SELECT RP.RESOURCE_NAME FROM ROLE_TO_PERMISSION INNER JOIN RESOURCE_PERMISSIONS RP on ROLE_TO_PERMISSION.RESOURCE_ID = RP.RESOURCE_ID WHERE ROLE_ID=(SELECT ROLE_ID FROM HOSPITAL_ROLES WHERE ROLE_NAME='"
                     + getDatabaseNameForRole(role)
                     + "')");
 
@@ -129,7 +129,7 @@ public class UserDatabaseManager extends DatabaseManager {
     try {
       Statement statement = databaseRef.getConnection().createStatement();
       ResultSet rs =
-          statement.executeQuery("SELECT SCREENNAME FROM hospitalUsers WHERE USER_ID=" + id);
+          statement.executeQuery("SELECT SCREENNAME FROM HOSPITAL_USERS WHERE USER_ID=" + id);
       if (!rs.next()) {
         throw new IllegalArgumentException("Attempted to acess records of nonexistant user");
       }
@@ -152,7 +152,7 @@ public class UserDatabaseManager extends DatabaseManager {
     try {
       Statement stmt = databaseRef.getConnection().createStatement();
       stmt.execute(
-          "CREATE TABLE hospitalUsers"
+          "CREATE TABLE HOSPITAL_USERS"
               + "("
               + " user_ID    integer NOT NULL GENERATED ALWAYS AS IDENTITY,"
               + " screenName varchar(45) NOT NULL ,"
@@ -166,7 +166,7 @@ public class UserDatabaseManager extends DatabaseManager {
     try {
       Statement stmt = databaseRef.getConnection().createStatement();
       stmt.execute(
-          "CREATE TABLE hospitalRoles"
+          "CREATE TABLE HOSPITAL_ROLES"
               + "("
               + " role_ID          integer NOT NULL GENERATED ALWAYS AS IDENTITY,"
               + " role_Name        varchar(45) NOT NULL ,"
@@ -181,7 +181,7 @@ public class UserDatabaseManager extends DatabaseManager {
     try {
       Statement stmt = databaseRef.getConnection().createStatement();
       stmt.execute(
-          "CREATE TABLE resourcePermissions"
+          "CREATE TABLE RESOURCE_PERMISSIONS"
               + "("
               + " resource_ID     integer NOT NULL GENERATED ALWAYS AS IDENTITY,"
               + " resource_Name        varchar(45) NOT NULL ,"
@@ -200,8 +200,8 @@ public class UserDatabaseManager extends DatabaseManager {
               + "user_ID        integer NOT NULL,"
               + "role_ID        integer NOT NULL,"
               + "PRIMARY KEY (user_ID, role_ID),"
-              + "FOREIGN KEY (user_ID) REFERENCES hospitalUsers(user_ID),"
-              + "FOREIGN KEY (role_ID) REFERENCES  hospitalRoles(role_ID))");
+              + "FOREIGN KEY (user_ID) REFERENCES HOSPITAL_USERS(user_ID),"
+              + "FOREIGN KEY (role_ID) REFERENCES  HOSPITAL_ROLES(role_ID))");
     } catch (SQLException e) {
       System.out.println("Error generating userToRole");
       e.printStackTrace();
@@ -214,8 +214,8 @@ public class UserDatabaseManager extends DatabaseManager {
               + "role_ID        integer NOT NULL,"
               + "resource_ID        integer NOT NULL,"
               + "PRIMARY KEY (role_ID, resource_ID),"
-              + "FOREIGN KEY (role_ID) REFERENCES  hospitalRoles(role_ID),"
-              + "FOREIGN KEY (resource_ID) REFERENCES resourcePermissions(resource_ID))");
+              + "FOREIGN KEY (role_ID) REFERENCES  HOSPITAL_ROLES(role_ID),"
+              + "FOREIGN KEY (resource_ID) REFERENCES RESOURCE_PERMISSIONS(resource_ID))");
     } catch (SQLException e) {
       System.out.println("Error generating roleToPermission");
       e.printStackTrace();
@@ -246,7 +246,7 @@ public class UserDatabaseManager extends DatabaseManager {
     try {
       Statement stmt = databaseRef.getConnection().createStatement();
       // Drop the Edges table.
-      stmt.execute("DROP TABLE hospitalUsers ");
+      stmt.execute("DROP TABLE HOSPITAL_USERS ");
     } catch (SQLException ex) {
       // No need to report an error.
       // The table simply did not exist.
@@ -256,7 +256,7 @@ public class UserDatabaseManager extends DatabaseManager {
     try {
       Statement stmt = databaseRef.getConnection().createStatement();
       // Drop the Edges table.
-      stmt.execute("DROP TABLE hospitalRoles ");
+      stmt.execute("DROP TABLE HOSPITAL_ROLES ");
     } catch (SQLException ex) {
       // No need to report an error.
       // The table simply did not exist.
@@ -266,7 +266,7 @@ public class UserDatabaseManager extends DatabaseManager {
     try {
       Statement stmt = databaseRef.getConnection().createStatement();
       // Drop the Edges table.
-      stmt.execute("DROP TABLE resourcePermissions ");
+      stmt.execute("DROP TABLE RESOURCE_PERMISSIONS ");
     } catch (SQLException ex) {
       // No need to report an error.
       // The table simply did not exist.
