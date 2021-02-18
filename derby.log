@@ -1,6 +1,6 @@
 ----------------------------------------------------------------
-Wed Feb 17 05:29:05 UTC 2021:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.15.1.3 - (1853019): instance a816c00e-0177-ae76-9707-000007661e20 
+Thu Feb 18 01:57:21 UTC 2021:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.15.1.3 - (1853019): instance a816c00e-0177-b2db-14c6-000007660708 
 on database directory C:\Users\huynh\Downloads\SimpleNavigationApp\empty-project\navDB with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@7aec35a 
 Loaded from file:/C:/Users/huynh/AppData/Roaming/JetBrains/IntelliJIdea2020.3/jdbc-drivers/Apache%20Derby/10.15.1.3/derby-10.15.1.3.jar
 java.vendor=JetBrains s.r.o.

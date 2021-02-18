@@ -62,7 +62,7 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
             rs.getInt("requestingUserID"),
             rs.getInt("assignedUserID"),
             ServiceTicket.TicketType.valueOf(rs.getString("ticketType")),
-            rs.getString("locationNode"),
+            rs.getString("location"),
             rs.getString("description"),
             rs.getBoolean("completed"));
       else return null;
@@ -83,7 +83,7 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
                 + "    requestingUserID integer,\n"
                 + "    assignedUserID   integer,\n"
                 + "    ticketType       varchar(25),\n"
-                + "    location         varchar(40),\n"
+                + "    location         varchar(45) NOT NULL,\n"
                 + "    description      varchar(50),\n"
                 + "    completed        boolean,\n"
                 + "    CONSTRAINT ticketID_PK PRIMARY KEY (ticketID),\n"

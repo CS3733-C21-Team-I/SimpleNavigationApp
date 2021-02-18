@@ -111,6 +111,6 @@ public class UserDatabaseTests {
     stmt.addBatch(
         "INSERT INTO ROLE_TO_PERMISSION (ROLE_ID, RESOURCE_ID) VALUES ((SELECT ROLE_ID FROM HOSPITAL_ROLES WHERE ROLE_NAME='EMPLOYEE'),(SELECT RESOURCE_ID FROM RESOURCE_PERMISSIONS WHERE RESOURCE_NAME='REQUEST_TICKET'))");
 
-    stmt.executeBatch();
+    stmt.executeLargeBatch();
   }
 }
