@@ -23,13 +23,8 @@ public class Main {
     System.out.println(os);
     System.out.println(os.contains("Mac"));
 
-    String path = System.getProperty("user.dir");
-
-    if(os.contains("Mac")) {
-      path += "/empty-project/src/main/java/edu/wpi/ithorian/hospitalMap/mapEditing/";
-    } else {
-      path += "\\empty-project\\src\\main\\java\\edu\\wpi\\ithorian\\hospitalMap\\mapEditing\\";
-    }
+    String path =
+        System.getProperty("user.dir") + "/src/main/java/edu/wpi/ithorian/hospitalMap/mapEditing/";
 
     Set<HospitalMapNode> nodes =
         HospitalMap.generateElementFromData(
