@@ -40,7 +40,7 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
             rs.getInt("requestingUserID"),
             rs.getInt("assignedUserID"),
             ServiceTicket.TicketType.valueOf(rs.getString("ticketType")),
-            rs.getString("locationNode"),
+            rs.getString("location"),
             rs.getString("description"),
             rs.getBoolean("completed"));
       else return null;
