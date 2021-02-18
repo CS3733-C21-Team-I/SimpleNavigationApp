@@ -19,9 +19,18 @@ public class Main {
     //
     //    HospitalMap hm = NavDatabaseManager.getInstance().loadMapFromMemory("Map1");
 
-    String path =
-        System.getProperty("user.dir")
-            + "\\empty-project\\src\\main\\java\\edu\\wpi\\ithorian\\hospitalMap\\mapEditing\\";
+    String os = System.getProperty("os.name");
+    System.out.println(os);
+    System.out.println(os.contains("Mac"));
+
+    String path = System.getProperty("user.dir");
+
+    if(os.contains("Mac")) {
+      path += "/empty-project/src/main/java/edu/wpi/ithorian/hospitalMap/mapEditing/";
+    } else {
+      path += "\\empty-project\\src\\main\\java\\edu\\wpi\\ithorian\\hospitalMap\\mapEditing\\";
+    }
+
     Set<HospitalMapNode> nodes =
         HospitalMap.generateElementFromData(
             ReadCSV.readFromFile(path + "MapINodes.csv"),
