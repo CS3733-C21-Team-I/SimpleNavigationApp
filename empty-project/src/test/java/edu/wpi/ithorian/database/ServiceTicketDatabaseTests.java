@@ -20,7 +20,7 @@ public class ServiceTicketDatabaseTests {
 
   @Test
   public void testGetTicket() {
-    populateServiceTicket();
+    // populateServiceTicket();
 
     ServiceTicket laundryTix =
         ServiceTicketDatabaseManager.getInstance().getTicketForRequestId(170683);
