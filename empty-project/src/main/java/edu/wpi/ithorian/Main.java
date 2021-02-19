@@ -1,6 +1,7 @@
 package edu.wpi.ithorian;
 
 import edu.wpi.ithorian.hospitalMap.HospitalMap;
+import edu.wpi.ithorian.hospitalMap.HospitalMapCSVBuilder;
 import edu.wpi.ithorian.hospitalMap.HospitalMapNode;
 import edu.wpi.ithorian.hospitalMap.mapEditing.ApplicationView;
 import edu.wpi.ithorian.hospitalMap.mapEditing.MapEditManager;
@@ -22,14 +23,8 @@ public class Main {
     String path =
         System.getProperty("user.dir") + "/src/main/java/edu/wpi/ithorian/hospitalMap/mapEditing/";
 
-    //    Set<HospitalMapNode> nodes =
-    //        HospitalMap.generateElementFromData(
-    //            ReadCSV.readFromFile(path + "MapINodes.csv"),
-    //            ReadCSV.readFromFile(path + "MapIEdges.csv"));
+    HospitalMap map = HospitalMapCSVBuilder.loadCSV(path + "MapINodes.csv", path + "MapIEdges.csv").get("Faulkner 0");
 
-    Set<HospitalMapNode> nodes = null;
-    HospitalMap map =
-        new HospitalMap("Test_Map", "Test Map", "Building1", 1, path + "FaulknerCampus.png", nodes);
     MapEditManager mapManager = new MapEditManager();
     mapManager.init();
     mapManager.getInstance().setActiveMap(map);
