@@ -39,9 +39,10 @@ public class HospitalMap implements Graph<HospitalMapNode> {
       HospitalMapNode currNode =
           new HospitalMapNode(
               value.get(0),
+              "",
               Integer.parseInt(value.get(1)),
               Integer.parseInt(value.get(2)),
-              new HashSet());
+              new ArrayList());
       nodes.add(currNode);
       nodesHash.put(currNode.getID(), currNode);
     }

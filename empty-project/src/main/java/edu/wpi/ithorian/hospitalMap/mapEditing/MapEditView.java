@@ -93,12 +93,6 @@ public class MapEditView extends Application {
     circle.setOnMousePressed(
         e -> {
           onRightClick(e, node);
-          if (e.getButton() == MouseButton.PRIMARY) {
-            System.out.println(mapManager.getSelectedNode());
-            mapManager.toggleNode(node);
-            System.out.println(mapManager.getSelectedNode());
-            update();
-          }
         });
     circle.setOnMouseEntered(
         t -> {

@@ -19,17 +19,15 @@ public class Main {
     //
     //    HospitalMap hm = NavDatabaseManager.getInstance().loadMapFromMemory("Map1");
 
-    String os = System.getProperty("os.name");
-    System.out.println(os);
-    System.out.println(os.contains("Mac"));
-
     String path =
         System.getProperty("user.dir") + "/src/main/java/edu/wpi/ithorian/hospitalMap/mapEditing/";
 
-    Set<HospitalMapNode> nodes =
-        HospitalMap.generateElementFromData(
-            ReadCSV.readFromFile(path + "MapINodes.csv"),
-            ReadCSV.readFromFile(path + "MapIEdges.csv"));
+    //    Set<HospitalMapNode> nodes =
+    //        HospitalMap.generateElementFromData(
+    //            ReadCSV.readFromFile(path + "MapINodes.csv"),
+    //            ReadCSV.readFromFile(path + "MapIEdges.csv"));
+
+    Set<HospitalMapNode> nodes = null;
     HospitalMap map =
         new HospitalMap("Test_Map", "Test Map", "Building1", 1, path + "FaulknerCampus.png", nodes);
     MapEditManager mapManager = new MapEditManager();

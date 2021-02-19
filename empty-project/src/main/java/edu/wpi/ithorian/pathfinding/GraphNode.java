@@ -1,10 +1,14 @@
 package edu.wpi.ithorian.pathfinding;
 
-import java.util.Set;
+import java.util.List;
 
 public interface GraphNode<T extends GraphNode> {
 
   String getID();
 
-  Set<T> getConnections();
+  List<T> getConnections();
+
+  void addConnection(T add);
+
+  void removeConnection(T take);
 }

@@ -4,6 +4,7 @@ import static edu.wpi.ithorian.hospitalMap.mapEditing.NavEditOperation.Operation
 
 import edu.wpi.ithorian.hospitalMap.HospitalMap;
 import edu.wpi.ithorian.hospitalMap.HospitalMapNode;
+import edu.wpi.ithorian.hospitalMap.LocationNode;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -69,8 +70,9 @@ public class MapEditManager {
    * edited node Usage, editNode(nodeId, new HospitalMapNode(newInfo)
    *
    * @param nodeId the Id of the node prior to editing
+   * @param newNode
    */
-  public void editNode(String nodeId) {
+  public void editNode(String nodeId, LocationNode newNode) {
     HospitalMapNode node = activeMap.getNode(nodeId);
     // TODO reset node.id using hashing?
     dataOperations.add(new NavEditOperation(EDIT_NODE, nodeId, node, null));
