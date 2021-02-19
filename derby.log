@@ -1,56 +1,18 @@
-Sun Feb 14 01:54:33 EST 2021 Thread[main,5,main] Cleanup action starting
-java.sql.SQLException: Database 'navDB' not found.
-	at org.apache.derby.impl.jdbc.SQLExceptionFactory.getSQLException(Unknown Source)
-	at org.apache.derby.impl.jdbc.SQLExceptionFactory.getSQLException(Unknown Source)
-	at org.apache.derby.impl.jdbc.Util.generateCsSQLException(Unknown Source)
-	at org.apache.derby.impl.jdbc.Util.generateCsSQLException(Unknown Source)
-	at org.apache.derby.impl.jdbc.EmbedConnection.newSQLException(Unknown Source)
-	at org.apache.derby.impl.jdbc.EmbedConnection.handleDBNotFound(Unknown Source)
-	at org.apache.derby.impl.jdbc.EmbedConnection.<init>(Unknown Source)
-	at org.apache.derby.jdbc.InternalDriver$1.run(Unknown Source)
-	at org.apache.derby.jdbc.InternalDriver$1.run(Unknown Source)
-	at java.security.AccessController.doPrivileged(Native Method)
-	at org.apache.derby.jdbc.InternalDriver.getNewEmbedConnection(Unknown Source)
-	at org.apache.derby.jdbc.InternalDriver.connect(Unknown Source)
-	at org.apache.derby.jdbc.InternalDriver.connect(Unknown Source)
-	at org.apache.derby.jdbc.AutoloadedDriver.connect(Unknown Source)
-	at java.sql.DriverManager.getConnection(DriverManager.java:664)
-	at java.sql.DriverManager.getConnection(DriverManager.java:270)
-	at edu.wpi.ithorian.database.DatabaseRef.<init>(DatabaseRef.java:24)
-	at edu.wpi.ithorian.database.DatabaseRef.getConnection(DatabaseRef.java:56)
-	at edu.wpi.ithorian.database.DatabaseManager.<init>(DatabaseManager.java:8)
-	at edu.wpi.ithorian.database.NavDatabaseManager.<init>(NavDatabaseManager.java:26)
-	at edu.wpi.ithorian.database.NavDatabaseManager.init(NavDatabaseManager.java:18)
-	at edu.wpi.ithorian.Main.main(Main.java:15)
-Caused by: ERROR XJ004: Database 'navDB' not found.
-	at org.apache.derby.iapi.error.StandardException.newException(Unknown Source)
-	at org.apache.derby.impl.jdbc.SQLExceptionFactory.wrapArgsForTransportAcrossDRDA(Unknown Source)
-	... 22 more
-============= begin nested exception, level (1) ===========
-ERROR XJ004: Database 'navDB' not found.
-	at org.apache.derby.iapi.error.StandardException.newException(Unknown Source)
-	at org.apache.derby.impl.jdbc.SQLExceptionFactory.wrapArgsForTransportAcrossDRDA(Unknown Source)
-	at org.apache.derby.impl.jdbc.SQLExceptionFactory.getSQLException(Unknown Source)
-	at org.apache.derby.impl.jdbc.SQLExceptionFactory.getSQLException(Unknown Source)
-	at org.apache.derby.impl.jdbc.Util.generateCsSQLException(Unknown Source)
-	at org.apache.derby.impl.jdbc.Util.generateCsSQLException(Unknown Source)
-	at org.apache.derby.impl.jdbc.EmbedConnection.newSQLException(Unknown Source)
-	at org.apache.derby.impl.jdbc.EmbedConnection.handleDBNotFound(Unknown Source)
-	at org.apache.derby.impl.jdbc.EmbedConnection.<init>(Unknown Source)
-	at org.apache.derby.jdbc.InternalDriver$1.run(Unknown Source)
-	at org.apache.derby.jdbc.InternalDriver$1.run(Unknown Source)
-	at java.security.AccessController.doPrivileged(Native Method)
-	at org.apache.derby.jdbc.InternalDriver.getNewEmbedConnection(Unknown Source)
-	at org.apache.derby.jdbc.InternalDriver.connect(Unknown Source)
-	at org.apache.derby.jdbc.InternalDriver.connect(Unknown Source)
-	at org.apache.derby.jdbc.AutoloadedDriver.connect(Unknown Source)
-	at java.sql.DriverManager.getConnection(DriverManager.java:664)
-	at java.sql.DriverManager.getConnection(DriverManager.java:270)
-	at edu.wpi.ithorian.database.DatabaseRef.<init>(DatabaseRef.java:24)
-	at edu.wpi.ithorian.database.DatabaseRef.getConnection(DatabaseRef.java:56)
-	at edu.wpi.ithorian.database.DatabaseManager.<init>(DatabaseManager.java:8)
-	at edu.wpi.ithorian.database.NavDatabaseManager.<init>(NavDatabaseManager.java:26)
-	at edu.wpi.ithorian.database.NavDatabaseManager.init(NavDatabaseManager.java:18)
-	at edu.wpi.ithorian.Main.main(Main.java:15)
-============= end nested exception, level (1) ===========
-Cleanup action completed
+----------------------------------------------------------------
+Tue Feb 16 20:56:47 UTC 2021:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.15.1.3 - (1853019): instance a816c00e-0177-aca1-369b-000007661e20 
+on database directory C:\Users\huynh\Downloads\SimpleNavigationApp\empty-project\navDB with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@7aec35a 
+Loaded from file:/C:/Users/huynh/AppData/Roaming/JetBrains/IntelliJIdea2020.3/jdbc-drivers/Apache%20Derby/10.15.1.3/derby-10.15.1.3.jar
+java.vendor=JetBrains s.r.o.
+java.runtime.version=11.0.9.1+11-b1145.77
+user.dir=C:\Users\huynh\Downloads\SimpleNavigationApp
+os.name=Windows 10
+os.arch=amd64
+os.version=10.0
+derby.system.home=null
+------------  Begin Error Message -------------
+
+System may be in a inconsistent state, missing file C:\Users\huynh\Downloads\SimpleNavigationApp\empty-project\navDB\log\log3.dat
+------------  End Error Message -------------
+
+Database Class Loader started - derby.database.classpath=''
