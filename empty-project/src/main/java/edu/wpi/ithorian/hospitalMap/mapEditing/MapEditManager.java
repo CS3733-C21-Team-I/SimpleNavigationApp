@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Set;
-import javafx.collections.ObservableList;
 import javafx.scene.Group;
 import javafx.stage.Stage;
 
@@ -27,7 +26,6 @@ public class MapEditManager {
 
   private Group root = null;
   private Stage stage = null;
-  private Object[] mapChildren;
 
   public static void init() {
     ourInstance = new MapEditManager();
@@ -88,6 +86,26 @@ public class MapEditManager {
     activeMap.getNodes().remove(activeMap.getNode(nodeId));
   }
 
+  /**
+   * takes in a node object and assigns / de-assigns it to the selectedNode variable in MapState
+   *
+   * @param node the node to be assigned or de-assigned
+   */
+  public void toggleNode(HospitalMapNode node) {
+    if (activeMap.getSelectedNode() == null) {
+      activeMap.setSelectedNode(node);
+    } else if (activeMap.getSelectedNode().equals(node)) {
+      activeMap.setSelectedNode(null);
+    } else {
+      makeEdge();
+      activeMap.setSelectedNode(null);
+    }
+  }
+
+  private void makeEdge() {
+    // TODO: Implement making an edge
+  }
+
   public void addConnection(String fromNode, String toNode) {
     dataOperations.add(new NavEditOperation(ADD_NODE, fromNode, null, toNode));
     activeMap.getNode(fromNode).getConnections().add(activeMap.getNode(toNode));
@@ -138,19 +156,11 @@ public class MapEditManager {
     this.stage = stage;
   }
 
-  public void setMapChildren(ObservableList mapChildren) {
-    this.mapChildren = mapChildren.toArray().clone();
-  }
-
   public Group getRoot() {
     return root;
   }
 
-  public Stage getStage() {
-    return stage;
-  }
-
-  public Object[] getMapChildren() {
-    return mapChildren;
+  public HospitalMapNode getSelectedNode() {
+    return activeMap.getSelectedNode();
   }
 }

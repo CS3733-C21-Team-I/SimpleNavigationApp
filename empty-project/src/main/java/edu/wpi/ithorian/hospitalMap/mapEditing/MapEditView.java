@@ -4,7 +4,6 @@ import edu.wpi.ithorian.hospitalMap.HospitalMapNode;
 import java.util.stream.Collectors;
 import javafx.application.Application;
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -16,7 +15,7 @@ import javafx.stage.Stage;
 
 public class MapEditView extends Application {
 
-  private double scale = 1.5;
+  private int scale = 2;
   private MapEditManager mapManager;
   private Scene scene;
   private static MapEditManager ourManager;
@@ -35,60 +34,23 @@ public class MapEditView extends Application {
   }
 
   @Override
-  public void init() throws Exception {
-    // creating the image object
-    //    InputStream stream = null;
-    //
-    //    try {
-    //      stream = new FileInputStream(mapManager.getImagePath());
-    //    } catch (FileNotFoundException e) {
-    //      e.printStackTrace();
-    //    }
-    //    Image image = new Image(stream);
-    //    // Creating the image view
-    //    ImageView imageView = new ImageView();
-    //    // Setting image to the image view
-    //    imageView.setImage(image);
-    //    // Setting the image view parameters
-    //    imageView.setX(0);
-    //    imageView.setY(0);
-    //    imageView.setFitWidth(image.getWidth() / scale);
-    //    imageView.setPreserveRatio(true);
-
-    // Setting the Scene object
-    // this.imageView = imageView;
-    //        new Scene(mapManager.getRoot() /*, image.getWidth() / scale, image.getHeight()
-    // /scale*/);
-  }
+  public void init() throws Exception {}
 
   @Override
   public void start(Stage primaryStage) {
     primaryStage.setTitle("Map Editor");
-    //    primaryStage.setScene(mapManager.getMapChildren().getScene());
     primaryStage.show();
     mapManager.setStage(primaryStage);
+    update();
+  }
+
+  public void update() {
     for (HospitalMapNode node : mapManager.getEntityNodes()) {
       drawEdges(node);
     }
     for (HospitalMapNode node : mapManager.getEntityNodes()) {
       makeNodeCircle(node);
     }
-    // update();
-  }
-
-  public void update() {
-    Group root = new Group();
-    root.getChildren().addAll((Node[]) mapManager.getMapChildren());
-    mapManager.getStage().getScene().setRoot(root);
-    //    mapManager.getStage().setScene(root);
-    //    System.out.println(mapManager.getEntityNodes());
-
-    //    for (HospitalMapNode node : mapManager.getEntityNodes()) {
-    //      drawEdges(node);
-    //    }
-    //    for (HospitalMapNode node : mapManager.getEntityNodes()) {
-    //      makeNodeCircle(node);
-    //    }
   }
 
   private void onRightClick(MouseEvent e, HospitalMapNode node) {
@@ -100,13 +62,6 @@ public class MapEditView extends Application {
                 .collect(Collectors.joining(", ")));
     if (e.getButton() == MouseButton.SECONDARY) {
       mapManager.deleteNode(node.getID());
-      System.out.println(
-          "After: "
-              + this.mapManager.getEntityNodes().stream()
-                  .map(HospitalMapNode::getID)
-                  .collect(Collectors.joining(", ")));
-      //      Group root = mapManager.getRoot();
-      //      System.out.println(root.getChildren());
       update();
     }
   }
@@ -138,6 +93,12 @@ public class MapEditView extends Application {
     circle.setOnMousePressed(
         e -> {
           onRightClick(e, node);
+          if (e.getButton() == MouseButton.PRIMARY) {
+            System.out.println(mapManager.getSelectedNode());
+            mapManager.toggleNode(node);
+            System.out.println(mapManager.getSelectedNode());
+            update();
+          }
         });
     circle.setOnMouseEntered(
         t -> {

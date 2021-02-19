@@ -12,7 +12,7 @@ public class HospitalMap implements Graph<HospitalMapNode> {
   private String imagePath;
   private int floorNumber;
 
-  private HospitalMapNode selectedNode;
+  private HospitalMapNode selectedNode = null;
 
   public HospitalMap(
       String id,

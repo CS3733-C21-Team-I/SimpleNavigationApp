@@ -259,8 +259,6 @@ public class ApplicationView extends Application {
 
   @FXML
   public void toggleEditMap(ActionEvent e) throws IOException {
-    mapManager.setMapChildren(
-        ((Button) e.getSource()).getScene().getRoot().getChildrenUnmodifiable());
     mapManager.startEditorView();
     adminMap = !adminMap;
     if (adminMap) {
