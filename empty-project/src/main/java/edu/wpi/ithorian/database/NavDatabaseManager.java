@@ -202,7 +202,7 @@ public class NavDatabaseManager extends DatabaseManager {
     }
   }
 
-  void saveMapIntoMemory(HospitalMap hMap) {
+  public void saveMapsIntoMemory(Collection<HospitalMap> hMaps) {
     class EdgePair implements Comparable<EdgePair> {
       String fromId;
       String toId;
@@ -226,51 +226,71 @@ public class NavDatabaseManager extends DatabaseManager {
       }
     }
 
-    try {
-      Statement statement = databaseRef.getConnection().createStatement();
-      statement.executeUpdate(
-          "INSERT INTO navMaps (map_ID, map_Name, floor_Number, building_Name, image_Path) "
-              + "VALUES ('"
-              + hMap.getId()
-              + "', '"
-              + hMap.getMapName()
-              + "', "
-              + hMap.getFloorNumber()
-              + ", '"
-              + hMap.getBuildingName()
-              + "', '"
-              + hMap.getImagePath()
-              + "')");
-    } catch (SQLException e) {
-      // TODO handle e
-      e.printStackTrace();
-    }
-
     Set<EdgePair> edgePairSet = new TreeSet<>();
-    for (HospitalMapNode node : hMap.getNodes()) {
-      for (HospitalMapNode toNode : node.getConnections()) {
-        edgePairSet.add(new EdgePair(node.getID(), toNode.getID()));
-      }
 
+    for (HospitalMap hMap : hMaps) {
       try {
         Statement statement = databaseRef.getConnection().createStatement();
-        if (node instanceof LocationNode) {
-          // TODO locationNode handling
-        } else {
-          statement.executeUpdate(
-              "INSERT INTO navNodes (node_ID, x_Coord, y_Coord, node_Type) "
-                  + "VALUES ('"
-                  + node.getID()
-                  + "', "
-                  + node.getxCoord()
-                  + ", "
-                  + node.getyCoord()
-                  + ", "
-                  + "'POS')");
+        statement.executeUpdate(
+            "INSERT INTO navMaps (map_ID, map_Name, floor_Number, building_Name, image_Path) "
+                + "VALUES ('"
+                + hMap.getId()
+                + "', '"
+                + hMap.getMapName()
+                + "', "
+                + hMap.getFloorNumber()
+                + ", '"
+                + hMap.getBuildingName()
+                + "', '"
+                + hMap.getImagePath()
+                + "')");
+      } catch (SQLException e) {
+        // TODO handle e
+        e.printStackTrace();
+      }
+
+      for (HospitalMapNode node : hMap.getNodes()) {
+        for (HospitalMapNode toNode : node.getConnections()) {
+          edgePairSet.add(new EdgePair(node.getID(), toNode.getID()));
         }
 
-      } catch (SQLException e) {
-        // TODO catch e
+        try {
+          Statement statement = databaseRef.getConnection().createStatement();
+          if (node instanceof LocationNode) {
+            // TODO locationNode handling
+            statement.executeUpdate(
+                "INSERT INTO navNodes (MAP_ID, NODE_ID, X_COORD, Y_COORD, NODE_TYPE, SHORT_NAME, LONG_NAME)"
+                    + "VALUES ('"
+                    + hMap.getId()
+                    + "', '"
+                    + node.getID()
+                    + "', "
+                    + node.getxCoord()
+                    + ", "
+                    + node.getyCoord()
+                    + ", 'LOC', '"
+                    + ((LocationNode) node).getShortName()
+                    + "', '"
+                    + ((LocationNode) node).getLongName()
+                    + "')");
+          } else {
+            statement.executeUpdate(
+                "INSERT INTO navNodes (node_ID, x_Coord, y_Coord, node_Type) "
+                    + "VALUES ('"
+                    + node.getID()
+                    + "', "
+                    + node.getxCoord()
+                    + ", "
+                    + node.getyCoord()
+                    + ", "
+                    + "'POS')");
+          }
+
+        } catch (SQLException e) {
+          // TODO catch e
+          System.out.println("Error inserting node: " + node.getID() + " into database");
+          e.printStackTrace();
+        }
       }
     }
 
@@ -285,8 +305,7 @@ public class NavDatabaseManager extends DatabaseManager {
                 + "', '"
                 + pair.toId
                 + "')");
-      } catch (SQLException e) {
-        // TODO catch e
+      } catch (SQLException e) { // TODO catch e
         e.printStackTrace();
       }
     }
