@@ -3,7 +3,9 @@ package edu.wpi.ithorian.database;
 import edu.wpi.ithorian.hospitalMap.HospitalMap;
 import edu.wpi.ithorian.hospitalMap.HospitalMapNode;
 import edu.wpi.ithorian.hospitalMap.LocationNode;
-import java.sql.*;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.*;
 
 public class NavDatabaseManager extends DatabaseManager {
@@ -38,7 +40,7 @@ public class NavDatabaseManager extends DatabaseManager {
       return null;
     }
 
-    String mapName, buildingName, imagePath, teamAssigned;
+    String mapName, buildingName, teamAssigned, image_path;
     int floor;
 
     try {
@@ -46,7 +48,7 @@ public class NavDatabaseManager extends DatabaseManager {
       floor = mapResult.getInt("floor_Number");
       buildingName = mapResult.getString("building_Name");
       teamAssigned = mapResult.getString("teamAssigned");
-      imagePath = mapResult.getString("image_Path");
+      image_path = mapResult.getString("image_path");
     } catch (SQLException e) {
       e.printStackTrace();
       System.out.println("Log navMap column names not correct");
@@ -75,7 +77,7 @@ public class NavDatabaseManager extends DatabaseManager {
         longname = nodeResults.getString("long_Name");
         shortname = nodeResults.getString("short_Name");
 
-        nodeMap.put(nodeId, new HospitalMapNode(nodeId, "", xCoord, yCoord, null));
+        nodeMap.put(nodeId, new HospitalMapNode(nodeId, mapId, xCoord, yCoord, null));
       }
     } catch (SQLException e) {
       System.out.println("Error handling for pulling data from navNodes");
@@ -88,7 +90,7 @@ public class NavDatabaseManager extends DatabaseManager {
 
       while (nodeIterator.hasNext()) {
         Map.Entry nodeEntry = (Map.Entry) nodeIterator.next();
-        List<HospitalMapNode> connected = new ArrayList<>();
+        ArrayList<HospitalMapNode> connected = new ArrayList<>();
         Statement stmt = databaseRef.getConnection().createStatement();
         ResultSet fromEdgeResults =
             stmt.executeQuery(
@@ -122,7 +124,7 @@ public class NavDatabaseManager extends DatabaseManager {
     }
 
     return new HospitalMap(
-        mapId, mapName, buildingName, floor, imagePath, new HashSet<>(nodeMap.values()));
+        mapId, mapName, buildingName, floor, image_path, new HashSet<>(nodeMap.values()));
   }
 
   protected void dropTables() {
@@ -176,7 +178,7 @@ public class NavDatabaseManager extends DatabaseManager {
         Statement stmt = databaseRef.getConnection().createStatement();
         stmt.execute(
             "CREATE TABLE navNodes(node_ID varchar(45) NOT NULL,"
-                + " x_Coord integer NOT NULL, y_Coord integer NOT NULL,is_Named boolean, node_Type varchar(4),"
+                + " x_Coord integer NOT NULL, y_Coord integer NOT NULL, node_Type varchar(3),"
                 + "long_Name varchar(45), short_Name varchar(45),map_ID varchar(45), "
                 + "PRIMARY KEY(node_ID), FOREIGN KEY (map_ID) references navMaps(map_ID))");
       } catch (SQLException e) {
@@ -187,7 +189,7 @@ public class NavDatabaseManager extends DatabaseManager {
       try {
         Statement stmt = databaseRef.getConnection().createStatement();
         stmt.execute(
-            "CREATE TABLE navEdges(edge_ID varchar(45) NOT NULL, "
+            "CREATE TABLE navEdges(edge_ID integer NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), "
                 + "from_Node varchar(45), to_Node varchar(45), PRIMARY KEY(edge_ID), "
                 + "FOREIGN KEY (from_Node) references navNodes(node_ID),"
                 + "FOREIGN KEY (to_Node) references navNodes(node_ID))");
