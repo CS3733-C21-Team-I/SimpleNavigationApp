@@ -4,7 +4,7 @@ import static edu.wpi.ithorian.hospitalMap.mapEditing.NavEditOperation.Operation
 
 import edu.wpi.ithorian.hospitalMap.HospitalMap;
 import edu.wpi.ithorian.hospitalMap.HospitalMapNode;
-import java.io.IOException;
+import edu.wpi.ithorian.hospitalMap.LocationNode;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Set;
@@ -69,8 +69,9 @@ public class MapEditManager {
    * edited node Usage, editNode(nodeId, new HospitalMapNode(newInfo)
    *
    * @param nodeId the Id of the node prior to editing
+   * @param newNode
    */
-  public void editNode(String nodeId) {
+  public void editNode(String nodeId, LocationNode newNode) {
     HospitalMapNode node = activeMap.getNode(nodeId);
     // TODO reset node.id using hashing?
     dataOperations.add(new NavEditOperation(EDIT_NODE, nodeId, node, null));
@@ -84,6 +85,26 @@ public class MapEditManager {
   public void deleteNode(String nodeId) {
     dataOperations.add(new NavEditOperation(DELETE_NODE, nodeId, null, null));
     activeMap.getNodes().remove(activeMap.getNode(nodeId));
+  }
+
+  /**
+   * takes in a node object and assigns / de-assigns it to the selectedNode variable in MapState
+   *
+   * @param node the node to be assigned or de-assigned
+   */
+  public void toggleNode(HospitalMapNode node) {
+    if (activeMap.getSelectedNode() == null) {
+      activeMap.setSelectedNode(node);
+    } else if (activeMap.getSelectedNode().equals(node)) {
+      activeMap.setSelectedNode(null);
+    } else {
+      makeEdge();
+      activeMap.setSelectedNode(null);
+    }
+  }
+
+  private void makeEdge() {
+    // TODO: Implement making an edge
   }
 
   public void addConnection(String fromNode, String toNode) {
@@ -115,8 +136,7 @@ public class MapEditManager {
     return activeMap.getImagePath();
   }
 
-  public void startEditorView() throws IOException {
-    System.out.println("Starting editor");
+  public void startEditorView() {
     mapEditorView = new MapEditView(this);
     mapEditorView.start(stage);
     mapEditorView.saveManager();
@@ -140,7 +160,7 @@ public class MapEditManager {
     return root;
   }
 
-  public Stage getStage() {
-    return stage;
+  public HospitalMapNode getSelectedNode() {
+    return activeMap.getSelectedNode();
   }
 }

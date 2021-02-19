@@ -6,7 +6,6 @@ public class ServiceTicket {
   private int requestingUserID;
   private int assignedUserID;
   private TicketType ticketType;
-
   private String location;
   private String description;
   private boolean completed;

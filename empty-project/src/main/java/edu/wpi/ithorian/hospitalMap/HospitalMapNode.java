@@ -12,16 +12,16 @@ public class HospitalMapNode implements GraphNode<HospitalMapNode> {
   private int xCoord;
   private int yCoord;
 
+  public void setId(String id) {
+    this.id = id;
+  }
+
   public void setxCoord(int xCoord) {
     this.xCoord = xCoord;
   }
 
   public void setyCoord(int yCoord) {
     this.yCoord = yCoord;
-  }
-
-  public void setId(String id) {
-    this.id = id;
   }
 
   public int getxCoord() {
@@ -36,7 +36,6 @@ public class HospitalMapNode implements GraphNode<HospitalMapNode> {
 
   public HospitalMapNode(
       String id, String mapID, int xCoord, int yCoord, List<HospitalMapNode> connections) {
-
     this.id = id;
     this.mapID = mapID;
     this.connections = connections;
@@ -66,6 +65,11 @@ public class HospitalMapNode implements GraphNode<HospitalMapNode> {
   @Override
   public void addConnection(HospitalMapNode add) {
     this.connections.add(add);
+  }
+
+  @Override
+  public void removeConnection(HospitalMapNode take) {
+    this.connections.remove(take);
   }
 
   public void setConnections(List<HospitalMapNode> connections) {

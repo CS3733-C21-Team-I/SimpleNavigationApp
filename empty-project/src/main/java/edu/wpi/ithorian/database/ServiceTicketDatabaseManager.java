@@ -1,7 +1,6 @@
 package edu.wpi.ithorian.database;
 
 import edu.wpi.ithorian.ticket.ServiceTicket;
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -12,12 +11,12 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
 
   private static final String DB_URL = "";
   private static ServiceTicketDatabaseManager ourInstance;
-  private Connection connection = databaseRef.getConnection();
 
   /** @param regen */
   private ServiceTicketDatabaseManager(boolean regen) {
     super(DB_URL, regen);
-    // throw new UnsupportedOperationException();
+    // TODO - implement ServiceTicket.ServiceTicketDatabaseManager
+    throw new UnsupportedOperationException();
   }
 
   /** @param regen */
@@ -33,7 +32,7 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
   /** @param id */
   public ServiceTicket getTicketForId(int id) {
     try {
-      Statement stmt = connection.createStatement();
+      Statement stmt = databaseRef.getConnection().createStatement();
       ResultSet rs =
           stmt.executeQuery("SELECT * FROM serviceticket WHERE ticketID=" + String.valueOf(id));
       if (rs.next())
@@ -55,7 +54,7 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
   @Override
   protected void createTables() {
     try {
-      Statement stmt = connection.createStatement();
+      Statement stmt = databaseRef.getConnection().createStatement();
       try { // Creating the ServiceTicket table
         stmt.execute(
             "create table serviceticket(\n"
@@ -81,7 +80,7 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
   @Override
   protected void dropTables() {
     try {
-      Statement stmt = connection.createStatement();
+      Statement stmt = databaseRef.getConnection().createStatement();
       try {
         // Drop the ServiceTicket table.
         stmt.execute("DROP TABLE serviceticket ");
@@ -97,7 +96,7 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
 
   public void closeTicket(int id) {
     try {
-      Statement stmt = connection.createStatement();
+      Statement stmt = databaseRef.getConnection().createStatement();
       ResultSet rs = stmt.executeQuery("DELETE FROM serviceticket WHERE ticketID = '" + id + "'");
     } catch (SQLException e) {
       e.printStackTrace();
@@ -107,7 +106,7 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
   public boolean updateTicket(int id) {
     // Update the complete-ness of a ticket
     try {
-      Statement stmt = connection.createStatement();
+      Statement stmt = databaseRef.getConnection().createStatement();
       ResultSet rs = stmt.executeQuery("SELECT * FROM serviceticket WHERE ticketID = '" + id + "'");
       if (!rs.next()) {
         return false;
@@ -125,7 +124,7 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
 
   public void addTicket(ServiceTicket t) {
     try {
-      Statement stmt = connection.createStatement();
+      Statement stmt = databaseRef.getConnection().createStatement();
       ResultSet rs =
           stmt.executeQuery(
               "INSERT INTO serviceticket(requestingUserID, assignedUserID, ticketType, location, description, completed)\n"
@@ -150,7 +149,7 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
   public List<ServiceTicket> getServiceTicketDB() {
     List<ServiceTicket> tix = new ArrayList<>();
     try {
-      Statement stmt = connection.createStatement();
+      Statement stmt = databaseRef.getConnection().createStatement();
       ResultSet rs = stmt.executeQuery("SELECT * FROM serviceticket");
       while (rs.next()) {
         ServiceTicket cur =

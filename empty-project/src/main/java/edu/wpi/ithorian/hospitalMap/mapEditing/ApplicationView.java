@@ -1,10 +1,12 @@
 package edu.wpi.ithorian.hospitalMap.mapEditing;
 
+import edu.wpi.ithorian.hospitalMap.HospitalMapNode;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -67,21 +69,17 @@ public class ApplicationView extends Application {
   }
 
   @Override
-  public void init() {
-    System.out.println("Starting Up");
-  }
+  public void init() {}
 
   @Override
   public void start(Stage primaryStage) throws IOException {
-    System.out.println("Application manager: " + mapManager);
     Group root = mapManager.getRoot();
-    root.getChildren().add(FXMLLoader.load(getClass().getResource("/fxml/NodeTable.fxml"))); // Home
-    primaryStage.setTitle("Table View");
+    root.getChildren().add(FXMLLoader.load(getClass().getResource("/fxml/Home.fxml")));
+    primaryStage.setTitle("Map View");
     mapManager.setRoot(root);
-    Scene applictionScene = new Scene(root, 973, 800);
-    primaryStage.setScene(applictionScene);
+    Scene applicationScene = new Scene(root, 973, 800);
+    primaryStage.setScene(applicationScene);
     mapManager.setStage(primaryStage);
-    System.out.println("Application scene: " + applictionScene);
     primaryStage.show();
   }
 
@@ -138,73 +136,10 @@ public class ApplicationView extends Application {
         (((TextField) e.getSource()).getText()
             + (!e.getCharacter().equals(Character.toString((char) 8)) ? e.getCharacter() : "")
                 .toLowerCase());
-    ArrayList<String> locations;
-    // this is janky but intelliJ formatted it horribly, temporary solution
-    {
-      locations =
-          new ArrayList<>(
-              Arrays.asList(
-                  "Admitting",
-                  "Blood Draw Lab",
-                  "Cardiac Rehab",
-                  "Elevator X",
-                  "Elevator Y",
-                  "Elevator Z",
-                  "Emergency Department",
-                  "Endoscopy",
-                  "Hall 1",
-                  "Hall 2",
-                  "Hall 3",
-                  "Hall 4",
-                  "Hall 5",
-                  "Hall 6",
-                  "Hall 7",
-                  "Hall 8",
-                  "Hall 9",
-                  "Hall 10",
-                  "Hall 11",
-                  "Hall 12",
-                  "Hall 13",
-                  "Hall 14",
-                  "Hall 15",
-                  "Hall 16",
-                  "Hall 17",
-                  "Hall 18",
-                  "Hall 19",
-                  "Hall 20",
-                  "Hall 21",
-                  "Hall 22",
-                  "Hall 23",
-                  "Hall 24",
-                  "Hall 25",
-                  "Hall 26",
-                  "Hall 27",
-                  "Hall 28",
-                  "Hall 29",
-                  "Hall 30",
-                  "Hall 31",
-                  "Navigation Kiosk",
-                  "LAB",
-                  "Linens",
-                  "Atrium Main Lobby",
-                  "MRI/CT",
-                  "Operation Room",
-                  "Operation Rooms",
-                  "Pre-Admittance Screening",
-                  "PULM Lab",
-                  "QR MAT Management",
-                  "Radiology",
-                  "Recovery",
-                  "Restroom A",
-                  "Restroom B",
-                  "Starbucks",
-                  "Special testing",
-                  "Staircase C",
-                  "Staircase D",
-                  "Staircase E",
-                  "Staircase F",
-                  "VASC Lab"));
-    }
+    List<String> locations =
+        mapManager.getEntityNodes().stream()
+            .map(HospitalMapNode::getID)
+            .collect(Collectors.toList());
     ArrayList<String> matches = new ArrayList<>();
     for (String location : locations) {
       if (location.toLowerCase().contains(matchString)) {
