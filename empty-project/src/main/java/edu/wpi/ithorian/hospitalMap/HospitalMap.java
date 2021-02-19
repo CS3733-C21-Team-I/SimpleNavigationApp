@@ -29,11 +29,9 @@ public class HospitalMap implements Graph<HospitalMapNode> {
     this.imagePath = imagePath;
   }
 
-  // this will be deleted before merging to main, just can't find the read from csv function so
-  // improvising for now
   public static Set<HospitalMapNode> generateElementFromData(
       List<List<String>> nodesList, List<List<String>> edgesList) {
-    HashMap<String, HospitalMapNode> nodesHash = new HashMap<String, HospitalMapNode>();
+    HashMap<String, HospitalMapNode> nodesHash = new HashMap<>();
     HashSet<HospitalMapNode> nodes = new HashSet<>();
     for (List<String> value : nodesList) {
       HospitalMapNode currNode =
@@ -42,7 +40,7 @@ public class HospitalMap implements Graph<HospitalMapNode> {
               "",
               Integer.parseInt(value.get(1)),
               Integer.parseInt(value.get(2)),
-              new ArrayList());
+              new ArrayList<>());
       nodes.add(currNode);
       nodesHash.put(currNode.getID(), currNode);
     }
@@ -96,5 +94,9 @@ public class HospitalMap implements Graph<HospitalMapNode> {
 
   public void setSelectedNode(HospitalMapNode selectedNode) {
     this.selectedNode = selectedNode;
+  }
+
+  public void removeNode(String nodeId) {
+    nodes.remove(getNode(nodeId));
   }
 }

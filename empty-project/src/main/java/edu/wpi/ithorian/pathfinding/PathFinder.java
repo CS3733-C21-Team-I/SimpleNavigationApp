@@ -27,7 +27,6 @@ public class PathFinder<T extends GraphNode> {
       currentNode = (T) current.getNode();
       // if node found
       if (currentNode.equals(end)) {
-        // System.out.println("Found!");
         foundLocation = true;
         break;
       }
@@ -40,13 +39,11 @@ public class PathFinder<T extends GraphNode> {
         if ((!visited.containsKey(next.getID())
                 || newCost < visited.get(next.getID()).getPriority())
             && !shouldAvoid) {
-          // System.out.println("Visiting node" + next.getID()  + "   " + newCost);
           // make the PathNode that stores where it came from & its cost; add it to visited nodes
           PathNode<T> newPath = new PathNode<T>(next, currentNode, newCost);
           visited.put(next.getID(), newPath);
 
           priority = newCost + scorer.calculateDistance(end, next);
-          // System.out.println("priority: " + priority);
           frontier.add(new PathNode<>(next, currentNode, priority));
         }
       }
@@ -57,7 +54,6 @@ public class PathFinder<T extends GraphNode> {
     if (foundLocation) {
       // reverse through cameFrom to get the properly ordered path from start to end
       while (current.getPrevious() != null) {
-        // System.out.println("Adding " + currentNode.getID() + " to path...");
         path.add(currentNode);
 
         current = visited.get(current.getPrevious().getID());

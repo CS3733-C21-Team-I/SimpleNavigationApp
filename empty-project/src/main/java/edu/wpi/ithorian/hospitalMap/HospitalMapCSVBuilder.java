@@ -28,7 +28,7 @@ public class HospitalMapCSVBuilder {
                 nodeEntry.get(10),
                 "Temp",
                 nodeEntry.get(4),
-                Integer.valueOf(nodeEntry.get(3)),
+                Integer.parseInt(nodeEntry.get(3)),
                 "TEMP",
                 new HashSet<>()));
       }

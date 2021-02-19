@@ -5,7 +5,6 @@ import static edu.wpi.ithorian.hospitalMap.mapEditing.NavEditOperation.Operation
 import edu.wpi.ithorian.hospitalMap.HospitalMap;
 import edu.wpi.ithorian.hospitalMap.HospitalMapNode;
 import edu.wpi.ithorian.hospitalMap.LocationNode;
-import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Set;
@@ -137,8 +136,7 @@ public class MapEditManager {
     return activeMap.getImagePath();
   }
 
-  public void startEditorView() throws IOException {
-    System.out.println("Starting editor");
+  public void startEditorView() {
     mapEditorView = new MapEditView(this);
     mapEditorView.start(stage);
     mapEditorView.saveManager();

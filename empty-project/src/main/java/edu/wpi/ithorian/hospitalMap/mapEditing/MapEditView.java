@@ -1,7 +1,6 @@
 package edu.wpi.ithorian.hospitalMap.mapEditing;
 
 import edu.wpi.ithorian.hospitalMap.HospitalMapNode;
-import java.util.stream.Collectors;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -54,12 +53,6 @@ public class MapEditView extends Application {
   }
 
   private void onRightClick(MouseEvent e, HospitalMapNode node) {
-    System.out.println("Node " + node.getID() + " clicked");
-    System.out.println(
-        "Before: "
-            + this.mapManager.getEntityNodes().stream()
-                .map(HospitalMapNode::getID)
-                .collect(Collectors.joining(", ")));
     if (e.getButton() == MouseButton.SECONDARY) {
       mapManager.deleteNode(node.getID());
       update();

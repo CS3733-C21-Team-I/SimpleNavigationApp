@@ -37,8 +37,8 @@
 // "/src/main/java/edu/wpi/ithorian/hospitalMap/mapEditing/";
 //    Set<HospitalMapNode> nodes =
 //        HospitalMap.generateElementFromData(
-//            ReadCSV.readFromFile(path + "MapINodes.csv"),
-//            ReadCSV.readFromFile(path + "MapIEdges.csv"));
+//            ReadCSV.readFromFile(path + "MapIEdges.csv"),
+//            ReadCSV.readFromFile(path + "MapINodes.csv"));
 //    HospitalMap map =
 //        new HospitalMap(
 //            "Test_Map",

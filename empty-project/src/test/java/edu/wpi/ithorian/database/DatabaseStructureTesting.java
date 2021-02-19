@@ -19,18 +19,19 @@ public class DatabaseStructureTesting {
   @Test
   void testInitMultipleManagers() {
     NavDatabaseManager.init(false);
-    UserDatabaseManager.init(false);
+    // UserDatabaseManager.init(false);
+    ServiceTicketDatabaseManager.init(true);
 
     assertNotNull(NavDatabaseManager.getInstance());
-    assertNotNull(UserDatabaseManager.getInstance());
+    // assertNotNull(UserDatabaseManager.getInstance());
   }
 
   @Test
   void testInitMultipleManagersWithRegen() {
     NavDatabaseManager.init(true);
-    UserDatabaseManager.init(true);
+    // UserDatabaseManager.init(true);
 
     assertNotNull(NavDatabaseManager.getInstance());
-    assertNotNull(UserDatabaseManager.getInstance());
+    // assertNotNull(UserDatabaseManager.getInstance());
   }
 }
