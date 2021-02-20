@@ -95,8 +95,6 @@ public class MapEditDataController {
 
   //	+ discardChanges()
 
-  // 	+ getClosestNodeToPos(int xPos, int yPos): HospitalMapNode
-
   //	+ undo()
   //	+ redo()
 }

@@ -49,12 +49,12 @@ public class MapEditView extends Application {
         (EventHandler<MouseEvent>)
             e -> {
               if (e.getButton() == MouseButton.SECONDARY) {
-                // definitely need a better way of making an ID
+                // ID will be generated later
                 mapManager
                     .getDataCont()
                     .addNode(
                         new HospitalMapNode(
-                            "H",
+                            "",
                             mapManager.getMapID(),
                             (int) ((e.getX() * scale) + 10),
                             (int) ((e.getY() * scale) + 10),
