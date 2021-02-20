@@ -20,7 +20,7 @@ public class Main {
 
     String path =
         System.getProperty("user.dir")
-            + "/hospital-app/src/main/java/edu/wpi/cs3733/c21/teamI/hospitalMap/mapEditing/";
+            + "/src/main/java/edu/wpi/cs3733/c21/teamI/hospitalMap/mapEditing/";
 
     HospitalMap map =
         HospitalMapCSVBuilder.loadCSV(path + "MapINodes.csv", path + "MapIEdges.csv")
