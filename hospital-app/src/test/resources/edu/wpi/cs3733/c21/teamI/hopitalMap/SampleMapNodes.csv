@@ -1,0 +1,14 @@
+nodeId,xcoord,ycoord,floor,building,nodetype,type,longname,shortname,teamassigned,mapId
+N01,30,0,01,Test,HALL,POS,node1,node1,I,map1
+N02,60,10,01,Test,HALL,POS,node2,node2,I,map1
+N03,10,30,01,Test,HALL,POS,node3,node3,I,map1
+N04,30,30,01,Test,HALL,POS,node4,node4,I,map1
+N05,60,30,01,Test,HALL,POS,node5,node5,I,map1
+N06,80,30,01,Test,HALL,POS,node6,node6,I,map1
+N07,30,40,01,Test,HALL,POS,node7,node7,I,map1
+N08,60,40,01,Test,HALL,POS,node8,node8,I,map1
+N09,80,40,01,Test,HALL,POS,node9,node9,I,map1
+N10,10,60,01,Test,HALL,POS,node10,node10,I,map1
+N11,30,60,01,Test,HALL,POS,node11,node11,I,map1
+N12,60,60,01,Test,HALL,POS,node12,node12,I,map1
+N13,60,70,01,Test,HALL,POS,node13,node13,I,map1
