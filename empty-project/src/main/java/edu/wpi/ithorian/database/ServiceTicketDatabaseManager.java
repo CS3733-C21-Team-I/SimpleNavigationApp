@@ -9,7 +9,7 @@ import java.util.List;
 
 public class ServiceTicketDatabaseManager extends DatabaseManager {
 
-  private static final String DB_URL = "jdbc:derby:navDB";
+  private static final String DB_URL = "jdbc:derby:navDB/TEAMI";
   private static ServiceTicketDatabaseManager ourInstance;
 
   /** @param regen */

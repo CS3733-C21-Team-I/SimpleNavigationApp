@@ -8,7 +8,7 @@ import java.util.*;
 
 public class NavDatabaseManager extends DatabaseManager {
 
-  private static final String DB_URL = "jdbc:derby:navDB";
+  private static final String DB_URL = "jdbc:derby:navDB/TEAMI";
   private static NavDatabaseManager ourInstance;
 
   public static void init(boolean regen) {
