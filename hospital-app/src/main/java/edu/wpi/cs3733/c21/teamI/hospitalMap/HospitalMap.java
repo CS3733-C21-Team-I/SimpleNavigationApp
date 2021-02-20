@@ -5,14 +5,12 @@ import java.util.*;
 
 public class HospitalMap implements Graph<HospitalMapNode> {
 
-  private Set<HospitalMapNode> nodes;
-  private String id;
-  private String mapName;
-  private String buildingName;
-  private String imagePath;
-  private int floorNumber;
-
-  private HospitalMapNode selectedNode = null;
+  private final Set<HospitalMapNode> nodes;
+  private final String id;
+  private final String mapName;
+  private final String buildingName;
+  private final String imagePath;
+  private final int floorNumber;
 
   public HospitalMap(
       String id,
@@ -86,14 +84,6 @@ public class HospitalMap implements Graph<HospitalMapNode> {
 
   public int getFloorNumber() {
     return floorNumber;
-  }
-
-  public HospitalMapNode getSelectedNode() {
-    return selectedNode;
-  }
-
-  public void setSelectedNode(HospitalMapNode selectedNode) {
-    this.selectedNode = selectedNode;
   }
 
   public void removeNode(String nodeId) {

@@ -5,6 +5,7 @@
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
@@ -19,176 +20,157 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<?import javafx.scene.control.ButtonBar?>
-<AnchorPane prefHeight="800.0" prefWidth="973.0" styleClass="styledBackground" stylesheets="@fxmlResources/main.css"
-            xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="edu.wpi.cs3733.c21.teamI.hospitalMap.mapEditing.ApplicationView">
-    <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#0067b1" height="100.0" layoutX="88.0" stroke="BLACK"
-               strokeType="INSIDE" strokeWidth="0.0" width="973.0" AnchorPane.leftAnchor="0.0"
-               AnchorPane.rightAnchor="0.0"/>
-    <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0"
-          AnchorPane.rightAnchor="0.0">
-        <Label fx:id="dateTime" styleClass="root" text="Wed, Feb 10th 9:43 AM" textFill="WHITE">
+<AnchorPane prefHeight="800.0" prefWidth="973.0" styleClass="styledBackground" stylesheets="@fxmlResources/main.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamI.hospitalMap.mapEditing.ApplicationView">
+    <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#0067b1" height="100.0" layoutX="88.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="973.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+    <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+        <Label fx:id="dateTime" text="Wed, Feb 10th 9:43 AM" textFill="WHITE">
             <font>
-                <Font name="Verdana" size="39.0"/>
+                <Font name="Verdana" size="39.0" />
             </font>
             <HBox.margin>
-                <Insets top="20.0"/>
+                <Insets top="20.0" />
             </HBox.margin>
         </Label>
     </HBox>
-    <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" AnchorPane.leftAnchor="0.0"
-          AnchorPane.rightAnchor="0.0">
+    <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
         <opaqueInsets>
-            <Insets/>
+            <Insets />
         </opaqueInsets>
         <padding>
-            <Insets top="90.0"/>
+            <Insets top="90.0" />
         </padding>
         <VBox alignment="TOP_CENTER" prefHeight="300.0" prefWidth="400.0">
-            <VBox prefHeight="0.0" prefWidth="937.0">
+            <ImageView fitHeight="344.0" fitWidth="400.0" pickOnBounds="true" preserveRatio="true" styleClass=".styledLogo">
                 <VBox.margin>
-                    <Insets/>
+                    <Insets top="10.0" />
                 </VBox.margin>
-            </VBox>
-            <ImageView fitHeight="344.0" fitWidth="400.0" pickOnBounds="true" preserveRatio="true"
-                       styleClass=".styledLogo">
-                <VBox.margin>
-                    <Insets top="10.0"/>
-                </VBox.margin>
-                <Image url="@fxmlResources/bwh-logo.jpg"/>
+                <Image url="@fxmlResources/bwh-logo.jpg" />
             </ImageView>
             <HBox prefHeight="100.0" prefWidth="200.0">
                 <ButtonBar prefHeight="100.0" prefWidth="844.0">
                     <buttons>
-                        <Button fx:id="map" mnemonicParsing="false" onAction="#navigate" prefHeight="148.0"
-                                text="Hospital Navigation">
+                        <Button fx:id="map" mnemonicParsing="false" onAction="#navigate" prefHeight="148.0" text="Hospital Navigation">
                             <font>
-                                <Font size="16.0"/>
+                                <Font size="16.0" />
                             </font>
                             <graphic>
-                                <ImageView fitHeight="31.0" fitWidth="46.0" pickOnBounds="true"
-                                           preserveRatio="true">
-                                    <Image url="@fxmlResources/outline_map_white_18dp.png"/>
+                                <ImageView fitHeight="31.0" fitWidth="46.0" pickOnBounds="true" preserveRatio="true">
+                                    <Image url="@fxmlResources/outline_map_white_18dp.png" />
                                 </ImageView>
                             </graphic>
                             <styleClass>
-                                <String fx:value="styledButton"/>
+                                <String fx:value="styledButton" />
                             </styleClass>
                             <cursor>
-                                <Cursor fx:constant="HAND"/>
+                                <Cursor fx:constant="HAND" />
                             </cursor>
                         </Button>
-                        <Button mnemonicParsing="false" prefHeight="270.0" prefWidth="239.0" text="Give a Gift"
-                                textFill="WHITE">
+                        <Button mnemonicParsing="false" prefHeight="270.0" prefWidth="239.0" text="Give a Gift" textFill="WHITE">
                             <font>
-                                <Font size="16.0"/>
+                                <Font size="16.0" />
                             </font>
                             <graphic>
-                                <ImageView fitHeight="31.0" fitWidth="27.0" pickOnBounds="true"
-                                           preserveRatio="true">
-                                    <Image url="@fxmlResources/gift-32.png"/>
+                                <ImageView fitHeight="31.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
+                                    <Image url="@fxmlResources/gift-32.png" />
                                 </ImageView>
                             </graphic>
                             <styleClass>
-                                <String fx:value="styledButton"/>
+                                <String fx:value="styledButton" />
                             </styleClass>
                             <cursor>
-                                <Cursor fx:constant="HAND"/>
+                                <Cursor fx:constant="HAND" />
                             </cursor>
                         </Button>
-                        <Button fx:id="serviceRequests" mnemonicParsing="false" onAction="#navigate"
-                                text="Make a Service Request">
+                        <Button fx:id="serviceRequests" mnemonicParsing="false" onAction="#navigate" text="Make a Service Request">
                             <font>
-                                <Font size="16.0"/>
+                                <Font size="16.0" />
                             </font>
                             <graphic>
-                                <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true"
-                                           preserveRatio="true">
-                                    <Image url="@fxmlResources/baseline_construction_white_18dp.png"/>
+                                <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
+                                    <Image url="@fxmlResources/baseline_construction_white_18dp.png" />
                                 </ImageView>
                             </graphic>
                             <styleClass>
-                                <String fx:value="styledButton"/>
+                                <String fx:value="styledButton" />
                             </styleClass>
                             <cursor>
-                                <Cursor fx:constant="HAND"/>
+                                <Cursor fx:constant="HAND" />
                             </cursor>
                         </Button>
                     </buttons>
                     <HBox.margin>
-                        <Insets/>
+                        <Insets />
                     </HBox.margin>
                 </ButtonBar>
             </HBox>
         </VBox>
     </VBox>
-    <HBox alignment="CENTER" layoutY="294.0" prefHeight="458.0" prefWidth="973.0" AnchorPane.bottomAnchor="6.0"
-          AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="294.0">
+    <HBox alignment="CENTER" layoutY="294.0" prefHeight="458.0" prefWidth="973.0" AnchorPane.bottomAnchor="6.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="294.0">
         <StackPane alignment="TOP_CENTER" prefHeight="487.0" prefWidth="252.0">
             <HBox.margin>
-                <Insets top="30.0"/>
+                <Insets top="30.0" />
             </HBox.margin>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f1f1f1" height="251.0" stroke="BLACK"
-                       strokeType="INSIDE" strokeWidth="0.0" width="441.0"/>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f1f1f1" height="251.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="441.0" />
             <Accordion>
                 <panes>
                     <TitledPane animated="false" text="Visitor Check-In">
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="217.0" prefWidth="439.0">
-                            <Label layoutX="55.0" layoutY="89.0" text="Patient's Name"/>
-                            <TextField layoutX="205.0" layoutY="32.0"/>
-                            <Label layoutX="55.0" layoutY="37.0" text="Visitor Name"/>
-                            <TextField layoutX="205.0" layoutY="84.0"/>
-                            <Button layoutX="163.0" layoutY="161.0" mnemonicParsing="false"
-                                    styleClass="styledButton" text="Check In"/>
+                            <Label layoutX="55.0" layoutY="89.0" text="Patient's Name" />
+                            <TextField layoutX="205.0" layoutY="32.0" />
+                            <Label layoutX="55.0" layoutY="37.0" text="Visitor Name" />
+                            <TextField layoutX="205.0" layoutY="84.0" />
+                            <Button layoutX="163.0" layoutY="161.0" mnemonicParsing="false" styleClass="styledButton" text="Check In" />
                         </AnchorPane>
                     </TitledPane>
                     <TitledPane animated="false" prefHeight="166.0" prefWidth="441.0" text="Visting Hours">
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                            <Text layoutX="14.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0"
-                                  text="Non-essential visitors are not allowed at this time. Please call 617-983-4507 for questions about visiting hours."
-                                  wrappingWidth="399.9999956637621"/>
+                            <Text layoutX="14.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Non-essential visitors are not allowed at this time. Please call 617-983-4507 for questions about visiting hours." wrappingWidth="399.9999956637621" />
                         </AnchorPane>
                     </TitledPane>
                     <TitledPane animated="false" text="Request PPE">
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                            <Text layoutX="47.0" layoutY="29.0" strokeType="OUTSIDE" strokeWidth="0.0"
-                                  text="Required PPE includes: a mask, gown, face shield, and gloves according to CDC guidelines. To request PPE, please submit this form prior to your visit."
-                                  wrappingWidth="310.82373046875"/>
-                            <Label layoutX="66.0" layoutY="84.0" text="Request Description"/>
-                            <TextArea layoutX="66.0" layoutY="117.0" prefHeight="70.0" prefWidth="223.0"/>
-                            <Button layoutX="318.0" layoutY="150.0" mnemonicParsing="false"
-                                    styleClass="styledButton" text="Submit"/>
+                            <Text layoutX="47.0" layoutY="29.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Required PPE includes: a mask, gown, face shield, and gloves according to CDC guidelines. To request PPE, please submit this form prior to your visit." wrappingWidth="310.82373046875" />
+                            <Label layoutX="66.0" layoutY="84.0" text="Request Description" />
+                            <TextArea layoutX="66.0" layoutY="117.0" prefHeight="70.0" prefWidth="223.0" />
+                            <Button layoutX="318.0" layoutY="150.0" mnemonicParsing="false" styleClass="styledButton" text="Submit" />
                         </AnchorPane>
                     </TitledPane>
                     <TitledPane animated="false" text="COVID-19 Policy">
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="254.0" prefWidth="439.0">
-                            <Text layoutX="25.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0"
-                                  text="Individuals will be prohibited from visiting (unless they are seeking treatment) if they have:symptoms consistent with COVID-19 ora confirmed COVID-19 infection orhave traveled in the past 14 days to any area subject to the MA COVID-19 Travel Order and cannot attest to compliance with the MA COVID-19 Travel Order (Please note: essential visitors/support persons* are exempt from the travel requirement but must comply with steps 1 and 2)"
-                                  wrappingWidth="399.9999956637621"/>
+                            <Text layoutX="25.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Individuals will be prohibited from visiting (unless they are seeking treatment) if they have:symptoms consistent with COVID-19 ora confirmed COVID-19 infection orhave traveled in the past 14 days to any area subject to the MA COVID-19 Travel Order and cannot attest to compliance with the MA COVID-19 Travel Order (Please note: essential visitors/support persons* are exempt from the travel requirement but must comply with steps 1 and 2)" wrappingWidth="399.9999956637621" />
                         </AnchorPane>
                     </TitledPane>
                 </panes>
                 <StackPane.margin>
-                    <Insets bottom="100.0" top="42.0"/>
+                    <Insets bottom="100.0" top="42.0" />
                 </StackPane.margin>
             </Accordion>
             <Text strokeType="OUTSIDE" strokeWidth="0.0">
                 <StackPane.margin>
-                    <Insets top="50.0"/>
+                    <Insets top="50.0" />
                 </StackPane.margin>
             </Text>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#0067b1" height="42.0" stroke="BLACK"
-                       strokeType="INSIDE" strokeWidth="0.0" width="441.0"/>
-            <Label prefHeight="26.0" prefWidth="186.0" styleClass=".root" text="Important Information"
-                   textFill="WHITE">
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#0067b1" height="42.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="441.0" />
+            <Label prefHeight="26.0" prefWidth="186.0" styleClass=".root" text="Important Information" textFill="WHITE">
                 <font>
-                    <Font size="20.0"/>
+                    <Font size="20.0" />
                 </font>
                 <StackPane.margin>
-                    <Insets top="8.0"/>
+                    <Insets top="8.0" />
                 </StackPane.margin>
             </Label>
         </StackPane>
     </HBox>
+    <Button fx:id="exitButton" layoutX="744.0" layoutY="35.0" maxHeight="75.0" maxWidth="75.0" minHeight="50.0" minWidth="46.0" mnemonicParsing="false" onAction="#exit" prefHeight="50.0" prefWidth="46.0" style="-fx-background-color: transparent;" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="25.0">
+        <cursor>
+            <Cursor fx:constant="HAND" />
+        </cursor>
+        <graphic>
+            <ImageView fx:id="adminPath2" fitHeight="48.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                <image>
+                    <Image url="@fxmlResources/white_x.png" />
+                </image>
+            </ImageView>
+        </graphic>
+    </Button>
 </AnchorPane>

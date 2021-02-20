@@ -94,7 +94,7 @@ public class NavDatabaseManager extends DatabaseManager {
         Statement stmt = databaseRef.getConnection().createStatement();
         ResultSet fromEdgeResults =
             stmt.executeQuery(
-                "SELECT * FROM navEdges WHERE from_Node='" + (String) nodeEntry.getKey() + "'");
+                "SELECT * FROM navEdges WHERE from_Node='" + nodeEntry.getKey() + "'");
         while (fromEdgeResults.next()) {
           HospitalMapNode n = nodeMap.get(fromEdgeResults.getString("to_Node"));
           if (n == null) {
@@ -105,8 +105,7 @@ public class NavDatabaseManager extends DatabaseManager {
         }
         stmt = databaseRef.getConnection().createStatement();
         ResultSet toEdgeResults =
-            stmt.executeQuery(
-                "SELECT * FROM navEdges WHERE to_Node='" + (String) nodeEntry.getKey() + "'");
+            stmt.executeQuery("SELECT * FROM navEdges WHERE to_Node='" + nodeEntry.getKey() + "'");
         while (toEdgeResults.next()) {
           HospitalMapNode n = nodeMap.get(toEdgeResults.getString("from_Node"));
           if (n == null) {
@@ -204,8 +203,8 @@ public class NavDatabaseManager extends DatabaseManager {
 
   void saveMapIntoMemory(HospitalMap hMap) {
     class EdgePair implements Comparable<EdgePair> {
-      String fromId;
-      String toId;
+      final String fromId;
+      final String toId;
 
       public EdgePair(String fromId, String toId) {
         this.fromId = fromId;

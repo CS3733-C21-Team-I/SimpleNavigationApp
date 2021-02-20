@@ -9,13 +9,13 @@ public class NavEditOperation {
     EDIT_NODE,
     DELETE_NODE,
     ADD_EDGE,
-    DELETE_EDGE;
+    DELETE_EDGE
   }
 
-  private OperationType opType;
-  private String targetNode;
-  private HospitalMapNode newNode;
-  private String toNode;
+  private final OperationType opType;
+  private final String targetNode;
+  private final HospitalMapNode newNode;
+  private final String toNode;
 
   public NavEditOperation(
       OperationType opType, String targetNode, HospitalMapNode newNode, String toNode) {
