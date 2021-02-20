@@ -1,4 +1,4 @@
-Sun Feb 14 01:54:33 EST 2021 Thread[main,5,main] Cleanup action starting
+Fri Feb 19 19:54:11 EST 2021 Thread[main,5,main] Cleanup action starting
 java.sql.SQLException: Database 'navDB' not found.
 	at org.apache.derby.impl.jdbc.SQLExceptionFactory.getSQLException(Unknown Source)
 	at org.apache.derby.impl.jdbc.SQLExceptionFactory.getSQLException(Unknown Source)
@@ -16,12 +16,12 @@ java.sql.SQLException: Database 'navDB' not found.
 	at org.apache.derby.jdbc.AutoloadedDriver.connect(Unknown Source)
 	at java.sql.DriverManager.getConnection(DriverManager.java:664)
 	at java.sql.DriverManager.getConnection(DriverManager.java:270)
-	at edu.wpi.ithorian.database.DatabaseRef.<init>(DatabaseRef.java:24)
-	at edu.wpi.ithorian.database.DatabaseRef.getConnection(DatabaseRef.java:56)
-	at edu.wpi.ithorian.database.DatabaseManager.<init>(DatabaseManager.java:8)
-	at edu.wpi.ithorian.database.NavDatabaseManager.<init>(NavDatabaseManager.java:26)
-	at edu.wpi.ithorian.database.NavDatabaseManager.init(NavDatabaseManager.java:18)
-	at edu.wpi.ithorian.Main.main(Main.java:15)
+	at edu.wpi.cs3733.c21.teamI.database.DatabaseRef.<init>(DatabaseRef.java:24)
+	at edu.wpi.cs3733.c21.teamI.database.DatabaseRef.getConnection(DatabaseRef.java:56)
+	at edu.wpi.cs3733.c21.teamI.database.DatabaseManager.<init>(DatabaseManager.java:8)
+	at edu.wpi.cs3733.c21.teamI.database.NavDatabaseManager.<init>(NavDatabaseManager.java:26)
+	at edu.wpi.cs3733.c21.teamI.database.NavDatabaseManager.init(NavDatabaseManager.java:18)
+	at edu.wpi.cs3733.c21.teamI.Main.main(Main.java:18)
 Caused by: ERROR XJ004: Database 'navDB' not found.
 	at org.apache.derby.iapi.error.StandardException.newException(Unknown Source)
 	at org.apache.derby.impl.jdbc.SQLExceptionFactory.wrapArgsForTransportAcrossDRDA(Unknown Source)
@@ -46,11 +46,11 @@ ERROR XJ004: Database 'navDB' not found.
 	at org.apache.derby.jdbc.AutoloadedDriver.connect(Unknown Source)
 	at java.sql.DriverManager.getConnection(DriverManager.java:664)
 	at java.sql.DriverManager.getConnection(DriverManager.java:270)
-	at edu.wpi.ithorian.database.DatabaseRef.<init>(DatabaseRef.java:24)
-	at edu.wpi.ithorian.database.DatabaseRef.getConnection(DatabaseRef.java:56)
-	at edu.wpi.ithorian.database.DatabaseManager.<init>(DatabaseManager.java:8)
-	at edu.wpi.ithorian.database.NavDatabaseManager.<init>(NavDatabaseManager.java:26)
-	at edu.wpi.ithorian.database.NavDatabaseManager.init(NavDatabaseManager.java:18)
-	at edu.wpi.ithorian.Main.main(Main.java:15)
+	at edu.wpi.cs3733.c21.teamI.database.DatabaseRef.<init>(DatabaseRef.java:24)
+	at edu.wpi.cs3733.c21.teamI.database.DatabaseRef.getConnection(DatabaseRef.java:56)
+	at edu.wpi.cs3733.c21.teamI.database.DatabaseManager.<init>(DatabaseManager.java:8)
+	at edu.wpi.cs3733.c21.teamI.database.NavDatabaseManager.<init>(NavDatabaseManager.java:26)
+	at edu.wpi.cs3733.c21.teamI.database.NavDatabaseManager.init(NavDatabaseManager.java:18)
+	at edu.wpi.cs3733.c21.teamI.Main.main(Main.java:18)
 ============= end nested exception, level (1) ===========
 Cleanup action completed
