@@ -125,7 +125,6 @@ public class NavDatabaseManager extends DatabaseManager {
     }
 
     return results;
-
   }
 
   protected void dropTables() {
