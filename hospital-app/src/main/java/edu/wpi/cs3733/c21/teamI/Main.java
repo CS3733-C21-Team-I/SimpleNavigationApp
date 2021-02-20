@@ -1,6 +1,6 @@
 package edu.wpi.cs3733.c21.teamI;
 
-import edu.wpi.cs3733.c21.teamI.database.NavDatabaseManager;
+import edu.wpi.cs3733.c21.teamI.database.*;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMap;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMapCSVBuilder;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMapNode;
@@ -15,7 +15,8 @@ public class Main {
   public static void main(String[] args) {
 
     if ((args.length > 0) && Arrays.asList(args).contains("regenerate")) {
-      NavDatabaseManager.init(true);
+      DatabaseManager.initDatabaseManagers(true);
+      DatabaseManager.regenTables();
 
       Map<String, HospitalMap> maps =
           HospitalMapCSVBuilder.loadCSV("MapINodes.csv", "MapIEdges.csv");
