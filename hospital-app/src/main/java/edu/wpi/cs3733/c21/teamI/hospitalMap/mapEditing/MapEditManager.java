@@ -1,7 +1,8 @@
 package edu.wpi.cs3733.c21.teamI.hospitalMap.mapEditing;
 
+import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMap;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMapNode;
-
+import java.util.Map;
 import java.util.Set;
 import javafx.scene.Group;
 import javafx.scene.layout.AnchorPane;
@@ -10,25 +11,29 @@ import javafx.stage.Stage;
 public class MapEditManager {
 
   private static MapEditManager ourInstance;
+  private Map<String, HospitalMap> mapCollection;
   private double scale = 3.05; // scales image to 1/scale
   private MapEditView mapEditorView = null;
   private ApplicationView applicationView = null;
   protected AnchorPane mapPane = null;
   private Group root = null;
   private Stage stage = null;
+  private HospitalMapNode selectedNode = null;
   private MapEditDataController dataCont = new MapEditDataController();
 
   public static void init() {
     ourInstance = new MapEditManager();
   }
 
+  public void setMapCollection(Map<String, HospitalMap> mapCollection) {
+    this.mapCollection = mapCollection;
+  }
+
   public static MapEditManager getInstance() {
     return ourInstance;
   }
 
-  public MapEditManager() {
-    
-  }
+  public MapEditManager() {}
 
   /**
    * takes in a node object and assigns / de-assigns it to the selectedNode variable in MapState
@@ -36,13 +41,13 @@ public class MapEditManager {
    * @param node the node to be assigned or de-assigned
    */
   public void toggleNode(HospitalMapNode node) {
-    if (dataCont.getActiveMap().getSelectedNode() == null) {
-      dataCont.getActiveMap().setSelectedNode(node);
-    } else if (dataCont.getActiveMap().getSelectedNode().equals(node)) {
-      dataCont.getActiveMap().setSelectedNode(null);
+    if (selectedNode == null) {
+      selectedNode = node;
+    } else if (selectedNode.equals(node)) {
+      selectedNode = null;
     } else {
-      dataCont.addEdge(node.getID(), dataCont.getActiveMap().getSelectedNode().getID());
-      dataCont.getActiveMap().setSelectedNode(null);
+      dataCont.addEdge(node.getID(), selectedNode.getID());
+      selectedNode = null;
     }
   }
 
@@ -88,6 +93,10 @@ public class MapEditManager {
   }
 
   public HospitalMapNode getSelectedNode() {
-    return dataCont.getActiveMap().getSelectedNode();
+    return selectedNode;
+  }
+
+  public MapEditDataController getDataCont() {
+    return dataCont;
   }
 }

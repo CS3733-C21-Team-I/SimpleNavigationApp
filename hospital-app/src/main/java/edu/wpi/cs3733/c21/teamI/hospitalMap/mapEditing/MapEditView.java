@@ -50,13 +50,15 @@ public class MapEditView extends Application {
             e -> {
               if (e.getButton() == MouseButton.SECONDARY) {
                 // definitely need a better way of making an ID
-                mapManager.addNode(
-                    new HospitalMapNode(
-                        "H",
-                        mapManager.getMapID(),
-                        (int) ((e.getX() * scale) + 10),
-                        (int) ((e.getY() * scale) + 10),
-                        new ArrayList<>()));
+                mapManager
+                    .getDataCont()
+                    .addNode(
+                        new HospitalMapNode(
+                            "H",
+                            mapManager.getMapID(),
+                            (int) ((e.getX() * scale) + 10),
+                            (int) ((e.getY() * scale) + 10),
+                            new ArrayList<>()));
                 update();
               }
             };
