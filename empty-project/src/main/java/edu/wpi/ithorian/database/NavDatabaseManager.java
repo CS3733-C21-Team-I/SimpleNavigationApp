@@ -295,7 +295,6 @@ public class NavDatabaseManager extends DatabaseManager {
     }
 
     for (EdgePair pair : edgePairSet) {
-      System.out.println(pair.fromId + "," + pair.toId);
       try {
         Statement statement = databaseRef.getConnection().createStatement();
         statement.executeUpdate(
