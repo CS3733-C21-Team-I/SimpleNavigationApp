@@ -51,6 +51,7 @@ public class ApplicationView extends Application {
   @FXML TextField start, destination;
   @FXML Label dateTime;
   @FXML AnchorPane nodeMenu;
+  @FXML AnchorPane mapPane;
 
   boolean adminMap = false;
   private static MapEditManager ourManager;
@@ -193,11 +194,10 @@ public class ApplicationView extends Application {
   }
 
   @FXML
-  public void toggleEditMap(ActionEvent e) throws IOException {
-    mapManager.startEditorView();
+  public void toggleEditMap(ActionEvent e) {
+    mapManager.startEditorView(mapPane);
     adminMap = !adminMap;
     if (adminMap) {
-//      System.out.println(((Button) e.getSource()).getScene().getRoot());
       //      adminPath.setVisible(true);
       nodeMenu.setVisible(true);
     } else {
