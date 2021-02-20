@@ -103,3 +103,7 @@
     visibility: false;
     -fx-padding: 0;
 }
+
+.edge:hover {
+    -fx-fill: lightblue;
+}

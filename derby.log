@@ -1,4 +1,4 @@
-Fri Feb 19 19:54:11 EST 2021 Thread[main,5,main] Cleanup action starting
+Fri Feb 19 22:21:13 EST 2021 Thread[main,5,main] Cleanup action starting
 java.sql.SQLException: Database 'navDB' not found.
 	at org.apache.derby.impl.jdbc.SQLExceptionFactory.getSQLException(Unknown Source)
 	at org.apache.derby.impl.jdbc.SQLExceptionFactory.getSQLException(Unknown Source)

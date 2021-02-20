@@ -4,6 +4,7 @@ import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMapNode;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
@@ -73,6 +74,15 @@ public class MapEditView extends Application {
                 .strokeWidth(14 / scale)
                 .build();
         root.getChildren().add(line);
+        //        line.getStyleClass().add("edge");
+        line.setOnMouseEntered(
+            t -> {
+              System.out.println("we made it mom");
+              line.setStroke(Color.PINK);
+              ImageView xMarker = new ImageView("/fxml/fxmlResources/redxicon.png");
+              xMarker.setX((parent.getxCoord() + child.getxCoord()) / 2);
+              xMarker.setY((parent.getyCoord() + child.getyCoord()) / 2);
+            });
       }
     }
   }
