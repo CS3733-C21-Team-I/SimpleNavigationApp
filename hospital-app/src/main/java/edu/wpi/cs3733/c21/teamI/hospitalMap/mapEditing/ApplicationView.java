@@ -85,6 +85,9 @@ public class ApplicationView extends Application {
   }
 
   @FXML
+  public void deleteSelectedNode() {}
+
+  @FXML
   public void navigate(ActionEvent e) throws IOException {
     Group root = mapManager.getRoot();
     Scene scene = ((Button) e.getSource()).getScene();
