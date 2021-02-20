@@ -133,7 +133,9 @@ public class HospitalMapCSVBuilder {
     List<List<String>> allElements = new ArrayList<>();
     List<String> elementData;
     try {
-      BufferedReader br = new BufferedReader(new FileReader(path));
+      BufferedReader br =
+          new BufferedReader(
+              new InputStreamReader(HospitalMapCSVBuilder.class.getResourceAsStream(path)));
       String line;
       boolean skip = true;
       while ((line = br.readLine()) != null) {
@@ -146,6 +148,7 @@ public class HospitalMapCSVBuilder {
         }
       }
     } catch (IOException e) {
+      System.out.println(new File(path).getAbsolutePath());
       e.printStackTrace();
     }
     return allElements;
