@@ -7,14 +7,16 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Set;
 import javafx.scene.Group;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 public class MapEditManager {
 
   private static MapEditManager ourInstance;
-  private int scale = 3; // scales image to 1/scale
+  private double scale = 3.05; // scales image to 1/scale
   private MapEditView mapEditorView = null;
   private ApplicationView applicationView = null;
+  protected AnchorPane mapPane = null;
 
   /**
    * Represents the map that is activelyBeing edited should be referenced from this class's getter
@@ -127,7 +129,7 @@ public class MapEditManager {
     activeMap = null;
   }
 
-  public int getScale() {
+  public double getScale() {
     return scale;
   }
 
@@ -139,7 +141,8 @@ public class MapEditManager {
     return activeMap.getImagePath();
   }
 
-  public void startEditorView() {
+  public void startEditorView(AnchorPane mapPane) {
+    this.mapPane = mapPane;
     mapEditorView = new MapEditView(this);
     mapEditorView.start(stage);
     mapEditorView.saveManager();

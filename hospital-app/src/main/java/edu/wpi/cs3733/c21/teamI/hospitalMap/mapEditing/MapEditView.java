@@ -2,10 +2,9 @@ package edu.wpi.cs3733.c21.teamI.hospitalMap.mapEditing;
 
 import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMapNode;
 import javafx.application.Application;
-import javafx.scene.Group;
-import javafx.scene.Scene;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
@@ -14,9 +13,8 @@ import javafx.stage.Stage;
 
 public class MapEditView extends Application {
 
-  private int scale = 2;
+  private double scale;
   private MapEditManager mapManager;
-  private Scene scene;
   private static MapEditManager ourManager;
 
   public MapEditView() {
@@ -60,17 +58,17 @@ public class MapEditView extends Application {
   }
 
   private void drawEdges(HospitalMapNode parent) {
-    Group root = mapManager.getRoot();
+    AnchorPane root = mapManager.mapPane;
     for (HospitalMapNode child : parent.getConnections()) {
       if (mapManager.getEntityNodes().contains(child)) {
         Line line =
             LineBuilder.create()
-                .startX((parent.getxCoord() - 5) / scale)
-                .startY((parent.getyCoord() - 5) / scale)
-                .endX((child.getxCoord() - 5) / scale)
-                .endY((child.getyCoord() - 5) / scale)
+                .startX((parent.getxCoord()) / scale - 3)
+                .startY((parent.getyCoord()) / scale - 3)
+                .endX((child.getxCoord()) / scale - 3)
+                .endY((child.getyCoord()) / scale - 3)
                 .stroke(Color.RED)
-                .strokeWidth(14 / scale)
+                .strokeWidth(10 / scale)
                 .build();
         root.getChildren().add(line);
       }
@@ -80,9 +78,9 @@ public class MapEditView extends Application {
   private void makeNodeCircle(HospitalMapNode node) {
     Circle circle = new Circle();
     circle.setFill(Color.RED);
-    circle.setCenterX(node.getxCoord() / scale - 5);
-    circle.setCenterY(node.getyCoord() / scale - 5);
-    circle.setRadius(14 / scale);
+    circle.setCenterX((node.getxCoord() / scale) - 3);
+    circle.setCenterY((node.getyCoord() / scale) - 3);
+    circle.setRadius(12 / scale);
     circle.setOnMousePressed(
         e -> {
           onRightClick(e, node);
@@ -92,9 +90,9 @@ public class MapEditView extends Application {
           Circle newCircle =
               (Circle)
                   mapManager
-                      .getRoot()
+                      .mapPane
                       .getChildren()
-                      .get(mapManager.getRoot().getChildren().indexOf(circle));
+                      .get(mapManager.mapPane.getChildren().indexOf(circle));
           newCircle.setFill(Color.PINK);
         });
 
@@ -103,12 +101,12 @@ public class MapEditView extends Application {
           Circle newCircle =
               (Circle)
                   mapManager
-                      .getRoot()
+                      .mapPane
                       .getChildren()
-                      .get(mapManager.getRoot().getChildren().indexOf(circle));
+                      .get(mapManager.mapPane.getChildren().indexOf(circle));
           newCircle.setFill(Color.RED);
         });
-    Group root = mapManager.getRoot();
+    AnchorPane root = mapManager.mapPane;
     root.getChildren().add(circle);
   }
 }
