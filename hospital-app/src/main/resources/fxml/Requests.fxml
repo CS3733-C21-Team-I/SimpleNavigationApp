@@ -317,10 +317,16 @@
          <Font size="40.0"/>
       </font>
    </Label>
-   <Button fx:id="requestsReturn" layoutX="867.0" layoutY="28.0" mnemonicParsing="false" onAction="#navigate"
-           styleClass="styledButton" text="Back">
+   <Button fx:id="requestsReturn" layoutX="25.0" layoutY="20.0" mnemonicParsing="false" onAction="#navigate" prefHeight="64.0" prefWidth="56.0" style="-fx-background-color: transparent;">
+      <graphic>
+         <ImageView fitHeight="49.0" fitWidth="49.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+               <Image url="@fxmlResources/baseline_arrow_back_ios_white_18dp.png" />
+            </image>
+         </ImageView>
+      </graphic>
       <cursor>
-         <Cursor fx:constant="HAND"/>
+         <Cursor fx:constant="HAND" />
       </cursor>
    </Button>
 </AnchorPane>
