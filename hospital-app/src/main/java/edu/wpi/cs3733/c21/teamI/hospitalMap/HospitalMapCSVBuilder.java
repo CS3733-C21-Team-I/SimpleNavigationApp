@@ -48,8 +48,8 @@ public class HospitalMapCSVBuilder {
 
   public static void saveCSV(Collection<HospitalMap> maps, String nodePath, String edgePath) {
     class EdgePair implements Comparable<EdgePair> {
-      String fromId;
-      String toId;
+      final String fromId;
+      final String toId;
 
       public EdgePair(String fromId, String toId) {
         this.fromId = fromId;

@@ -18,7 +18,7 @@ import javafx.stage.Stage;
 public class MapEditView extends Application {
 
   private double scale;
-  private MapEditManager mapManager;
+  private final MapEditManager mapManager;
   private static MapEditManager ourManager;
   private HospitalMapNode selectedNode;
 

@@ -6,9 +6,9 @@ public class User {
 
   public Set<Role> userRoles;
 
-  private Set<Permission> userPermissions;
-  private String name;
-  private int userId;
+  private final Set<Permission> userPermissions;
+  private final String name;
+  private final int userId;
 
   public User(int userId, String name, Set<Role> userRoles, Set<Permission> userPermissions) {
     this.userRoles = userRoles;
@@ -28,7 +28,7 @@ public class User {
     ADMIN,
     VISITOR,
     EMPLOYEE,
-    PATIENT;
+    PATIENT
   }
 
   public enum Permission {

@@ -13,28 +13,17 @@ public class Main {
 
   public static void main(String[] args) {
 
-    if ((args.length > 0) && Arrays.asList(args).contains("regenerate")) {
-      NavDatabaseManager.init(true);
-    } else {
-      NavDatabaseManager.init(false);
-    }
-
-    //    String path =
-    //        System.getProperty("user.dir")
-    //            + "/src/main/java/edu/wpi/cs3733/c21/teamI/hospitalMap/mapEditing/";
-    String path =
-        System.getProperty("user.dir")
-            + "/hospital-app/src/main/java/edu/wpi/cs3733/c21/teamI/hospitalMap/mapEditing/";
-    System.out.println(path);
+    NavDatabaseManager.init((args.length > 0) && Arrays.asList(args).contains("regenerate"));
 
     Map<String, HospitalMap> mapCollection =
-        HospitalMapCSVBuilder.loadCSV(path + "MapINodes.csv", path + "MapIEdges.csv");
+        HospitalMapCSVBuilder.loadCSV(
+            Main.class.getResource("/csv/MapINodes.csv").getPath(),
+            Main.class.getResource("/csv/MapIEdges.csv").getPath());
 
-    MapEditManager mapManager = new MapEditManager();
-    mapManager.init();
-    mapManager.getInstance().setMapCollection(mapCollection);
-    mapManager.getInstance().getDataCont().setActiveMap(mapCollection.get("Faulkner 0"));
-    mapManager.getInstance().startApplicationView();
+    MapEditManager.init();
+    MapEditManager.getInstance().setMapCollection(mapCollection);
+    MapEditManager.getInstance().getDataCont().setActiveMap(mapCollection.get("Faulkner 0"));
+    MapEditManager.getInstance().startApplicationView();
     Application.launch(ApplicationView.class);
   }
 }

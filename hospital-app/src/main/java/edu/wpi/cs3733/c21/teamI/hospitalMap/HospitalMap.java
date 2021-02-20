@@ -5,12 +5,12 @@ import java.util.*;
 
 public class HospitalMap implements Graph<HospitalMapNode> {
 
-  private Set<HospitalMapNode> nodes;
-  private String id;
-  private String mapName;
-  private String buildingName;
-  private String imagePath;
-  private int floorNumber;
+  private final Set<HospitalMapNode> nodes;
+  private final String id;
+  private final String mapName;
+  private final String buildingName;
+  private final String imagePath;
+  private final int floorNumber;
 
   public HospitalMap(
       String id,

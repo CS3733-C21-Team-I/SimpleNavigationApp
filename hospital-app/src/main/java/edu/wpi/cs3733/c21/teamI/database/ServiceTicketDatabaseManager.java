@@ -33,8 +33,7 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
   public ServiceTicket getTicketForId(int id) {
     try {
       Statement stmt = databaseRef.getConnection().createStatement();
-      ResultSet rs =
-          stmt.executeQuery("SELECT * FROM serviceticket WHERE ticketID=" + String.valueOf(id));
+      ResultSet rs = stmt.executeQuery("SELECT * FROM serviceticket WHERE ticketID=" + id);
       if (rs.next())
         return new ServiceTicket(
             id,

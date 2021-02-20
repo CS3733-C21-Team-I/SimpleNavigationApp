@@ -9,7 +9,7 @@ import java.util.Queue;
 public class MapEditDataController {
 
   /** FIFO Queue of operations for passing to the databaseManager */
-  private Queue<NavEditOperation> dataOperations;
+  private final Queue<NavEditOperation> dataOperations;
 
   /**
    * Represents the map that is activelyBeing edited should be referenced from this class's getter
