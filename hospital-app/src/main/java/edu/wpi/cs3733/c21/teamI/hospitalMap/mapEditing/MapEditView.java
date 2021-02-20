@@ -56,12 +56,6 @@ public class MapEditView extends Application {
                 mapManager
                     .getDataCont()
                     .addNode(
-                        //                        new HospitalMapNode(
-                        //                            "",
-                        //                            mapManager.getMapID(),
-                        //                            (int) ((e.getX() * scale) + 10),
-                        //                            (int) ((e.getY() * scale) + 10),
-                        //                            new ArrayList<>())
                         new HospitalMapNode(
                             randomGenerate(),
                             mapManager.getMapID(),
@@ -81,11 +75,25 @@ public class MapEditView extends Application {
   }
 
   public void update() {
+    mapManager.mapPane.getChildren().clear();
+    drawSelectedNode();
     for (HospitalMapNode node : mapManager.getEntityNodes()) {
       drawEdges(node);
     }
     for (HospitalMapNode node : mapManager.getEntityNodes()) {
       makeNodeCircle(node);
+    }
+  }
+
+  private void drawSelectedNode() {
+    if (mapManager.getSelectedNode() != null) {
+      Circle circle = new Circle();
+      circle.setFill(Color.YELLOW);
+      circle.setCenterX((mapManager.getSelectedNode().getxCoord() / scale) - 3);
+      circle.setCenterY((mapManager.getSelectedNode().getyCoord() / scale) - 3);
+      circle.setRadius(20 / scale);
+      AnchorPane root = mapManager.mapPane;
+      root.getChildren().add(circle);
     }
   }
 
@@ -99,7 +107,7 @@ public class MapEditView extends Application {
                 .startY((parent.getyCoord()) / scale - 3)
                 .endX((child.getxCoord()) / scale - 3)
                 .endY((child.getyCoord()) / scale - 3)
-                .stroke(Color.RED)
+                .stroke(Color.ORANGE)
                 .strokeWidth(10 / scale)
                 .build();
         root.getChildren().add(line);
@@ -121,7 +129,7 @@ public class MapEditView extends Application {
                       .mapPane
                       .getChildren()
                       .get(mapManager.mapPane.getChildren().indexOf(circle));
-          newCircle.setFill(Color.PINK);
+          newCircle.setFill(Color.YELLOW);
         });
 
     circle.setOnMouseClicked(
