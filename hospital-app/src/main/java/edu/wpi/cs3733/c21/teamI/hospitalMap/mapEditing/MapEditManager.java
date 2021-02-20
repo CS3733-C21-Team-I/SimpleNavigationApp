@@ -20,7 +20,7 @@ public class MapEditManager {
   private Stage stage = null;
   private HospitalMapNode selectedNode = null;
   private final MapEditDataController dataCont = new MapEditDataController();
-  private AnchorPane nodeMenu;
+  protected AnchorPane nodeMenu;
 
   public static void init() {
     ourInstance = new MapEditManager();
@@ -106,5 +106,10 @@ public class MapEditManager {
 
   public void setNodeMenu(AnchorPane nodeMenu) {
     this.nodeMenu = nodeMenu;
+  }
+
+  public void stopEditorView() {
+    this.mapPane.getChildren().clear();
+    nodeMenu.setVisible(false);
   }
 }

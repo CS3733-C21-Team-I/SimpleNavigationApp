@@ -44,6 +44,9 @@ public class MapEditView extends Application {
     primaryStage.show();
     mapManager.setStage(primaryStage);
     setAddNodeHander();
+    if (mapManager.getSelectedNode() != null) {
+      mapManager.nodeMenu.setVisible(true);
+    }
     update();
   }
 
