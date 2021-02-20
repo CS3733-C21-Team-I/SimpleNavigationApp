@@ -218,7 +218,7 @@
             </ImageView>
         </graphic>
     </Button>
-    <AnchorPane fx:id="nodeMenu" layoutX="666.0" layoutY="323.0" prefHeight="478.0" prefWidth="307.0" style="-fx-background-color: #F1F1F1; -fx-border-style: solid;">
+    <AnchorPane fx:id="nodeMenu" layoutX="666.0" layoutY="323.0" prefHeight="478.0" prefWidth="307.0" style="-fx-background-color: #F1F1F1; -fx-border-style: solid;" visible="false">
         <children>
             <Label layoutX="105.0" layoutY="9.0" text="Edit Node">
                 <padding>

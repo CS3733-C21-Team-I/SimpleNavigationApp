@@ -74,6 +74,7 @@ public class ApplicationView extends Application {
 
   @Override
   public void start(Stage primaryStage) throws IOException {
+    mapManager.setNodeMenu(nodeMenu);
     Group root = mapManager.getRoot();
     root.getChildren().add(FXMLLoader.load(getClass().getResource("/fxml/Home.fxml")));
     primaryStage.setTitle("Map View");
@@ -200,9 +201,7 @@ public class ApplicationView extends Application {
   public void toggleEditMap(ActionEvent e) {
     mapManager.startEditorView(mapPane);
     adminMap = !adminMap;
-    //      adminPath.setVisible(true);
-    //      adminPath.setVisible(false);
-    nodeMenu.setVisible(adminMap);
+    mapManager.setNodeMenu(nodeMenu);
   }
 
   @FXML
