@@ -29,12 +29,6 @@
          <Font size="50.0"/>
       </font>
    </Label>
-   <Button fx:id="maintenanceReturn" layoutX="14.0" layoutY="122.0" mnemonicParsing="false" onAction="#navigate"
-           styleClass="styledButton" stylesheets="@fxmlResources/main.css" text="Back">
-      <cursor>
-         <Cursor fx:constant="HAND"/>
-      </cursor>
-   </Button>
    <VBox layoutX="437.0" layoutY="122.0" prefHeight="678.0" prefWidth="573.0" AnchorPane.bottomAnchor="0.0"
          AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="122.0">
       <HBox prefHeight="55.0" prefWidth="573.0">
@@ -168,4 +162,16 @@
          </Button>
       </HBox>
    </VBox>
+   <Button fx:id="maintenanceReturn" layoutX="25.0" layoutY="20.0" mnemonicParsing="false" onAction="#navigate" prefHeight="64.0" prefWidth="56.0" style="-fx-background-color: transparent;">
+      <graphic>
+         <ImageView fitHeight="49.0" fitWidth="49.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+               <Image url="@fxmlResources/baseline_arrow_back_ios_white_18dp.png" />
+            </image>
+         </ImageView>
+      </graphic>
+      <cursor>
+         <Cursor fx:constant="HAND" />
+      </cursor>
+   </Button>
 </AnchorPane>
