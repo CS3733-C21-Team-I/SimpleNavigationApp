@@ -205,4 +205,9 @@ public class ApplicationView extends Application {
       nodeMenu.setVisible(false);
     }
   }
+
+  @FXML
+  public void exit() {
+    mapManager.getStage().close();
+  }
 }

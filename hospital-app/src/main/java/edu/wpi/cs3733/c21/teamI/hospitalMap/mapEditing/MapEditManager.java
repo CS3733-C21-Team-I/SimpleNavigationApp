@@ -162,6 +162,10 @@ public class MapEditManager {
     this.stage = stage;
   }
 
+  public Stage getStage() {
+    return stage;
+  }
+
   public Group getRoot() {
     return root;
   }
