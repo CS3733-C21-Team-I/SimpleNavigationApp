@@ -19,7 +19,7 @@ public class MapEditManager {
   private Group root = null;
   private Stage stage = null;
   private HospitalMapNode selectedNode = null;
-  private MapEditDataController dataCont = new MapEditDataController();
+  private MapEditDataController dataCont;
 
   public static void init() {
     ourInstance = new MapEditManager();
@@ -33,7 +33,9 @@ public class MapEditManager {
     return ourInstance;
   }
 
-  public MapEditManager() {}
+  public MapEditManager() {
+    dataCont = new MapEditDataController();
+  }
 
   /**
    * takes in a node object and assigns / de-assigns it to the selectedNode variable in MapState
