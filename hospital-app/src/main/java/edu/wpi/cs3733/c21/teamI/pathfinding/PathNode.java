@@ -3,8 +3,8 @@ package edu.wpi.cs3733.c21.teamI.pathfinding;
 public class PathNode<T extends GraphNode> {
 
   private final T node;
-  private T previous;
-  private double priority;
+  private final T previous;
+  private final double priority;
 
   PathNode(T current) {
     this(current, null, Double.POSITIVE_INFINITY);

@@ -12,14 +12,14 @@ public class MapEditManager {
 
   private static MapEditManager ourInstance;
   private Map<String, HospitalMap> mapCollection;
-  private double scale = 3.05; // scales image to 1/scale
+  private final double scale = 3.05; // scales image to 1/scale
   private MapEditView mapEditorView = null;
   private ApplicationView applicationView = null;
   protected AnchorPane mapPane = null;
   private Group root = null;
   private Stage stage = null;
   private HospitalMapNode selectedNode = null;
-  private MapEditDataController dataCont = new MapEditDataController();
+  private final MapEditDataController dataCont = new MapEditDataController();
 
   public static void init() {
     ourInstance = new MapEditManager();
@@ -63,13 +63,13 @@ public class MapEditManager {
     this.mapPane = mapPane;
     mapEditorView = new MapEditView(this);
     mapEditorView.start(stage);
-    mapEditorView.saveManager();
+    MapEditView.saveManager();
   }
 
   public void startApplicationView() {
     this.root = new Group();
     applicationView = new ApplicationView(this);
-    applicationView.saveManager();
+    ApplicationView.saveManager();
   }
 
   public void setRoot(Group root) {

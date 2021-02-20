@@ -55,7 +55,7 @@ public class ApplicationView extends Application {
 
   boolean adminMap = false;
   private static MapEditManager ourManager;
-  private MapEditManager mapManager;
+  private final MapEditManager mapManager;
 
   public ApplicationView() {
     this.mapManager = ourManager;
@@ -197,13 +197,9 @@ public class ApplicationView extends Application {
   public void toggleEditMap(ActionEvent e) {
     mapManager.startEditorView(mapPane);
     adminMap = !adminMap;
-    if (adminMap) {
-      //      adminPath.setVisible(true);
-      nodeMenu.setVisible(true);
-    } else {
-      //      adminPath.setVisible(false);
-      nodeMenu.setVisible(false);
-    }
+    //      adminPath.setVisible(true);
+    //      adminPath.setVisible(false);
+    nodeMenu.setVisible(adminMap);
   }
 
   @FXML

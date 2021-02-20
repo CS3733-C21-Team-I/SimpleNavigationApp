@@ -18,7 +18,7 @@ public class NavEditTests {
   public void addNodeTest() {
     MapEditManager.init();
     HospitalMap map = new HospitalMap();
-    map.generateElementFromData(
+    HospitalMap.generateElementFromData(
         readFromFile("/edu/wpi/cs3733/c21/teamI/hopitalMap/mapEditing/SampleMapNodes.csv"),
         readFromFile("/edu/wpi/cs3733/c21/teamI/hopitalMap/mapEditing/SampleMapEdges.csv"));
 

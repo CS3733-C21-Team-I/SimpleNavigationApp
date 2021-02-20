@@ -7,7 +7,7 @@ import java.util.HashMap;
 
 public class DatabaseRef {
 
-  private String dbUrl;
+  private final String dbUrl;
 
   private Connection connection;
 
