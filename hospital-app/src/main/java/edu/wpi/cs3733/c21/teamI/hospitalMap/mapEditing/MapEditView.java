@@ -1,7 +1,9 @@
 package edu.wpi.cs3733.c21.teamI.hospitalMap.mapEditing;
 
 import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMapNode;
+import java.util.ArrayList;
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -38,7 +40,27 @@ public class MapEditView extends Application {
     primaryStage.setTitle("Map Editor");
     primaryStage.show();
     mapManager.setStage(primaryStage);
+    setAddNodeHander();
     update();
+  }
+
+  private void setAddNodeHander() {
+    EventHandler<? super MouseEvent> eventHandler =
+        (EventHandler<MouseEvent>)
+            e -> {
+              if (e.getButton() == MouseButton.SECONDARY) {
+                // definitely need a better way of making an ID
+                mapManager.addNode(
+                    new HospitalMapNode(
+                        "H",
+                        mapManager.getMapID(),
+                        (int) ((e.getX() * scale) + 10),
+                        (int) ((e.getY() * scale) + 10),
+                        new ArrayList<>()));
+                update();
+              }
+            };
+    mapManager.mapPane.addEventFilter(MouseEvent.MOUSE_CLICKED, eventHandler);
   }
 
   public void update() {
@@ -47,13 +69,6 @@ public class MapEditView extends Application {
     }
     for (HospitalMapNode node : mapManager.getEntityNodes()) {
       makeNodeCircle(node);
-    }
-  }
-
-  private void onRightClick(MouseEvent e, HospitalMapNode node) {
-    if (e.getButton() == MouseButton.SECONDARY) {
-      mapManager.deleteNode(node.getID());
-      update();
     }
   }
 
@@ -81,10 +96,6 @@ public class MapEditView extends Application {
     circle.setCenterX((node.getxCoord() / scale) - 3);
     circle.setCenterY((node.getyCoord() / scale) - 3);
     circle.setRadius(12 / scale);
-    circle.setOnMousePressed(
-        e -> {
-          onRightClick(e, node);
-        });
     circle.setOnMouseEntered(
         t -> {
           Circle newCircle =
