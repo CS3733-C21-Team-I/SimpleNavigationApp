@@ -61,16 +61,16 @@ public class MapEditDataController {
 
   public void addEdge(String fromNode, String toNode) {
     dataOperations.add(
-        new NavEditOperation(NavEditOperation.OperationType.ADD_NODE, fromNode, null, toNode));
+        new NavEditOperation(NavEditOperation.OperationType.ADD_EDGE, fromNode, null, toNode));
     activeMap.getNode(fromNode).getConnections().add(activeMap.getNode(toNode));
     activeMap.getNode(toNode).getConnections().add(activeMap.getNode(fromNode));
   }
 
   public void deleteEdge(String fromNode, String toNode) {
     dataOperations.add(
-        new NavEditOperation(NavEditOperation.OperationType.ADD_NODE, fromNode, null, toNode));
-    activeMap.getNode(fromNode).getConnections().add(activeMap.getNode(toNode));
-    activeMap.getNode(toNode).getConnections().add(activeMap.getNode(fromNode));
+        new NavEditOperation(NavEditOperation.OperationType.DELETE_EDGE, fromNode, null, toNode));
+    activeMap.getNode(fromNode).getConnections().remove(activeMap.getNode(toNode));
+    activeMap.getNode(toNode).getConnections().remove(activeMap.getNode(fromNode));
   }
 
   public HospitalMap getActiveMap() {

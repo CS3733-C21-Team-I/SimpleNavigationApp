@@ -19,9 +19,13 @@ public class Main {
       NavDatabaseManager.init(false);
     }
 
+    //    String path =
+    //        System.getProperty("user.dir")
+    //            + "/src/main/java/edu/wpi/cs3733/c21/teamI/hospitalMap/mapEditing/";
     String path =
         System.getProperty("user.dir")
-            + "/src/main/java/edu/wpi/cs3733/c21/teamI/hospitalMap/mapEditing/";
+            + "/hospital-app/src/main/java/edu/wpi/cs3733/c21/teamI/hospitalMap/mapEditing/";
+    System.out.println(path);
 
     Map<String, HospitalMap> mapCollection =
         HospitalMapCSVBuilder.loadCSV(path + "MapINodes.csv", path + "MapIEdges.csv");
