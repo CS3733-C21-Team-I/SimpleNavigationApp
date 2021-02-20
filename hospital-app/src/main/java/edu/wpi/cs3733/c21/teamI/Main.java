@@ -25,18 +25,21 @@ public class Main {
       NavDatabaseManager.init(false);
     }
 
-
     HospitalMap map = NavDatabaseManager.getInstance().loadMapsFromMemory().get("Faulkner 0");
 
     for (HospitalMapNode node : map.getNodes()) {
       System.out.println(node.getID());
     }
 
-
     MapEditManager mapManager = new MapEditManager();
     mapManager.init();
-    mapManager.getInstance().setMapCollection(NavDatabaseManager.getInstance().loadMapsFromMemory());
-    mapManager.getInstance().getDataCont().setActiveMap(NavDatabaseManager.getInstance().loadMapsFromMemory().get("Faulkner 0"));
+    mapManager
+        .getInstance()
+        .setMapCollection(NavDatabaseManager.getInstance().loadMapsFromMemory());
+    mapManager
+        .getInstance()
+        .getDataCont()
+        .setActiveMap(NavDatabaseManager.getInstance().loadMapsFromMemory().get("Faulkner 0"));
     mapManager.getInstance().startApplicationView();
     Application.launch(ApplicationView.class);
   }
