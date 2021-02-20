@@ -170,6 +170,10 @@ public class MapEditManager {
     return root;
   }
 
+  public String getMapID() {
+    return activeMap.getId();
+  }
+
   public HospitalMapNode getSelectedNode() {
     return activeMap.getSelectedNode();
   }
