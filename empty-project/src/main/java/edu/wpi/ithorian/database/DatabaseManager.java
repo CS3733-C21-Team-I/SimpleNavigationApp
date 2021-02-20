@@ -6,6 +6,7 @@ public abstract class DatabaseManager {
 
   DatabaseManager(String url, boolean regen) {
     databaseRef = DatabaseRef.getConnection(url, regen);
+
     if (regen) {
       dropTables();
       createTables();

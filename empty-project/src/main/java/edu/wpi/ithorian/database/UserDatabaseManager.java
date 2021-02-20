@@ -11,7 +11,7 @@ import java.util.Set;
 
 public class UserDatabaseManager extends DatabaseManager {
 
-  private static final String DB_URL = "jdbc:derby:navDB";
+  private static final String DB_URL = "jdbc:derby:navDB/TEAMI";
   private static UserDatabaseManager ourInstance;
 
   /**
