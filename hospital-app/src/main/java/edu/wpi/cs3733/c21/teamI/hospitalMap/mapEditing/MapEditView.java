@@ -88,7 +88,7 @@ public class MapEditView extends Application {
   private void drawSelectedNode() {
     if (mapManager.getSelectedNode() != null) {
       Circle circle = new Circle();
-      circle.setFill(Color.YELLOW);
+      circle.setFill(Color.PURPLE);
       circle.setCenterX((mapManager.getSelectedNode().getxCoord() / scale) - 3);
       circle.setCenterY((mapManager.getSelectedNode().getyCoord() / scale) - 3);
       circle.setRadius(20 / scale);
