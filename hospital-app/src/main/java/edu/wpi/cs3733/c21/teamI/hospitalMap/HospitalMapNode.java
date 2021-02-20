@@ -4,7 +4,7 @@ import edu.wpi.cs3733.c21.teamI.pathfinding.GraphNode;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HospitalMapNode implements GraphNode<HospitalMapNode> {
+public class HospitalMapNode implements GraphNode<HospitalMapNode>, Cloneable {
 
   private String id;
   private String mapID;
@@ -79,5 +79,9 @@ public class HospitalMapNode implements GraphNode<HospitalMapNode> {
   @Override
   public String toString() {
     return "HospitalMapNode{" + "id='" + id + ", xCoord=" + xCoord + ", yCoord=" + yCoord + '}';
+  }
+
+  public String getMapID() {
+    return mapID;
   }
 }

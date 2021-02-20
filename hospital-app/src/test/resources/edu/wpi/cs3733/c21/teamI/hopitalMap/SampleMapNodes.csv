@@ -8,7 +8,7 @@ N06,80,30,01,Test,HALL,POS,node6,node6,I,map1
 N07,30,40,01,Test,HALL,POS,node7,node7,I,map1
 N08,60,40,01,Test,HALL,POS,node8,node8,I,map1
 N09,80,40,01,Test,HALL,POS,node9,node9,I,map1
-N10,10,60,01,Test,HALL,POS,node10,node10,I,map1
-N11,30,60,01,Test,HALL,POS,node11,node11,I,map1
-N12,60,60,01,Test,HALL,POS,node12,node12,I,map1
-N13,60,70,01,Test,HALL,POS,node13,node13,I,map1
+N10,10,60,01,Test,HALL,POS,node10,node10,I,map2
+N11,30,60,01,Test,HALL,POS,node11,node11,I,map2
+N12,60,60,01,Test,HALL,POS,node12,node12,I,map2
+N13,60,70,01,Test,HALL,POS,node13,node13,I,map2
