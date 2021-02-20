@@ -152,7 +152,7 @@ public class UserDatabaseManager extends DatabaseManager {
   }
 
   @Override
-  protected void createTables() {
+  void createTables() {
     try {
       Statement stmt = databaseRef.getConnection().createStatement();
       stmt.execute(
@@ -227,12 +227,12 @@ public class UserDatabaseManager extends DatabaseManager {
   }
 
   @Override
-  protected void dropTables() {
+  void dropTables() {
 
     try {
       Statement stmt = databaseRef.getConnection().createStatement();
       // Drop the Edges table.
-      stmt.execute("DROP TABLE USER_TO_ROLE ");
+      stmt.execute("DROP TABLE USER_TO_ROLE");
     } catch (SQLException ex) {
       // No need to report an error.
       // The table simply did not exist.
@@ -241,7 +241,7 @@ public class UserDatabaseManager extends DatabaseManager {
     try {
       Statement stmt = databaseRef.getConnection().createStatement();
       // Drop the Edges table.
-      stmt.execute("DROP TABLE ROLE_TO_PERMISSION ");
+      stmt.execute("DROP TABLE ROLE_TO_PERMISSION");
     } catch (SQLException ex) {
       // No need to report an error.
       // The table simply did not exist.
@@ -250,27 +250,25 @@ public class UserDatabaseManager extends DatabaseManager {
     try {
       Statement stmt = databaseRef.getConnection().createStatement();
       // Drop the Edges table.
-      stmt.execute("DROP TABLE HOSPITAL_USERS ");
+      stmt.execute("DROP TABLE HOSPITAL_USERS");
     } catch (SQLException ex) {
       // No need to report an error.
       // The table simply did not exist.
-      ex.printStackTrace();
     }
 
     try {
       Statement stmt = databaseRef.getConnection().createStatement();
       // Drop the Edges table.
-      stmt.execute("DROP TABLE HOSPITAL_ROLES ");
+      stmt.execute("DROP TABLE HOSPITAL_ROLES");
     } catch (SQLException ex) {
       // No need to report an error.
       // The table simply did not exist.
-      ex.printStackTrace();
     }
 
     try {
       Statement stmt = databaseRef.getConnection().createStatement();
       // Drop the Edges table.
-      stmt.execute("DROP TABLE RESOURCE_PERMISSIONS ");
+      stmt.execute("DROP TABLE RESOURCE_PERMISSIONS");
     } catch (SQLException ex) {
       // No need to report an error.
       // The table simply did not exist.

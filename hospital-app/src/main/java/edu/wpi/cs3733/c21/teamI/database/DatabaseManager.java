@@ -6,13 +6,25 @@ public abstract class DatabaseManager {
 
   DatabaseManager(String url, boolean regen) {
     databaseRef = DatabaseRef.getConnection(url, regen);
-    if (regen) {
-      dropTables();
-      createTables();
-    }
   }
 
-  protected abstract void createTables();
+  abstract void createTables();
 
-  protected abstract void dropTables();
+  abstract void dropTables();
+
+  public static void initDatabaseManagers(boolean regen) {
+    ServiceTicketDatabaseManager.init(regen);
+    UserDatabaseManager.init(regen);
+    NavDatabaseManager.init(regen);
+  }
+
+  public static void regenTables() {
+    ServiceTicketDatabaseManager.getInstance().dropTables();
+    UserDatabaseManager.getInstance().dropTables();
+    NavDatabaseManager.getInstance().dropTables();
+
+    NavDatabaseManager.getInstance().createTables();
+    UserDatabaseManager.getInstance().createTables();
+    ServiceTicketDatabaseManager.getInstance().createTables();
+  }
 }

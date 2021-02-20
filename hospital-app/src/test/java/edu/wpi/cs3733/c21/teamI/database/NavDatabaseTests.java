@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import org.junit.jupiter.api.Test;
 
@@ -18,7 +19,9 @@ public class NavDatabaseTests {
   public void saveMapTest() {
     NavDatabaseManager.init(true);
 
-    NavDatabaseManager.getInstance().saveMapIntoMemory(getTestData());
+    List<HospitalMap> c = new ArrayList<>();
+    c.add(getTestData());
+    NavDatabaseManager.getInstance().saveMapsIntoMemory(c);
 
     try {
       Statement statement =
