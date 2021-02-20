@@ -133,7 +133,6 @@ public class HospitalMapCSVBuilder {
     List<List<String>> allElements = new ArrayList<>();
     List<String> elementData;
     try {
-      System.out.println(HospitalMapCSVBuilder.class.getResource(path));
       BufferedReader br =
           new BufferedReader(
               new InputStreamReader(HospitalMapCSVBuilder.class.getResourceAsStream(path)));
