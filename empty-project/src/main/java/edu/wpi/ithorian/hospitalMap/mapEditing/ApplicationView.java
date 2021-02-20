@@ -197,6 +197,7 @@ public class ApplicationView extends Application {
     mapManager.startEditorView();
     adminMap = !adminMap;
     if (adminMap) {
+//      System.out.println(((Button) e.getSource()).getScene().getRoot());
       //      adminPath.setVisible(true);
       nodeMenu.setVisible(true);
     } else {
