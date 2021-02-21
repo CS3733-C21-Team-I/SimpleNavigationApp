@@ -9,7 +9,7 @@ public class LocationNode extends HospitalMapNode {
   private String longName;
   private String teamAssigned;
   private String building;
-  private String nodeType;
+  private LocationCategory locationCategory;
   private int floor;
   public static List<LocationNode> connectedNodes = new ArrayList<>();
 
@@ -21,7 +21,12 @@ public class LocationNode extends HospitalMapNode {
     this.setyCoord(Integer.parseInt((String) nodeInit.get(2)));
     this.floor = Integer.parseInt((String) nodeInit.get(3));
     this.building = (String) nodeInit.get(4);
-    this.nodeType = (String) nodeInit.get(5);
+    //    this.locationCategory =
+    //        (LocationCategory)
+    //            nodeInit.get(
+    //                5); // This was previously nodeType but is being renamed to LocationCategory
+    // which
+    // is an enum
     this.longName = (String) nodeInit.get(6);
     this.shortName = (String) nodeInit.get(7);
     this.teamAssigned = (String) nodeInit.get(8);

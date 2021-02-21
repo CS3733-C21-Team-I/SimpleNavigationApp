@@ -3,10 +3,7 @@ package edu.wpi.cs3733.c21.teamI.PathPlanning;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import edu.wpi.cs3733.c21.teamI.hospitalMap.EuclidianDistCalc;
-import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMap;
-import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMapCSVBuilder;
-import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMapNode;
+import edu.wpi.cs3733.c21.teamI.hospitalMap.*;
 import edu.wpi.cs3733.c21.teamI.pathfinding.PathFinder;
 import java.util.*;
 import org.junit.jupiter.api.Test;
@@ -71,9 +68,11 @@ public class PathTest {
     System.out.println(map);
 
     EuclidianDistCalc scorer = new EuclidianDistCalc();
-    List<String> avoid = new ArrayList<>();
-    avoid.add("STAI");
+    List<NodeRestrictions> avoid = new ArrayList<>();
+    avoid.add(NodeRestrictions.WHEELCHAIR_INACCESSIBLE);
     scorer.nodeTypesToAvoid = avoid;
+
+    map.getNode("N09").setNodeRestrictions(avoid);
 
     List<HospitalMapNode> actualPath =
         PathFinder.findPath(map.getNode("N06"), map.getNode("N08"), scorer);
