@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.c21.teamI.hospitalMap.mapEditing;
 
 import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMapNode;
+import edu.wpi.cs3733.c21.teamI.hospitalMap.LocationNode;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Random;
@@ -23,6 +24,7 @@ public class MapEditView extends Application {
   private final MapEditManager mapManager;
   private static MapEditManager ourManager;
   private HospitalMapNode selectedNode;
+  private boolean isDrag;
 
   public MapEditView() {
     this.mapManager = ourManager;
@@ -49,6 +51,10 @@ public class MapEditView extends Application {
     if (mapManager.getSelectedNode() != null) {
       mapManager.nodeMenu.setVisible(true);
     }
+    mapManager.mapPane.setOnMouseDragReleased(
+        t -> {
+          System.out.println("drag released");
+        });
     update();
   }
 
@@ -80,6 +86,7 @@ public class MapEditView extends Application {
   }
 
   public void update() {
+    System.out.println("update time");
     mapManager.mapPane.getChildren().clear();
     drawSelectedNode();
     for (HospitalMapNode node : mapManager.getEntityNodes()) {
@@ -168,7 +175,12 @@ public class MapEditView extends Application {
     circle.setOnMouseClicked(
         t -> {
           if (t.getButton() == MouseButton.PRIMARY) {
-            mapManager.toggleNode(node);
+            System.out.println(circle.onDragDoneProperty());
+            if (!isDrag) {
+              mapManager.toggleNode(node);
+            } else {
+              isDrag = false;
+            }
             update();
           }
         });
@@ -183,6 +195,26 @@ public class MapEditView extends Application {
                       .get(mapManager.mapPane.getChildren().indexOf(circle));
           newCircle.setFill(Color.RED);
           newCircle.setRadius(12 / scale);
+        });
+
+    circle.setOnMouseDragged(
+        t -> {
+          Circle newCircle =
+              (Circle)
+                  mapManager
+                      .mapPane
+                      .getChildren()
+                      .get(mapManager.mapPane.getChildren().indexOf(circle));
+          newCircle.setFill(Color.YELLOW);
+          newCircle.setCenterX(t.getSceneX());
+          newCircle.setCenterY(t.getSceneY());
+          node.setxCoord((int) (t.getX() * 3.05) + 3);
+          node.setyCoord((int) (t.getY() * 3.05) + 3);
+          mapManager.getDataCont().editNode(node.getID(), (LocationNode) node);
+          isDrag = true;
+          mapManager.setSelectedNode(null);
+          System.out.println("set null");
+          System.out.println("Selected Node: " + mapManager.getSelectedNode());
         });
     AnchorPane root = mapManager.mapPane;
     root.getChildren().add(circle);

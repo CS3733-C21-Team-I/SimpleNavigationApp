@@ -55,6 +55,10 @@ public class MapEditManager {
     }
   }
 
+  public void setSelectedNode(HospitalMapNode node) {
+    selectedNode = node;
+  }
+
   public double getScale() {
     return scale;
   }
