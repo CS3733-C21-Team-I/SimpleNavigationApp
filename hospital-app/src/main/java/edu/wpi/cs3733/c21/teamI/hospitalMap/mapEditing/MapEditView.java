@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Random;
 import javafx.application.Application;
 import javafx.event.EventHandler;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -99,9 +101,19 @@ public class MapEditView extends Application {
       root.getChildren().add(circle);
     }
   }
-
+  /*
+   Draws connections between nodes. On hover the color is lighter and there is
+   an x icon which will be used for deleting an edge.
+  */
   private void drawEdges(HospitalMapNode parent) {
     AnchorPane root = mapManager.mapPane;
+    Image xIconImg = new Image("/fxml/fxmlResources/redxicon.png");
+    ImageView xMarker = new ImageView();
+    xMarker.setImage(xIconImg);
+    xMarker.setFitHeight(12);
+    xMarker.setFitWidth(12);
+    xMarker.setVisible(false);
+    root.getChildren().add(xMarker);
     for (HospitalMapNode child : parent.getConnections()) {
       if (mapManager.getEntityNodes().contains(child)) {
         Line line =
@@ -114,6 +126,23 @@ public class MapEditView extends Application {
                 .strokeWidth(10 / scale)
                 .build();
         root.getChildren().add(line);
+        line.setOnMouseEntered(
+            t -> {
+              //              line.setStroke(Color.PINK);
+              xMarker.setVisible(true);
+              xMarker.toFront();
+              xMarker.setX(((parent.getxCoord() + child.getxCoord()) / 2) / scale - 7);
+              xMarker.setY(((parent.getyCoord() + child.getyCoord()) / 2) / scale - 7);
+            });
+        line.setOnMouseExited(
+            t -> {
+              line.setStroke(Color.ORANGE);
+              xMarker.setVisible(false);
+            });
+        line.setOnMouseClicked(
+            t -> {
+              root.getChildren().remove(line);
+            });
       }
     }
   }

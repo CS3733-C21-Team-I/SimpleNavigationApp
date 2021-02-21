@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="800.0" maxWidth="973.0" minHeight="800.0" minWidth="972.0" prefHeight="800.0" prefWidth="972.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamI.hospitalMap.mapEditing.ApplicationView">
+<AnchorPane maxHeight="800.0" maxWidth="973.0" minHeight="800.0" minWidth="972.0" prefHeight="800.0" prefWidth="972.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamI.hospitalMap.mapEditing.ApplicationView">
     <stylesheets>
         <URL value="@fxmlResources/main.css" />
     </stylesheets>
@@ -278,4 +278,9 @@
          <Button fx:id="nodeDeleteButton" layoutX="75.0" layoutY="406.0" mnemonicParsing="false" onAction="#deleteSelectedNode" style="-fx-background-color: rgba(1, 45, 90, 0.6);" styleClass="styledButton" text="Delete Selected Node" />
         </children>
     </AnchorPane>
+   <ImageView fx:id="redXIcon" fitHeight="45.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" visible="false">
+      <image>
+         <Image url="@fxmlResources/redxicon.png" />
+      </image>
+   </ImageView>
 </AnchorPane>
