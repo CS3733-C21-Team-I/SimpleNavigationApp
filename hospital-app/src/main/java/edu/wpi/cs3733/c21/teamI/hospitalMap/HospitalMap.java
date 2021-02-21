@@ -7,12 +7,11 @@ public class HospitalMap implements Graph<HospitalMapNode> {
 
   private Set<HospitalMapNode> nodes;
   private String id;
+
   private String mapName;
   private String buildingName;
   private String imagePath;
   private int floorNumber;
-
-  private HospitalMapNode selectedNode = null;
 
   public HospitalMap(
       String id,
@@ -27,6 +26,60 @@ public class HospitalMap implements Graph<HospitalMapNode> {
     this.buildingName = buildingName;
     this.floorNumber = floorNumber;
     this.imagePath = imagePath;
+  }
+
+  public HospitalMap(HospitalMap toClone) {
+    Map<String, HospitalMapNode> newNodes = new HashMap<>();
+    Map<String, List<String>> newConnections = new HashMap<>();
+
+    for (HospitalMapNode nodeToClone : toClone.nodes) {
+      if (nodeToClone instanceof HospitalMapNode)
+        newNodes.put(
+            nodeToClone.getID(),
+            new HospitalMapNode(
+                nodeToClone.getID(),
+                nodeToClone.getMapID(),
+                nodeToClone.getxCoord(),
+                nodeToClone.getyCoord(),
+                new ArrayList<>()));
+      else if (nodeToClone instanceof LocationNode)
+        newNodes.put(nodeToClone.getID(), new LocationNode());
+      else
+        throw new IllegalStateException(
+            "Found unhandled node type in HospitalMap copy constructor");
+
+      List<String> cloneNodeConnections = new ArrayList<>();
+      for (HospitalMapNode cloneConnection : nodeToClone.getConnections()) {
+        cloneNodeConnections.add(cloneConnection.getID());
+      }
+      newConnections.put(nodeToClone.getID(), cloneNodeConnections);
+    }
+
+    for (String newNodeId : newConnections.keySet()) {
+      for (String newConnectedNodeId : newConnections.get(newNodeId)) {
+        if (newNodes.containsKey(newConnectedNodeId)) {
+          newNodes.get(newNodeId).addConnection(newNodes.get(newConnectedNodeId));
+        } else {
+          newNodes
+              .get(newNodeId)
+              .addConnection(
+                  toClone.getNode(newNodeId).getConnections().stream()
+                      .filter(n -> n.getID().equals(newConnectedNodeId))
+                      .findFirst()
+                      .orElseThrow(
+                          () ->
+                              new IllegalArgumentException(
+                                  "Attemplted to link to node never linked to in cloned HospitalMap")));
+        }
+      }
+    }
+
+    this.nodes = new HashSet<>(newNodes.values());
+    this.id = toClone.id;
+    this.mapName = toClone.mapName;
+    this.buildingName = toClone.buildingName;
+    this.floorNumber = toClone.floorNumber;
+    this.imagePath = toClone.imagePath;
   }
 
   public static Set<HospitalMapNode> generateElementFromData(
@@ -88,15 +141,17 @@ public class HospitalMap implements Graph<HospitalMapNode> {
     return floorNumber;
   }
 
-  public HospitalMapNode getSelectedNode() {
-    return selectedNode;
-  }
-
-  public void setSelectedNode(HospitalMapNode selectedNode) {
-    this.selectedNode = selectedNode;
-  }
-
   public void removeNode(String nodeId) {
     nodes.remove(getNode(nodeId));
+  }
+
+  @Override
+  public String toString() {
+    StringBuilder out = new StringBuilder();
+    out.append("HospitalMap: " + id + " containing: " + "\n");
+    for (HospitalMapNode node : nodes) {
+      out.append("\t" + node.getID() + "\n");
+    }
+    return out.toString();
   }
 }

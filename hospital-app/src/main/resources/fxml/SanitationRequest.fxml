@@ -131,7 +131,7 @@
             </HBox>
          </children>
       </VBox>
-      <Button fx:id="sanitationReturn" layoutX="32.0" layoutY="13.0" mnemonicParsing="false" onAction="#navigate" prefHeight="64.0" prefWidth="56.0" style="-fx-background-color: transparent;">
+      <Button fx:id="sanitationReturn" layoutX="25.0" layoutY="20.0" mnemonicParsing="false" onAction="#navigate" prefHeight="64.0" prefWidth="56.0" style="-fx-background-color: transparent;">
          <graphic>
             <ImageView fitHeight="49.0" fitWidth="49.0" pickOnBounds="true" preserveRatio="true">
                <image>

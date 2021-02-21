@@ -127,13 +127,13 @@ public class NavDatabaseManager extends DatabaseManager {
     return results;
   }
 
-  protected void dropTables() {
+  void dropTables() {
     try {
 
       try {
         Statement stmt = databaseRef.getConnection().createStatement();
         // Drop the Edges table.
-        stmt.execute("DROP TABLE navEdges ");
+        stmt.execute("DROP TABLE navEdges");
       } catch (SQLException ex) {
         // No need to report an error.
         // The table simply did not exist.
@@ -142,7 +142,7 @@ public class NavDatabaseManager extends DatabaseManager {
       try {
         Statement stmt = databaseRef.getConnection().createStatement();
         // Drop the Nodes table.
-        stmt.execute("DROP TABLE navNodes ");
+        stmt.execute("DROP TABLE navNodes");
       } catch (SQLException ex) {
         // No need to report an error.
         // The table simply did not exist.
@@ -151,7 +151,7 @@ public class NavDatabaseManager extends DatabaseManager {
       try {
         Statement stmt = databaseRef.getConnection().createStatement();
         // Drop the Maps table.
-        stmt.execute("DROP TABLE navMaps ");
+        stmt.execute("DROP TABLE navMaps");
       } catch (SQLException ex) {
         // No need to report an error.
         // The table simply did not exist.
@@ -161,7 +161,7 @@ public class NavDatabaseManager extends DatabaseManager {
     }
   }
 
-  protected void createTables() {
+  void createTables() {
     try {
 
       try {
@@ -171,6 +171,7 @@ public class NavDatabaseManager extends DatabaseManager {
                 + " map_Name varchar(45), floor_Number integer, building_Name varchar(45),"
                 + " image_Path varchar(45),PRIMARY KEY (map_ID)) ");
       } catch (SQLException e) {
+        e.printStackTrace();
         System.out.println("Error generating Map table");
       }
 
