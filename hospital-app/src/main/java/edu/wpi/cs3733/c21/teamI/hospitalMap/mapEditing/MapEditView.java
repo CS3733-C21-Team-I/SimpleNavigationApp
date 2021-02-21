@@ -142,6 +142,7 @@ public class MapEditView extends Application {
         line.setOnMouseClicked(
             t -> {
               root.getChildren().remove(line);
+              mapManager.getDataCont().deleteEdge(parent.getID(), child.getID());
             });
       }
     }
