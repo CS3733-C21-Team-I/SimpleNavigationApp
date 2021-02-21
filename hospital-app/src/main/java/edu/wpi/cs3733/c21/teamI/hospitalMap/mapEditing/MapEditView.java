@@ -1,7 +1,6 @@
 package edu.wpi.cs3733.c21.teamI.hospitalMap.mapEditing;
 
 import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMapNode;
-import edu.wpi.cs3733.c21.teamI.hospitalMap.LocationNode;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Random;
@@ -208,13 +207,17 @@ public class MapEditView extends Application {
           newCircle.setFill(Color.YELLOW);
           newCircle.setCenterX(t.getSceneX());
           newCircle.setCenterY(t.getSceneY());
-          node.setxCoord((int) (t.getX() * 3.05) + 3);
-          node.setyCoord((int) (t.getY() * 3.05) + 3);
-          mapManager.getDataCont().editNode(node.getID(), (LocationNode) node);
+
+          HospitalMapNode newNode =
+              new HospitalMapNode(
+                  node.getID(),
+                  node.getMapID(),
+                  (int) (t.getX() * scale) + 3,
+                  (int) (t.getY() * scale) + 3,
+                  node.getConnections());
+          mapManager.getDataCont().deleteNode(node.getID());
+          mapManager.getDataCont().addNode(newNode);
           isDrag = true;
-          mapManager.setSelectedNode(null);
-          System.out.println("set null");
-          System.out.println("Selected Node: " + mapManager.getSelectedNode());
         });
     AnchorPane root = mapManager.mapPane;
     root.getChildren().add(circle);
