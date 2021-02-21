@@ -2,6 +2,8 @@ package edu.wpi.cs3733.c21.teamI.hospitalMap.mapEditing;
 
 import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMap;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMapNode;
+import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicket;
+import java.io.IOException;
 import java.util.Map;
 import java.util.Set;
 import javafx.scene.Group;
@@ -21,6 +23,7 @@ public class MapEditManager {
   private HospitalMapNode selectedNode = null;
   private final MapEditDataController dataCont = new MapEditDataController();
   protected AnchorPane nodeMenu;
+  private RequestView requestView;
 
   public static void init() {
     ourInstance = new MapEditManager();
@@ -111,5 +114,11 @@ public class MapEditManager {
   public void stopEditorView() {
     this.mapPane.getChildren().clear();
     nodeMenu.setVisible(false);
+  }
+
+  public void startRequestView(ServiceTicket st) throws IOException {
+    requestView = new RequestView(this, st);
+    requestView.start(stage);
+    RequestView.saveManager();
   }
 }

@@ -239,24 +239,38 @@ public class ApplicationView extends Application {
     generateRequestList();
   }
 
+  public void enterServiceTicketPage(ServiceTicket st) throws IOException {
+    mapManager.startRequestView(st);
+  }
+
   private void generateRequestList() {
     ServiceTicket ticket1 =
         new ServiceTicket(
-            1, 1, 1, ServiceTicket.TicketType.MAINTENANCE, "somewhere", "info", false);
+            11, 12, 13, ServiceTicket.TicketType.MAINTENANCE, "somewhere", "info", false);
     ServiceTicket ticket2 =
         new ServiceTicket(
-            2, 2, 2, ServiceTicket.TicketType.LAUNDRY, "somewhere else", "more info", false);
+            21, 22, 23, ServiceTicket.TicketType.LAUNDRY, "somewhere else", "more info", false);
     ServiceTicket ticket3 =
-        new ServiceTicket(3, 3, 3, ServiceTicket.TicketType.FOOD, "elsewhere", "other info", false);
+        new ServiceTicket(
+            31, 32, 33, ServiceTicket.TicketType.FOOD, "elsewhere", "other info", false);
+    List<ServiceTicket> requests =
+        new ArrayList<ServiceTicket>(Arrays.asList(ticket1, ticket2, ticket3));
     List<String> requestNames =
-        new ArrayList<>(
-            Arrays.asList(ticket1, ticket2, ticket3).stream()
-                .map(st -> st.getTicketType() + " #" + st.getTicketId())
-                .collect(Collectors.toList()));
+        requests.stream()
+            .map(st -> st.getTicketType() + " #" + st.getTicketId())
+            .collect(Collectors.toList());
     requestScrollPane.getStylesheets().add("/fxml/fxmlResources/main.css");
-    for (String request : requestNames) {
-      Button requestButton = new Button(request);
-      //      requestButton.getStyleClass().clear();
+    for (int i = 0; i < requestNames.size(); i++) {
+      Button requestButton = new Button(requestNames.get(i));
+      int finalI = i;
+      requestButton.setOnAction(
+          event -> {
+            try {
+              mapManager.startRequestView(requests.get(finalI));
+            } catch (IOException e) {
+              e.printStackTrace();
+            }
+          });
       requestButton.getStyleClass().add("requestButton");
       requestButton.setMinHeight(50);
       requestButton.setMaxWidth(requestContainer.getWidth());
