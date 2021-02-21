@@ -80,4 +80,8 @@ public class HospitalMapNode implements GraphNode<HospitalMapNode> {
   public String toString() {
     return "HospitalMapNode{" + "id='" + id + ", xCoord=" + xCoord + ", yCoord=" + yCoord + '}';
   }
+
+  public String getMapID() {
+    return mapID;
+  }
 }
