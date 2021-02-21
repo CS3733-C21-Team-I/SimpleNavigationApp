@@ -19,8 +19,6 @@ public class NavEditTests {
             "/edu/wpi/cs3733/c21/teamI/hopitalMap/SampleMapNodes.csv",
             "/edu/wpi/cs3733/c21/teamI/hopitalMap/SampleMapEdges.csv");
 
-
-
     HospitalMap map1 = maps.get("map1");
     HospitalMap newMap1 = new HospitalMap(maps.get("map1"));
 
