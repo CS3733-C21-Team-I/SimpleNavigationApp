@@ -12,6 +12,14 @@
     -fx-font-family: 'Open Sans', sans-serif;
 }
 
+.requestButton {
+    -fx-background-color: grey;
+    -fx-padding:  10px 20px;
+    -fx-text-fill: white;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 10, 0, 0, 0);
+    -fx-font-family: 'Open Sans', sans-serif;
+}
+
 .styledHeader {
     -fx-background-color: #0067b1;
 }
