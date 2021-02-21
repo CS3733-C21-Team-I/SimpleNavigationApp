@@ -1,4 +1,4 @@
-Sat Feb 20 13:15:52 CST 2021 Thread[main,5,main] Cleanup action starting
+Sun Feb 21 16:44:54 CST 2021 Thread[main,5,main] Cleanup action starting
 java.sql.SQLException: Database 'navDB' not found.
 	at org.apache.derby.impl.jdbc.SQLExceptionFactory.getSQLException(Unknown Source)
 	at org.apache.derby.impl.jdbc.SQLExceptionFactory.getSQLException(Unknown Source)
@@ -21,7 +21,7 @@ java.sql.SQLException: Database 'navDB' not found.
 	at edu.wpi.cs3733.c21.teamI.database.DatabaseManager.<init>(DatabaseManager.java:8)
 	at edu.wpi.cs3733.c21.teamI.database.NavDatabaseManager.<init>(NavDatabaseManager.java:26)
 	at edu.wpi.cs3733.c21.teamI.database.NavDatabaseManager.init(NavDatabaseManager.java:18)
-	at edu.wpi.cs3733.c21.teamI.Main.main(Main.java:19)
+	at edu.wpi.cs3733.c21.teamI.Main.main(Main.java:16)
 Caused by: ERROR XJ004: Database 'navDB' not found.
 	at org.apache.derby.iapi.error.StandardException.newException(Unknown Source)
 	at org.apache.derby.impl.jdbc.SQLExceptionFactory.wrapArgsForTransportAcrossDRDA(Unknown Source)
@@ -51,6 +51,6 @@ ERROR XJ004: Database 'navDB' not found.
 	at edu.wpi.cs3733.c21.teamI.database.DatabaseManager.<init>(DatabaseManager.java:8)
 	at edu.wpi.cs3733.c21.teamI.database.NavDatabaseManager.<init>(NavDatabaseManager.java:26)
 	at edu.wpi.cs3733.c21.teamI.database.NavDatabaseManager.init(NavDatabaseManager.java:18)
-	at edu.wpi.cs3733.c21.teamI.Main.main(Main.java:19)
+	at edu.wpi.cs3733.c21.teamI.Main.main(Main.java:16)
 ============= end nested exception, level (1) ===========
 Cleanup action completed

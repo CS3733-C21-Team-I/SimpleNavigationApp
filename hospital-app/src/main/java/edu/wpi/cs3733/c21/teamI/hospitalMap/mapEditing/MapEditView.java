@@ -1,11 +1,15 @@
 package edu.wpi.cs3733.c21.teamI.hospitalMap.mapEditing;
 
 import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMapNode;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Random;
 import javafx.application.Application;
 import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Button;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -20,7 +24,8 @@ public class MapEditView extends Application {
   private double scale;
   private final MapEditManager mapManager;
   private static MapEditManager ourManager;
-  private HospitalMapNode selectedNode;
+  private AnchorPane newLoadedPane;
+  private Button deleteBtn;
 
   public MapEditView() {
     this.mapManager = ourManager;
@@ -40,11 +45,28 @@ public class MapEditView extends Application {
 
   @Override
   public void start(Stage primaryStage) {
+    loadFXML();
     primaryStage.setTitle("Map Editor");
     primaryStage.show();
     mapManager.setStage(primaryStage);
+    deleteBtn = (Button) newLoadedPane.getChildren().get(11);
     setAddNodeHander();
     update();
+  }
+
+  private void loadFXML() {
+    try {
+      newLoadedPane = FXMLLoader.load(getClass().getResource("/fxml/EditNodePane.fxml"));
+      AnchorPane.setBottomAnchor(newLoadedPane, 50.0);
+      AnchorPane.setRightAnchor(newLoadedPane, 50.0);
+      AnchorPane.setLeftAnchor(newLoadedPane, 5.0);
+      AnchorPane.setTopAnchor(newLoadedPane, 20.0);
+      mapManager.getRoot().getChildren().add(newLoadedPane);
+    } catch (FileNotFoundException e) {
+      System.out.println("File not found");
+    } catch (IOException e) {
+      System.out.println("IO Exception");
+    }
   }
 
   private void setAddNodeHander() {
@@ -136,6 +158,13 @@ public class MapEditView extends Application {
         t -> {
           if (t.getButton() == MouseButton.PRIMARY) {
             mapManager.toggleNode(node);
+            // TODO fill in the fields in Edit Node pane
+            deleteBtn.setOnAction(
+                e -> {
+                  mapManager.toggleNode(node);
+                  mapManager.getDataCont().deleteNode(node.getID());
+                  update();
+                });
             update();
           }
         });
