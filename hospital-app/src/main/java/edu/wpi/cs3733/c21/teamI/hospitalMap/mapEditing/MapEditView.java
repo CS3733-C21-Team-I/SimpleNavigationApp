@@ -50,10 +50,6 @@ public class MapEditView extends Application {
     if (mapManager.getSelectedNode() != null) {
       mapManager.nodeMenu.setVisible(true);
     }
-    mapManager.mapPane.setOnMouseDragReleased(
-        t -> {
-          System.out.println("drag released");
-        });
     update();
   }
 
@@ -85,7 +81,6 @@ public class MapEditView extends Application {
   }
 
   public void update() {
-    System.out.println("update time");
     mapManager.mapPane.getChildren().clear();
     drawSelectedNode();
     for (HospitalMapNode node : mapManager.getEntityNodes()) {
@@ -174,7 +169,6 @@ public class MapEditView extends Application {
     circle.setOnMouseClicked(
         t -> {
           if (t.getButton() == MouseButton.PRIMARY) {
-            System.out.println(circle.onDragDoneProperty());
             if (!isDrag) {
               mapManager.toggleNode(node);
             } else {
