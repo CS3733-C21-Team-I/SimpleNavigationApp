@@ -120,6 +120,9 @@ public class ApplicationView extends Application {
           .add(FXMLLoader.load(getClass().getResource("/fxml/MaintenanceRequest.fxml")));
     } else if (e.getSource() == login) {
       root.getChildren().add(FXMLLoader.load(getClass().getResource("/fxml/Login.fxml")));
+    } else {
+      root.getChildren()
+          .add(FXMLLoader.load(getClass().getResource("/fxml/SanitationRequest.fxml")));
     }
     mapManager.setRoot(root);
     scene.setRoot(root);
