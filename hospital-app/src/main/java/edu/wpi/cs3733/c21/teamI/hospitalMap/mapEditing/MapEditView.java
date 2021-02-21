@@ -125,7 +125,7 @@ public class MapEditView extends Application {
         root.getChildren().add(line);
         line.setOnMouseEntered(
             t -> {
-              line.setStroke(Color.PINK);
+              //              line.setStroke(Color.PINK);
               xMarker.setVisible(true);
               xMarker.toFront();
               xMarker.setX(((parent.getxCoord() + child.getxCoord()) / 2) / scale - 7);
@@ -135,6 +135,10 @@ public class MapEditView extends Application {
             t -> {
               line.setStroke(Color.ORANGE);
               xMarker.setVisible(false);
+            });
+        line.setOnMouseClicked(
+            t -> {
+              root.getChildren().remove(line);
             });
       }
     }
