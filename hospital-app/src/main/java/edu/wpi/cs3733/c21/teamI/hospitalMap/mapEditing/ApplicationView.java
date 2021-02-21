@@ -18,6 +18,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
@@ -35,6 +36,7 @@ public class ApplicationView extends Application {
       requestsReturn,
       sanitationReturn,
       maintenanceReturn,
+      loginReturn,
       maintenance,
       start1,
       start2,
@@ -45,13 +47,22 @@ public class ApplicationView extends Application {
       dest2,
       dest3,
       dest4,
-      dest5;
+      dest5,
+      login;
   @FXML ImageView mapImage, adminPath;
   @FXML HBox destinationPoint;
   @FXML TextField start, destination;
   @FXML Label dateTime;
   @FXML AnchorPane nodeMenu;
   @FXML AnchorPane mapPane;
+  @FXML Button loginButton;
+
+  @FXML TextField username;
+  @FXML PasswordField password;
+  @FXML Label headerLabel;
+
+  public String uName;
+  public static String pass;
 
   boolean adminMap = false;
   private static MapEditManager ourManager;
@@ -93,7 +104,9 @@ public class ApplicationView extends Application {
     Group root = mapManager.getRoot();
     Scene scene = ((Button) e.getSource()).getScene();
     root.getChildren().clear();
-    if (e.getSource() == mapReturn || e.getSource() == requestsReturn) {
+    if (e.getSource() == mapReturn
+        || e.getSource() == requestsReturn
+        || e.getSource() == loginReturn) {
       root.getChildren().add(FXMLLoader.load(getClass().getResource("/fxml/Home.fxml")));
     } else if (e.getSource() == sanitationReturn || e.getSource() == maintenanceReturn) {
       root.getChildren().add(FXMLLoader.load(getClass().getResource("/fxml/Requests.fxml")));
@@ -105,9 +118,8 @@ public class ApplicationView extends Application {
     } else if (e.getSource() == maintenance) {
       root.getChildren()
           .add(FXMLLoader.load(getClass().getResource("/fxml/MaintenanceRequest.fxml")));
-    } else {
-      root.getChildren()
-          .add(FXMLLoader.load(getClass().getResource("/fxml/SanitationRequest.fxml")));
+    } else if (e.getSource() == login) {
+      root.getChildren().add(FXMLLoader.load(getClass().getResource("/fxml/Login.fxml")));
     }
     mapManager.setRoot(root);
     scene.setRoot(root);
@@ -211,5 +223,13 @@ public class ApplicationView extends Application {
   @FXML
   public void exit() {
     mapManager.getStage().close();
+  }
+
+  @FXML
+  public void login() {
+    uName = username.getText();
+    pass = password.getText();
+    headerLabel.setText("You successfully logged in.");
+    System.out.println(uName + ' ' + pass);
   }
 }
