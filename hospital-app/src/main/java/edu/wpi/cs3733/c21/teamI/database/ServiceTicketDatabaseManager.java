@@ -88,7 +88,9 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
                 + "    completed        boolean,\n"
                 + "    CONSTRAINT ticketID_PK PRIMARY KEY (ticketID),\n"
                 + "    CONSTRAINT ticket_ck CHECK (serviceticket.ticketType in ('LAUNDRY', 'FOOD', 'SECURITY', 'MAINTENANCE')),\n"
-                + "    CONSTRAINT location_FK FOREIGN KEY (location) REFERENCES navNodes(node_ID))");
+                + "    CONSTRAINT location_FK FOREIGN KEY (location) REFERENCES navNodes(node_ID)," +
+                    "  CONSTRAINT requestID_FK FOREIGN KEY (requestingUserID) REFERENCES HOSPITAL_USERS(user_ID)," +
+                    "  CONSTRAINT assignedID_FK FOREIGN KEY (assignedUserID) REFERENCES  HOSPITAL_USERS(user_ID))");
         System.out.println("ServiceTicket table created.");
       } catch (SQLException e) {
         System.out.println("Error in generating ServiceTicket Table");
