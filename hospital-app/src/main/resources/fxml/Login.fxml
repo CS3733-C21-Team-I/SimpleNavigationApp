@@ -54,25 +54,16 @@
             </Button>
             <Label fx:id="headerLabel">
                <VBox.margin>
-                  <Insets bottom="8.0" top="40.0" />
+                  <Insets bottom="40.0" top="40.0" />
                </VBox.margin>
             </Label>
-            <ScrollPane prefHeight="383.0" prefWidth="936.0">
+            <ScrollPane fx:id="requestScrollPane" prefHeight="367.0" prefWidth="974.0" visible="false">
                <content>
-                  <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="382.0" prefWidth="950.0">
-                     <children>
-                        <Button maxHeight="50.0" maxWidth="1.7976931348623157E308" minHeight="50.0" mnemonicParsing="false" prefHeight="50.0" styleClass="requestButton" stylesheets="@fxmlResources/main.css" text="Request 1" />
-                        <Button maxHeight="50.0" maxWidth="1.7976931348623157E308" minHeight="50.0" mnemonicParsing="false" prefHeight="50.0" styleClass="requestButton" stylesheets="@fxmlResources/main.css" text="Request 2" />
-                        <Button maxHeight="50.0" maxWidth="1.7976931348623157E308" minHeight="50.0" mnemonicParsing="false" prefHeight="50.0" styleClass="requestButton" stylesheets="@fxmlResources/main.css" text="Request 3" />
-                        <Button maxHeight="50.0" maxWidth="1.7976931348623157E308" minHeight="50.0" mnemonicParsing="false" prefHeight="50.0" styleClass="requestButton" stylesheets="@fxmlResources/main.css" text="Request 4" />
-                        <Button maxHeight="50.0" maxWidth="1.7976931348623157E308" minHeight="50.0" mnemonicParsing="false" prefHeight="50.0" styleClass="requestButton" stylesheets="@fxmlResources/main.css" text="Request 5" />
-                        <Button maxHeight="50.0" maxWidth="1.7976931348623157E308" minHeight="50.0" mnemonicParsing="false" prefHeight="50.0" styleClass="requestButton" stylesheets="@fxmlResources/main.css" text="Request 6" />
-                        <Button maxHeight="50.0" maxWidth="1.7976931348623157E308" minHeight="50.0" mnemonicParsing="false" prefHeight="50.0" styleClass="requestButton" stylesheets="@fxmlResources/main.css" text="Request 7" />
-                        <Button maxHeight="50.0" maxWidth="1.7976931348623157E308" minHeight="50.0" mnemonicParsing="false" prefHeight="50.0" styleClass="requestButton" stylesheets="@fxmlResources/main.css" text="Request 8" />
-                        <Button maxHeight="50.0" maxWidth="1.7976931348623157E308" minHeight="50.0" mnemonicParsing="false" prefHeight="50.0" styleClass="requestButton" stylesheets="@fxmlResources/main.css" text="Request 9" />
-                     </children>
-                  </VBox>
+                  <VBox fx:id="requestContainer" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="367.0" prefWidth="950.0" />
                </content>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
             </ScrollPane>
          </children>
       </VBox>

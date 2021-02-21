@@ -13,7 +13,7 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
   private static ServiceTicketDatabaseManager ourInstance;
 
   /** @param regen */
-  private ServiceTicketDatabaseManager(boolean regen) {
+  public ServiceTicketDatabaseManager(boolean regen) {
     super(DB_URL, regen);
     // TODO - implement ServiceTicket.ServiceTicketDatabaseManager
     throw new UnsupportedOperationException();

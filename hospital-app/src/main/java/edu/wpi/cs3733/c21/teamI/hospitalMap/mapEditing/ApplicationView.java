@@ -1,10 +1,12 @@
 package edu.wpi.cs3733.c21.teamI.hospitalMap.mapEditing;
 
 import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMapNode;
+import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicket;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import javafx.animation.Animation;
@@ -16,15 +18,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -60,6 +60,7 @@ public class ApplicationView extends Application {
   @FXML TextField username;
   @FXML PasswordField password;
   @FXML Label headerLabel;
+  @FXML VBox requestContainer;
 
   public String uName;
   public static String pass;
@@ -67,6 +68,7 @@ public class ApplicationView extends Application {
   boolean adminMap = false;
   private static MapEditManager ourManager;
   private final MapEditManager mapManager;
+  @FXML ScrollPane requestScrollPane;
 
   public ApplicationView() {
     this.mapManager = ourManager;
@@ -234,5 +236,32 @@ public class ApplicationView extends Application {
     pass = password.getText();
     headerLabel.setText("You successfully logged in.");
     System.out.println(uName + ' ' + pass);
+    generateRequestList();
+  }
+
+  private void generateRequestList() {
+    ServiceTicket ticket1 =
+        new ServiceTicket(
+            1, 1, 1, ServiceTicket.TicketType.MAINTENANCE, "somewhere", "info", false);
+    ServiceTicket ticket2 =
+        new ServiceTicket(
+            2, 2, 2, ServiceTicket.TicketType.LAUNDRY, "somewhere else", "more info", false);
+    ServiceTicket ticket3 =
+        new ServiceTicket(3, 3, 3, ServiceTicket.TicketType.FOOD, "elsewhere", "other info", false);
+    List<String> requestNames =
+        new ArrayList<>(
+            Arrays.asList(ticket1, ticket2, ticket3).stream()
+                .map(st -> st.getTicketType() + " #" + st.getTicketId())
+                .collect(Collectors.toList()));
+    requestScrollPane.getStylesheets().add("/fxml/fxmlResources/main.css");
+    for (String request : requestNames) {
+      Button requestButton = new Button(request);
+      //      requestButton.getStyleClass().clear();
+      requestButton.getStyleClass().add("requestButton");
+      requestButton.setMinHeight(50);
+      requestButton.setMaxWidth(requestContainer.getWidth());
+      requestContainer.getChildren().add(requestButton);
+    }
+    requestScrollPane.setVisible(true);
   }
 }
