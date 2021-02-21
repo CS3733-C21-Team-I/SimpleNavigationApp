@@ -24,6 +24,7 @@ public class MapEditView extends Application {
   private final MapEditManager mapManager;
   private static MapEditManager ourManager;
   private HospitalMapNode selectedNode;
+  private boolean isDrag;
 
   public MapEditView() {
     this.mapManager = ourManager;
@@ -50,6 +51,10 @@ public class MapEditView extends Application {
     if (mapManager.getSelectedNode() != null) {
       mapManager.nodeMenu.setVisible(true);
     }
+    mapManager.mapPane.setOnMouseDragReleased(
+        t -> {
+          System.out.println("drag released");
+        });
     update();
   }
 
@@ -170,7 +175,12 @@ public class MapEditView extends Application {
     circle.setOnMouseClicked(
         t -> {
           if (t.getButton() == MouseButton.PRIMARY) {
-            mapManager.toggleNode(node);
+            System.out.println(circle.onDragDoneProperty());
+            if (!isDrag) {
+              mapManager.toggleNode(node);
+            } else {
+              isDrag = false;
+            }
             update();
           }
         });
@@ -201,13 +211,11 @@ public class MapEditView extends Application {
           node.setxCoord((int) (t.getX() * 3.05) + 3);
           node.setyCoord((int) (t.getY() * 3.05) + 3);
           mapManager.getDataCont().editNode(node.getID(), (LocationNode) node);
+          isDrag = true;
+          mapManager.setSelectedNode(null);
+          System.out.println("set null");
+          System.out.println("Selected Node: " + mapManager.getSelectedNode());
         });
-
-    circle.setOnMouseDragReleased(
-        t -> {
-          System.out.println("drag released");
-        });
-
     AnchorPane root = mapManager.mapPane;
     root.getChildren().add(circle);
   }
