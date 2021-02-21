@@ -12,9 +12,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="973.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamI.hospitalMap.mapEditing.ApplicationView">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="973.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamI.hospitalMap.mapEditing.ApplicationView">
    <children>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="4.0" layoutY="-3.0" prefHeight="104.0" prefWidth="973.0" style="-fx-background-color: #0067b1;" text="LOGIN" textFill="WHITE" textOverrun="WORD_ELLIPSIS" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <Label fx:id="loginHeaderLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="4.0" layoutY="-3.0" prefHeight="104.0" prefWidth="973.0" style="-fx-background-color: #0067b1;" text="LOGIN" textFill="WHITE" textOverrun="WORD_ELLIPSIS" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <font>
             <Font size="40.0" />
          </font>
@@ -33,7 +33,7 @@
                         <Insets bottom="8.0" />
                      </VBox.margin>
                   </PasswordField>
-                  <Button fx:id="loginButton" mnemonicParsing="false" onAction="#login" text="Submit" />
+                  <Button fx:id="loginButton" mnemonicParsing="false" onAction="#login" styleClass="styledButton" stylesheets="@fxmlResources/main.css" text="Submit" />
                   <Label fx:id="headerLabel">
                      <VBox.margin>
                         <Insets bottom="8.0" top="40.0" />

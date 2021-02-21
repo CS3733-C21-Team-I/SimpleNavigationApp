@@ -25,6 +25,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -60,6 +61,7 @@ public class ApplicationView extends Application {
   @FXML TextField username;
   @FXML PasswordField password;
   @FXML Label headerLabel;
+  @FXML Label loginHeaderLabel;
 
   public String uName;
   public static String pass;
@@ -232,7 +234,13 @@ public class ApplicationView extends Application {
   public void login() {
     uName = username.getText();
     pass = password.getText();
-    headerLabel.setText("You successfully logged in.");
-    System.out.println(uName + ' ' + pass);
+    if (uName.equals("admin") && pass.equals("admin")) {
+      headerLabel.setText("You successfully logged in.");
+      loginHeaderLabel.setText("PROFILE");
+    } else {
+      headerLabel.setText("Incorrect username or password.");
+      headerLabel.setTextFill(Color.RED);
+    }
+    System.out.println(uName.equals("admin") && pass.equals("admin"));
   }
 }
