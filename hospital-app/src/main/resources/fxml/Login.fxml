@@ -33,7 +33,10 @@
                         <Insets bottom="8.0" />
                      </VBox.margin>
                   </PasswordField>
-                  <Button fx:id="loginButton" mnemonicParsing="false" onAction="#login" text="Submit" />
+                  <Button fx:id="loginButton" mnemonicParsing="false" onAction="#login" styleClass="styledButton" stylesheets="@fxmlResources/main.css" text="Submit">
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin></Button>
                   <Label fx:id="headerLabel">
                      <VBox.margin>
                         <Insets bottom="8.0" top="40.0" />
