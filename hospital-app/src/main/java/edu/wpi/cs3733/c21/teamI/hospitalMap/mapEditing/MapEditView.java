@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.c21.teamI.hospitalMap.mapEditing;
 
 import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMapNode;
+import edu.wpi.cs3733.c21.teamI.hospitalMap.LocationNode;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Random;
@@ -80,6 +81,7 @@ public class MapEditView extends Application {
   }
 
   public void update() {
+    System.out.println("update time");
     mapManager.mapPane.getChildren().clear();
     drawSelectedNode();
     for (HospitalMapNode node : mapManager.getEntityNodes()) {
@@ -184,6 +186,28 @@ public class MapEditView extends Application {
           newCircle.setFill(Color.RED);
           newCircle.setRadius(12 / scale);
         });
+
+    circle.setOnMouseDragged(
+        t -> {
+          Circle newCircle =
+              (Circle)
+                  mapManager
+                      .mapPane
+                      .getChildren()
+                      .get(mapManager.mapPane.getChildren().indexOf(circle));
+          newCircle.setFill(Color.YELLOW);
+          newCircle.setCenterX(t.getSceneX());
+          newCircle.setCenterY(t.getSceneY());
+          node.setxCoord((int) (t.getX() * 3.05) + 3);
+          node.setyCoord((int) (t.getY() * 3.05) + 3);
+          mapManager.getDataCont().editNode(node.getID(), (LocationNode) node);
+        });
+
+    circle.setOnMouseDragReleased(
+        t -> {
+          System.out.println("drag released");
+        });
+
     AnchorPane root = mapManager.mapPane;
     root.getChildren().add(circle);
   }
