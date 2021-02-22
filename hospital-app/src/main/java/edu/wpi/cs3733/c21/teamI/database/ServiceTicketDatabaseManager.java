@@ -155,22 +155,22 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
   public void addTicket(ServiceTicket t) {
     try {
       Statement stmt = databaseRef.getConnection().createStatement();
-      ResultSet rs =
-          stmt.executeQuery(
+
+          stmt.executeUpdate(
               "INSERT INTO serviceticket(requestingUserID, assignedUserID, ticketType, location, description, emergency, completed)\n"
                   + "VALUES ("
                   + t.getRequestingUserID()
-                  + ","
+                  + ", "
                   + t.getAssignedUserID()
-                  + ","
-                  + t.getTicketType()
-                  + ","
+                  + ", '"
+                  + t.getTicketType().toString()
+                  + "', '"
                   + t.getLocation()
-                  + ","
+                  + "', '"
                   + t.getDescription()
-                  + ","
+                  + "', "
                   + t.isEmergency()
-                  + ","
+                  + ", "
                   + t.isCompleted()
                   + ")");
     } catch (SQLException e) {
@@ -260,7 +260,7 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
             11,
             UserDatabaseManager.getInstance().getUserForScreenname("TestEmployee").getUserId(),
             UserDatabaseManager.getInstance()
-                .getUserForScreenname("TestMaintenanceEmployee")
+                .getUserForScreenname("TestServiceEmployee")
                 .getUserId(),
             ServiceTicket.TicketType.MAINTENANCE,
             "ICONF00103",
@@ -272,7 +272,7 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
             21,
             UserDatabaseManager.getInstance().getUserForScreenname("TestEmployee").getUserId(),
             UserDatabaseManager.getInstance()
-                .getUserForScreenname("TestMaintenanceEmployee")
+                .getUserForScreenname("TestServiceEmployee")
                 .getUserId(),
             ServiceTicket.TicketType.LAUNDRY,
             "ICONF00104",
