@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.c21.teamI.hospitalMap.mapEditing;
 
+import edu.wpi.cs3733.c21.teamI.database.UserDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicket;
 import java.io.IOException;
 import javafx.application.Application;
@@ -79,8 +80,14 @@ public class RequestView extends Application {
             + serviceTicket.getTicketId());
     type.setText(serviceTicket.getTicketType().toString());
     ticketID.setText(String.valueOf(serviceTicket.getTicketId()));
-    requestID.setText(String.valueOf(serviceTicket.getRequestingUserID()));
-    assignmentID.setText(String.valueOf(serviceTicket.getAssignedUserID()));
+    requestID.setText(
+        String.valueOf(
+            UserDatabaseManager.getInstance()
+                .getDisplayNameForId(serviceTicket.getRequestingUserID())));
+    assignmentID.setText(
+        String.valueOf(
+            UserDatabaseManager.getInstance()
+                .getDisplayNameForId(serviceTicket.getAssignedUserID())));
     locationBox.setText(serviceTicket.getLocation());
     description.setText(serviceTicket.getDescription());
     completed.setSelected(serviceTicket.isCompleted());
