@@ -1,7 +1,11 @@
 package edu.wpi.cs3733.c21.teamI.hospitalMap.mapEditing;
 
+import edu.wpi.cs3733.c21.teamI.database.NavDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMap;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMapNode;
+
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Stack;
 
 public class MapEditDataController {
@@ -102,6 +106,15 @@ public class MapEditDataController {
    */
   public void saveChanges() {
     // TODO send to Database
+    Queue<NavEditOperation> ops = new LinkedList<>();
+    if (undoRedoPointer != -1) {
+      for (int i = 0; i < undoRedoPointer; i++) {
+        ops.add(dataOperations.get(i).getOperation());
+      }
+    }
+
+    NavDatabaseManager.getInstance().applyNavEditOperations(ops);
+
     activeMap = null;
     dataOperations = new Stack<>();
     undoRedoPointer = -1;
@@ -117,6 +130,14 @@ public class MapEditDataController {
     MapEditCommand command = dataOperations.get(undoRedoPointer);
     command.unExecute();
     undoRedoPointer--;
+  }
+
+  public boolean isUndoAvailable() {
+    return undoRedoPointer >= -1;
+  }
+
+  public boolean isRedoAvailable() {
+    return undoRedoPointer == dataOperations.size() - 1;
   }
 
   public void redo() {

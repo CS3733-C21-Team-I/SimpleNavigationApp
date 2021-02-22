@@ -4,7 +4,7 @@ import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMapNode;
 
 public class NavEditOperation {
 
-  enum OperationType {
+  public enum OperationType {
     ADD_NODE,
     EDIT_NODE,
     DELETE_NODE,
@@ -23,5 +23,21 @@ public class NavEditOperation {
     this.targetNode = targetNode;
     this.newNode = newNode;
     this.toNode = toNode;
+  }
+
+  public OperationType getOpType() {
+    return opType;
+  }
+
+  public String getTargetNode() {
+    return targetNode;
+  }
+
+  public HospitalMapNode getNewNode() {
+    return newNode;
+  }
+
+  public String getToNode() {
+    return toNode;
   }
 }

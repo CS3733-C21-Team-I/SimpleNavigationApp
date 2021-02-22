@@ -158,7 +158,7 @@ public class UserDatabaseManager extends DatabaseManager {
       stmt.execute(
           "CREATE TABLE HOSPITAL_USERS"
               + "("
-              + " user_ID    integer NOT NULL,"
+              + " user_ID    integer NOT NULL GENERATED ALWAYS AS IDENTITY,"
               + " screenName varchar(20) NOT NULL ,"
               + "PRIMARY KEY (user_ID)"
               + ")");
