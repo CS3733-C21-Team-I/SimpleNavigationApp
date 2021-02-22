@@ -170,7 +170,7 @@
             </cursor>
         </Button>
     </VBox>
-    <Button layoutX="671.0" layoutY="34.0" maxHeight="50.0" maxWidth="50.0" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: rgb(1, 45, 90); -fx-background-radius: 100;">
+    <Button layoutX="671.0" layoutY="34.0" maxHeight="50.0" maxWidth="50.0" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" onAction="#getDirections" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: rgb(1, 45, 90); -fx-background-radius: 100;">
         <cursor>
             <Cursor fx:constant="HAND" />
         </cursor>
@@ -206,7 +206,7 @@
             </ImageView>
         </graphic>
     </Button>
-    <Button layoutX="744.0" layoutY="35.0" maxHeight="50.0" maxWidth="50.0" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: rgb(1, 45, 90); -fx-background-radius: 100;">
+    <Button layoutX="744.0" layoutY="35.0" maxHeight="50.0" maxWidth="50.0" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" onAction="#deletePath" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: rgb(1, 45, 90); -fx-background-radius: 100;">
         <cursor>
             <Cursor fx:constant="HAND" />
         </cursor>
@@ -218,63 +218,4 @@
             </ImageView>
         </graphic>
     </Button>
-    <AnchorPane fx:id="nodeMenu" layoutX="716.0" layoutY="323.0" prefHeight="477.0" prefWidth="256.0" style="-fx-background-color: #F1F1F1; -fx-border-style: solid;" visible="false">
-        <children>
-            <Label layoutX="74.0" layoutY="3.0" text="Edit Node">
-                <padding>
-                    <Insets bottom="16.0" left="16.0" right="16.0" top="16.0" />
-                </padding>
-                <font>
-                    <Font size="18.0" />
-                </font>
-            </Label>
-            <Label layoutX="12.0" layoutY="48.0" text="Floor">
-                <padding>
-                    <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
-                </padding>
-            </Label>
-            <TextField layoutX="42.0" layoutY="88.0">
-                <padding>
-                    <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
-                </padding>
-            </TextField>
-            <Label layoutX="12.0" layoutY="381.0" text="Long Name">
-                <padding>
-                    <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
-                </padding>
-            </Label>
-            <TextField layoutX="42.0" layoutY="258.0">
-                <padding>
-                    <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
-                </padding></TextField>
-            <Label layoutX="12.0" layoutY="128.0" text="Building">
-                <padding>
-                    <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
-                </padding>
-            </Label>
-            <TextField layoutX="42.0" layoutY="168.0">
-                <padding>
-                    <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
-                </padding></TextField>
-            <Label layoutX="12.0" layoutY="218.0" text="Type">
-                <padding>
-                    <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
-                </padding>
-            </Label>
-            <TextField layoutX="42.0" layoutY="421.0">
-                <padding>
-                    <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
-                </padding></TextField>
-            <Label layoutX="12.0" layoutY="298.0" text="Short Name">
-                <padding>
-                    <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
-                </padding>
-            </Label>
-            <TextField layoutX="42.0" layoutY="341.0">
-                <padding>
-                    <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
-                </padding>
-            </TextField>
-        </children>
-    </AnchorPane>
 </AnchorPane>

@@ -173,4 +173,12 @@
             </ImageView>
         </graphic>
     </Button>
+   <Button fx:id="login" alignment="TOP_RIGHT" layoutX="851.0" layoutY="23.0" mnemonicParsing="false" onAction="#navigate" style="-fx-background-color: transparent; -fx-text-fill: white;" text="Login" AnchorPane.leftAnchor="851.0" AnchorPane.topAnchor="23.0">
+      <font>
+         <Font name="System Bold" size="25.0" />
+      </font>
+      <cursor>
+         <Cursor fx:constant="HAND" />
+      </cursor>
+   </Button>
 </AnchorPane>
