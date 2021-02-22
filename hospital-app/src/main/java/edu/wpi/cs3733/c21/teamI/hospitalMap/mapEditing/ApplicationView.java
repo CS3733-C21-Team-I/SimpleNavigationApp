@@ -118,6 +118,9 @@ public class ApplicationView extends Application {
     } else if (e.getSource() == map) {
       adminMap = false;
       root.getChildren().add(FXMLLoader.load(getClass().getResource("/fxml/Map.fxml")));
+      // TODO: For James, fill in login connection here
+      boolean isAdmin = true;
+      ((AnchorPane) root.getChildren().get(0)).getChildren().get(8).setVisible(isAdmin);
     } else if (e.getSource() == serviceRequests) {
       root.getChildren().add(FXMLLoader.load(getClass().getResource("/fxml/Requests.fxml")));
     } else if (e.getSource() == maintenance) {
