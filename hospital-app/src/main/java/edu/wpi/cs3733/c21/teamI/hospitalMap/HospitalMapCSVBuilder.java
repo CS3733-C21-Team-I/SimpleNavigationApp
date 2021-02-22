@@ -148,7 +148,6 @@ public class HospitalMapCSVBuilder {
         }
       }
     } catch (IOException e) {
-      System.out.println(new File(path).getAbsolutePath());
       e.printStackTrace();
     }
     return allElements;

@@ -28,7 +28,7 @@ public class User {
     ADMIN,
     VISITOR,
     EMPLOYEE,
-    PATIENT;
+    PATIENT
   }
 
   public enum Permission {

@@ -1,0 +1,14 @@
+id,xcoord,ycoord,floor,building,nodetype,longname,shortname,teamassigned
+N01,30,0,01,Test,HALL,node1,node1,I
+N02,60,10,01,Test,HALL,node2,node2,I
+N03,10,30,01,Test,HALL,node3,node3,I
+N04,30,30,01,Test,HALL,node4,node4,I
+N05,60,30,01,Test,HALL,node5,node5,I
+N06,80,30,01,Test,HALL,node6,node6,I
+N07,30,40,01,Test,HALL,node7,node7,I
+N08,60,40,01,Test,HALL,node8,node8,I
+N09,80,40,01,Test,HALL,node9,node9,I
+N10,10,60,01,Test,HALL,node10,node10,I
+N11,30,60,01,Test,HALL,node11,node11,I
+N12,60,60,01,Test,HALL,node12,node12,I
+N13,60,70,01,Test,HALL,node13,node13,I

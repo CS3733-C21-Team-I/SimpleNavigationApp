@@ -8,7 +8,7 @@ public class LocationNode extends HospitalMapNode {
   private String longName;
   private String teamAssigned;
 
-  public LocationNode() {};
+  public LocationNode() {}
 
   public LocationNode(
       String id,

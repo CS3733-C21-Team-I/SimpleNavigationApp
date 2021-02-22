@@ -74,6 +74,10 @@ public class ServiceTicket {
     return description;
   }
 
+  public int getTicketId() {
+    return ticketId;
+  }
+
   public boolean isCompleted() {
     return completed;
   }
