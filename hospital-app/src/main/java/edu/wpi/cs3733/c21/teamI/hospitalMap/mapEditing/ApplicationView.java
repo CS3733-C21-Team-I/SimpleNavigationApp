@@ -1,9 +1,11 @@
 package edu.wpi.cs3733.c21.teamI.hospitalMap.mapEditing;
 
+import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.EuclidianDistCalc;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMapNode;
 import edu.wpi.cs3733.c21.teamI.pathfinding.PathFinder;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicket;
+import edu.wpi.cs3733.c21.teamI.user.User;
 import java.io.IOException;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -119,7 +121,10 @@ public class ApplicationView extends Application {
       adminMap = false;
       root.getChildren().add(FXMLLoader.load(getClass().getResource("/fxml/Map.fxml")));
       // TODO: For James, fill in login connection here
-      boolean isAdmin = true;
+      boolean isAdmin =
+          ApplicationDataController.getInstance()
+              .getLoggedInUser()
+              .hasPermission(User.Permission.EDIT_MAP);
       ((AnchorPane) root.getChildren().get(0)).getChildren().get(8).setVisible(isAdmin);
     } else if (e.getSource() == serviceRequests) {
       root.getChildren().add(FXMLLoader.load(getClass().getResource("/fxml/Requests.fxml")));
@@ -209,9 +214,15 @@ public class ApplicationView extends Application {
   public void login() {
     uName = username.getText();
     pass = password.getText();
-    headerLabel.setText("You successfully logged in.");
-    System.out.println(uName + ' ' + pass);
-    generateRequestList();
+    if (ApplicationDataController.getInstance().logInUser(uName, pass)) {
+      headerLabel.setText("You successfully logged in.");
+      System.out.println(uName + ' ' + pass);
+      if (ApplicationDataController.getInstance()
+          .getLoggedInUser()
+          .hasPermission(User.Permission.VIEW_TICKET)) generateRequestList();
+    } else {
+      headerLabel.setText("Error: Invalid login.");
+    }
   }
 
   public void enterServiceTicketPage(ServiceTicket st) throws IOException {
