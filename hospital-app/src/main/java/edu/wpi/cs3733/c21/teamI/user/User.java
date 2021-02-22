@@ -10,6 +10,15 @@ public class User {
 
   private Set<Permission> userPermissions;
   private String name;
+
+  public String getName() {
+    return name;
+  }
+
+  public int getUserId() {
+    return userId;
+  }
+
   private int userId;
 
   public User(int userId, String name, Set<Role> userRoles, Set<Permission> userPermissions) {
