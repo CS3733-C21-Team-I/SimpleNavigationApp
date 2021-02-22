@@ -37,7 +37,6 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
           stmt.executeQuery("SELECT * FROM serviceticket WHERE ticketID=" + String.valueOf(id));
       if (rs.next())
         return new ServiceTicket(
-            id,
             rs.getInt("requestingUserID"),
             rs.getInt("assignedUserID"),
             ServiceTicket.TicketType.valueOf(rs.getString("ticketType")),
@@ -62,7 +61,6 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
       while (rs.next())
         results.add(
             new ServiceTicket(
-                rs.getInt("ticketID"),
                 rs.getInt("requestingUserID"),
                 rs.getInt("assignedUserID"),
                 ServiceTicket.TicketType.valueOf(rs.getString("ticketType")),
@@ -186,7 +184,6 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
       while (rs.next()) {
         ServiceTicket cur =
             new ServiceTicket(
-                rs.getInt("ticketID"),
                 rs.getInt("requestingUserID"),
                 rs.getInt("assignedUserID"),
                 ServiceTicket.TicketType.valueOf(rs.getString("ticketType")),
@@ -194,6 +191,7 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
                 rs.getString("description"),
                 rs.getBoolean("emergency"),
                 rs.getBoolean("completed"));
+        cur.setTicketID(rs.getInt("ticketID"));
         tix.add(cur);
       }
     } catch (SQLException e) {
@@ -212,7 +210,6 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
       while (rs.next()) {
         ServiceTicket cur =
             new ServiceTicket(
-                rs.getInt("ticketID"),
                 rs.getInt("requestingUserID"),
                 rs.getInt("assignedUserID"),
                 ServiceTicket.TicketType.valueOf(rs.getString("ticketType")),
@@ -220,6 +217,7 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
                 rs.getString("description"),
                 rs.getBoolean("emergency"),
                 rs.getBoolean("completed"));
+        cur.setTicketID(rs.getInt("ticketID"));
         tix.add(cur);
       }
     } catch (SQLException e) {
@@ -238,7 +236,6 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
       while (rs.next()) {
         ServiceTicket cur =
             new ServiceTicket(
-                rs.getInt("ticketID"),
                 rs.getInt("requestingUserID"),
                 rs.getInt("assignedUserID"),
                 ServiceTicket.TicketType.valueOf(rs.getString("ticketType")),
@@ -246,6 +243,7 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
                 rs.getString("description"),
                 rs.getBoolean("emergency"),
                 rs.getBoolean("completed"));
+        cur.setTicketID(rs.getInt("ticketID"));
         tix.add(cur);
       }
     } catch (SQLException e) {
@@ -257,7 +255,6 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
   public static void populateExampleData() {
     ServiceTicket ticket1 =
         new ServiceTicket(
-            11,
             UserDatabaseManager.getInstance().getUserForScreenname("TestEmployee").getUserId(),
             UserDatabaseManager.getInstance()
                 .getUserForScreenname("TestMaintenanceEmployee")
@@ -267,9 +264,9 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
             "info",
             true,
             false);
+    ticket1.setTicketID(11);
     ServiceTicket ticket2 =
         new ServiceTicket(
-            21,
             UserDatabaseManager.getInstance().getUserForScreenname("TestEmployee").getUserId(),
             UserDatabaseManager.getInstance()
                 .getUserForScreenname("TestMaintenanceEmployee")
@@ -279,6 +276,7 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
             "more info",
             false,
             true);
+    ticket2.setTicketID(21);
 
     ourInstance.addTicket(ticket1);
     ourInstance.addTicket(ticket2);
