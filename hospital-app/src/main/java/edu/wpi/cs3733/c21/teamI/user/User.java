@@ -1,6 +1,5 @@
 package edu.wpi.cs3733.c21.teamI.user;
 
-import java.util.HashSet;
 import java.util.Set;
 
 public class User {
@@ -24,6 +23,14 @@ public class User {
   public boolean hasPermission(User.Permission permission) {
     // TODO - implement User.hasPermission
     return userPermissions.contains(permission);
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public int getUserId() {
+    return userId;
   }
 
   public enum Role {
