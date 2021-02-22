@@ -4,7 +4,6 @@ import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMap;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMapNode;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.LocationNode;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.mapEditing.NavEditOperation;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -351,34 +350,34 @@ public class NavDatabaseManager extends DatabaseManager {
             if (node instanceof LocationNode) {
               // TODO locationNode handling
               statement.executeUpdate(
-                      "INSERT INTO navNodes (MAP_ID, NODE_ID, X_COORD, Y_COORD, NODE_TYPE, SHORT_NAME, LONG_NAME, TEAM_ASSIGNED)"
-                              + "VALUES ('"
-                              + node.getMapID()
-                              + "', '"
-                              + node.getID()
-                              + "', "
-                              + node.getxCoord()
-                              + ", "
-                              + node.getyCoord()
-                              + ", 'LOC', '"
-                              + ((LocationNode) node).getShortName()
-                              + "', '"
-                              + ((LocationNode) node).getLongName()
-                              + "', '"
-                              + ((LocationNode) node).getTeamAssigned()
-                              + "')");
+                  "INSERT INTO navNodes (MAP_ID, NODE_ID, X_COORD, Y_COORD, NODE_TYPE, SHORT_NAME, LONG_NAME, TEAM_ASSIGNED)"
+                      + "VALUES ('"
+                      + node.getMapID()
+                      + "', '"
+                      + node.getID()
+                      + "', "
+                      + node.getxCoord()
+                      + ", "
+                      + node.getyCoord()
+                      + ", 'LOC', '"
+                      + ((LocationNode) node).getShortName()
+                      + "', '"
+                      + ((LocationNode) node).getLongName()
+                      + "', '"
+                      + ((LocationNode) node).getTeamAssigned()
+                      + "')");
 
             } else {
               statement.executeUpdate(
-                      "INSERT INTO navNodes (node_ID, x_Coord, y_Coord, node_Type) "
-                              + "VALUES ('"
-                              + node.getID()
-                              + "', "
-                              + node.getxCoord()
-                              + ", "
-                              + node.getyCoord()
-                              + ", "
-                              + "'POS')");
+                  "INSERT INTO navNodes (node_ID, x_Coord, y_Coord, node_Type) "
+                      + "VALUES ('"
+                      + node.getID()
+                      + "', "
+                      + node.getxCoord()
+                      + ", "
+                      + node.getyCoord()
+                      + ", "
+                      + "'POS')");
             }
           } catch (SQLException e) {
             e.printStackTrace();
@@ -387,7 +386,8 @@ public class NavDatabaseManager extends DatabaseManager {
         case EDIT_NODE:
           try {
             Statement statement = databaseRef.getConnection().createStatement();
-            statement.executeUpdate("DELETE FROM NAV_NODES WHERE NODE_ID='" + op.getTargetNode() + "'");
+            statement.executeUpdate(
+                "DELETE FROM NAV_NODES WHERE NODE_ID='" + op.getTargetNode() + "'");
           } catch (SQLException e) {
             e.printStackTrace();
           }
@@ -398,46 +398,45 @@ public class NavDatabaseManager extends DatabaseManager {
             if (node instanceof LocationNode) {
               // TODO locationNode handling
               statement.executeUpdate(
-                      "INSERT INTO navNodes (MAP_ID, NODE_ID, X_COORD, Y_COORD, NODE_TYPE, SHORT_NAME, LONG_NAME, TEAM_ASSIGNED)"
-                              + "VALUES ('"
-                              + node.getMapID()
-                              + "', '"
-                              + node.getID()
-                              + "', "
-                              + node.getxCoord()
-                              + ", "
-                              + node.getyCoord()
-                              + ", 'LOC', '"
-                              + ((LocationNode) node).getShortName()
-                              + "', '"
-                              + ((LocationNode) node).getLongName()
-                              + "', '"
-                              + ((LocationNode) node).getTeamAssigned()
-                              + "')");
+                  "INSERT INTO navNodes (MAP_ID, NODE_ID, X_COORD, Y_COORD, NODE_TYPE, SHORT_NAME, LONG_NAME, TEAM_ASSIGNED)"
+                      + "VALUES ('"
+                      + node.getMapID()
+                      + "', '"
+                      + node.getID()
+                      + "', "
+                      + node.getxCoord()
+                      + ", "
+                      + node.getyCoord()
+                      + ", 'LOC', '"
+                      + ((LocationNode) node).getShortName()
+                      + "', '"
+                      + ((LocationNode) node).getLongName()
+                      + "', '"
+                      + ((LocationNode) node).getTeamAssigned()
+                      + "')");
 
             } else {
               statement.executeUpdate(
-                      "INSERT INTO navNodes (node_ID, x_Coord, y_Coord, node_Type) "
-                              + "VALUES ('"
-                              + node.getID()
-                              + "', "
-                              + node.getxCoord()
-                              + ", "
-                              + node.getyCoord()
-                              + ", "
-                              + "'POS')");
+                  "INSERT INTO navNodes (node_ID, x_Coord, y_Coord, node_Type) "
+                      + "VALUES ('"
+                      + node.getID()
+                      + "', "
+                      + node.getxCoord()
+                      + ", "
+                      + node.getyCoord()
+                      + ", "
+                      + "'POS')");
             }
           } catch (SQLException e) {
             e.printStackTrace();
           }
           break;
         case DELETE_NODE:
-
           break;
         default:
-          throw new IllegalStateException("Attempted to apply a unsuported NavEditOperation to database");
+          throw new IllegalStateException(
+              "Attempted to apply a unsuported NavEditOperation to database");
       }
-
     }
   }
 }
