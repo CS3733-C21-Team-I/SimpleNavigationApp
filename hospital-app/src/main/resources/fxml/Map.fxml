@@ -26,8 +26,8 @@
         </cursor>
         <Image url="@fxmlResources/FaulknerCampus.png" />
     </ImageView>
-   <AnchorPane fx:id="mapPane" prefHeight="200.0" prefWidth="200.0" />
-   <AnchorPane prefHeight="802.0" prefWidth="973.0">
+   <AnchorPane fx:id="mapPane" prefHeight="800.0" prefWidth="973.0" />
+   <AnchorPane prefHeight="106.0" prefWidth="974.0">
       <children>
           <AnchorPane layoutX="269.0" layoutY="26.0" prefHeight="63.0" prefWidth="330.0" style="-fx-background-color: transparent;">
               <Region prefHeight="78.0" prefWidth="434.0" style="-fx-background-color: rgba(1, 45, 90, 0.6); -fx-background-radius: 10 10 10 10;" />
