@@ -1,11 +1,12 @@
 package edu.wpi.cs3733.c21.teamI.hospitalMap;
 
 import edu.wpi.cs3733.c21.teamI.pathfinding.PriorityCalc;
+import java.util.ArrayList;
 import java.util.List;
 
 public class EuclidianDistCalc implements PriorityCalc<HospitalMapNode> {
 
-  public List<String> nodeTypesToAvoid;
+  public List<NodeRestrictions> nodeTypesToAvoid = new ArrayList<>();
 
   public double calculateDistance(HospitalMapNode from, HospitalMapNode to) {
     /**
@@ -24,7 +25,17 @@ public class EuclidianDistCalc implements PriorityCalc<HospitalMapNode> {
 
   @Override
   public boolean isValid(HospitalMapNode node) {
+    boolean canAccess = true;
+
     // TODO: when enumeration exists, exclude nodeTypesToAvoid
-    return true;
+
+    for (NodeRestrictions restriction : nodeTypesToAvoid) {
+      if (node.getNodeRestrictions().contains(restriction)) {
+        canAccess = false;
+        break;
+      }
+    }
+
+    return canAccess;
   }
 }
