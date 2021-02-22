@@ -24,6 +24,7 @@ public class DatabaseRef {
       connection = DriverManager.getConnection(url);
     } catch (SQLException e) {
       System.out.println("Failed to connect to Database");
+      e.printStackTrace();
       connection = null;
     }
   }

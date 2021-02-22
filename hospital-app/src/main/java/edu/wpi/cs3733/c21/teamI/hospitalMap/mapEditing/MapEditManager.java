@@ -2,6 +2,8 @@ package edu.wpi.cs3733.c21.teamI.hospitalMap.mapEditing;
 
 import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMap;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMapNode;
+import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicket;
+import java.io.IOException;
 import java.util.Map;
 import java.util.Set;
 import javafx.scene.Group;
@@ -19,7 +21,9 @@ public class MapEditManager {
   private Group root = null;
   private Stage stage = null;
   private HospitalMapNode selectedNode = null;
-  private MapEditDataController dataCont;
+  private final MapEditDataController dataCont = new MapEditDataController();
+  protected AnchorPane nodeMenu;
+  private RequestView requestView;
 
   public static void init() {
     ourInstance = new MapEditManager();
@@ -33,9 +37,7 @@ public class MapEditManager {
     return ourInstance;
   }
 
-  public MapEditManager() {
-    dataCont = new MapEditDataController();
-  }
+  public MapEditManager() {}
 
   /**
    * takes in a node object and assigns / de-assigns it to the selectedNode variable in MapState
@@ -65,13 +67,13 @@ public class MapEditManager {
     this.mapPane = mapPane;
     mapEditorView = new MapEditView(this);
     mapEditorView.start(stage);
-    mapEditorView.saveManager();
+    MapEditView.saveManager();
   }
 
   public void startApplicationView() {
     this.root = new Group();
     applicationView = new ApplicationView(this);
-    applicationView.saveManager();
+    ApplicationView.saveManager();
   }
 
   public void setRoot(Group root) {
@@ -100,5 +102,11 @@ public class MapEditManager {
 
   public MapEditDataController getDataCont() {
     return dataCont;
+  }
+
+  public void startRequestView(ServiceTicket st) throws IOException {
+    requestView = new RequestView(this, st);
+    requestView.start(stage);
+    RequestView.saveManager();
   }
 }

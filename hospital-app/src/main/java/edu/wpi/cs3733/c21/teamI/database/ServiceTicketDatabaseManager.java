@@ -52,7 +52,8 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
     }
   }
 
-  public ServiceTicket getTicketForRequestId(int requestID) {
+  public List<ServiceTicket> getTicketsForRequestId(int requestID) {
+    List<ServiceTicket> results = new ArrayList<>();
     try {
       Statement stmt = databaseRef.getConnection().createStatement();
       ResultSet rs =
@@ -72,6 +73,8 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
       e.printStackTrace();
       return null;
     }
+
+    return results;
   }
 
   @Override

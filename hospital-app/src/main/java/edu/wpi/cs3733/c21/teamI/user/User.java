@@ -4,6 +4,8 @@ import java.util.Set;
 
 public class User {
 
+  public static User baseUser;
+
   public Set<Role> userRoles;
 
   private Set<Permission> userPermissions;
@@ -32,12 +34,16 @@ public class User {
     return userPermissions.contains(permission);
   }
 
+  public int getUserId() {
+    return this.userId;
+  }
+
   public enum Role {
     BASE,
     ADMIN,
     VISITOR,
     EMPLOYEE,
-    PATIENT;
+    PATIENT
   }
 
   public enum Permission {

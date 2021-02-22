@@ -135,7 +135,6 @@ public class NavDatabaseManager extends DatabaseManager {
         // Drop the Edges table.
         stmt.execute("DROP TABLE navEdges");
       } catch (SQLException ex) {
-        ex.printStackTrace();
         // No need to report an error.
         // The table simply did not exist.
       }

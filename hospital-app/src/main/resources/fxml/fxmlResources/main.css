@@ -10,6 +10,21 @@
     -fx-text-fill: white;
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 10, 0, 0, 0);
     -fx-font-family: 'Open Sans', sans-serif;
+    -fx-cursor: hand;
+}
+
+.requestButton {
+    -fx-background-color: grey;
+    -fx-padding:  10px 20px;
+    -fx-text-fill: white;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 10, 0, 0, 0);
+    -fx-font-family: 'Open Sans', sans-serif;
+    -fx-border-style: solid solid none solid;
+}
+
+.requestButton:hover {
+    -fx-background-color: rgb(192,192,192);
+    -fx-cursor: hand;
 }
 
 .styledHeader {
@@ -102,4 +117,8 @@
 .combo-box .arrow-button {
     visibility: false;
     -fx-padding: 0;
+}
+
+.edge:hover {
+    -fx-fill: lightblue;
 }
