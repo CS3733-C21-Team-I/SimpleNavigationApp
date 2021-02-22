@@ -14,6 +14,8 @@ public class Main {
 
   public static void main(String[] args) {
 
+    ApplicationDataController.init();
+
     if ((args.length > 0) && Arrays.asList(args).contains("regenerate")) {
       DatabaseManager.initDatabaseManagers(true);
       DatabaseManager.regenTables();
@@ -27,16 +29,13 @@ public class Main {
 
     HospitalMap map = NavDatabaseManager.getInstance().loadMapsFromMemory().get("Faulkner 0");
 
-    MapEditManager mapManager = new MapEditManager();
-    mapManager.init();
-    mapManager
-        .getInstance()
+    MapEditManager.init();
+    MapEditManager.getInstance()
         .setMapCollection(NavDatabaseManager.getInstance().loadMapsFromMemory());
-    mapManager
-        .getInstance()
+    MapEditManager.getInstance()
         .getDataCont()
         .setActiveMap(NavDatabaseManager.getInstance().loadMapsFromMemory().get("Faulkner 0"));
-    mapManager.getInstance().startApplicationView();
+    MapEditManager.getInstance().startApplicationView();
     Application.launch(ApplicationView.class);
   }
 }
