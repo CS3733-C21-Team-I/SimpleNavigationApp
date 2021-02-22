@@ -26,5 +26,7 @@ public abstract class DatabaseManager {
     NavDatabaseManager.getInstance().createTables();
     UserDatabaseManager.getInstance().createTables();
     ServiceTicketDatabaseManager.getInstance().createTables();
+
+    UserDatabaseManager.populateExampleData();
   }
 }
