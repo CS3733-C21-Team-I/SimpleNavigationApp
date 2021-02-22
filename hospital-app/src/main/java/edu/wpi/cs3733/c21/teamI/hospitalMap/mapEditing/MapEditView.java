@@ -85,7 +85,7 @@ public class MapEditView extends Application {
                     .getDataCont()
                     .addNode(
                         new HospitalMapNode(
-                            "H",
+                            randomGenerate(),
                             mapManager.getMapID(),
                             (int) ((e.getX() * scale) + 10),
                             (int) ((e.getY() * scale) + 10),
