@@ -216,8 +216,13 @@ public class ApplicationView extends Application {
 
   @FXML
   public void toggleEditMap(ActionEvent e) {
-    mapManager.startEditorView(mapPane);
     adminMap = !adminMap;
+    if (adminMap) {
+      mapManager.startEditorView(mapPane);
+    } else {
+      mapManager.setNodeMenuVisible(false);
+    }
+    mapPane.setVisible(adminMap);
   }
 
   @FXML

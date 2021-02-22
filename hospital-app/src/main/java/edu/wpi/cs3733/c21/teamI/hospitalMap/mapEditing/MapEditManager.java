@@ -22,7 +22,6 @@ public class MapEditManager {
   private Stage stage = null;
   private HospitalMapNode selectedNode = null;
   private final MapEditDataController dataCont = new MapEditDataController();
-  protected AnchorPane nodeMenu;
   private RequestView requestView;
 
   public static void init() {
@@ -47,11 +46,14 @@ public class MapEditManager {
   public void toggleNode(HospitalMapNode node) {
     if (selectedNode == null) {
       selectedNode = node;
+      setNodeMenuVisible(true);
     } else if (selectedNode.equals(node)) {
       selectedNode = null;
+      setNodeMenuVisible(false);
     } else {
       dataCont.addEdge(node.getID(), selectedNode.getID());
       selectedNode = null;
+      setNodeMenuVisible(false);
     }
   }
 
@@ -74,6 +76,10 @@ public class MapEditManager {
     this.root = new Group();
     applicationView = new ApplicationView(this);
     ApplicationView.saveManager();
+  }
+
+  public void setNodeMenuVisible(boolean visible) {
+    this.mapEditorView.hideNodeMenu(visible);
   }
 
   public void setRoot(Group root) {

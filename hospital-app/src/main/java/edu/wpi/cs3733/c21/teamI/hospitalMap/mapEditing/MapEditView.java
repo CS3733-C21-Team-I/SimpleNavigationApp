@@ -26,7 +26,7 @@ public class MapEditView extends Application {
   private double scale;
   private final MapEditManager mapManager;
   private static MapEditManager ourManager;
-  private AnchorPane newLoadedPane;
+  private AnchorPane nodeMenuPane;
   private Button deleteBtn;
   private boolean isDrag = false;
 
@@ -52,27 +52,29 @@ public class MapEditView extends Application {
     primaryStage.setTitle("Map Editor");
     primaryStage.show();
     mapManager.setStage(primaryStage);
-    deleteBtn = (Button) newLoadedPane.getChildren().get(11);
+    deleteBtn = (Button) nodeMenuPane.getChildren().get(11);
     setAddNodeHander();
-    if (mapManager.getSelectedNode() != null) {
-      newLoadedPane.setVisible(true);
-    }
+    nodeMenuPane.setVisible(mapManager.getSelectedNode() != null);
     update();
   }
 
   private void loadFXML() {
     try {
-      newLoadedPane = FXMLLoader.load(getClass().getResource("/fxml/EditNodePane.fxml"));
-      AnchorPane.setBottomAnchor(newLoadedPane, 50.0);
-      AnchorPane.setRightAnchor(newLoadedPane, 50.0);
-      AnchorPane.setLeftAnchor(newLoadedPane, 5.0);
-      AnchorPane.setTopAnchor(newLoadedPane, 20.0);
-      mapManager.getRoot().getChildren().add(newLoadedPane);
+      nodeMenuPane = FXMLLoader.load(getClass().getResource("/fxml/EditNodePane.fxml"));
+      AnchorPane.setBottomAnchor(nodeMenuPane, 50.0);
+      AnchorPane.setRightAnchor(nodeMenuPane, 50.0);
+      AnchorPane.setLeftAnchor(nodeMenuPane, 5.0);
+      AnchorPane.setTopAnchor(nodeMenuPane, 20.0);
+      mapManager.getRoot().getChildren().add(nodeMenuPane);
     } catch (FileNotFoundException e) {
       System.out.println("File not found");
     } catch (IOException e) {
       System.out.println("IO Exception");
     }
+  }
+
+  public void hideNodeMenu(boolean visible) {
+    this.nodeMenuPane.setVisible(visible);
   }
 
   private void setAddNodeHander() {
