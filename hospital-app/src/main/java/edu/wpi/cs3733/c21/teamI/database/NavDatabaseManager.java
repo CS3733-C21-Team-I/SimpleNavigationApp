@@ -439,4 +439,20 @@ public class NavDatabaseManager extends DatabaseManager {
       }
     }
   }
+
+  public static void populateExampleData() {
+    try {
+      Statement stmt =
+          NavDatabaseManager.getInstance().databaseRef.getConnection().createStatement();
+      stmt.addBatch(
+          "INSERT INTO navNodes(NODE_ID, X_COORD, Y_COORD, MAP_ID) VALUES ('ROOM304', 1, 2, 'MAPG')\n");
+      stmt.addBatch(
+          "INSERT INTO navNodes(NODE_ID, X_COORD, Y_COORD, MAP_ID) VALUES ('ROOM205', 3, 4, 'MAPG')\n");
+      stmt.addBatch(
+          "INSERT INTO navNodes(NODE_ID, X_COORD, Y_COORD, MAP_ID) VALUES ('ROOM106', 5, 6, 'MAPG')\n");
+      stmt.executeBatch();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+  }
 }

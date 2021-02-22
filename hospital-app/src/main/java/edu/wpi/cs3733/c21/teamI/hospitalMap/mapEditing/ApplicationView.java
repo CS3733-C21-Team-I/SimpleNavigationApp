@@ -113,10 +113,13 @@ public class ApplicationView extends Application {
   }
 
   @FXML
-  public void createMaintenanceTicket(ActionEvent e) {
+  public void createMaintenanceTicket(ActionEvent o) {
     try {
       int RequestID = Integer.parseInt(mainRequestID.getText());
+      System.out.println(RequestID);
       int AssignID = Integer.parseInt(mainAssignedID.getText());
+      System.out.println(AssignID);
+
       maintenanceTicket =
           new ServiceTicket(
               RequestID,
@@ -126,10 +129,12 @@ public class ApplicationView extends Application {
               mainDesc.getText(),
               mainEmerg.isSelected(),
               false);
+      System.out.println(maintenanceTicket);
+      //  ServiceTicketDatabaseManager.getInstance().addTicket(maintenanceTicket);
 
-      ServiceTicketDatabaseManager.getInstance().addTicket(maintenanceTicket);
-    } catch (Exception o) {
-      System.out.println(" Error " + o);
+    } catch (Exception e) {
+      e.printStackTrace();
+      System.out.println(" Error " + e);
     }
   }
 
