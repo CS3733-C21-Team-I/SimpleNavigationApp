@@ -108,14 +108,15 @@ public class MapEditView extends Application {
   private void drawEdges(HospitalMapNode parent) {
     AnchorPane root = mapManager.mapPane;
     Image xIconImg = new Image("/fxml/fxmlResources/redxicon.png");
-    ImageView xMarker = new ImageView();
-    xMarker.setImage(xIconImg);
-    xMarker.setFitHeight(12);
-    xMarker.setFitWidth(12);
-    xMarker.setVisible(false);
-    root.getChildren().add(xMarker);
+
     for (HospitalMapNode child : parent.getConnections()) {
       if (mapManager.getEntityNodes().contains(child)) {
+        ImageView xMarker = new ImageView();
+        xMarker.setImage(xIconImg);
+        xMarker.setFitHeight(12);
+        xMarker.setFitWidth(12);
+        xMarker.setVisible(false);
+        root.getChildren().add(xMarker);
         Line line =
             LineBuilder.create()
                 .startX((parent.getxCoord()) / scale - 3)
@@ -136,13 +137,28 @@ public class MapEditView extends Application {
             });
         line.setOnMouseExited(
             t -> {
-              line.setStroke(Color.ORANGE);
               xMarker.setVisible(false);
             });
         line.setOnMouseClicked(
             t -> {
+              System.out.println("Line clicked");
               root.getChildren().remove(line);
               mapManager.getDataCont().deleteEdge(parent.getID(), child.getID());
+              update();
+            });
+        xMarker.setOnMouseEntered(
+            t -> {
+              xMarker.setVisible(true);
+            });
+        xMarker.setOnMouseClicked(
+            t -> {
+              root.getChildren().remove(line);
+              mapManager.getDataCont().deleteEdge(parent.getID(), child.getID());
+              update();
+            });
+        xMarker.setOnMouseExited(
+            t -> {
+              xMarker.setVisible(false);
             });
       }
     }

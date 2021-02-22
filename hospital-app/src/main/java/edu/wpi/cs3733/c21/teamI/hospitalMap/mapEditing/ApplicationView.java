@@ -2,7 +2,7 @@ package edu.wpi.cs3733.c21.teamI.hospitalMap.mapEditing;
 
 import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMapNode;
 import java.io.IOException;
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -141,9 +141,10 @@ public class ApplicationView extends Application {
                 Duration.ZERO,
                 e -> {
                   DateTimeFormatter formatter =
-                      DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"); // "yyyy-MM-dd HH:mm:ss"
+                      DateTimeFormatter.RFC_1123_DATE_TIME; // "yyyy-MM-dd HH:mm:ss"
                   if (dateTime != null) {
-                    dateTime.setText(LocalDateTime.now().format(formatter));
+                    String dateTimeString = ZonedDateTime.now().format(formatter);
+                    dateTime.setText(dateTimeString.substring(0, dateTimeString.length() - 9));
                   }
                 }),
             new KeyFrame(Duration.seconds(1)));
