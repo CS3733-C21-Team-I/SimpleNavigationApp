@@ -9,17 +9,20 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class RequestView extends Application {
   private ServiceTicket serviceTicket;
   private MapEditManager mapManager;
   private static MapEditManager ourManager;
+  private AnchorPane newLoadedPane;
 
-  @FXML TextField type, ticketID, requestID, assignmentID, locationBox;
-  @FXML TextArea description;
-  @FXML Label header;
-  @FXML CheckBox completed;
+  //  @FXML TextField type, ticketID, requestID, assignmentID, locationBox;
+  //  @FXML TextArea description;
+  //  @FXML Label header;
+  //  @FXML CheckBox completed;
 
   public RequestView() {
     this.mapManager = ourManager;
@@ -40,7 +43,8 @@ public class RequestView extends Application {
   @Override
   public void start(Stage primaryStage) throws IOException {
     Group root = new Group();
-    root.getChildren().add(FXMLLoader.load(getClass().getResource("/fxml/RequestDisplay.fxml")));
+    newLoadedPane = FXMLLoader.load(getClass().getResource("/fxml/RequestDisplay.fxml"));
+    root.getChildren().add(newLoadedPane);
     String title = serviceTicket.getTicketType().toString().toLowerCase();
     primaryStage.setTitle(
         title.substring(0, 1).toUpperCase()
@@ -58,6 +62,16 @@ public class RequestView extends Application {
 
   @FXML
   private void populatePage() {
+    Label header = (Label) newLoadedPane.getChildren().get(0);
+    VBox vbox = (VBox) newLoadedPane.getChildren().get(2);
+    TextField type = (TextField) vbox.getChildren().get(1);
+    TextField ticketID = (TextField) vbox.getChildren().get(3);
+    TextField requestID = (TextField) vbox.getChildren().get(5);
+    TextField assignmentID = (TextField) vbox.getChildren().get(7);
+    TextField locationBox = (TextField) vbox.getChildren().get(9);
+    TextArea description = (TextArea) vbox.getChildren().get(11);
+    CheckBox completed = (CheckBox) vbox.getChildren().get(12);
+
     header.setText(
         serviceTicket.getTicketType().toString().toLowerCase().substring(0, 1).toUpperCase()
             + " #"
