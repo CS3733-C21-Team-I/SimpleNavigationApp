@@ -1,6 +1,8 @@
 package edu.wpi.cs3733.c21.teamI.database;
 
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicket;
+import edu.wpi.cs3733.c21.teamI.user.User;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -187,6 +189,54 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
                 rs.getString("description"),
                 rs.getBoolean("emergency"),
                 rs.getBoolean("completed"));
+        tix.add(cur);
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    return tix;
+  }
+
+  public List<ServiceTicket> getRequestServiceTicket(User user) {
+    List<ServiceTicket> tix = new ArrayList<>();
+    int id = user.getUserId();
+    try {
+      Statement stmt = databaseRef.getConnection().createStatement();
+      ResultSet rs = stmt.executeQuery("SELECT * FROM serviceticket WHERE requestingUserID = '"+ id + "'");
+      while (rs.next()) {
+        ServiceTicket cur =
+                new ServiceTicket(
+                        rs.getInt("requestingUserID"),
+                        rs.getInt("assignedUserID"),
+                        ServiceTicket.TicketType.valueOf(rs.getString("ticketType")),
+                        rs.getString("location"),
+                        rs.getString("description"),
+                        rs.getBoolean("emergency"),
+                        rs.getBoolean("completed"));
+        tix.add(cur);
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    return tix;
+  }
+
+  public List<ServiceTicket> getAssignServiceTicket(User user) {
+    List<ServiceTicket> tix = new ArrayList<>();
+    int id = user.getUserId();
+    try {
+      Statement stmt = databaseRef.getConnection().createStatement();
+      ResultSet rs = stmt.executeQuery("SELECT * FROM serviceticket WHERE requestingUserID = '"+ id + "'");
+      while (rs.next()) {
+        ServiceTicket cur =
+                new ServiceTicket(
+                        rs.getInt("requestingUserID"),
+                        rs.getInt("assignedUserID"),
+                        ServiceTicket.TicketType.valueOf(rs.getString("ticketType")),
+                        rs.getString("location"),
+                        rs.getString("description"),
+                        rs.getBoolean("emergency"),
+                        rs.getBoolean("completed"));
         tix.add(cur);
       }
     } catch (SQLException e) {
