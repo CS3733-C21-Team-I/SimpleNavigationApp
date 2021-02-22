@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.c21.teamI.hospitalMap.mapEditing;
 
 import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
+import edu.wpi.cs3733.c21.teamI.database.ServiceTicketDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.EuclidianDistCalc;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMapNode;
 import edu.wpi.cs3733.c21.teamI.pathfinding.PathFinder;
@@ -10,7 +11,6 @@ import java.io.IOException;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import javafx.animation.Animation;
@@ -219,7 +219,9 @@ public class ApplicationView extends Application {
       System.out.println(uName + ' ' + pass);
       if (ApplicationDataController.getInstance()
           .getLoggedInUser()
-          .hasPermission(User.Permission.VIEW_TICKET)) generateRequestList();
+          .hasPermission(User.Permission.VIEW_TICKET)) {
+        generateRequestList();
+      }
     } else {
       headerLabel.setText("Error: Invalid login.");
     }
@@ -230,17 +232,22 @@ public class ApplicationView extends Application {
   }
 
   private void generateRequestList() {
-    ServiceTicket ticket1 =
-        new ServiceTicket(
-            11, 12, 13, ServiceTicket.TicketType.MAINTENANCE, "somewhere", "info", false);
-    ServiceTicket ticket2 =
-        new ServiceTicket(
-            21, 22, 23, ServiceTicket.TicketType.LAUNDRY, "somewhere else", "more info", false);
-    ServiceTicket ticket3 =
-        new ServiceTicket(
-            31, 32, 33, ServiceTicket.TicketType.FOOD, "elsewhere", "other info", false);
+    //    ServiceTicket ticket1 =
+    //        new ServiceTicket(
+    //            11, 12, 13, ServiceTicket.TicketType.MAINTENANCE, "somewhere", "info", false);
+    //    ServiceTicket ticket2 =
+    //        new ServiceTicket(
+    //            21, 22, 23, ServiceTicket.TicketType.LAUNDRY, "somewhere else", "more info",
+    // false);
+    //    ServiceTicket ticket3 =
+    //        new ServiceTicket(
+    //            31, 32, 33, ServiceTicket.TicketType.FOOD, "elsewhere", "other info", false);
+    //    List<ServiceTicket> requests =
+    //        new ArrayList<ServiceTicket>(Arrays.asList(ticket1, ticket2, ticket3));
     List<ServiceTicket> requests =
-        new ArrayList<ServiceTicket>(Arrays.asList(ticket1, ticket2, ticket3));
+        ServiceTicketDatabaseManager.getInstance()
+            .getTicketsForRequestId(
+                ApplicationDataController.getInstance().getLoggedInUser().getUserId());
     List<String> requestNames =
         requests.stream()
             .map(st -> st.getTicketType() + " #" + st.getTicketId())

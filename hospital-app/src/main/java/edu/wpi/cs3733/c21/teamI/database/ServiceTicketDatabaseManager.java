@@ -50,26 +50,29 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
     }
   }
 
-  public ServiceTicket getTicketForRequestId(int requestID) {
+  public List<ServiceTicket> getTicketsForRequestId(int requestID) {
+    List<ServiceTicket> results = new ArrayList<>();
     try {
       Statement stmt = databaseRef.getConnection().createStatement();
       ResultSet rs =
           stmt.executeQuery(
               "SELECT * FROM serviceticket WHERE REQUESTINGUSERID=" + String.valueOf(requestID));
-      if (rs.next())
-        return new ServiceTicket(
-            rs.getInt("ticketID"),
-            rs.getInt("requestingUserID"),
-            rs.getInt("assignedUserID"),
-            ServiceTicket.TicketType.valueOf(rs.getString("ticketType")),
-            rs.getString("location"),
-            rs.getString("description"),
-            rs.getBoolean("completed"));
-      else return null;
+      while (rs.next())
+        results.add(
+            new ServiceTicket(
+                rs.getInt("ticketID"),
+                rs.getInt("requestingUserID"),
+                rs.getInt("assignedUserID"),
+                ServiceTicket.TicketType.valueOf(rs.getString("ticketType")),
+                rs.getString("location"),
+                rs.getString("description"),
+                rs.getBoolean("completed")));
     } catch (SQLException e) {
       e.printStackTrace();
       return null;
     }
+
+    return results;
   }
 
   @Override
