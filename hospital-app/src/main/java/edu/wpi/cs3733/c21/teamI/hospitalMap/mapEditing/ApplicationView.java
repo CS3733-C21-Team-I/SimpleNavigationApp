@@ -4,6 +4,7 @@ import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
 import edu.wpi.cs3733.c21.teamI.database.ServiceTicketDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.EuclidianDistCalc;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMapNode;
+import edu.wpi.cs3733.c21.teamI.hospitalMap.LocationNode;
 import edu.wpi.cs3733.c21.teamI.pathfinding.PathFinder;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicket;
 import edu.wpi.cs3733.c21.teamI.user.User;
@@ -17,6 +18,9 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -27,7 +31,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -46,19 +49,9 @@ public class ApplicationView extends Application {
       maintenanceReturn,
       loginReturn,
       maintenance,
-      start1,
-      start2,
-      start3,
-      start4,
-      start5,
-      dest1,
-      dest2,
-      dest3,
-      dest4,
-      dest5,
+      adminMapToggle,
       login;
   @FXML ImageView mapImage, adminPath;
-  @FXML HBox destinationPoint;
   @FXML TextField start, destination;
   @FXML Label dateTime;
   @FXML AnchorPane mapPane;
@@ -78,6 +71,7 @@ public class ApplicationView extends Application {
   private static MapEditManager ourManager;
   private final MapEditManager mapManager;
   @FXML ScrollPane requestScrollPane;
+  @FXML ListView startList, destList;
 
   public ApplicationView() {
     this.mapManager = ourManager;
@@ -120,12 +114,12 @@ public class ApplicationView extends Application {
     } else if (e.getSource() == map) {
       adminMap = false;
       root.getChildren().add(FXMLLoader.load(getClass().getResource("/fxml/Map.fxml")));
-      // TODO: For James, fill in login connection here
       boolean isAdmin =
           ApplicationDataController.getInstance()
               .getLoggedInUser()
               .hasPermission(User.Permission.EDIT_MAP);
-      ((AnchorPane) root.getChildren().get(0)).getChildren().get(8).setVisible(isAdmin);
+      root.lookup("#adminMapToggle").setVisible(isAdmin);
+      setupMapViewHandlers();
     } else if (e.getSource() == serviceRequests) {
       root.getChildren().add(FXMLLoader.load(getClass().getResource("/fxml/Requests.fxml")));
     } else if (e.getSource() == maintenance) {
@@ -139,6 +133,43 @@ public class ApplicationView extends Application {
     }
     mapManager.setRoot(root);
     scene.setRoot(root);
+  }
+
+  private void setupMapViewHandlers() {
+    Group root = mapManager.getRoot();
+    ((ListView) root.lookup("#startList"))
+        .getSelectionModel()
+        .selectedItemProperty()
+        .addListener(
+            (ChangeListener<String>)
+                (ov, oldVal, newVal) -> {
+                  ((TextField) root.lookup("#start")).setText(newVal);
+                  root.lookup("#startList").setVisible(false);
+                });
+    ((ListView) root.lookup("#destList"))
+        .getSelectionModel()
+        .selectedItemProperty()
+        .addListener(
+            (ChangeListener<String>)
+                (ov, oldVal, newVal) -> {
+                  ((TextField) root.lookup("#destination")).setText(newVal);
+                  root.lookup("#destList").setVisible(false);
+                });
+    root.setOnMouseClicked(
+        (MouseEvent evt) -> {
+          root.lookup("#startList").setVisible(false);
+          root.lookup("#destList").setVisible(false);
+        });
+  }
+
+  public LocationNode getNodeByLongName(String longName) {
+    for (HospitalMapNode node : mapManager.getDataCont().getActiveMap().getNodes()) {
+      if (node.getClass() == LocationNode.class
+          && ((LocationNode) node).getLongName().equals(longName)) {
+        return (LocationNode) node;
+      }
+    }
+    return null;
   }
 
   @FXML
@@ -163,40 +194,6 @@ public class ApplicationView extends Application {
             new KeyFrame(Duration.seconds(1)));
     clock.setCycleCount(Animation.INDEFINITE);
     clock.play();
-  }
-
-  @FXML
-  private Button getMenuButton(int index, boolean isStart) {
-    switch (index) {
-      case 0:
-        return isStart ? start1 : dest1;
-      case 1:
-        return isStart ? start2 : dest2;
-      case 2:
-        return isStart ? start3 : dest3;
-      case 3:
-        return isStart ? start4 : dest4;
-      default:
-        return isStart ? start5 : dest5;
-    }
-  }
-
-  @FXML
-  private void clearMenus() {
-    for (int i = 0; i < 5; i++) {
-      getMenuButton(i, true).setVisible(false);
-      getMenuButton(i, false).setVisible(false);
-    }
-  }
-
-  @FXML
-  public void autoFillStart(MouseEvent e) {
-    start.setText(((Button) e.getSource()).getText());
-  }
-
-  @FXML
-  public void autoFillDest(MouseEvent e) {
-    destination.setText(((Button) e.getSource()).getText());
   }
 
   @FXML
@@ -225,10 +222,6 @@ public class ApplicationView extends Application {
     } else {
       headerLabel.setText("Error: Invalid login.");
     }
-  }
-
-  public void enterServiceTicketPage(ServiceTicket st) throws IOException {
-    mapManager.startRequestView(st);
   }
 
   private void generateRequestList() {
@@ -272,17 +265,6 @@ public class ApplicationView extends Application {
     requestScrollPane.setVisible(true);
   }
 
-  public void redrawMap() {
-    mapManager
-        .getRoot()
-        .getChildren()
-        .removeIf(n -> (n.getClass() == Line.class) || (n.getClass() == Circle.class));
-    for (HospitalMapNode node : mapManager.getDataCont().getActiveMap().getNodes()) {
-      drawEdges(node);
-      drawNode(node, Color.RED);
-    }
-  }
-
   @FXML
   public void getDirections(ActionEvent e) {
     String begin = start.getText();
@@ -296,16 +278,16 @@ public class ApplicationView extends Application {
   }
 
   @FXML
-  public void drawPathBetweenNodes(String aID, String bID) {
-    // redrawMap();
+  public void drawPathBetweenNodes(String aName, String bName) {
+    deletePath();
     mapManager
         .getRoot()
         .getChildren()
         .removeIf(n -> (n.getClass() == Line.class) || (n.getClass() == Circle.class));
 
     this.scorer = new EuclidianDistCalc();
-    HospitalMapNode nodeA = mapManager.getDataCont().getActiveMap().getNode(aID);
-    HospitalMapNode nodeB = mapManager.getDataCont().getActiveMap().getNode(bID);
+    HospitalMapNode nodeA = getNodeByLongName(aName);
+    HospitalMapNode nodeB = getNodeByLongName(bName);
     List<HospitalMapNode> aStarPath = PathFinder.findPath(nodeA, nodeB, scorer);
     drawPath(aStarPath);
     drawNode(nodeA, Color.BLUE);
@@ -317,12 +299,6 @@ public class ApplicationView extends Application {
         new Circle((node.getxCoord() / scale) - 3, (node.getyCoord() / scale), 13 / scale);
     circle.setFill(color);
     mapPane.getChildren().add(circle);
-  }
-
-  private void drawEdges(HospitalMapNode parent) {
-    for (HospitalMapNode child : parent.getConnections()) {
-      drawEdge(child, parent, Color.RED);
-    }
   }
 
   private void drawEdge(HospitalMapNode start, HospitalMapNode end, Color color) {
@@ -351,28 +327,28 @@ public class ApplicationView extends Application {
   public void lookup(KeyEvent e) {
     String matchString =
         (((TextField) e.getSource()).getText()
-            + (!e.getCharacter().equals(Character.toString((char) 8)) ? e.getCharacter() : "")
-                .toLowerCase());
-    ArrayList<String> nodeIDs =
-        new ArrayList<String>(
-            mapManager.getDataCont().getActiveMap().getNodes().stream()
-                .map(n -> n.getID())
-                .collect(Collectors.toList()));
+                + (!e.getCharacter().equals(Character.toString((char) 8)) ? e.getCharacter() : ""))
+            .toLowerCase();
+    ArrayList<String> nodeNames =
+        mapManager.getDataCont().getActiveMap().getNodes().stream()
+            .map(n -> ((LocationNode) n).getLongName())
+            .filter(s -> !s.equals(""))
+            .collect(Collectors.toCollection(ArrayList::new));
     ArrayList<String> matches = new ArrayList<>();
-    for (String location : nodeIDs) {
+    for (String location : nodeNames) {
       if (location.toLowerCase().contains(matchString)) {
         matches.add(location);
       }
     }
 
-    clearMenus();
-    for (int i = 0; i < matches.size(); i++) {
-      if (i < 5) {
-        getMenuButton(i, e.getSource() == start).setVisible(true);
-        getMenuButton(i, e.getSource() == start).setText(matches.get(i));
-      } else {
-        break;
-      }
+    // Add elements to ListView
+    ObservableList<String> items = FXCollections.observableArrayList(matches);
+    if (e.getSource() == start) {
+      startList.setItems(items);
+    } else {
+      destList.setItems(items);
     }
+    startList.setVisible(e.getSource() == start);
+    destList.setVisible(e.getSource() == destination);
   }
 }

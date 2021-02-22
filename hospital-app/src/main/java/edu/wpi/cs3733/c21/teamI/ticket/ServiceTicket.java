@@ -2,47 +2,46 @@ package edu.wpi.cs3733.c21.teamI.ticket;
 
 public class ServiceTicket {
 
-  private int ticketId;
   private int requestingUserID;
   private int assignedUserID;
   private TicketType ticketType;
   private String location;
   private String description;
   private boolean completed;
+  private boolean emergency;
 
   public ServiceTicket() {}
 
   public ServiceTicket(
-      int ticketId,
       int requestID,
       int assignID,
       TicketType ticketType,
       String location,
       String desc,
-      boolean complete) {
-    this.ticketId = ticketId;
+      boolean emergency,
+      boolean completed) {
     this.requestingUserID = requestID;
     this.assignedUserID = assignID;
     this.ticketType = ticketType;
     this.location = location;
     this.description = desc;
-    this.completed = complete;
+    this.emergency = emergency;
+    this.completed = completed;
   }
 
   public enum TicketType {
     LAUNDRY,
     FOOD,
     SECURITY,
+    SANITATION,
     MAINTENANCE
   }
 
   @Override
   public String toString() {
-    return " NO. "
-        + ticketId
-        + " FR0M: "
+    return " FR0M: "
         + requestingUserID
-        + " TO: "
+        + "\tTO: "
         + assignedUserID
         + "\nTYPE: "
         + ticketType
@@ -50,7 +49,9 @@ public class ServiceTicket {
         + location
         + "\nDESCPRIPTION: "
         + description
-        + " COMPLETED: "
+        + "\nEMERGENCY: "
+        + emergency
+        + "\tCOMPLETED: "
         + completed;
   }
 
@@ -74,11 +75,15 @@ public class ServiceTicket {
     return description;
   }
 
-  public int getTicketId() {
-    return ticketId;
+  public boolean isEmergency() {
+    return emergency;
   }
 
   public boolean isCompleted() {
     return completed;
+  }
+
+  public void setCompleted(Boolean bool) {
+    this.completed = bool;
   }
 }
