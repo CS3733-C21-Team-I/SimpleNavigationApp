@@ -34,15 +34,6 @@ public class User {
     return userPermissions.contains(permission);
   }
 
-
-  public String getName() {
-    return name;
-  }
-
-  public int getUserId() {
-    return userId;
-  }
-
   public enum Role {
     BASE,
     ADMIN,

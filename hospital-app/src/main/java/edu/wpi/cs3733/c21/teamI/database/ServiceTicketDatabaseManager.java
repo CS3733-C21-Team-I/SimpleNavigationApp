@@ -2,7 +2,6 @@ package edu.wpi.cs3733.c21.teamI.database;
 
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicket;
 import edu.wpi.cs3733.c21.teamI.user.User;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -38,6 +37,7 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
           stmt.executeQuery("SELECT * FROM serviceticket WHERE ticketID=" + String.valueOf(id));
       if (rs.next())
         return new ServiceTicket(
+            id,
             rs.getInt("requestingUserID"),
             rs.getInt("assignedUserID"),
             ServiceTicket.TicketType.valueOf(rs.getString("ticketType")),
@@ -59,16 +59,17 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
       ResultSet rs =
           stmt.executeQuery(
               "SELECT * FROM serviceticket WHERE REQUESTINGUSERID=" + String.valueOf(requestID));
-      if (rs.next())
-        return new ServiceTicket(
-            rs.getInt("requestingUserID"),
-            rs.getInt("assignedUserID"),
-            ServiceTicket.TicketType.valueOf(rs.getString("ticketType")),
-            rs.getString("location"),
-            rs.getString("description"),
-            rs.getBoolean("emergency"),
-            rs.getBoolean("completed"));
-      else return null;
+      while (rs.next())
+        results.add(
+            new ServiceTicket(
+                rs.getInt("ticketID"),
+                rs.getInt("requestingUserID"),
+                rs.getInt("assignedUserID"),
+                ServiceTicket.TicketType.valueOf(rs.getString("ticketType")),
+                rs.getString("location"),
+                rs.getString("description"),
+                rs.getBoolean("emergency"),
+                rs.getBoolean("completed")));
     } catch (SQLException e) {
       e.printStackTrace();
       return null;
@@ -185,6 +186,7 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
       while (rs.next()) {
         ServiceTicket cur =
             new ServiceTicket(
+                rs.getInt("ticketID"),
                 rs.getInt("requestingUserID"),
                 rs.getInt("assignedUserID"),
                 ServiceTicket.TicketType.valueOf(rs.getString("ticketType")),
@@ -205,17 +207,19 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
     int id = user.getUserId();
     try {
       Statement stmt = databaseRef.getConnection().createStatement();
-      ResultSet rs = stmt.executeQuery("SELECT * FROM serviceticket WHERE requestingUserID = '"+ id + "'");
+      ResultSet rs =
+          stmt.executeQuery("SELECT * FROM serviceticket WHERE requestingUserID = '" + id + "'");
       while (rs.next()) {
         ServiceTicket cur =
-                new ServiceTicket(
-                        rs.getInt("requestingUserID"),
-                        rs.getInt("assignedUserID"),
-                        ServiceTicket.TicketType.valueOf(rs.getString("ticketType")),
-                        rs.getString("location"),
-                        rs.getString("description"),
-                        rs.getBoolean("emergency"),
-                        rs.getBoolean("completed"));
+            new ServiceTicket(
+                rs.getInt("ticketID"),
+                rs.getInt("requestingUserID"),
+                rs.getInt("assignedUserID"),
+                ServiceTicket.TicketType.valueOf(rs.getString("ticketType")),
+                rs.getString("location"),
+                rs.getString("description"),
+                rs.getBoolean("emergency"),
+                rs.getBoolean("completed"));
         tix.add(cur);
       }
     } catch (SQLException e) {
@@ -229,22 +233,54 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
     int id = user.getUserId();
     try {
       Statement stmt = databaseRef.getConnection().createStatement();
-      ResultSet rs = stmt.executeQuery("SELECT * FROM serviceticket WHERE requestingUserID = '"+ id + "'");
+      ResultSet rs =
+          stmt.executeQuery("SELECT * FROM serviceticket WHERE requestingUserID = '" + id + "'");
       while (rs.next()) {
         ServiceTicket cur =
-                new ServiceTicket(
-                        rs.getInt("requestingUserID"),
-                        rs.getInt("assignedUserID"),
-                        ServiceTicket.TicketType.valueOf(rs.getString("ticketType")),
-                        rs.getString("location"),
-                        rs.getString("description"),
-                        rs.getBoolean("emergency"),
-                        rs.getBoolean("completed"));
+            new ServiceTicket(
+                rs.getInt("ticketID"),
+                rs.getInt("requestingUserID"),
+                rs.getInt("assignedUserID"),
+                ServiceTicket.TicketType.valueOf(rs.getString("ticketType")),
+                rs.getString("location"),
+                rs.getString("description"),
+                rs.getBoolean("emergency"),
+                rs.getBoolean("completed"));
         tix.add(cur);
       }
     } catch (SQLException e) {
       e.printStackTrace();
     }
     return tix;
+  }
+
+  public static void populateExampleData() {
+    ServiceTicket ticket1 =
+        new ServiceTicket(
+            11,
+            UserDatabaseManager.getInstance().getUserForScreenname("TestEmployee").getUserId(),
+            UserDatabaseManager.getInstance()
+                .getUserForScreenname("TestMaintenanceEmployee")
+                .getUserId(),
+            ServiceTicket.TicketType.MAINTENANCE,
+            "ICONF00103",
+            "info",
+            true,
+            false);
+    ServiceTicket ticket2 =
+        new ServiceTicket(
+            21,
+            UserDatabaseManager.getInstance().getUserForScreenname("TestEmployee").getUserId(),
+            UserDatabaseManager.getInstance()
+                .getUserForScreenname("TestMaintenanceEmployee")
+                .getUserId(),
+            ServiceTicket.TicketType.LAUNDRY,
+            "ICONF00104",
+            "more info",
+            false,
+            true);
+
+    ourInstance.addTicket(ticket1);
+    ourInstance.addTicket(ticket2);
   }
 }
