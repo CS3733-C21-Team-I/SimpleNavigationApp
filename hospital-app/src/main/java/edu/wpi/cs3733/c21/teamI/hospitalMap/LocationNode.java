@@ -1,7 +1,6 @@
 package edu.wpi.cs3733.c21.teamI.hospitalMap;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class LocationNode extends HospitalMapNode {
 
@@ -13,7 +12,7 @@ public class LocationNode extends HospitalMapNode {
   private int floor;
   public static List<LocationNode> connectedNodes = new ArrayList<>();
 
-  public LocationNode() {};
+  public LocationNode() {}
 
   public LocationNode(List<String> nodeInit) {
     this.setId((String) nodeInit.get(0));

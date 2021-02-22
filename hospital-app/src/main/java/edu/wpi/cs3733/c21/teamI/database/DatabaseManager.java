@@ -1,5 +1,9 @@
 package edu.wpi.cs3733.c21.teamI.database;
 
+import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMap;
+import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMapCSVBuilder;
+import java.util.Map;
+
 public abstract class DatabaseManager {
 
   DatabaseRef databaseRef;
@@ -26,5 +30,10 @@ public abstract class DatabaseManager {
     NavDatabaseManager.getInstance().createTables();
     UserDatabaseManager.getInstance().createTables();
     ServiceTicketDatabaseManager.getInstance().createTables();
+
+    Map<String, HospitalMap> maps = HospitalMapCSVBuilder.loadCSV("MapINodes.csv", "MapIEdges.csv");
+    NavDatabaseManager.getInstance().saveMapsIntoMemory(maps.values());
+    UserDatabaseManager.populateExampleData();
+    ServiceTicketDatabaseManager.populateExampleData();
   }
 }

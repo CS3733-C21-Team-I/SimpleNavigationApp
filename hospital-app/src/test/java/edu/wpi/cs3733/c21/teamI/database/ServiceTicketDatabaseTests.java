@@ -23,21 +23,21 @@ public class ServiceTicketDatabaseTests {
     populateServiceTicket();
 
     ServiceTicket laundryTix =
-        ServiceTicketDatabaseManager.getInstance().getTicketForRequestId(170683);
+        ServiceTicketDatabaseManager.getInstance().getTicketsForRequestId(170683).get(0);
     assertEquals("LAUNDRY", laundryTix.getTicketType().toString());
     assertEquals("ROOM304", laundryTix.getLocation());
     assertFalse(laundryTix.isCompleted());
     System.out.println("Test 1 passed");
 
     ServiceTicket mainteTix =
-        ServiceTicketDatabaseManager.getInstance().getTicketForRequestId(100200);
+        ServiceTicketDatabaseManager.getInstance().getTicketsForRequestId(100200).get(0);
     assertEquals("MAINTENANCE", mainteTix.getTicketType().toString());
     assertEquals("ROOM106", mainteTix.getLocation());
     assertFalse(mainteTix.isCompleted());
     System.out.println("Test 2 passed");
 
     ServiceTicket foodTix =
-        ServiceTicketDatabaseManager.getInstance().getTicketForRequestId(234567);
+        ServiceTicketDatabaseManager.getInstance().getTicketsForRequestId(234567).get(0);
     assertEquals("FOOD", foodTix.getTicketType().toString());
     assertEquals("ROOM205", foodTix.getLocation());
     assertTrue(foodTix.isCompleted());
