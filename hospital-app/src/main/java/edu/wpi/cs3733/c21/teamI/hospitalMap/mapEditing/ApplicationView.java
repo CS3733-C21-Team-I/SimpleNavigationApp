@@ -114,9 +114,10 @@ public class ApplicationView extends Application {
     } else if (e.getSource() == map) {
       adminMap = false;
       root.getChildren().add(FXMLLoader.load(getClass().getResource("/fxml/Map.fxml")));
-      boolean isAdmin = ApplicationDataController.getInstance()
-                    .getLoggedInUser()
-                    .hasPermission(User.Permission.EDIT_MAP);
+      boolean isAdmin =
+          ApplicationDataController.getInstance()
+              .getLoggedInUser()
+              .hasPermission(User.Permission.EDIT_MAP);
       root.lookup("#adminMapToggle").setVisible(isAdmin);
       setupMapViewHandlers();
     } else if (e.getSource() == serviceRequests) {
