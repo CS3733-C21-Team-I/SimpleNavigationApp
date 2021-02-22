@@ -371,6 +371,7 @@ public class UserDatabaseManager extends DatabaseManager {
           UserDatabaseManager.getInstance().databaseRef.getConnection().createStatement();
       stmt.addBatch("INSERT INTO HOSPITAL_USERS (SCREENNAME) VALUES ('TestVisitor')");
       stmt.addBatch("INSERT INTO HOSPITAL_USERS (SCREENNAME) VALUES ('TestEmployee')");
+      stmt.addBatch("INSERT INTO HOSPITAL_USERS (SCREENNAME) VALUES ('TestMaintenanceEmployee')");
       stmt.addBatch("INSERT INTO HOSPITAL_USERS (SCREENNAME) VALUES ('TestAdmin')");
 
       stmt.addBatch(
@@ -402,6 +403,11 @@ public class UserDatabaseManager extends DatabaseManager {
           "INSERT INTO USER_TO_ROLE (USER_ID, ROLE_ID) VALUES ((SELECT USER_ID FROM HOSPITAL_USERS WHERE SCREENNAME='TestEmployee'), (SELECT ROLE_ID FROM HOSPITAL_ROLES WHERE ROLE_NAME='BASE'))");
       stmt.addBatch(
           "INSERT INTO USER_TO_ROLE (USER_ID, ROLE_ID) VALUES ((SELECT USER_ID FROM HOSPITAL_USERS WHERE SCREENNAME='TestEmployee'), (SELECT ROLE_ID FROM HOSPITAL_ROLES WHERE ROLE_NAME='EMPLOYEE'))");
+
+      stmt.addBatch(
+          "INSERT INTO USER_TO_ROLE (USER_ID, ROLE_ID) VALUES ((SELECT USER_ID FROM HOSPITAL_USERS WHERE SCREENNAME='TestMaintenanceEmployee'), (SELECT ROLE_ID FROM HOSPITAL_ROLES WHERE ROLE_NAME='BASE'))");
+      stmt.addBatch(
+          "INSERT INTO USER_TO_ROLE (USER_ID, ROLE_ID) VALUES ((SELECT USER_ID FROM HOSPITAL_USERS WHERE SCREENNAME='TestMaintenanceEmployee'), (SELECT ROLE_ID FROM HOSPITAL_ROLES WHERE ROLE_NAME='EMPLOYEE'))");
 
       stmt.addBatch(
           "INSERT INTO USER_TO_ROLE (USER_ID, ROLE_ID) VALUES ((SELECT USER_ID FROM HOSPITAL_USERS WHERE SCREENNAME='TestAdmin'), (SELECT ROLE_ID FROM HOSPITAL_ROLES WHERE ROLE_NAME='BASE'))");

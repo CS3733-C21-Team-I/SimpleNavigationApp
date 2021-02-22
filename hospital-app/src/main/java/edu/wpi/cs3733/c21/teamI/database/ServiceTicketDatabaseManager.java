@@ -149,22 +149,37 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
   public void addTicket(ServiceTicket t) {
     try {
       Statement stmt = databaseRef.getConnection().createStatement();
-      ResultSet rs =
-          stmt.executeQuery(
-              "INSERT INTO serviceticket(requestingUserID, assignedUserID, ticketType, location, description, completed)\n"
-                  + "VALUES ("
-                  + t.getRequestingUserID()
-                  + ","
-                  + t.getAssignedUserID()
-                  + ","
-                  + t.getTicketType()
-                  + ","
-                  + t.getLocation()
-                  + ","
-                  + t.getDescription()
-                  + ","
-                  + t.isCompleted()
-                  + ")");
+      System.out.println(
+          "INSERT INTO serviceticket(requestingUserID, assignedUserID, ticketType, location, description, completed)\n"
+              + "VALUES ("
+              + t.getRequestingUserID()
+              + ","
+              + t.getAssignedUserID()
+              + ", '"
+              + t.getTicketType().toString()
+              + "', '"
+              + t.getLocation()
+              + "', '"
+              + t.getDescription()
+              + "', "
+              + t.isCompleted()
+              + ")");
+
+      stmt.executeUpdate(
+          "INSERT INTO serviceticket(requestingUserID, assignedUserID, ticketType, location, description, completed)\n"
+              + "VALUES ("
+              + t.getRequestingUserID()
+              + ","
+              + t.getAssignedUserID()
+              + ", '"
+              + t.getTicketType().toString()
+              + "', '"
+              + t.getLocation()
+              + "', '"
+              + t.getDescription()
+              + "', "
+              + t.isCompleted()
+              + ")");
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -191,5 +206,33 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
       e.printStackTrace();
     }
     return tix;
+  }
+
+  public static void populateExampleData() {
+    ServiceTicket ticket1 =
+        new ServiceTicket(
+            11,
+            UserDatabaseManager.getInstance().getUserForScreenname("TestEmployee").getUserId(),
+            UserDatabaseManager.getInstance()
+                .getUserForScreenname("TestMaintenanceEmployee")
+                .getUserId(),
+            ServiceTicket.TicketType.MAINTENANCE,
+            "ICONF00103",
+            "info",
+            false);
+    ServiceTicket ticket2 =
+        new ServiceTicket(
+            21,
+            UserDatabaseManager.getInstance().getUserForScreenname("TestEmployee").getUserId(),
+            UserDatabaseManager.getInstance()
+                .getUserForScreenname("TestMaintenanceEmployee")
+                .getUserId(),
+            ServiceTicket.TicketType.LAUNDRY,
+            "ICONF00104",
+            "more info",
+            false);
+
+    ourInstance.addTicket(ticket1);
+    ourInstance.addTicket(ticket2);
   }
 }
