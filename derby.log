@@ -1,6 +1,6 @@
 ----------------------------------------------------------------
-Sun Feb 21 19:08:08 UTC 2021:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.15.1.3 - (1853019): instance a816c00e-0177-c5fd-e213-00000765e238 
+Mon Feb 22 03:19:34 UTC 2021:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.15.1.3 - (1853019): instance a816c00e-0177-c7bf-b964-00000765f410 
 on database directory C:\Users\huynh\Downloads\SimpleNavigationApp\hospital-app\navDB with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@7aec35a 
 Loaded from file:/C:/Users/huynh/AppData/Roaming/JetBrains/IntelliJIdea2020.3/jdbc-drivers/Apache%20Derby/10.15.1.3/derby-10.15.1.3.jar
 java.vendor=JetBrains s.r.o.
@@ -10,46 +10,4 @@ os.name=Windows 10
 os.arch=amd64
 os.version=10.0
 derby.system.home=null
-Warning: Log file not found, creating new log. Possible inconsistency in the database
 Database Class Loader started - derby.database.classpath=''
-New exception raised during cleanup Index -1 out of bounds for length 14
-java.lang.IndexOutOfBoundsException: Index -1 out of bounds for length 14
-	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
-	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
-	at java.base/jdk.internal.util.Preconditions.checkIndex(Preconditions.java:248)
-	at java.base/java.util.Objects.checkIndex(Objects.java:372)
-	at java.base/java.util.ArrayList.remove(ArrayList.java:536)
-	at org.apache.derby.iapi.services.context.ContextManager.popContext(ContextManager.java:209)
-	at org.apache.derby.iapi.services.context.ContextImpl.popMe(ContextImpl.java:81)
-	at org.apache.derby.impl.store.access.RAMTransaction.destroy(RAMTransaction.java:2010)
-	at org.apache.derby.impl.sql.conn.GenericLanguageConnectionContext.doRollback(GenericLanguageConnectionContext.java:1770)
-	at org.apache.derby.impl.sql.conn.GenericLanguageConnectionContext.internalRollback(GenericLanguageConnectionContext.java:1675)
-	at org.apache.derby.impl.sql.conn.GenericLanguageConnectionContext.cleanupOnError(GenericLanguageConnectionContext.java:3119)
-	at org.apache.derby.iapi.services.context.ContextManager.cleanupOnError(ContextManager.java:347)
-	at org.apache.derby.impl.jdbc.TransactionResourceImpl.cleanupOnError(TransactionResourceImpl.java:469)
-	at org.apache.derby.impl.jdbc.TransactionResourceImpl.handleException(TransactionResourceImpl.java:351)
-	at org.apache.derby.impl.jdbc.EmbedConnection.handleException(EmbedConnection.java:2405)
-	at org.apache.derby.impl.jdbc.ConnectionChild.handleException(ConnectionChild.java:88)
-	at org.apache.derby.impl.jdbc.EmbedDatabaseMetaData.getPreparedQueryUsingSystemTables(EmbedDatabaseMetaData.java:3642)
-	at org.apache.derby.impl.jdbc.EmbedDatabaseMetaData.getPreparedQuery(EmbedDatabaseMetaData.java:3686)
-	at org.apache.derby.impl.jdbc.EmbedDatabaseMetaData.getPreparedQuery(EmbedDatabaseMetaData.java:3713)
-	at org.apache.derby.impl.jdbc.EmbedDatabaseMetaData.getSchemas(EmbedDatabaseMetaData.java:3477)
-	at com.intellij.database.remote.jdbc.impl.RemoteDatabaseMetaDataImpl.getSchemas(RemoteDatabaseMetaDataImpl.java:678)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
-	at java.rmi/sun.rmi.server.UnicastServerRef.dispatch(UnicastServerRef.java:359)
-	at java.rmi/sun.rmi.transport.Transport$1.run(Transport.java:200)
-	at java.rmi/sun.rmi.transport.Transport$1.run(Transport.java:197)
-	at java.base/java.security.AccessController.doPrivileged(Native Method)
-	at java.rmi/sun.rmi.transport.Transport.serviceCall(Transport.java:196)
-	at java.rmi/sun.rmi.transport.tcp.TCPTransport.handleMessages(TCPTransport.java:562)
-	at java.rmi/sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.run0(TCPTransport.java:796)
-	at java.rmi/sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.lambda$run$0(TCPTransport.java:677)
-	at java.base/java.security.AccessController.doPrivileged(Native Method)
-	at java.rmi/sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.run(TCPTransport.java:676)
-	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
-	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
-	at java.base/java.lang.Thread.run(Thread.java:834)
-Cleanup action completed

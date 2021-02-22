@@ -92,7 +92,7 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
                 + "    CONSTRAINT location_FK FOREIGN KEY (location) REFERENCES navNodes(node_ID),"
                 + "  CONSTRAINT requestID_FK FOREIGN KEY (requestingUserID) REFERENCES HOSPITAL_USERS(user_ID),"
                 + "  CONSTRAINT assignedID_FK FOREIGN KEY (assignedUserID) REFERENCES  HOSPITAL_USERS(user_ID))");
-        //System.out.println("ServiceTicket table created.");
+        // System.out.println("ServiceTicket table created.");
       } catch (SQLException e) {
         System.out.println("Error in generating ServiceTicket Table");
       }
@@ -108,7 +108,7 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
       try {
         // Drop the ServiceTicket table.
         stmt.execute("DROP TABLE serviceticket");
-        //System.out.println("ServiceTicket table dropped.");
+        // System.out.println("ServiceTicket table dropped.");
       } catch (SQLException ex) {
         // No need to report an error.
         // The table simply did not exist.

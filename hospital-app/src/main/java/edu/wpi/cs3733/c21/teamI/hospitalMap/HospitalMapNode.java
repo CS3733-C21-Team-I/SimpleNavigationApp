@@ -11,6 +11,15 @@ public class HospitalMapNode implements GraphNode<HospitalMapNode>, Cloneable {
   private List<HospitalMapNode> connections = new ArrayList<>();
   private int xCoord;
   private int yCoord;
+  List<NodeRestrictions> nodeRestrictions = new ArrayList<>();
+
+  public List<NodeRestrictions> getNodeRestrictions() {
+    return nodeRestrictions;
+  }
+
+  public void setNodeRestrictions(List<NodeRestrictions> nodeRestrictions) {
+    this.nodeRestrictions = nodeRestrictions;
+  }
 
   public void setId(String id) {
     this.id = id;

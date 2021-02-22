@@ -142,6 +142,16 @@ public class NavDatabaseManager extends DatabaseManager {
 
       try {
         Statement stmt = databaseRef.getConnection().createStatement();
+        // Drop the nodeAttribute table.
+        stmt.execute("DROP TABLE nodeAttribute");
+      } catch (SQLException ex) {
+        ex.printStackTrace();
+        // No need to report an error.
+        // The table simply did not exist.
+      }
+
+      try {
+        Statement stmt = databaseRef.getConnection().createStatement();
         // Drop the Nodes table.
         stmt.execute("DROP TABLE navNodes");
       } catch (SQLException ex) {
@@ -195,6 +205,19 @@ public class NavDatabaseManager extends DatabaseManager {
                 + "from_Node varchar(45), to_Node varchar(45), PRIMARY KEY(edge_ID), "
                 + "FOREIGN KEY (from_Node) references navNodes(node_ID),"
                 + "FOREIGN KEY (to_Node) references navNodes(node_ID))");
+      } catch (SQLException e) {
+        e.printStackTrace();
+        System.out.println("Error generating Edges table");
+      }
+
+      try {
+        Statement stmt = databaseRef.getConnection().createStatement();
+        stmt.execute(
+            "CREATE TABLE nodeAttribute(attribute_ID integer NOT NULL GENERATED ALWAYS AS IDENTITY, "
+                + "locationCategory varchar(45), nodeRestriction varchar(45), nodeAtt_ID varchar(45) NOT NULL,"
+                + "PRIMARY KEY (attribute_ID), "
+                + "FOREIGN KEY (nodeAtt_ID) references navNodes(node_ID))");
+        System.out.println("nodeAttribute table created");
       } catch (SQLException e) {
         e.printStackTrace();
         System.out.println("Error generating Edges table");
