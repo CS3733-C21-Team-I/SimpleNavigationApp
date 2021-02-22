@@ -51,8 +51,8 @@ public class ApplicationView extends Application {
       maintenance,
       adminMapToggle,
       login;
-  @FXML ImageView mapImage, adminPath;
-  @FXML TextField start, destination;
+  @FXML ImageView mapImage;
+  @FXML TextField start, destination, requestLocation;
   @FXML Label dateTime;
   @FXML AnchorPane mapPane;
   @FXML Button loginButton;
@@ -71,7 +71,7 @@ public class ApplicationView extends Application {
   private static MapEditManager ourManager;
   private final MapEditManager mapManager;
   @FXML ScrollPane requestScrollPane;
-  @FXML ListView startList, destList;
+  @FXML ListView startList, destList, serviceLocationList;
 
   public ApplicationView() {
     this.mapManager = ourManager;
@@ -130,9 +130,27 @@ public class ApplicationView extends Application {
     } else {
       root.getChildren()
           .add(FXMLLoader.load(getClass().getResource("/fxml/SanitationRequest.fxml")));
+      setupRequestViewHandlers();
     }
     mapManager.setRoot(root);
     scene.setRoot(root);
+  }
+
+  private void setupRequestViewHandlers() {
+    Group root = mapManager.getRoot();
+    ((ListView) root.lookup("#serviceLocationList"))
+        .getSelectionModel()
+        .selectedItemProperty()
+        .addListener(
+            (ChangeListener<String>)
+                (ov, oldVal, newVal) -> {
+                  ((TextField) root.lookup("#requestLocation")).setText(newVal);
+                  root.lookup("#serviceLocationList").setVisible(false);
+                });
+    root.setOnMouseClicked(
+        (MouseEvent evt) -> {
+          root.lookup("#serviceLocationList").setVisible(false);
+        });
   }
 
   private void setupMapViewHandlers() {
@@ -225,18 +243,6 @@ public class ApplicationView extends Application {
   }
 
   private void generateRequestList() {
-    //    ServiceTicket ticket1 =
-    //        new ServiceTicket(
-    //            11, 12, 13, ServiceTicket.TicketType.MAINTENANCE, "somewhere", "info", false);
-    //    ServiceTicket ticket2 =
-    //        new ServiceTicket(
-    //            21, 22, 23, ServiceTicket.TicketType.LAUNDRY, "somewhere else", "more info",
-    // false);
-    //    ServiceTicket ticket3 =
-    //        new ServiceTicket(
-    //            31, 32, 33, ServiceTicket.TicketType.FOOD, "elsewhere", "other info", false);
-    //    List<ServiceTicket> requests =
-    //        new ArrayList<ServiceTicket>(Arrays.asList(ticket1, ticket2, ticket3));
     List<ServiceTicket> requests =
         ServiceTicketDatabaseManager.getInstance()
             .getTicketsForRequestId(
@@ -325,6 +331,16 @@ public class ApplicationView extends Application {
   }
 
   public void lookup(KeyEvent e) {
+    if (e.getSource() == start) {
+      lookupNodes(e, startList, start);
+    } else if (e.getSource() == destination) {
+      lookupNodes(e, destList, destination);
+    } else if (e.getSource() == requestLocation) {
+      lookupNodes(e, serviceLocationList, requestLocation);
+    }
+  }
+
+  public void lookupNodes(KeyEvent e, ListView listView, TextField target) {
     String matchString =
         (((TextField) e.getSource()).getText()
                 + (!e.getCharacter().equals(Character.toString((char) 8)) ? e.getCharacter() : ""))
@@ -343,12 +359,7 @@ public class ApplicationView extends Application {
 
     // Add elements to ListView
     ObservableList<String> items = FXCollections.observableArrayList(matches);
-    if (e.getSource() == start) {
-      startList.setItems(items);
-    } else {
-      destList.setItems(items);
-    }
-    startList.setVisible(e.getSource() == start);
-    destList.setVisible(e.getSource() == destination);
+    listView.setItems(items);
+    listView.setVisible(e.getSource() == target);
   }
 }
