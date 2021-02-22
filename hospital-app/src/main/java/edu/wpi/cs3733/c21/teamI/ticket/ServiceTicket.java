@@ -2,6 +2,7 @@ package edu.wpi.cs3733.c21.teamI.ticket;
 
 public class ServiceTicket {
 
+  private int ticketID;
   private int requestingUserID;
   private int assignedUserID;
   private TicketType ticketType;
@@ -13,6 +14,7 @@ public class ServiceTicket {
   public ServiceTicket() {}
 
   public ServiceTicket(
+      int ticketID,
       int requestID,
       int assignID,
       TicketType ticketType,
@@ -20,6 +22,7 @@ public class ServiceTicket {
       String desc,
       boolean emergency,
       boolean completed) {
+    this.ticketID = ticketID;
     this.requestingUserID = requestID;
     this.assignedUserID = assignID;
     this.ticketType = ticketType;
@@ -57,6 +60,10 @@ public class ServiceTicket {
 
   public int getRequestingUserID() {
     return requestingUserID;
+  }
+
+  public int getTicketId() {
+    return ticketID;
   }
 
   public int getAssignedUserID() {

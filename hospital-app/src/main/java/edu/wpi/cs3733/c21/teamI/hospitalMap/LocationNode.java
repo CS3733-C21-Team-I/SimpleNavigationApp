@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.c21.teamI.hospitalMap;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class LocationNode extends HospitalMapNode {
 
