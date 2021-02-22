@@ -14,7 +14,6 @@ public class ServiceTicket {
   public ServiceTicket() {}
 
   public ServiceTicket(
-      int ticketID,
       int requestID,
       int assignID,
       TicketType ticketType,
@@ -22,7 +21,6 @@ public class ServiceTicket {
       String desc,
       boolean emergency,
       boolean completed) {
-    this.ticketID = ticketID;
     this.requestingUserID = requestID;
     this.assignedUserID = assignID;
     this.ticketType = ticketType;
@@ -92,5 +90,9 @@ public class ServiceTicket {
 
   public void setCompleted(Boolean bool) {
     this.completed = bool;
+  }
+
+  public void setTicketID(int id) {
+    this.ticketID = id;
   }
 }
