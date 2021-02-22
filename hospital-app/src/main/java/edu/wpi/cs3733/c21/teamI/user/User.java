@@ -1,8 +1,11 @@
 package edu.wpi.cs3733.c21.teamI.user;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public class User {
+
+  public static User baseUser;
 
   public Set<Role> userRoles;
 
