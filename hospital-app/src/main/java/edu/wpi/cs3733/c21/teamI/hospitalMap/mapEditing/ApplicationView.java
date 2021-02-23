@@ -50,13 +50,13 @@ public class ApplicationView extends Application {
       loginReturn,
       maintenance,
       adminMapToggle,
-      login;
+      profile;
   @FXML ImageView mapImage;
   @FXML TextField start, destination, requestLocation;
   @FXML Label dateTime;
   @FXML AnchorPane mapPane;
   @FXML Button loginButton;
-  @FXML VBox requestContainer;
+  @FXML VBox requestContainer, loginVBox, serviceDisplay;
   @FXML TextField username;
   @FXML PasswordField password;
   @FXML Label headerLabel;
@@ -125,18 +125,24 @@ public class ApplicationView extends Application {
     } else if (e.getSource() == maintenance) {
       root.getChildren()
           .add(FXMLLoader.load(getClass().getResource("/fxml/MaintenanceRequest.fxml")));
-    } else if (e.getSource() == login) {
-      root.getChildren().add(FXMLLoader.load(getClass().getResource("/fxml/Login.fxml")));
+    } else if (e.getSource() == profile) {
+      root.getChildren().add(FXMLLoader.load(getClass().getResource("/fxml/Profile.fxml")));
+      if (ApplicationDataController.getInstance()
+          .getLoggedInUser()
+          .hasPermission(User.Permission.VIEW_TICKET)) {
+        root.lookup("#loginVBox").setVisible(false);
+        root.lookup("#serviceDisplay").setVisible(true);
+      }
     } else {
       root.getChildren()
           .add(FXMLLoader.load(getClass().getResource("/fxml/SanitationRequest.fxml")));
-      setupRequestViewHandlers();
+      setupRequestView();
     }
     mapManager.setRoot(root);
     scene.setRoot(root);
   }
 
-  private void setupRequestViewHandlers() {
+  private void setupRequestView() {
     Group root = mapManager.getRoot();
     ((ListView) root.lookup("#serviceLocationList"))
         .getSelectionModel()
@@ -175,8 +181,10 @@ public class ApplicationView extends Application {
                 });
     root.setOnMouseClicked(
         (MouseEvent evt) -> {
-          root.lookup("#startList").setVisible(false);
-          root.lookup("#destList").setVisible(false);
+          if (root.lookup("#mapPane") != null) {
+            root.lookup("#startList").setVisible(false);
+            root.lookup("#destList").setVisible(false);
+          }
         });
   }
 
@@ -235,6 +243,8 @@ public class ApplicationView extends Application {
     uName = username.getText();
     pass = password.getText();
     if (ApplicationDataController.getInstance().logInUser(uName, pass)) {
+      loginVBox.setVisible(false);
+      serviceDisplay.setVisible(true);
       headerLabel.setText("You successfully logged in.");
       System.out.println(uName + ' ' + pass);
       if (ApplicationDataController.getInstance()

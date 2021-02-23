@@ -96,6 +96,6 @@ public class RequestView extends Application {
   public void returnHome(ActionEvent e) throws IOException {
     Group root = (Group) ((Button) e.getSource()).getScene().getRoot();
     root.getChildren().clear();
-    root.getChildren().add(FXMLLoader.load(getClass().getResource("/fxml/Login.fxml")));
+    root.getChildren().add(FXMLLoader.load(getClass().getResource("/fxml/Profile.fxml")));
   }
 }
