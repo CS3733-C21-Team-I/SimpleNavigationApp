@@ -107,7 +107,8 @@ public class MapEditDataController {
     // TODO send to Database
     Queue<NavEditOperation> ops = new LinkedList<>();
     if (undoRedoPointer != -1) {
-      for (int i = 0; i < undoRedoPointer; i++) {
+      for (int i = 0; i <= undoRedoPointer; i++) {
+        System.out.println(i);
         ops.add(dataOperations.get(i).getOperation());
       }
     }
@@ -132,11 +133,11 @@ public class MapEditDataController {
   }
 
   public boolean isUndoAvailable() {
-    return undoRedoPointer >= -1;
+    return undoRedoPointer > -1;
   }
 
   public boolean isRedoAvailable() {
-    return undoRedoPointer == dataOperations.size() - 1;
+    return undoRedoPointer != dataOperations.size() - 1;
   }
 
   public void redo() {

@@ -4,6 +4,7 @@ import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
 import edu.wpi.cs3733.c21.teamI.database.NavDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.database.ServiceTicketDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.EuclidianDistCalc;
+import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMapCSVBuilder;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMapNode;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.LocationNode;
 import edu.wpi.cs3733.c21.teamI.pathfinding.PathFinder;
@@ -53,7 +54,9 @@ public class ApplicationView extends Application {
       adminMapToggle,
       profile,
       save,
-      discard;
+      discard,
+      undoButton,
+      redoButton;
 
   @FXML ImageView mapImage;
   @FXML TextField start, destination, requestLocation;
@@ -123,6 +126,8 @@ public class ApplicationView extends Application {
               .getLoggedInUser()
               .hasPermission(User.Permission.EDIT_MAP);
       root.lookup("#adminMapToggle").setVisible(isAdmin);
+      root.lookup("#undoButton").setVisible(false);
+      root.lookup("#redoButton").setVisible(false);
       setupMapViewHandlers();
     } else if (e.getSource() == serviceRequests) {
       root.getChildren().add(FXMLLoader.load(getClass().getResource("/fxml/Requests.fxml")));
@@ -131,12 +136,7 @@ public class ApplicationView extends Application {
           .add(FXMLLoader.load(getClass().getResource("/fxml/MaintenanceRequest.fxml")));
     } else if (e.getSource() == profile) {
       root.getChildren().add(FXMLLoader.load(getClass().getResource("/fxml/Profile.fxml")));
-      if (ApplicationDataController.getInstance()
-          .getLoggedInUser()
-          .hasPermission(User.Permission.VIEW_TICKET)) {
-        root.lookup("#loginVBox").setVisible(false);
-        root.lookup("#serviceDisplay").setVisible(true);
-      }
+      populateTicketsProfile();
     } else {
       root.getChildren()
           .add(FXMLLoader.load(getClass().getResource("/fxml/SanitationRequest.fxml")));
@@ -144,6 +144,19 @@ public class ApplicationView extends Application {
     }
     mapManager.setRoot(root);
     scene.setRoot(root);
+  }
+
+  private void populateTicketsProfile() {
+    Group root = mapManager.getRoot();
+    if (ApplicationDataController.getInstance()
+        .getLoggedInUser()
+        .hasPermission(User.Permission.VIEW_TICKET)) {
+      root.lookup("#loginVBox").setVisible(false);
+      root.lookup("#serviceDisplay").setVisible(true);
+    } else {
+      root.lookup("#loginVBox").setVisible(true);
+      root.lookup("#serviceDisplay").setVisible(false);
+    }
   }
 
   private void setupRequestView() {
@@ -208,7 +221,8 @@ public class ApplicationView extends Application {
     if (serviceRequests != null) {
       if (ApplicationDataController.getInstance()
           .getLoggedInUser()
-          .hasPermission(User.Permission.REQUEST_TICKET)) {
+          .hasPermission(User.Permission.VIEW_TICKET)) {
+
         serviceRequests.setMaxWidth(map.getMaxWidth());
         serviceRequests.setVisible(true);
       } else {
@@ -242,13 +256,18 @@ public class ApplicationView extends Application {
   public void toggleEditMap(ActionEvent e) {
     adminMap = !adminMap;
     if (adminMap) {
+      System.out.println("Starting Map Edit");
       mapManager
           .getDataCont()
           .setActiveMap(NavDatabaseManager.getInstance().loadMapsFromMemory().get("Faulkner 0"));
       mapManager.startEditorView(mapPane);
+      undoButton.setVisible(true);
+      redoButton.setVisible(true);
     } else {
       mapManager.setNodeMenuVisible(false);
       mapManager.getDataCont().discardChanges();
+      undoButton.setVisible(false);
+      redoButton.setVisible(false);
     }
     mapPane.setVisible(adminMap);
     save.setVisible(adminMap);
@@ -258,6 +277,11 @@ public class ApplicationView extends Application {
   @FXML
   public void exit() {
     mapManager.getStage().close();
+
+    HospitalMapCSVBuilder.saveCSV(
+        NavDatabaseManager.getInstance().loadMapsFromMemory().values(),
+        "csv/MapINewNodes.csv",
+        "csv/MapINewEdgers.csv");
   }
 
   @FXML

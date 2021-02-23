@@ -303,8 +303,10 @@ public class NavDatabaseManager extends DatabaseManager {
 
           } else {
             statement.executeUpdate(
-                "INSERT INTO navNodes (node_ID, x_Coord, y_Coord, node_Type) "
+                "INSERT INTO navNodes (MAP_ID, node_ID, x_Coord, y_Coord, node_Type) "
                     + "VALUES ('"
+                    + hMap.getId()
+                    + "', '"
                     + node.getID()
                     + "', "
                     + node.getxCoord()
@@ -341,7 +343,7 @@ public class NavDatabaseManager extends DatabaseManager {
   public void applyNavEditOperations(Queue<NavEditOperation> operations) {
     while (!operations.isEmpty()) {
       NavEditOperation op = operations.poll();
-
+      System.out.println(op.getOpType());
       switch (op.getOpType()) {
         case ADD_NODE:
           try {
@@ -369,8 +371,10 @@ public class NavDatabaseManager extends DatabaseManager {
 
             } else {
               statement.executeUpdate(
-                  "INSERT INTO navNodes (node_ID, x_Coord, y_Coord, node_Type) "
+                  "INSERT INTO navNodes (MAP_ID, node_ID, x_Coord, y_Coord, node_Type) "
                       + "VALUES ('"
+                      + node.getMapID()
+                      + "', '"
                       + node.getID()
                       + "', "
                       + node.getxCoord()
@@ -386,52 +390,54 @@ public class NavDatabaseManager extends DatabaseManager {
         case EDIT_NODE:
           try {
             Statement statement = databaseRef.getConnection().createStatement();
-            statement.executeUpdate(
-                "DELETE FROM NAV_NODES WHERE NODE_ID='" + op.getTargetNode() + "'");
-          } catch (SQLException e) {
-            e.printStackTrace();
-          }
-
-          try {
-            Statement statement = databaseRef.getConnection().createStatement();
             HospitalMapNode node = op.getNewNode();
             if (node instanceof LocationNode) {
               // TODO locationNode handling
               statement.executeUpdate(
-                  "INSERT INTO navNodes (MAP_ID, NODE_ID, X_COORD, Y_COORD, NODE_TYPE, SHORT_NAME, LONG_NAME, TEAM_ASSIGNED)"
-                      + "VALUES ('"
+                  "UPDATE navNodes SET"
+                      + "MAP_ID='"
                       + node.getMapID()
-                      + "', '"
-                      + node.getID()
-                      + "', "
+                      + "', X_COORD="
                       + node.getxCoord()
-                      + ", "
+                      + ", Y_COORD="
                       + node.getyCoord()
-                      + ", 'LOC', '"
+                      + ", NODE_TYPE='LOC', SHORT_NAME='"
                       + ((LocationNode) node).getShortName()
-                      + "', '"
+                      + "', LONG_NAME='"
                       + ((LocationNode) node).getLongName()
-                      + "', '"
+                      + "', TEAM_ASSIGNED='"
                       + ((LocationNode) node).getTeamAssigned()
-                      + "')");
+                      + "' WHERE NODE_ID='"
+                      + op.getTargetNode()
+                      + "'");
 
             } else {
               statement.executeUpdate(
-                  "INSERT INTO navNodes (node_ID, x_Coord, y_Coord, node_Type) "
-                      + "VALUES ('"
-                      + node.getID()
-                      + "', "
+                  "UPDATE navNodes SET "
+                      + "MAP_ID='"
+                      + node.getMapID()
+                      + "', X_COORD="
                       + node.getxCoord()
-                      + ", "
+                      + ", Y_COORD="
                       + node.getyCoord()
-                      + ", "
-                      + "'POS')");
+                      + ", NODE_TYPE="
+                      + "'POS' "
+                      + "WHERE NODE_ID='"
+                      + op.getTargetNode()
+                      + "'");
             }
           } catch (SQLException e) {
             e.printStackTrace();
           }
           break;
         case DELETE_NODE:
+          try {
+            Statement statement = databaseRef.getConnection().createStatement();
+            statement.executeUpdate(
+                "DELETE FROM NAVNODES WHERE NODE_ID='" + op.getTargetNode() + "'");
+          } catch (SQLException e) {
+            e.printStackTrace();
+          }
           break;
         default:
           throw new IllegalStateException(
