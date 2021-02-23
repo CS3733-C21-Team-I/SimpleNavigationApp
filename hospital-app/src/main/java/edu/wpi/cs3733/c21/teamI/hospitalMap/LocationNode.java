@@ -59,6 +59,18 @@ public class LocationNode extends HospitalMapNode {
     return teamAssigned;
   }
 
+  public void setShortName(String sName) {
+    this.shortName = sName;
+  }
+
+  public void setLongName(String lName) {
+    this.longName = lName;
+  }
+
+  public void setTeamAssigned(String teamAssigned) {
+    this.teamAssigned = teamAssigned;
+  }
+
   @Override
   public String toString() {
     return "Node: " + longName + " (a.k.a) " + shortName + " for team: " + teamAssigned;

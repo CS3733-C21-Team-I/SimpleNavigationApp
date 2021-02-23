@@ -60,8 +60,6 @@ public class ApplicationView extends Application {
   @FXML TextField username;
   @FXML PasswordField password;
   @FXML Label headerLabel;
-  @FXML TextField lNameField;
-  @FXML TextField sNameField;
 
   private final double scale = 3.05;
   private EuclidianDistCalc scorer;
@@ -116,7 +114,6 @@ public class ApplicationView extends Application {
     } else if (e.getSource() == map) {
       adminMap = false;
       root.getChildren().add(FXMLLoader.load(getClass().getResource("/fxml/Map.fxml")));
-      populateEditNodeMenu();
       boolean isAdmin =
           ApplicationDataController.getInstance()
               .getLoggedInUser()
@@ -203,18 +200,6 @@ public class ApplicationView extends Application {
   public void toggleEditMap(ActionEvent e) {
     mapManager.startEditorView(mapPane);
     adminMap = !adminMap;
-  }
-
-  @FXML
-  public void populateEditNodeMenu() {
-    Group root = mapManager.getRoot();
-    if ((mapManager.getSelectedNode()) != null) {
-      System.out.println("in pop edit menu");
-      ((TextField) root.lookup("#lNameField"))
-          .setText(((LocationNode) mapManager.getSelectedNode()).getLongName());
-      ((TextField) root.lookup("#sNameField"))
-          .setText(((LocationNode) mapManager.getSelectedNode()).getShortName());
-    }
   }
 
   @FXML

@@ -93,4 +93,8 @@ public class HospitalMapNode implements GraphNode<HospitalMapNode>, Cloneable {
   public String getMapID() {
     return mapID;
   }
+
+  public void setMapID(String mapID) {
+    this.mapID = mapID;
+  }
 }
