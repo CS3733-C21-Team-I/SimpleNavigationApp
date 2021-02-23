@@ -105,11 +105,16 @@ public class MapEditManager {
 
   public void startRequestView(ServiceTicket st) throws IOException {
     requestView = new RequestView(this, st);
-    requestView.start(stage);
     RequestView.saveManager();
+    requestView.start(stage);
   }
 
   public void setSelectedNode(HospitalMapNode node) {
     this.selectedNode = node;
+  }
+
+  public void generateRequestList() {
+    System.out.println(root);
+    this.applicationView.generateRequestList();
   }
 }
