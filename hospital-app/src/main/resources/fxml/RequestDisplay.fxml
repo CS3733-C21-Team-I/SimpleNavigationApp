@@ -78,7 +78,7 @@
                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
             </VBox.margin>
          </Label>
-         <TextField fx:id="location">
+         <TextField fx:id="locationBox">
             <VBox.margin>
                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
             </VBox.margin>
@@ -93,7 +93,7 @@
                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
             </VBox.margin>
          </TextArea>
-         <CheckBox fx:id="complete" mnemonicParsing="false" text="Request complete">
+         <CheckBox fx:id="completed" mnemonicParsing="false" text="Request complete">
             <VBox.margin>
                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
             </VBox.margin>

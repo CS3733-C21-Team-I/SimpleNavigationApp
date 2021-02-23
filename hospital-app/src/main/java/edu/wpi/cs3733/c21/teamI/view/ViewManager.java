@@ -4,6 +4,7 @@ import edu.wpi.cs3733.c21.teamI.database.NavDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMapNode;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.LocationNode;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.mapEditing.MapEditDataController;
+import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicket;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Set;
@@ -23,11 +24,11 @@ import javafx.stage.Stage;
 public class ViewManager {
 
   private static double scale = 3.05; // scales image to 1/scale
-  private static MapEditController mapEditorView = null;
   private static Group root = null;
   private static Stage stage = null;
   private static HospitalMapNode selectedNode = null;
   private static final MapEditDataController dataCont = new MapEditDataController();
+  private static ServiceTicket serviceTicketToShow;
 
   public ViewManager() {}
 
@@ -51,6 +52,18 @@ public class ViewManager {
     } else {
       root.getChildren()
           .add(FXMLLoader.load(ViewManager.class.getResource("/fxml/SanitationRequest.fxml")));
+    }
+    scene.setRoot(root);
+  }
+
+  public static void navigateToActiveRequest(ActionEvent e) {
+    Group root = new Group();
+    Scene scene = ((Button) e.getSource()).getScene();
+    try {
+      root.getChildren()
+          .add(FXMLLoader.load(ViewManager.class.getResource("/fxml/RequestDisplay.fxml")));
+    } catch (IOException ioException) {
+      ioException.printStackTrace();
     }
     scene.setRoot(root);
   }
@@ -136,5 +149,13 @@ public class ViewManager {
 
   public static void setSelectedNode(HospitalMapNode node) {
     ViewManager.selectedNode = node;
+  }
+
+  public static ServiceTicket getServiceTicketToShow() {
+    return serviceTicketToShow;
+  }
+
+  public static void setServiceTicketToShow(ServiceTicket serviceTicketToShow) {
+    ViewManager.serviceTicketToShow = serviceTicketToShow;
   }
 }

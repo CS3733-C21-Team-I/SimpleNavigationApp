@@ -7,17 +7,13 @@ import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Group;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class ServiceFormController extends Application {
-  // setup request location handlers
-  @FXML TextField sanLocation;
   ServiceTicket sanitationTicket;
   ServiceTicket maintenanceTicket;
 
@@ -26,8 +22,8 @@ public class ServiceFormController extends Application {
   @FXML TextField sanAssignedID;
   @FXML HBox sanRequestType;
   @FXML TextField sanRequestID;
+  @FXML VBox background;
 
-  @FXML TextField mainLocation;
   @FXML TextArea mainDesc;
   @FXML CheckBox mainEmerg;
   @FXML MenuButton mainRequestType;
@@ -46,11 +42,10 @@ public class ServiceFormController extends Application {
               RequestID,
               AssignedID,
               ServiceTicket.TicketType.SANITATION,
-              sanLocation.getText(),
+              requestLocation.getText(),
               sanDescription.getText(),
               sanEmergency.isSelected(),
               false);
-
       ServiceTicketDatabaseManager.getInstance().addTicket(sanitationTicket);
     } catch (Exception o) {
       System.out.println("Error" + o);
@@ -70,7 +65,7 @@ public class ServiceFormController extends Application {
               RequestID,
               AssignID,
               ServiceTicket.TicketType.MAINTENANCE,
-              mainLocation.getText(),
+              requestLocation.getText(),
               mainDesc.getText(),
               mainEmerg.isSelected(),
               false);
@@ -97,11 +92,10 @@ public class ServiceFormController extends Application {
                   requestLocation.setText(newVal);
                   serviceLocationList.setVisible(false);
                 });
-    // Fix click on background to close dropdown
-    //    root.setOnMouseClicked(
-    //            (MouseEvent evt) -> {
-    //              serviceLocationList.setVisible(false);
-    //            });
+    background.setOnMouseClicked(
+        t -> {
+          serviceLocationList.setVisible(false);
+        });
   }
 
   @FXML
@@ -114,13 +108,5 @@ public class ServiceFormController extends Application {
   }
 
   @Override
-  public void start(Stage primaryStage) throws Exception {
-    // need to find a way to encapsulate both pages
-    primaryStage.setTitle("Sanitation Request");
-    Group root = FXMLLoader.load(getClass().getResource("/fxml/SanitationRequest.fxml"));
-    root.getChildren().add(root);
-    Scene applicationScene = new Scene(root, 973, 800);
-    primaryStage.setScene(applicationScene);
-    primaryStage.show();
-  }
+  public void start(Stage primaryStage) throws Exception {}
 }

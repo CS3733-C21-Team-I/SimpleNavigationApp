@@ -78,11 +78,8 @@ public class ProfileController extends Application {
       int finalI = i;
       requestButton.setOnAction(
           event -> {
-            //						try {
-            //							ViewManager.startRequestView(requests.get(finalI));
-            //						} catch (IOException e) {
-            //							e.printStackTrace();
-            //						}
+            ViewManager.setServiceTicketToShow(requests.get(finalI));
+            ViewManager.navigateToActiveRequest(event);
           });
       requestButton.getStyleClass().add("requestButton");
       requestButton.setMinHeight(50);
