@@ -11,7 +11,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
@@ -88,7 +88,6 @@ public class ServiceFormController extends Application {
   }
 
   private void setupRequestView() {
-    Group root = ViewManager.getRoot();
     serviceLocationList
         .getSelectionModel()
         .selectedItemProperty()
@@ -98,15 +97,20 @@ public class ServiceFormController extends Application {
                   requestLocation.setText(newVal);
                   serviceLocationList.setVisible(false);
                 });
-    root.setOnMouseClicked(
-        (MouseEvent evt) -> {
-          serviceLocationList.setVisible(false);
-        });
+    // Fix click on background to close dropdown
+    //    root.setOnMouseClicked(
+    //            (MouseEvent evt) -> {
+    //              serviceLocationList.setVisible(false);
+    //            });
   }
 
   @FXML
   public void initialize() {
     setupRequestView();
+  }
+
+  public void lookup(KeyEvent e) {
+    ViewManager.lookupNodes(e, serviceLocationList, requestLocation);
   }
 
   @Override

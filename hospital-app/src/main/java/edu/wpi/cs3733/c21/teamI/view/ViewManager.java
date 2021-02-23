@@ -18,11 +18,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 public class ViewManager {
 
-  private double scale = 3.05; // scales image to 1/scale
+  private static double scale = 3.05; // scales image to 1/scale
   private static MapEditController mapEditorView = null;
   private static Group root = null;
   private static Stage stage = null;
@@ -98,7 +99,7 @@ public class ViewManager {
     }
   }
 
-  public double getScale() {
+  public static double getScale() {
     return scale;
   }
 
@@ -108,6 +109,10 @@ public class ViewManager {
 
   public static void setNodeMenuVisible(boolean visible) {
     mapEditorView.hideNodeMenu(visible);
+  }
+
+  public static void startEditorView(AnchorPane mapPane) throws IOException {
+    mapEditorView = new MapEditController(mapPane);
   }
 
   public void setRoot(Group root) {

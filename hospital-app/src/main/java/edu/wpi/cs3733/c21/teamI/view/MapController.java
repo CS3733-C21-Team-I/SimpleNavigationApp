@@ -39,15 +39,16 @@ public class MapController extends Application {
 
   private final double scale = 3.05;
   private EuclidianDistCalc scorer;
+  private Stage stage;
 
   @FXML
-  public void toggleEditMap(ActionEvent e) {
+  public void toggleEditMap(ActionEvent e) throws IOException {
     adminMap = !adminMap;
     if (adminMap) {
       System.out.println("Starting Map Edit");
       ViewManager.getDataCont()
           .setActiveMap(NavDatabaseManager.getInstance().loadMapsFromMemory().get("Faulkner 0"));
-      //      ViewManager.startEditorView(mapPane);
+      ViewManager.startEditorView(mapPane);
       undoButton.setVisible(true);
       redoButton.setVisible(true);
     } else {
@@ -200,6 +201,7 @@ public class MapController extends Application {
 
   @FXML
   public void initialize() {
+    System.out.println("STARTING MAP");
     adminMap = false;
     boolean isAdmin =
         ApplicationDataController.getInstance()
@@ -218,6 +220,8 @@ public class MapController extends Application {
     root.getChildren().add(root);
     Scene applicationScene = new Scene(root, 973, 800);
     primaryStage.setScene(applicationScene);
+    this.stage = primaryStage;
+    System.out.println("Stage " + stage);
     primaryStage.show();
   }
 }

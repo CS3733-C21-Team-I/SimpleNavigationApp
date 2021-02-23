@@ -2,14 +2,15 @@ package edu.wpi.cs3733.c21.teamI.view;
 
 import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMapNode;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.LocationNode;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -25,29 +26,36 @@ import javafx.stage.Stage;
 
 public class MapEditController extends Application {
 
-  private double scale;
-  private AnchorPane newLoadedPane;
-  private Button deleteBtn, saveBtn;
-  private Button undoBtn;
-  private Button redoBtn;
-  private boolean isDrag = false;
+  public double scale = ViewManager.getScale();
   private HospitalMapNode movingNode;
+  private AnchorPane nodeMenu;
+  @FXML Button deleteBtn, saveBtn, undoBtn, redoBtn;
+  @FXML TextField sNameField, lNameField;
+  private boolean isDrag = false;
   private AnchorPane mapPane;
 
+  public MapEditController() {}
+
+  public MapEditController(AnchorPane mapPane) throws IOException {
+    System.out.println(mapPane);
+    this.mapPane = mapPane;
+    loadFXML();
+  }
+
   @Override
-  public void init() throws Exception {}
+  public void init() {}
+
+  @FXML
+  public void initialize() {
+
+  }
 
   @Override
   public void start(Stage primaryStage) {
-    loadFXML();
-    primaryStage.show();
-    ViewManager.setStage(primaryStage);
-    deleteBtn = (Button) newLoadedPane.lookup("#nodeDeleteButton");
-    saveBtn = (Button) newLoadedPane.lookup("#saveButton");
-    undoBtn = (Button) ViewManager.getRoot().lookup("#undoButton");
-    redoBtn = (Button) ViewManager.getRoot().lookup("#redoButton");
+    Scene scene = new Scene(mapPane.getParent());
+    primaryStage.setScene(scene);
     setAddNodeHander();
-    newLoadedPane.setVisible(ViewManager.getSelectedNode() != null);
+    //    nodeMenu.setVisible(ViewManager.getSelectedNode() != null);
     undoBtn.setVisible(false);
     redoBtn.setVisible(false);
     undoBtn.setOnAction(
@@ -64,13 +72,13 @@ public class MapEditController extends Application {
           }
           update();
         });
-
     update();
+    primaryStage.show();
   }
 
   private void populateEditNodeMenu(HospitalMapNode node) {
-    TextField sNameField = (TextField) newLoadedPane.lookup("#sNameField");
-    TextField lNameField = (TextField) newLoadedPane.lookup("#lNameField");
+    TextField sNameField = (TextField) nodeMenu.lookup("#sNameField");
+    TextField lNameField = (TextField) nodeMenu.lookup("#lNameField");
     try {
       sNameField.setText(((LocationNode) node).getShortName());
       lNameField.setText(((LocationNode) node).getLongName());
@@ -81,8 +89,6 @@ public class MapEditController extends Application {
   }
 
   private void editNodeName(HospitalMapNode node) {
-    TextField sNameField = (TextField) newLoadedPane.lookup("#sNameField");
-    TextField lNameField = (TextField) newLoadedPane.lookup("#lNameField");
     String sName = sNameField.getText();
     String lName = lNameField.getText();
     try {
@@ -106,21 +112,15 @@ public class MapEditController extends Application {
     }
   }
 
-  private void loadFXML() {
-    try {
-      newLoadedPane = FXMLLoader.load(getClass().getResource("/fxml/EditNodePane.fxml"));
-      AnchorPane.setBottomAnchor(newLoadedPane, 0.0);
-      AnchorPane.setRightAnchor(newLoadedPane, 0.0);
-      ViewManager.getRoot().getChildren().add(newLoadedPane);
-    } catch (FileNotFoundException e) {
-      System.out.println("File not found");
-    } catch (IOException e) {
-      System.out.println("IO Exception");
-    }
+  private void loadFXML() throws IOException {
+    nodeMenu = FXMLLoader.load(getClass().getResource("/fxml/EditNodePane.fxml"));
+    AnchorPane.setBottomAnchor(nodeMenu, 0.0);
+    AnchorPane.setRightAnchor(nodeMenu, 0.0);
+    System.out.println(((AnchorPane) mapPane.getParent()).getChildren());
   }
 
   public void hideNodeMenu(boolean visible) {
-    this.newLoadedPane.setVisible(visible);
+    this.nodeMenu.setVisible(visible);
   }
 
   private void setAddNodeHander() {
@@ -129,7 +129,6 @@ public class MapEditController extends Application {
             e -> {
               if (e.getButton() == MouseButton.SECONDARY) {
                 // definitely need a better way of making an ID
-                System.out.println("map ID: " + ViewManager.getMapID());
                 ViewManager.getDataCont()
                     .addNode(
                         new HospitalMapNode(
@@ -141,7 +140,7 @@ public class MapEditController extends Application {
                 update();
               }
             };
-    mapPane.addEventFilter(MouseEvent.MOUSE_CLICKED, eventHandler);
+    //    mapPane.addEventFilter(MouseEvent.MOUSE_CLICKED, eventHandler);
   }
 
   // TODO NOT THIS ANYTHING BUT THIS
