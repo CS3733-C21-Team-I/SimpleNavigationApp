@@ -175,11 +175,14 @@ public class ApplicationView extends Application {
         || e.getSource() == requestsReturn
         || e.getSource() == loginReturn) {
       root.getChildren().add(FXMLLoader.load(getClass().getResource("/fxml/Home.fxml")));
+      mapManager.getStage().setTitle("Home");
     } else if (e.getSource() == sanitationReturn || e.getSource() == maintenanceReturn) {
       root.getChildren().add(FXMLLoader.load(getClass().getResource("/fxml/Requests.fxml")));
+      mapManager.getStage().setTitle("Service Requests");
     } else if (e.getSource() == map) {
       adminMap = false;
       root.getChildren().add(FXMLLoader.load(getClass().getResource("/fxml/Map.fxml")));
+      mapManager.getStage().setTitle("Hospital Map");
       boolean isAdmin =
           ApplicationDataController.getInstance()
               .getLoggedInUser()
@@ -188,11 +191,14 @@ public class ApplicationView extends Application {
       setupMapViewHandlers();
     } else if (e.getSource() == serviceRequests) {
       root.getChildren().add(FXMLLoader.load(getClass().getResource("/fxml/Requests.fxml")));
+      mapManager.getStage().setTitle("Service Requests");
     } else if (e.getSource() == maintenance) {
       root.getChildren()
           .add(FXMLLoader.load(getClass().getResource("/fxml/MaintenanceRequest.fxml")));
+      mapManager.getStage().setTitle("Maintenance Request");
     } else if (e.getSource() == profile) {
       root.getChildren().add(FXMLLoader.load(getClass().getResource("/fxml/Profile.fxml")));
+      mapManager.getStage().setTitle("Profile");
       if (ApplicationDataController.getInstance()
           .getLoggedInUser()
           .hasPermission(User.Permission.VIEW_TICKET)) {
@@ -202,6 +208,7 @@ public class ApplicationView extends Application {
     } else {
       root.getChildren()
           .add(FXMLLoader.load(getClass().getResource("/fxml/SanitationRequest.fxml")));
+      mapManager.getStage().setTitle("Sanitation Request");
       setupRequestView();
     }
     mapManager.setRoot(root);
