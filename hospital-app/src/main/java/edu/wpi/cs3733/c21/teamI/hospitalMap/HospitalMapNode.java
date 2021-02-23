@@ -95,7 +95,6 @@ public class HospitalMapNode implements GraphNode<HospitalMapNode>, Cloneable {
     return mapID;
   }
 
-
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
@@ -107,6 +106,5 @@ public class HospitalMapNode implements GraphNode<HospitalMapNode>, Cloneable {
   @Override
   public int hashCode() {
     return Objects.hash(id);
-
   }
 }

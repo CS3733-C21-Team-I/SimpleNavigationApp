@@ -394,20 +394,20 @@ public class NavDatabaseManager extends DatabaseManager {
             if (node instanceof LocationNode) {
               // TODO locationNode handling
               statement.executeUpdate(
-                  "UPDATE navNodes SET"
-                      + "MAP_ID='"
+                  "UPDATE navNodes SET "
+                      + "MAP_ID = '"
                       + node.getMapID()
-                      + "', X_COORD="
+                      + "', X_COORD = "
                       + node.getxCoord()
-                      + ", Y_COORD="
+                      + ", Y_COORD = "
                       + node.getyCoord()
-                      + ", NODE_TYPE='LOC', SHORT_NAME='"
+                      + ", NODE_TYPE = 'LOC', SHORT_NAME = '"
                       + ((LocationNode) node).getShortName()
-                      + "', LONG_NAME='"
+                      + "', LONG_NAME = '"
                       + ((LocationNode) node).getLongName()
-                      + "', TEAM_ASSIGNED='"
+                      + "', TEAM_ASSIGNED = '"
                       + ((LocationNode) node).getTeamAssigned()
-                      + "' WHERE NODE_ID='"
+                      + "' WHERE NODE_ID = '"
                       + op.getTargetNode()
                       + "'");
 

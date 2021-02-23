@@ -482,6 +482,7 @@ public class ApplicationView extends Application {
             .toLowerCase();
     ArrayList<String> nodeNames =
         NavDatabaseManager.getInstance().loadMapsFromMemory().get("Faulkner 0").getNodes().stream()
+            .filter(n -> n instanceof LocationNode)
             .map(n -> ((LocationNode) n).getLongName())
             .filter(s -> !s.equals(""))
             .collect(Collectors.toCollection(ArrayList::new));

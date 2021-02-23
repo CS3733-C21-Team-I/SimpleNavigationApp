@@ -29,7 +29,6 @@ public class MapEditView extends Application {
   private static MapEditManager ourManager;
   private AnchorPane newLoadedPane;
   private Button deleteBtn, saveBtn;
-  private AnchorPane nodeMenuPane;
   private Button undoBtn;
   private Button redoBtn;
   private boolean isDrag = false;
@@ -62,7 +61,7 @@ public class MapEditView extends Application {
     undoBtn = (Button) mapManager.getRoot().lookup("#undoButton");
     redoBtn = (Button) mapManager.getRoot().lookup("#redoButton");
     setAddNodeHander();
-    nodeMenuPane.setVisible(mapManager.getSelectedNode() != null);
+    newLoadedPane.setVisible(mapManager.getSelectedNode() != null);
     undoBtn.setVisible(false);
     redoBtn.setVisible(false);
     undoBtn.setOnAction(
@@ -106,7 +105,16 @@ public class MapEditView extends Application {
       newNode.setLongName(lName);
       mapManager.getDataCont().editNode(node.getID(), newNode);
     } catch (ClassCastException e) {
-      LocationNode newNode = new LocationNode(node.getID(), node.getMapID(), node.getxCoord(), node.getyCoord(), sName, lName, "I", node.getConnections());
+      LocationNode newNode =
+          new LocationNode(
+              node.getID(),
+              node.getMapID(),
+              node.getxCoord(),
+              node.getyCoord(),
+              sName,
+              lName,
+              "I",
+              node.getConnections());
       mapManager.getDataCont().deleteNode(node.getID());
       mapManager.getDataCont().addNode(newNode);
     }
@@ -126,7 +134,7 @@ public class MapEditView extends Application {
   }
 
   public void hideNodeMenu(boolean visible) {
-    this.nodeMenuPane.setVisible(visible);
+    this.newLoadedPane.setVisible(visible);
   }
 
   private void setAddNodeHander() {

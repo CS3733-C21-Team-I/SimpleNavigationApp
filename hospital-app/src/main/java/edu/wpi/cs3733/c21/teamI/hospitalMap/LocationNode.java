@@ -59,7 +59,6 @@ public class LocationNode extends HospitalMapNode {
     return teamAssigned;
   }
 
-
   @Override
   public String toString() {
     return "Node: " + longName + " (a.k.a) " + shortName + " for team: " + teamAssigned;
