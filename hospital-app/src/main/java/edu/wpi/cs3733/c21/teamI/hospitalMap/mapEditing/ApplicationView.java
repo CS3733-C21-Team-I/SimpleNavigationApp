@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.c21.teamI.hospitalMap.mapEditing;
 
 import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
+import edu.wpi.cs3733.c21.teamI.database.NavDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.database.ServiceTicketDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.EuclidianDistCalc;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMapNode;
@@ -192,7 +193,8 @@ public class ApplicationView extends Application {
   }
 
   public LocationNode getNodeByLongName(String longName) {
-    for (HospitalMapNode node : mapManager.getDataCont().getActiveMap().getNodes()) {
+    for (HospitalMapNode node :
+        NavDatabaseManager.getInstance().loadMapsFromMemory().get("Faulkner 0").getNodes()) {
       if (node.getClass() == LocationNode.class
           && ((LocationNode) node).getLongName().equals(longName)) {
         return (LocationNode) node;
@@ -203,6 +205,15 @@ public class ApplicationView extends Application {
 
   @FXML
   public void initialize() {
+    if (serviceRequests != null) {
+      if (ApplicationDataController.getInstance()
+          .getLoggedInUser()
+          .hasPermission(User.Permission.REQUEST_TICKET)) {}
+
+      serviceRequests.setMaxWidth(0);
+      serviceRequests.setMaxWidth(map.getMaxWidth());
+      serviceRequests.setVisible(false);
+    }
     initClock();
   }
 
@@ -229,9 +240,13 @@ public class ApplicationView extends Application {
   public void toggleEditMap(ActionEvent e) {
     adminMap = !adminMap;
     if (adminMap) {
+      mapManager
+          .getDataCont()
+          .setActiveMap(NavDatabaseManager.getInstance().loadMapsFromMemory().get("Faulkner 0"));
       mapManager.startEditorView(mapPane);
     } else {
       mapManager.setNodeMenuVisible(false);
+      mapManager.getDataCont().discardChanges();
     }
     mapPane.setVisible(adminMap);
     save.setVisible(adminMap);
@@ -366,7 +381,7 @@ public class ApplicationView extends Application {
                 + (!e.getCharacter().equals(Character.toString((char) 8)) ? e.getCharacter() : ""))
             .toLowerCase();
     ArrayList<String> nodeNames =
-        mapManager.getDataCont().getActiveMap().getNodes().stream()
+        NavDatabaseManager.getInstance().loadMapsFromMemory().get("Faulkner 0").getNodes().stream()
             .map(n -> ((LocationNode) n).getLongName())
             .filter(s -> !s.equals(""))
             .collect(Collectors.toCollection(ArrayList::new));
