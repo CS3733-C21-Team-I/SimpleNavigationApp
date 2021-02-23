@@ -208,11 +208,13 @@ public class ApplicationView extends Application {
     if (serviceRequests != null) {
       if (ApplicationDataController.getInstance()
           .getLoggedInUser()
-          .hasPermission(User.Permission.REQUEST_TICKET)) {}
-
-      serviceRequests.setMaxWidth(0);
-      serviceRequests.setMaxWidth(map.getMaxWidth());
-      serviceRequests.setVisible(false);
+          .hasPermission(User.Permission.REQUEST_TICKET)) {
+        serviceRequests.setMaxWidth(map.getMaxWidth());
+        serviceRequests.setVisible(true);
+      } else {
+        serviceRequests.setMaxWidth(0);
+        serviceRequests.setVisible(false);
+      }
     }
     initClock();
   }
