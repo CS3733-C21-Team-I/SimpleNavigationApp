@@ -86,7 +86,7 @@ public class NavDatabaseManager extends DatabaseManager {
               nodes.add(node);
             }
           } catch (SQLException e) {
-            System.out.println("Log error queerying nodes database");
+            System.out.println("Log error querying nodes database");
             return null;
           }
 
@@ -118,7 +118,6 @@ public class NavDatabaseManager extends DatabaseManager {
           throw new IllegalStateException(
               "Database contained edge connection for unloaded node at: " + toNode);
         tempNodeLookup.get(fromNode).getConnections().add(tempNodeLookup.get(toNode));
-        tempNodeLookup.get(toNode).getConnections().add(tempNodeLookup.get(fromNode));
       }
     } catch (SQLException e) {
       System.out.println("Error querying NAV_EDGES database");

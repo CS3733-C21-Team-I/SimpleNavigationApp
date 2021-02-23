@@ -53,7 +53,6 @@ public class MapController extends Application {
   @FXML
   public void toggleEditMap(ActionEvent e) {
     adminMap = !adminMap;
-    System.out.println(adminMap);
     mapPane.setVisible(adminMap);
     save.setVisible(adminMap);
     discard.setVisible(adminMap);
@@ -221,12 +220,6 @@ public class MapController extends Application {
   }
 
   public void startEditView() {
-    //    adminMap = false;
-    boolean isAdmin =
-        ApplicationDataController.getInstance()
-            .getLoggedInUser()
-            .hasPermission(User.Permission.EDIT_MAP);
-    adminMapToggle.setVisible(isAdmin);
     setupMapViewHandlers();
     setAddNodeHander();
     nodeMenu.setVisible(ViewManager.getSelectedNode() != null && adminMap);
@@ -338,6 +331,15 @@ public class MapController extends Application {
       redoButton.setOpacity(0.2);
       System.out.printf("making redo gray");
     }
+  }
+
+  @FXML
+  private void initialize() {
+    boolean isAdmin =
+        ApplicationDataController.getInstance()
+            .getLoggedInUser()
+            .hasPermission(User.Permission.EDIT_MAP);
+    adminMapToggle.setVisible(isAdmin);
   }
 
   private void drawSelectedNode() {
