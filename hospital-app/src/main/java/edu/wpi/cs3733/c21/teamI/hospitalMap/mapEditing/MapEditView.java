@@ -31,7 +31,7 @@ public class MapEditView extends Application {
   private AnchorPane newLoadedPane;
   private Button deleteBtn, saveBtn;
   private AnchorPane nodeMenuPane;
-  private Button deleteBtn;
+
   private Button undoBtn;
   private Button redoBtn;
   private boolean isDrag = false;
@@ -64,7 +64,7 @@ public class MapEditView extends Application {
     undoBtn = (Button) mapManager.getRoot().lookup("#undoButton");
     redoBtn = (Button) mapManager.getRoot().lookup("#redoButton");
     setAddNodeHander();
-    nodeMenuPane.setVisible(mapManager.getSelectedNode() != null);
+    newLoadedPane.setVisible(mapManager.getSelectedNode() != null);
     undoBtn.setVisible(false);
     redoBtn.setVisible(false);
     undoBtn.setOnAction(
@@ -135,7 +135,7 @@ public class MapEditView extends Application {
   }
 
   public void hideNodeMenu(boolean visible) {
-    this.nodeMenuPane.setVisible(visible);
+    this.newLoadedPane.setVisible(visible);
   }
 
   private void setAddNodeHander() {
@@ -294,6 +294,7 @@ public class MapEditView extends Application {
             deleteBtn.setOnAction(
                 e -> {
                   mapManager.toggleNode(node);
+                  mapManager.getDataCont().deleteNode(node.getID());
                   update();
                 });
 
