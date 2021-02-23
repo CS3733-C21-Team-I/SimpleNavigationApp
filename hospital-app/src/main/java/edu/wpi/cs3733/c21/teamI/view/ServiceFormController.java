@@ -33,6 +33,8 @@ public class ServiceFormController extends Application {
   @FXML MenuButton mainRequestType;
   @FXML TextField mainAssignedID;
   @FXML TextField mainRequestID;
+  @FXML ListView serviceLocationList;
+  @FXML TextField requestLocation;
 
   @FXML
   public void createSanitationTicket(ActionEvent e) {
@@ -87,18 +89,18 @@ public class ServiceFormController extends Application {
 
   private void setupRequestView() {
     Group root = ViewManager.getRoot();
-    ((ListView) root.lookup("#serviceLocationList"))
+    serviceLocationList
         .getSelectionModel()
         .selectedItemProperty()
         .addListener(
             (ChangeListener<String>)
                 (ov, oldVal, newVal) -> {
-                  ((TextField) root.lookup("#requestLocation")).setText(newVal);
-                  root.lookup("#serviceLocationList").setVisible(false);
+                  requestLocation.setText(newVal);
+                  serviceLocationList.setVisible(false);
                 });
     root.setOnMouseClicked(
         (MouseEvent evt) -> {
-          root.lookup("#serviceLocationList").setVisible(false);
+          serviceLocationList.setVisible(false);
         });
   }
 

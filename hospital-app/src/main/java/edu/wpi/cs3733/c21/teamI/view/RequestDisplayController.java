@@ -89,7 +89,5 @@ public class RequestDisplayController extends Application {
     Group root = (Group) ((Button) e.getSource()).getScene().getRoot();
     root.getChildren().clear();
     root.getChildren().add(FXMLLoader.load(getClass().getResource("/fxml/Profile.fxml")));
-    root.lookup("#loginVBox").setVisible(false);
-    root.lookup("#serviceDisplay").setVisible(true);
   }
 }

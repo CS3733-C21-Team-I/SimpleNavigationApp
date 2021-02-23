@@ -19,6 +19,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
@@ -30,8 +31,9 @@ import javafx.stage.Stage;
 public class MapController extends Application {
   boolean adminMap = false;
 
-  @FXML Button save, discard, undoButton, redoButton;
+  @FXML Button save, discard, undoButton, redoButton, adminMapToggle;
   @FXML TextField start, destination;
+  @FXML ListView startList, destList;
 
   @FXML AnchorPane mapPane;
 
@@ -59,31 +61,38 @@ public class MapController extends Application {
     discard.setVisible(adminMap);
   }
 
+  public void lookup(KeyEvent e) {
+    if (e.getSource() == start) {
+      ViewManager.lookupNodes(e, startList, start);
+    } else {
+      ViewManager.lookupNodes(e, destList, destination);
+    }
+  }
+
   private void setupMapViewHandlers() {
-    Group root = ViewManager.getRoot();
-    ((ListView) root.lookup("#startList"))
+    startList
         .getSelectionModel()
         .selectedItemProperty()
         .addListener(
             (ChangeListener<String>)
                 (ov, oldVal, newVal) -> {
-                  ((TextField) root.lookup("#start")).setText(newVal);
-                  root.lookup("#startList").setVisible(false);
+                  start.setText(newVal);
+                  startList.setVisible(false);
                 });
-    ((ListView) root.lookup("#destList"))
+    destList
         .getSelectionModel()
         .selectedItemProperty()
         .addListener(
             (ChangeListener<String>)
                 (ov, oldVal, newVal) -> {
-                  ((TextField) root.lookup("#destination")).setText(newVal);
-                  root.lookup("#destList").setVisible(false);
+                  destination.setText(newVal);
+                  destList.setVisible(false);
                 });
-    root.setOnMouseClicked(
+    mapPane.setOnMouseClicked(
         (MouseEvent evt) -> {
-          if (root.lookup("#mapPane") != null) {
-            root.lookup("#startList").setVisible(false);
-            root.lookup("#destList").setVisible(false);
+          if (mapPane != null) {
+            startList.setVisible(false);
+            destList.setVisible(false);
           }
         });
   }
@@ -118,7 +127,7 @@ public class MapController extends Application {
   @FXML
   public void drawPathBetweenNodes(String aName, String bName) {
     deletePath();
-    ViewManager.getRoot()
+    mapPane
         .getChildren()
         .removeIf(n -> (n.getClass() == Line.class) || (n.getClass() == Circle.class));
 
@@ -196,9 +205,9 @@ public class MapController extends Application {
         ApplicationDataController.getInstance()
             .getLoggedInUser()
             .hasPermission(User.Permission.EDIT_MAP);
-    ViewManager.getRoot().lookup("#adminMapToggle").setVisible(isAdmin);
-    ViewManager.getRoot().lookup("#undoButton").setVisible(false);
-    ViewManager.getRoot().lookup("#redoButton").setVisible(false);
+    adminMapToggle.setVisible(isAdmin);
+    undoButton.setVisible(false);
+    redoButton.setVisible(false);
     setupMapViewHandlers();
   }
 

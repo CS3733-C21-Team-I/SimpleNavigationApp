@@ -32,25 +32,15 @@ public class ViewManager {
   public ViewManager() {}
 
   public static void navigate(ActionEvent e) throws IOException {
-    Group root = getRoot();
+    Group root = new Group();
     Scene scene = ((Button) e.getSource()).getScene();
     String id = ((Button) e.getSource()).getId();
-    root.getChildren().clear();
     if (id.equals("mapReturn") || id.equals("requestsReturn") || id.equals("loginReturn")) {
       root.getChildren().add(FXMLLoader.load(ViewManager.class.getResource("/fxml/Home.fxml")));
     } else if (id.equals("sanitationReturn") || id.equals("maintenanceReturn")) {
       root.getChildren().add(FXMLLoader.load(ViewManager.class.getResource("/fxml/Requests.fxml")));
     } else if (id.equals("map")) {
-      // adminMap = false;
       root.getChildren().add(FXMLLoader.load(ViewManager.class.getResource("/fxml/Map.fxml")));
-      //      boolean isAdmin =
-      //          ApplicationDataController.getInstance()
-      //              .getLoggedInUser()
-      //              .hasPermission(User.Permission.EDIT_MAP);
-      //      root.lookup("#adminMapToggle").setVisible(isAdmin);
-      //      root.lookup("#undoButton").setVisible(false);
-      //      root.lookup("#redoButton").setVisible(false);
-      //      setupMapViewHandlers();
     } else if (id.equals("serviceRequests")) {
       root.getChildren().add(FXMLLoader.load(ViewManager.class.getResource("/fxml/Requests.fxml")));
     } else if (id.equals("maintenance")) {
@@ -65,7 +55,7 @@ public class ViewManager {
     scene.setRoot(root);
   }
 
-  public void lookupNodes(KeyEvent e, ListView listView, TextField target) {
+  public static void lookupNodes(KeyEvent e, ListView listView, TextField target) {
     String matchString =
         (((TextField) e.getSource()).getText()
                 + (!e.getCharacter().equals(Character.toString((char) 8)) ? e.getCharacter() : ""))

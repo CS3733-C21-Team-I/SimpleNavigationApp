@@ -19,29 +19,28 @@ import javafx.stage.Stage;
 
 public class ProfileController extends Application {
 
-  // ticket view population on init
   @FXML VBox requestContainer, loginVBox, serviceDisplay;
   @FXML TextField username;
   @FXML PasswordField password;
   @FXML Label headerLabel;
   public String uName;
   public static String pass;
+  @FXML ScrollPane requestScrollPane;
 
   public void navigate(ActionEvent e) throws IOException {
     ViewManager.navigate(e);
   }
 
   private void populateTicketsProfile() {
-    Group root = ViewManager.getRoot();
     if (ApplicationDataController.getInstance()
         .getLoggedInUser()
         .hasPermission(User.Permission.VIEW_TICKET)) {
       generateRequestList();
-      root.lookup("#loginVBox").setVisible(false);
-      root.lookup("#serviceDisplay").setVisible(true);
+      loginVBox.setVisible(false);
+      serviceDisplay.setVisible(true);
     } else {
-      root.lookup("#loginVBox").setVisible(true);
-      root.lookup("#serviceDisplay").setVisible(false);
+      loginVBox.setVisible(true);
+      serviceDisplay.setVisible(false);
     }
   }
 
@@ -73,13 +72,7 @@ public class ProfileController extends Application {
         requests.stream()
             .map(st -> st.getTicketType() + " #" + st.getTicketId())
             .collect(Collectors.toList());
-    VBox container =
-        (VBox)
-            ((ScrollPane)
-                    ViewManager.getRoot().lookup("#serviceDisplay").lookup("#requestScrollPane"))
-                .getContent()
-                .lookup("#requestContainer");
-    container.getStylesheets().add("/fxml/fxmlResources/main.css");
+    requestContainer.getStylesheets().add("/fxml/fxmlResources/main.css");
     for (int i = 0; i < requestNames.size(); i++) {
       Button requestButton = new Button(requestNames.get(i));
       int finalI = i;
@@ -93,10 +86,10 @@ public class ProfileController extends Application {
           });
       requestButton.getStyleClass().add("requestButton");
       requestButton.setMinHeight(50);
-      requestButton.setMaxWidth(container.getMaxWidth());
-      container.getChildren().add(requestButton);
+      requestButton.setMaxWidth(requestContainer.getMaxWidth());
+      requestContainer.getChildren().add(requestButton);
     }
-    ViewManager.getRoot().lookup("#serviceDisplay").lookup("#requestScrollPane").setVisible(true);
+    requestScrollPane.setVisible(true);
   }
 
   @FXML
