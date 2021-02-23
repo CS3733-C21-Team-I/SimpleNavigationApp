@@ -436,7 +436,6 @@ public class ApplicationView extends Application {
     mapPane.setVisible(adminMap);
     save.setVisible(adminMap);
     discard.setVisible(adminMap);
-
   }
 
   @FXML
