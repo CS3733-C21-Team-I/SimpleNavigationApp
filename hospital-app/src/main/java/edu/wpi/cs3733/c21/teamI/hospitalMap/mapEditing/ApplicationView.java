@@ -427,10 +427,29 @@ public class ApplicationView extends Application {
   @FXML
   public void saveChanges() {
     mapManager.getDataCont().saveChanges();
+    adminMap = !adminMap;
+    if (adminMap) {
+      mapManager.startEditorView(mapPane);
+    } else {
+      mapManager.setNodeMenuVisible(false);
+    }
+    mapPane.setVisible(adminMap);
+    save.setVisible(adminMap);
+    discard.setVisible(adminMap);
+
   }
 
   @FXML
   public void discardChanges() {
     mapManager.getDataCont().discardChanges();
+    adminMap = !adminMap;
+    if (adminMap) {
+      mapManager.startEditorView(mapPane);
+    } else {
+      mapManager.setNodeMenuVisible(false);
+    }
+    mapPane.setVisible(adminMap);
+    save.setVisible(adminMap);
+    discard.setVisible(adminMap);
   }
 }
