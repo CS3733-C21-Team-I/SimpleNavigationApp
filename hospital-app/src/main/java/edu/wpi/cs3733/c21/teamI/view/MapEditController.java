@@ -46,9 +46,7 @@ public class MapEditController extends Application {
   public void init() {}
 
   @FXML
-  public void initialize() {
-
-  }
+  public void initialize() {}
 
   @Override
   public void start(Stage primaryStage) {
