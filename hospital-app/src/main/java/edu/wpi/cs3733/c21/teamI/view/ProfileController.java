@@ -2,16 +2,13 @@ package edu.wpi.cs3733.c21.teamI.view;
 
 import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
 import edu.wpi.cs3733.c21.teamI.database.ServiceTicketDatabaseManager;
-import edu.wpi.cs3733.c21.teamI.view.MapEditManager;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicket;
 import edu.wpi.cs3733.c21.teamI.user.User;
 import javafx.application.Application;
-import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -34,7 +31,8 @@ public class ProfileController extends Application {
 	public String uName;
 	public static String pass;
 
-	public void navigate(ActionEvent e) throws IOException {ApplicationView.navigate(e);}
+	public void navigate(ActionEvent e) throws IOException {
+		ViewManager.navigate(e);}
 
 	private void populateTicketsProfile() {
 		Group root = mapManager.getRoot();
@@ -48,35 +46,6 @@ public class ProfileController extends Application {
 			root.lookup("#loginVBox").setVisible(true);
 			root.lookup("#serviceDisplay").setVisible(false);
 		}
-	}
-
-	private void setupMapViewHandlers() {
-		Group root = mapManager.getRoot();
-		((ListView) root.lookup("#startList"))
-				.getSelectionModel()
-				.selectedItemProperty()
-				.addListener(
-						(ChangeListener<String>)
-								(ov, oldVal, newVal) -> {
-									((TextField) root.lookup("#start")).setText(newVal);
-									root.lookup("#startList").setVisible(false);
-								});
-		((ListView) root.lookup("#destList"))
-				.getSelectionModel()
-				.selectedItemProperty()
-				.addListener(
-						(ChangeListener<String>)
-								(ov, oldVal, newVal) -> {
-									((TextField) root.lookup("#destination")).setText(newVal);
-									root.lookup("#destList").setVisible(false);
-								});
-		root.setOnMouseClicked(
-				(MouseEvent evt) -> {
-					if (root.lookup("#mapPane") != null) {
-						root.lookup("#startList").setVisible(false);
-						root.lookup("#destList").setVisible(false);
-					}
-				});
 	}
 
 	@FXML

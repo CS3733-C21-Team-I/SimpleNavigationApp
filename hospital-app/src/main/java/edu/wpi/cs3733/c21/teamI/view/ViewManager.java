@@ -1,9 +1,7 @@
 package edu.wpi.cs3733.c21.teamI.view;
 
-import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
 import edu.wpi.cs3733.c21.teamI.database.NavDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.LocationNode;
-import edu.wpi.cs3733.c21.teamI.user.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -20,34 +18,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
-public class ApplicationView {
+public class ViewManager {
   private static MapEditManager ourManager;
-  private final MapEditManager mapManager;
 
-  @FXML
-  Button
-          map,
-          serviceRequests,
-          mapReturn,
-          requestsReturn,
-          sanitationReturn,
-          maintenanceReturn,
-          loginReturn,
-          maintenance,
-          profile;
-
-  @FXML ListView serviceLocationList;
-  @FXML ListView startList, destList;
-
-  @FXML TextField requestLocation;
-
-  public ApplicationView() {
-    this.mapManager = ourManager;
-  }
-
-  public ApplicationView(MapEditManager mapManager) {
-    this.mapManager = mapManager;
-  }
+  public ViewManager() { }
 
   public static void saveManager() {
     ourManager = new MapEditManager().getInstance();
@@ -69,40 +43,37 @@ public class ApplicationView {
 //  }
 
   public static void navigate(ActionEvent e) throws IOException {
-    Group root = mapManager.getRoot();
+    Group root = ourManager.getRoot();
     Scene scene = ((Button) e.getSource()).getScene();
+    String id = ((Button) e.getSource()).getId();
     root.getChildren().clear();
-    if (e.getSource() == mapReturn
-        || e.getSource() == requestsReturn
-        || e.getSource() == loginReturn) {
-      root.getChildren().add(FXMLLoader.load(getClass().getResource("/fxml/Home.fxml")));
-    } else if (e.getSource() == sanitationReturn || e.getSource() == maintenanceReturn) {
-      root.getChildren().add(FXMLLoader.load(getClass().getResource("/fxml/Requests.fxml")));
-    } else if (e.getSource() == map) {
-      adminMap = false;
-      root.getChildren().add(FXMLLoader.load(getClass().getResource("/fxml/Map.fxml")));
-      boolean isAdmin =
-          ApplicationDataController.getInstance()
-              .getLoggedInUser()
-              .hasPermission(User.Permission.EDIT_MAP);
-      root.lookup("#adminMapToggle").setVisible(isAdmin);
-      root.lookup("#undoButton").setVisible(false);
-      root.lookup("#redoButton").setVisible(false);
-      setupMapViewHandlers();
-    } else if (e.getSource() == serviceRequests) {
-      root.getChildren().add(FXMLLoader.load(getClass().getResource("/fxml/Requests.fxml")));
-    } else if (e.getSource() == maintenance) {
-      root.getChildren()
-          .add(FXMLLoader.load(getClass().getResource("/fxml/MaintenanceRequest.fxml")));
-    } else if (e.getSource() == profile) {
-      root.getChildren().add(FXMLLoader.load(getClass().getResource("/fxml/Profile.fxml")));
-      populateTicketsProfile();
+    if (id.equals("mapReturn") || id.equals("requestsReturn") || id.equals("loginReturn")) {
+      root.getChildren().add(FXMLLoader.load(ViewManager.class.getResource("/fxml/Home.fxml")));
+    } else if (id.equals("sanitationReturn") || id.equals("maintenanceReturn")) {
+      root.getChildren().add(FXMLLoader.load(ViewManager.class.getResource("/fxml/Requests.fxml")));
+    } else if (id.equals("map")) {
+      //adminMap = false;
+      root.getChildren().add(FXMLLoader.load(ViewManager.class.getResource("/fxml/Map.fxml")));
+//      boolean isAdmin =
+//          ApplicationDataController.getInstance()
+//              .getLoggedInUser()
+//              .hasPermission(User.Permission.EDIT_MAP);
+//      root.lookup("#adminMapToggle").setVisible(isAdmin);
+//      root.lookup("#undoButton").setVisible(false);
+//      root.lookup("#redoButton").setVisible(false);
+//      setupMapViewHandlers();
+    } else if (id.equals("serviceRequests")) {
+      root.getChildren().add(FXMLLoader.load(ViewManager.class.getResource("/fxml/Requests.fxml")));
+    } else if (id.equals("maintenance")) {
+      root.getChildren().add(FXMLLoader.load(ViewManager.class.getResource("/fxml/MaintenanceRequest.fxml")));
+    } else if (id.equals("profile")) {
+      root.getChildren().add(FXMLLoader.load(ViewManager.class.getResource("/fxml/Profile.fxml")));
+//      populateTicketsProfile();
     } else {
-      root.getChildren()
-          .add(FXMLLoader.load(getClass().getResource("/fxml/SanitationRequest.fxml")));
-      setupRequestView();
+      root.getChildren().add(FXMLLoader.load(ViewManager.class.getResource("/fxml/SanitationRequest.fxml")));
+//      setupRequestView();
     }
-    mapManager.setRoot(root);
+    ourManager.setRoot(root);
     scene.setRoot(root);
   }
 
@@ -122,16 +93,6 @@ public class ApplicationView {
 //    }
 //    initClock();
 //  }
-
-  public void lookup(KeyEvent e) {
-    if (e.getSource() == start) {
-      lookupNodes(e, startList, start);
-    } else if (e.getSource() == destination) {
-      lookupNodes(e, destList, destination);
-    } else if (e.getSource() == requestLocation) {
-      lookupNodes(e, serviceLocationList, requestLocation);
-    }
-  }
 
   public void lookupNodes(KeyEvent e, ListView listView, TextField target) {
     String matchString =

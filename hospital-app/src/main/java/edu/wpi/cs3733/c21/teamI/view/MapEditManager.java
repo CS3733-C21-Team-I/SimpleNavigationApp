@@ -14,7 +14,7 @@ public class MapEditManager {
   private static MapEditManager ourInstance;
   private double scale = 3.05; // scales image to 1/scale
   private MapEditController mapEditorView = null;
-  private ApplicationView applicationView = null;
+  private ViewManager applicationView = null;
   protected AnchorPane mapPane = null;
   private Group root = null;
   private Stage stage = null;
@@ -59,19 +59,19 @@ public class MapEditManager {
     return dataCont.getActiveMap().getNodes();
   }
 
-  public void startEditorView(AnchorPane mapPane) {
-    this.mapPane = mapPane;
-    mapEditorView = new MapEditController(this);
-    System.out.println(stage);
-    mapEditorView.start(stage);
-    MapEditController.saveManager();
-  }
-
-  public void startApplicationView() {
-    this.root = new Group();
-    applicationView = new ApplicationView(this);
-    ApplicationView.saveManager();
-  }
+//  public void startEditorView(AnchorPane mapPane) {
+//    this.mapPane = mapPane;
+//    mapEditorView = new MapEditController(this);
+//    System.out.println(stage);
+//    mapEditorView.start(stage);
+//    MapEditController.saveManager();
+//  }
+//
+//  public void startApplicationView() {
+//    this.root = new Group();
+//    applicationView = new ViewManager();
+//    ViewManager.saveManager();
+//  }
 
   public void setNodeMenuVisible(boolean visible) {
     this.mapEditorView.hideNodeMenu(visible);
@@ -113,9 +113,5 @@ public class MapEditManager {
 
   public void setSelectedNode(HospitalMapNode node) {
     this.selectedNode = node;
-  }
-
-  public void generateRequestList() {
-    this.applicationView.generateRequestList();
   }
 }

@@ -4,13 +4,16 @@ import edu.wpi.cs3733.c21.teamI.database.NavDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.EuclidianDistCalc;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMapNode;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.LocationNode;
-import edu.wpi.cs3733.c21.teamI.view.MapEditManager;
 import edu.wpi.cs3733.c21.teamI.pathfinding.PathFinder;
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Group;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -62,7 +65,37 @@ public class MapController extends Application {
 		discard.setVisible(adminMap);
 	}
 
-	public void navigate(ActionEvent e) throws IOException {ApplicationView.navigate(e);}
+	private void setupMapViewHandlers() {
+		Group root = mapManager.getRoot();
+		((ListView) root.lookup("#startList"))
+				.getSelectionModel()
+				.selectedItemProperty()
+				.addListener(
+						(ChangeListener<String>)
+								(ov, oldVal, newVal) -> {
+									((TextField) root.lookup("#start")).setText(newVal);
+									root.lookup("#startList").setVisible(false);
+								});
+		((ListView) root.lookup("#destList"))
+				.getSelectionModel()
+				.selectedItemProperty()
+				.addListener(
+						(ChangeListener<String>)
+								(ov, oldVal, newVal) -> {
+									((TextField) root.lookup("#destination")).setText(newVal);
+									root.lookup("#destList").setVisible(false);
+								});
+		root.setOnMouseClicked(
+				(MouseEvent evt) -> {
+					if (root.lookup("#mapPane") != null) {
+						root.lookup("#startList").setVisible(false);
+						root.lookup("#destList").setVisible(false);
+					}
+				});
+	}
+
+	public void navigate(ActionEvent e) throws IOException {
+		ViewManager.navigate(e);}
 
 	@FXML
 	public void getDirections(ActionEvent e) {

@@ -1,7 +1,6 @@
 package edu.wpi.cs3733.c21.teamI.view;
 
 import edu.wpi.cs3733.c21.teamI.database.ServiceTicketDatabaseManager;
-import edu.wpi.cs3733.c21.teamI.view.MapEditManager;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicket;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
@@ -88,7 +87,8 @@ public class ServiceFormController extends Application {
 		}
 	}
 
-	public void navigate(ActionEvent e) throws IOException {ApplicationView.navigate(e);}
+	public void navigate(ActionEvent e) throws IOException {
+		ViewManager.navigate(e);}
 
 	private void setupRequestView() {
 		Group root = mapManager.getRoot();

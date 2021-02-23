@@ -1,9 +1,7 @@
 package edu.wpi.cs3733.c21.teamI.view;
 
 import edu.wpi.cs3733.c21.teamI.database.UserDatabaseManager;
-import edu.wpi.cs3733.c21.teamI.view.MapEditManager;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicket;
-import java.io.IOException;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,6 +13,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+
 public class RequestDisplayController extends Application {
 
   private ServiceTicket serviceTicket;
@@ -23,16 +23,17 @@ public class RequestDisplayController extends Application {
   private AnchorPane newLoadedPane;
   private String title;
 
-  //  @FXML TextField type, ticketID, requestID, assignmentID, locationBox;
-  //  @FXML TextArea description;
-  //  @FXML Label header;
-  //  @FXML CheckBox completed;
+    @FXML TextField type, ticketID, requestID, assignmentID, locationBox;
+    @FXML TextArea description;
+    @FXML Label header;
+    @FXML CheckBox completed;
 
   public RequestDisplayController() {
     this.mapManager = ourManager;
   }
 
-  public void navigate(ActionEvent e) throws IOException {ApplicationView.navigate(e);}
+  public void navigate(ActionEvent e) throws IOException {
+    ViewManager.navigate(e);}
 
   public RequestDisplayController(MapEditManager mapManager, ServiceTicket serviceTicket) {
     this.mapManager = mapManager;
@@ -67,6 +68,7 @@ public class RequestDisplayController extends Application {
 
   @FXML
   private void populatePage() {
+    //use fxml IDs
     Label header = (Label) newLoadedPane.getChildren().get(0);
     VBox vbox = (VBox) newLoadedPane.getChildren().get(2);
     TextField type = (TextField) vbox.getChildren().get(1);
@@ -110,6 +112,5 @@ public class RequestDisplayController extends Application {
                 .getContent()
                 .lookup("#requestContainer"));
     ourManager.setRoot(root);
-    ourManager.generateRequestList();
   }
 }

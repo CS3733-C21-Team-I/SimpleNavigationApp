@@ -2,12 +2,6 @@ package edu.wpi.cs3733.c21.teamI.view;
 
 import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMapNode;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.LocationNode;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicInteger;
-
-import edu.wpi.cs3733.c21.teamI.view.MapEditManager;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -24,6 +18,11 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.LineBuilder;
 import javafx.stage.Stage;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class MapEditController extends Application {
 
@@ -171,7 +170,8 @@ public class MapEditController extends Application {
     return new String("BadSol" + idGen.incrementAndGet());
   }
 
-  public void navigate(ActionEvent e) throws IOException {ApplicationView.navigate(e);}
+  public void navigate(ActionEvent e) throws IOException {
+      ViewManager.navigate(e);}
 
   public void update() {
     mapPane.getChildren().clear();
