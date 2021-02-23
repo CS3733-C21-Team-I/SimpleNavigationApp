@@ -3,6 +3,7 @@ package edu.wpi.cs3733.c21.teamI.hospitalMap;
 import edu.wpi.cs3733.c21.teamI.pathfinding.GraphNode;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class HospitalMapNode implements GraphNode<HospitalMapNode>, Cloneable {
 
@@ -92,5 +93,18 @@ public class HospitalMapNode implements GraphNode<HospitalMapNode>, Cloneable {
 
   public String getMapID() {
     return mapID;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    HospitalMapNode node = (HospitalMapNode) o;
+    return id.equals(node.id);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id);
   }
 }
