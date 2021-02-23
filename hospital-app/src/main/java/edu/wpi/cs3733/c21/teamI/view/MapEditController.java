@@ -2,6 +2,10 @@ package edu.wpi.cs3733.c21.teamI.view;
 
 import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMapNode;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.LocationNode;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicInteger;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -19,16 +23,9 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.LineBuilder;
 import javafx.stage.Stage;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicInteger;
-
 public class MapEditController extends Application {
 
   private double scale;
-  private final MapEditManager mapManager;
-  private static MapEditManager ourManager;
   private AnchorPane newLoadedPane;
   private Button deleteBtn, saveBtn;
   private Button undoBtn;
@@ -37,47 +34,33 @@ public class MapEditController extends Application {
   private HospitalMapNode movingNode;
   private AnchorPane mapPane;
 
-  public MapEditController() {
-    this.mapManager = ourManager;
-  }
-
-  public MapEditController(MapEditManager mapManager) {
-    this.mapManager = mapManager;
-    this.scale = mapManager.getScale();
-  }
-
-  public static void saveManager() {
-    ourManager = new MapEditManager().getInstance();
-  }
-
   @Override
   public void init() throws Exception {}
 
   @Override
   public void start(Stage primaryStage) {
     loadFXML();
-    primaryStage.setTitle("Map Editor");
     primaryStage.show();
-    mapManager.setStage(primaryStage);
+    ViewManager.setStage(primaryStage);
     deleteBtn = (Button) newLoadedPane.lookup("#nodeDeleteButton");
     saveBtn = (Button) newLoadedPane.lookup("#saveButton");
-    undoBtn = (Button) mapManager.getRoot().lookup("#undoButton");
-    redoBtn = (Button) mapManager.getRoot().lookup("#redoButton");
+    undoBtn = (Button) ViewManager.getRoot().lookup("#undoButton");
+    redoBtn = (Button) ViewManager.getRoot().lookup("#redoButton");
     setAddNodeHander();
-    newLoadedPane.setVisible(mapManager.getSelectedNode() != null);
+    newLoadedPane.setVisible(ViewManager.getSelectedNode() != null);
     undoBtn.setVisible(false);
     redoBtn.setVisible(false);
     undoBtn.setOnAction(
         e -> {
-          if (mapManager.getDataCont().isUndoAvailable()) {
-            mapManager.getDataCont().undo();
+          if (ViewManager.getDataCont().isUndoAvailable()) {
+            ViewManager.getDataCont().undo();
           }
           update();
         });
     redoBtn.setOnAction(
         e -> {
-          if (mapManager.getDataCont().isRedoAvailable()) {
-            mapManager.getDataCont().redo();
+          if (ViewManager.getDataCont().isRedoAvailable()) {
+            ViewManager.getDataCont().redo();
           }
           update();
         });
@@ -106,7 +89,7 @@ public class MapEditController extends Application {
       LocationNode newNode = (LocationNode) node;
       newNode.setShortName(sName);
       newNode.setLongName(lName);
-      mapManager.getDataCont().editNode(node.getID(), newNode);
+      ViewManager.getDataCont().editNode(node.getID(), newNode);
     } catch (ClassCastException e) {
       LocationNode newNode =
           new LocationNode(
@@ -118,8 +101,8 @@ public class MapEditController extends Application {
               lName,
               "I",
               node.getConnections());
-      mapManager.getDataCont().deleteNode(node.getID());
-      mapManager.getDataCont().addNode(newNode);
+      ViewManager.getDataCont().deleteNode(node.getID());
+      ViewManager.getDataCont().addNode(newNode);
     }
   }
 
@@ -128,7 +111,7 @@ public class MapEditController extends Application {
       newLoadedPane = FXMLLoader.load(getClass().getResource("/fxml/EditNodePane.fxml"));
       AnchorPane.setBottomAnchor(newLoadedPane, 0.0);
       AnchorPane.setRightAnchor(newLoadedPane, 0.0);
-      mapManager.getRoot().getChildren().add(newLoadedPane);
+      ViewManager.getRoot().getChildren().add(newLoadedPane);
     } catch (FileNotFoundException e) {
       System.out.println("File not found");
     } catch (IOException e) {
@@ -146,13 +129,12 @@ public class MapEditController extends Application {
             e -> {
               if (e.getButton() == MouseButton.SECONDARY) {
                 // definitely need a better way of making an ID
-                System.out.println("map ID: " + mapManager.getMapID());
-                mapManager
-                    .getDataCont()
+                System.out.println("map ID: " + ViewManager.getMapID());
+                ViewManager.getDataCont()
                     .addNode(
                         new HospitalMapNode(
                             randomGenerate(),
-                            mapManager.getMapID(),
+                            ViewManager.getMapID(),
                             (int) ((e.getX() * scale) + 10),
                             (int) ((e.getY() * scale) + 10),
                             new ArrayList<>()));
@@ -171,18 +153,19 @@ public class MapEditController extends Application {
   }
 
   public void navigate(ActionEvent e) throws IOException {
-      ViewManager.navigate(e);}
+    ViewManager.navigate(e);
+  }
 
   public void update() {
     mapPane.getChildren().clear();
     drawSelectedNode();
-    for (HospitalMapNode node : mapManager.getEntityNodes()) {
+    for (HospitalMapNode node : ViewManager.getEntityNodes()) {
       drawEdges(node);
     }
-    for (HospitalMapNode node : mapManager.getEntityNodes()) {
+    for (HospitalMapNode node : ViewManager.getEntityNodes()) {
       makeNodeCircle(node);
     }
-    if (mapManager.getDataCont().isUndoAvailable()) {
+    if (ViewManager.getDataCont().isUndoAvailable()) {
       undoBtn.setOpacity(1);
       System.out.println("making undo full");
     } else {
@@ -190,7 +173,7 @@ public class MapEditController extends Application {
       System.out.println("making undo gray");
     }
 
-    if (mapManager.getDataCont().isRedoAvailable()) {
+    if (ViewManager.getDataCont().isRedoAvailable()) {
       redoBtn.setOpacity(1);
       System.out.println("making redo full");
     } else {
@@ -200,11 +183,11 @@ public class MapEditController extends Application {
   }
 
   private void drawSelectedNode() {
-    if (mapManager.getSelectedNode() != null) {
+    if (ViewManager.getSelectedNode() != null) {
       Circle circle = new Circle();
       circle.setFill(Color.PURPLE);
-      circle.setCenterX((mapManager.getSelectedNode().getxCoord() / scale) - 3);
-      circle.setCenterY((mapManager.getSelectedNode().getyCoord() / scale) - 3);
+      circle.setCenterX((ViewManager.getSelectedNode().getxCoord() / scale) - 3);
+      circle.setCenterY((ViewManager.getSelectedNode().getyCoord() / scale) - 3);
       circle.setRadius(20 / scale);
       AnchorPane root = mapPane;
       root.getChildren().add(circle);
@@ -216,7 +199,7 @@ public class MapEditController extends Application {
     Image xIconImg = new Image("/fxml/fxmlResources/redxicon.png");
 
     for (HospitalMapNode child : parent.getConnections()) {
-      if (mapManager.getEntityNodes().contains(child)) {
+      if (ViewManager.getEntityNodes().contains(child)) {
         ImageView xMarker = new ImageView();
         xMarker.setImage(xIconImg);
         xMarker.setFitHeight(12);
@@ -250,7 +233,7 @@ public class MapEditController extends Application {
         line.setOnMouseClicked(
             t -> {
               root.getChildren().remove(line);
-              mapManager.getDataCont().deleteEdge(parent.getID(), child.getID());
+              ViewManager.getDataCont().deleteEdge(parent.getID(), child.getID());
               update();
             });
         xMarker.setOnMouseEntered(
@@ -260,7 +243,7 @@ public class MapEditController extends Application {
         xMarker.setOnMouseClicked(
             t -> {
               root.getChildren().remove(line);
-              mapManager.getDataCont().deleteEdge(parent.getID(), child.getID());
+              ViewManager.getDataCont().deleteEdge(parent.getID(), child.getID());
               update();
             });
         xMarker.setOnMouseExited(
@@ -280,10 +263,7 @@ public class MapEditController extends Application {
     circle.setOnMouseEntered(
         t -> {
           Circle newCircle =
-              (Circle)
-                  mapPane
-                      .getChildren()
-                      .get(mapPane.getChildren().indexOf(circle));
+              (Circle) mapPane.getChildren().get(mapPane.getChildren().indexOf(circle));
           newCircle.setFill(Color.YELLOW);
           circle.setStyle("-fx-cursor: hand");
         });
@@ -292,16 +272,16 @@ public class MapEditController extends Application {
         t -> {
           if (t.getButton() == MouseButton.PRIMARY) {
             if (!isDrag) {
-              mapManager.toggleNode(node);
+              ViewManager.toggleNode(node);
             } else {
-              mapManager.setSelectedNode(null);
+              ViewManager.setSelectedNode(null);
               isDrag = false;
-              mapManager.getDataCont().editNode(movingNode.getID(), movingNode);
+              ViewManager.getDataCont().editNode(movingNode.getID(), movingNode);
             }
             deleteBtn.setOnAction(
                 e -> {
-                  mapManager.toggleNode(node);
-                  mapManager.getDataCont().deleteNode(node.getID());
+                  ViewManager.toggleNode(node);
+                  ViewManager.getDataCont().deleteNode(node.getID());
                   update();
                 });
 
@@ -320,10 +300,7 @@ public class MapEditController extends Application {
     circle.setOnMouseExited(
         t -> {
           Circle newCircle =
-              (Circle)
-                  mapPane
-                      .getChildren()
-                      .get(mapPane.getChildren().indexOf(circle));
+              (Circle) mapPane.getChildren().get(mapPane.getChildren().indexOf(circle));
           newCircle.setFill(Color.RED);
           newCircle.setRadius(12 / scale);
           circle.setStyle("-fx-cursor: default");
@@ -332,10 +309,7 @@ public class MapEditController extends Application {
     circle.setOnMouseDragged(
         t -> {
           Circle newCircle =
-              (Circle)
-                  mapPane
-                      .getChildren()
-                      .get(mapPane.getChildren().indexOf(circle));
+              (Circle) mapPane.getChildren().get(mapPane.getChildren().indexOf(circle));
           newCircle.setFill(Color.YELLOW);
           newCircle.setCenterX(t.getSceneX());
           newCircle.setCenterY(t.getSceneY());

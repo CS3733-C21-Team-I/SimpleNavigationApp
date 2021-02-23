@@ -2,6 +2,7 @@ package edu.wpi.cs3733.c21.teamI.view;
 
 import edu.wpi.cs3733.c21.teamI.database.UserDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicket;
+import java.io.IOException;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,35 +14,23 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-
 public class RequestDisplayController extends Application {
 
   private ServiceTicket serviceTicket;
-  private MapEditManager mapManager;
-  private static MapEditManager ourManager;
-  private AnchorPane newLoadedPane;
+  private AnchorPane root;
   private String title;
 
-    @FXML TextField type, ticketID, requestID, assignmentID, locationBox;
-    @FXML TextArea description;
-    @FXML Label header;
-    @FXML CheckBox completed;
-
-  public RequestDisplayController() {
-    this.mapManager = ourManager;
-  }
+  @FXML TextField type, ticketID, requestID, assignmentID, locationBox;
+  @FXML TextArea description;
+  @FXML Label header;
+  @FXML CheckBox completed;
 
   public void navigate(ActionEvent e) throws IOException {
-    ViewManager.navigate(e);}
-
-  public RequestDisplayController(MapEditManager mapManager, ServiceTicket serviceTicket) {
-    this.mapManager = mapManager;
-    this.serviceTicket = serviceTicket;
+    ViewManager.navigate(e);
   }
 
-  public static void saveManager() {
-    ourManager = new MapEditManager().getInstance();
+  public RequestDisplayController(ServiceTicket serviceTicket) {
+    this.serviceTicket = serviceTicket;
   }
 
   @Override
@@ -49,28 +38,25 @@ public class RequestDisplayController extends Application {
 
   @Override
   public void start(Stage primaryStage) throws IOException {
-    Group root = new Group();
-    newLoadedPane = FXMLLoader.load(getClass().getResource("/fxml/RequestDisplay.fxml"));
-    root.getChildren().add(newLoadedPane);
+    this.root = FXMLLoader.load(getClass().getResource("/fxml/RequestDisplay.fxml"));
+    root.getChildren().add(this.root);
     this.title = serviceTicket.getTicketType().toString().toLowerCase();
     primaryStage.setTitle(
         title.substring(0, 1).toUpperCase()
             + title.substring(1)
             + " #"
             + serviceTicket.getTicketId());
-    mapManager.setRoot(root);
     Scene applicationScene = new Scene(root, 973, 800);
     primaryStage.setScene(applicationScene);
-    mapManager.setStage(primaryStage);
     primaryStage.show();
     populatePage();
   }
 
   @FXML
   private void populatePage() {
-    //use fxml IDs
-    Label header = (Label) newLoadedPane.getChildren().get(0);
-    VBox vbox = (VBox) newLoadedPane.getChildren().get(2);
+    // use fxml IDs
+    Label header = (Label) root.getChildren().get(0);
+    VBox vbox = (VBox) root.getChildren().get(2);
     TextField type = (TextField) vbox.getChildren().get(1);
     TextField ticketID = (TextField) vbox.getChildren().get(3);
     TextField requestID = (TextField) vbox.getChildren().get(5);
@@ -105,12 +91,5 @@ public class RequestDisplayController extends Application {
     root.getChildren().add(FXMLLoader.load(getClass().getResource("/fxml/Profile.fxml")));
     root.lookup("#loginVBox").setVisible(false);
     root.lookup("#serviceDisplay").setVisible(true);
-    System.out.println(root);
-    System.out.println(
-        "THING WE WANT "
-            + ((ScrollPane) root.lookup("#serviceDisplay").lookup("#requestScrollPane"))
-                .getContent()
-                .lookup("#requestContainer"));
-    ourManager.setRoot(root);
   }
 }
