@@ -211,6 +211,7 @@ public class MapEditView extends Application {
             if (!isDrag) {
               mapManager.toggleNode(node);
             } else {
+              mapManager.setSelectedNode(null);
               isDrag = false;
             }
             deleteBtn.setOnAction(
