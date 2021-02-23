@@ -73,6 +73,20 @@ class EditNodeCommand extends MapEditCommand {
     //    if (nodeToRemove == null)
     //      throw new IllegalArgumentException("Node to edit was not included within activeMap");
 
+    for (HospitalMapNode node : controller.getActiveMap().getNodes()) {
+      boolean connected = false;
+      for (HospitalMapNode connection : node.getConnections()) {
+        if (connection.getID() == nodeEditedId) {
+          connected = true;
+          break;
+        }
+      }
+      if (connected) {
+        node.getConnections().remove(controller.getActiveMap().getNode(nodeEditedId));
+        node.getConnections().add(newNode);
+      }
+    }
+
     controller.getActiveMap().removeNode(nodeEditedId);
 
     controller.getActiveMap().getNodes().add(newNode);

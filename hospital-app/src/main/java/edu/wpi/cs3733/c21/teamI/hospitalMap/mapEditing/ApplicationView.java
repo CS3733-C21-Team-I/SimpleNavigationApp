@@ -1,8 +1,10 @@
 package edu.wpi.cs3733.c21.teamI.hospitalMap.mapEditing;
 
 import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
+import edu.wpi.cs3733.c21.teamI.database.NavDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.database.ServiceTicketDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.EuclidianDistCalc;
+import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMapCSVBuilder;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMapNode;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.LocationNode;
 import edu.wpi.cs3733.c21.teamI.pathfinding.PathFinder;
@@ -50,13 +52,15 @@ public class ApplicationView extends Application {
       loginReturn,
       maintenance,
       adminMapToggle,
-      login;
-  @FXML ImageView mapImage, adminPath;
-  @FXML TextField start, destination;
+      profile,
+      undoButton,
+      redoButton;
+  @FXML ImageView mapImage;
+  @FXML TextField start, destination, requestLocation;
   @FXML Label dateTime;
   @FXML AnchorPane mapPane;
   @FXML Button loginButton;
-  @FXML VBox requestContainer;
+  @FXML VBox requestContainer, loginVBox, serviceDisplay;
   @FXML TextField username;
   @FXML PasswordField password;
   @FXML Label headerLabel;
@@ -71,7 +75,7 @@ public class ApplicationView extends Application {
   private static MapEditManager ourManager;
   private final MapEditManager mapManager;
   @FXML ScrollPane requestScrollPane;
-  @FXML ListView startList, destList;
+  @FXML ListView startList, destList, serviceLocationList;
 
   public ApplicationView() {
     this.mapManager = ourManager;
@@ -119,20 +123,55 @@ public class ApplicationView extends Application {
               .getLoggedInUser()
               .hasPermission(User.Permission.EDIT_MAP);
       root.lookup("#adminMapToggle").setVisible(isAdmin);
+      root.lookup("#undoButton").setVisible(false);
+      root.lookup("#redoButton").setVisible(false);
       setupMapViewHandlers();
     } else if (e.getSource() == serviceRequests) {
       root.getChildren().add(FXMLLoader.load(getClass().getResource("/fxml/Requests.fxml")));
     } else if (e.getSource() == maintenance) {
       root.getChildren()
           .add(FXMLLoader.load(getClass().getResource("/fxml/MaintenanceRequest.fxml")));
-    } else if (e.getSource() == login) {
-      root.getChildren().add(FXMLLoader.load(getClass().getResource("/fxml/Login.fxml")));
+    } else if (e.getSource() == profile) {
+      root.getChildren().add(FXMLLoader.load(getClass().getResource("/fxml/Profile.fxml")));
+      populateTicketsProfile();
     } else {
       root.getChildren()
           .add(FXMLLoader.load(getClass().getResource("/fxml/SanitationRequest.fxml")));
+      setupRequestView();
     }
     mapManager.setRoot(root);
     scene.setRoot(root);
+  }
+
+  private void populateTicketsProfile() {
+    Group root = mapManager.getRoot();
+    if (ApplicationDataController.getInstance()
+        .getLoggedInUser()
+        .hasPermission(User.Permission.VIEW_TICKET)) {
+      generateRequestList();
+      root.lookup("#loginVBox").setVisible(false);
+      root.lookup("#serviceDisplay").setVisible(true);
+    } else {
+      root.lookup("#loginVBox").setVisible(true);
+      root.lookup("#serviceDisplay").setVisible(false);
+    }
+  }
+
+  private void setupRequestView() {
+    Group root = mapManager.getRoot();
+    ((ListView) root.lookup("#serviceLocationList"))
+        .getSelectionModel()
+        .selectedItemProperty()
+        .addListener(
+            (ChangeListener<String>)
+                (ov, oldVal, newVal) -> {
+                  ((TextField) root.lookup("#requestLocation")).setText(newVal);
+                  root.lookup("#serviceLocationList").setVisible(false);
+                });
+    root.setOnMouseClicked(
+        (MouseEvent evt) -> {
+          root.lookup("#serviceLocationList").setVisible(false);
+        });
   }
 
   private void setupMapViewHandlers() {
@@ -157,13 +196,16 @@ public class ApplicationView extends Application {
                 });
     root.setOnMouseClicked(
         (MouseEvent evt) -> {
-          root.lookup("#startList").setVisible(false);
-          root.lookup("#destList").setVisible(false);
+          if (root.lookup("#mapPane") != null) {
+            root.lookup("#startList").setVisible(false);
+            root.lookup("#destList").setVisible(false);
+          }
         });
   }
 
   public LocationNode getNodeByLongName(String longName) {
-    for (HospitalMapNode node : mapManager.getDataCont().getActiveMap().getNodes()) {
+    for (HospitalMapNode node :
+        NavDatabaseManager.getInstance().loadMapsFromMemory().get("Faulkner 0").getNodes()) {
       if (node.getClass() == LocationNode.class
           && ((LocationNode) node).getLongName().equals(longName)) {
         return (LocationNode) node;
@@ -174,6 +216,17 @@ public class ApplicationView extends Application {
 
   @FXML
   public void initialize() {
+    if (serviceRequests != null) {
+      if (ApplicationDataController.getInstance()
+          .getLoggedInUser()
+          .hasPermission(User.Permission.VIEW_TICKET)) {
+        serviceRequests.setMaxWidth(map.getMaxWidth());
+        serviceRequests.setVisible(true);
+      } else {
+        serviceRequests.setMaxWidth(0);
+        serviceRequests.setVisible(false);
+      }
+    }
     initClock();
   }
 
@@ -198,13 +251,31 @@ public class ApplicationView extends Application {
 
   @FXML
   public void toggleEditMap(ActionEvent e) {
-    mapManager.startEditorView(mapPane);
     adminMap = !adminMap;
+    if (adminMap) {
+      mapManager
+          .getDataCont()
+          .setActiveMap(NavDatabaseManager.getInstance().loadMapsFromMemory().get("Faulkner 0"));
+      mapManager.startEditorView(mapPane);
+      undoButton.setVisible(true);
+      redoButton.setVisible(true);
+    } else {
+      mapManager.setNodeMenuVisible(false);
+      mapManager.getDataCont().discardChanges();
+      undoButton.setVisible(false);
+      redoButton.setVisible(false);
+    }
+    mapPane.setVisible(adminMap);
   }
 
   @FXML
   public void exit() {
     mapManager.getStage().close();
+
+    HospitalMapCSVBuilder.saveCSV(
+        NavDatabaseManager.getInstance().loadMapsFromMemory().values(),
+        "csv/MapINewNodes.csv",
+        "csv/MapINewEdgers.csv");
   }
 
   @FXML
@@ -212,6 +283,8 @@ public class ApplicationView extends Application {
     uName = username.getText();
     pass = password.getText();
     if (ApplicationDataController.getInstance().logInUser(uName, pass)) {
+      loginVBox.setVisible(false);
+      serviceDisplay.setVisible(true);
       headerLabel.setText("You successfully logged in.");
       System.out.println(uName + ' ' + pass);
       if (ApplicationDataController.getInstance()
@@ -224,19 +297,8 @@ public class ApplicationView extends Application {
     }
   }
 
-  private void generateRequestList() {
-    //    ServiceTicket ticket1 =
-    //        new ServiceTicket(
-    //            11, 12, 13, ServiceTicket.TicketType.MAINTENANCE, "somewhere", "info", false);
-    //    ServiceTicket ticket2 =
-    //        new ServiceTicket(
-    //            21, 22, 23, ServiceTicket.TicketType.LAUNDRY, "somewhere else", "more info",
-    // false);
-    //    ServiceTicket ticket3 =
-    //        new ServiceTicket(
-    //            31, 32, 33, ServiceTicket.TicketType.FOOD, "elsewhere", "other info", false);
-    //    List<ServiceTicket> requests =
-    //        new ArrayList<ServiceTicket>(Arrays.asList(ticket1, ticket2, ticket3));
+  public void generateRequestList() {
+    System.out.println(mapManager.getRoot());
     List<ServiceTicket> requests =
         ServiceTicketDatabaseManager.getInstance()
             .getTicketsForRequestId(
@@ -245,9 +307,16 @@ public class ApplicationView extends Application {
         requests.stream()
             .map(st -> st.getTicketType() + " #" + st.getTicketId())
             .collect(Collectors.toList());
-    requestScrollPane.getStylesheets().add("/fxml/fxmlResources/main.css");
+    VBox container =
+        (VBox)
+            ((ScrollPane)
+                    mapManager.getRoot().lookup("#serviceDisplay").lookup("#requestScrollPane"))
+                .getContent()
+                .lookup("#requestContainer");
+    container.getStylesheets().add("/fxml/fxmlResources/main.css");
     for (int i = 0; i < requestNames.size(); i++) {
       Button requestButton = new Button(requestNames.get(i));
+      System.out.println(requestButton.getText());
       int finalI = i;
       requestButton.setOnAction(
           event -> {
@@ -259,10 +328,10 @@ public class ApplicationView extends Application {
           });
       requestButton.getStyleClass().add("requestButton");
       requestButton.setMinHeight(50);
-      requestButton.setMaxWidth(requestContainer.getWidth());
-      requestContainer.getChildren().add(requestButton);
+      requestButton.setMaxWidth(container.getMaxWidth());
+      container.getChildren().add(requestButton);
     }
-    requestScrollPane.setVisible(true);
+    mapManager.getRoot().lookup("#serviceDisplay").lookup("#requestScrollPane").setVisible(true);
   }
 
   @FXML
@@ -325,12 +394,22 @@ public class ApplicationView extends Application {
   }
 
   public void lookup(KeyEvent e) {
+    if (e.getSource() == start) {
+      lookupNodes(e, startList, start);
+    } else if (e.getSource() == destination) {
+      lookupNodes(e, destList, destination);
+    } else if (e.getSource() == requestLocation) {
+      lookupNodes(e, serviceLocationList, requestLocation);
+    }
+  }
+
+  public void lookupNodes(KeyEvent e, ListView listView, TextField target) {
     String matchString =
         (((TextField) e.getSource()).getText()
                 + (!e.getCharacter().equals(Character.toString((char) 8)) ? e.getCharacter() : ""))
             .toLowerCase();
     ArrayList<String> nodeNames =
-        mapManager.getDataCont().getActiveMap().getNodes().stream()
+        NavDatabaseManager.getInstance().loadMapsFromMemory().get("Faulkner 0").getNodes().stream()
             .map(n -> ((LocationNode) n).getLongName())
             .filter(s -> !s.equals(""))
             .collect(Collectors.toCollection(ArrayList::new));
@@ -343,12 +422,7 @@ public class ApplicationView extends Application {
 
     // Add elements to ListView
     ObservableList<String> items = FXCollections.observableArrayList(matches);
-    if (e.getSource() == start) {
-      startList.setItems(items);
-    } else {
-      destList.setItems(items);
-    }
-    startList.setVisible(e.getSource() == start);
-    destList.setVisible(e.getSource() == destination);
+    listView.setItems(items);
+    listView.setVisible(e.getSource() == target);
   }
 }

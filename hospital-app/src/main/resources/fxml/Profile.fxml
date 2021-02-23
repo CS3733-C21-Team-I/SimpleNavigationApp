@@ -15,13 +15,42 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="973.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamI.hospitalMap.mapEditing.ApplicationView">
    <children>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="4.0" layoutY="-3.0" prefHeight="104.0" prefWidth="973.0" style="-fx-background-color: #0067b1;" text="LOGIN" textFill="WHITE" textOverrun="WORD_ELLIPSIS" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <font>
-            <Font size="40.0" />
-         </font>
-      </Label>
-      <VBox alignment="BOTTOM_CENTER" layoutX="1.0" prefHeight="200.0" prefWidth="973.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="0.0">
+      <VBox prefHeight="802.0" prefWidth="975.0">
          <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="138.0" prefWidth="974.0" style="-fx-background-color: #0067b1;" text="Profile" textFill="WHITE" textOverrun="WORD_ELLIPSIS" VBox.vgrow="ALWAYS">
+               <font>
+                  <Font size="40.0" />
+               </font>
+            </Label>
+            <VBox fx:id="serviceDisplay" alignment="CENTER" prefHeight="698.0" prefWidth="974.0" visible="false">
+               <children>
+                  <Label text="Service Requests">
+                     <font>
+                        <Font size="34.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </VBox.margin>
+                  </Label>
+                  <ScrollPane fx:id="requestScrollPane" prefHeight="750.0" prefWidth="974.0" visible="false">
+                     <content>
+                        <VBox fx:id="requestContainer" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="367.0" prefWidth="950.0" />
+                     </content>
+                  </ScrollPane>
+               </children>
+            </VBox>
+         </children>
+      </VBox>
+      <VBox fx:id="loginVBox" alignment="CENTER" layoutX="1.0" prefHeight="200.0" prefWidth="973.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label text="Login">
+               <font>
+                  <Font size="34.0" />
+               </font>
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin>
+            </Label>
             <TextField fx:id="username" maxWidth="250.0" prefWidth="300.0" promptText="Username">
                <VBox.margin>
                   <Insets bottom="8.0" />
@@ -42,17 +71,9 @@
                   <Insets bottom="40.0" top="40.0" />
                </VBox.margin>
             </Label>
-            <ScrollPane fx:id="requestScrollPane" prefHeight="367.0" prefWidth="974.0" visible="false">
-               <content>
-                  <VBox fx:id="requestContainer" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="367.0" prefWidth="950.0" />
-               </content>
-               <VBox.margin>
-                  <Insets />
-               </VBox.margin>
-            </ScrollPane>
          </children>
       </VBox>
-      <Button fx:id="loginReturn" layoutX="25.0" layoutY="20.0" mnemonicParsing="false" onAction="#navigate" prefHeight="64.0" prefWidth="56.0" style="-fx-background-color: transparent;">
+      <Button fx:id="loginReturn" layoutX="25.0" layoutY="20.0" mnemonicParsing="false" onAction="#navigate" prefHeight="64.0" prefWidth="56.0" style="-fx-background-color: transparent;" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="25.0">
          <graphic>
             <ImageView fitHeight="49.0" fitWidth="49.0" pickOnBounds="true" preserveRatio="true">
                <image>

@@ -1,10 +1,8 @@
 package edu.wpi.cs3733.c21.teamI.hospitalMap.mapEditing;
 
-import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMap;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMapNode;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicket;
 import java.io.IOException;
-import java.util.Map;
 import java.util.Set;
 import javafx.scene.Group;
 import javafx.scene.layout.AnchorPane;
@@ -13,7 +11,6 @@ import javafx.stage.Stage;
 public class MapEditManager {
 
   private static MapEditManager ourInstance;
-  private Map<String, HospitalMap> mapCollection;
   private double scale = 3.05; // scales image to 1/scale
   private MapEditView mapEditorView = null;
   private ApplicationView applicationView = null;
@@ -22,15 +19,10 @@ public class MapEditManager {
   private Stage stage = null;
   private HospitalMapNode selectedNode = null;
   private final MapEditDataController dataCont = new MapEditDataController();
-  protected AnchorPane nodeMenu;
   private RequestView requestView;
 
   public static void init() {
     ourInstance = new MapEditManager();
-  }
-
-  public void setMapCollection(Map<String, HospitalMap> mapCollection) {
-    this.mapCollection = mapCollection;
   }
 
   public static MapEditManager getInstance() {
@@ -47,11 +39,14 @@ public class MapEditManager {
   public void toggleNode(HospitalMapNode node) {
     if (selectedNode == null) {
       selectedNode = node;
+      setNodeMenuVisible(true);
     } else if (selectedNode.equals(node)) {
       selectedNode = null;
+      setNodeMenuVisible(false);
     } else {
       dataCont.addEdge(node.getID(), selectedNode.getID());
       selectedNode = null;
+      setNodeMenuVisible(false);
     }
   }
 
@@ -74,6 +69,10 @@ public class MapEditManager {
     this.root = new Group();
     applicationView = new ApplicationView(this);
     ApplicationView.saveManager();
+  }
+
+  public void setNodeMenuVisible(boolean visible) {
+    this.mapEditorView.hideNodeMenu(visible);
   }
 
   public void setRoot(Group root) {
@@ -106,7 +105,16 @@ public class MapEditManager {
 
   public void startRequestView(ServiceTicket st) throws IOException {
     requestView = new RequestView(this, st);
-    requestView.start(stage);
     RequestView.saveManager();
+    requestView.start(stage);
+  }
+
+  public void setSelectedNode(HospitalMapNode node) {
+    this.selectedNode = node;
+  }
+
+  public void generateRequestList() {
+    System.out.println(root);
+    this.applicationView.generateRequestList();
   }
 }

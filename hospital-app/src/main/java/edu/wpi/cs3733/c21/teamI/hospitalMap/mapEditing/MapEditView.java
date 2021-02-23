@@ -30,7 +30,12 @@ public class MapEditView extends Application {
   private static MapEditManager ourManager;
   private AnchorPane newLoadedPane;
   private Button deleteBtn, saveBtn;
+  private AnchorPane nodeMenuPane;
+  private Button deleteBtn;
+  private Button undoBtn;
+  private Button redoBtn;
   private boolean isDrag = false;
+  private HospitalMapNode movingNode;
 
   public MapEditView() {
     this.mapManager = ourManager;
@@ -56,10 +61,27 @@ public class MapEditView extends Application {
     mapManager.setStage(primaryStage);
     deleteBtn = (Button) newLoadedPane.lookup("#nodeDeleteButton");
     saveBtn = (Button) newLoadedPane.lookup("#saveButton");
+    undoBtn = (Button) mapManager.getRoot().lookup("#undoButton");
+    redoBtn = (Button) mapManager.getRoot().lookup("#redoButton");
     setAddNodeHander();
-    if (mapManager.getSelectedNode() != null) {
-      newLoadedPane.setVisible(true);
-    }
+    nodeMenuPane.setVisible(mapManager.getSelectedNode() != null);
+    undoBtn.setVisible(false);
+    redoBtn.setVisible(false);
+    undoBtn.setOnAction(
+        e -> {
+          if (mapManager.getDataCont().isUndoAvailable()) {
+            mapManager.getDataCont().undo();
+          }
+          update();
+        });
+    redoBtn.setOnAction(
+        e -> {
+          if (mapManager.getDataCont().isRedoAvailable()) {
+            mapManager.getDataCont().redo();
+          }
+          update();
+        });
+
     update();
   }
 
@@ -112,6 +134,10 @@ public class MapEditView extends Application {
     }
   }
 
+  public void hideNodeMenu(boolean visible) {
+    this.nodeMenuPane.setVisible(visible);
+  }
+
   private void setAddNodeHander() {
     EventHandler<? super MouseEvent> eventHandler =
         (EventHandler<MouseEvent>)
@@ -147,6 +173,21 @@ public class MapEditView extends Application {
     }
     for (HospitalMapNode node : mapManager.getEntityNodes()) {
       makeNodeCircle(node);
+    }
+    if (mapManager.getDataCont().isUndoAvailable()) {
+      undoBtn.setOpacity(1);
+      System.out.println("making undo full");
+    } else {
+      undoBtn.setOpacity(0.2);
+      System.out.println("making undo gray");
+    }
+
+    if (mapManager.getDataCont().isRedoAvailable()) {
+      redoBtn.setOpacity(1);
+      System.out.println("making redo full");
+    } else {
+      redoBtn.setOpacity(0.2);
+      System.out.printf("making redo gray");
     }
   }
 
@@ -246,12 +287,13 @@ public class MapEditView extends Application {
             if (!isDrag) {
               mapManager.toggleNode(node);
             } else {
+              mapManager.setSelectedNode(null);
               isDrag = false;
+              mapManager.getDataCont().editNode(movingNode.getID(), movingNode);
             }
             deleteBtn.setOnAction(
                 e -> {
                   mapManager.toggleNode(node);
-                  mapManager.getDataCont().deleteNode(node.getID());
                   update();
                 });
 
@@ -299,8 +341,7 @@ public class MapEditView extends Application {
                   (int) (t.getX() * scale) + 3,
                   (int) (t.getY() * scale) + 3,
                   node.getConnections());
-          mapManager.getDataCont().deleteNode(node.getID());
-          mapManager.getDataCont().addNode(newNode);
+          movingNode = newNode;
           isDrag = true;
         });
     AnchorPane root = mapManager.mapPane;
