@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="nodeMenu" layoutX="666.0" layoutY="323.0" prefHeight="478.0" prefWidth="307.0" style="-fx-background-color: #F1F1F1; -fx-border-style: solid;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="nodeMenu" layoutX="666.0" layoutY="323.0" prefHeight="478.0" prefWidth="307.0" style="-fx-background-color: #F1F1F1; -fx-border-style: solid;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
             <children>
                 <Label layoutX="105.0" layoutY="9.0" text="Edit Node">
                     <padding>
@@ -33,7 +33,7 @@
                         <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
                     </padding>
                 </Label>
-                <TextField fx:id="typeField" layoutX="84.0" layoutY="207.0" prefWidth="180.0">
+                <TextField fx:id="lNameField" layoutX="84.0" layoutY="207.0" prefWidth="180.0">
                     <padding>
                         <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
                     </padding></TextField>
@@ -51,7 +51,7 @@
                         <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
                     </padding>
                 </Label>
-                <TextField fx:id="lNameField" layoutX="84.0" layoutY="347.0" prefWidth="180.0">
+                <TextField fx:id="typeField" layoutX="84.0" layoutY="347.0" prefWidth="180.0">
                     <padding>
                         <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
                     </padding></TextField>
