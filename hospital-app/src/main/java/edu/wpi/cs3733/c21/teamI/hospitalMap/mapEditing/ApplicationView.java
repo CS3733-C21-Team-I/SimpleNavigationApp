@@ -147,6 +147,7 @@ public class ApplicationView extends Application {
     if (ApplicationDataController.getInstance()
         .getLoggedInUser()
         .hasPermission(User.Permission.VIEW_TICKET)) {
+      generateRequestList();
       root.lookup("#loginVBox").setVisible(false);
       root.lookup("#serviceDisplay").setVisible(true);
     } else {
@@ -290,7 +291,8 @@ public class ApplicationView extends Application {
     }
   }
 
-  private void generateRequestList() {
+  public void generateRequestList() {
+    System.out.println(mapManager.getRoot());
     List<ServiceTicket> requests =
         ServiceTicketDatabaseManager.getInstance()
             .getTicketsForRequestId(
@@ -299,9 +301,16 @@ public class ApplicationView extends Application {
         requests.stream()
             .map(st -> st.getTicketType() + " #" + st.getTicketId())
             .collect(Collectors.toList());
-    requestScrollPane.getStylesheets().add("/fxml/fxmlResources/main.css");
+    VBox container =
+        (VBox)
+            ((ScrollPane)
+                    mapManager.getRoot().lookup("#serviceDisplay").lookup("#requestScrollPane"))
+                .getContent()
+                .lookup("#requestContainer");
+    container.getStylesheets().add("/fxml/fxmlResources/main.css");
     for (int i = 0; i < requestNames.size(); i++) {
       Button requestButton = new Button(requestNames.get(i));
+      System.out.println(requestButton.getText());
       int finalI = i;
       requestButton.setOnAction(
           event -> {
@@ -313,10 +322,10 @@ public class ApplicationView extends Application {
           });
       requestButton.getStyleClass().add("requestButton");
       requestButton.setMinHeight(50);
-      requestButton.setMaxWidth(requestContainer.getWidth());
-      requestContainer.getChildren().add(requestButton);
+      requestButton.setMaxWidth(container.getMaxWidth());
+      container.getChildren().add(requestButton);
     }
-    requestScrollPane.setVisible(true);
+    mapManager.getRoot().lookup("#serviceDisplay").lookup("#requestScrollPane").setVisible(true);
   }
 
   @FXML
