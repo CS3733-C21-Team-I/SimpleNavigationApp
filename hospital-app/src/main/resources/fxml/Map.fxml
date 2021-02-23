@@ -181,7 +181,7 @@
             </ImageView>
         </graphic>
     </Button>
-    <AnchorPane fx:id="nodeMenu" layoutX="666.0" layoutY="550.0" maxHeight="200.0" minHeight="250.0" prefHeight="200.0" prefWidth="307.0" style="-fx-background-color: #F1F1F1; -fx-border-style: solid;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+    <AnchorPane fx:id="nodeMenu" layoutX="666.0" layoutY="550.0" maxHeight="200.0" minHeight="250.0" prefHeight="200.0" prefWidth="307.0" style="-fx-background-color: #F1F1F1; -fx-border-style: solid;" visible="false" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
         <children>
             <Label layoutX="105.0" layoutY="9.0" text="Edit Node">
                 <padding>
@@ -211,12 +211,12 @@
                     <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
                 </padding>
             </TextField>
-            <Button fx:id="nodeDeleteButton" layoutX="125.0" layoutY="197.0" mnemonicParsing="false" style="-fx-background-color: rgb(1, 45, 90); -fx-text-fill: white; " styleClass="styledButton" text="Delete Selected Node">
+            <Button fx:id="nodeDeleteButton" layoutX="106.0" layoutY="197.0" mnemonicParsing="false" style="-fx-background-color: rgb(1, 45, 90); -fx-text-fill: white; " styleClass="styledButton" text="Delete Selected Node">
                 <cursor>
                     <Cursor fx:constant="HAND" />
                 </cursor>
             </Button>
-            <Button fx:id="saveButton" layoutX="37.0" layoutY="197.0" mnemonicParsing="false" style="-fx-background-color: rgb(1, 45, 90); -fx-text-fill: white; " styleClass="styledButton" text="Save">
+            <Button fx:id="saveButton" layoutX="23.0" layoutY="197.0" mnemonicParsing="false" style="-fx-background-color: rgb(1, 45, 90); -fx-text-fill: white; " styleClass="styledButton" text="Save">
                 <cursor>
                     <Cursor fx:constant="HAND" />
                 </cursor>

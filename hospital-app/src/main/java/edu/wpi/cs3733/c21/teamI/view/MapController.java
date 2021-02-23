@@ -53,7 +53,6 @@ public class MapController extends Application {
   @FXML
   public void toggleEditMap(ActionEvent e) {
     adminMap = !adminMap;
-    System.out.println(adminMap);
     mapPane.setVisible(adminMap);
     save.setVisible(adminMap);
     discard.setVisible(adminMap);
@@ -64,7 +63,7 @@ public class MapController extends Application {
       undoButton.setVisible(true);
       redoButton.setVisible(true);
     } else {
-      ViewManager.setNodeMenuVisible(false);
+      nodeMenu.setVisible(false);
       ViewManager.getDataCont().discardChanges();
       undoButton.setVisible(false);
       redoButton.setVisible(false);
@@ -187,7 +186,7 @@ public class MapController extends Application {
     if (adminMap) {
       startEditView();
     } else {
-      ViewManager.setNodeMenuVisible(false);
+      nodeMenu.setVisible(false);
     }
     mapPane.setVisible(adminMap);
     save.setVisible(adminMap);
@@ -201,7 +200,7 @@ public class MapController extends Application {
     if (adminMap) {
       startEditView();
     } else {
-      ViewManager.setNodeMenuVisible(false);
+      nodeMenu.setVisible(false);
     }
     mapPane.setVisible(adminMap);
     save.setVisible(adminMap);
@@ -219,7 +218,6 @@ public class MapController extends Application {
   }
 
   public void startEditView() {
-    System.out.println("STARTING EDIT VIEW");
     adminMap = false;
     boolean isAdmin =
         ApplicationDataController.getInstance()
@@ -227,6 +225,7 @@ public class MapController extends Application {
             .hasPermission(User.Permission.EDIT_MAP);
     adminMapToggle.setVisible(isAdmin);
     setupMapViewHandlers();
+    setAddNodeHander();
     undoButton.setVisible(false);
     redoButton.setVisible(false);
     undoButton.setOnAction(
@@ -424,7 +423,7 @@ public class MapController extends Application {
         t -> {
           if (t.getButton() == MouseButton.PRIMARY) {
             if (!isDrag) {
-              ViewManager.toggleNode(node);
+              nodeMenu.setVisible(ViewManager.toggleNode(node));
             } else {
               ViewManager.setSelectedNode(null);
               isDrag = false;
@@ -432,7 +431,7 @@ public class MapController extends Application {
             }
             nodeDeleteButton.setOnAction(
                 e -> {
-                  ViewManager.toggleNode(node);
+                  nodeMenu.setVisible(ViewManager.toggleNode(node));
                   ViewManager.getDataCont().deleteNode(node.getID());
                   update();
                 });

@@ -28,7 +28,7 @@ public class MapEditController extends Application {
 
   public double scale = ViewManager.getScale();
   private HospitalMapNode movingNode;
-  private AnchorPane nodeMenu;
+  @FXML private AnchorPane nodeMenu;
   @FXML Button deleteBtn, saveBtn, undoBtn, redoBtn;
   @FXML TextField sNameField, lNameField;
   private boolean isDrag = false;

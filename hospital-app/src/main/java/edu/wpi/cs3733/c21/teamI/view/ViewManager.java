@@ -18,7 +18,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 public class ViewManager {
@@ -85,17 +84,17 @@ public class ViewManager {
    *
    * @param node the node to be assigned or de-assigned
    */
-  public static void toggleNode(HospitalMapNode node) {
+  public static boolean toggleNode(HospitalMapNode node) {
     if (selectedNode == null) {
       selectedNode = node;
-      setNodeMenuVisible(true);
+      return true;
     } else if (selectedNode.equals(node)) {
       selectedNode = null;
-      setNodeMenuVisible(false);
+      return false;
     } else {
       dataCont.addEdge(node.getID(), selectedNode.getID());
       selectedNode = null;
-      setNodeMenuVisible(false);
+      return false;
     }
   }
 
@@ -105,14 +104,6 @@ public class ViewManager {
 
   public static Set<HospitalMapNode> getEntityNodes() {
     return dataCont.getActiveMap().getNodes();
-  }
-
-  public static void setNodeMenuVisible(boolean visible) {
-    mapEditorView.hideNodeMenu(visible);
-  }
-
-  public static void startEditorView(AnchorPane mapPane) throws IOException {
-    mapEditorView = new MapEditController(mapPane);
   }
 
   public void setRoot(Group root) {
