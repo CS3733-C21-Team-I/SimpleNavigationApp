@@ -132,11 +132,11 @@ public class MapEditDataController {
   }
 
   public boolean isUndoAvailable() {
-    return undoRedoPointer >= -1;
+    return undoRedoPointer > -1;
   }
 
   public boolean isRedoAvailable() {
-    return undoRedoPointer == dataOperations.size() - 1;
+    return undoRedoPointer != dataOperations.size() - 1;
   }
 
   public void redo() {

@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="800.0" maxWidth="973.0" minHeight="800.0" minWidth="972.0" prefHeight="800.0" prefWidth="972.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamI.hospitalMap.mapEditing.ApplicationView">
+<AnchorPane maxHeight="800.0" maxWidth="973.0" minHeight="800.0" minWidth="972.0" prefHeight="800.0" prefWidth="972.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamI.hospitalMap.mapEditing.ApplicationView">
     <stylesheets>
         <URL value="@fxmlResources/main.css" />
     </stylesheets>
@@ -132,4 +132,28 @@
             </ImageView>
         </graphic>
     </Button>
+   <Button fx:id="undoButton" layoutX="29.0" layoutY="700.0" maxHeight="50.0" maxWidth="50.0" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: rgb(1, 45, 90); -fx-background-radius: 100;">
+      <cursor>
+         <Cursor fx:constant="HAND" />
+      </cursor>
+      <graphic>
+         <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" smooth="false">
+            <image>
+               <Image url="@fxmlResources/undo_arrow.png" />
+            </image>
+         </ImageView>
+      </graphic>
+   </Button>
+   <Button fx:id="redoButton" layoutX="90.0" layoutY="700.0" maxHeight="50.0" maxWidth="50.0" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: rgb(1, 45, 90); -fx-background-radius: 100;">
+      <cursor>
+         <Cursor fx:constant="HAND" />
+      </cursor>
+      <graphic>
+         <ImageView fitHeight="277.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+               <Image url="@fxmlResources/redo_arrow.png" />
+            </image>
+         </ImageView>
+      </graphic>
+   </Button>
 </AnchorPane>
