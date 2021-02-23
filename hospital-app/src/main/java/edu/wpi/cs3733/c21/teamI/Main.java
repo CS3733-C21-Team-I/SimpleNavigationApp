@@ -2,8 +2,7 @@ package edu.wpi.cs3733.c21.teamI;
 
 import edu.wpi.cs3733.c21.teamI.database.DatabaseManager;
 import edu.wpi.cs3733.c21.teamI.database.NavDatabaseManager;
-import edu.wpi.cs3733.c21.teamI.hospitalMap.mapEditing.ApplicationView;
-import edu.wpi.cs3733.c21.teamI.hospitalMap.mapEditing.MapEditManager;
+import edu.wpi.cs3733.c21.teamI.view.HomeController;
 import java.util.Arrays;
 import javafx.application.Application;
 
@@ -20,8 +19,6 @@ public class Main {
       NavDatabaseManager.init(false);
     }
 
-    MapEditManager.init();
-    MapEditManager.getInstance().startApplicationView();
-    Application.launch(ApplicationView.class);
+    Application.launch(HomeController.class);
   }
 }

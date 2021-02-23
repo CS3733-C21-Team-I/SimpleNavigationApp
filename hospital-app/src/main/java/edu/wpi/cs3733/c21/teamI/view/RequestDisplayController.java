@@ -1,0 +1,75 @@
+package edu.wpi.cs3733.c21.teamI.view;
+
+import edu.wpi.cs3733.c21.teamI.database.UserDatabaseManager;
+import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicket;
+import java.io.IOException;
+import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Group;
+import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
+
+public class RequestDisplayController extends Application {
+
+  private ServiceTicket serviceTicket;
+  private AnchorPane root;
+  private String title;
+
+  @FXML TextField type, ticketID, requestID, assignmentID, locationBox;
+  @FXML TextArea description;
+  @FXML Label header;
+  @FXML CheckBox completed;
+
+  public void navigate(ActionEvent e) throws IOException {
+    ViewManager.navigate(e);
+  }
+
+  public RequestDisplayController() {}
+
+  @FXML
+  public void initialize() {
+    populatePage();
+  }
+
+  @Override
+  public void start(Stage primaryStage) throws IOException {
+    //    primaryStage.setTitle(
+    //        title.substring(0, 1).toUpperCase()
+    //            + title.substring(1)
+    //            + " #"
+    //            + serviceTicket.getTicketId());
+  }
+
+  @FXML
+  private void populatePage() {
+    serviceTicket = ViewManager.getServiceTicketToShow();
+    this.title = serviceTicket.getTicketType().toString().toLowerCase();
+    header.setText(
+        title.substring(0, 1).toUpperCase()
+            + title.substring(1)
+            + " #"
+            + serviceTicket.getTicketId());
+    type.setText(serviceTicket.getTicketType().toString());
+    ticketID.setText(String.valueOf(serviceTicket.getTicketId()));
+    requestID.setText(
+        String.valueOf(
+            UserDatabaseManager.getInstance()
+                .getDisplayNameForId(serviceTicket.getRequestingUserID())));
+    assignmentID.setText(
+        String.valueOf(
+            UserDatabaseManager.getInstance()
+                .getDisplayNameForId(serviceTicket.getAssignedUserID())));
+    locationBox.setText(serviceTicket.getLocation());
+    description.setText(serviceTicket.getDescription());
+    completed.setSelected(serviceTicket.isCompleted());
+  }
+
+  public void returnHome(ActionEvent e) throws IOException {
+    Group root = (Group) ((Button) e.getSource()).getScene().getRoot();
+    root.getChildren().clear();
+    root.getChildren().add(FXMLLoader.load(getClass().getResource("/fxml/Profile.fxml")));
+  }
+}

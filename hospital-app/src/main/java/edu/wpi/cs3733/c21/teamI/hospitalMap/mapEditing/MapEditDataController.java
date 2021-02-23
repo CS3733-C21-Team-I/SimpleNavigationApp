@@ -23,7 +23,7 @@ public class MapEditDataController {
    */
   private HospitalMap activeMap;
 
-  MapEditDataController() {
+  public MapEditDataController() {
     activeMap = null;
     dataOperations = new Stack<>();
     undoRedoPointer = -1;

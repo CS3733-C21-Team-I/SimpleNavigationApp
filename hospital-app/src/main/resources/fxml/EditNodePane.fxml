@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="nodeMenu" layoutX="666.0" layoutY="550.0" maxHeight="200.0" minHeight="250.0" prefHeight="200.0" prefWidth="307.0" style="-fx-background-color: #F1F1F1; -fx-border-style: solid;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="nodeMenu" layoutX="666.0" layoutY="550.0" maxHeight="200.0" minHeight="250.0" prefHeight="200.0" prefWidth="307.0" style="-fx-background-color: #F1F1F1; -fx-border-style: solid;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamI.view.MapEditController">
             <children>
                 <Label layoutX="105.0" layoutY="9.0" text="Edit Node">
                     <padding>

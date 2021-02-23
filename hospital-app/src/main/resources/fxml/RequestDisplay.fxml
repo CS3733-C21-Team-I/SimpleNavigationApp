@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="800.0" prefWidth="973.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamI.hospitalMap.mapEditing.RequestView">
+<AnchorPane prefHeight="800.0" prefWidth="973.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamI.view.RequestDisplayController">
     <Label fx:id="header" alignment="CENTER" contentDisplay="CENTER" prefHeight="104.0" prefWidth="973.0" styleClass="styledHeader" stylesheets="@fxmlResources/main.css" text="REQUEST TITLE" textFill="WHITE" textOverrun="WORD_ELLIPSIS">
         <font>
             <Font size="40.0" />
@@ -78,7 +78,7 @@
                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
             </VBox.margin>
          </Label>
-         <TextField fx:id="location">
+         <TextField fx:id="locationBox">
             <VBox.margin>
                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
             </VBox.margin>
@@ -93,7 +93,7 @@
                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
             </VBox.margin>
          </TextArea>
-         <CheckBox fx:id="complete" mnemonicParsing="false" text="Request complete">
+         <CheckBox fx:id="completed" mnemonicParsing="false" text="Request complete">
             <VBox.margin>
                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
             </VBox.margin>
