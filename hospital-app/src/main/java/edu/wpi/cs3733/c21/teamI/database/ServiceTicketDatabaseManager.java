@@ -154,23 +154,23 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
     try {
       Statement stmt = databaseRef.getConnection().createStatement();
 
-          stmt.executeUpdate(
-              "INSERT INTO serviceticket(requestingUserID, assignedUserID, ticketType, location, description, emergency, completed)\n"
-                  + "VALUES ("
-                  + t.getRequestingUserID()
-                  + ", "
-                  + t.getAssignedUserID()
-                  + ", '"
-                  + t.getTicketType().toString()
-                  + "', '"
-                  + t.getLocation()
-                  + "', '"
-                  + t.getDescription()
-                  + "', "
-                  + t.isEmergency()
-                  + ", "
-                  + t.isCompleted()
-                  + ")");
+      stmt.executeUpdate(
+          "INSERT INTO serviceticket(requestingUserID, assignedUserID, ticketType, location, description, emergency, completed)\n"
+              + "VALUES ("
+              + t.getRequestingUserID()
+              + ", "
+              + t.getAssignedUserID()
+              + ", '"
+              + t.getTicketType().toString()
+              + "', '"
+              + t.getLocation()
+              + "', '"
+              + t.getDescription()
+              + "', "
+              + t.isEmergency()
+              + ", "
+              + t.isCompleted()
+              + ")");
     } catch (SQLException e) {
       e.printStackTrace();
     }
