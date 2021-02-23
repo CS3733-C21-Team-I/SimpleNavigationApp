@@ -53,6 +53,7 @@ public class MapController extends Application {
   @FXML
   public void toggleEditMap(ActionEvent e) {
     adminMap = !adminMap;
+    System.out.println(adminMap);
     mapPane.setVisible(adminMap);
     save.setVisible(adminMap);
     discard.setVisible(adminMap);
@@ -182,29 +183,31 @@ public class MapController extends Application {
   @FXML
   public void saveChanges() {
     ViewManager.getDataCont().saveChanges();
-    adminMap = !adminMap;
-    if (adminMap) {
-      startEditView();
-    } else {
-      nodeMenu.setVisible(false);
-    }
-    mapPane.setVisible(adminMap);
-    save.setVisible(adminMap);
-    discard.setVisible(adminMap);
+    toggleEditMap(new ActionEvent());
+    //    adminMap = !adminMap;
+    //    if (adminMap) {
+    //      startEditView();
+    //    } else {
+    //      nodeMenu.setVisible(false);
+    //    }
+    //    mapPane.setVisible(adminMap);
+    //    save.setVisible(adminMap);
+    //    discard.setVisible(adminMap);
   }
 
   @FXML
   public void discardChanges() {
     ViewManager.getDataCont().discardChanges();
-    adminMap = !adminMap;
-    if (adminMap) {
-      startEditView();
-    } else {
-      nodeMenu.setVisible(false);
-    }
-    mapPane.setVisible(adminMap);
-    save.setVisible(adminMap);
-    discard.setVisible(adminMap);
+    toggleEditMap(new ActionEvent());
+    //    adminMap = !adminMap;
+    //    if (adminMap) {
+    //      startEditView();
+    //    } else {
+    //      nodeMenu.setVisible(false);
+    //    }
+    //    mapPane.setVisible(adminMap);
+    //    save.setVisible(adminMap);
+    //    discard.setVisible(adminMap);
   }
 
   @Override
@@ -218,7 +221,7 @@ public class MapController extends Application {
   }
 
   public void startEditView() {
-    adminMap = false;
+    //    adminMap = false;
     boolean isAdmin =
         ApplicationDataController.getInstance()
             .getLoggedInUser()
@@ -226,6 +229,7 @@ public class MapController extends Application {
     adminMapToggle.setVisible(isAdmin);
     setupMapViewHandlers();
     setAddNodeHander();
+    nodeMenu.setVisible(ViewManager.getSelectedNode() != null && adminMap);
     undoButton.setVisible(false);
     redoButton.setVisible(false);
     undoButton.setOnAction(
