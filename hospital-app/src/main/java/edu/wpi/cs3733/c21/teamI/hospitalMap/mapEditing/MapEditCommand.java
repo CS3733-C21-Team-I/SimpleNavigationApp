@@ -163,7 +163,7 @@ class AddEdgeCommand extends MapEditCommand {
 
   @Override
   NavEditOperation getOperation() {
-    return new NavEditOperation(NavEditOperation.OperationType.ADD_NODE, fromNode, null, toNode);
+    return new NavEditOperation(NavEditOperation.OperationType.ADD_EDGE, fromNode, null, toNode);
   }
 }
 
@@ -200,6 +200,6 @@ class DeleteEdgeCommand extends MapEditCommand {
 
   @Override
   NavEditOperation getOperation() {
-    return new NavEditOperation(NavEditOperation.OperationType.DELETE_NODE, fromNode, null, toNode);
+    return new NavEditOperation(NavEditOperation.OperationType.DELETE_EDGE, fromNode, null, toNode);
   }
 }

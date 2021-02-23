@@ -434,7 +434,49 @@ public class NavDatabaseManager extends DatabaseManager {
           try {
             Statement statement = databaseRef.getConnection().createStatement();
             statement.executeUpdate(
+                "DELETE FROM NAVEDGES WHERE TO_NODE='"
+                    + op.getTargetNode()
+                    + "' OR FROM_NODE='"
+                    + op.getTargetNode()
+                    + "'");
+          } catch (SQLException e) {
+            e.printStackTrace();
+          }
+
+          try {
+            Statement statement = databaseRef.getConnection().createStatement();
+            statement.executeUpdate(
                 "DELETE FROM NAVNODES WHERE NODE_ID='" + op.getTargetNode() + "'");
+          } catch (SQLException e) {
+            e.printStackTrace();
+          }
+          break;
+        case DELETE_EDGE:
+          try {
+            Statement statement = databaseRef.getConnection().createStatement();
+            statement.executeUpdate(
+                "DELETE FROM NAVEDGES WHERE (TO_NODE='"
+                    + op.getTargetNode()
+                    + "' AND FROM_NODE='"
+                    + op.getToNode()
+                    + "') OR (TO_NODE='"
+                    + op.getToNode()
+                    + "' AND FROM_NODE='"
+                    + op.getTargetNode()
+                    + "')");
+          } catch (SQLException e) {
+            e.printStackTrace();
+          }
+          break;
+        case ADD_EDGE:
+          try {
+            Statement statement = databaseRef.getConnection().createStatement();
+            statement.executeUpdate(
+                "INSERT INTO NAVEDGES(FROM_NODE, TO_NODE) VALUES ('"
+                    + op.getTargetNode()
+                    + "', '"
+                    + op.getToNode()
+                    + "')");
           } catch (SQLException e) {
             e.printStackTrace();
           }
