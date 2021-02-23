@@ -257,8 +257,8 @@ public class ApplicationView extends Application {
 
     HospitalMapCSVBuilder.saveCSV(
         NavDatabaseManager.getInstance().loadMapsFromMemory().values(),
-        "csv/MapINodes.csv",
-        "csv/MapIEdgers.csv");
+        "csv/MapINewNodes.csv",
+        "csv/MapINewEdgers.csv");
   }
 
   @FXML
