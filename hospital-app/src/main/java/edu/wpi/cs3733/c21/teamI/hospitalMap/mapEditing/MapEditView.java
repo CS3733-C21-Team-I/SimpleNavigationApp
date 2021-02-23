@@ -296,6 +296,7 @@ public class MapEditView extends Application {
             deleteBtn.setOnAction(
                 e -> {
                   mapManager.toggleNode(node);
+                  mapManager.getDataCont().deleteNode(node.getID());
                   update();
                 });
 

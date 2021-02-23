@@ -61,6 +61,7 @@ public class MapEditManager {
   public void startEditorView(AnchorPane mapPane) {
     this.mapPane = mapPane;
     mapEditorView = new MapEditView(this);
+    System.out.println(stage);
     mapEditorView.start(stage);
     MapEditView.saveManager();
   }
