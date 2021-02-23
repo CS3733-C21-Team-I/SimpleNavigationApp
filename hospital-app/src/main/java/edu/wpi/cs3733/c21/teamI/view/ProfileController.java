@@ -1,12 +1,13 @@
-package edu.wpi.cs3733.c21.teamI.hospitalMap.mapEditing.Controllers;
+package edu.wpi.cs3733.c21.teamI.view;
 
 import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
 import edu.wpi.cs3733.c21.teamI.database.ServiceTicketDatabaseManager;
-import edu.wpi.cs3733.c21.teamI.hospitalMap.mapEditing.MapEditManager;
+import edu.wpi.cs3733.c21.teamI.view.MapEditManager;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicket;
 import edu.wpi.cs3733.c21.teamI.user.User;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
 import javafx.scene.control.*;
@@ -32,6 +33,8 @@ public class ProfileController extends Application {
 	Label headerLabel;
 	public String uName;
 	public static String pass;
+
+	public void navigate(ActionEvent e) throws IOException {ApplicationView.navigate(e);}
 
 	private void populateTicketsProfile() {
 		Group root = mapManager.getRoot();

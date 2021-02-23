@@ -1,8 +1,7 @@
-package edu.wpi.cs3733.c21.teamI.hospitalMap.mapEditing;
+package edu.wpi.cs3733.c21.teamI.view;
 
 import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMapNode;
-import edu.wpi.cs3733.c21.teamI.hospitalMap.mapEditing.Controllers.MapEditController;
-import edu.wpi.cs3733.c21.teamI.hospitalMap.mapEditing.Controllers.RequestDisplayController;
+import edu.wpi.cs3733.c21.teamI.hospitalMap.mapEditing.MapEditDataController;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicket;
 import java.io.IOException;
 import java.util.Set;
@@ -117,7 +116,6 @@ public class MapEditManager {
   }
 
   public void generateRequestList() {
-    System.out.println(root);
     this.applicationView.generateRequestList();
   }
 }

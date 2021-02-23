@@ -1,9 +1,10 @@
-package edu.wpi.cs3733.c21.teamI.hospitalMap.mapEditing.Controllers;
+package edu.wpi.cs3733.c21.teamI.view;
 
 import edu.wpi.cs3733.c21.teamI.database.NavDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.EuclidianDistCalc;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMapNode;
-import edu.wpi.cs3733.c21.teamI.hospitalMap.mapEditing.MapEditManager;
+import edu.wpi.cs3733.c21.teamI.hospitalMap.LocationNode;
+import edu.wpi.cs3733.c21.teamI.view.MapEditManager;
 import edu.wpi.cs3733.c21.teamI.pathfinding.PathFinder;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -17,6 +18,7 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.LineBuilder;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.List;
 
 public class MapController extends Application {
@@ -60,11 +62,24 @@ public class MapController extends Application {
 		discard.setVisible(adminMap);
 	}
 
+	public void navigate(ActionEvent e) throws IOException {ApplicationView.navigate(e);}
+
 	@FXML
 	public void getDirections(ActionEvent e) {
 		String begin = start.getText();
 		String end = destination.getText();
 		drawPathBetweenNodes(begin, end);
+	}
+
+	public LocationNode getNodeByLongName(String longName) {
+		for (HospitalMapNode node :
+				NavDatabaseManager.getInstance().loadMapsFromMemory().get("Faulkner 0").getNodes()) {
+			if (node.getClass() == LocationNode.class
+					&& ((LocationNode) node).getLongName().equals(longName)) {
+				return (LocationNode) node;
+			}
+		}
+		return null;
 	}
 
 	@FXML

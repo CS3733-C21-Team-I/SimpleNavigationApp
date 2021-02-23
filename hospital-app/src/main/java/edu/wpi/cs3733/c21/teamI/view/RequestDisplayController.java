@@ -1,7 +1,7 @@
-package edu.wpi.cs3733.c21.teamI.hospitalMap.mapEditing.Controllers;
+package edu.wpi.cs3733.c21.teamI.view;
 
 import edu.wpi.cs3733.c21.teamI.database.UserDatabaseManager;
-import edu.wpi.cs3733.c21.teamI.hospitalMap.mapEditing.MapEditManager;
+import edu.wpi.cs3733.c21.teamI.view.MapEditManager;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicket;
 import java.io.IOException;
 import javafx.application.Application;
@@ -31,6 +31,8 @@ public class RequestDisplayController extends Application {
   public RequestDisplayController() {
     this.mapManager = ourManager;
   }
+
+  public void navigate(ActionEvent e) throws IOException {ApplicationView.navigate(e);}
 
   public RequestDisplayController(MapEditManager mapManager, ServiceTicket serviceTicket) {
     this.mapManager = mapManager;

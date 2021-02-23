@@ -1,4 +1,4 @@
-package edu.wpi.cs3733.c21.teamI.hospitalMap.mapEditing.Controllers;
+package edu.wpi.cs3733.c21.teamI.view;
 
 import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMapNode;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.LocationNode;
@@ -7,8 +7,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import edu.wpi.cs3733.c21.teamI.hospitalMap.mapEditing.MapEditManager;
+import edu.wpi.cs3733.c21.teamI.view.MapEditManager;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -169,6 +170,8 @@ public class MapEditController extends Application {
     System.out.println("BadSol" + idGen.incrementAndGet());
     return new String("BadSol" + idGen.incrementAndGet());
   }
+
+  public void navigate(ActionEvent e) throws IOException {ApplicationView.navigate(e);}
 
   public void update() {
     mapPane.getChildren().clear();

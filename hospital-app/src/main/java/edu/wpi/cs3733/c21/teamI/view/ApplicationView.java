@@ -1,11 +1,9 @@
-package edu.wpi.cs3733.c21.teamI.hospitalMap.mapEditing;
+package edu.wpi.cs3733.c21.teamI.view;
 
 import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
 import edu.wpi.cs3733.c21.teamI.database.NavDatabaseManager;
-import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMapNode;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.LocationNode;
 import edu.wpi.cs3733.c21.teamI.user.User;
-import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -17,13 +15,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
-public class ApplicationView extends Application {
+public class ApplicationView {
   private static MapEditManager ourManager;
   private final MapEditManager mapManager;
 
@@ -37,7 +34,6 @@ public class ApplicationView extends Application {
           maintenanceReturn,
           loginReturn,
           maintenance,
-          adminMapToggle,
           profile;
 
   @FXML ListView serviceLocationList;
@@ -57,23 +53,22 @@ public class ApplicationView extends Application {
     ourManager = new MapEditManager().getInstance();
   }
 
-  @Override
-  public void init() {}
+//  @Override
+//  public void init() {}
 
-  @Override
-  public void start(Stage primaryStage) throws IOException {
-    Group root = mapManager.getRoot();
-    root.getChildren().add(FXMLLoader.load(getClass().getResource("/fxml/Home.fxml")));
-    primaryStage.setTitle("Home");
-    mapManager.setRoot(root);
-    Scene applicationScene = new Scene(root, 973, 800);
-    primaryStage.setScene(applicationScene);
-    mapManager.setStage(primaryStage);
-    primaryStage.show();
-  }
+//  @Override
+//  public void start(Stage primaryStage) throws IOException {
+//    Group root = mapManager.getRoot();
+//    root.getChildren().add(FXMLLoader.load(getClass().getResource("/fxml/Home.fxml")));
+//    primaryStage.setTitle("Home");
+//    mapManager.setRoot(root);
+//    Scene applicationScene = new Scene(root, 973, 800);
+//    primaryStage.setScene(applicationScene);
+//    mapManager.setStage(primaryStage);
+//    primaryStage.show();
+//  }
 
-  @FXML
-  public void navigate(ActionEvent e) throws IOException {
+  public static void navigate(ActionEvent e) throws IOException {
     Group root = mapManager.getRoot();
     Scene scene = ((Button) e.getSource()).getScene();
     root.getChildren().clear();
@@ -111,22 +106,22 @@ public class ApplicationView extends Application {
     scene.setRoot(root);
   }
 
-  @FXML
-  public void initialize() {
-    if (serviceRequests != null) {
-      if (ApplicationDataController.getInstance()
-          .getLoggedInUser()
-          .hasPermission(User.Permission.VIEW_TICKET)) {
-
-        serviceRequests.setMaxWidth(map.getMaxWidth());
-        serviceRequests.setVisible(true);
-      } else {
-        serviceRequests.setMaxWidth(0);
-        serviceRequests.setVisible(false);
-      }
-    }
-    initClock();
-  }
+//  @FXML
+//  public void initialize() {
+//    if (serviceRequests != null) {
+//      if (ApplicationDataController.getInstance()
+//          .getLoggedInUser()
+//          .hasPermission(User.Permission.VIEW_TICKET)) {
+//
+//        serviceRequests.setMaxWidth(map.getMaxWidth());
+//        serviceRequests.setVisible(true);
+//      } else {
+//        serviceRequests.setMaxWidth(0);
+//        serviceRequests.setVisible(false);
+//      }
+//    }
+//    initClock();
+//  }
 
   public void lookup(KeyEvent e) {
     if (e.getSource() == start) {
@@ -160,16 +155,5 @@ public class ApplicationView extends Application {
     ObservableList<String> items = FXCollections.observableArrayList(matches);
     listView.setItems(items);
     listView.setVisible(e.getSource() == target);
-  }
-
-  public LocationNode getNodeByLongName(String longName) {
-    for (HospitalMapNode node :
-            NavDatabaseManager.getInstance().loadMapsFromMemory().get("Faulkner 0").getNodes()) {
-      if (node.getClass() == LocationNode.class
-              && ((LocationNode) node).getLongName().equals(longName)) {
-        return (LocationNode) node;
-      }
-    }
-    return null;
   }
 }
