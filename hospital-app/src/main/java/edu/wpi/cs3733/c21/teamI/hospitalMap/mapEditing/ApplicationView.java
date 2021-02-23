@@ -128,12 +128,7 @@ public class ApplicationView extends Application {
           .add(FXMLLoader.load(getClass().getResource("/fxml/MaintenanceRequest.fxml")));
     } else if (e.getSource() == profile) {
       root.getChildren().add(FXMLLoader.load(getClass().getResource("/fxml/Profile.fxml")));
-      if (ApplicationDataController.getInstance()
-          .getLoggedInUser()
-          .hasPermission(User.Permission.VIEW_TICKET)) {
-        root.lookup("#loginVBox").setVisible(false);
-        root.lookup("#serviceDisplay").setVisible(true);
-      }
+      populateTicketsProfile();
     } else {
       root.getChildren()
           .add(FXMLLoader.load(getClass().getResource("/fxml/SanitationRequest.fxml")));
@@ -141,6 +136,19 @@ public class ApplicationView extends Application {
     }
     mapManager.setRoot(root);
     scene.setRoot(root);
+  }
+
+  private void populateTicketsProfile() {
+    Group root = mapManager.getRoot();
+    if (ApplicationDataController.getInstance()
+        .getLoggedInUser()
+        .hasPermission(User.Permission.VIEW_TICKET)) {
+      root.lookup("#loginVBox").setVisible(false);
+      root.lookup("#serviceDisplay").setVisible(true);
+    } else {
+      root.lookup("#loginVBox").setVisible(true);
+      root.lookup("#serviceDisplay").setVisible(false);
+    }
   }
 
   private void setupRequestView() {
@@ -205,7 +213,7 @@ public class ApplicationView extends Application {
     if (serviceRequests != null) {
       if (ApplicationDataController.getInstance()
           .getLoggedInUser()
-          .hasPermission(User.Permission.REQUEST_TICKET)) {
+          .hasPermission(User.Permission.VIEW_TICKET)) {
         serviceRequests.setMaxWidth(map.getMaxWidth());
         serviceRequests.setVisible(true);
       } else {
