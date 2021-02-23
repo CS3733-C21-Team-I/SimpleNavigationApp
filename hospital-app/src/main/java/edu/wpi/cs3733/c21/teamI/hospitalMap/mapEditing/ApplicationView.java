@@ -50,7 +50,10 @@ public class ApplicationView extends Application {
       loginReturn,
       maintenance,
       adminMapToggle,
-      profile;
+      profile,
+      save,
+      discard;
+
   @FXML ImageView mapImage;
   @FXML TextField start, destination, requestLocation;
   @FXML Label dateTime;
@@ -231,6 +234,8 @@ public class ApplicationView extends Application {
       mapManager.setNodeMenuVisible(false);
     }
     mapPane.setVisible(adminMap);
+    save.setVisible(adminMap);
+    discard.setVisible(adminMap);
   }
 
   @FXML
@@ -376,5 +381,15 @@ public class ApplicationView extends Application {
     ObservableList<String> items = FXCollections.observableArrayList(matches);
     listView.setItems(items);
     listView.setVisible(e.getSource() == target);
+  }
+
+  @FXML
+  public void saveChanges() {
+    mapManager.getDataCont().saveChanges();
+  }
+
+  @FXML
+  public void discardChanges() {
+    mapManager.getDataCont().discardChanges();
   }
 }
