@@ -51,7 +51,9 @@ public class ApplicationView extends Application {
       loginReturn,
       maintenance,
       adminMapToggle,
-      profile;
+      profile,
+      undoButton,
+      redoButton;
   @FXML ImageView mapImage;
   @FXML TextField start, destination, requestLocation;
   @FXML Label dateTime;
@@ -120,6 +122,8 @@ public class ApplicationView extends Application {
               .getLoggedInUser()
               .hasPermission(User.Permission.EDIT_MAP);
       root.lookup("#adminMapToggle").setVisible(isAdmin);
+      root.lookup("#undoButton").setVisible(false);
+      root.lookup("#redoButton").setVisible(false);
       setupMapViewHandlers();
     } else if (e.getSource() == serviceRequests) {
       root.getChildren().add(FXMLLoader.load(getClass().getResource("/fxml/Requests.fxml")));
@@ -251,9 +255,13 @@ public class ApplicationView extends Application {
           .getDataCont()
           .setActiveMap(NavDatabaseManager.getInstance().loadMapsFromMemory().get("Faulkner 0"));
       mapManager.startEditorView(mapPane);
+      undoButton.setVisible(true);
+      redoButton.setVisible(true);
     } else {
       mapManager.setNodeMenuVisible(false);
       mapManager.getDataCont().discardChanges();
+      undoButton.setVisible(false);
+      redoButton.setVisible(false);
     }
     mapPane.setVisible(adminMap);
   }
