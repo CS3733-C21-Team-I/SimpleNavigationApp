@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="nodeMenu" layoutX="666.0" layoutY="323.0" prefHeight="478.0" prefWidth="307.0" style="-fx-background-color: #F1F1F1; -fx-border-style: solid;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="nodeMenu" layoutX="666.0" layoutY="550.0" maxHeight="200.0" minHeight="250.0" prefHeight="200.0" prefWidth="307.0" style="-fx-background-color: #F1F1F1; -fx-border-style: solid;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
             <children>
                 <Label layoutX="105.0" layoutY="9.0" text="Edit Node">
                     <padding>
@@ -18,56 +18,33 @@
                         <Font size="18.0" />
                     </font>
                 </Label>
-                <Label layoutX="39.0" layoutY="67.0" text="Floor">
+                <Label layoutX="17.0" layoutY="144.0" text="Long Name">
                     <padding>
                         <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
                     </padding>
                 </Label>
-                <TextField fx:id="floorField" layoutX="84.0" layoutY="67.0" prefWidth="180.0">
+                <TextField fx:id="lNameField" layoutX="105.0" layoutY="146.0" prefWidth="180.0">
+                    <padding>
+                        <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+                    </padding></TextField>
+                <Label layoutX="14.0" layoutY="76.0" text="Short Name">
+                    <padding>
+                        <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+                    </padding>
+                </Label>
+                <TextField fx:id="sNameField" layoutX="105.0" layoutY="76.0" prefWidth="180.0">
                     <padding>
                         <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
                     </padding>
                 </TextField>
-                <Label layoutX="7.0" layoutY="347.0" text="Long Name">
-                    <padding>
-                        <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
-                    </padding>
-                </Label>
-                <TextField fx:id="typeField" layoutX="84.0" layoutY="207.0" prefWidth="180.0">
-                    <padding>
-                        <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
-                    </padding></TextField>
-                <Label layoutX="23.0" layoutY="138.0" text="Building">
-                    <padding>
-                        <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
-                    </padding>
-                </Label>
-                <TextField fx:id="buildingField" layoutX="84.0" layoutY="137.0" prefWidth="180.0">
-                    <padding>
-                        <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
-                    </padding></TextField>
-                <Label layoutX="41.0" layoutY="207.0" text="Type">
-                    <padding>
-                        <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
-                    </padding>
-                </Label>
-                <TextField fx:id="lNameField" layoutX="84.0" layoutY="347.0" prefWidth="180.0">
-                    <padding>
-                        <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
-                    </padding></TextField>
-                <Label layoutX="4.0" layoutY="279.0" text="Short Name">
-                    <padding>
-                        <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
-                    </padding>
-                </Label>
-                <TextField fx:id="sNameField" layoutX="84.0" layoutY="277.0" prefWidth="180.0">
-                    <padding>
-                        <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
-                    </padding>
-                </TextField>
-             <Button fx:id="nodeDeleteButton" layoutX="75.0" layoutY="406.0" mnemonicParsing="false" style="-fx-background-color: rgba(1, 45, 90, 0.6);" styleClass="styledButton" text="Delete Selected Node">
+             <Button fx:id="nodeDeleteButton" layoutX="103.0" layoutY="205.0" mnemonicParsing="false" style="-fx-background-color: rgb(1, 45, 90); -fx-text-fill: white; " styleClass="styledButton" text="Delete Selected Node">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
+      <Button fx:id="saveButton" layoutX="37.0" layoutY="205.0" mnemonicParsing="false" style="-fx-background-color: rgb(1, 45, 90); -fx-text-fill: white; " styleClass="styledButton" text="Save">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
             </children>
 </AnchorPane>

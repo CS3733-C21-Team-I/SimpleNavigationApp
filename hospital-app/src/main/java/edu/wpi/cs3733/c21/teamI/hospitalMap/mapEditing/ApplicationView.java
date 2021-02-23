@@ -33,6 +33,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -79,6 +80,70 @@ public class ApplicationView extends Application {
   private final MapEditManager mapManager;
   @FXML ScrollPane requestScrollPane;
   @FXML ListView startList, destList, serviceLocationList;
+
+  @FXML TextField sanLocation;
+  @FXML CheckBox sanEmergency;
+  @FXML TextArea sanDescription;
+  @FXML TextField sanAssignedID;
+  @FXML HBox sanRequestType;
+  @FXML TextField sanRequestID;
+
+  @FXML TextField mainLocation;
+  @FXML TextArea mainDesc;
+  @FXML CheckBox mainEmerg;
+  @FXML MenuButton mainRequestType;
+  @FXML TextField mainAssignedID;
+  @FXML TextField mainRequestID;
+
+  ServiceTicket sanitationTicket;
+  ServiceTicket maintenanceTicket;
+
+  @FXML
+  public void createSanitationTicket(ActionEvent e) {
+    try {
+      int RequestID = Integer.parseInt(sanRequestID.getText());
+      int AssignedID = Integer.parseInt(sanAssignedID.getText());
+      sanitationTicket =
+          new ServiceTicket(
+              RequestID,
+              AssignedID,
+              ServiceTicket.TicketType.SANITATION,
+              sanLocation.getText(),
+              sanDescription.getText(),
+              sanEmergency.isSelected(),
+              false);
+
+      ServiceTicketDatabaseManager.getInstance().addTicket(sanitationTicket);
+    } catch (Exception o) {
+      System.out.println("Error" + o);
+    }
+  }
+
+  @FXML
+  public void createMaintenanceTicket(ActionEvent o) {
+    try {
+      int RequestID = Integer.parseInt(mainRequestID.getText());
+      System.out.println(RequestID);
+      int AssignID = Integer.parseInt(mainAssignedID.getText());
+      System.out.println(AssignID);
+
+      maintenanceTicket =
+          new ServiceTicket(
+              RequestID,
+              AssignID,
+              ServiceTicket.TicketType.MAINTENANCE,
+              mainLocation.getText(),
+              mainDesc.getText(),
+              mainEmerg.isSelected(),
+              false);
+      System.out.println(maintenanceTicket);
+      //  ServiceTicketDatabaseManager.getInstance().addTicket(maintenanceTicket);
+
+    } catch (Exception e) {
+      e.printStackTrace();
+      System.out.println(" Error " + e);
+    }
+  }
 
   public ApplicationView() {
     this.mapManager = ourManager;
@@ -151,6 +216,7 @@ public class ApplicationView extends Application {
     if (ApplicationDataController.getInstance()
         .getLoggedInUser()
         .hasPermission(User.Permission.VIEW_TICKET)) {
+      generateRequestList();
       root.lookup("#loginVBox").setVisible(false);
       root.lookup("#serviceDisplay").setVisible(true);
     } else {
@@ -303,7 +369,8 @@ public class ApplicationView extends Application {
     }
   }
 
-  private void generateRequestList() {
+  public void generateRequestList() {
+    System.out.println(mapManager.getRoot());
     List<ServiceTicket> requests =
         ServiceTicketDatabaseManager.getInstance()
             .getTicketsForRequestId(
@@ -312,9 +379,16 @@ public class ApplicationView extends Application {
         requests.stream()
             .map(st -> st.getTicketType() + " #" + st.getTicketId())
             .collect(Collectors.toList());
-    requestScrollPane.getStylesheets().add("/fxml/fxmlResources/main.css");
+    VBox container =
+        (VBox)
+            ((ScrollPane)
+                    mapManager.getRoot().lookup("#serviceDisplay").lookup("#requestScrollPane"))
+                .getContent()
+                .lookup("#requestContainer");
+    container.getStylesheets().add("/fxml/fxmlResources/main.css");
     for (int i = 0; i < requestNames.size(); i++) {
       Button requestButton = new Button(requestNames.get(i));
+      System.out.println(requestButton.getText());
       int finalI = i;
       requestButton.setOnAction(
           event -> {
@@ -326,10 +400,10 @@ public class ApplicationView extends Application {
           });
       requestButton.getStyleClass().add("requestButton");
       requestButton.setMinHeight(50);
-      requestButton.setMaxWidth(requestContainer.getWidth());
-      requestContainer.getChildren().add(requestButton);
+      requestButton.setMaxWidth(container.getMaxWidth());
+      container.getChildren().add(requestButton);
     }
-    requestScrollPane.setVisible(true);
+    mapManager.getRoot().lookup("#serviceDisplay").lookup("#requestScrollPane").setVisible(true);
   }
 
   @FXML

@@ -1,9 +1,7 @@
 package edu.wpi.cs3733.c21.teamI.hospitalMap.mapEditing;
 
-import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
 import edu.wpi.cs3733.c21.teamI.database.UserDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicket;
-import edu.wpi.cs3733.c21.teamI.user.User;
 import java.io.IOException;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -99,14 +97,15 @@ public class RequestView extends Application {
     Group root = (Group) ((Button) e.getSource()).getScene().getRoot();
     root.getChildren().clear();
     root.getChildren().add(FXMLLoader.load(getClass().getResource("/fxml/Profile.fxml")));
-    if (ApplicationDataController.getInstance()
-        .getLoggedInUser()
-        .hasPermission(User.Permission.VIEW_TICKET)) {
-      root.lookup("#loginVBox").setVisible(false);
-      root.lookup("#serviceDisplay").setVisible(true);
-    } else {
-      root.lookup("#loginVBox").setVisible(true);
-      root.lookup("#serviceDisplay").setVisible(false);
-    }
+    root.lookup("#loginVBox").setVisible(false);
+    root.lookup("#serviceDisplay").setVisible(true);
+    System.out.println(root);
+    System.out.println(
+        "THING WE WANT "
+            + ((ScrollPane) root.lookup("#serviceDisplay").lookup("#requestScrollPane"))
+                .getContent()
+                .lookup("#requestContainer"));
+    ourManager.setRoot(root);
+    ourManager.generateRequestList();
   }
 }

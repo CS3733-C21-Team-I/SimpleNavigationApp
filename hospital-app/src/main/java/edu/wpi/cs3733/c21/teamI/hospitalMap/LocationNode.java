@@ -40,7 +40,7 @@ public class LocationNode extends HospitalMapNode {
       String shortName,
       String longName,
       String teamAssigned,
-      ArrayList<HospitalMapNode> connections) {
+      List<HospitalMapNode> connections) {
     super(id, mapID, xCoord, yCoord, connections);
     this.shortName = shortName;
     this.longName = longName;
@@ -59,8 +59,17 @@ public class LocationNode extends HospitalMapNode {
     return teamAssigned;
   }
 
+
   @Override
   public String toString() {
     return "Node: " + longName + " (a.k.a) " + shortName + " for team: " + teamAssigned;
+  }
+
+  public void setShortName(String sName) {
+    this.shortName = sName;
+  }
+
+  public void setLongName(String longName) {
+    this.longName = longName;
   }
 }
