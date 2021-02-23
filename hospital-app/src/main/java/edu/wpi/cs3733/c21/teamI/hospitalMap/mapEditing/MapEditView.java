@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.c21.teamI.hospitalMap.mapEditing;
 
 import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMapNode;
+import edu.wpi.cs3733.c21.teamI.hospitalMap.LocationNode;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -10,6 +11,7 @@ import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
@@ -26,6 +28,8 @@ public class MapEditView extends Application {
   private double scale;
   private final MapEditManager mapManager;
   private static MapEditManager ourManager;
+  private AnchorPane newLoadedPane;
+  private Button deleteBtn, saveBtn;
   private AnchorPane nodeMenuPane;
   private Button deleteBtn;
   private Button undoBtn;
@@ -55,7 +59,8 @@ public class MapEditView extends Application {
     primaryStage.setTitle("Map Editor");
     primaryStage.show();
     mapManager.setStage(primaryStage);
-    deleteBtn = (Button) nodeMenuPane.getChildren().get(11);
+    deleteBtn = (Button) newLoadedPane.lookup("#nodeDeleteButton");
+    saveBtn = (Button) newLoadedPane.lookup("#saveButton");
     undoBtn = (Button) mapManager.getRoot().lookup("#undoButton");
     redoBtn = (Button) mapManager.getRoot().lookup("#redoButton");
     setAddNodeHander();
@@ -80,14 +85,48 @@ public class MapEditView extends Application {
     update();
   }
 
+  private void populateEditNodeMenu(HospitalMapNode node) {
+    TextField sNameField = (TextField) newLoadedPane.lookup("#sNameField");
+    TextField lNameField = (TextField) newLoadedPane.lookup("#lNameField");
+    try {
+      sNameField.setText(((LocationNode) node).getShortName());
+      lNameField.setText(((LocationNode) node).getLongName());
+    } catch (ClassCastException e) {
+      sNameField.setText("");
+      lNameField.setText("");
+    }
+  }
+
+  private void editNodeName(HospitalMapNode node) {
+    TextField sNameField = (TextField) newLoadedPane.lookup("#sNameField");
+    TextField lNameField = (TextField) newLoadedPane.lookup("#lNameField");
+    String sName = sNameField.getText();
+    String lName = lNameField.getText();
+    try {
+      LocationNode newNode = (LocationNode) node;
+      newNode.setShortName(sName);
+      newNode.setLongName(lName);
+      mapManager.getDataCont().editNode(node.getID(), newNode);
+    } catch (ClassCastException e) {
+      LocationNode newNode = new LocationNode();
+      newNode.setId(node.getID());
+      newNode.setxCoord(node.getxCoord());
+      newNode.setyCoord(node.getyCoord());
+      newNode.setConnections(node.getConnections());
+      newNode.setMapID(node.getMapID());
+      newNode.setShortName(sName);
+      newNode.setLongName(lName);
+      mapManager.getDataCont().deleteNode(node.getID());
+      mapManager.getDataCont().addNode(newNode);
+    }
+  }
+
   private void loadFXML() {
     try {
-      nodeMenuPane = FXMLLoader.load(getClass().getResource("/fxml/EditNodePane.fxml"));
-      AnchorPane.setBottomAnchor(nodeMenuPane, 50.0);
-      AnchorPane.setRightAnchor(nodeMenuPane, 50.0);
-      AnchorPane.setLeftAnchor(nodeMenuPane, 5.0);
-      AnchorPane.setTopAnchor(nodeMenuPane, 20.0);
-      mapManager.getRoot().getChildren().add(nodeMenuPane);
+      newLoadedPane = FXMLLoader.load(getClass().getResource("/fxml/EditNodePane.fxml"));
+      AnchorPane.setBottomAnchor(newLoadedPane, 0.0);
+      AnchorPane.setRightAnchor(newLoadedPane, 0.0);
+      mapManager.getRoot().getChildren().add(newLoadedPane);
     } catch (FileNotFoundException e) {
       System.out.println("File not found");
     } catch (IOException e) {
@@ -257,6 +296,15 @@ public class MapEditView extends Application {
                   mapManager.toggleNode(node);
                   update();
                 });
+
+            saveBtn.setOnAction(
+                e -> {
+                  editNodeName(node);
+                  update();
+                });
+
+            populateEditNodeMenu(node);
+
             update();
           }
         });
