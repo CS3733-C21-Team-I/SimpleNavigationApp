@@ -1,10 +1,8 @@
 package edu.wpi.cs3733.c21.teamI.hospitalMap.mapEditing;
 
-import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMap;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMapNode;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicket;
 import java.io.IOException;
-import java.util.Map;
 import java.util.Set;
 import javafx.scene.Group;
 import javafx.scene.layout.AnchorPane;
@@ -13,7 +11,6 @@ import javafx.stage.Stage;
 public class MapEditManager {
 
   private static MapEditManager ourInstance;
-  private Map<String, HospitalMap> mapCollection;
   private double scale = 3.05; // scales image to 1/scale
   private MapEditView mapEditorView = null;
   private ApplicationView applicationView = null;
@@ -26,10 +23,6 @@ public class MapEditManager {
 
   public static void init() {
     ourInstance = new MapEditManager();
-  }
-
-  public void setMapCollection(Map<String, HospitalMap> mapCollection) {
-    this.mapCollection = mapCollection;
   }
 
   public static MapEditManager getInstance() {
