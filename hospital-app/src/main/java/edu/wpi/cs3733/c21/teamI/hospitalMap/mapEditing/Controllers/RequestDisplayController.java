@@ -1,6 +1,7 @@
-package edu.wpi.cs3733.c21.teamI.hospitalMap.mapEditing;
+package edu.wpi.cs3733.c21.teamI.hospitalMap.mapEditing.Controllers;
 
 import edu.wpi.cs3733.c21.teamI.database.UserDatabaseManager;
+import edu.wpi.cs3733.c21.teamI.hospitalMap.mapEditing.MapEditManager;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicket;
 import java.io.IOException;
 import javafx.application.Application;
@@ -14,7 +15,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class RequestView extends Application {
+public class RequestDisplayController extends Application {
+
   private ServiceTicket serviceTicket;
   private MapEditManager mapManager;
   private static MapEditManager ourManager;
@@ -26,11 +28,11 @@ public class RequestView extends Application {
   //  @FXML Label header;
   //  @FXML CheckBox completed;
 
-  public RequestView() {
+  public RequestDisplayController() {
     this.mapManager = ourManager;
   }
 
-  public RequestView(MapEditManager mapManager, ServiceTicket serviceTicket) {
+  public RequestDisplayController(MapEditManager mapManager, ServiceTicket serviceTicket) {
     this.mapManager = mapManager;
     this.serviceTicket = serviceTicket;
   }

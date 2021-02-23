@@ -1,6 +1,8 @@
 package edu.wpi.cs3733.c21.teamI.hospitalMap.mapEditing;
 
 import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMapNode;
+import edu.wpi.cs3733.c21.teamI.hospitalMap.mapEditing.Controllers.MapEditController;
+import edu.wpi.cs3733.c21.teamI.hospitalMap.mapEditing.Controllers.RequestDisplayController;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicket;
 import java.io.IOException;
 import java.util.Set;
@@ -12,14 +14,14 @@ public class MapEditManager {
 
   private static MapEditManager ourInstance;
   private double scale = 3.05; // scales image to 1/scale
-  private MapEditView mapEditorView = null;
+  private MapEditController mapEditorView = null;
   private ApplicationView applicationView = null;
   protected AnchorPane mapPane = null;
   private Group root = null;
   private Stage stage = null;
   private HospitalMapNode selectedNode = null;
   private final MapEditDataController dataCont = new MapEditDataController();
-  private RequestView requestView;
+  private RequestDisplayController requestView;
 
   public static void init() {
     ourInstance = new MapEditManager();
@@ -60,10 +62,10 @@ public class MapEditManager {
 
   public void startEditorView(AnchorPane mapPane) {
     this.mapPane = mapPane;
-    mapEditorView = new MapEditView(this);
+    mapEditorView = new MapEditController(this);
     System.out.println(stage);
     mapEditorView.start(stage);
-    MapEditView.saveManager();
+    MapEditController.saveManager();
   }
 
   public void startApplicationView() {
@@ -105,8 +107,8 @@ public class MapEditManager {
   }
 
   public void startRequestView(ServiceTicket st) throws IOException {
-    requestView = new RequestView(this, st);
-    RequestView.saveManager();
+    requestView = new RequestDisplayController(this, st);
+    RequestDisplayController.saveManager();
     requestView.start(stage);
   }
 
