@@ -4,6 +4,7 @@ import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
 import edu.wpi.cs3733.c21.teamI.database.NavDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.database.ServiceTicketDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.EuclidianDistCalc;
+import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMapCSVBuilder;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMapNode;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.LocationNode;
 import edu.wpi.cs3733.c21.teamI.pathfinding.PathFinder;
@@ -253,6 +254,11 @@ public class ApplicationView extends Application {
   @FXML
   public void exit() {
     mapManager.getStage().close();
+
+    HospitalMapCSVBuilder.saveCSV(
+        NavDatabaseManager.getInstance().loadMapsFromMemory().values(),
+        "csv/MapINodes.csv",
+        "csv/MapIEdgers.csv");
   }
 
   @FXML
