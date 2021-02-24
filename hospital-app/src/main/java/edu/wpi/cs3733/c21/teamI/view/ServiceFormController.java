@@ -23,7 +23,6 @@ public class ServiceFormController extends Application {
   @FXML CheckBox sanEmergency;
   @FXML TextArea sanDescription;
   @FXML HBox sanRequestType;
-  @FXML TextField sanRequestID;
   @FXML VBox background;
 
   @FXML TextArea mainDesc;
