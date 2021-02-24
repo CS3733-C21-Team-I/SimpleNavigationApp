@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.c21.teamI.view;
 
+import edu.wpi.cs3733.c21.teamI.database.NavDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.database.ServiceTicketDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicket;
 import java.io.IOException;
@@ -29,8 +30,12 @@ public class ServiceFormController extends Application {
   @FXML MenuButton mainRequestType;
   @FXML TextField mainAssignedID;
   @FXML TextField mainRequestID;
+
   @FXML ListView serviceLocationList;
   @FXML TextField requestLocation;
+
+  @FXML ListView requestAssignedList;
+  @FXML TextField requestAssigned;
 
   @FXML
   public void createSanitationTicket(ActionEvent e) {
@@ -42,7 +47,7 @@ public class ServiceFormController extends Application {
               RequestID,
               AssignedID,
               ServiceTicket.TicketType.SANITATION,
-              requestLocation.getText(),
+              NavDatabaseManager.getInstance().getMapIdFromLongName(requestLocation.getText()),
               sanDescription.getText(),
               sanEmergency.isSelected(),
               false);
@@ -65,12 +70,12 @@ public class ServiceFormController extends Application {
               RequestID,
               AssignID,
               ServiceTicket.TicketType.MAINTENANCE,
-              requestLocation.getText(),
+              NavDatabaseManager.getInstance().getMapIdFromLongName(requestLocation.getText()),
               mainDesc.getText(),
               mainEmerg.isSelected(),
               false);
       System.out.println(maintenanceTicket);
-      //  ServiceTicketDatabaseManager.getInstance().addTicket(maintenanceTicket);
+      ServiceTicketDatabaseManager.getInstance().addTicket(maintenanceTicket);
 
     } catch (Exception e) {
       e.printStackTrace();
@@ -92,9 +97,19 @@ public class ServiceFormController extends Application {
                   requestLocation.setText(newVal);
                   serviceLocationList.setVisible(false);
                 });
+    requestAssignedList
+        .getSelectionModel()
+        .selectedItemProperty()
+        .addListener(
+            (ChangeListener<String>)
+                (ov, oldVal, newVal) -> {
+                  requestAssigned.setText(newVal);
+                  requestAssignedList.setVisible(false);
+                });
     background.setOnMouseClicked(
         t -> {
           serviceLocationList.setVisible(false);
+          requestAssignedList.setVisible(false);
         });
   }
 
@@ -105,6 +120,10 @@ public class ServiceFormController extends Application {
 
   public void lookup(KeyEvent e) {
     ViewManager.lookupNodes(e, serviceLocationList, requestLocation);
+  }
+
+  public void lookupUser(KeyEvent e) {
+    ViewManager.lookupUsernames(e, requestAssignedList, requestAssigned);
   }
 
   @Override

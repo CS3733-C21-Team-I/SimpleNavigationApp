@@ -487,6 +487,21 @@ public class NavDatabaseManager extends DatabaseManager {
     }
   }
 
+  public String getMapIdFromLongName(String longName) {
+    try {
+      Statement statement = databaseRef.getConnection().createStatement();
+      ResultSet rs =
+          statement.executeQuery("SELECT * FROM NAVNODES WHERE LONG_NAME='" + longName + "'");
+
+      if (!rs.next()) return "ERRROR";
+
+      return rs.getString("NODE_ID");
+    } catch (SQLException e) {
+      e.printStackTrace();
+      return "ERROR";
+    }
+  }
+
   public static void populateExampleData() {
     try {
       Statement stmt =
