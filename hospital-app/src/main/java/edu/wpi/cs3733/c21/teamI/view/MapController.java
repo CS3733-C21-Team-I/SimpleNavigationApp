@@ -280,7 +280,6 @@ public class MapController extends Application {
   private void update() {
     mapPane.getChildren().clear();
     drawSelectedNode();
-    System.out.println(mapPane.getChildren());
     for (HospitalMapNode node : ViewManager.getEntityNodes()) {
       drawEdges(node);
     }
@@ -289,18 +288,14 @@ public class MapController extends Application {
     }
     if (ViewManager.getDataCont().isUndoAvailable()) {
       undoButton.setOpacity(1);
-      System.out.println("making undo full");
     } else {
       undoButton.setOpacity(0.2);
-      System.out.println("making undo gray");
     }
 
     if (ViewManager.getDataCont().isRedoAvailable()) {
       redoButton.setOpacity(1);
-      System.out.println("making redo full");
     } else {
       redoButton.setOpacity(0.2);
-      System.out.printf("making redo gray");
     }
   }
 
