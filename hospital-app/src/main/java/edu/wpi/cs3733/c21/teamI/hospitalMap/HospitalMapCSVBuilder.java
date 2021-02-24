@@ -92,7 +92,7 @@ public class HospitalMapCSVBuilder {
           nodesString.append(((LocationNode) node).getLongName() + ", ");
           nodesString.append(((LocationNode) node).getShortName() + ", ");
           nodesString.append(((LocationNode) node).getTeamAssigned() + ", ");
-          nodesString.append(mapId);
+          nodesString.append(mapId + "\n");
         } else {
           nodesString.append(node.getID() + ", ");
           nodesString.append(node.getxCoord() + ", ");
