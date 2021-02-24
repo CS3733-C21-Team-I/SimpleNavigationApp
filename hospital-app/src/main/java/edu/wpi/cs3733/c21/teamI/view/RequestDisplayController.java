@@ -72,7 +72,6 @@ public class RequestDisplayController extends Application {
                 .getDisplayNameForId(serviceTicket.getAssignedUserID())));
     locationBox.setText(serviceTicket.getLocation());
     description.setText(serviceTicket.getDescription());
-    System.out.println(serviceTicket.isCompleted());
     completed.setSelected(serviceTicket.isCompleted());
   }
 

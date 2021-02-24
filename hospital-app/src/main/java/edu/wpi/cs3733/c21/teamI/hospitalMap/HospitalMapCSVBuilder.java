@@ -136,7 +136,6 @@ public class HospitalMapCSVBuilder {
     }
 
     try {
-      System.out.println(System.getProperty("user.dir"));
       File nodes = new File(System.getProperty("user.dir") + "\\NewNodes.csv");
       try (FileWriter fr = new FileWriter(System.getProperty("user.dir") + "\\NewNodes.csv")) {
         fr.write(nodesString.toString());

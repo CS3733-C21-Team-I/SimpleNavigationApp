@@ -88,8 +88,6 @@ public class NavEditTests {
     controller.setActiveMap(maps.get("map1"));
 
     controller.deleteNode("N04");
-
-    System.out.println(controller.getActiveMap());
   }
 
   @Test
