@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.c21.teamI.view;
 
+import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
 import edu.wpi.cs3733.c21.teamI.database.NavDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.database.ServiceTicketDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.database.UserDatabaseManager;
@@ -21,7 +22,6 @@ public class ServiceFormController extends Application {
 
   @FXML CheckBox sanEmergency;
   @FXML TextArea sanDescription;
-  @FXML TextField sanAssignedID;
   @FXML HBox sanRequestType;
   @FXML TextField sanRequestID;
   @FXML VBox background;
@@ -29,20 +29,22 @@ public class ServiceFormController extends Application {
   @FXML TextArea mainDesc;
   @FXML CheckBox mainEmerg;
   @FXML MenuButton mainRequestType;
-  @FXML TextField mainAssignedID;
-  @FXML TextField mainRequestID;
 
   @FXML ListView serviceLocationList;
   @FXML TextField requestLocation;
 
   @FXML ListView requestAssignedList;
   @FXML TextField requestAssigned;
+  @FXML TextField requestID;
 
   @FXML
   public void createSanitationTicket(ActionEvent e) {
     try {
-      int RequestID = Integer.parseInt(sanRequestID.getText());
-      int AssignedID = UserDatabaseManager.getInstance().getUserForScreenname(requestAssigned.getText()).getUserId();
+      int RequestID = ApplicationDataController.getInstance().getLoggedInUser().getUserId();
+      int AssignedID =
+          UserDatabaseManager.getInstance()
+              .getUserForScreenname(requestAssigned.getText())
+              .getUserId();
       sanitationTicket =
           new ServiceTicket(
               RequestID,
@@ -61,9 +63,11 @@ public class ServiceFormController extends Application {
   @FXML
   public void createMaintenanceTicket(ActionEvent o) {
     try {
-      int RequestID = Integer.parseInt(mainRequestID.getText());
-      System.out.println(RequestID);
-      int AssignID =  UserDatabaseManager.getInstance().getUserForScreenname(requestAssigned.getText()).getUserId();
+      int RequestID = ApplicationDataController.getInstance().getLoggedInUser().getUserId();
+      int AssignID =
+          UserDatabaseManager.getInstance()
+              .getUserForScreenname(requestAssigned.getText())
+              .getUserId();
 
       maintenanceTicket =
           new ServiceTicket(
@@ -111,6 +115,9 @@ public class ServiceFormController extends Application {
           serviceLocationList.setVisible(false);
           requestAssignedList.setVisible(false);
         });
+
+    requestID.setText(
+        ApplicationDataController.getInstance().getLoggedInUser().getName());
   }
 
   @FXML
