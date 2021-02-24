@@ -31,6 +31,7 @@ public class ServiceFormController extends Application {
   @FXML TextField mainRequestID;
   @FXML ListView serviceLocationList;
   @FXML TextField requestLocation;
+  @FXML MenuButton mainRequestMenu;
 
   @FXML
   public void createSanitationTicket(ActionEvent e) {
@@ -76,6 +77,22 @@ public class ServiceFormController extends Application {
       e.printStackTrace();
       System.out.println(" Error " + e);
     }
+  }
+
+  public void clearMaintenance() {
+    mainDesc.clear();
+    requestLocation.clear();
+    mainRequestID.clear();
+    mainAssignedID.clear();
+    mainEmerg.setSelected(false);
+  }
+
+  public void clearSanitation() {
+    sanDescription.clear();
+    requestLocation.clear();
+    sanRequestID.clear();
+    sanAssignedID.clear();
+    sanEmergency.setSelected(false);
   }
 
   public void navigate(ActionEvent e) throws IOException {

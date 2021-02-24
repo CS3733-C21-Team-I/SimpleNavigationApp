@@ -18,7 +18,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="800.0" prefWidth="973.0" styleClass=".root" stylesheets="fxmlResources/main.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamI.view.ServiceFormController">
+<AnchorPane prefHeight="800.0" prefWidth="973.0" styleClass=".root" stylesheets="fxmlResources/main.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamI.view.ServiceFormController">
    <children>
       <VBox fx:id="background" layoutX="185.0" layoutY="126.0" prefHeight="436.0" prefWidth="733.0">
          <children>
@@ -32,7 +32,7 @@
                         <Font size="17.0" />
                      </font>
                   </Label>
-                  <MenuButton mnemonicParsing="false" prefHeight="27.0" prefWidth="164.0" text="Select...">
+                  <MenuButton fx:id="mainRequestMenu" mnemonicParsing="false" prefHeight="27.0" prefWidth="164.0" text="Select...">
                      <items>
                         <MenuItem mnemonicParsing="false" text="Elevator Malfunction" />
                         <MenuItem mnemonicParsing="false" text="Hospital Bed" />
@@ -141,7 +141,7 @@
             </HBox>
             <HBox alignment="TOP_RIGHT" prefHeight="82.0" prefWidth="573.0">
                <children>
-                  <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="107.0" styleClass="styledButton" stylesheets="@fxmlResources/main.css" text="Clear">
+                  <Button fx:id="sanitationClear" mnemonicParsing="false" onAction="#clearSanitation" prefHeight="50.0" prefWidth="107.0" styleClass="styledButton" stylesheets="@fxmlResources/main.css" text="Clear">
                      <HBox.margin>
                         <Insets right="10.0" />
                      </HBox.margin>
