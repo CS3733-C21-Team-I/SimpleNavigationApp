@@ -45,11 +45,9 @@ public class HospitalMapCSVBuilder {
       }
       maps.get(nodeEntry.get(10)).getNodes().add(locationNode);
       tempNodeMap.put(nodeEntry.get(0), locationNode);
-      System.out.println(nodeEntry.get(0));
     }
 
     for (List<String> edgeEntry : readFromFile(edgePath)) {
-      System.out.println(edgeEntry.get(1));
       HospitalMapNode a = tempNodeMap.get(edgeEntry.get(1));
       HospitalMapNode b = tempNodeMap.get(edgeEntry.get(2));
       a.getConnections().add(b);
@@ -95,7 +93,6 @@ public class HospitalMapCSVBuilder {
       int floorNumber = map.getFloorNumber();
 
       for (HospitalMapNode node : map.getNodes()) {
-        System.out.println(node.getClass());
         if (node instanceof LocationNode) {
           nodesString.append(node.getID() + ",");
           nodesString.append(node.getxCoord() + ",");
