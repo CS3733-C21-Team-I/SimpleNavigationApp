@@ -65,7 +65,8 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
           stmt.executeQuery(
               "SELECT * FROM serviceticket WHERE REQUESTINGUSERID=" + String.valueOf(requestID));
       while (rs.next()) {
-        ServiceTicket ticket = new ServiceTicket(
+        ServiceTicket ticket =
+            new ServiceTicket(
                 rs.getInt("requestingUserID"),
                 rs.getInt("assignedUserID"),
                 ServiceTicket.TicketType.valueOf(rs.getString("ticketType")),
@@ -74,6 +75,7 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
                 rs.getBoolean("emergency"),
                 rs.getBoolean("completed"));
         ticket.setTicketID(rs.getInt("TICKETID"));
+        results.add(ticket);
       }
 
     } catch (SQLException e) {
