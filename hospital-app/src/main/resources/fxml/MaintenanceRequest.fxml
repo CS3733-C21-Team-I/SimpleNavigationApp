@@ -105,7 +105,7 @@
          </CheckBox>
       </HBox>
       <HBox alignment="TOP_RIGHT" prefHeight="82.0" prefWidth="573.0">
-         <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="107.0" styleClass="styledButton" stylesheets="@fxmlResources/main.css" text="Clear">
+         <Button mnemonicParsing="false" onAction="#clearMaintenance" prefHeight="50.0" prefWidth="107.0" styleClass="styledButton" stylesheets="@fxmlResources/main.css" text="Clear">
             <HBox.margin>
                <Insets right="10.0" />
             </HBox.margin>
@@ -145,6 +145,6 @@
          <Cursor fx:constant="HAND" />
       </cursor>
    </Button>
-   <ListView fx:id="serviceLocationList" layoutX="338.0" layoutY="325.0" prefHeight="200.0" prefWidth="200.0" visible="false" />
-   <ListView fx:id="requestAssignedList" layoutX="342.0" layoutY="427.0" prefHeight="200.0" prefWidth="200.0" visible="false" />
+   <ListView fx:id="serviceLocationList" layoutX="338.0" layoutY="289.0" prefHeight="200.0" prefWidth="200.0" visible="false" />
+   <ListView fx:id="requestAssignedList" layoutX="407.0" layoutY="388.0" prefHeight="200.0" prefWidth="200.0" visible="false" />
 </AnchorPane>

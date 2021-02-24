@@ -118,6 +118,22 @@ public class ServiceFormController extends Application {
     requestID.setText(ApplicationDataController.getInstance().getLoggedInUser().getName());
   }
 
+  public void clearMaintenance() {
+    mainDesc.clear();
+    requestLocation.clear();
+    requestID.clear();
+    requestAssigned.clear();
+    mainEmerg.setSelected(false);
+  }
+
+  public void clearSanitation() {
+    sanDescription.clear();
+    requestLocation.clear();
+    requestID.clear();
+    requestAssigned.clear();
+    sanEmergency.setSelected(false);
+  }
+
   @FXML
   public void initialize() {
     setupRequestView();
