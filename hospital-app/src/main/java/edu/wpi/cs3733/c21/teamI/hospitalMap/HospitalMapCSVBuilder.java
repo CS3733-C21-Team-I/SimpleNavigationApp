@@ -100,7 +100,7 @@ public class HospitalMapCSVBuilder {
           nodesString.append(floorNumber + ", ");
           nodesString.append(buildingName + ", ");
           nodesString.append("Temp, ");
-          nodesString.append("LOC, ");
+          nodesString.append("POS, ");
           nodesString.append(", ");
           nodesString.append(", ");
           nodesString.append(", ");
