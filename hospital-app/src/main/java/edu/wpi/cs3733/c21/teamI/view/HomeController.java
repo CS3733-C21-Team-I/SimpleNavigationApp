@@ -1,6 +1,8 @@
 package edu.wpi.cs3733.c21.teamI.view;
 
 import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
+import edu.wpi.cs3733.c21.teamI.database.NavDatabaseManager;
+import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMapCSVBuilder;
 import edu.wpi.cs3733.c21.teamI.user.User;
 import java.io.IOException;
 import java.time.ZonedDateTime;
@@ -47,10 +49,10 @@ public class HomeController extends Application {
 
   @FXML
   public void exit() {
-    //    HospitalMapCSVBuilder.saveCSV(
-    //        NavDatabaseManager.getInstance().loadMapsFromMemory().values(),
-    //        "csv/MapINewNodes.csv",
-    //        "csv/MapINewEdgers.csv");
+    HospitalMapCSVBuilder.saveCSV(
+        NavDatabaseManager.getInstance().loadMapsFromMemory().values(),
+        "csv/MapINewNodes.csv",
+        "csv/MapINewEdgers.csv");
     Platform.exit();
     System.exit(0);
   }
