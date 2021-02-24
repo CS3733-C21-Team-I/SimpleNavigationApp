@@ -63,6 +63,16 @@ public class ProfileController extends Application {
     }
   }
 
+  @FXML
+  public void logout() {
+    ApplicationDataController.getInstance().logOutUser();
+    loginVBox.setVisible(true);
+    serviceDisplay.setVisible(false);
+    username.clear();
+    password.clear();
+    headerLabel.setText("You successfully logged out.");
+  }
+
   public void generateRequestList() {
     List<ServiceTicket> requests =
         ServiceTicketDatabaseManager.getInstance()
