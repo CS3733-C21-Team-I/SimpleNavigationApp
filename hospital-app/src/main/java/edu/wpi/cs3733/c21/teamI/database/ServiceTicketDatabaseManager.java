@@ -135,11 +135,13 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
     // Update the complete-ness of a ticket
     try {
       Statement stmt = databaseRef.getConnection().createStatement();
-      ResultSet rs = stmt.executeQuery("SELECT * FROM serviceticket WHERE ticketID = '" + id + "'");
+      ResultSet rs =
+          stmt.executeQuery("SELECT * FROM serviceticket WHERE ticketID = " + String.valueOf(id));
       if (!rs.next()) {
         return false;
       }
-      stmt.execute("UPDATE serviceticket SET completed='" + true + "' WHERE ticketID='" + id + "'");
+      stmt.execute(
+          "UPDATE serviceticket SET completed='" + true + "' WHERE ticketID=" + String.valueOf(id));
     } catch (SQLException e) {
       e.printStackTrace();
     }

@@ -11,6 +11,7 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -48,12 +49,12 @@ public class HomeController extends Application {
 
   @FXML
   public void exit() {
-    ViewManager.getStage().close();
-
     HospitalMapCSVBuilder.saveCSV(
         NavDatabaseManager.getInstance().loadMapsFromMemory().values(),
         "csv/MapINewNodes.csv",
         "csv/MapINewEdgers.csv");
+    Platform.exit();
+    System.exit(0);
   }
 
   public void navigate(ActionEvent e) throws IOException {
@@ -63,7 +64,7 @@ public class HomeController extends Application {
   @Override
   public void start(Stage primaryStage) throws Exception {
     AnchorPane root = FXMLLoader.load(getClass().getResource("/fxml/Home.fxml"));
-    primaryStage.setTitle("Home");
+    primaryStage.setTitle("Hospital App");
     Scene applicationScene = new Scene(root, 973, 800);
     primaryStage.setScene(applicationScene);
     primaryStage.show();
@@ -77,9 +78,11 @@ public class HomeController extends Application {
         .hasPermission(User.Permission.VIEW_TICKET)) {
       serviceRequests.setMaxWidth(map.getMaxWidth());
       serviceRequests.setVisible(true);
+      serviceRequests.setManaged(true);
     } else {
       serviceRequests.setMaxWidth(0);
       serviceRequests.setVisible(false);
+      serviceRequests.setManaged(false);
     }
   }
 }

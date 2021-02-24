@@ -1,12 +1,15 @@
 package edu.wpi.cs3733.c21.teamI.view;
 
 import edu.wpi.cs3733.c21.teamI.database.NavDatabaseManager;
+import edu.wpi.cs3733.c21.teamI.database.UserDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMapNode;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.LocationNode;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.mapEditing.MapEditDataController;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicket;
+import edu.wpi.cs3733.c21.teamI.user.User;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
@@ -83,6 +86,35 @@ public class ViewManager {
     for (String location : nodeNames) {
       if (location.toLowerCase().contains(matchString)) {
         matches.add(location);
+      }
+    }
+
+    // Add elements to ListView
+    ObservableList<String> items = FXCollections.observableArrayList(matches);
+    listView.setItems(items);
+    listView.setVisible(e.getSource() == target);
+  }
+
+  public static void lookupUsernames(KeyEvent e, ListView listView, TextField target) {
+    String matchString =
+        (((TextField) e.getSource()).getText()
+                + (!e.getCharacter().equals(Character.toString((char) 8)) ? e.getCharacter() : ""))
+            .toLowerCase()
+            .replaceAll("[^a-zA-Z]+", "");
+    List<String> nameList =
+        UserDatabaseManager.getInstance().getUsernamesWithPermission(User.Permission.VIEW_TICKET);
+    ArrayList<String> matches = new ArrayList<>();
+    for (String username : nameList) {
+      System.out.println(matchString + ":" + matchString.length());
+      System.out.println(
+          username.toLowerCase()
+              + " : "
+              + matchString
+              + " : "
+              + username.toLowerCase().contains(matchString));
+      if (username.toLowerCase().contains(matchString)) {
+        System.out.println(username);
+        matches.add(username);
       }
     }
 
