@@ -63,7 +63,7 @@ public class HomeController extends Application {
   @Override
   public void start(Stage primaryStage) throws Exception {
     AnchorPane root = FXMLLoader.load(getClass().getResource("/fxml/Home.fxml"));
-    primaryStage.setTitle("Home");
+    primaryStage.setTitle("Hospital App");
     Scene applicationScene = new Scene(root, 973, 800);
     primaryStage.setScene(applicationScene);
     primaryStage.show();
