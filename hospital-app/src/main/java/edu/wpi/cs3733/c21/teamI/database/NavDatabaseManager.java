@@ -487,19 +487,38 @@ public class NavDatabaseManager extends DatabaseManager {
     }
   }
 
-  public static void populateExampleData() {
+  public String getMapIdFromLongName(String longName) {
     try {
-      Statement stmt =
-          NavDatabaseManager.getInstance().databaseRef.getConnection().createStatement();
-      stmt.addBatch(
-          "INSERT INTO navNodes(NODE_ID, X_COORD, Y_COORD, MAP_ID) VALUES ('ROOM304', 1, 2, 'MAPG')\n");
-      stmt.addBatch(
-          "INSERT INTO navNodes(NODE_ID, X_COORD, Y_COORD, MAP_ID) VALUES ('ROOM205', 3, 4, 'MAPG')\n");
-      stmt.addBatch(
-          "INSERT INTO navNodes(NODE_ID, X_COORD, Y_COORD, MAP_ID) VALUES ('ROOM106', 5, 6, 'MAPG')\n");
-      stmt.executeBatch();
+      Statement statement = databaseRef.getConnection().createStatement();
+      ResultSet rs =
+          statement.executeQuery("SELECT * FROM NAVNODES WHERE LONG_NAME='" + longName + "'");
+
+      if (!rs.next()) return "ERRROR";
+
+      return rs.getString("NODE_ID");
     } catch (SQLException e) {
       e.printStackTrace();
+      return "ERROR";
     }
+  }
+
+  public static void populateExampleData() {
+    //    try {
+    //      Statement stmt =
+    //          NavDatabaseManager.getInstance().databaseRef.getConnection().createStatement();
+    //      stmt.addBatch("INSERT INTO navMaps(MAP_ID) VALUES ('MAPG')\n");
+    //      stmt.addBatch(
+    //          "INSERT INTO navNodes(NODE_ID, X_COORD, Y_COORD, MAP_ID) VALUES ('ROOM304', 1, 2,
+    // 'MAPG')\n");
+    //      stmt.addBatch(
+    //          "INSERT INTO navNodes(NODE_ID, X_COORD, Y_COORD, MAP_ID) VALUES ('ROOM205', 3, 4,
+    // 'MAPG')\n");
+    //      stmt.addBatch(
+    //          "INSERT INTO navNodes(NODE_ID, X_COORD, Y_COORD, MAP_ID) VALUES ('ROOM106', 5, 6,
+    // 'MAPG')\n");
+    //      stmt.executeBatch();
+    //    } catch (SQLException e) {
+    //      e.printStackTrace();
+    //    }
   }
 }

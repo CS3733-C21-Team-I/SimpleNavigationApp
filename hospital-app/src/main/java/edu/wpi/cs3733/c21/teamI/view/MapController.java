@@ -16,9 +16,6 @@ import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Group;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
@@ -169,7 +166,7 @@ public class MapController extends Application {
     mapPane.getChildren().add(line);
   }
 
-  public void drawPath(List<HospitalMapNode> path) {
+  private void drawPath(List<HospitalMapNode> path) {
     HospitalMapNode currNode;
     HospitalMapNode nextNode = null;
     for (int i = 0; i < path.size() - 1; i++) {
@@ -183,43 +180,18 @@ public class MapController extends Application {
   public void saveChanges() {
     ViewManager.getDataCont().saveChanges();
     toggleEditMap(new ActionEvent());
-    //    adminMap = !adminMap;
-    //    if (adminMap) {
-    //      startEditView();
-    //    } else {
-    //      nodeMenu.setVisible(false);
-    //    }
-    //    mapPane.setVisible(adminMap);
-    //    save.setVisible(adminMap);
-    //    discard.setVisible(adminMap);
   }
 
   @FXML
   public void discardChanges() {
     ViewManager.getDataCont().discardChanges();
     toggleEditMap(new ActionEvent());
-    //    adminMap = !adminMap;
-    //    if (adminMap) {
-    //      startEditView();
-    //    } else {
-    //      nodeMenu.setVisible(false);
-    //    }
-    //    mapPane.setVisible(adminMap);
-    //    save.setVisible(adminMap);
-    //    discard.setVisible(adminMap);
   }
 
   @Override
-  public void start(Stage primaryStage) throws Exception {
-    Group root = FXMLLoader.load(getClass().getResource("/fxml/Map.fxml"));
-    primaryStage.setTitle("Hospital Map");
-    root.getChildren().add(root);
-    Scene applicationScene = new Scene(root, 973, 800);
-    primaryStage.setScene(applicationScene);
-    primaryStage.show();
-  }
+  public void start(Stage primaryStage) throws Exception {}
 
-  public void startEditView() {
+  private void startEditView() {
     setupMapViewHandlers();
     setAddNodeHander();
     nodeMenu.setVisible(ViewManager.getSelectedNode() != null && adminMap);
@@ -306,7 +278,7 @@ public class MapController extends Application {
     return new String("BadSol" + idGen.incrementAndGet());
   }
 
-  public void update() {
+  private void update() {
     mapPane.getChildren().clear();
     drawSelectedNode();
     System.out.println(mapPane.getChildren());
@@ -334,7 +306,7 @@ public class MapController extends Application {
   }
 
   @FXML
-  private void initialize() {
+  public void initialize() {
     boolean isAdmin =
         ApplicationDataController.getInstance()
             .getLoggedInUser()

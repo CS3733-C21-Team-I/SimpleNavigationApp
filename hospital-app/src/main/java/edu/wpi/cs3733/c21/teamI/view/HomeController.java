@@ -63,7 +63,7 @@ public class HomeController extends Application {
   @Override
   public void start(Stage primaryStage) throws Exception {
     AnchorPane root = FXMLLoader.load(getClass().getResource("/fxml/Home.fxml"));
-    primaryStage.setTitle("Home");
+    primaryStage.setTitle("Hospital App");
     Scene applicationScene = new Scene(root, 973, 800);
     primaryStage.setScene(applicationScene);
     primaryStage.show();
@@ -77,9 +77,11 @@ public class HomeController extends Application {
         .hasPermission(User.Permission.VIEW_TICKET)) {
       serviceRequests.setMaxWidth(map.getMaxWidth());
       serviceRequests.setVisible(true);
+      serviceRequests.setManaged(true);
     } else {
       serviceRequests.setMaxWidth(0);
       serviceRequests.setVisible(false);
+      serviceRequests.setManaged(false);
     }
   }
 }
