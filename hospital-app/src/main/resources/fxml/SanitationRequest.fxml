@@ -112,12 +112,12 @@
             </HBox>
             <HBox alignment="TOP_RIGHT" prefHeight="82.0" prefWidth="573.0">
                <children>
-                  <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="107.0" styleClass="styledButton" stylesheets="@fxmlResources/main.css" text="Clear">
+                  <Button mnemonicParsing="false" onAction="#clearSanitation" prefHeight="50.0" prefWidth="107.0" styleClass="styledButton" stylesheets="@fxmlResources/main.css" text="Clear">
                      <HBox.margin>
                         <Insets right="10.0" />
                      </HBox.margin>
                      <graphic>
-                        <ImageView fitHeight="25.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="clearSanitation" fitHeight="25.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@fxmlResources/baseline_delete_white_18dp.png" />
                            </image>
@@ -171,7 +171,7 @@
             </ImageView>
          </graphic>
       </Button>
-      <ListView fx:id="serviceLocationList" layoutX="322.0" layoutY="327.0" prefHeight="200.0" prefWidth="200.0" visible="false" />
-      <ListView fx:id="requestAssignedList" layoutX="342.0" layoutY="427.0" prefHeight="200.0" prefWidth="200.0" visible="false" />
+      <ListView fx:id="serviceLocationList" layoutX="324.0" layoutY="325.0" prefHeight="200.0" prefWidth="200.0" visible="false" />
+      <ListView fx:id="requestAssignedList" layoutX="392.0" layoutY="416.0" prefHeight="200.0" prefWidth="200.0" visible="false" />
    </children>
 </AnchorPane>

@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.c21.teamI.view;
 
+import edu.wpi.cs3733.c21.teamI.database.ServiceTicketDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.database.UserDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicket;
 import java.io.IOException;
@@ -44,6 +45,13 @@ public class RequestDisplayController extends Application {
 
   @FXML
   private void populatePage() {
+    completed
+        .selectedProperty()
+        .addListener(
+            (observable, oldValue, newValue) ->
+                ServiceTicketDatabaseManager.getInstance()
+                    .updateTicket(serviceTicket.getTicketId()));
+
     serviceTicket = ViewManager.getServiceTicketToShow();
     this.title = serviceTicket.getTicketType().toString().toLowerCase();
     header.setText(
@@ -64,6 +72,7 @@ public class RequestDisplayController extends Application {
                 .getDisplayNameForId(serviceTicket.getAssignedUserID())));
     locationBox.setText(serviceTicket.getLocation());
     description.setText(serviceTicket.getDescription());
+    System.out.println(serviceTicket.isCompleted());
     completed.setSelected(serviceTicket.isCompleted());
   }
 

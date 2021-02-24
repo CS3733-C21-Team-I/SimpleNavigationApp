@@ -12,6 +12,7 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
 
   private static final String DB_URL = "jdbc:derby:navDB";
   private static ServiceTicketDatabaseManager ourInstance;
+  private List<ServiceTicket> serviceTixLs;
 
   /** @param regen */
   public static void init(boolean regen) {
@@ -35,16 +36,21 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
       Statement stmt = databaseRef.getConnection().createStatement();
       ResultSet rs =
           stmt.executeQuery("SELECT * FROM serviceticket WHERE ticketID=" + String.valueOf(id));
-      if (rs.next())
-        return new ServiceTicket(
-            rs.getInt("requestingUserID"),
-            rs.getInt("assignedUserID"),
-            ServiceTicket.TicketType.valueOf(rs.getString("ticketType")),
-            rs.getString("location"),
-            rs.getString("description"),
-            rs.getBoolean("emergency"),
-            rs.getBoolean("completed"));
-      else return null;
+      if (rs.next()) {
+        ServiceTicket cur =
+            new ServiceTicket(
+                rs.getInt("requestingUserID"),
+                rs.getInt("assignedUserID"),
+                ServiceTicket.TicketType.valueOf(rs.getString("ticketType")),
+                rs.getString("location"),
+                rs.getString("description"),
+                rs.getBoolean("emergency"),
+                rs.getBoolean("completed"));
+        cur.setTicketID(rs.getInt("ticketID"));
+        return cur;
+      } else {
+        return null;
+      }
     } catch (SQLException e) {
       e.printStackTrace();
       return null;
@@ -127,25 +133,29 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
   public void closeTicket(int id) {
     try {
       Statement stmt = databaseRef.getConnection().createStatement();
-      ResultSet rs = stmt.executeQuery("DELETE FROM serviceticket WHERE ticketID = '" + id + "'");
+      ResultSet rs =
+          stmt.executeQuery("DELETE FROM serviceticket WHERE ticketID = " + String.valueOf(id));
     } catch (SQLException e) {
       e.printStackTrace();
     }
   }
 
-  public boolean updateTicket(int id) {
+  public ServiceTicket updateTicket(int id) {
     // Update the complete-ness of a ticket
     try {
       Statement stmt = databaseRef.getConnection().createStatement();
-      ResultSet rs = stmt.executeQuery("SELECT * FROM serviceticket WHERE ticketID = '" + id + "'");
-      if (!rs.next()) {
-        return false;
-      }
-      stmt.execute("UPDATE serviceticket SET completed='" + true + "' WHERE ticketID='" + id + "'");
+      ServiceTicket cur = getTicketForId(id);
+      cur.setCompleted(true);
+      stmt.execute(
+          "UPDATE serviceticket SET completed='"
+              + true
+              + "' WHERE ticketID="
+              + String.valueOf(cur.getTicketId()));
+      return cur;
     } catch (SQLException e) {
       e.printStackTrace();
+      return null;
     }
-    return true;
   }
 
   public void openTicket(int id) {
@@ -208,7 +218,8 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
     try {
       Statement stmt = databaseRef.getConnection().createStatement();
       ResultSet rs =
-          stmt.executeQuery("SELECT * FROM serviceticket WHERE requestingUserID = '" + id + "'");
+          stmt.executeQuery(
+              "SELECT * FROM serviceticket WHERE requestingUserID = " + String.valueOf(id));
       while (rs.next()) {
         ServiceTicket cur =
             new ServiceTicket(
@@ -234,7 +245,8 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
     try {
       Statement stmt = databaseRef.getConnection().createStatement();
       ResultSet rs =
-          stmt.executeQuery("SELECT * FROM serviceticket WHERE requestingUserID = '" + id + "'");
+          stmt.executeQuery(
+              "SELECT * FROM serviceticket WHERE requestingUserID = " + String.valueOf(id));
       while (rs.next()) {
         ServiceTicket cur =
             new ServiceTicket(

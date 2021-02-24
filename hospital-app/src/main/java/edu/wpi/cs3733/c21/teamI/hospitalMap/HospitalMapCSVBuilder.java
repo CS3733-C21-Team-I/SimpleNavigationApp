@@ -136,15 +136,15 @@ public class HospitalMapCSVBuilder {
     }
 
     try {
-
-      try (FileWriter fr = new FileWriter("csv/NewNodes.csv")) {
+      System.out.println(System.getProperty("user.dir"));
+      File nodes = new File(System.getProperty("user.dir") + "\\NewNodes.csv");
+      try (FileWriter fr = new FileWriter(System.getProperty("user.dir") + "\\NewNodes.csv")) {
         fr.write(nodesString.toString());
       }
-
-      try (FileWriter fr = new FileWriter("csv/NewEdges.csv")) {
+      File edges = new File(System.getProperty("user.dir") + "\\NewEdges.csv");
+      try (FileWriter fr = new FileWriter(System.getProperty("user.dir") + "\\NewEdges.csv")) {
         fr.write(edgesString.toString());
       }
-
     } catch (IOException e) {
       e.printStackTrace();
     }
