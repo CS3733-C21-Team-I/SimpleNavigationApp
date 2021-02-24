@@ -1,8 +1,6 @@
 package edu.wpi.cs3733.c21.teamI.view;
 
 import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
-import edu.wpi.cs3733.c21.teamI.database.NavDatabaseManager;
-import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMapCSVBuilder;
 import edu.wpi.cs3733.c21.teamI.user.User;
 import java.io.IOException;
 import java.time.ZonedDateTime;
@@ -11,6 +9,7 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -48,12 +47,12 @@ public class HomeController extends Application {
 
   @FXML
   public void exit() {
-    ViewManager.getStage().close();
-
-    HospitalMapCSVBuilder.saveCSV(
-        NavDatabaseManager.getInstance().loadMapsFromMemory().values(),
-        "csv/MapINewNodes.csv",
-        "csv/MapINewEdgers.csv");
+    //    HospitalMapCSVBuilder.saveCSV(
+    //        NavDatabaseManager.getInstance().loadMapsFromMemory().values(),
+    //        "csv/MapINewNodes.csv",
+    //        "csv/MapINewEdgers.csv");
+    Platform.exit();
+    System.exit(0);
   }
 
   public void navigate(ActionEvent e) throws IOException {

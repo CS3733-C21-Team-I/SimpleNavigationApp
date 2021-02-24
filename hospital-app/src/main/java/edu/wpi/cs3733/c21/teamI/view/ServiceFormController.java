@@ -115,8 +115,7 @@ public class ServiceFormController extends Application {
           requestAssignedList.setVisible(false);
         });
 
-    requestID.setText(
-        ApplicationDataController.getInstance().getLoggedInUser().getName());
+    requestID.setText(ApplicationDataController.getInstance().getLoggedInUser().getName());
   }
 
   @FXML

@@ -145,7 +145,7 @@ public class NavDatabaseManager extends DatabaseManager {
         // Drop the nodeAttribute table.
         stmt.execute("DROP TABLE nodeAttribute");
       } catch (SQLException ex) {
-        ex.printStackTrace();
+        //        ex.printStackTrace();
         // No need to report an error.
         // The table simply did not exist.
       }
@@ -504,19 +504,22 @@ public class NavDatabaseManager extends DatabaseManager {
   }
 
   public static void populateExampleData() {
-//    try {
-//      Statement stmt =
-//          NavDatabaseManager.getInstance().databaseRef.getConnection().createStatement();
-//      stmt.addBatch("INSERT INTO navMaps(MAP_ID) VALUES ('MAPG')\n");
-//      stmt.addBatch(
-//          "INSERT INTO navNodes(NODE_ID, X_COORD, Y_COORD, MAP_ID) VALUES ('ROOM304', 1, 2, 'MAPG')\n");
-//      stmt.addBatch(
-//          "INSERT INTO navNodes(NODE_ID, X_COORD, Y_COORD, MAP_ID) VALUES ('ROOM205', 3, 4, 'MAPG')\n");
-//      stmt.addBatch(
-//          "INSERT INTO navNodes(NODE_ID, X_COORD, Y_COORD, MAP_ID) VALUES ('ROOM106', 5, 6, 'MAPG')\n");
-//      stmt.executeBatch();
-//    } catch (SQLException e) {
-//      e.printStackTrace();
-//    }
+    //    try {
+    //      Statement stmt =
+    //          NavDatabaseManager.getInstance().databaseRef.getConnection().createStatement();
+    //      stmt.addBatch("INSERT INTO navMaps(MAP_ID) VALUES ('MAPG')\n");
+    //      stmt.addBatch(
+    //          "INSERT INTO navNodes(NODE_ID, X_COORD, Y_COORD, MAP_ID) VALUES ('ROOM304', 1, 2,
+    // 'MAPG')\n");
+    //      stmt.addBatch(
+    //          "INSERT INTO navNodes(NODE_ID, X_COORD, Y_COORD, MAP_ID) VALUES ('ROOM205', 3, 4,
+    // 'MAPG')\n");
+    //      stmt.addBatch(
+    //          "INSERT INTO navNodes(NODE_ID, X_COORD, Y_COORD, MAP_ID) VALUES ('ROOM106', 5, 6,
+    // 'MAPG')\n");
+    //      stmt.executeBatch();
+    //    } catch (SQLException e) {
+    //      e.printStackTrace();
+    //    }
   }
 }

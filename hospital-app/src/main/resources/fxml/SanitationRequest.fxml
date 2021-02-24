@@ -6,8 +6,6 @@
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.MenuButton?>
-<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
@@ -22,34 +20,7 @@
    <children>
       <VBox fx:id="background" layoutX="185.0" layoutY="126.0" prefHeight="436.0" prefWidth="733.0">
          <children>
-            <HBox prefHeight="55.0" prefWidth="573.0">
-               <children>
-                  <Label text="Request Type:">
-                     <HBox.margin>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                     </HBox.margin>
-                     <font>
-                        <Font size="17.0" />
-                     </font>
-                  </Label>
-                  <MenuButton mnemonicParsing="false" prefHeight="27.0" prefWidth="164.0" text="Select...">
-                     <items>
-                        <MenuItem mnemonicParsing="false" text="Elevator Malfunction" />
-                        <MenuItem mnemonicParsing="false" text="Hospital Bed" />
-                        <MenuItem mnemonicParsing="false" text="Automatic Door Malfunction" />
-                        <MenuItem mnemonicParsing="false" text="Medical Device Repair" />
-                        <MenuItem mnemonicParsing="false" text="Lightbulb Replacement" />
-                        <MenuItem mnemonicParsing="false" text="Other" />
-                     </items>
-                     <HBox.margin>
-                        <Insets left="10.0" top="10.0" />
-                     </HBox.margin>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </MenuButton>
-               </children>
-            </HBox>
+            <HBox prefHeight="55.0" prefWidth="573.0" />
             <HBox prefHeight="123.0" prefWidth="573.0">
                <children>
                   <Label styleClass=".styledLabel" text="Request Details:">
@@ -188,7 +159,6 @@
             </Label>
          </children>
       </HBox>
-      <HBox fx:id="sanRequestType" alignment="TOP_RIGHT" layoutX="34.0" layoutY="91.0" prefHeight="82.0" prefWidth="573.0" />
       <Button fx:id="sanitationReturn" layoutX="26.0" layoutY="16.0" mnemonicParsing="false" onAction="#navigate" prefHeight="64.0" prefWidth="56.0" style="-fx-background-color: transparent;">
          <cursor>
             <Cursor fx:constant="HAND" />
