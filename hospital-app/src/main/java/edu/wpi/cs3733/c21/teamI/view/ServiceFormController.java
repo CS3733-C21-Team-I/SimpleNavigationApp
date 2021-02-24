@@ -90,16 +90,16 @@ public class ServiceFormController extends Application {
   public void clearMaintenance() {
     mainDesc.clear();
     requestLocation.clear();
-    mainRequestID.clear();
-    mainAssignedID.clear();
+    requestID.clear();
+    requestAssigned.clear();
     mainEmerg.setSelected(false);
   }
 
   public void clearSanitation() {
     sanDescription.clear();
     requestLocation.clear();
-    sanRequestID.clear();
-    sanAssignedID.clear();
+    requestID.clear();
+    requestAssigned.clear();
     sanEmergency.setSelected(false);
   }
 
@@ -132,8 +132,7 @@ public class ServiceFormController extends Application {
           requestAssignedList.setVisible(false);
         });
 
-    requestID.setText(
-        ApplicationDataController.getInstance().getLoggedInUser().getName());
+    requestID.setText(ApplicationDataController.getInstance().getLoggedInUser().getName());
   }
 
   @FXML
