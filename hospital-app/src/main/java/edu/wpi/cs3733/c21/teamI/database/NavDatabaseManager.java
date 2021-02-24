@@ -144,7 +144,7 @@ public class NavDatabaseManager extends DatabaseManager {
         // Drop the nodeAttribute table.
         stmt.execute("DROP TABLE nodeAttribute");
       } catch (SQLException ex) {
-        ex.printStackTrace();
+        //        ex.printStackTrace();
         // No need to report an error.
         // The table simply did not exist.
       }

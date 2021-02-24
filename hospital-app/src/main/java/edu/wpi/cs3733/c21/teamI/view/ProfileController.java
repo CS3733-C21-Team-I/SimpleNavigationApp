@@ -77,7 +77,7 @@ public class ProfileController extends Application {
                 ApplicationDataController.getInstance().getLoggedInUser().getUserId());
     List<String> requestNames =
         requests.stream()
-            .map(st -> st.getTicketType() + " #" + st.getTicketId())
+            .map(st -> st.getTicketType() + " (" + st.getDescription() + ")")
             .collect(Collectors.toList());
     requestContainer.getStylesheets().add("/fxml/fxmlResources/main.css");
     for (int i = 0; i < requestNames.size(); i++) {

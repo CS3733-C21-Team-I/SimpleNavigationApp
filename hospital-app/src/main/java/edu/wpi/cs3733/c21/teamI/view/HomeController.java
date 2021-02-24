@@ -11,6 +11,7 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -48,12 +49,12 @@ public class HomeController extends Application {
 
   @FXML
   public void exit() {
-    ViewManager.getStage().close();
-
     HospitalMapCSVBuilder.saveCSV(
         NavDatabaseManager.getInstance().loadMapsFromMemory().values(),
         "csv/MapINewNodes.csv",
         "csv/MapINewEdgers.csv");
+    Platform.exit();
+    System.exit(0);
   }
 
   public void navigate(ActionEvent e) throws IOException {

@@ -49,8 +49,9 @@ public class RequestDisplayController extends Application {
     header.setText(
         title.substring(0, 1).toUpperCase()
             + title.substring(1)
-            + " #"
-            + serviceTicket.getTicketId());
+            + " ("
+            + serviceTicket.getDescription()
+            + ")");
     type.setText(serviceTicket.getTicketType().toString());
     ticketID.setText(String.valueOf(serviceTicket.getTicketId()));
     requestID.setText(
