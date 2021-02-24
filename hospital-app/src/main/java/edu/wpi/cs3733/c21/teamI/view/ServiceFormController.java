@@ -2,6 +2,7 @@ package edu.wpi.cs3733.c21.teamI.view;
 
 import edu.wpi.cs3733.c21.teamI.database.NavDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.database.ServiceTicketDatabaseManager;
+import edu.wpi.cs3733.c21.teamI.database.UserDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicket;
 import java.io.IOException;
 import javafx.application.Application;
@@ -41,7 +42,7 @@ public class ServiceFormController extends Application {
   public void createSanitationTicket(ActionEvent e) {
     try {
       int RequestID = Integer.parseInt(sanRequestID.getText());
-      int AssignedID = Integer.parseInt(sanAssignedID.getText());
+      int AssignedID = UserDatabaseManager.getInstance().getUserForScreenname(requestAssigned.getText()).getUserId();
       sanitationTicket =
           new ServiceTicket(
               RequestID,
@@ -62,8 +63,7 @@ public class ServiceFormController extends Application {
     try {
       int RequestID = Integer.parseInt(mainRequestID.getText());
       System.out.println(RequestID);
-      int AssignID = Integer.parseInt(mainAssignedID.getText());
-      System.out.println(AssignID);
+      int AssignID =  UserDatabaseManager.getInstance().getUserForScreenname(requestAssigned.getText()).getUserId();
 
       maintenanceTicket =
           new ServiceTicket(

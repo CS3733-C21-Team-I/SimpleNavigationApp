@@ -174,5 +174,5 @@
       </cursor>
    </Button>
    <ListView fx:id="serviceLocationList" layoutX="338.0" layoutY="325.0" prefHeight="200.0" prefWidth="200.0" visible="false" />
-   <ListView fx:id="requestAssignedList" layoutX="100.0" layoutY="100.0" prefHeight="200.0" prefWidth="200.0" visible="false" />
+   <ListView fx:id="requestAssignedList" layoutX="342.0" layoutY="427.0" prefHeight="200.0" prefWidth="200.0" visible="false" />
 </AnchorPane>
