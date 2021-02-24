@@ -77,9 +77,11 @@ public class HomeController extends Application {
         .hasPermission(User.Permission.VIEW_TICKET)) {
       serviceRequests.setMaxWidth(map.getMaxWidth());
       serviceRequests.setVisible(true);
+      serviceRequests.setManaged(true);
     } else {
       serviceRequests.setMaxWidth(0);
       serviceRequests.setVisible(false);
+      serviceRequests.setManaged(false);
     }
   }
 }
