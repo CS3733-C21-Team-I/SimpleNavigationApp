@@ -192,7 +192,6 @@ public class MapController extends Application {
   public void start(Stage primaryStage) throws Exception {}
 
   private void startEditView() {
-    setupMapViewHandlers();
     setAddNodeHander();
     nodeMenu.setVisible(ViewManager.getSelectedNode() != null && adminMap);
     undoButton.setVisible(false);
@@ -307,6 +306,7 @@ public class MapController extends Application {
 
   @FXML
   public void initialize() {
+    setupMapViewHandlers();
     boolean isAdmin =
         ApplicationDataController.getInstance()
             .getLoggedInUser()
