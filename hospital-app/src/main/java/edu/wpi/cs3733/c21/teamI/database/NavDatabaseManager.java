@@ -506,6 +506,7 @@ public class NavDatabaseManager extends DatabaseManager {
     try {
       Statement stmt =
           NavDatabaseManager.getInstance().databaseRef.getConnection().createStatement();
+      stmt.addBatch("INSERT INTO navMaps(MAP_ID) VALUES ('MAPG')\n");
       stmt.addBatch(
           "INSERT INTO navNodes(NODE_ID, X_COORD, Y_COORD, MAP_ID) VALUES ('ROOM304', 1, 2, 'MAPG')\n");
       stmt.addBatch(

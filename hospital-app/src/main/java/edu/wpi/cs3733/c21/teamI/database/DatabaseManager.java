@@ -35,5 +35,6 @@ public abstract class DatabaseManager {
     NavDatabaseManager.getInstance().saveMapsIntoMemory(maps.values());
     UserDatabaseManager.populateExampleData();
     ServiceTicketDatabaseManager.populateExampleData();
+    NavDatabaseManager.populateExampleData();
   }
 }
