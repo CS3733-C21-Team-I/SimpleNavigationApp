@@ -125,27 +125,29 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
   public void closeTicket(int id) {
     try {
       Statement stmt = databaseRef.getConnection().createStatement();
-      ResultSet rs = stmt.executeQuery("DELETE FROM serviceticket WHERE ticketID = '" + id + "'");
+      ResultSet rs =
+          stmt.executeQuery("DELETE FROM serviceticket WHERE ticketID = " + String.valueOf(id));
     } catch (SQLException e) {
       e.printStackTrace();
     }
   }
 
-  public boolean updateTicket(int id) {
+  public ServiceTicket updateTicket(int id) {
     // Update the complete-ness of a ticket
     try {
       Statement stmt = databaseRef.getConnection().createStatement();
-      ResultSet rs =
-          stmt.executeQuery("SELECT * FROM serviceticket WHERE ticketID = " + String.valueOf(id));
-      if (!rs.next()) {
-        return false;
-      }
+      ServiceTicket cur = getTicketForId(id);
+      cur.setCompleted(true);
       stmt.execute(
-          "UPDATE serviceticket SET completed='" + true + "' WHERE ticketID=" + String.valueOf(id));
+          "UPDATE serviceticket SET completed='"
+              + true
+              + "' WHERE ticketID="
+              + String.valueOf(cur.getTicketId()));
+      return cur;
     } catch (SQLException e) {
       e.printStackTrace();
+      return null;
     }
-    return true;
   }
 
   public void openTicket(int id) {
@@ -208,7 +210,8 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
     try {
       Statement stmt = databaseRef.getConnection().createStatement();
       ResultSet rs =
-          stmt.executeQuery("SELECT * FROM serviceticket WHERE requestingUserID = '" + id + "'");
+          stmt.executeQuery(
+              "SELECT * FROM serviceticket WHERE requestingUserID = " + String.valueOf(id));
       while (rs.next()) {
         ServiceTicket cur =
             new ServiceTicket(
@@ -234,7 +237,8 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
     try {
       Statement stmt = databaseRef.getConnection().createStatement();
       ResultSet rs =
-          stmt.executeQuery("SELECT * FROM serviceticket WHERE requestingUserID = '" + id + "'");
+          stmt.executeQuery(
+              "SELECT * FROM serviceticket WHERE requestingUserID = " + String.valueOf(id));
       while (rs.next()) {
         ServiceTicket cur =
             new ServiceTicket(
