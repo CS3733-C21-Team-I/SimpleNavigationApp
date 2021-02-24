@@ -120,9 +120,11 @@ public class HospitalMapCSVBuilder {
     }
 
     try {
-      FileWriter nodeFile = new FileWriter(nodePath);
+      File nodeF = new File(nodePath);
+      FileWriter nodeFile = new FileWriter(nodeF);
       nodeFile.write(nodesString.toString());
-      FileWriter edgeFile = new FileWriter(edgePath);
+      File edgeF = new File(edgePath);
+      FileWriter edgeFile = new FileWriter(edgeF);
       edgeFile.write(edgesString.toString());
     } catch (IOException e) {
       e.printStackTrace();
