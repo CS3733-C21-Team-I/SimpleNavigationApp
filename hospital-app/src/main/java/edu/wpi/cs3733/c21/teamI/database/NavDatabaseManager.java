@@ -57,7 +57,6 @@ public class NavDatabaseManager extends DatabaseManager {
               int yCoord = nodeResults.getInt("y_Coord");
 
               HospitalMapNode node;
-              System.out.println(nodeResults.getString("NODE_TYPE"));
               switch (nodeResults.getString("NODE_TYPE")) {
                 case "POS":
                   node = new HospitalMapNode(nodeId, mapId, xCoord, yCoord, new ArrayList<>());
