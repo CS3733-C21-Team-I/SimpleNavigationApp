@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="973.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamI.view.ProfileController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="973.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamI.view.ProfileController">
    <children>
       <VBox prefHeight="802.0" prefWidth="975.0">
          <children>
@@ -88,5 +88,18 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
+      <AnchorPane layoutX="880.0" layoutY="23.0" prefHeight="55.0" prefWidth="93.0" AnchorPane.leftAnchor="880.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="23.0">
+         <children>
+            <Button fx:id="logoutButton" mnemonicParsing="false" onAction="#logout" prefHeight="49.0" prefWidth="80.0" style="-fx-effect: none;" styleClass="styledButton" stylesheets="@fxmlResources/main.css" AnchorPane.rightAnchor="20.0">
+               <graphic>
+                  <ImageView fitHeight="64.0" fitWidth="58.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@fxmlResources/baseline_logout_white_18dp.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>

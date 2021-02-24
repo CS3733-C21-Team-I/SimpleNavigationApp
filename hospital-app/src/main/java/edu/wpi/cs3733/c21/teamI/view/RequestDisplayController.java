@@ -9,13 +9,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
 import javafx.scene.control.*;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 public class RequestDisplayController extends Application {
 
   private ServiceTicket serviceTicket;
-  private AnchorPane root;
   private String title;
 
   @FXML TextField type, ticketID, requestID, assignmentID, locationBox;
@@ -36,6 +34,7 @@ public class RequestDisplayController extends Application {
 
   @Override
   public void start(Stage primaryStage) throws IOException {
+    // For whoever knows how to set page titles
     //    primaryStage.setTitle(
     //        title.substring(0, 1).toUpperCase()
     //            + title.substring(1)
