@@ -31,7 +31,10 @@ public abstract class DatabaseManager {
     UserDatabaseManager.getInstance().createTables();
     ServiceTicketDatabaseManager.getInstance().createTables();
 
-    Map<String, HospitalMap> maps = HospitalMapCSVBuilder.loadCSV("MapINodes.csv", "MapIEdges.csv");
+    Map<String, HospitalMap> maps =
+        HospitalMapCSVBuilder.loadCSV(
+            System.getProperty("user.dir") + "\\MapINodes.csv",
+            System.getProperty("user.dir") + "\\MapIEdges.csv");
     NavDatabaseManager.getInstance().saveMapsIntoMemory(maps.values());
     UserDatabaseManager.populateExampleData();
     ServiceTicketDatabaseManager.populateExampleData();

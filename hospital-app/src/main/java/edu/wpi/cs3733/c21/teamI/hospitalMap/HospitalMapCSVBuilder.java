@@ -11,16 +11,27 @@ public class HospitalMapCSVBuilder {
     Map<String, HospitalMapNode> tempNodeMap = new HashMap<>();
 
     for (List<String> nodeEntry : readFromFile(nodePath)) {
-      LocationNode locationNode =
-          new LocationNode(
-              nodeEntry.get(0),
-              nodeEntry.get(10),
-              Integer.parseInt(nodeEntry.get(1)),
-              Integer.parseInt(nodeEntry.get(2)),
-              nodeEntry.get(8),
-              nodeEntry.get(7),
-              nodeEntry.get(9),
-              new ArrayList<>());
+      HospitalMapNode locationNode;
+      if (nodeEntry.get(6).equals("LOC")) {
+        locationNode =
+            new LocationNode(
+                nodeEntry.get(0),
+                nodeEntry.get(10),
+                Integer.parseInt(nodeEntry.get(1)),
+                Integer.parseInt(nodeEntry.get(2)),
+                nodeEntry.get(8),
+                nodeEntry.get(7),
+                nodeEntry.get(9),
+                new ArrayList<>());
+      } else {
+        locationNode =
+            new HospitalMapNode(
+                nodeEntry.get(0),
+                nodeEntry.get(10),
+                Integer.parseInt(nodeEntry.get(1)),
+                Integer.parseInt(nodeEntry.get(2)),
+                new ArrayList<>());
+      }
       if (!maps.containsKey(nodeEntry.get(10))) {
         maps.put(
             nodeEntry.get(10),
@@ -34,9 +45,11 @@ public class HospitalMapCSVBuilder {
       }
       maps.get(nodeEntry.get(10)).getNodes().add(locationNode);
       tempNodeMap.put(nodeEntry.get(0), locationNode);
+      System.out.println(nodeEntry.get(0));
     }
 
     for (List<String> edgeEntry : readFromFile(edgePath)) {
+      System.out.println(edgeEntry.get(1));
       HospitalMapNode a = tempNodeMap.get(edgeEntry.get(1));
       HospitalMapNode b = tempNodeMap.get(edgeEntry.get(2));
       a.getConnections().add(b);
@@ -47,7 +60,7 @@ public class HospitalMapCSVBuilder {
   }
 
   public static void saveCSV(Collection<HospitalMap> maps, String nodePath, String edgePath) {
-    class EdgePair implements Comparable<EdgePair> {
+    class EdgePair {
       String fromId;
       String toId;
 
@@ -56,24 +69,25 @@ public class HospitalMapCSVBuilder {
         this.toId = toId;
       }
 
-      public int compareTo(EdgePair other) {
-        boolean out =
-            (this.fromId.equals(other.fromId) && this.toId.equals(other.toId))
-                || (this.fromId.equals(other.toId) && this.toId.equals(other.fromId));
-        if (out) {
-          return 0;
-        } else if (this.hashCode() > other.hashCode()) {
-          return 1;
-        } else {
-          return -1;
-        }
+      @Override
+      public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        EdgePair edgePair = (EdgePair) o;
+        return (this.fromId.equals(edgePair.fromId) && this.toId.equals(edgePair.toId))
+            || (this.fromId.equals(edgePair.toId) && this.toId.equals(edgePair.fromId));
+      }
+
+      @Override
+      public int hashCode() {
+        return Objects.hash(fromId) + Objects.hashCode(toId);
       }
     }
 
     StringBuilder nodesString = new StringBuilder();
     StringBuilder edgesString = new StringBuilder();
 
-    Set<EdgePair> edgePairSet = new TreeSet<>();
+    Set<EdgePair> edgePairSet = new HashSet<>();
 
     for (HospitalMap map : maps) {
       String mapId = map.getId();
@@ -81,29 +95,31 @@ public class HospitalMapCSVBuilder {
       int floorNumber = map.getFloorNumber();
 
       for (HospitalMapNode node : map.getNodes()) {
+        System.out.println(node.getClass());
         if (node instanceof LocationNode) {
-          nodesString.append(node.getID() + ", ");
-          nodesString.append(node.getxCoord() + ", ");
-          nodesString.append(node.getyCoord() + ". ");
-          nodesString.append(floorNumber + ", ");
-          nodesString.append(buildingName + ", ");
-          nodesString.append("Temp, ");
-          nodesString.append("LOC, ");
-          nodesString.append(((LocationNode) node).getLongName() + ", ");
-          nodesString.append(((LocationNode) node).getShortName() + ", ");
-          nodesString.append(((LocationNode) node).getTeamAssigned() + ", ");
-          nodesString.append(mapId);
+          nodesString.append(node.getID() + ",");
+          nodesString.append(node.getxCoord() + ",");
+          nodesString.append(node.getyCoord() + ",");
+          nodesString.append(floorNumber + ",");
+          nodesString.append(buildingName + ",");
+          nodesString.append("Temp,");
+          nodesString.append("LOC,");
+          nodesString.append(((LocationNode) node).getLongName() + ",");
+          nodesString.append(((LocationNode) node).getShortName() + ",");
+          nodesString.append(((LocationNode) node).getTeamAssigned() + ",");
+          nodesString.append(mapId + "\n");
         } else {
-          nodesString.append(node.getID() + ", ");
-          nodesString.append(node.getxCoord() + ", ");
-          nodesString.append(node.getyCoord() + ". ");
-          nodesString.append(floorNumber + ", ");
-          nodesString.append(buildingName + ", ");
-          nodesString.append("Temp, ");
-          nodesString.append("LOC, ");
-          nodesString.append(", ");
-          nodesString.append(", ");
-          nodesString.append(", ");
+          System.out.println("Saving pos");
+          nodesString.append(node.getID() + ",");
+          nodesString.append(node.getxCoord() + ",");
+          nodesString.append(node.getyCoord() + ",");
+          nodesString.append(floorNumber + ",");
+          nodesString.append(buildingName + ",");
+          nodesString.append("Temp,");
+          nodesString.append("POS,");
+          nodesString.append(",");
+          nodesString.append(",");
+          nodesString.append(",");
           nodesString.append(mapId + "\n");
         }
 
@@ -114,16 +130,20 @@ public class HospitalMapCSVBuilder {
     }
 
     for (EdgePair edgePair : edgePairSet) {
-      edgesString.append(edgePair.fromId + "_" + edgePair.toId + ", ");
-      edgesString.append(edgePair.fromId + ", ");
+      edgesString.append(edgePair.fromId + "_" + edgePair.toId + ",");
+      edgesString.append(edgePair.fromId + ",");
       edgesString.append(edgePair.toId + "\n");
     }
 
     try {
-      FileWriter nodeFile = new FileWriter(nodePath);
-      nodeFile.write(nodesString.toString());
-      FileWriter edgeFile = new FileWriter(edgePath);
-      edgeFile.write(edgesString.toString());
+      File nodes = new File(System.getProperty("user.dir") + "\\NewNodes.csv");
+      try (FileWriter fr = new FileWriter(System.getProperty("user.dir") + "\\NewNodes.csv")) {
+        fr.write(nodesString.toString());
+      }
+      File edges = new File(System.getProperty("user.dir") + "\\NewEdges.csv");
+      try (FileWriter fr = new FileWriter(System.getProperty("user.dir") + "\\NewEdges.csv")) {
+        fr.write(edgesString.toString());
+      }
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -133,9 +153,7 @@ public class HospitalMapCSVBuilder {
     List<List<String>> allElements = new ArrayList<>();
     List<String> elementData;
     try {
-      BufferedReader br =
-          new BufferedReader(
-              new InputStreamReader(HospitalMapCSVBuilder.class.getResourceAsStream(path)));
+      BufferedReader br = new BufferedReader(new FileReader(path));
       String line;
       boolean skip = true;
       while ((line = br.readLine()) != null) {

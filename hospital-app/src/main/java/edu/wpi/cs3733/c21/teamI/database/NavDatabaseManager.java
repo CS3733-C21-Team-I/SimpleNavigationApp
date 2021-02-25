@@ -118,6 +118,7 @@ public class NavDatabaseManager extends DatabaseManager {
           throw new IllegalStateException(
               "Database contained edge connection for unloaded node at: " + toNode);
         tempNodeLookup.get(fromNode).getConnections().add(tempNodeLookup.get(toNode));
+        tempNodeLookup.get(toNode).getConnections().add(tempNodeLookup.get(fromNode));
       }
     } catch (SQLException e) {
       System.out.println("Error querying NAV_EDGES database");
@@ -144,7 +145,7 @@ public class NavDatabaseManager extends DatabaseManager {
         // Drop the nodeAttribute table.
         stmt.execute("DROP TABLE nodeAttribute");
       } catch (SQLException ex) {
-        ex.printStackTrace();
+        //        ex.printStackTrace();
         // No need to report an error.
         // The table simply did not exist.
       }
@@ -227,7 +228,7 @@ public class NavDatabaseManager extends DatabaseManager {
   }
 
   public void saveMapsIntoMemory(Collection<HospitalMap> hMaps) {
-    class EdgePair implements Comparable<EdgePair> {
+    class EdgePair {
       String fromId;
       String toId;
 
@@ -236,21 +237,22 @@ public class NavDatabaseManager extends DatabaseManager {
         this.toId = toId;
       }
 
-      public int compareTo(EdgePair other) {
-        boolean out =
-            (this.fromId.equals(other.fromId) && this.toId.equals(other.toId))
-                || (this.fromId.equals(other.toId) && this.toId.equals(other.fromId));
-        if (out) {
-          return 0;
-        } else if (this.hashCode() > other.hashCode()) {
-          return 1;
-        } else {
-          return -1;
-        }
+      @Override
+      public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        EdgePair edgePair = (EdgePair) o;
+        return (this.fromId.equals(edgePair.fromId) && this.toId.equals(edgePair.toId))
+            || (this.fromId.equals(edgePair.toId) && this.toId.equals(edgePair.fromId));
+      }
+
+      @Override
+      public int hashCode() {
+        return Objects.hash(fromId) + Objects.hashCode(toId);
       }
     }
 
-    Set<EdgePair> edgePairSet = new TreeSet<>();
+    Set<EdgePair> edgePairSet = new HashSet<>();
 
     for (HospitalMap hMap : hMaps) {
       try {
@@ -487,20 +489,38 @@ public class NavDatabaseManager extends DatabaseManager {
     }
   }
 
-  public static void populateExampleData() {
+  public String getMapIdFromLongName(String longName) {
     try {
-      Statement stmt =
-          NavDatabaseManager.getInstance().databaseRef.getConnection().createStatement();
-      stmt.addBatch("INSERT INTO navMaps(MAP_ID) VALUES ('MAPG')\n");
-      stmt.addBatch(
-          "INSERT INTO navNodes(NODE_ID, X_COORD, Y_COORD, MAP_ID) VALUES ('ROOM304', 1, 2, 'MAPG')\n");
-      stmt.addBatch(
-          "INSERT INTO navNodes(NODE_ID, X_COORD, Y_COORD, MAP_ID) VALUES ('ROOM205', 3, 4, 'MAPG')\n");
-      stmt.addBatch(
-          "INSERT INTO navNodes(NODE_ID, X_COORD, Y_COORD, MAP_ID) VALUES ('ROOM106', 5, 6, 'MAPG')\n");
-      stmt.executeBatch();
+      Statement statement = databaseRef.getConnection().createStatement();
+      ResultSet rs =
+          statement.executeQuery("SELECT * FROM NAVNODES WHERE LONG_NAME='" + longName + "'");
+
+      if (!rs.next()) return "ERRROR";
+
+      return rs.getString("NODE_ID");
     } catch (SQLException e) {
       e.printStackTrace();
+      return "ERROR";
     }
+  }
+
+  public static void populateExampleData() {
+    //    try {
+    //      Statement stmt =
+    //          NavDatabaseManager.getInstance().databaseRef.getConnection().createStatement();
+    //      stmt.addBatch("INSERT INTO navMaps(MAP_ID) VALUES ('MAPG')\n");
+    //      stmt.addBatch(
+    //          "INSERT INTO navNodes(NODE_ID, X_COORD, Y_COORD, MAP_ID) VALUES ('ROOM304', 1, 2,
+    // 'MAPG')\n");
+    //      stmt.addBatch(
+    //          "INSERT INTO navNodes(NODE_ID, X_COORD, Y_COORD, MAP_ID) VALUES ('ROOM205', 3, 4,
+    // 'MAPG')\n");
+    //      stmt.addBatch(
+    //          "INSERT INTO navNodes(NODE_ID, X_COORD, Y_COORD, MAP_ID) VALUES ('ROOM106', 5, 6,
+    // 'MAPG')\n");
+    //      stmt.executeBatch();
+    //    } catch (SQLException e) {
+    //      e.printStackTrace();
+    //    }
   }
 }

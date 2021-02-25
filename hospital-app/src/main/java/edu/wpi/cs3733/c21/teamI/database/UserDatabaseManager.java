@@ -7,6 +7,7 @@ import edu.wpi.cs3733.c21.teamI.user.User;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -365,10 +366,28 @@ public class UserDatabaseManager extends DatabaseManager {
     }
   }
 
+  public List<String> getUsernamesWithPermission(User.Permission permission) {
+    try {
+      List<String> returnValues = new ArrayList<>();
+      Statement statement = databaseRef.getConnection().createStatement();
+      ResultSet rs =
+          statement.executeQuery(
+              "SELECT SCREENNAME FROM HOSPITAL_USERS JOIN USER_TO_ROLE UTR on HOSPITAL_USERS.USER_ID = UTR.USER_ID WHERE UTR.ROLE_ID=(SELECT ROLE_ID FROM ROLE_TO_PERMISSION JOIN RESOURCE_PERMISSIONS RP on RP.RESOURCE_ID = ROLE_TO_PERMISSION.RESOURCE_ID WHERE RP.RESOURCE_NAME='"
+                  + permission.toString()
+                  + "')");
+      while (rs.next()) {
+        returnValues.add(rs.getString("SCREENNAME"));
+      }
+      return returnValues;
+    } catch (SQLException e) {
+      e.printStackTrace();
+      return new ArrayList<>();
+    }
+  }
+
   public static void populateExampleData() {
     try {
-      Statement stmt =
-          UserDatabaseManager.getInstance().databaseRef.getConnection().createStatement();
+      Statement stmt = ourInstance.databaseRef.getConnection().createStatement();
       stmt.addBatch("INSERT INTO HOSPITAL_USERS (SCREENNAME) VALUES ('TestVisitor')");
       stmt.addBatch("INSERT INTO HOSPITAL_USERS (SCREENNAME) VALUES ('TestEmployee')");
       stmt.addBatch("INSERT INTO HOSPITAL_USERS (SCREENNAME) VALUES ('TestServiceEmployee')");
