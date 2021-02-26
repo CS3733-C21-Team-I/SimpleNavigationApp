@@ -6,7 +6,7 @@ public class PathFinder<T extends GraphNode> implements PathPlanningAlgorithm {
 
   public <T extends GraphNode> List<T> findPath(T start, T end, PriorityCalc<T> scorer) {
 
-    Boolean foundLocation = false;
+    boolean foundLocation = false;
     PriorityQueue<PathNode> frontier = new PriorityQueue<>(new PathNodeComparator());
     // all visited nodes-- stored in a Pathnode with the node, the last node visited, and the cost
     // to it

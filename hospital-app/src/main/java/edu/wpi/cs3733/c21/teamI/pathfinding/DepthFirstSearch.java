@@ -20,7 +20,7 @@ public class DepthFirstSearch implements PathPlanningAlgorithm {
       visited.add(currNode);
       List<T> connectedNodes = currNode.getConnections();
       for (T node : connectedNodes) {
-        Boolean shouldAvoid = !scorer.isValid(node);
+        boolean shouldAvoid = !scorer.isValid(node);
 
         if (!visited.contains(node) && !shouldAvoid) {
           ArrayList<T> tempPath = new ArrayList(currPath);
