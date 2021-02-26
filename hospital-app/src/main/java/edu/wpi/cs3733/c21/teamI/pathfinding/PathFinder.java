@@ -2,9 +2,9 @@ package edu.wpi.cs3733.c21.teamI.pathfinding;
 
 import java.util.*;
 
-public class PathFinder<T extends GraphNode> {
+public class PathFinder<T extends GraphNode> implements PathPlanningAlgorithm {
 
-  public static <T extends GraphNode> List<T> findPath(T start, T end, PriorityCalc<T> scorer) {
+  public <T extends GraphNode> List<T> findPath(T start, T end, PriorityCalc<T> scorer) {
 
     Boolean foundLocation = false;
     PriorityQueue<PathNode> frontier = new PriorityQueue<>(new PathNodeComparator());
