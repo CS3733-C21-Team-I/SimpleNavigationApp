@@ -6,6 +6,7 @@ import edu.wpi.cs3733.c21.teamI.hospitalMap.EuclidianDistCalc;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMapNode;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.LocationNode;
 import edu.wpi.cs3733.c21.teamI.pathfinding.PathFinder;
+import edu.wpi.cs3733.c21.teamI.pathfinding.PathPlanningAlgorithm;
 import edu.wpi.cs3733.c21.teamI.user.User;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -140,7 +141,8 @@ public class MapController extends Application {
     this.scorer = new EuclidianDistCalc();
     HospitalMapNode nodeA = getNodeByLongName(aName);
     HospitalMapNode nodeB = getNodeByLongName(bName);
-    List<HospitalMapNode> aStarPath = PathFinder.findPath(nodeA, nodeB, scorer);
+    PathPlanningAlgorithm aStar = new PathFinder();
+    List<HospitalMapNode> aStarPath = aStar.findPath(nodeA, nodeB, scorer);
     drawPath(aStarPath);
     drawNode(nodeA, Color.BLUE);
     drawNode(nodeB, Color.BLUE);
