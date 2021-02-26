@@ -105,15 +105,7 @@ public class ViewManager {
         UserDatabaseManager.getInstance().getUsernamesWithPermission(User.Permission.VIEW_TICKET);
     ArrayList<String> matches = new ArrayList<>();
     for (String username : nameList) {
-      System.out.println(matchString + ":" + matchString.length());
-      System.out.println(
-          username.toLowerCase()
-              + " : "
-              + matchString
-              + " : "
-              + username.toLowerCase().contains(matchString));
       if (username.toLowerCase().contains(matchString)) {
-        System.out.println(username);
         matches.add(username);
       }
     }

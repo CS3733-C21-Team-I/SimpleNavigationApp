@@ -49,7 +49,6 @@ public class ProfileController extends Application {
       loginVBox.setVisible(false);
       serviceDisplay.setVisible(true);
       headerLabel.setText("You successfully logged in.");
-      System.out.println(uName + ' ' + pass);
       if (ApplicationDataController.getInstance()
           .getLoggedInUser()
           .hasPermission(User.Permission.VIEW_TICKET)) {
