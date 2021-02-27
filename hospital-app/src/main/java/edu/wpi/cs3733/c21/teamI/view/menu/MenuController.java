@@ -10,16 +10,21 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
-public class LoginController implements Initializable {
+public class MenuController implements Initializable {
   @FXML JFXHamburger ham1;
   @FXML JFXDrawer drawer;
+  @FXML StackPane replacePane;
 
   public void initialize(URL url, ResourceBundle rb) {
     VBox box = null;
     try {
-      box = FXMLLoader.load(getClass().getResource("/fxml/menuFiles/drawerContent.fxml"));
+      box = FXMLLoader.load(getClass().getResource("/fxml/menuFiles/VisitorMenu.fxml"));
+      replacePane
+          .getChildren()
+          .add(FXMLLoader.load(getClass().getResource("/fxml/menuFiles/LanguageRequest.fxml")));
     } catch (IOException e) {
       e.printStackTrace();
     }
