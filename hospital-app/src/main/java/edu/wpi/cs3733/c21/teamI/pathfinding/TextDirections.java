@@ -12,18 +12,38 @@ public class TextDirections {
     return directions;
   }
 
-  String describeStep(EuclidianDistCalc calc, HospitalMapNode last, HospitalMapNode curr, HospitalMapNode next) {
+  public String describeStep(
+      EuclidianDistCalc calc, HospitalMapNode last, HospitalMapNode curr, HospitalMapNode next) {
     String step = "";
     return step;
   }
 
-  double angle(EuclidianDistCalc calc, HospitalMapNode a, HospitalMapNode vertex, HospitalMapNode b) {
+  // only worth describing if there's multiple possible decisions
+  public boolean isJunction(HospitalMapNode node) {
+    return node.getConnections().size() > 2;
+  }
+
+  // returns angle in degrees; negative if on the right hand side, positive if on the left
+  public double angleDegrees(
+      EuclidianDistCalc calc, HospitalMapNode a, HospitalMapNode vertex, HospitalMapNode b) {
     // law of cosines
     double aLen = calc.calculateDistance(vertex, b);
     double bLen = calc.calculateDistance(vertex, a);
     double vertLen = calc.calculateDistance(a, b);
 
-    double lawOfCosines = (Math.pow(aLen,2) + Math.pow(bLen,2) - Math.pow(vertLen,2))/(2*aLen*bLen);
-    return 0;
+    double lawOfCosines =
+        (Math.pow(aLen, 2) + Math.pow(bLen, 2) - Math.pow(vertLen, 2)) / (2 * aLen * bLen);
+    lawOfCosines = Math.toDegrees(Math.acos(lawOfCosines));
+
+    // determine if on the left side of the line
+    double crossProduct =
+        (vertex.getxCoord() - a.getxCoord()) * (b.getyCoord() - a.getyCoord())
+            - (vertex.getyCoord() - a.getyCoord()) * (b.getxCoord() - a.getxCoord());
+    boolean isLeft = crossProduct > 0;
+    if (isLeft) {
+      lawOfCosines = lawOfCosines * -1;
+    }
+
+    return lawOfCosines;
   }
 }
