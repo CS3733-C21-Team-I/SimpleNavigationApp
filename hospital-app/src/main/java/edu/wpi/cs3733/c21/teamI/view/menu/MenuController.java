@@ -9,6 +9,7 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -17,11 +18,13 @@ public class MenuController implements Initializable {
   @FXML JFXHamburger ham1;
   @FXML JFXDrawer drawer;
   @FXML StackPane replacePane;
+  @FXML Label titleLabel;
 
   public void initialize(URL url, ResourceBundle rb) {
     VBox box = null;
     try {
       box = FXMLLoader.load(getClass().getResource("/fxml/menuFiles/VisitorMenu.fxml"));
+      titleLabel.setText("Language Service Request");
       replacePane
           .getChildren()
           .add(FXMLLoader.load(getClass().getResource("/fxml/menuFiles/LanguageRequest.fxml")));
