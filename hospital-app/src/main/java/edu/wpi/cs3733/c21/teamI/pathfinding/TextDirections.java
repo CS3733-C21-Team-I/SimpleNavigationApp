@@ -4,18 +4,27 @@ import edu.wpi.cs3733.c21.teamI.hospitalMap.EuclidianDistCalc;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMapNode;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.LocationNode;
 import java.util.ArrayList;
+import java.util.List;
 
 public class TextDirections {
 
   public static ArrayList<String> getDirections(
-      EuclidianDistCalc calc, ArrayList<HospitalMapNode> path) {
+      EuclidianDistCalc calc, List<HospitalMapNode> path) {
     ArrayList<String> directions = new ArrayList<String>();
 
-    // describe start location
-    HospitalMapNode first = path.get(path.size() - 1);
-    if (first instanceof LocationNode) {
-      directions.add("Begin at " + ((LocationNode) first).getLongName() + ".");
+    if (path.size() < 2) {
+      directions.add("You are already at your destination.");
+      return directions;
     }
+
+    // describe start location
+    String startDirection = "Begin ";
+    HospitalMapNode first = path.get(0);
+    if (first instanceof LocationNode) {
+      startDirection += "at " + ((LocationNode) first).getLongName() + ", ";
+    }
+    startDirection += "facing " + compassDirection(first, path.get(1)) + ".";
+    directions.add(startDirection);
 
     for (int i = 1; i < (path.size() - 1); i++) {
       if (worthDescription(path.get(i))) {
@@ -68,7 +77,31 @@ public class TextDirections {
     return node.getConnections().size() > 2;
   }
 
-  // returns angle in degrees; negative if on the right hand side, positive if on the left
+  public static String compassDirection(HospitalMapNode start, HospitalMapNode facing) {
+    String direction = "";
+    double deltaY = facing.getyCoord() - start.getyCoord();
+    double deltaX = facing.getxCoord() - start.getxCoord();
+
+    if (deltaX == 0) { // preventing divide by zero error
+      if (deltaY > 0) return "north";
+      else return "south";
+    }
+    // get angle assuming east is 0 degrees
+    double facingAngle = Math.toDegrees(Math.atan2(deltaY, deltaX));
+    System.out.println(facingAngle);
+
+    if (Math.abs(facingAngle) > 25 && Math.abs(facingAngle) < 155) {
+      if (facingAngle > 0) direction += "south";
+      else direction += "north";
+    }
+    if (facingAngle > -65 && facingAngle < 65) direction += "east";
+    if (facingAngle < -115 || facingAngle > 115) direction += "west";
+
+    return direction;
+  }
+
+  // returns angle of turn represented by 3 locations in degrees; negative if on the right hand
+  // side, positive if on the left
   public static double angleDegrees(
       EuclidianDistCalc calc, HospitalMapNode a, HospitalMapNode vertex, HospitalMapNode b) {
     // law of cosines
