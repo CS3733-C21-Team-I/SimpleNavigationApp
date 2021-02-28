@@ -195,7 +195,7 @@ public class MapController extends Application {
 
   private void drawPath(List<HospitalMapNode> path) {
     HospitalMapNode currNode;
-    HospitalMapNode nextNode = null;
+    HospitalMapNode nextNode;
     for (int i = 0; i < path.size() - 1; i++) {
       currNode = path.get(i);
       nextNode = path.get(i + 1);
@@ -504,8 +504,10 @@ public class MapController extends Application {
           mouseDown.set(imageViewToImage(mapImage, new Point2D(e.getX(), e.getY())));
           xOffset = mapImage.getViewport().getMinX();
           yOffset = mapImage.getViewport().getMinY();
-          if (mapPane.getChildren().size() > 0) {
+          if (!adminMap) {
             getDirections(new ActionEvent());
+          } else {
+            update();
           }
         });
 
@@ -536,8 +538,10 @@ public class MapController extends Application {
           imgHeight = mapImage.getViewport().getHeight();
           xOffset = mapImage.getViewport().getMinX();
           yOffset = mapImage.getViewport().getMinY();
-          if (mapPane.getChildren().size() > 0) {
+          if (!adminMap) {
             getDirections(new ActionEvent());
+          } else {
+            update();
           }
         });
   }
