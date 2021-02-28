@@ -161,16 +161,21 @@ public class MapController extends Application {
   }
 
   private double transformX(double x) {
-    return x * fullImgWidth * fullImgWidth / imgWidth / 100000 / scale - xOffset / 2;
+    return x * fullImgWidth * fullImgWidth / imgWidth / 100000 / scale
+        - xOffset * fullImgWidth / imgWidth / scale;
   }
 
   private double transformY(double y) {
-    return y * fullImgHeight * fullImgHeight / imgHeight / 100000 / scale - yOffset / 2;
+    return y * fullImgHeight * fullImgHeight / imgHeight / 100000 / scale
+        - yOffset * fullImgHeight / imgHeight / scale;
   }
 
   private void drawNode(HospitalMapNode node, Color color) {
     Circle circle =
-        new Circle(transformX(node.getxCoord()), transformY(node.getyCoord()), 13 / scale);
+        new Circle(
+            transformX(node.getxCoord()),
+            transformY(node.getyCoord()),
+            13 / scale * fullImgHeight / imgHeight);
     circle.setFill(color);
     mapPane.getChildren().add(circle);
   }
@@ -183,7 +188,7 @@ public class MapController extends Application {
             .endX(transformX(end.getxCoord()))
             .endY(transformY(end.getyCoord()))
             .stroke(color)
-            .strokeWidth(14 / scale)
+            .strokeWidth(14 / scale * fullImgHeight / imgHeight)
             .build();
     mapPane.getChildren().add(line);
   }
@@ -337,7 +342,7 @@ public class MapController extends Application {
       circle.setFill(Color.PURPLE);
       circle.setCenterX(transformX(ViewManager.getSelectedNode().getxCoord()));
       circle.setCenterY(transformY(ViewManager.getSelectedNode().getyCoord()));
-      circle.setRadius(20 / scale);
+      circle.setRadius(20 / scale * fullImgHeight / imgHeight);
       mapPane.getChildren().add(circle);
     }
   }
@@ -477,13 +482,13 @@ public class MapController extends Application {
     mapPane.getChildren().add(circle);
   }
 
-  private static final int MIN_PIXELS = 10;
+  private static final int MIN_PIXELS = 200;
 
   private void startZoomPan(AnchorPane zoomPane) {
     double width = imgWidth;
     double height = imgHeight;
     mapImage.setPreserveRatio(true);
-    reset(mapImage, width / 2, height / 2);
+    reset(mapImage, width, height);
     ObjectProperty<Point2D> mouseDown = new SimpleObjectProperty<>();
 
     zoomPane.setOnMousePressed(
@@ -494,8 +499,6 @@ public class MapController extends Application {
 
     zoomPane.setOnMouseDragged(
         e -> {
-          System.out.println(
-              mapImage.getViewport().getMinX() + " " + mapImage.getViewport().getMinY());
           Point2D dragPoint = imageViewToImage(mapImage, new Point2D(e.getX(), e.getY()));
           shift(mapImage, dragPoint.subtract(mouseDown.get()));
           mouseDown.set(imageViewToImage(mapImage, new Point2D(e.getX(), e.getY())));
