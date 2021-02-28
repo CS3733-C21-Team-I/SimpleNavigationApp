@@ -43,6 +43,7 @@ public class MapController extends Application {
   @FXML Button nodeDeleteButton, saveButton;
   @FXML TextField sNameField, lNameField;
   private boolean isDrag = false;
+  private boolean isFirstLoad = true;
   @FXML AnchorPane mapPane;
 
   private final double scale = 3.05;
@@ -107,6 +108,7 @@ public class MapController extends Application {
   }
 
   public void navigate(ActionEvent e) throws IOException {
+    ViewManager.setSelectedNode(null);
     ViewManager.navigate(e);
   }
 
@@ -199,24 +201,27 @@ public class MapController extends Application {
   public void start(Stage primaryStage) throws Exception {}
 
   private void startEditView() {
-    setAddNodeHander();
+    if (isFirstLoad) {
+      isFirstLoad = false;
+      setAddNodeHander();
+      undoButton.setOnAction(
+          e -> {
+            if (ViewManager.getDataCont().isUndoAvailable()) {
+              ViewManager.getDataCont().undo();
+            }
+            update();
+          });
+      redoButton.setOnAction(
+          e -> {
+            if (ViewManager.getDataCont().isRedoAvailable()) {
+              ViewManager.getDataCont().redo();
+            }
+            update();
+          });
+    }
     nodeMenu.setVisible(ViewManager.getSelectedNode() != null && adminMap);
     undoButton.setVisible(false);
     redoButton.setVisible(false);
-    undoButton.setOnAction(
-        e -> {
-          if (ViewManager.getDataCont().isUndoAvailable()) {
-            ViewManager.getDataCont().undo();
-          }
-          update();
-        });
-    redoButton.setOnAction(
-        e -> {
-          if (ViewManager.getDataCont().isRedoAvailable()) {
-            ViewManager.getDataCont().redo();
-          }
-          update();
-        });
     update();
   }
 
@@ -251,8 +256,7 @@ public class MapController extends Application {
               lName,
               "I",
               node.getConnections());
-      ViewManager.getDataCont().deleteNode(node.getID());
-      ViewManager.getDataCont().addNode(newNode);
+      ViewManager.getDataCont().editNode(node.getID(), newNode);
     }
   }
 
@@ -262,6 +266,7 @@ public class MapController extends Application {
             e -> {
               if (e.getButton() == MouseButton.SECONDARY) {
                 // definitely need a better way of making an ID
+                System.out.println("u just right clicked");
                 ViewManager.getDataCont()
                     .addNode(
                         new HospitalMapNode(
@@ -410,7 +415,6 @@ public class MapController extends Application {
             if (!isDrag) {
               nodeMenu.setVisible(ViewManager.toggleNode(node));
             } else {
-              ViewManager.setSelectedNode(null);
               isDrag = false;
               ViewManager.getDataCont().editNode(movingNode.getID(), movingNode);
             }
@@ -418,6 +422,9 @@ public class MapController extends Application {
                 e -> {
                   nodeMenu.setVisible(ViewManager.toggleNode(node));
                   ViewManager.getDataCont().deleteNode(node.getID());
+                  if (ViewManager.getSelectedNode() == node) {
+                    ViewManager.setSelectedNode(null);
+                  }
                   update();
                 });
 
