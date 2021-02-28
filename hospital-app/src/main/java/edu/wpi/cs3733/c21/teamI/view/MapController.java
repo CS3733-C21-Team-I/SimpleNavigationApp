@@ -13,10 +13,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import javafx.application.Application;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.geometry.Point2D;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
@@ -32,6 +36,7 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.LineBuilder;
 import javafx.stage.Stage;
 
+// Scaling code is from https://gist.github.com/james-d/ce5ec1fd44ce6c64e81a
 public class MapController extends Application {
   boolean adminMap = false;
 
@@ -44,11 +49,16 @@ public class MapController extends Application {
   @FXML TextField sNameField, lNameField;
   private boolean isDrag = false;
   @FXML AnchorPane mapPane;
+  @FXML ImageView mapImage;
 
   private final double scale = 3.05;
   private EuclidianDistCalc scorer;
-  private int imgWidth = 2989;
-  private int imgHeight = 2457;
+  private double fullImgWidth = 2989;
+  private double fullImgHeight = 2457;
+  private double imgWidth = 2989;
+  private double imgHeight = 2457;
+  private double xOffset = 0;
+  private double yOffset = 0;
 
   @FXML
   public void toggleEditMap(ActionEvent e) {
@@ -153,8 +163,8 @@ public class MapController extends Application {
   private void drawNode(HospitalMapNode node, Color color) {
     Circle circle =
         new Circle(
-            (node.getxCoord() * imgWidth / 100000 / scale),
-            (node.getyCoord() * imgHeight / 100000 / scale),
+            (node.getxCoord() * fullImgWidth * fullImgWidth / imgWidth / 100000 / scale),
+            (node.getyCoord() * fullImgHeight * fullImgHeight / imgHeight / 100000 / scale),
             13 / scale);
     circle.setFill(color);
     mapPane.getChildren().add(circle);
@@ -163,10 +173,11 @@ public class MapController extends Application {
   private void drawEdge(HospitalMapNode start, HospitalMapNode end, Color color) {
     Line line =
         LineBuilder.create()
-            .startX((start.getxCoord() * imgWidth / 100000 / scale))
-            .startY((start.getyCoord() * imgHeight / 100000 / scale))
-            .endX((end.getxCoord() * imgWidth / 100000 / scale))
-            .endY((end.getyCoord() * imgHeight / 100000 / scale))
+            .startX((start.getxCoord() * fullImgWidth * fullImgWidth / imgWidth / 100000 / scale))
+            .startY(
+                (start.getyCoord() * fullImgHeight * fullImgHeight / imgHeight / 100000 / scale))
+            .endX((end.getxCoord() * fullImgWidth * fullImgWidth / imgWidth / 100000 / scale))
+            .endY((end.getyCoord() * fullImgHeight * fullImgHeight / imgHeight / 100000 / scale))
             .stroke(color)
             .strokeWidth(14 / scale)
             .build();
@@ -199,7 +210,7 @@ public class MapController extends Application {
   public void start(Stage primaryStage) throws Exception {}
 
   private void startEditView() {
-    setAddNodeHander();
+    setAddNodeHandler();
     nodeMenu.setVisible(ViewManager.getSelectedNode() != null && adminMap);
     undoButton.setVisible(false);
     redoButton.setVisible(false);
@@ -256,7 +267,7 @@ public class MapController extends Application {
     }
   }
 
-  private void setAddNodeHander() {
+  private void setAddNodeHandler() {
     EventHandler<? super MouseEvent> eventHandler =
         (EventHandler<MouseEvent>)
             e -> {
@@ -280,8 +291,7 @@ public class MapController extends Application {
   private static AtomicInteger idGen = new AtomicInteger();
 
   private String randomGenerate() {
-    System.out.println("BadSol" + idGen.incrementAndGet());
-    return new String("BadSol" + idGen.incrementAndGet());
+    return "BadSol" + idGen.incrementAndGet();
   }
 
   private void update() {
@@ -308,6 +318,7 @@ public class MapController extends Application {
 
   @FXML
   public void initialize() {
+    startZoomPan(mapPane);
     setupMapViewHandlers();
     boolean isAdmin =
         ApplicationDataController.getInstance()
@@ -320,8 +331,20 @@ public class MapController extends Application {
     if (ViewManager.getSelectedNode() != null) {
       Circle circle = new Circle();
       circle.setFill(Color.PURPLE);
-      circle.setCenterX((ViewManager.getSelectedNode().getxCoord() * imgWidth / 100000 / scale));
-      circle.setCenterY((ViewManager.getSelectedNode().getyCoord() * imgHeight / 100000 / scale));
+      circle.setCenterX(
+          (ViewManager.getSelectedNode().getxCoord()
+              * fullImgWidth
+              * fullImgWidth
+              / imgWidth
+              / 100000
+              / scale));
+      circle.setCenterY(
+          (ViewManager.getSelectedNode().getyCoord()
+              * fullImgHeight
+              * fullImgHeight
+              / imgHeight
+              / 100000
+              / scale));
       circle.setRadius(20 / scale);
       mapPane.getChildren().add(circle);
     }
@@ -340,10 +363,23 @@ public class MapController extends Application {
         mapPane.getChildren().add(xMarker);
         Line line =
             LineBuilder.create()
-                .startX((parent.getxCoord() * imgWidth / 100000 / scale))
-                .startY((parent.getyCoord() * imgHeight / 100000 / scale))
-                .endX((child.getxCoord() * imgWidth / 100000 / scale))
-                .endY((child.getyCoord() * imgHeight / 100000 / scale))
+                .startX(
+                    (parent.getxCoord() * fullImgWidth * fullImgWidth / imgWidth / 100000 / scale))
+                .startY(
+                    (parent.getyCoord()
+                        * fullImgHeight
+                        * fullImgHeight
+                        / imgHeight
+                        / 100000
+                        / scale))
+                .endX((child.getxCoord() * fullImgWidth * fullImgWidth / imgWidth / 100000 / scale))
+                .endY(
+                    (child.getyCoord()
+                        * fullImgHeight
+                        * fullImgHeight
+                        / imgHeight
+                        / 100000
+                        / scale))
                 .stroke(Color.ORANGE)
                 .strokeWidth(10 / scale)
                 .build();
@@ -354,10 +390,20 @@ public class MapController extends Application {
               xMarker.setVisible(true);
               xMarker.toFront();
               xMarker.setX(
-                  ((parent.getxCoord() + child.getxCoord()) / 2) * imgWidth / 100000 / scale
+                  ((parent.getxCoord() + child.getxCoord()) / 2)
+                          * fullImgWidth
+                          * fullImgWidth
+                          / imgWidth
+                          / 100000
+                          / scale
                       - xMarker.getFitWidth() / 2);
               xMarker.setY(
-                  ((parent.getyCoord() + child.getyCoord()) / 2) * imgHeight / 100000 / scale
+                  ((parent.getyCoord() + child.getyCoord()) / 2)
+                          * fullImgHeight
+                          * fullImgHeight
+                          / imgHeight
+                          / 100000
+                          / scale
                       - xMarker.getFitHeight() / 2);
             });
         line.setOnMouseExited(
@@ -392,8 +438,9 @@ public class MapController extends Application {
   private void makeNodeCircle(HospitalMapNode node) {
     Circle circle = new Circle();
     circle.setFill(Color.RED);
-    circle.setCenterX((node.getxCoord() * imgWidth / 100000 / scale));
-    circle.setCenterY((node.getyCoord() * imgHeight / 100000 / scale));
+    circle.setCenterX((node.getxCoord() * fullImgWidth * fullImgWidth / imgWidth / 100000 / scale));
+    circle.setCenterY(
+        (node.getyCoord() * fullImgHeight * fullImgHeight / imgHeight / 100000 / scale));
     circle.setRadius(12 / scale);
     circle.setOnMouseEntered(
         t -> {
@@ -405,7 +452,6 @@ public class MapController extends Application {
 
     circle.setOnMouseClicked(
         t -> {
-          System.out.println(node.getxCoord() + ", " + node.getyCoord());
           if (t.getButton() == MouseButton.PRIMARY) {
             if (!isDrag) {
               nodeMenu.setVisible(ViewManager.toggleNode(node));
@@ -461,5 +507,94 @@ public class MapController extends Application {
           isDrag = true;
         });
     mapPane.getChildren().add(circle);
+  }
+
+  private static final int MIN_PIXELS = 10;
+
+  private void startZoomPan(AnchorPane zoomPane) {
+    double width = imgWidth;
+    double height = imgHeight;
+    mapImage.setPreserveRatio(true);
+    reset(mapImage, width / 2, height / 2);
+    ObjectProperty<Point2D> mouseDown = new SimpleObjectProperty<>();
+
+    zoomPane.setOnMousePressed(
+        e -> {
+          Point2D mousePress = imageViewToImage(mapImage, new Point2D(e.getX(), e.getY()));
+          mouseDown.set(mousePress);
+        });
+
+    zoomPane.setOnMouseDragged(
+        e -> {
+          System.out.println(
+              mapImage.getViewport().getMinX() + " " + mapImage.getViewport().getMinY());
+          Point2D dragPoint = imageViewToImage(mapImage, new Point2D(e.getX(), e.getY()));
+          shift(mapImage, dragPoint.subtract(mouseDown.get()));
+          mouseDown.set(imageViewToImage(mapImage, new Point2D(e.getX(), e.getY())));
+        });
+
+    zoomPane.setOnScroll(
+        e -> {
+          double delta = e.getDeltaY();
+          Rectangle2D viewport = mapImage.getViewport();
+          double scale =
+              clamp(
+                  Math.pow(1.001, delta),
+                  // don't scale so we're zoomed in to fewer than MIN_PIXELS in any direction:
+                  Math.min(MIN_PIXELS / viewport.getWidth(), MIN_PIXELS / viewport.getHeight()),
+                  // don't scale so that we're bigger than image dimensions:
+                  Math.max(width / viewport.getWidth(), height / viewport.getHeight()));
+          Point2D mouse = imageViewToImage(mapImage, new Point2D(e.getX(), e.getY()));
+          double newWidth = viewport.getWidth() * scale;
+          double newHeight = viewport.getHeight() * scale;
+          double newMinX =
+              clamp(
+                  mouse.getX() - (mouse.getX() - viewport.getMinX()) * scale, 0, width - newWidth);
+          double newMinY =
+              clamp(
+                  mouse.getY() - (mouse.getY() - viewport.getMinY()) * scale,
+                  0,
+                  height - newHeight);
+          mapImage.setViewport(new Rectangle2D(newMinX, newMinY, newWidth, newHeight));
+          imgWidth = mapImage.getViewport().getWidth();
+          imgHeight = mapImage.getViewport().getHeight();
+          if (mapPane.getChildren().size() > 0) {
+            getDirections(new ActionEvent());
+          }
+          System.out.println(
+              mapImage.getViewport().getMinX() + " " + mapImage.getViewport().getMinY());
+        });
+  }
+
+  // reset to the top left:
+  private void reset(ImageView imageView, double width, double height) {
+    imageView.setViewport(new Rectangle2D(0, 0, width, height));
+  }
+
+  // shift the viewport of the imageView by the specified delta, clamping so
+  // the viewport does not move off the actual image:
+  private void shift(ImageView imageView, Point2D delta) {
+    Rectangle2D viewport = imageView.getViewport();
+    double width = imageView.getImage().getWidth();
+    double height = imageView.getImage().getHeight();
+    double maxX = width - viewport.getWidth();
+    double maxY = height - viewport.getHeight();
+    double minX = clamp(viewport.getMinX() - delta.getX(), 0, maxX);
+    double minY = clamp(viewport.getMinY() - delta.getY(), 0, maxY);
+    imageView.setViewport(new Rectangle2D(minX, minY, viewport.getWidth(), viewport.getHeight()));
+  }
+
+  private double clamp(double value, double min, double max) {
+    return Math.max(min, Math.min(max, value));
+  }
+
+  // convert mouse coordinates in the imageView to coordinates in the actual image:
+  private Point2D imageViewToImage(ImageView imageView, Point2D imageViewCoordinates) {
+    double xProportion = imageViewCoordinates.getX() / imageView.getBoundsInLocal().getWidth();
+    double yProportion = imageViewCoordinates.getY() / imageView.getBoundsInLocal().getHeight();
+    Rectangle2D viewport = imageView.getViewport();
+    return new Point2D(
+        viewport.getMinX() + xProportion * viewport.getWidth(),
+        viewport.getMinY() + yProportion * viewport.getHeight());
   }
 }
