@@ -160,12 +160,17 @@ public class MapController extends Application {
     drawNode(nodeB, Color.BLUE);
   }
 
+  private double transformX(double x) {
+    return x * fullImgWidth * fullImgWidth / imgWidth / 100000 / scale - xOffset / 2;
+  }
+
+  private double transformY(double y) {
+    return y * fullImgHeight * fullImgHeight / imgHeight / 100000 / scale - yOffset / 2;
+  }
+
   private void drawNode(HospitalMapNode node, Color color) {
     Circle circle =
-        new Circle(
-            (node.getxCoord() * fullImgWidth * fullImgWidth / imgWidth / 100000 / scale),
-            (node.getyCoord() * fullImgHeight * fullImgHeight / imgHeight / 100000 / scale),
-            13 / scale);
+        new Circle(transformX(node.getxCoord()), transformY(node.getyCoord()), 13 / scale);
     circle.setFill(color);
     mapPane.getChildren().add(circle);
   }
@@ -173,18 +178,10 @@ public class MapController extends Application {
   private void drawEdge(HospitalMapNode start, HospitalMapNode end, Color color) {
     Line line =
         LineBuilder.create()
-            .startX(
-                (start.getxCoord() * fullImgWidth * fullImgWidth / imgWidth / 100000 / scale)
-                    - xOffset)
-            .startY(
-                (start.getyCoord() * fullImgHeight * fullImgHeight / imgHeight / 100000 / scale)
-                    - yOffset)
-            .endX(
-                (end.getxCoord() * fullImgWidth * fullImgWidth / imgWidth / 100000 / scale)
-                    - xOffset)
-            .endY(
-                (end.getyCoord() * fullImgHeight * fullImgHeight / imgHeight / 100000 / scale)
-                    - yOffset)
+            .startX(transformX(start.getxCoord()))
+            .startY(transformY(start.getyCoord()))
+            .endX(transformX(end.getxCoord()))
+            .endY(transformY(end.getyCoord()))
             .stroke(color)
             .strokeWidth(14 / scale)
             .build();
@@ -338,20 +335,8 @@ public class MapController extends Application {
     if (ViewManager.getSelectedNode() != null) {
       Circle circle = new Circle();
       circle.setFill(Color.PURPLE);
-      circle.setCenterX(
-          (ViewManager.getSelectedNode().getxCoord()
-              * fullImgWidth
-              * fullImgWidth
-              / imgWidth
-              / 100000
-              / scale));
-      circle.setCenterY(
-          (ViewManager.getSelectedNode().getyCoord()
-              * fullImgHeight
-              * fullImgHeight
-              / imgHeight
-              / 100000
-              / scale));
+      circle.setCenterX(transformX(ViewManager.getSelectedNode().getxCoord()));
+      circle.setCenterY(transformY(ViewManager.getSelectedNode().getyCoord()));
       circle.setRadius(20 / scale);
       mapPane.getChildren().add(circle);
     }
@@ -370,23 +355,10 @@ public class MapController extends Application {
         mapPane.getChildren().add(xMarker);
         Line line =
             LineBuilder.create()
-                .startX(
-                    (parent.getxCoord() * fullImgWidth * fullImgWidth / imgWidth / 100000 / scale))
-                .startY(
-                    (parent.getyCoord()
-                        * fullImgHeight
-                        * fullImgHeight
-                        / imgHeight
-                        / 100000
-                        / scale))
-                .endX((child.getxCoord() * fullImgWidth * fullImgWidth / imgWidth / 100000 / scale))
-                .endY(
-                    (child.getyCoord()
-                        * fullImgHeight
-                        * fullImgHeight
-                        / imgHeight
-                        / 100000
-                        / scale))
+                .startX(transformX(parent.getxCoord()))
+                .startY(transformY(parent.getyCoord()))
+                .endX(transformX(child.getxCoord()))
+                .endY(transformY(child.getyCoord()))
                 .stroke(Color.ORANGE)
                 .strokeWidth(10 / scale)
                 .build();
@@ -397,20 +369,10 @@ public class MapController extends Application {
               xMarker.setVisible(true);
               xMarker.toFront();
               xMarker.setX(
-                  ((parent.getxCoord() + child.getxCoord()) / 2)
-                          * fullImgWidth
-                          * fullImgWidth
-                          / imgWidth
-                          / 100000
-                          / scale
+                  transformX((parent.getxCoord() + child.getxCoord()) / 2)
                       - xMarker.getFitWidth() / 2);
               xMarker.setY(
-                  ((parent.getyCoord() + child.getyCoord()) / 2)
-                          * fullImgHeight
-                          * fullImgHeight
-                          / imgHeight
-                          / 100000
-                          / scale
+                  transformY((parent.getyCoord() + child.getyCoord()) / 2)
                       - xMarker.getFitHeight() / 2);
             });
         line.setOnMouseExited(
@@ -445,9 +407,8 @@ public class MapController extends Application {
   private void makeNodeCircle(HospitalMapNode node) {
     Circle circle = new Circle();
     circle.setFill(Color.RED);
-    circle.setCenterX((node.getxCoord() * fullImgWidth * fullImgWidth / imgWidth / 100000 / scale));
-    circle.setCenterY(
-        (node.getyCoord() * fullImgHeight * fullImgHeight / imgHeight / 100000 / scale));
+    circle.setCenterX(transformX(node.getxCoord()));
+    circle.setCenterY(transformY(node.getyCoord()));
     circle.setRadius(12 / scale);
     circle.setOnMouseEntered(
         t -> {
@@ -575,8 +536,6 @@ public class MapController extends Application {
           if (mapPane.getChildren().size() > 0) {
             getDirections(new ActionEvent());
           }
-          System.out.println(
-              mapImage.getViewport().getMinX() + " " + mapImage.getViewport().getMinY());
         });
   }
 
