@@ -173,11 +173,18 @@ public class MapController extends Application {
   private void drawEdge(HospitalMapNode start, HospitalMapNode end, Color color) {
     Line line =
         LineBuilder.create()
-            .startX((start.getxCoord() * fullImgWidth * fullImgWidth / imgWidth / 100000 / scale))
+            .startX(
+                (start.getxCoord() * fullImgWidth * fullImgWidth / imgWidth / 100000 / scale)
+                    - xOffset)
             .startY(
-                (start.getyCoord() * fullImgHeight * fullImgHeight / imgHeight / 100000 / scale))
-            .endX((end.getxCoord() * fullImgWidth * fullImgWidth / imgWidth / 100000 / scale))
-            .endY((end.getyCoord() * fullImgHeight * fullImgHeight / imgHeight / 100000 / scale))
+                (start.getyCoord() * fullImgHeight * fullImgHeight / imgHeight / 100000 / scale)
+                    - yOffset)
+            .endX(
+                (end.getxCoord() * fullImgWidth * fullImgWidth / imgWidth / 100000 / scale)
+                    - xOffset)
+            .endY(
+                (end.getyCoord() * fullImgHeight * fullImgHeight / imgHeight / 100000 / scale)
+                    - yOffset)
             .stroke(color)
             .strokeWidth(14 / scale)
             .build();
@@ -531,6 +538,11 @@ public class MapController extends Application {
           Point2D dragPoint = imageViewToImage(mapImage, new Point2D(e.getX(), e.getY()));
           shift(mapImage, dragPoint.subtract(mouseDown.get()));
           mouseDown.set(imageViewToImage(mapImage, new Point2D(e.getX(), e.getY())));
+          xOffset = mapImage.getViewport().getMinX();
+          yOffset = mapImage.getViewport().getMinY();
+          if (mapPane.getChildren().size() > 0) {
+            getDirections(new ActionEvent());
+          }
         });
 
     zoomPane.setOnScroll(
@@ -558,6 +570,8 @@ public class MapController extends Application {
           mapImage.setViewport(new Rectangle2D(newMinX, newMinY, newWidth, newHeight));
           imgWidth = mapImage.getViewport().getWidth();
           imgHeight = mapImage.getViewport().getHeight();
+          xOffset = mapImage.getViewport().getMinX();
+          yOffset = mapImage.getViewport().getMinY();
           if (mapPane.getChildren().size() > 0) {
             getDirections(new ActionEvent());
           }
