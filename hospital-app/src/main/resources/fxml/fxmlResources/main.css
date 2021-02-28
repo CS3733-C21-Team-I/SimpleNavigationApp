@@ -13,6 +13,10 @@
     -fx-cursor: hand;
 }
 
+.jfx-hamburger StackPane {
+    -fx-background-color: #012D5A;
+}
+
 .requestButton {
     -fx-background-color: grey;
     -fx-padding:  10px 20px;
