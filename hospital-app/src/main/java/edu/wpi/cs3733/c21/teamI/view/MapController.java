@@ -472,12 +472,18 @@ public class MapController extends Application {
           newCircle.setCenterX(t.getSceneX());
           newCircle.setCenterY(t.getSceneY());
 
+          //    return x * fullImgWidth * fullImgWidth / imgWidth / 100000 / scale
+          //        - xOffset * fullImgWidth / imgWidth / scale;
           HospitalMapNode newNode =
               new HospitalMapNode(
                   node.getID(),
                   node.getMapID(),
-                  (int) (t.getX() * scale / imgWidth * 100000),
-                  (int) (t.getY() * scale / imgHeight * 100000),
+                  (int)
+                      (t.getX() * scale * imgWidth / fullImgWidth / fullImgWidth * 100000
+                          + xOffset * fullImgWidth / imgWidth),
+                  (int)
+                      (t.getY() * scale * imgHeight / fullImgHeight / fullImgHeight * 100000
+                          + yOffset * fullImgHeight / imgHeight),
                   node.getConnections());
           movingNode = newNode;
           isDrag = true;
