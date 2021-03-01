@@ -59,6 +59,7 @@ public class MapController extends Application {
   private double imgHeight = 2457;
   private double xOffset = 0;
   private double yOffset = 0;
+  private boolean panAllowed = true;
 
   @FXML
   public void toggleEditMap(ActionEvent e) {
@@ -429,6 +430,7 @@ public class MapController extends Application {
             if (!isDrag) {
               nodeMenu.setVisible(ViewManager.toggleNode(node));
             } else {
+              panAllowed = true;
               ViewManager.setSelectedNode(null);
               isDrag = false;
               ViewManager.getDataCont().editNode(movingNode.getID(), movingNode);
@@ -463,6 +465,7 @@ public class MapController extends Application {
 
     circle.setOnMouseDragged(
         t -> {
+          panAllowed = false;
           Circle newCircle =
               (Circle) mapPane.getChildren().get(mapPane.getChildren().indexOf(circle));
           newCircle.setFill(Color.YELLOW);
@@ -493,21 +496,25 @@ public class MapController extends Application {
 
     zoomPane.setOnMousePressed(
         e -> {
-          Point2D mousePress = imageViewToImage(mapImage, new Point2D(e.getX(), e.getY()));
-          mouseDown.set(mousePress);
+          if (panAllowed) {
+            Point2D mousePress = imageViewToImage(mapImage, new Point2D(e.getX(), e.getY()));
+            mouseDown.set(mousePress);
+          }
         });
 
     zoomPane.setOnMouseDragged(
         e -> {
-          Point2D dragPoint = imageViewToImage(mapImage, new Point2D(e.getX(), e.getY()));
-          shift(mapImage, dragPoint.subtract(mouseDown.get()));
-          mouseDown.set(imageViewToImage(mapImage, new Point2D(e.getX(), e.getY())));
-          xOffset = mapImage.getViewport().getMinX();
-          yOffset = mapImage.getViewport().getMinY();
-          if (!adminMap) {
-            getDirections(new ActionEvent());
-          } else {
-            update();
+          if (panAllowed) {
+            Point2D dragPoint = imageViewToImage(mapImage, new Point2D(e.getX(), e.getY()));
+            shift(mapImage, dragPoint.subtract(mouseDown.get()));
+            mouseDown.set(imageViewToImage(mapImage, new Point2D(e.getX(), e.getY())));
+            xOffset = mapImage.getViewport().getMinX();
+            yOffset = mapImage.getViewport().getMinY();
+            if (!adminMap) {
+              getDirections(new ActionEvent());
+            } else {
+              update();
+            }
           }
         });
 
