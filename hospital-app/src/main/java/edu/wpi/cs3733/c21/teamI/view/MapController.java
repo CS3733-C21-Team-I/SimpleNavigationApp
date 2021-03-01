@@ -547,7 +547,9 @@ public class MapController extends Application {
           xOffset = mapImage.getViewport().getMinX();
           yOffset = mapImage.getViewport().getMinY();
           if (!adminMap) {
-            getDirections(new ActionEvent());
+            if (!start.getText().equals("") && !destination.getText().equals("")) {
+              getDirections(new ActionEvent());
+            }
           } else {
             update();
           }
