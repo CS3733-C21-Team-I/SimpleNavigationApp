@@ -2,6 +2,7 @@ package edu.wpi.cs3733.c21.teamI.pathfinding;
 
 import edu.wpi.cs3733.c21.teamI.hospitalMap.EuclidianDistCalc;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMapNode;
+import edu.wpi.cs3733.c21.teamI.hospitalMap.LocationCategory;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.LocationNode;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +11,7 @@ public class TextDirections {
 
   public static ArrayList<String> getDirections(
       EuclidianDistCalc calc, List<HospitalMapNode> path) {
-    ArrayList<String> directions = new ArrayList<String>();
+    ArrayList<String> directions = new ArrayList<>();
 
     if (path.size() < 2) {
       directions.add("You are already at your destination.");
@@ -70,6 +71,22 @@ public class TextDirections {
 
     if (curr instanceof LocationNode) {
       step += " at " + ((LocationNode) curr).getLongName();
+
+      // special text for stairs, elevators, exits, handling the floor/region change
+      LocationCategory type = ((LocationNode) curr).getLocationCategory();
+      switch (type) {
+        case ELEV:
+          step = "Take the elevator to floor" + next.getMapID() + ".";
+          break;
+        case STAI:
+          step = "Take the stairs to floor" + next.getMapID() + ".";
+          break;
+        case EXIT:
+          step = "Enter the door to " + next.getMapID() + ".";
+          break;
+        default:
+          break;
+      }
     }
 
     step += ".";
