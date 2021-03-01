@@ -34,7 +34,7 @@ public class TextDirections {
         directions.add(step);
         distance = 0;
       } else {
-        distance += calcDistance(calc, path.get(i - 1), path.get(i));
+        distance += calc.calculateDistance(path.get(i - 1), path.get(i));
       }
     }
     // describe end location
