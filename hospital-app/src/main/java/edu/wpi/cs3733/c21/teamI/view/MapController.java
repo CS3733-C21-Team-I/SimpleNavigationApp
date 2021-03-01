@@ -288,8 +288,14 @@ public class MapController extends Application {
                         new HospitalMapNode(
                             randomGenerate(),
                             ViewManager.getMapID(),
-                            (int) (e.getX() * scale / imgWidth * 100000),
-                            (int) (e.getY() * scale / imgHeight * 100000),
+                            (int)
+                                ((xOffset + e.getX() / mapPane.getWidth() * imgWidth)
+                                    / fullImgWidth
+                                    * 100000),
+                            (int)
+                                ((yOffset + e.getY() / mapPane.getHeight() * imgHeight)
+                                    / fullImgHeight
+                                    * 100000),
                             new ArrayList<>()));
                 update();
               }
@@ -343,7 +349,7 @@ public class MapController extends Application {
       circle.setFill(Color.PURPLE);
       circle.setCenterX(transformX(ViewManager.getSelectedNode().getxCoord()));
       circle.setCenterY(transformY(ViewManager.getSelectedNode().getyCoord()));
-      circle.setRadius(20 / scale * fullImgHeight / imgHeight);
+      circle.setRadius(20 / scale);
       mapPane.getChildren().add(circle);
     }
   }
@@ -474,16 +480,22 @@ public class MapController extends Application {
 
           //    return x * fullImgWidth * fullImgWidth / imgWidth / 100000 / scale
           //        - xOffset * fullImgWidth / imgWidth / scale;
+          System.out.println(t.getScreenX() + " " + t.getX());
+          System.out.println(xOffset + t.getX() / mapPane.getWidth() * imgWidth);
+          //            (xOffset + (pixels into the image frame))
+          System.out.println(imgWidth + " " + imgHeight);
           HospitalMapNode newNode =
               new HospitalMapNode(
                   node.getID(),
                   node.getMapID(),
                   (int)
-                      (t.getX() * scale * imgWidth / fullImgWidth / fullImgWidth * 100000
-                          + xOffset * fullImgWidth / imgWidth),
+                      ((xOffset + t.getX() / mapPane.getWidth() * imgWidth)
+                          / fullImgWidth
+                          * 100000),
                   (int)
-                      (t.getY() * scale * imgHeight / fullImgHeight / fullImgHeight * 100000
-                          + yOffset * fullImgHeight / imgHeight),
+                      ((yOffset + t.getY() / mapPane.getHeight() * imgHeight)
+                          / fullImgHeight
+                          * 100000),
                   node.getConnections());
           movingNode = newNode;
           isDrag = true;
