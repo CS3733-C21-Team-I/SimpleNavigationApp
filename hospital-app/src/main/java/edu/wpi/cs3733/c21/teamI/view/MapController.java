@@ -9,7 +9,9 @@ import edu.wpi.cs3733.c21.teamI.pathfinding.PathFinder;
 import edu.wpi.cs3733.c21.teamI.pathfinding.PathPlanningAlgorithm;
 import edu.wpi.cs3733.c21.teamI.pathfinding.TextDirections;
 import edu.wpi.cs3733.c21.teamI.user.User;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -112,7 +114,7 @@ public class MapController extends Application {
   }
 
   @FXML
-  public void getDirections(ActionEvent e) {
+  public void getDirections(ActionEvent e) throws IOException {
     String begin = start.getText();
     String end = destination.getText();
     drawPathBetweenNodes(begin, end);
@@ -135,7 +137,7 @@ public class MapController extends Application {
   }
 
   @FXML
-  public void drawPathBetweenNodes(String aName, String bName) {
+  public void drawPathBetweenNodes(String aName, String bName) throws IOException {
     deletePath();
     mapPane
         .getChildren()
@@ -147,9 +149,8 @@ public class MapController extends Application {
     PathPlanningAlgorithm aStar = new PathFinder();
     List<HospitalMapNode> aStarPath = aStar.findPath(nodeA, nodeB, scorer);
     System.out.println(TextDirections.getDirections(scorer, aStarPath));
+
     drawPath(aStarPath);
-    drawNode(nodeA, Color.BLUE);
-    drawNode(nodeB, Color.BLUE);
   }
 
   private void drawNode(HospitalMapNode node, Color color) {
@@ -175,14 +176,46 @@ public class MapController extends Application {
     mapPane.getChildren().add(line);
   }
 
-  private void drawPath(List<HospitalMapNode> path) {
+  private void drawPath(List<HospitalMapNode> path) throws IOException {
     HospitalMapNode currNode;
     HospitalMapNode nextNode = null;
+
+    double imgScale = 256 / scale;
+    String startIcon =
+        System.getProperty("user.dir") + "\\src/main/resources/fxml/fxmlResources/startIcon.png";
+    double startIconX = path.get(0).getxCoord() * imgWidth / 100000.0 / scale - imgScale / 2;
+    double startIconY = path.get(0).getyCoord() * imgWidth / 100000.0 / scale - imgScale * 2;
+    String finishIcon =
+        System.getProperty("user.dir") + "\\src/main/resources/fxml/fxmlResources/finishIcon.png";
+    double finishIconX =
+        path.get(path.size() - 1).getxCoord() * imgWidth / 100000.0 / scale - imgScale / 2;
+    double finishIconY =
+        path.get(path.size() - 1).getyCoord() * imgWidth / 100000.0 / scale - imgScale * 2;
+
     for (int i = 0; i < path.size() - 1; i++) {
       currNode = path.get(i);
       nextNode = path.get(i + 1);
       drawEdge(currNode, nextNode, Color.BLUE);
     }
+    drawNode(path.get(0), Color.BLUE);
+    drawNode(path.get(path.size() - 1), Color.BLUE);
+    displayImage(startIcon, startIconX, startIconY, imgScale);
+    displayImage(finishIcon, finishIconX, finishIconY, imgScale);
+  }
+
+  private void displayImage(String path, double x, double y, double size) throws IOException {
+    InputStream stream = new FileInputStream(path);
+    Image image = new Image(stream);
+    // Creating the image view
+    ImageView imageView = new ImageView();
+    // Setting image to the image view
+    imageView.setImage(image);
+    // Setting the image view parameters
+    imageView.setX(x);
+    imageView.setY(y);
+    imageView.setFitWidth(size);
+    imageView.setPreserveRatio(true);
+    mapPane.getChildren().add(imageView);
   }
 
   @FXML
