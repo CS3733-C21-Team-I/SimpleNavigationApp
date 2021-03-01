@@ -45,11 +45,9 @@ public class HospitalMapCSVBuilder {
       }
       maps.get(nodeEntry.get(10)).getNodes().add(locationNode);
       tempNodeMap.put(nodeEntry.get(0), locationNode);
-      System.out.println(nodeEntry.get(0));
     }
 
     for (List<String> edgeEntry : readFromFile(edgePath)) {
-      System.out.println(edgeEntry.get(1));
       HospitalMapNode a = tempNodeMap.get(edgeEntry.get(1));
       HospitalMapNode b = tempNodeMap.get(edgeEntry.get(2));
       a.getConnections().add(b);
@@ -136,7 +134,6 @@ public class HospitalMapCSVBuilder {
     }
 
     try {
-      System.out.println(System.getProperty("user.dir"));
       File nodes = new File(System.getProperty("user.dir") + "\\NewNodes.csv");
       try (FileWriter fr = new FileWriter(System.getProperty("user.dir") + "\\NewNodes.csv")) {
         fr.write(nodesString.toString());

@@ -77,7 +77,6 @@ public class ServiceFormController extends Application {
               mainDesc.getText(),
               mainEmerg.isSelected(),
               false);
-      System.out.println(maintenanceTicket);
       ServiceTicketDatabaseManager.getInstance().addTicket(maintenanceTicket);
 
     } catch (Exception e) {

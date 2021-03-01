@@ -16,7 +16,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="800.0" prefWidth="973.0" styleClass=".root" stylesheets="fxmlResources/main.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamI.view.ServiceFormController">
+<AnchorPane prefHeight="800.0" prefWidth="973.0" styleClass=".root" stylesheets="fxmlResources/main.css" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="edu.wpi.cs3733.c21.teamI.view.ServiceFormController">
    <children>
       <VBox fx:id="background" layoutX="185.0" layoutY="126.0" prefHeight="436.0" prefWidth="733.0">
          <children>

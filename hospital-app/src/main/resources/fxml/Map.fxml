@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="800.0" maxWidth="973.0" minHeight="800.0" minWidth="972.0" prefHeight="800.0" prefWidth="972.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamI.view.MapController">
+<AnchorPane maxHeight="800.0" maxWidth="973.0" minHeight="800.0" minWidth="972.0" prefHeight="800.0" prefWidth="972.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="edu.wpi.cs3733.c21.teamI.view.MapController">
     <stylesheets>
         <URL value="@fxmlResources/main.css" />
     </stylesheets>
