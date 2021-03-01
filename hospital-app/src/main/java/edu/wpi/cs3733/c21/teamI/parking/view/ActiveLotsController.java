@@ -6,6 +6,7 @@ import edu.wpi.cs3733.c21.teamI.parking.Lot;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -16,6 +17,7 @@ import javafx.geometry.Orientation;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import javafx.util.Duration;
 
 public class ActiveLotsController extends Application {
@@ -27,14 +29,20 @@ public class ActiveLotsController extends Application {
   @FXML
   public void initialize() {
     System.out.println("Initialized ActiveLotsController");
-    lots =
-        FXCollections.observableArrayList(
-            ParkingPeripheralServerManager.getInstance().loadLots().values());
+    Callback<Lot, Observable[]> extractor =
+        new Callback<Lot, Observable[]>() {
+
+          @Override
+          public Observable[] call(Lot p) {
+            return new Observable[] {p.getUnocupied()};
+          }
+        };
+
+    lots = FXCollections.observableArrayList(extractor);
+    lots.addAll(ParkingPeripheralServerManager.getInstance().loadLots().values());
     lotView.setItems(lots);
     lotView.setCellFactory(new LotPaneFactory());
     lotView.setOrientation(Orientation.HORIZONTAL);
-
-
 
     //    Timer timer = new Timer();
     //    timer.schedule(
@@ -76,7 +84,9 @@ public class ActiveLotsController extends Application {
                     //
                     // ParkingPeripheralServerManager.getInstance().loadLots().values());
                     //                    lotView.setItems(lots);
-                    lotView.refresh();
+                    for (Lot lot : lots) {
+                      lot.refreshUnocupied();
+                    }
                     System.out.println("this is called every 5 seconds on UI thread");
                   }
                 }));

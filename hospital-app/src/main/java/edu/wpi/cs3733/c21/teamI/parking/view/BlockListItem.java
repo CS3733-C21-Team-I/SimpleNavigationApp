@@ -2,10 +2,10 @@ package edu.wpi.cs3733.c21.teamI.parking.view;
 
 import com.jfoenix.controls.JFXListCell;
 import com.jfoenix.controls.JFXListView;
-import edu.wpi.cs3733.c21.teamI.database.ParkingPeripheralServerManager;
 import edu.wpi.cs3733.c21.teamI.parking.Block;
 import edu.wpi.cs3733.c21.teamI.parking.Floor;
 import java.io.IOException;
+import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -18,6 +18,7 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.util.Callback;
 
 public class BlockListItem extends JFXListCell<Block> {
 
@@ -42,6 +43,7 @@ public class BlockListItem extends JFXListCell<Block> {
 
     if (empty) {
       setText(null);
+      setGraphic(null);
       setContentDisplay(ContentDisplay.TEXT_ONLY);
     } else {
 
@@ -58,7 +60,7 @@ public class BlockListItem extends JFXListCell<Block> {
       System.out.println(blockLabel);
       blockLabel.setText("Name: " + item.getBlockCode());
 
-      int unocupied = ParkingPeripheralServerManager.getInstance().getUnocupiedSlotsForBlock(item);
+      int unocupied = item.getUnocupied().get();
       occupancyLabel.setText("Slots: " + unocupied + "/" + item.getCapacity());
 
       if (unocupied == 0)
@@ -71,12 +73,22 @@ public class BlockListItem extends JFXListCell<Block> {
                 new BackgroundFill(Color.web("#CCFFCC"), CornerRadii.EMPTY, Insets.EMPTY)));
 
       if (floors.isEmpty()) {
-        floors = FXCollections.observableArrayList(item.getFloors());
+        Callback<Floor, Observable[]> extractor =
+            new Callback<Floor, Observable[]>() {
+
+              @Override
+              public Observable[] call(Floor p) {
+                return new Observable[] {p.getUnocupied()};
+              }
+            };
+        floors = FXCollections.observableArrayList(extractor);
+        floors.setAll(item.getFloors());
         floorList.setItems(floors);
         floorList.prefHeightProperty().setValue(45 + (floors.size() - 1) * 30);
         pane.prefHeightProperty().setValue(105 + (floors.size() - 1) * 30);
       }
 
+      setGraphic(pane);
       setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
     }
   }

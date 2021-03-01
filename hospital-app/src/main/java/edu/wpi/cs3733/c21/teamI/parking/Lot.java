@@ -2,6 +2,8 @@ package edu.wpi.cs3733.c21.teamI.parking;
 
 import java.util.ArrayList;
 import java.util.List;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 
 public class Lot {
 
@@ -9,6 +11,7 @@ public class Lot {
   private String name;
   private boolean isReentyAllowed;
   private boolean isValetAvailable;
+  private IntegerProperty unocupied = new SimpleIntegerProperty();
 
   private List<Block> blocks;
 
@@ -18,6 +21,20 @@ public class Lot {
     this.isReentyAllowed = isReentyAllowed;
     this.isValetAvailable = isValetAvailable;
     this.blocks = new ArrayList<>();
+  }
+
+  public void refreshUnocupied() {
+    unocupied.setValue(0);
+    for (Block block : blocks) {
+      block.refreshUnocupied();
+
+      unocupied.setValue(unocupied.getValue() + block.getUnocupied().get());
+    }
+    System.out.println("Lot refreshed with: " + unocupied + " unoccupied");
+  }
+
+  public IntegerProperty getUnocupied() {
+    return unocupied;
   }
 
   public void addBlock(Block newBlock) {

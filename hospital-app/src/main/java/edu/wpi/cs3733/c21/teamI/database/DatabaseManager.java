@@ -46,5 +46,7 @@ public abstract class DatabaseManager {
   public static void regenPeripheralDB() {
     ParkingPeripheralServerManager.getInstance().dropTables();
     ParkingPeripheralServerManager.getInstance().createTables();
+
+    ParkingPeripheralServerManager.getInstance().populateExampleData();
   }
 }

@@ -1,7 +1,6 @@
 package edu.wpi.cs3733.c21.teamI.parking.view;
 
 import com.jfoenix.controls.JFXListCell;
-import edu.wpi.cs3733.c21.teamI.database.ParkingPeripheralServerManager;
 import edu.wpi.cs3733.c21.teamI.parking.Floor;
 import java.io.IOException;
 import javafx.fxml.FXML;
@@ -55,7 +54,7 @@ public class FloorListItem extends JFXListCell<Floor> {
       }
 
       floorNumLabel.setText(item.getFloorNum() + "");
-      int unocupied = ParkingPeripheralServerManager.getInstance().getUnocupiedSlotsForFloor(item);
+      int unocupied = item.getUnocupied().get();
       occupancyLabel.setText("Slots: " + unocupied + "/" + item.getCapacity());
 
       if (unocupied == 0)
@@ -71,6 +70,7 @@ public class FloorListItem extends JFXListCell<Floor> {
       coveredLabel.setVisible(item.isCovered());
       staffOnlyLabel.setVisible(item.isStaffOnly());
 
+      setGraphic(gridPane);
       setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
     }
   }

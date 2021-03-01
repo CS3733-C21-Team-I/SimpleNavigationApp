@@ -1,6 +1,9 @@
 package edu.wpi.cs3733.c21.teamI.parking;
 
+import edu.wpi.cs3733.c21.teamI.database.ParkingPeripheralServerManager;
 import java.util.Map;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 
 public class Floor {
 
@@ -10,6 +13,7 @@ public class Floor {
   private boolean isCovered;
   private boolean isDisabledAcessable;
   private boolean isStaffOnly;
+  private IntegerProperty unocupied = new SimpleIntegerProperty();
 
   private Block block;
 
@@ -27,6 +31,15 @@ public class Floor {
     this.isDisabledAcessable = isDisabledAcessable;
     this.isStaffOnly = isStaffOnly;
     this.block = null;
+  }
+
+  public void refreshUnocupied() {
+    unocupied.setValue(
+        ParkingPeripheralServerManager.getInstance().getUnocupiedSlotsForFloor(this));
+  }
+
+  public IntegerProperty getUnocupied() {
+    return unocupied;
   }
 
   public void setBlock(Block block) {
