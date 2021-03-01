@@ -1,12 +1,9 @@
 package edu.wpi.cs3733.c21.teamI;
 
 import edu.wpi.cs3733.c21.teamI.database.DatabaseManager;
-<<<<<<< HEAD
-import edu.wpi.cs3733.c21.teamI.parking.view.ActiveLotsController;
 import java.util.Arrays;
 
-=======
->>>>>>> main
+
 import edu.wpi.cs3733.c21.teamI.view.HomeController;
 import javafx.application.Application;
 
