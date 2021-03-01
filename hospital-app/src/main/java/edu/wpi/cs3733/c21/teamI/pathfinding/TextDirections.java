@@ -26,9 +26,15 @@ public class TextDirections {
     startDirection += "facing " + compassDirection(first, path.get(1)) + ".";
     directions.add(startDirection);
 
+    int distance = 0;
     for (int i = 1; i < (path.size() - 1); i++) {
       if (worthDescription(path.get(i))) {
-        directions.add(describeStep(calc, path.get(i - 1), path.get(i), path.get(i + 1)));
+        String step = describeStep(calc, path.get(i - 1), path.get(i), path.get(i + 1));
+        if (distance > 0) step = "In " + distance + "m, " + step;
+        directions.add(step);
+        distance = 0;
+      } else {
+        distance += calcDistance(calc, path.get(i - 1), path.get(i));
       }
     }
     // describe end location
