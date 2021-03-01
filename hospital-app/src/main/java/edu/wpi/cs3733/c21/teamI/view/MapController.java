@@ -6,6 +6,8 @@ import edu.wpi.cs3733.c21.teamI.hospitalMap.EuclidianDistCalc;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMapNode;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.LocationNode;
 import edu.wpi.cs3733.c21.teamI.pathfinding.PathFinder;
+import edu.wpi.cs3733.c21.teamI.pathfinding.PathPlanningAlgorithm;
+import edu.wpi.cs3733.c21.teamI.pathfinding.TextDirections;
 import edu.wpi.cs3733.c21.teamI.user.User;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -42,10 +44,13 @@ public class MapController extends Application {
   @FXML Button nodeDeleteButton, saveButton;
   @FXML TextField sNameField, lNameField;
   private boolean isDrag = false;
+  private boolean isFirstLoad = true;
   @FXML AnchorPane mapPane;
 
   private final double scale = 3.05;
   private EuclidianDistCalc scorer;
+  private int imgWidth = 2989;
+  private int imgHeight = 2457;
 
   @FXML
   public void toggleEditMap(ActionEvent e) {
@@ -104,6 +109,7 @@ public class MapController extends Application {
   }
 
   public void navigate(ActionEvent e) throws IOException {
+    ViewManager.setSelectedNode(null);
     ViewManager.navigate(e);
   }
 
@@ -140,7 +146,9 @@ public class MapController extends Application {
     this.scorer = new EuclidianDistCalc();
     HospitalMapNode nodeA = getNodeByLongName(aName);
     HospitalMapNode nodeB = getNodeByLongName(bName);
-    List<HospitalMapNode> aStarPath = PathFinder.findPath(nodeA, nodeB, scorer);
+    PathPlanningAlgorithm aStar = new PathFinder();
+    List<HospitalMapNode> aStarPath = aStar.findPath(nodeA, nodeB, scorer);
+    System.out.println(TextDirections.getDirections(scorer, aStarPath));
     drawPath(aStarPath);
     drawNode(nodeA, Color.BLUE);
     drawNode(nodeB, Color.BLUE);
@@ -148,7 +156,10 @@ public class MapController extends Application {
 
   private void drawNode(HospitalMapNode node, Color color) {
     Circle circle =
-        new Circle((node.getxCoord() / scale) - 3, (node.getyCoord() / scale), 13 / scale);
+        new Circle(
+            (node.getxCoord() * imgWidth / 100000 / scale),
+            (node.getyCoord() * imgHeight / 100000 / scale),
+            13 / scale);
     circle.setFill(color);
     mapPane.getChildren().add(circle);
   }
@@ -156,10 +167,10 @@ public class MapController extends Application {
   private void drawEdge(HospitalMapNode start, HospitalMapNode end, Color color) {
     Line line =
         LineBuilder.create()
-            .startX((start.getxCoord() / scale) - 3)
-            .startY((start.getyCoord() / scale))
-            .endX((end.getxCoord() / scale) - 3)
-            .endY((end.getyCoord() / scale))
+            .startX((start.getxCoord() * imgWidth / 100000 / scale))
+            .startY((start.getyCoord() * imgHeight / 100000 / scale))
+            .endX((end.getxCoord() * imgWidth / 100000 / scale))
+            .endY((end.getyCoord() * imgHeight / 100000 / scale))
             .stroke(color)
             .strokeWidth(14 / scale)
             .build();
@@ -192,24 +203,27 @@ public class MapController extends Application {
   public void start(Stage primaryStage) throws Exception {}
 
   private void startEditView() {
-    setAddNodeHander();
+    if (isFirstLoad) {
+      isFirstLoad = false;
+      setAddNodeHander();
+      undoButton.setOnAction(
+          e -> {
+            if (ViewManager.getDataCont().isUndoAvailable()) {
+              ViewManager.getDataCont().undo();
+            }
+            update();
+          });
+      redoButton.setOnAction(
+          e -> {
+            if (ViewManager.getDataCont().isRedoAvailable()) {
+              ViewManager.getDataCont().redo();
+            }
+            update();
+          });
+    }
     nodeMenu.setVisible(ViewManager.getSelectedNode() != null && adminMap);
     undoButton.setVisible(false);
     redoButton.setVisible(false);
-    undoButton.setOnAction(
-        e -> {
-          if (ViewManager.getDataCont().isUndoAvailable()) {
-            ViewManager.getDataCont().undo();
-          }
-          update();
-        });
-    redoButton.setOnAction(
-        e -> {
-          if (ViewManager.getDataCont().isRedoAvailable()) {
-            ViewManager.getDataCont().redo();
-          }
-          update();
-        });
     update();
   }
 
@@ -244,8 +258,7 @@ public class MapController extends Application {
               lName,
               "I",
               node.getConnections());
-      ViewManager.getDataCont().deleteNode(node.getID());
-      ViewManager.getDataCont().addNode(newNode);
+      ViewManager.getDataCont().editNode(node.getID(), newNode);
     }
   }
 
@@ -255,13 +268,14 @@ public class MapController extends Application {
             e -> {
               if (e.getButton() == MouseButton.SECONDARY) {
                 // definitely need a better way of making an ID
+                System.out.println("u just right clicked");
                 ViewManager.getDataCont()
                     .addNode(
                         new HospitalMapNode(
                             randomGenerate(),
                             ViewManager.getMapID(),
-                            (int) ((e.getX() * scale) + 10),
-                            (int) ((e.getY() * scale) + 10),
+                            (int) (e.getX() * scale / imgWidth * 100000),
+                            (int) (e.getY() * scale / imgHeight * 100000),
                             new ArrayList<>()));
                 update();
               }
@@ -313,8 +327,8 @@ public class MapController extends Application {
     if (ViewManager.getSelectedNode() != null) {
       Circle circle = new Circle();
       circle.setFill(Color.PURPLE);
-      circle.setCenterX((ViewManager.getSelectedNode().getxCoord() / scale) - 3);
-      circle.setCenterY((ViewManager.getSelectedNode().getyCoord() / scale) - 3);
+      circle.setCenterX((ViewManager.getSelectedNode().getxCoord() * imgWidth / 100000 / scale));
+      circle.setCenterY((ViewManager.getSelectedNode().getyCoord() * imgHeight / 100000 / scale));
       circle.setRadius(20 / scale);
       mapPane.getChildren().add(circle);
     }
@@ -333,10 +347,10 @@ public class MapController extends Application {
         mapPane.getChildren().add(xMarker);
         Line line =
             LineBuilder.create()
-                .startX((parent.getxCoord()) / scale - 3)
-                .startY((parent.getyCoord()) / scale - 3)
-                .endX((child.getxCoord()) / scale - 3)
-                .endY((child.getyCoord()) / scale - 3)
+                .startX((parent.getxCoord() * imgWidth / 100000 / scale))
+                .startY((parent.getyCoord() * imgHeight / 100000 / scale))
+                .endX((child.getxCoord() * imgWidth / 100000 / scale))
+                .endY((child.getyCoord() * imgHeight / 100000 / scale))
                 .stroke(Color.ORANGE)
                 .strokeWidth(10 / scale)
                 .build();
@@ -346,8 +360,12 @@ public class MapController extends Application {
             t -> {
               xMarker.setVisible(true);
               xMarker.toFront();
-              xMarker.setX(((parent.getxCoord() + child.getxCoord()) / 2) / scale - 7);
-              xMarker.setY(((parent.getyCoord() + child.getyCoord()) / 2) / scale - 7);
+              xMarker.setX(
+                  ((parent.getxCoord() + child.getxCoord()) / 2) * imgWidth / 100000 / scale
+                      - xMarker.getFitWidth() / 2);
+              xMarker.setY(
+                  ((parent.getyCoord() + child.getyCoord()) / 2) * imgHeight / 100000 / scale
+                      - xMarker.getFitHeight() / 2);
             });
         line.setOnMouseExited(
             t -> {
@@ -381,8 +399,8 @@ public class MapController extends Application {
   private void makeNodeCircle(HospitalMapNode node) {
     Circle circle = new Circle();
     circle.setFill(Color.RED);
-    circle.setCenterX((node.getxCoord() / scale) - 3);
-    circle.setCenterY((node.getyCoord() / scale) - 3);
+    circle.setCenterX((node.getxCoord() * imgWidth / 100000 / scale));
+    circle.setCenterY((node.getyCoord() * imgHeight / 100000 / scale));
     circle.setRadius(12 / scale);
     circle.setOnMouseEntered(
         t -> {
@@ -394,11 +412,11 @@ public class MapController extends Application {
 
     circle.setOnMouseClicked(
         t -> {
+          System.out.println(node.getxCoord() + ", " + node.getyCoord());
           if (t.getButton() == MouseButton.PRIMARY) {
             if (!isDrag) {
               nodeMenu.setVisible(ViewManager.toggleNode(node));
             } else {
-              ViewManager.setSelectedNode(null);
               isDrag = false;
               ViewManager.getDataCont().editNode(movingNode.getID(), movingNode);
             }
@@ -406,6 +424,9 @@ public class MapController extends Application {
                 e -> {
                   nodeMenu.setVisible(ViewManager.toggleNode(node));
                   ViewManager.getDataCont().deleteNode(node.getID());
+                  if (ViewManager.getSelectedNode() == node) {
+                    ViewManager.setSelectedNode(null);
+                  }
                   update();
                 });
 
@@ -442,8 +463,8 @@ public class MapController extends Application {
               new HospitalMapNode(
                   node.getID(),
                   node.getMapID(),
-                  (int) (t.getX() * scale) + 3,
-                  (int) (t.getY() * scale) + 3,
+                  (int) (t.getX() * scale / imgWidth * 100000),
+                  (int) (t.getY() * scale / imgHeight * 100000),
                   node.getConnections());
           movingNode = newNode;
           isDrag = true;
