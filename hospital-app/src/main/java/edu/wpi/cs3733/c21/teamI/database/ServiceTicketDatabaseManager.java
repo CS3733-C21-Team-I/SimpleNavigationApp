@@ -185,6 +185,56 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
     }
   }
 
+  public void addEmployee(int id, int employeeID) {
+    try {
+      Statement stmt = databaseRef.getConnection().createStatement();
+      ResultSet rs =
+          stmt.executeQuery("SELECT * FROM serviceticket WHERE ticketID=" + String.valueOf(id));
+      if (rs.next()) {
+        stmt.executeUpdate(
+            "INSERT INTO serviceticket(requestinguserid, assigneduserid, tickettype, location, description, completed) VALUES ("
+                + rs.getInt("requestingUserID")
+                + ", "
+                + employeeID
+                + ", '"
+                + rs.getString("ticketType")
+                + "' , '"
+                + rs.getString("location")
+                + "', '"
+                + rs.getString("description")
+                + "', '"
+                + rs.getBoolean("completed")
+                + "')");
+      }
+
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+  }
+
+  public void removeEmployee(int employeeID) {
+    try {
+      Statement stmt = databaseRef.getConnection().createStatement();
+      stmt.executeQuery(
+          "DELETE FROM serviceticket WHERE ASSIGNEDUSERID = " + String.valueOf(employeeID));
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+  }
+
+  public void modifyEmployee(int id, int employeeID) {
+    try {
+      Statement stmt = databaseRef.getConnection().createStatement();
+      stmt.execute(
+          "UPDATE SERVICETICKET SET ASSIGNEDUSERID= "
+              + String.valueOf(employeeID)
+              + " WHERE TICKETID = "
+              + String.valueOf(id));
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+  }
+
   public List<ServiceTicket> getServiceTicketDB() {
     List<ServiceTicket> tix = new ArrayList<>();
     try {
