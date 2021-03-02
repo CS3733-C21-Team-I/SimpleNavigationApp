@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXTextArea?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="800.0" prefWidth="973.0" style="-fx-background-color: #F1F1F1;" styleClass=".root" stylesheets="fxmlResources/main.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamI.view.ServiceFormController">
+   <children>
+      <VBox fx:id="background" fillWidth="false" layoutX="267.0" layoutY="35.0" maxHeight="200.0" prefHeight="728.0" prefWidth="521.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label maxHeight="78.0" minHeight="60.0" minWidth="400.0" prefHeight="78.0" prefWidth="400.0" text="Audio/Visual Requests" wrapText="true">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <VBox.margin>
+                  <Insets bottom="20.0" right="10.0" top="10.0" />
+               </VBox.margin>
+            </Label>
+            <JFXTextField focusColor="#0067b1" maxWidth="300.0" promptText="Patient Name" unFocusColor="#012d5a">
+               <VBox.margin>
+                  <Insets bottom="15.0" />
+               </VBox.margin>
+            </JFXTextField>
+            <JFXTextField focusColor="#0067b1" maxWidth="300.0" promptText="Room Number" unFocusColor="#012d5a">
+               <VBox.margin>
+                  <Insets bottom="15.0" />
+               </VBox.margin>
+            </JFXTextField>
+            <JFXComboBox focusColor="#012d5a" promptText="Type of Media Requested" unFocusColor="#012d5a">
+               <VBox.margin>
+                  <Insets bottom="15.0" />
+               </VBox.margin>
+            </JFXComboBox>
+            <Label minHeight="50.0" minWidth="400.0" prefWidth="400.0" text="Please be aware that not every request can be filled. If your requested media is unavailable, a staff member will let you know." wrapText="true">
+               <VBox.margin>
+                  <Insets bottom="15.0" />
+               </VBox.margin>
+            </Label>
+            <JFXTextArea focusColor="#012d5a" minHeight="100.0" minWidth="400.0" prefHeight="130.0" prefWidth="400.0" promptText="Please describe (title, year, author)." style="-fx-background-color: #F0F8FF;" unFocusColor="#012d5a">
+               <VBox.margin>
+                  <Insets bottom="15.0" />
+               </VBox.margin>
+            </JFXTextArea>
+            <JFXTextField focusColor="#0067b1" maxWidth="300.0" promptText="Employee Assigned ID" unFocusColor="#012d5a">
+               <VBox.margin>
+                  <Insets bottom="15.0" />
+               </VBox.margin>
+            </JFXTextField>
+            <HBox prefHeight="82.0" prefWidth="573.0" styleClass=".root" />
+            <HBox alignment="TOP_RIGHT" prefHeight="82.0" prefWidth="573.0">
+               <children>
+                  <JFXButton style="-fx-background-color: #0067b1;" text="Clear" textFill="WHITE">
+                     <HBox.margin>
+                        <Insets right="15.0" />
+                     </HBox.margin>
+                  </JFXButton>
+                  <JFXButton style="-fx-background-color: #0067b1;" text="Submit" textFill="WHITE" />
+               </children>
+            </HBox>
+         </children>
+         <padding>
+            <Insets bottom="100.0" left="100.0" right="100.0" top="100.0" />
+         </padding>
+      </VBox>
+      <ListView fx:id="serviceLocationList" layoutX="324.0" layoutY="325.0" prefHeight="200.0" prefWidth="200.0" visible="false" />
+      <ListView fx:id="requestAssignedList" layoutX="392.0" layoutY="416.0" prefHeight="200.0" prefWidth="200.0" visible="false" />
+   </children>
+</AnchorPane>

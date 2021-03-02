@@ -1,5 +1,6 @@
 .root {
     font-family: 'Open Sans', sans-serif;
+    -fx-font-size: 16px;
 }
 .styledBackground {
     -fx-background-color: #FFFFFF;
@@ -11,6 +12,10 @@
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 10, 0, 0, 0);
     -fx-font-family: 'Open Sans', sans-serif;
     -fx-cursor: hand;
+}
+
+.jfx-hamburger StackPane {
+    -fx-background-color: #012D5A;
 }
 
 .restroomButton {
@@ -57,6 +62,10 @@
 }
 
 .styledLabel {
+    -fx-font-family: 'Open Sans', sans-serif;
+}
+
+.styledTextField {
     -fx-font-family: 'Open Sans', sans-serif;
 }
 

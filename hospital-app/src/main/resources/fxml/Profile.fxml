@@ -17,11 +17,6 @@
    <children>
       <VBox prefHeight="802.0" prefWidth="975.0">
          <children>
-            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="138.0" prefWidth="974.0" style="-fx-background-color: #0067b1;" text="Profile" textFill="WHITE" textOverrun="WORD_ELLIPSIS" VBox.vgrow="ALWAYS">
-               <font>
-                  <Font size="40.0" />
-               </font>
-            </Label>
             <VBox fx:id="serviceDisplay" alignment="CENTER" prefHeight="698.0" prefWidth="974.0" visible="false">
                <children>
                   <Label text="Service Requests">
@@ -74,16 +69,6 @@
          </children>
       </VBox>
       <Button fx:id="loginReturn" layoutX="25.0" layoutY="20.0" mnemonicParsing="false" onAction="#navigate" prefHeight="64.0" prefWidth="56.0" style="-fx-background-color: transparent;" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="25.0">
-         <graphic>
-            <ImageView fitHeight="49.0" fitWidth="49.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@fxmlResources/baseline_arrow_back_ios_white_18dp.png" />
-               </image>
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </ImageView>
-         </graphic>
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
