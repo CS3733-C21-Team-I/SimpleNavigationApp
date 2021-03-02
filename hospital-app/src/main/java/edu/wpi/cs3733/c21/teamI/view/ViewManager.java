@@ -29,7 +29,7 @@ public class ViewManager {
   private static double scale = 3.05; // scales image to 1/scale
   private static Group root = null;
   private static Stage stage = null;
-  private static HospitalMapNode selectedNode = null;
+  private static String selectedNode = null;
   private static final MapEditDataController dataCont = new MapEditDataController();
   private static ServiceTicket serviceTicketToShow;
 
@@ -123,13 +123,13 @@ public class ViewManager {
    */
   public static boolean toggleNode(HospitalMapNode node) {
     if (selectedNode == null) {
-      selectedNode = node;
+      selectedNode = node.getID();
       return true;
     } else if (selectedNode.equals(node)) {
       selectedNode = null;
       return false;
     } else {
-      dataCont.addEdge(node.getID(), selectedNode.getID());
+      dataCont.addEdge(node.getID(), selectedNode);
       selectedNode = null;
       return false;
     }
@@ -164,7 +164,10 @@ public class ViewManager {
   }
 
   public static HospitalMapNode getSelectedNode() {
-    return selectedNode;
+    if (selectedNode == null) {
+      return null;
+    }
+    return dataCont.getActiveMap().getNode(selectedNode);
   }
 
   public static MapEditDataController getDataCont() {
@@ -172,7 +175,11 @@ public class ViewManager {
   }
 
   public static void setSelectedNode(HospitalMapNode node) {
-    ViewManager.selectedNode = node;
+    if (node == null) {
+      selectedNode = null;
+    } else {
+      ViewManager.selectedNode = node.getID();
+    }
   }
 
   public static ServiceTicket getServiceTicketToShow() {

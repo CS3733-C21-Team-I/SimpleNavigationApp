@@ -51,6 +51,7 @@ public class HospitalMapNode implements GraphNode<HospitalMapNode>, Cloneable {
     this.connections = connections;
     this.xCoord = xCoord;
     this.yCoord = yCoord;
+    this.nodeRestrictions = new ArrayList<>();
   }
 
   public List<String> NodeAsList() {

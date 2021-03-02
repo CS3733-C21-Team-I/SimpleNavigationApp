@@ -21,6 +21,7 @@ public class HospitalMapCSVBuilder {
                 Integer.parseInt(nodeEntry.get(2)),
                 nodeEntry.get(8),
                 nodeEntry.get(7),
+                LocationCategory.valueOf(nodeEntry.get(5)),
                 nodeEntry.get(9),
                 new ArrayList<>());
       } else {
@@ -87,20 +88,22 @@ public class HospitalMapCSVBuilder {
 
     Set<EdgePair> edgePairSet = new HashSet<>();
 
+    nodesString.append(
+        "nodeId,xcoord,ycoord,floor,building,nodetype,type,longname,shortname,teamassigned,mapId,,,OldY\n");
+
     for (HospitalMap map : maps) {
       String mapId = map.getId();
       String buildingName = map.getBuildingName();
       int floorNumber = map.getFloorNumber();
 
       for (HospitalMapNode node : map.getNodes()) {
-        System.out.println(node.getClass());
         if (node instanceof LocationNode) {
           nodesString.append(node.getID() + ",");
           nodesString.append(node.getxCoord() + ",");
           nodesString.append(node.getyCoord() + ",");
           nodesString.append(floorNumber + ",");
           nodesString.append(buildingName + ",");
-          nodesString.append("Temp,");
+          nodesString.append(((LocationNode) node).getLocationCategory().toString() + ",");
           nodesString.append("LOC,");
           nodesString.append(((LocationNode) node).getLongName() + ",");
           nodesString.append(((LocationNode) node).getShortName() + ",");
