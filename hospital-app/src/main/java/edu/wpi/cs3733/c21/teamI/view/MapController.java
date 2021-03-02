@@ -57,17 +57,16 @@ public class MapController extends Application {
   private boolean isDrag = false;
   private boolean isFirstLoad = true;
   @FXML AnchorPane mapPane;
-  //  @FXML StackPane tabPane;
   @FXML ImageView mapImage;
   @FXML StackPane imageContainer;
   @FXML VBox stackContainer;
 
   private final double scale = 3.05;
   private EuclidianDistCalc scorer = new EuclidianDistCalc();
-  private double fullImgWidth = 2989;
-  private double fullImgHeight = 2457;
-  private double imgWidth = 2989;
-  private double imgHeight = 2457;
+  private double fullImgWidth = 0;
+  private double fullImgHeight = 0;
+  private double imgWidth = 0;
+  private double imgHeight = 0;
   private List<HospitalMapNode> aStarPath;
   private double xOffset = 0;
   private double yOffset = 0;
@@ -393,11 +392,9 @@ public class MapController extends Application {
 
   @FXML
   public void initialize() {
-    currentTab = campus;
-    startZoomPan(mapPane);
+    floor1Tab(new ActionEvent());
+    campusTab(new ActionEvent());
     ViewManager.setMapController(this);
-    mapImage.fitWidthProperty().bind(imageContainer.widthProperty());
-    mapImage.fitHeightProperty().bind(imageContainer.heightProperty());
     setupMapViewHandlers();
     boolean isAdmin =
         ApplicationDataController.getInstance()
@@ -605,6 +602,9 @@ public class MapController extends Application {
       ViewManager.setActiveMap("Faulkner 0");
       updateView();
       currentTab = campus;
+      mapImage.fitWidthProperty().bind(imageContainer.widthProperty());
+      mapImage.fitHeightProperty().bind(imageContainer.heightProperty());
+      startZoomPan(mapPane);
     }
   }
 
@@ -614,6 +614,9 @@ public class MapController extends Application {
       ViewManager.setActiveMap("Faulkner 1");
       updateView();
       currentTab = floor1;
+      mapImage.fitWidthProperty().bind(imageContainer.widthProperty());
+      mapImage.fitHeightProperty().bind(imageContainer.heightProperty());
+      startZoomPan(mapPane);
     }
   }
 
@@ -623,6 +626,9 @@ public class MapController extends Application {
       ViewManager.setActiveMap("Faulkner 2");
       updateView();
       currentTab = floor2;
+      mapImage.fitWidthProperty().bind(imageContainer.widthProperty());
+      mapImage.fitHeightProperty().bind(imageContainer.heightProperty());
+      startZoomPan(mapPane);
     }
   }
 
@@ -633,6 +639,9 @@ public class MapController extends Application {
       ViewManager.setActiveMap("Faulkner 3");
       updateView();
       currentTab = floor3;
+      mapImage.fitWidthProperty().bind(imageContainer.widthProperty());
+      mapImage.fitHeightProperty().bind(imageContainer.heightProperty());
+      startZoomPan(mapPane);
     }
   }
 
@@ -642,6 +651,9 @@ public class MapController extends Application {
       ViewManager.setActiveMap("Faulkner 4");
       updateView();
       currentTab = floor4;
+      mapImage.fitWidthProperty().bind(imageContainer.widthProperty());
+      mapImage.fitHeightProperty().bind(imageContainer.heightProperty());
+      startZoomPan(mapPane);
     }
   }
 
@@ -651,6 +663,9 @@ public class MapController extends Application {
       ViewManager.setActiveMap("Faulkner 5");
       updateView();
       currentTab = floor6;
+      mapImage.fitWidthProperty().bind(imageContainer.widthProperty());
+      mapImage.fitHeightProperty().bind(imageContainer.heightProperty());
+      startZoomPan(mapPane);
     }
   }
 
