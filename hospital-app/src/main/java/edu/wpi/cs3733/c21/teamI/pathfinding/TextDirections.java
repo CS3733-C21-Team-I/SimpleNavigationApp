@@ -178,4 +178,13 @@ public class TextDirections {
 
     return lawOfCosines;
   }
+
+  private static int calcDistance(EuclidianDistCalc calc, HospitalMapNode a, HospitalMapNode b) {
+    Double percentageDiff = calc.calculateDistance(a, b);
+    Double conversionRatio = 224.0; // 100% of Picture width is 224 meters according to Google Earth
+
+    // System.out.println(percentageDiff);
+    int finalDistance = (int) ((percentageDiff * conversionRatio) / 100000);
+    return finalDistance;
+  }
 }
