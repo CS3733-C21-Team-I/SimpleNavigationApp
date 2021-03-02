@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import edu.wpi.cs3733.c21.teamI.hospitalMap.EuclidianDistCalc;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMapNode;
+import edu.wpi.cs3733.c21.teamI.hospitalMap.LocationCategory;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.LocationNode;
 import org.junit.jupiter.api.Test;
 
@@ -59,17 +60,44 @@ class TextDirectionsTest {
     // HospitalMapNode junction = new HospitalMapNode( String id, String mapID, int xCoord, int
     // yCoord, List<HospitalMapNode> connections);
     LocationNode start =
-        new LocationNode("junction", "map1", 0, 5, "Start", "Starting location", "", null);
+        new LocationNode(
+            "junction",
+            "map1",
+            0,
+            5,
+            "Start",
+            "Starting location",
+            LocationCategory.PARK,
+            "",
+            null);
     HospitalMapNode junction = new HospitalMapNode("junction", "map1", 10, 5, null);
     LocationNode junction2 =
-        new LocationNode("junction", "map1", 10, 5, "Crossroads Cafe", "Crossroads Cafe", "", null);
+        new LocationNode(
+            "junction",
+            "map1",
+            10,
+            5,
+            "Crossroads Cafe",
+            "Crossroads Cafe",
+            LocationCategory.FOOD,
+            "",
+            null);
     HospitalMapNode left = new HospitalMapNode("left", "map1", 10, 0, null);
     HospitalMapNode right = new HospitalMapNode("right", "map1", 10, 10, null);
     HospitalMapNode slightleft = new HospitalMapNode("slightleft", "map1", 17, 1, null);
     HospitalMapNode slightright = new HospitalMapNode("slightright", "map1", 17, 9, null);
     HospitalMapNode straight = new HospitalMapNode("straight", "map1", 15, 5, null);
     LocationNode destination =
-        new LocationNode("destination", "map1", 30, 5, "End", "Hospital Destination", "", null);
+        new LocationNode(
+            "destination",
+            "map1",
+            30,
+            5,
+            "End",
+            "Hospital Destination",
+            LocationCategory.EXIT,
+            "",
+            null);
 
     assertEquals("Take a left.", TextDirections.describeStep(helper, start, junction, left));
     assertEquals("Take a right.", TextDirections.describeStep(helper, start, junction, right));

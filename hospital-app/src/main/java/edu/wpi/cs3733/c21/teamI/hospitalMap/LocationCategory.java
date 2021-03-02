@@ -10,6 +10,7 @@ public enum LocationCategory {
   LAB,
   PARK,
   REST,
+  RETL,
   FOOD,
   SERV,
   STAI,

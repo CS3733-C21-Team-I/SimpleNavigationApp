@@ -15,23 +15,6 @@ public class LocationNode extends HospitalMapNode {
 
   public LocationNode() {}
 
-  public LocationNode(List<String> nodeInit) {
-    this.setId((String) nodeInit.get(0));
-    this.setxCoord(Integer.parseInt((String) nodeInit.get(1)));
-    this.setyCoord(Integer.parseInt((String) nodeInit.get(2)));
-    this.floor = Integer.parseInt((String) nodeInit.get(3));
-    this.building = (String) nodeInit.get(4);
-    //    this.locationCategory =
-    //        (LocationCategory)
-    //            nodeInit.get(
-    //                5); // This was previously nodeType but is being renamed to LocationCategory
-    // which
-    // is an enum
-    this.longName = (String) nodeInit.get(6);
-    this.shortName = (String) nodeInit.get(7);
-    this.teamAssigned = (String) nodeInit.get(8);
-  }
-
   public LocationNode(
       String id,
       String mapID,
@@ -39,12 +22,14 @@ public class LocationNode extends HospitalMapNode {
       int yCoord,
       String shortName,
       String longName,
+      LocationCategory category,
       String teamAssigned,
       List<HospitalMapNode> connections) {
     super(id, mapID, xCoord, yCoord, connections);
     this.shortName = shortName;
     this.longName = longName;
     this.teamAssigned = teamAssigned;
+    this.locationCategory = category;
   }
 
   public String getShortName() {
