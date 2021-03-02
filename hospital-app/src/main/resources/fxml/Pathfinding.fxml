@@ -90,7 +90,7 @@
                                 </AnchorPane>
                            </children>
                         </AnchorPane>
-                                  <AnchorPane fx:id="mapPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="0.0" prefWidth="0.0" style="-fx-border-color: red;" StackPane.alignment="CENTER" />
+                                  <AnchorPane fx:id="mapPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="0.0" prefWidth="0.0" StackPane.alignment="CENTER" />
                      </children>
                      <VBox.margin>
                         <Insets />
