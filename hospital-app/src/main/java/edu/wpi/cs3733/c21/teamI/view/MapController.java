@@ -562,11 +562,6 @@ public class MapController extends Application {
           newCircle.setFill(Color.YELLOW);
           newCircle.setCenterX(t.getX());
           newCircle.setCenterY(t.getY());
-          //    return x * (fullImgWidth / imgWidth) * mapPane.getPrefWidth() / 100000
-          //        - xOffset * mapPane.getPrefWidth() / imgWidth;
-
-          //    return y * (fullImgHeight / imgHeight) * mapPane.getPrefHeight() / 100000
-          //        - yOffset * mapPane.getPrefHeight() / imgHeight;
           HospitalMapNode newNode =
               new HospitalMapNode(node.getID(), node.getMapID(), 0, 0, node.getConnections());
           movingNode = newNode;
@@ -578,7 +573,7 @@ public class MapController extends Application {
   private Circle makeCircle(double x, double y, double r, Color color) {
     Circle returnCircle = new Circle(x, y, r);
     returnCircle.setFill(color);
-    if (x <= 0 || x >= mapPane.getPrefWidth() || y <= 0 || y >= mapPane.getPrefWidth()) {
+    if (x <= 0 || x >= mapPane.getPrefWidth() || y <= 0 || y >= mapPane.getPrefHeight()) {
       returnCircle.setVisible(false);
     }
     return returnCircle;
@@ -586,9 +581,7 @@ public class MapController extends Application {
 
   @FXML
   public void onSwitch() {
-    //        String begin = start.getValue();
     String begin = start.getText();
-    //        String end = destination.getValue();
     String end = destination.getText();
     start.setText(end);
     destination.setText(begin);
