@@ -5,6 +5,7 @@ public class ServiceTicket {
   private int ticketID;
   private int requestingUserID;
   private int assignedUserID;
+  private String requestType;
   private TicketType ticketType;
   private String location;
   private String description;
@@ -16,6 +17,7 @@ public class ServiceTicket {
   public ServiceTicket(
       int requestID,
       int assignID,
+      String requestType,
       TicketType ticketType,
       String location,
       String desc,
@@ -23,6 +25,7 @@ public class ServiceTicket {
       boolean completed) {
     this.requestingUserID = requestID;
     this.assignedUserID = assignID;
+    this.requestType = requestType;
     this.ticketType = ticketType;
     this.location = location;
     this.description = desc;
@@ -67,6 +70,8 @@ public class ServiceTicket {
   public int getAssignedUserID() {
     return assignedUserID;
   }
+
+  public String getRequestType() {return requestType;}
 
   public TicketType getTicketType() {
     return ticketType;
