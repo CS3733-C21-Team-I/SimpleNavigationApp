@@ -164,7 +164,7 @@ public class ViewManager {
     mapControl = mapController;
   }
 
-  public static void refreshMap() {
+  public static void refreshMap() throws IOException {
     mapControl.updateView();
   }
 

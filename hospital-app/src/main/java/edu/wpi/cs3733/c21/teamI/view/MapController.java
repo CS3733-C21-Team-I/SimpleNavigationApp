@@ -7,8 +7,8 @@ import edu.wpi.cs3733.c21.teamI.pathfinding.*;
 import edu.wpi.cs3733.c21.teamI.user.User;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.io.InputStream;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -70,7 +70,7 @@ public class MapController extends Application {
   private PathPlanningAlgorithm pathFinderAlgorithm = new PathFinder();
   private List<HospitalMapNode> foundPath;
 
-  public void updateView() {
+  public void updateView() throws IOException {
     if (adminMap) {
       startEditView();
     } else {
@@ -190,36 +190,20 @@ public class MapController extends Application {
   }
 
   @FXML
-  public void drawPathBetweenNodes(String aName, String bName) throws IOException {
+  public void drawCalculatedPath() throws IOException {
     deletePath();
-    mapPane
-        .getChildren()
-        .removeIf(n -> (n.getClass() == Line.class) || (n.getClass() == Circle.class));
+    if (this.foundPath.size() >= 2) {
+      HospitalMapNode nodeA = this.foundPath.get(0);
+      HospitalMapNode nodeB = this.foundPath.get(this.foundPath.toArray().length - 1);
+      mapPane
+          .getChildren()
+          .removeIf(n -> (n.getClass() == Line.class) || (n.getClass() == Circle.class));
+      drawPath(this.foundPath);
 
-    this.scorer = new EuclidianDistCalc();
-    HospitalMapNode nodeA = getNodeByLongName(aName);
-    HospitalMapNode nodeB = getNodeByLongName(bName);
-    PathPlanningAlgorithm aStar = new PathFinder();
-    List<HospitalMapNode> aStarPath = aStar.findPath(nodeA, nodeB, scorer);
-    System.out.println(TextDirections.getDirections(scorer, aStarPath));
-
-    drawPath(aStarPath);
-  }
-
-    @FXML
-    public void drawCalculatedPath() {
-        deletePath();
-        if (this.foundPath.size() >= 2) {
-            HospitalMapNode nodeA = this.foundPath.get(0);
-            HospitalMapNode nodeB = this.foundPath.get(this.foundPath.toArray().length - 1);
-            mapPane
-                    .getChildren()
-                    .removeIf(n -> (n.getClass() == Line.class) || (n.getClass() == Circle.class));
-            drawPath(this.foundPath);
-            if (nodeA.getMapID().equals(ViewManager.getMapID())) drawNode(nodeA, Color.BLUE);
-            if (nodeB.getMapID().equals(ViewManager.getMapID())) drawNode(nodeB, Color.BLUE);
-        }
+      if (nodeA.getMapID().equals(ViewManager.getMapID())) drawStartPoint(this.foundPath);
+      if (nodeB.getMapID().equals(ViewManager.getMapID())) drawEndPoint(this.foundPath);
     }
+  }
 
   private void drawNode(HospitalMapNode node, Color color) {
     Circle circle =
@@ -344,6 +328,19 @@ public class MapController extends Application {
   private void drawPath(List<HospitalMapNode> path) throws IOException {
     HospitalMapNode currNode;
     HospitalMapNode nextNode = null;
+
+    for (int i = 0; i < path.size() - 1; i++) {
+      currNode = path.get(i);
+      nextNode = path.get(i + 1);
+      if (nextNode.getMapID().equals(ViewManager.getMapID())
+          && currNode.getMapID().equals(ViewManager.getMapID())) {
+        drawArrow(currNode, nextNode);
+        drawEdge(currNode, nextNode, Color.BLUE);
+      }
+    }
+  }
+
+  private void drawStartPoint(List<HospitalMapNode> path) throws IOException {
     double xAdjustment = imgWidth / 100000.0 / scale;
     double yAdjustment = imgHeight / 100000.0 / scale;
 
@@ -352,23 +349,20 @@ public class MapController extends Application {
         System.getProperty("user.dir") + "\\src/main/resources/fxml/fxmlResources/startIcon.png";
     double startIconX = path.get(0).getxCoord() * xAdjustment - imgScale / 2;
     double startIconY = path.get(0).getyCoord() * yAdjustment - imgScale;
+    drawNode(path.get(0), blue);
+    displayImage(startIcon, startIconX, startIconY, imgScale);
+  }
+
+  private void drawEndPoint(List<HospitalMapNode> path) throws IOException {
+    double xAdjustment = imgWidth / 100000.0 / scale;
+    double yAdjustment = imgHeight / 100000.0 / scale;
+
+    double imgScale = 256 / scale;
     String finishIcon =
         System.getProperty("user.dir") + "\\src/main/resources/fxml/fxmlResources/finishIcon.png";
     double finishIconX = path.get(path.size() - 1).getxCoord() * xAdjustment - imgScale / 2;
     double finishIconY = path.get(path.size() - 1).getyCoord() * yAdjustment - imgScale;
-
-    for (int i = 0; i < path.size() - 1; i++) {
-      currNode = path.get(i);
-      nextNode = path.get(i + 1);
-      if (nextNode.getMapID().equals(ViewManager.getMapID())
-          && currNode.getMapID().equals(ViewManager.getMapID())) {
-          drawArrow(currNode, nextNode);
-          drawEdge(currNode, nextNode, Color.BLUE);
-      }
-    }
-    drawNode(path.get(0), blue);
     drawNode(path.get(path.size() - 1), red);
-    displayImage(startIcon, startIconX, startIconY, imgScale);
     displayImage(finishIcon, finishIconX, finishIconY, imgScale);
   }
 

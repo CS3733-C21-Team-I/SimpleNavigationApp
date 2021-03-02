@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.c21.teamI.view.menu.tabprototype;
 
 import edu.wpi.cs3733.c21.teamI.view.ViewManager;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.application.Application;
@@ -25,7 +26,7 @@ public class TabPane extends Application implements Initializable {
   @Override
   public void start(Stage primaryStage) throws Exception {}
 
-  public void campusTab(Event event) {
+  public void campusTab(Event event) throws IOException {
     if (campus != currentTab) {
       System.out.println("Tab 1");
       ViewManager.setActiveMap("Faulkner Lot");
@@ -34,7 +35,7 @@ public class TabPane extends Application implements Initializable {
     }
   }
 
-  public void floor1Tab(Event event) {
+  public void floor1Tab(Event event) throws IOException {
     if (floor1 != currentTab) {
       System.out.println("Tab 2");
       ViewManager.setActiveMap("Faulkner 1");
@@ -43,7 +44,7 @@ public class TabPane extends Application implements Initializable {
     }
   }
 
-  public void floor2Tab(Event event) {
+  public void floor2Tab(Event event) throws IOException {
     if (floor2 != currentTab) {
       System.out.println("Tab 3");
       ViewManager.setActiveMap("Faulkner 2");
@@ -52,7 +53,7 @@ public class TabPane extends Application implements Initializable {
     }
   }
 
-  public void floor3Tab(Event event) {
+  public void floor3Tab(Event event) throws IOException {
     if (floor3 != currentTab) {
 
       System.out.println("Tab 4");
@@ -62,7 +63,7 @@ public class TabPane extends Application implements Initializable {
     }
   }
 
-  public void floor4Tab(Event event) {
+  public void floor4Tab(Event event) throws IOException {
     if (floor4 != currentTab) {
       System.out.println("Tab 5");
       ViewManager.setActiveMap("Faulkner 4");
@@ -71,7 +72,7 @@ public class TabPane extends Application implements Initializable {
     }
   }
 
-  public void floor5Tab(Event event) {
+  public void floor5Tab(Event event) throws IOException {
     if (floor6 != currentTab) {
       System.out.println("Tab 6");
       ViewManager.setActiveMap("Faulkner 5");
