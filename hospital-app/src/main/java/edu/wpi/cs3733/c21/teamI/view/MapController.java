@@ -128,13 +128,19 @@ public class MapController extends Application {
   }
 
   private double transformX(double x) {
-    return x * fullImgWidth * fullImgWidth / imgWidth / 100000 / scale
-        - xOffset * fullImgWidth / imgWidth / scale;
+    return clamp(
+        x * (fullImgWidth / imgWidth) * mapPane.getPrefWidth() / 100000
+            - xOffset * mapPane.getPrefWidth() / imgWidth,
+        0,
+        mapPane.getPrefWidth());
   }
 
   private double transformY(double y) {
-    return y * fullImgHeight * fullImgHeight / imgHeight / 100000 / scale
-        - yOffset * fullImgHeight / imgHeight / scale;
+    return clamp(
+        y * (fullImgHeight / imgHeight) * mapPane.getPrefHeight() / 100000
+            - yOffset * mapPane.getPrefHeight() / imgHeight,
+        0,
+        mapPane.getPrefHeight());
   }
 
   private void setupMapViewHandlers() {
@@ -158,6 +164,17 @@ public class MapController extends Application {
                 });
     mapPane.setOnMouseClicked(
         (MouseEvent evt) -> {
+          System.out.println(
+              "X: "
+                  + evt.getX()
+                  + ", Y: "
+                  + evt.getY()
+                  + ", ratio: "
+                  + (mapImage.getFitHeight() / imgHeight)
+                  + " map x and y: "
+                  + mapImage.getX()
+                  + ", "
+                  + mapImage.getY());
           if (mapPane != null) {
             startList.setVisible(false);
             destList.setVisible(false);
@@ -288,13 +305,18 @@ public class MapController extends Application {
           });
     }
     try {
-      mapImage.setImage(
+      Image background =
           new Image(
               (getClass()
                       .getResource(
                           "/fxml/mapImages/" + ViewManager.getMapID().replace(" ", "") + ".png"))
                   .toURI()
-                  .toString()));
+                  .toString());
+      mapImage.setImage(background);
+      fullImgWidth = background.getWidth();
+      fullImgHeight = background.getHeight();
+      imgWidth = background.getWidth();
+      imgHeight = background.getHeight();
     } catch (URISyntaxException e) {
       e.printStackTrace();
     }
@@ -501,7 +523,13 @@ public class MapController extends Application {
 
     circle.setOnMouseClicked(
         t -> {
+          System.out.println(mapImage.getFitWidth());
+          System.out.println(imgWidth);
+          System.out.println(mapImage.getFitHeight());
+          System.out.println(imgHeight);
+          System.out.println(node);
           if (t.getButton() == MouseButton.PRIMARY) {
+            System.out.println(node.getID());
             if (!isDrag) {
               nodeMenu.setVisible(ViewManager.toggleNode(node));
             } else {
@@ -547,6 +575,9 @@ public class MapController extends Application {
           newCircle.setCenterX(t.getSceneX());
           newCircle.setCenterY(t.getSceneY() - 50);
           Point2D mousePress = imageViewToImage(mapImage, new Point2D(t.getX(), t.getY()));
+          System.out.println(mousePress.getX() + " " + mousePress.getY());
+          System.out.println("Ratio: " + mapImage.getFitWidth() / imgWidth);
+          System.out.println("Ratio full: " + mapImage.getFitWidth() / fullImgWidth);
           HospitalMapNode newNode =
               new HospitalMapNode(
                   node.getID(),
@@ -602,9 +633,8 @@ public class MapController extends Application {
       ViewManager.setActiveMap("Faulkner 0");
       updateView();
       currentTab = campus;
-      mapImage.fitWidthProperty().bind(imageContainer.widthProperty());
-      mapImage.fitHeightProperty().bind(imageContainer.heightProperty());
       startZoomPan(mapPane);
+      resize();
     }
   }
 
@@ -614,9 +644,8 @@ public class MapController extends Application {
       ViewManager.setActiveMap("Faulkner 1");
       updateView();
       currentTab = floor1;
-      mapImage.fitWidthProperty().bind(imageContainer.widthProperty());
-      mapImage.fitHeightProperty().bind(imageContainer.heightProperty());
       startZoomPan(mapPane);
+      resize();
     }
   }
 
@@ -626,9 +655,8 @@ public class MapController extends Application {
       ViewManager.setActiveMap("Faulkner 2");
       updateView();
       currentTab = floor2;
-      mapImage.fitWidthProperty().bind(imageContainer.widthProperty());
-      mapImage.fitHeightProperty().bind(imageContainer.heightProperty());
       startZoomPan(mapPane);
+      resize();
     }
   }
 
@@ -639,9 +667,8 @@ public class MapController extends Application {
       ViewManager.setActiveMap("Faulkner 3");
       updateView();
       currentTab = floor3;
-      mapImage.fitWidthProperty().bind(imageContainer.widthProperty());
-      mapImage.fitHeightProperty().bind(imageContainer.heightProperty());
       startZoomPan(mapPane);
+      resize();
     }
   }
 
@@ -651,9 +678,8 @@ public class MapController extends Application {
       ViewManager.setActiveMap("Faulkner 4");
       updateView();
       currentTab = floor4;
-      mapImage.fitWidthProperty().bind(imageContainer.widthProperty());
-      mapImage.fitHeightProperty().bind(imageContainer.heightProperty());
       startZoomPan(mapPane);
+      resize();
     }
   }
 
@@ -663,9 +689,8 @@ public class MapController extends Application {
       ViewManager.setActiveMap("Faulkner 5");
       updateView();
       currentTab = floor6;
-      mapImage.fitWidthProperty().bind(imageContainer.widthProperty());
-      mapImage.fitHeightProperty().bind(imageContainer.heightProperty());
       startZoomPan(mapPane);
+      resize();
     }
   }
 
@@ -673,11 +698,26 @@ public class MapController extends Application {
   private static final int MIN_PIXELS = 200;
 
   private void startZoomPan(AnchorPane zoomPane) {
+    mapImage.fitWidthProperty().bind(imageContainer.widthProperty());
+    mapImage.fitHeightProperty().bind(imageContainer.heightProperty());
+    mapImage.setPreserveRatio(true);
     double width = imgWidth;
     double height = imgHeight;
-    mapImage.setPreserveRatio(true);
     reset(mapImage, width, height);
     ObjectProperty<Point2D> mouseDown = new SimpleObjectProperty<>();
+
+    mapImage
+        .fitWidthProperty()
+        .addListener(
+            (obs, oldVal, newVal) -> {
+              resize();
+            });
+    mapImage
+        .fitHeightProperty()
+        .addListener(
+            (obs, oldVal, newVal) -> {
+              resize();
+            });
 
     zoomPane.setOnMousePressed(
         e -> {
@@ -705,7 +745,6 @@ public class MapController extends Application {
 
     zoomPane.setOnScroll(
         e -> {
-          //          System.out.println(im);
           double delta = e.getDeltaY();
           Rectangle2D viewport = mapImage.getViewport();
           double scale =
@@ -739,6 +778,23 @@ public class MapController extends Application {
             update();
           }
         });
+  }
+
+  private void resize() {
+    if (mapImage != null && mapImage.getFitWidth() > 0) {
+      if (imageContainer.getHeight() / imageContainer.getWidth() > fullImgHeight / fullImgWidth) {
+        mapPane.setPrefWidth(mapImage.getFitWidth());
+        mapPane.setMaxWidth(mapImage.getFitWidth());
+        mapPane.setPrefHeight(mapImage.getFitWidth() * imgHeight / imgWidth);
+        mapPane.setMaxHeight(mapImage.getFitWidth() * imgHeight / imgWidth);
+      } else {
+        mapPane.setPrefHeight(mapImage.getFitHeight());
+        mapPane.setMaxHeight(mapImage.getFitHeight());
+        mapPane.setPrefWidth(mapImage.getFitHeight() * imgWidth / imgHeight);
+        mapPane.setMaxWidth(mapImage.getFitHeight() * imgWidth / imgHeight);
+      }
+      updateView();
+    }
   }
 
   // reset to the top left:
