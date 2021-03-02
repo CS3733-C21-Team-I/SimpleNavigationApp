@@ -37,6 +37,8 @@ public class HomeController extends Application {
 
   @FXML Label titleLabel;
 
+  @FXML Label timeLabel;
+
   @FXML JFXDrawer drawer;
 
   @FXML JFXHamburger ham1;
@@ -53,9 +55,9 @@ public class HomeController extends Application {
                 e -> {
                   DateTimeFormatter formatter =
                       DateTimeFormatter.RFC_1123_DATE_TIME; // "yyyy-MM-dd HH:mm:ss"
-                  if (dateTime != null) {
+                  if (timeLabel != null) {
                     String dateTimeString = ZonedDateTime.now().format(formatter);
-                    dateTime.setText(dateTimeString.substring(0, dateTimeString.length() - 9));
+                    timeLabel.setText(dateTimeString.substring(0, dateTimeString.length() - 9));
                   }
                 }),
             new KeyFrame(Duration.seconds(1)));
