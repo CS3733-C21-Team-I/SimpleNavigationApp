@@ -60,6 +60,13 @@ public class MapController extends Application {
   @FXML ImageView mapImage;
   @FXML StackPane imageContainer;
   @FXML VBox stackContainer;
+  @FXML Tab campus;
+  @FXML Tab floor1;
+  @FXML Tab floor2;
+  @FXML Tab floor3;
+  @FXML Tab floor4;
+  @FXML Tab floor6;
+  private Tab currentTab = null;
 
   private final double scale = 3.05;
   private EuclidianDistCalc scorer = new EuclidianDistCalc();
@@ -158,17 +165,6 @@ public class MapController extends Application {
                 });
     mapPane.setOnMouseClicked(
         (MouseEvent evt) -> {
-          System.out.println(
-              "X: "
-                  + evt.getX()
-                  + ", Y: "
-                  + evt.getY()
-                  + ", ratio: "
-                  + (mapImage.getFitHeight() / imgHeight)
-                  + " map x and y: "
-                  + mapImage.getX()
-                  + ", "
-                  + mapImage.getY());
           if (mapPane != null) {
             startList.setVisible(false);
             destList.setVisible(false);
@@ -526,6 +522,9 @@ public class MapController extends Application {
               panAllowed = true;
               ViewManager.setSelectedNode(null);
               isDrag = false;
+              Point2D mousePress = imageViewToImage(mapImage, new Point2D(t.getX(), t.getY()));
+              movingNode.setxCoord((int) (mousePress.getX() / fullImgWidth * 100000));
+              movingNode.setyCoord((int) (mousePress.getY() / fullImgHeight * 100000));
               ViewManager.getDataCont().editNode(movingNode.getID(), movingNode);
             }
             nodeDeleteButton.setOnAction(
@@ -561,16 +560,15 @@ public class MapController extends Application {
           Circle newCircle =
               (Circle) mapPane.getChildren().get(mapPane.getChildren().indexOf(circle));
           newCircle.setFill(Color.YELLOW);
-          newCircle.setCenterX(t.getSceneX());
-          newCircle.setCenterY(t.getSceneY() - 50);
-          Point2D mousePress = imageViewToImage(mapImage, new Point2D(t.getX(), t.getY()));
+          newCircle.setCenterX(t.getX());
+          newCircle.setCenterY(t.getY());
+          //    return x * (fullImgWidth / imgWidth) * mapPane.getPrefWidth() / 100000
+          //        - xOffset * mapPane.getPrefWidth() / imgWidth;
+
+          //    return y * (fullImgHeight / imgHeight) * mapPane.getPrefHeight() / 100000
+          //        - yOffset * mapPane.getPrefHeight() / imgHeight;
           HospitalMapNode newNode =
-              new HospitalMapNode(
-                  node.getID(),
-                  node.getMapID(),
-                  (int) (mousePress.getX() / mapPane.getPrefWidth() * 100000),
-                  (int) (mousePress.getY() / mapPane.getPrefHeight() * 100000),
-                  node.getConnections());
+              new HospitalMapNode(node.getID(), node.getMapID(), 0, 0, node.getConnections());
           movingNode = newNode;
           isDrag = true;
         });
@@ -613,14 +611,6 @@ public class MapController extends Application {
     }
     System.out.print("NodeRestrictions:" + this.scorer.nodeTypesToAvoid);
   }
-
-  @FXML Tab campus;
-  @FXML Tab floor1;
-  @FXML Tab floor2;
-  @FXML Tab floor3;
-  @FXML Tab floor4;
-  @FXML Tab floor6;
-  private Tab currentTab = null;
 
   public void campusTab(Event event) {
     if (campus != currentTab && currentTab != null) {
