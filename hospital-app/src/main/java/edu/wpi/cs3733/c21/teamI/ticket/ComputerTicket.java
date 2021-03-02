@@ -12,7 +12,7 @@ public class ComputerTicket extends ServiceTicket {
       boolean completed,
       String computerType,
       boolean urgency) {
-    super(requestID, assignID, TicketType.COMPUTER, location, desc, completed);
+    super(requestID, TicketType.COMPUTER, location, desc, completed);
     this.computerType = computerType;
     this.urgency = urgency;
   }

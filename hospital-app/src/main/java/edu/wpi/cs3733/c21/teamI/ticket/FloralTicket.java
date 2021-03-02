@@ -14,7 +14,7 @@ public class FloralTicket extends ServiceTicket {
       String patientName,
       String deliveryDate,
       String deliveryTime) {
-    super(requestID, assignID, TicketType.FLORAL, location, desc, completed);
+    super(requestID, TicketType.FLORAL, location, desc, completed);
     this.patientName = patientName;
     this.deliveryDate = deliveryDate;
     this.deliveryTime = deliveryTime;

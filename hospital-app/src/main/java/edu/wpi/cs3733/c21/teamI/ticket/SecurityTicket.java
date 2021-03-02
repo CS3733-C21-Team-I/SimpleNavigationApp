@@ -12,7 +12,7 @@ public class SecurityTicket extends ServiceTicket {
       boolean completed,
       String securityType,
       boolean emergency) {
-    super(requestID, assignID, TicketType.SECURITY, location, desc, completed);
+    super(requestID, TicketType.SECURITY, location, desc, completed);
     this.securityType = securityType;
     this.emergency = emergency;
   }

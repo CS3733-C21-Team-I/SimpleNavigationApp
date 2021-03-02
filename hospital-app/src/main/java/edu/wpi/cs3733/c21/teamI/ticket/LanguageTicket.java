@@ -14,7 +14,7 @@ public class LanguageTicket extends ServiceTicket {
       String language,
       String meetingTime,
       boolean legalDocs) {
-    super(requestID, assignID, TicketType.LANGUAGE, location, desc, completed);
+    super(requestID, TicketType.LANGUAGE, location, desc, completed);
     this.language = language;
     this.meetingTime = meetingTime;
     this.legalDocs = legalDocs;

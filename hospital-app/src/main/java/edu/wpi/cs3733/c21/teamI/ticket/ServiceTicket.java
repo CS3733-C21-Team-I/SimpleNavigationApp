@@ -1,10 +1,12 @@
 package edu.wpi.cs3733.c21.teamI.ticket;
 
+import java.util.List;
+
 public class ServiceTicket {
 
   private int ticketID;
   private int requestingUserID;
-  private int assignedUserID;
+  private List<Integer> assignedUserID;
   private TicketType ticketType;
   private String location;
   private String description;
@@ -15,14 +17,8 @@ public class ServiceTicket {
   public ServiceTicket() {}
 
   public ServiceTicket(
-      int requestID,
-      int assignID,
-      TicketType ticketType,
-      String location,
-      String desc,
-      boolean completed) {
+      int requestID, TicketType ticketType, String location, String desc, boolean completed) {
     this.requestingUserID = requestID;
-    this.assignedUserID = assignID;
     // this.requestType = requestType;
     this.ticketType = ticketType;
     this.location = location;
@@ -71,7 +67,7 @@ public class ServiceTicket {
     return ticketID;
   }
 
-  public int getAssignedUserID() {
+  public List<Integer> getAssignedUserID() {
     return assignedUserID;
   }
 
@@ -97,6 +93,14 @@ public class ServiceTicket {
 
   public void setTicketID(int id) {
     this.ticketID = id;
+  }
+
+  public void setAssignedUserID(List<Integer> employee) {
+    this.assignedUserID = employee;
+  }
+
+  public void addAssignedUserID(int employee) {
+    assignedUserID.add(employee);
   }
 
   //  public String getRequestType() {

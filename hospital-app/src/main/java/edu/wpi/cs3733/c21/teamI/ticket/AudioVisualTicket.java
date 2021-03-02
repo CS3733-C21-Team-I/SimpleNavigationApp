@@ -12,7 +12,7 @@ public class AudioVisualTicket extends ServiceTicket {
       boolean completed,
       String patientName,
       String mediaType) {
-    super(requestID, assignID, TicketType.AUDIO_VISUAL, location, desc, completed);
+    super(requestID, TicketType.AUDIO_VISUAL, location, desc, completed);
     this.patientName = patientName;
     this.mediaType = mediaType;
   }

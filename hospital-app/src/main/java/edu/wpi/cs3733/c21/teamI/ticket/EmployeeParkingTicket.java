@@ -18,7 +18,7 @@ public class EmployeeParkingTicket extends ServiceTicket {
       String startDate,
       String endDate,
       boolean disability) {
-    super(requestID, assignID, TicketType.PARKING, location, desc, completed);
+    super(requestID, TicketType.PARKING, location, desc, completed);
     this.licensePlate = licensePlate;
     this.contact = contact;
     this.startDate = startDate;

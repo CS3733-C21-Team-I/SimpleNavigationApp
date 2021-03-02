@@ -20,7 +20,7 @@ public class MedicineTicket extends ServiceTicket {
       String quantity,
       String date,
       String time) {
-    super(requestID, assignID, TicketType.MEDICINE, location, desc, completed);
+    super(requestID, TicketType.MEDICINE, location, desc, completed);
     this.patientName = patientName;
     this.drugName = drugName;
     this.dose = dose;

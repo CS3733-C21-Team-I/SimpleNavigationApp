@@ -18,7 +18,7 @@ public class ReligiousTicket extends ServiceTicket {
       String religiousType,
       String date,
       String time) {
-    super(requestID, assignID, TicketType.RELIGIOUS, location, desc, completed);
+    super(requestID, TicketType.RELIGIOUS, location, desc, completed);
     this.patientName = patientName;
     this.religiousDenomination = religiousDenomination;
     this.religiousType = religiousType;

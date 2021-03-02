@@ -16,7 +16,7 @@ public class GiftTicket extends ServiceTicket {
       String deliveryTime,
       String giftType,
       String patientName) {
-    super(requestID, assignID, TicketType.GIFT, location, desc, completed);
+    super(requestID, TicketType.GIFT, location, desc, completed);
     this.deliveryDate = deliveryDate;
     this.deliveryTime = deliveryTime;
     this.giftType = giftType;

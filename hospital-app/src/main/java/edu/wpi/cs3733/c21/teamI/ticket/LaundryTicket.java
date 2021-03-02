@@ -14,7 +14,7 @@ public class LaundryTicket extends ServiceTicket {
       String pickUpDate,
       String pickUpTime,
       boolean dryClean) {
-    super(requestID, assignID, TicketType.LAUNDRY, location, desc, completed);
+    super(requestID, TicketType.LAUNDRY, location, desc, completed);
     this.pickUpDate = pickUpDate;
     this.pickUpTime = pickUpTime;
     this.dryClean = dryClean;

@@ -18,7 +18,7 @@ public class TransportationTicket extends ServiceTicket {
       boolean emergency,
       boolean stretcher,
       boolean wheelchair) {
-    super(requestID, assignID, TicketType.TRANSPORTATION, location, desc, completed);
+    super(requestID, TicketType.TRANSPORTATION, location, desc, completed);
     this.pickUpDate = pickUpDate;
     this.pickUpTime = pickUpTime;
     this.emergency = emergency;
