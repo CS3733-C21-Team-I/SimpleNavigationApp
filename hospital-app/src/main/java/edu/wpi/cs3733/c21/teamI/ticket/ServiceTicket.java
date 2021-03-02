@@ -5,37 +5,43 @@ public class ServiceTicket {
   private int ticketID;
   private int requestingUserID;
   private int assignedUserID;
-  private String requestType;
   private TicketType ticketType;
   private String location;
   private String description;
   private boolean completed;
-  private boolean emergency;
+  // private String requestType;
+  // private boolean emergency;
 
   public ServiceTicket() {}
 
   public ServiceTicket(
       int requestID,
       int assignID,
-      String requestType,
       TicketType ticketType,
       String location,
       String desc,
-      boolean emergency,
       boolean completed) {
     this.requestingUserID = requestID;
     this.assignedUserID = assignID;
-    this.requestType = requestType;
+    // this.requestType = requestType;
     this.ticketType = ticketType;
     this.location = location;
     this.description = desc;
-    this.emergency = emergency;
+    // this.emergency = emergency;
     this.completed = completed;
   }
 
   public enum TicketType {
+    AUDIO_VISUAL,
+    COMPUTER,
+    LANGUAGE,
+    PARKING,
+    FLORAL,
+    GIFT,
+    TRANSPORTATION,
     LAUNDRY,
-    FOOD,
+    MEDICINE,
+    RELIGIOUS,
     SECURITY,
     SANITATION,
     MAINTENANCE
@@ -53,8 +59,6 @@ public class ServiceTicket {
         + location
         + "\nDESCPRIPTION: "
         + description
-        + "\nEMERGENCY: "
-        + emergency
         + "\tCOMPLETED: "
         + completed;
   }
@@ -71,8 +75,6 @@ public class ServiceTicket {
     return assignedUserID;
   }
 
-  public String getRequestType() {return requestType;}
-
   public TicketType getTicketType() {
     return ticketType;
   }
@@ -83,10 +85,6 @@ public class ServiceTicket {
 
   public String getDescription() {
     return description;
-  }
-
-  public boolean isEmergency() {
-    return emergency;
   }
 
   public boolean isCompleted() {
@@ -100,4 +98,11 @@ public class ServiceTicket {
   public void setTicketID(int id) {
     this.ticketID = id;
   }
+
+  //  public String getRequestType() {
+  //    return requestType;
+  //  }
+  //  public boolean isEmergency() {
+  //    return emergency;
+  //  }
 }

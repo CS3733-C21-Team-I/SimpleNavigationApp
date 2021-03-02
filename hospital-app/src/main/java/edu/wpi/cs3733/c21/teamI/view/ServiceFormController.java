@@ -51,7 +51,6 @@ public class ServiceFormController extends Application {
               ServiceTicket.TicketType.SANITATION,
               NavDatabaseManager.getInstance().getMapIdFromLongName(requestLocation.getText()),
               sanDescription.getText(),
-              sanEmergency.isSelected(),
               false);
       ServiceTicketDatabaseManager.getInstance().addTicket(sanitationTicket);
     } catch (Exception o) {
@@ -75,7 +74,6 @@ public class ServiceFormController extends Application {
               ServiceTicket.TicketType.MAINTENANCE,
               NavDatabaseManager.getInstance().getMapIdFromLongName(requestLocation.getText()),
               mainDesc.getText(),
-              mainEmerg.isSelected(),
               false);
       ServiceTicketDatabaseManager.getInstance().addTicket(maintenanceTicket);
 
