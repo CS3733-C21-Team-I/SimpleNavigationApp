@@ -81,21 +81,25 @@ public class NavDatabaseManager extends DatabaseManager {
                           + nodeResults.getString("NODE_TYPE"));
               }
 
-              nodeResults =
-                  stmt.executeQuery(
-                      "SELECT NODERESTRICTION FROM NODE_ATTRIBUTE JOIN NODE_TO_ATTRIBUTE NTA on NODE_ATTRIBUTE.ATTRIBUTE_ID = NTA.ATTRIBUTE_ID WHERE NTA.NODE_ID='"
+              Statement attStatement = databaseRef.getConnection().createStatement();
+              ResultSet attributeResults =
+                  attStatement.executeQuery(
+                      "SELECT * FROM NODE_ATTRIBUTE JOIN NODE_TO_ATTRIBUTE NTA on NODE_ATTRIBUTE.ATTRIBUTE_ID = NTA.ATTRIBUTE_ID WHERE NTA.NODE_ID='"
                           + nodeId
                           + "'");
 
-              while (nodeResults.next()) {
+              while (attributeResults.next()) {
+                System.out.println(attributeResults.getString("NODERESTRICTION"));
                 node.getNodeRestrictions()
-                    .add(NodeRestrictions.valueOf(nodeResults.getString("NODERESTRICTION")));
+                    .add(NodeRestrictions.valueOf(attributeResults.getString("NODERESTRICTION")));
               }
+              System.out.println(nodeId + " : " + mapId);
 
               tempNodeLookup.put(node.getID(), node);
               nodes.add(node);
             }
           } catch (SQLException e) {
+            e.printStackTrace();
             System.out.println("Log error querying nodes database");
             return null;
           }
