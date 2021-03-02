@@ -89,11 +89,11 @@ public class NavDatabaseManager extends DatabaseManager {
                           + "'");
 
               while (attributeResults.next()) {
-                System.out.println(attributeResults.getString("NODERESTRICTION"));
+                //System.out.println(attributeResults.getString("NODERESTRICTION"));
                 node.getNodeRestrictions()
                     .add(NodeRestrictions.valueOf(attributeResults.getString("NODERESTRICTION")));
               }
-              System.out.println(nodeId + " : " + mapId);
+              //System.out.println(nodeId + " : " + mapId);
 
               tempNodeLookup.put(node.getID(), node);
               nodes.add(node);
