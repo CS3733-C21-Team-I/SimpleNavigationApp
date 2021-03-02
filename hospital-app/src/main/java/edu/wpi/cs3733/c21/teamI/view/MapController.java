@@ -99,8 +99,6 @@ public class MapController extends Application {
     save.setVisible(adminMap);
     discard.setVisible(adminMap);
     if (adminMap) {
-      ViewManager.getDataCont()
-          .setActiveMap(NavDatabaseManager.getInstance().loadMapsFromMemory().get("Faulkner 0"));
       startEditView();
       undoButton.setVisible(true);
       redoButton.setVisible(true);
