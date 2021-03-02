@@ -4,6 +4,7 @@ import static edu.wpi.cs3733.c21.teamI.user.User.Permission.*;
 import static edu.wpi.cs3733.c21.teamI.user.User.Role.*;
 
 import edu.wpi.cs3733.c21.teamI.user.User;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -123,6 +124,81 @@ public class UserDatabaseManager extends DatabaseManager {
     return new User(userId, screenName, rolesSet, permissionSet);
   }
 
+  public User getUserWithPassword(String screenName, String password) {
+    // TODO - implement UserDatabaseManager.getUserForId
+
+    int userId;
+
+    try {
+      Statement statement = databaseRef.getConnection().createStatement();
+      ResultSet rs =
+              statement.executeQuery(
+                      "SELECT * FROM HOSPITAL_USERS WHERE SCREENNAME='" + screenName + "'");
+
+      if (!rs.next()) {
+        // TODO error handling
+        throw new IllegalArgumentException("Attempted to acess nonexistant user");
+      }
+      userId = rs.getInt("USER_ID");
+      byte[] salt = rs.getBytes("SALT");
+      byte[] hashed = rs.getBytes("hashed_password");
+
+      if (!Password.isExpectedPassword(password.toCharArray(), salt, hashed)) {
+        return null;
+      }
+
+    } catch (SQLException e) {
+      // TODO Error logging
+      e.printStackTrace();
+      return null;
+    }
+
+    Set<User.Role> rolesSet = new HashSet<>();
+
+    try {
+      Statement statement = databaseRef.getConnection().createStatement();
+      ResultSet rs =
+              statement.executeQuery(
+                      "SELECT HR.ROLE_NAME FROM USER_TO_ROLE INNER JOIN HOSPITAL_ROLES HR on HR.ROLE_ID = USER_TO_ROLE.ROLE_ID WHERE USER_ID="
+                              + userId);
+
+      while (rs.next()) {
+        rolesSet.add(getRoleForDatabaseName(rs.getString("ROLE_NAME")));
+      }
+
+      if (!rolesSet.contains(User.Role.BASE)) {
+        // TODO Error Logging
+        throw new IllegalStateException(
+                "Requested user: " + screenName + " does not contain role BASE");
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
+    Set<User.Permission> permissionSet = new HashSet<>();
+
+    try {
+
+      for (User.Role role : rolesSet) {
+        Statement statement = databaseRef.getConnection().createStatement();
+        ResultSet rs =
+                statement.executeQuery(
+                        "SELECT RP.RESOURCE_NAME FROM ROLE_TO_PERMISSION INNER JOIN RESOURCE_PERMISSIONS RP on ROLE_TO_PERMISSION.RESOURCE_ID = RP.RESOURCE_ID WHERE ROLE_ID=(SELECT ROLE_ID FROM HOSPITAL_ROLES WHERE ROLE_NAME='"
+                                + getDatabaseNameForRole(role)
+                                + "')");
+
+        while (rs.next()) {
+          permissionSet.add(getPermissionForDatabaseName(rs.getString("RESOURCE_NAME")));
+        }
+      }
+    } catch (SQLException e) {
+      // TODO ERROR Logging
+      e.printStackTrace();
+    }
+
+    return new User(userId, screenName, rolesSet, permissionSet);
+  }
+
   /**
    * Gets a screename for a user id
    *
@@ -161,6 +237,8 @@ public class UserDatabaseManager extends DatabaseManager {
               + "("
               + " user_ID    integer NOT NULL GENERATED ALWAYS AS IDENTITY,"
               + " screenName varchar(20) NOT NULL ,"
+              + "hashed_password blob(32),"
+              + "salt blob(32),"
               + "PRIMARY KEY (user_ID)"
               + ")");
     } catch (SQLException e) {
@@ -449,5 +527,51 @@ public class UserDatabaseManager extends DatabaseManager {
     } catch (SQLException e) {
       e.printStackTrace();
     }
+  }
+
+  public void createNewUser(String username, String password, User.Role[] roles) {
+    if (password.isEmpty()) {
+      try {
+        String query = "INSERT INTO HOSPITAL_USERS (screenname) VALUES ";
+        query += "('" + username + "')";
+        PreparedStatement statement = databaseRef.getConnection().prepareStatement(query);
+        statement.execute();
+      } catch (SQLException e) {
+        printSQLException(e);
+      }
+    } else {
+      try {
+        byte[] salt = Password.getNextSalt();
+        byte[] hashedPassword = Password.hash(password.toCharArray(), salt);
+
+        System.out.println(salt);
+
+        String query = "INSERT INTO HOSPITAL_USERS (screenname, hashed_password, salt) VALUES ";
+        query += "('" + username + "', ?, ?)";
+        PreparedStatement statement = databaseRef.getConnection().prepareStatement(query);
+        statement.setBytes(1, hashedPassword);
+        statement.setBytes(2, salt);
+        statement.execute();
+      } catch (SQLException e) {
+        printSQLException(e);
+      }
+    }
+
+//    try {
+//      String query = "INSERT INTO USER_TO_ROLE (user_id, role_id) VALUES";
+//      for (int i = 0; i < roles.length; i++) {
+//        query += "((SELECT user_id FROM HOSPITAL_USERS WHERE screenname='" + username + "'), ";
+//        query +=
+//            "(SELECT role_id FROM HOSPITAL_ROLES WHERE role_name='"
+//                + roles[i]
+//                + "'))"
+//                + (i != roles.length - 1 ? ", \n" : "\n");
+//      }
+//
+//      PreparedStatement statement = databaseRef.getConnection().prepareStatement(query);
+//      statement.execute();
+//    } catch (SQLException e) {
+//      printSQLException(e);
+//    }
   }
 }
