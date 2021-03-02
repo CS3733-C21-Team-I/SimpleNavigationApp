@@ -4,6 +4,7 @@ import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
 import edu.wpi.cs3733.c21.teamI.database.NavDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.EuclidianDistCalc;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMapNode;
+import edu.wpi.cs3733.c21.teamI.hospitalMap.LocationCategory;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.LocationNode;
 import edu.wpi.cs3733.c21.teamI.pathfinding.PathFinder;
 import edu.wpi.cs3733.c21.teamI.pathfinding.PathPlanningAlgorithm;
@@ -256,6 +257,7 @@ public class MapController extends Application {
               node.getyCoord(),
               sName,
               lName,
+              LocationCategory.WALK,
               "I",
               node.getConnections());
       ViewManager.getDataCont().editNode(node.getID(), newNode);
