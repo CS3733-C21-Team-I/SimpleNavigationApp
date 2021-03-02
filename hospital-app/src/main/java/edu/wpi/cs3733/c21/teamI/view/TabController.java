@@ -1,6 +1,5 @@
-package edu.wpi.cs3733.c21.teamI.view.menu.tabprototype;
+package edu.wpi.cs3733.c21.teamI.view;
 
-import edu.wpi.cs3733.c21.teamI.view.ViewManager;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.application.Application;
@@ -10,7 +9,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Tab;
 import javafx.stage.Stage;
 
-public class TabPane extends Application implements Initializable {
+public class TabController extends Application implements Initializable {
   @FXML Tab campus;
   @FXML Tab floor1;
   @FXML Tab floor2;

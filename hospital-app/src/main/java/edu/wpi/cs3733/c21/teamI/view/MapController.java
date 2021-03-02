@@ -2,7 +2,6 @@ package edu.wpi.cs3733.c21.teamI.view;
 
 import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
-import edu.wpi.cs3733.c21.teamI.database.NavDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.EuclidianDistCalc;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMapNode;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.LocationNode;
@@ -21,13 +20,14 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.control.Tab;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -35,6 +35,8 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
@@ -55,8 +57,10 @@ public class MapController extends Application {
   private boolean isDrag = false;
   private boolean isFirstLoad = true;
   @FXML AnchorPane mapPane;
-  @FXML AnchorPane tabPane;
+  //  @FXML StackPane tabPane;
   @FXML ImageView mapImage;
+  @FXML StackPane imageContainer;
+  @FXML VBox stackContainer;
 
   private final double scale = 3.05;
   private EuclidianDistCalc scorer = new EuclidianDistCalc();
@@ -74,13 +78,18 @@ public class MapController extends Application {
       startEditView();
     } else {
       try {
-        mapImage.setImage(
+        Image background =
             new Image(
                 (getClass()
                         .getResource(
                             "/fxml/mapImages/" + ViewManager.getMapID().replace(" ", "") + ".png"))
                     .toURI()
-                    .toString()));
+                    .toString());
+        mapImage.setImage(background);
+        fullImgWidth = background.getWidth();
+        fullImgHeight = background.getHeight();
+        imgWidth = background.getWidth();
+        imgHeight = background.getHeight();
       } catch (URISyntaxException e) {
         e.printStackTrace();
       }
@@ -383,11 +392,12 @@ public class MapController extends Application {
   }
 
   @FXML
-  public void initialize() throws IOException {
+  public void initialize() {
+    currentTab = campus;
     startZoomPan(mapPane);
     ViewManager.setMapController(this);
-    tabPane.getChildren().clear();
-    tabPane.getChildren().add(FXMLLoader.load(getClass().getResource("/fxml/TabPane.fxml")));
+    mapImage.fitWidthProperty().bind(imageContainer.widthProperty());
+    mapImage.fitHeightProperty().bind(imageContainer.heightProperty());
     setupMapViewHandlers();
     boolean isAdmin =
         ApplicationDataController.getInstance()
@@ -474,10 +484,7 @@ public class MapController extends Application {
     for (HospitalMapNode child : node.getConnections()) {
       if (!node.getMapID().equals(child.getMapID())) {
         Circle highlight =
-            new Circle(
-                (node.getxCoord() * imgWidth / 100000 / scale),
-                (node.getyCoord() * imgHeight / 100000 / scale),
-                20 / scale);
+            new Circle(transformX(node.getxCoord()), transformY(node.getyCoord()), 20 / scale);
         highlight.setFill(Color.GREEN);
         mapPane.getChildren().add(highlight);
       }
@@ -584,6 +591,69 @@ public class MapController extends Application {
     System.out.print("NodeRestrictions:" + this.scorer.nodeTypesToAvoid);
   }
 
+  @FXML Tab campus;
+  @FXML Tab floor1;
+  @FXML Tab floor2;
+  @FXML Tab floor3;
+  @FXML Tab floor4;
+  @FXML Tab floor6;
+  private Tab currentTab = null;
+
+  public void campusTab(Event event) {
+    if (campus != currentTab && currentTab != null) {
+      System.out.println("Tab 1");
+      ViewManager.setActiveMap("Faulkner 0");
+      updateView();
+      currentTab = campus;
+    }
+  }
+
+  public void floor1Tab(Event event) {
+    if (floor1 != currentTab) {
+      System.out.println("Tab 2");
+      ViewManager.setActiveMap("Faulkner 1");
+      updateView();
+      currentTab = floor1;
+    }
+  }
+
+  public void floor2Tab(Event event) {
+    if (floor2 != currentTab) {
+      System.out.println("Tab 3");
+      ViewManager.setActiveMap("Faulkner 2");
+      updateView();
+      currentTab = floor2;
+    }
+  }
+
+  public void floor3Tab(Event event) {
+    if (floor3 != currentTab) {
+
+      System.out.println("Tab 4");
+      ViewManager.setActiveMap("Faulkner 3");
+      updateView();
+      currentTab = floor3;
+    }
+  }
+
+  public void floor4Tab(Event event) {
+    if (floor4 != currentTab) {
+      System.out.println("Tab 5");
+      ViewManager.setActiveMap("Faulkner 4");
+      updateView();
+      currentTab = floor4;
+    }
+  }
+
+  public void floor5Tab(Event event) {
+    if (floor6 != currentTab) {
+      System.out.println("Tab 6");
+      ViewManager.setActiveMap("Faulkner 5");
+      updateView();
+      currentTab = floor6;
+    }
+  }
+
   // Scaling code is from https://gist.github.com/james-d/ce5ec1fd44ce6c64e81a
   private static final int MIN_PIXELS = 200;
 
@@ -620,6 +690,7 @@ public class MapController extends Application {
 
     zoomPane.setOnScroll(
         e -> {
+          //          System.out.println(im);
           double delta = e.getDeltaY();
           Rectangle2D viewport = mapImage.getViewport();
           double scale =

@@ -21,6 +21,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 public class ViewManager {
@@ -29,7 +30,7 @@ public class ViewManager {
   private static Group root = null;
   private static Stage stage = null;
   private static String selectedNode = null;
-  private static String selectedNodeMapID = null;
+  private static String selectedNodeMapID = "Faulkner 0";
   private static final MapEditDataController dataCont = new MapEditDataController();
   private static ServiceTicket serviceTicketToShow;
   private static MapController mapControl = null;
@@ -37,7 +38,7 @@ public class ViewManager {
   public ViewManager() {}
 
   public static void navigate(ActionEvent e) throws IOException {
-    Group root = new Group();
+    StackPane root = new StackPane();
     Scene scene = ((Button) e.getSource()).getScene();
     String id = ((Button) e.getSource()).getId();
     if (id.equals("mapReturn") || id.equals("requestsReturn") || id.equals("loginReturn")) {
@@ -45,8 +46,7 @@ public class ViewManager {
     } else if (id.equals("sanitationReturn") || id.equals("maintenanceReturn")) {
       root.getChildren().add(FXMLLoader.load(ViewManager.class.getResource("/fxml/Requests.fxml")));
     } else if (id.equals("map")) {
-      root.getChildren()
-          .add(FXMLLoader.load(ViewManager.class.getResource("/fxml/Pathfinding.fxml")));
+      root = FXMLLoader.load(ViewManager.class.getResource("/fxml/Pathfinding.fxml"));
     } else if (id.equals("serviceRequests")) {
       root.getChildren().add(FXMLLoader.load(ViewManager.class.getResource("/fxml/Requests.fxml")));
     } else if (id.equals("maintenance")) {
@@ -87,7 +87,6 @@ public class ViewManager {
         (((TextField) e.getSource()).getText()
                 + (!e.getCharacter().equals(Character.toString((char) 8)) ? e.getCharacter() : ""))
             .toLowerCase();
-    Map<String, HospitalMap> source = NavDatabaseManager.getInstance().loadMapsFromMemory();
     ArrayList<String> nodeNames =
         getAllNodesSet().stream()
             .filter(n -> n instanceof LocationNode)
