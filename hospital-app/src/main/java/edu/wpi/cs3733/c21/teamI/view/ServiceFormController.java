@@ -9,16 +9,27 @@ import java.io.IOException;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class ServiceFormController extends Application {
   ServiceTicket sanitationTicket;
   ServiceTicket maintenanceTicket;
+  Stage textStage;
+  FXMLLoader textBoxLoader;
+  Label textLabel;
 
   @FXML CheckBox sanEmergency;
   @FXML TextArea sanDescription;
@@ -55,9 +66,26 @@ public class ServiceFormController extends Application {
               sanEmergency.isSelected(),
               false);
       ServiceTicketDatabaseManager.getInstance().addTicket(sanitationTicket);
+      System.out.println("service request sent");
+      clearSanitation();
+      showSuccess();
+
     } catch (Exception o) {
       System.out.println("Error" + o);
+      showError();
     }
+  }
+
+  private void showError() {
+    textLabel.setTextFill(Color.RED);
+    textLabel.setText("Please enter valid information.");
+    textStage.show();
+  }
+
+  private void showSuccess() {
+    textLabel.setTextFill(Color.GREEN);
+    textLabel.setText("Service Request Submitted.");
+    textStage.show();
   }
 
   @FXML
@@ -80,10 +108,12 @@ public class ServiceFormController extends Application {
               mainEmerg.isSelected(),
               false);
       ServiceTicketDatabaseManager.getInstance().addTicket(maintenanceTicket);
+      clearMaintenance();
+      showSuccess();
 
     } catch (Exception e) {
-      e.printStackTrace();
       System.out.println(" Error " + e);
+      showError();
     }
   }
 
@@ -138,6 +168,28 @@ public class ServiceFormController extends Application {
   @FXML
   public void initialize() {
     setupRequestView();
+    // dialog box code
+    try {
+      textBoxLoader = new FXMLLoader(getClass().getResource("/fxml/dialogBox.fxml"));
+      AnchorPane textBoxRoot = textBoxLoader.load();
+
+      textStage = new Stage();
+      textStage.initModality(Modality.APPLICATION_MODAL);
+      textStage.initStyle(StageStyle.UNDECORATED);
+      textStage.setScene(new Scene(textBoxRoot));
+
+      Button okBtn = (Button) textBoxLoader.getNamespace().get("okBtn");
+      textLabel = (Label) textBoxLoader.getNamespace().get("textLabel");
+      okBtn.setOnMouseClicked(
+          new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+              textStage.hide();
+            }
+          });
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 
   public void lookup(KeyEvent e) {
