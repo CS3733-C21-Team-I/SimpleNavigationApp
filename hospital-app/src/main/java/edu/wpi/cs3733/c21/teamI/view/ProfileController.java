@@ -58,7 +58,7 @@ public class ProfileController extends Application {
     if (ApplicationDataController.getInstance().logInUser(uName, pass)) {
       loginVBox.setVisible(false);
       serviceDisplay.setVisible(true);
-      headerLabel.setText("You successfully logged in.");
+      //      headerLabel.setText("You successfully logged in.");
       if (ApplicationDataController.getInstance()
           .getLoggedInUser()
           .hasPermission(User.Permission.VIEW_TICKET)) {
@@ -66,7 +66,7 @@ public class ProfileController extends Application {
         homeController.update();
       }
     } else {
-      headerLabel.setText("Error: Invalid login.");
+      //      headerLabel.setText("Error: Invalid login.");
     }
   }
 

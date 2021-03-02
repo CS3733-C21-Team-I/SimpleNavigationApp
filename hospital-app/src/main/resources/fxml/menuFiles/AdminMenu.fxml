@@ -254,7 +254,7 @@
             <Insets bottom="10.0" right="-10.0" />
          </VBox.margin>
       </JFXRippler>
-      <JFXRippler fx:id="logoutButton" onMouseClicked="#navigate" ripplerFill="#0067b1">
+      <JFXRippler fx:id="logoutButton" onMouseClicked="#logout" ripplerFill="#0067b1">
          <control>
             <HBox prefHeight="58.0" prefWidth="184.0" style="-fx-background-color: #012D5A;">
                <children>

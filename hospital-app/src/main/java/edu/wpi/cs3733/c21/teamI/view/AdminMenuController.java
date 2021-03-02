@@ -3,6 +3,7 @@ package edu.wpi.cs3733.c21.teamI.view;
 import com.jfoenix.controls.JFXRippler;
 import java.io.IOException;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
@@ -46,8 +47,12 @@ public class AdminMenuController extends Application {
           .add(FXMLLoader.load(getClass().getResource("/fxml/menuFiles/LaundryRequest.fxml")));
     } else if (id.equals("logoutButton")) {
       replacePane.getChildren().add(FXMLLoader.load(getClass().getResource("/fxml/Profile.fxml")));
-    } else { }
+    } else {
+    }
   }
+
+  @FXML
+  public void logout(ActionEvent event) {}
 
   public HomeController getHomeController() {
     return homeController;
