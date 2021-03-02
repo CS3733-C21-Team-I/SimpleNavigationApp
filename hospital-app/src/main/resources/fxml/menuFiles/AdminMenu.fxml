@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="TOP_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="532.0" prefWidth="239.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<VBox alignment="TOP_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="632.0" prefWidth="242.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" >
    <children>
       <HBox prefHeight="60.0" prefWidth="201.0" style="-fx-background-color: #012D5A;">
          <children>
@@ -30,7 +30,7 @@
                   </ImageView>
                </graphic>
                <HBox.margin>
-                  <Insets left="15.0" />
+                  <Insets left="45.0" />
                </HBox.margin>
             </JFXButton>
          </children>
@@ -63,7 +63,7 @@
                   <Insets right="15.0" />
                </HBox.margin>
                <padding>
-                  <Insets left="10.0" />
+                  <Insets left="30.0" />
                </padding>
             </JFXButton>
          </children>
@@ -93,7 +93,7 @@
                   <Insets left="15.0" right="15.0" />
                </padding>
                <HBox.margin>
-                  <Insets left="30.0" />
+                  <Insets left="25.0" />
                </HBox.margin>
             </JFXButton>
          </children>
@@ -123,7 +123,7 @@
                   <Insets left="15.0" right="15.0" />
                </padding>
                <HBox.margin>
-                  <Insets left="30.0" />
+                  <Insets left="25.0" />
                </HBox.margin>
             </JFXButton>
          </children>
@@ -133,7 +133,7 @@
       </HBox>
       <HBox prefHeight="58.0" prefWidth="184.0" style="-fx-background-color: #012D5A;">
          <children>
-            <Label prefHeight="56.0" prefWidth="165.0" text="Service Requests" textFill="WHITE">
+            <Label prefHeight="56.0" prefWidth="165.0" text="Make a Request" textFill="WHITE">
                <font>
                   <Font size="16.0" />
                </font>
@@ -143,13 +143,13 @@
             </Label>
             <JFXButton prefHeight="57.0" prefWidth="45.0" style="-fx-background-color: #012D5A;" text=" ">
                <padding>
-                  <Insets left="15.0" right="15.0" />
+                  <Insets left="5.0" right="25.0" />
                </padding>
                <HBox.margin>
-                  <Insets left="30.0" />
+                  <Insets />
                </HBox.margin>
                <graphic>
-                  <ImageView fitHeight="34.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="35.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@menuImages/outline_build_white_18dp.png" />
                      </image>
@@ -159,6 +159,66 @@
          </children>
          <VBox.margin>
             <Insets right="-10.0" />
+         </VBox.margin>
+      </HBox>
+      <HBox prefHeight="58.0" prefWidth="184.0" style="-fx-background-color: #012D5A;">
+         <children>
+            <Label prefHeight="56.0" prefWidth="165.0" text="Service Tickets" textFill="WHITE">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <HBox.margin>
+                  <Insets left="20.0" />
+               </HBox.margin>
+            </Label>
+            <JFXButton prefHeight="57.0" prefWidth="45.0" style="-fx-background-color: #012D5A;" text=" ">
+               <padding>
+                  <Insets left="20.0" right="22.0" />
+               </padding>
+               <HBox.margin>
+                  <Insets left="30.0" />
+               </HBox.margin>
+               <graphic>
+                  <ImageView fitHeight="38.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../fxmlResources/baseline_pending_actions_white_18dp.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </JFXButton>
+         </children>
+         <VBox.margin>
+            <Insets right="-10.0" top="10.0" />
+         </VBox.margin>
+      </HBox>
+      <HBox prefHeight="58.0" prefWidth="184.0" style="-fx-background-color: #012D5A;">
+         <children>
+            <Label prefHeight="56.0" prefWidth="165.0" text="Employees" textFill="WHITE">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <HBox.margin>
+                  <Insets left="20.0" />
+               </HBox.margin>
+            </Label>
+            <JFXButton prefHeight="57.0" prefWidth="45.0" style="-fx-background-color: #012D5A;" text=" ">
+               <padding>
+                  <Insets left="15.0" right="22.0" />
+               </padding>
+               <HBox.margin>
+                  <Insets left="30.0" />
+               </HBox.margin>
+               <graphic>
+                  <ImageView fitHeight="34.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../fxmlResources/baseline_groups_white_18dp.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </JFXButton>
+         </children>
+         <VBox.margin>
+            <Insets right="-10.0" top="10.0" />
          </VBox.margin>
       </HBox>
       <HBox prefHeight="58.0" prefWidth="184.0" style="-fx-background-color: #012D5A;">
@@ -180,7 +240,7 @@
                   </ImageView>
                </graphic>
                <padding>
-                  <Insets left="15.0" right="10.0" />
+                  <Insets left="20.0" right="20.0" />
                </padding>
                <HBox.margin>
                   <Insets left="30.0" />

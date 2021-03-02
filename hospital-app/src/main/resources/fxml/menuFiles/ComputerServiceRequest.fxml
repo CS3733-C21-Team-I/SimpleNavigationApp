@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXComboBox?>
-<?import com.jfoenix.controls.JFXDatePicker?>
 <?import com.jfoenix.controls.JFXTextArea?>
-<?import com.jfoenix.controls.JFXTimePicker?>
+<?import com.jfoenix.controls.JFXTextField?>
 <?import com.jfoenix.controls.JFXToggleButton?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -12,26 +10,13 @@
 <?import javafx.scene.paint.RadialGradient?>
 <?import javafx.scene.paint.Stop?>
 
-
-<AnchorPane accessibleRole="DATE_PICKER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane accessibleRole="DATE_PICKER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="571.0" prefWidth="602.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamI.view.ComputerServiceRequestController">
    <children>
-      <JFXDatePicker defaultColor="#012d5a" layoutX="39.0" layoutY="66.0" promptText="Date">
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </JFXDatePicker>
-      <JFXTimePicker defaultColor="#012d5a" layoutX="39.0" layoutY="117.0" promptText="Time">
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </JFXTimePicker>
-      <JFXComboBox layoutX="39.0" layoutY="164.0" prefHeight="31.0" prefWidth="201.0" promptText="Department" unFocusColor="#012d5a">
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </JFXComboBox>
-      <JFXTextArea layoutX="39.0" layoutY="192.0" prefHeight="62.0" prefWidth="303.0" text="&#10;Description" />
-      <JFXToggleButton layoutX="23.0" layoutY="268.0" prefHeight="62.0" prefWidth="154.0" size="15.0" text="Urgent" textFill="#0067b1" toggleLineColor="#012d5a">
+      <JFXTextField fx:id="compServReqID" layoutX="39.0" layoutY="89.0" text="Requester ID" />
+      <JFXTextField fx:id="compServAssID" layoutX="39.0" layoutY="156.0" text="Assigned ID" />
+      <JFXTextField fx:id="compServReqLoc" layoutX="39.0" layoutY="212.0" prefHeight="48.0" prefWidth="193.0" text="location" />
+      <JFXTextArea fx:id="compServReqDes" layoutX="42.0" layoutY="277.0" prefHeight="62.0" prefWidth="303.0" text="&#10;Description" />
+      <JFXToggleButton fx:id="compServReqUrgent" layoutX="39.0" layoutY="339.0" prefHeight="62.0" prefWidth="154.0" size="15.0" text="Urgent" textFill="#0067b1" toggleLineColor="#012d5a">
          <unToggleColor>
             <LinearGradient endX="1.0" endY="1.0">
                <stops>
@@ -60,7 +45,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </JFXToggleButton>
-      <JFXButton buttonType="RAISED" layoutX="378.0" layoutY="336.0" prefHeight="41.0" prefWidth="112.0" text="Clear" textFill="#0067b1">
+      <JFXButton fx:id="compServReqClear" buttonType="RAISED" layoutX="364.0" layoutY="442.0" prefHeight="41.0" prefWidth="112.0" text="Clear" textFill="#0067b1">
          <ripplerFill>
             <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
                <stops>
@@ -73,7 +58,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </JFXButton>
-      <JFXButton buttonType="RAISED" layoutX="462.0" layoutY="337.0" prefHeight="41.0" prefWidth="112.0" text="Submit" textFill="#0067b1">
+      <JFXButton fx:id="compServReqSubmit" buttonType="RAISED" layoutX="476.0" layoutY="442.0" prefHeight="41.0" prefWidth="112.0" text="Submit" textFill="#0067b1">
          <ripplerFill>
             <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
                <stops>

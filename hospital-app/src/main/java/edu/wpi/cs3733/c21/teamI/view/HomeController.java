@@ -41,6 +41,9 @@ public class HomeController extends Application {
 
   @FXML JFXHamburger ham1;
 
+  ProfileController profileController;
+  VisitorMenuController visitorMenuController;
+
   @FXML
   public void initClock() {
     Timeline clock =
@@ -115,19 +118,37 @@ public class HomeController extends Application {
     primaryStage.show();
   }
 
+  public ProfileController getProfileController() {
+    return profileController;
+  }
+
+  public void setProfileController(ProfileController profileController) {
+    this.profileController = profileController;
+  }
+
+  public VisitorMenuController getVisitorMenuController() {
+    return visitorMenuController;
+  }
+
+  public void setVisitorMenuController(VisitorMenuController visitorMenuController) {
+    this.visitorMenuController = visitorMenuController;
+  }
+
   @FXML
-  public void initialize() throws IOException {
-    initClock();
+  public void update() {
     VBox box = null;
     try {
       if (ApplicationDataController.getInstance()
           .getLoggedInUser()
-          .userRoles
-          .contains(User.Role.ADMIN)) {
+          .hasPermission(User.Permission.REQUEST_TICKET)) {
+        System.out.println("I am an admin");
         box = FXMLLoader.load(getClass().getResource("/fxml/menuFiles/AdminMenu.fxml"));
         titleLabel.setText("Admin Portal");
       } else {
-        box = FXMLLoader.load(getClass().getResource("/fxml/menuFiles/VisitorMenu.fxml"));
+        FXMLLoader vLoader =
+            new FXMLLoader(getClass().getResource("/fxml/menuFiles/VisitorMenu.fxml"));
+        box = vLoader.load();
+        ((VisitorMenuController) vLoader.getController()).setHomeController(this);
         titleLabel.setText("General Portal");
       }
       replacePane
@@ -137,6 +158,12 @@ public class HomeController extends Application {
       e.printStackTrace();
     }
     drawer.setSidePane(box);
+  }
+
+  @FXML
+  public void initialize() throws IOException {
+    initClock();
+    update();
 
     HamburgerSlideCloseTransition hamburgerTransition = new HamburgerSlideCloseTransition(ham1);
     hamburgerTransition.setRate(-1);

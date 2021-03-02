@@ -14,6 +14,7 @@ public class VisitorMenuController extends Application {
 
   StackPane replacePane = null;
   Label titleLabel = null;
+  public HomeController homeController;
 
   @FXML
   public void navigate(MouseEvent e) throws IOException {
@@ -31,8 +32,15 @@ public class VisitorMenuController extends Application {
     System.out.println(replacePane);
     System.out.println("Hello");
     replacePane.getChildren().clear();
+
     if (id.equals("loginButton")) {
-      replacePane.getChildren().add(FXMLLoader.load(getClass().getResource("/fxml/Profile.fxml")));
+      System.out.println(getClass().getResource("/fxml/Profile.fxml"));
+      FXMLLoader profLoader =
+          new FXMLLoader(getClass().getClassLoader().getResource("/fxml/Profile.fxml"));
+      profLoader.setLocation(getClass().getResource("/fxml/Profile.fxml"));
+      replacePane.getChildren().add(profLoader.load());
+      ((ProfileController) profLoader.getController()).setVisitorMenuController(this);
+      ((ProfileController) profLoader.getController()).setHomeController(homeController);
     } else if (id.equals("COVIDButton")) {
       //      titleLabel.setText("Language Service Request");
       replacePane
@@ -51,6 +59,14 @@ public class VisitorMenuController extends Application {
           .getChildren()
           .add(FXMLLoader.load(getClass().getResource("/fxml/MaintenanceRequest.fxml")));
     }
+  }
+
+  public HomeController getHomeController() {
+    return homeController;
+  }
+
+  public void setHomeController(HomeController homeController) {
+    this.homeController = homeController;
   }
 
   @Override

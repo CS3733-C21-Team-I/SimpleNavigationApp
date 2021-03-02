@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.c21.teamI.view;
 
+import com.jfoenix.controls.JFXDrawer;
 import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
 import edu.wpi.cs3733.c21.teamI.database.ServiceTicketDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicket;
@@ -10,6 +11,7 @@ import java.util.stream.Collectors;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -22,7 +24,15 @@ public class ProfileController extends Application {
   @FXML Label headerLabel;
   public String uName;
   public static String pass;
+
+  VisitorMenuController visitorMenuController;
+  HomeController homeController;
   @FXML ScrollPane requestScrollPane;
+
+  @FXML Label titleLabel;
+  @FXML JFXDrawer drawer;
+  @FXML Stage loginStage;
+  @FXML Scene loginScene;
 
   public void navigate(ActionEvent e) throws IOException {
     ViewManager.navigate(e);
@@ -42,7 +52,7 @@ public class ProfileController extends Application {
   }
 
   @FXML
-  public void login() {
+  public void login() throws IOException {
     uName = username.getText();
     pass = password.getText();
     if (ApplicationDataController.getInstance().logInUser(uName, pass)) {
@@ -53,6 +63,7 @@ public class ProfileController extends Application {
           .getLoggedInUser()
           .hasPermission(User.Permission.VIEW_TICKET)) {
         generateRequestList();
+        homeController.update();
       }
     } else {
       headerLabel.setText("Error: Invalid login.");
@@ -93,6 +104,22 @@ public class ProfileController extends Application {
       requestContainer.getChildren().add(requestButton);
     }
     requestScrollPane.setVisible(true);
+  }
+
+  public VisitorMenuController getVisitorMenuController() {
+    return visitorMenuController;
+  }
+
+  public void setVisitorMenuController(VisitorMenuController visitorMenuController) {
+    this.visitorMenuController = visitorMenuController;
+  }
+
+  public HomeController getHomeController() {
+    return homeController;
+  }
+
+  public void setHomeController(HomeController homeController) {
+    this.homeController = homeController;
   }
 
   @FXML
