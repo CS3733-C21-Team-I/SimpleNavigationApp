@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXTabPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane stylesheets="@fxmlResources/tab.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamI.view.menu.tabprototype.TabPane">
+   <children>
+      <JFXTabPane layoutY="-2.0">
+         <tabs>
+            <Tab fx:id="campus" onSelectionChanged="#campusTab" text="Campus" />
+            <Tab fx:id="floor1" onSelectionChanged="#floor1Tab" text="Floor 1" />
+            <Tab fx:id="floor2" onSelectionChanged="#floor2Tab" text="Floor 2" />
+            <Tab fx:id="floor3" onSelectionChanged="#floor3Tab" text="Floor 3" />
+            <Tab fx:id="floor4" onSelectionChanged="#floor4Tab" text="Floor 4" />
+            <Tab fx:id="floor6" onSelectionChanged="#floor5Tab" text="Floor 5" />
+         </tabs>
+      </JFXTabPane>
+   </children>
+</AnchorPane>
