@@ -1,9 +1,10 @@
 package edu.wpi.cs3733.c21.teamI;
 
 import edu.wpi.cs3733.c21.teamI.database.DatabaseManager;
-import edu.wpi.cs3733.c21.teamI.database.NavDatabaseManager;
-import edu.wpi.cs3733.c21.teamI.view.HomeController;
 import java.util.Arrays;
+
+
+import edu.wpi.cs3733.c21.teamI.view.HomeController;
 import javafx.application.Application;
 
 public class Main {
@@ -12,12 +13,18 @@ public class Main {
 
     ApplicationDataController.init();
 
+
     if ((args.length > 0) && Arrays.asList(args).contains("regenerate")) {
       DatabaseManager.initDatabaseManagers(true);
       DatabaseManager.regenTables();
+
+      DatabaseManager.initPeripheralDatabaseManagers(true);
+      DatabaseManager.regenPeripheralDB();
     } else {
-      NavDatabaseManager.init(false);
+      DatabaseManager.initDatabaseManagers(false);
+      DatabaseManager.initPeripheralDatabaseManagers(false);
     }
+
 
     Application.launch(HomeController.class);
   }

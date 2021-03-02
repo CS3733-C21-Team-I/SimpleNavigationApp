@@ -10,9 +10,6 @@ import java.util.stream.Collectors;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Group;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -52,7 +49,6 @@ public class ProfileController extends Application {
       loginVBox.setVisible(false);
       serviceDisplay.setVisible(true);
       headerLabel.setText("You successfully logged in.");
-      System.out.println(uName + ' ' + pass);
       if (ApplicationDataController.getInstance()
           .getLoggedInUser()
           .hasPermission(User.Permission.VIEW_TICKET)) {
@@ -63,6 +59,16 @@ public class ProfileController extends Application {
     }
   }
 
+  @FXML
+  public void logout() {
+    ApplicationDataController.getInstance().logOutUser();
+    loginVBox.setVisible(true);
+    serviceDisplay.setVisible(false);
+    username.clear();
+    password.clear();
+    headerLabel.setText("You successfully logged out.");
+  }
+
   public void generateRequestList() {
     List<ServiceTicket> requests =
         ServiceTicketDatabaseManager.getInstance()
@@ -70,7 +76,7 @@ public class ProfileController extends Application {
                 ApplicationDataController.getInstance().getLoggedInUser().getUserId());
     List<String> requestNames =
         requests.stream()
-            .map(st -> st.getTicketType() + " #" + st.getTicketId())
+            .map(st -> st.getTicketType() + " (" + st.getDescription() + ")")
             .collect(Collectors.toList());
     requestContainer.getStylesheets().add("/fxml/fxmlResources/main.css");
     for (int i = 0; i < requestNames.size(); i++) {
@@ -95,12 +101,5 @@ public class ProfileController extends Application {
   }
 
   @Override
-  public void start(Stage primaryStage) throws Exception {
-    Group root = FXMLLoader.load(getClass().getResource("/fxml/Profile.fxml"));
-    primaryStage.setTitle("User Profile");
-    root.getChildren().add(root);
-    Scene applicationScene = new Scene(root, 973, 800);
-    primaryStage.setScene(applicationScene);
-    primaryStage.show();
-  }
+  public void start(Stage primaryStage) throws Exception {}
 }

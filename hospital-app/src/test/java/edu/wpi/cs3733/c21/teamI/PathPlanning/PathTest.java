@@ -15,7 +15,6 @@ public class PathTest {
   public void obviousPathTest() {
     HospitalMap map =
         HospitalMapCSVBuilder.loadCSV("testmapNodes.csv", "testmapEdges.csv").get("pathTest");
-    System.out.println(map);
 
     EuclidianDistCalc scorer = new EuclidianDistCalc();
     List<HospitalMapNode> actualPath =
@@ -35,7 +34,6 @@ public class PathTest {
   public void multipleOptimalPathTest() {
     HospitalMap map =
         HospitalMapCSVBuilder.loadCSV("testmapNodes.csv", "testmapEdges.csv").get("pathTest");
-    System.out.println(map);
 
     EuclidianDistCalc scorer = new EuclidianDistCalc();
     List<HospitalMapNode> actualPath =
@@ -65,7 +63,6 @@ public class PathTest {
   public void handicapPathTest() {
     HospitalMap map =
         HospitalMapCSVBuilder.loadCSV("testmapNodes.csv", "testmapEdges.csv").get("pathTest");
-    System.out.println(map);
 
     EuclidianDistCalc scorer = new EuclidianDistCalc();
     List<NodeRestrictions> avoid = new ArrayList<>();

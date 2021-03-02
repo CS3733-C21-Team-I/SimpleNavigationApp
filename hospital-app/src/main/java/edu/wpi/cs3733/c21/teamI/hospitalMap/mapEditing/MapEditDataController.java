@@ -108,7 +108,6 @@ public class MapEditDataController {
     Queue<NavEditOperation> ops = new LinkedList<>();
     if (undoRedoPointer != -1) {
       for (int i = 0; i <= undoRedoPointer; i++) {
-        System.out.println(i);
         ops.add(dataOperations.get(i).getOperation());
       }
     }
