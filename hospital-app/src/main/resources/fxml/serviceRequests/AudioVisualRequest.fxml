@@ -61,6 +61,9 @@
                      <HBox.margin>
                         <Insets right="15.0" />
                      </HBox.margin>
+                     <padding>
+                        <Insets right="30.0" />
+                     </padding>
                   </JFXButton>
                   <JFXButton style="-fx-background-color: #0067b1;" text="Submit" textFill="WHITE" />
                </children>
