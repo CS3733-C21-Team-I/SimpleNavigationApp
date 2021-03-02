@@ -142,7 +142,10 @@ public class HomeController extends Application {
           .getLoggedInUser()
           .hasPermission(User.Permission.REQUEST_TICKET)) {
         System.out.println("I am an admin");
-        box = FXMLLoader.load(getClass().getResource("/fxml/menuFiles/AdminMenu.fxml"));
+        FXMLLoader vLoader =
+            new FXMLLoader(getClass().getResource("/fxml/menuFiles/AdminMenu.fxml"));
+        box = vLoader.load();
+        ((AdminMenuController) vLoader.getController()).setHomeController(this);
         titleLabel.setText("Admin Portal");
       } else {
         FXMLLoader vLoader =
@@ -158,6 +161,10 @@ public class HomeController extends Application {
       e.printStackTrace();
     }
     drawer.setSidePane(box);
+  }
+
+  public StackPane getReplacePane() {
+    return replacePane;
   }
 
   @FXML
