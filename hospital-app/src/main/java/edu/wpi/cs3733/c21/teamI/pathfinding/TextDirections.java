@@ -14,7 +14,7 @@ public class TextDirections {
     ArrayList<String> directions = new ArrayList<>();
 
     if (path.size() < 2) {
-      directions.add("You are already at your destination.");
+      directions.add("No path was found.");
       return directions;
     }
 
@@ -27,17 +27,31 @@ public class TextDirections {
     startDirection += "facing " + compassDirection(first, path.get(1)) + ".";
     directions.add(startDirection);
 
-    int distance = 0;
     for (int i = 1; i < (path.size() - 1); i++) {
-      if (worthDescription(path.get(i))) {
-        String step = describeStep(calc, path.get(i - 1), path.get(i), path.get(i + 1));
-        if (distance > 0) step = "In " + distance + "m, " + step;
+
+      String step = "";
+
+      if (isFloorChange(path.get(i), path.get(i + 1))) {
+        if (path.get(i) instanceof LocationNode) {
+          step = describeFloorchangeStep(((LocationNode) path.get(i)), path.get(i + 1)) + ".";
+        } else {
+          step = "Proceed to floor " + path.get(i + 1).getMapID() + ".";
+        }
         directions.add(step);
-        distance = 0;
+
       } else {
-        distance += calc.calculateDistance(path.get(i - 1), path.get(i));
+        step = describeStep(calc, path.get(i - 1), path.get(i), path.get(i + 1));
+        if (path.get(i) instanceof LocationNode) {
+          step += " at " + ((LocationNode) path.get(i)).getLongName();
+        }
+        step += ".";
+
+        if (!isRepeat(path, directions, i, step) && worthDescription(path.get(i))) {
+          directions.add(step);
+        }
       }
     }
+
     // describe end location
     HospitalMapNode last = path.get(path.size() - 1);
     if (last instanceof LocationNode) {
@@ -45,6 +59,10 @@ public class TextDirections {
     }
 
     return directions;
+  }
+
+  public static boolean isFloorChange(HospitalMapNode curr, HospitalMapNode next) {
+    return !(curr.getMapID().equals(next.getMapID()));
   }
 
   public static String describeStep(
@@ -68,36 +86,49 @@ public class TextDirections {
         step += "left";
       }
     }
+    return step;
+  }
 
-    if (curr instanceof LocationNode) {
-      step += " at " + ((LocationNode) curr).getLongName();
+  public static boolean worthDescription(HospitalMapNode node) {
+    return node.getConnections().size() > 2;
+  };
 
-      // special text for stairs, elevators, exits, handling the floor/region change
-      LocationCategory type = ((LocationNode) curr).getLocationCategory();
+  public static String describeFloorchangeStep(LocationNode curr, HospitalMapNode next) {
+    String step = "";
+    LocationCategory type = curr.getLocationCategory();
+    if (type != null) {
       switch (type) {
         case ELEV:
-          step = "Take the elevator to floor" + next.getMapID() + ".";
+          step = "Take the elevator to floor " + next.getMapID();
           break;
         case STAI:
-          step = "Take the stairs to floor" + next.getMapID() + ".";
+          step = "Take the stairs to floor " + next.getMapID();
           break;
         case EXIT:
-          step = "Enter the door to " + next.getMapID() + ".";
+          step = "Enter the door to " + next.getMapID();
           break;
         default:
           break;
       }
     }
-
-    step += ".";
-
     return step;
   }
 
-  // only worth describing if there's multiple possible decisions at that point OR it's a named
-  // location
-  public static boolean worthDescription(HospitalMapNode node) {
-    return node.getConnections().size() > 2;
+  public static boolean isRepeat(
+      List<HospitalMapNode> path, List<String> directions, int i, String instruction) {
+    // if shortname is the same as the last location node, like elevators nd stuff
+    if (path.get(i) instanceof LocationNode && path.get(i - 1) instanceof LocationNode) {
+      if (((LocationNode) path.get(i))
+          .getShortName()
+          .equals(((LocationNode) path.get(i - 1)).getShortName())) {
+        return true;
+      }
+    }
+    if (instruction.equals("Continue straight.")
+        && directions.get(directions.size() - 1).equals("Continue straight.")) {
+      return true;
+    }
+    return false;
   }
 
   public static String compassDirection(HospitalMapNode start, HospitalMapNode facing) {

@@ -71,7 +71,9 @@ public class ServiceTicket {
     return assignedUserID;
   }
 
-  public String getRequestType() {return requestType;}
+  public String getRequestType() {
+    return requestType;
+  }
 
   public TicketType getTicketType() {
     return ticketType;
