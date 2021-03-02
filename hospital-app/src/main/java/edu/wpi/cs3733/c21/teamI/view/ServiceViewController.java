@@ -2,14 +2,13 @@ package edu.wpi.cs3733.c21.teamI.view;
 
 import com.jfoenix.controls.JFXButton;
 import java.io.IOException;
-import java.util.Collection;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javax.swing.*;
 
 public class ServiceViewController extends Application {
 
@@ -19,28 +18,30 @@ public class ServiceViewController extends Application {
   //    public HomeController homeController;
 
   @FXML
-  public void navigate(MouseEvent e) throws IOException {
+  public void navigate(ActionEvent e) throws IOException {
     String id = ((JFXButton) e.getSource()).getId();
+    replaceRequest.getChildren().clear();
     if (id.equals("medicineButton")) {
-      System.out.println(getClass().getResource("/fxml/menuFiles/MedicineDelivery.fxml"));
       System.out.println("Medicine Button Clicked");
-      FXMLLoader profLoader =
-          new FXMLLoader(
-              getClass().getClassLoader().getResource("/fxml/menuFiles/MedicineDelivery.fxml"));
-      profLoader.setLocation(getClass().getResource("/fxml/menuFiles/MedicineDelivery.fxml"));
-      replaceRequest.getChildren().setAll((Collection<? extends Node>) profLoader.load());
+      replaceRequest
+          .getChildren()
+          .add(
+              FXMLLoader.load(
+                  getClass().getResource("/fxml/serviceRequests/MedicineDelivery.fxml")));
     } else if (id.equals("securityButton")) {
       //      titleLabel.setText("Language Service Request");
       System.out.println("Security Button Clicked");
       replaceRequest
           .getChildren()
-          .add(FXMLLoader.load(getClass().getResource("/fxml/menuFiles/SecurityService.fxml")));
+          .add(
+              FXMLLoader.load(
+                  getClass().getResource("/fxml/serviceRequests/SecurityService.fxml")));
     } else if (id.equals("internalButton")) {
       replaceRequest
           .getChildren()
           .add(
               FXMLLoader.load(
-                  getClass().getResource("/fxml/menuFiles/InternalTransportation.fxml")));
+                  getClass().getResource("/fxml/serviceRequests/InternalTransportation.fxml")));
     } else if (id.equals("maintenanceButton")) {
       replaceRequest
           .getChildren()
@@ -52,35 +53,45 @@ public class ServiceViewController extends Application {
     } else if (id.equals("laundryButton")) {
       replaceRequest
           .getChildren()
-          .add(FXMLLoader.load(getClass().getResource("/fxml/menuFiles/LaundryRequest.fxml")));
+          .add(
+              FXMLLoader.load(getClass().getResource("/fxml/serviceRequests/LaundryRequest.fxml")));
     } else if (id.equals("computerButton")) {
       replaceRequest
           .getChildren()
           .add(
               FXMLLoader.load(
-                  getClass().getResource("/fxml/menuFiles/ComputerServiceRequest.fxml")));
+                  getClass().getResource("/fxml/serviceRequests/ComputerServiceRequest.fxml")));
     } else if (id.equals("audioButton")) {
       replaceRequest
           .getChildren()
-          .add(FXMLLoader.load(getClass().getResource("/fxml/menuFiles/AudioVisualRequest.fxml")));
+          .add(
+              FXMLLoader.load(
+                  getClass().getResource("/fxml/serviceRequests/AudioVisualRequest.fxml")));
     } else if (id.equals("languageButton")) {
       replaceRequest
           .getChildren()
-          .add(FXMLLoader.load(getClass().getResource("/fxml/menuFiles/LanguageRequest.fxml")));
+          .add(
+              FXMLLoader.load(
+                  getClass().getResource("/fxml/serviceRequests/LanguageRequest.fxml")));
     } else if (id.equals("religiousButton")) {
       replaceRequest
           .getChildren()
-          .add(FXMLLoader.load(getClass().getResource("/fxml/menuFiles/ReligiousRequest.fxml")));
+          .add(
+              FXMLLoader.load(
+                  getClass().getResource("/fxml/serviceRequests/ReligiousRequest.fxml")));
     } else if (id.equals("parkingButton")) {
       replaceRequest
           .getChildren()
           .add(
               FXMLLoader.load(
-                  getClass().getResource("/fxml/menuFiles/EmployeeParkingPermitRequest.fxml")));
+                  getClass()
+                      .getResource("/fxml/serviceRequests/EmployeeParkingPermitRequest.fxml")));
     } else {
     }
   }
 
   @Override
-  public void start(Stage primaryStage) throws Exception {}
+  public void start(Stage primaryStage) throws Exception {
+    System.out.println("service view loaded");
+  }
 }

@@ -46,7 +46,7 @@
                                     <JFXButton fx:id="laundryButton" onAction="#navigate" styleClass="styledButton" stylesheets="@../fxmlResources/main.css" text="Laundry" GridPane.rowIndex="5" />
                                     <JFXButton fx:id="computerButton" onAction="#navigate" styleClass="styledButton" stylesheets="@../fxmlResources/main.css" text="Computer" GridPane.rowIndex="6" />
                                     <JFXButton fx:id="audioButton" onAction="#navigate" styleClass="styledButton" stylesheets="@../fxmlResources/main.css" text="Audio/Visual" GridPane.rowIndex="7" />
-                                    <JFXButton fx:id="langButton" onAction="#navigate" styleClass="styledButton" stylesheets="@../fxmlResources/main.css" text="Language" GridPane.rowIndex="8" />
+                                    <JFXButton fx:id="languageButton" onAction="#navigate" styleClass="styledButton" stylesheets="@../fxmlResources/main.css" text="Language" GridPane.rowIndex="8" />
                                     <JFXButton fx:id="religiousButton" onAction="#navigate" styleClass="styledButton" stylesheets="@../fxmlResources/main.css" text="Religious" GridPane.rowIndex="9" />
                                  </children>
                               </GridPane>

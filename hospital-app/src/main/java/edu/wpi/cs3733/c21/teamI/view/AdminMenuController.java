@@ -44,7 +44,7 @@ public class AdminMenuController extends Application {
     } else if (id.equals("giftsButton")) {
       replacePane
           .getChildren()
-          .add(FXMLLoader.load(getClass().getResource("/fxml/menuFiles/GiftRequest.fxml")));
+          .add(FXMLLoader.load(getClass().getResource("/fxml/serviceRequests/GiftRequest.fxml")));
     } else if (id.equals("requestButton")) {
       replacePane
           .getChildren()
