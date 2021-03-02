@@ -1,8 +1,6 @@
 package edu.wpi.cs3733.c21.teamI.database;
 
-import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMap;
-import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMapNode;
-import edu.wpi.cs3733.c21.teamI.hospitalMap.LocationNode;
+import edu.wpi.cs3733.c21.teamI.hospitalMap.*;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.mapEditing.NavEditOperation;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -73,6 +71,7 @@ public class NavDatabaseManager extends DatabaseManager {
                           yCoord,
                           shortName,
                           longName,
+                          LocationCategory.EXIT,
                           teamAssigned,
                           new ArrayList<>());
                   break;
@@ -80,6 +79,17 @@ public class NavDatabaseManager extends DatabaseManager {
                   throw new IllegalStateException(
                       "Found a NODE_TYPE value not handled in loadMapsFromMemory: "
                           + nodeResults.getString("NODE_TYPE"));
+              }
+
+              nodeResults =
+                  stmt.executeQuery(
+                      "SELECT NODERESTRICTION FROM NODE_ATTRIBUTE JOIN NODE_TO_ATTRIBUTE NTA on NODE_ATTRIBUTE.ATTRIBUTE_ID = NTA.ATTRIBUTE_ID WHERE NTA.NODE_ID='"
+                          + nodeId
+                          + "'");
+
+              while (nodeResults.next()) {
+                node.getNodeRestrictions()
+                    .add(NodeRestrictions.valueOf(nodeResults.getString("NODERESTRICTION")));
               }
 
               tempNodeLookup.put(node.getID(), node);
@@ -134,8 +144,19 @@ public class NavDatabaseManager extends DatabaseManager {
       try {
         Statement stmt = databaseRef.getConnection().createStatement();
         // Drop the Edges table.
+        stmt.execute("DROP TABLE NODE_TO_ATTRIBUTE");
+      } catch (SQLException ex) {
+        ex.printStackTrace();
+        // No need to report an error.
+        // The table simply did not exist.
+      }
+
+      try {
+        Statement stmt = databaseRef.getConnection().createStatement();
+        // Drop the Edges table.
         stmt.execute("DROP TABLE navEdges");
       } catch (SQLException ex) {
+        ex.printStackTrace();
         // No need to report an error.
         // The table simply did not exist.
       }
@@ -143,8 +164,9 @@ public class NavDatabaseManager extends DatabaseManager {
       try {
         Statement stmt = databaseRef.getConnection().createStatement();
         // Drop the nodeAttribute table.
-        stmt.execute("DROP TABLE nodeAttribute");
+        stmt.execute("DROP TABLE NODE_ATTRIBUTE");
       } catch (SQLException ex) {
+        ex.printStackTrace();
         //        ex.printStackTrace();
         // No need to report an error.
         // The table simply did not exist.
@@ -155,6 +177,7 @@ public class NavDatabaseManager extends DatabaseManager {
         // Drop the Nodes table.
         stmt.execute("DROP TABLE navNodes");
       } catch (SQLException ex) {
+        ex.printStackTrace();
         // No need to report an error.
         // The table simply did not exist.
       }
@@ -164,6 +187,7 @@ public class NavDatabaseManager extends DatabaseManager {
         // Drop the Maps table.
         stmt.execute("DROP TABLE navMaps");
       } catch (SQLException ex) {
+        ex.printStackTrace();
         // No need to report an error.
         // The table simply did not exist.
       }
@@ -213,14 +237,28 @@ public class NavDatabaseManager extends DatabaseManager {
       try {
         Statement stmt = databaseRef.getConnection().createStatement();
         stmt.execute(
-            "CREATE TABLE nodeAttribute(attribute_ID integer NOT NULL GENERATED ALWAYS AS IDENTITY, "
-                + "locationCategory varchar(45), nodeRestriction varchar(45), nodeAtt_ID varchar(45) NOT NULL,"
-                + "PRIMARY KEY (attribute_ID), "
-                + "FOREIGN KEY (nodeAtt_ID) references navNodes(node_ID))");
+            "CREATE TABLE node_Attribute(attribute_ID integer NOT NULL GENERATED ALWAYS AS IDENTITY, "
+                + "nodeRestriction varchar(45),"
+                + "PRIMARY KEY (attribute_ID))");
         // System.out.println("nodeAttribute table created");
       } catch (SQLException e) {
         e.printStackTrace();
-        System.out.println("Error generating Edges table");
+        System.out.println("Error generating Arrtibute table");
+      }
+
+      try {
+        Statement stmt = databaseRef.getConnection().createStatement();
+        stmt.execute(
+            "CREATE TABLE NODE_TO_ATTRIBUTE("
+                + "attribute_ID integer NOT NULL,"
+                + "node_ID varchar(45) NOT NULL,"
+                + "PRIMARY KEY (attribute_ID, node_ID),"
+                + "FOREIGN KEY (attribute_ID) REFERENCES NODE_ATTRIBUTE(attribute_ID),"
+                + "FOREIGN KEY (node_ID) REFERENCES NAVNODES(node_ID))");
+        // System.out.println("nodeAttribute table created");
+      } catch (SQLException e) {
+        e.printStackTrace();
+        System.out.println("Error generating Node_To_Attribute table");
       }
     } catch (Exception e) {
       e.printStackTrace();
@@ -505,22 +543,38 @@ public class NavDatabaseManager extends DatabaseManager {
   }
 
   public static void populateExampleData() {
-    //    try {
-    //      Statement stmt =
-    //          NavDatabaseManager.getInstance().databaseRef.getConnection().createStatement();
-    //      stmt.addBatch("INSERT INTO navMaps(MAP_ID) VALUES ('MAPG')\n");
-    //      stmt.addBatch(
-    //          "INSERT INTO navNodes(NODE_ID, X_COORD, Y_COORD, MAP_ID) VALUES ('ROOM304', 1, 2,
-    // 'MAPG')\n");
-    //      stmt.addBatch(
-    //          "INSERT INTO navNodes(NODE_ID, X_COORD, Y_COORD, MAP_ID) VALUES ('ROOM205', 3, 4,
-    // 'MAPG')\n");
-    //      stmt.addBatch(
-    //          "INSERT INTO navNodes(NODE_ID, X_COORD, Y_COORD, MAP_ID) VALUES ('ROOM106', 5, 6,
-    // 'MAPG')\n");
-    //      stmt.executeBatch();
-    //    } catch (SQLException e) {
-    //      e.printStackTrace();
-    //    }
+    try {
+      Statement stmt =
+          NavDatabaseManager.getInstance().databaseRef.getConnection().createStatement();
+      stmt.addBatch(
+          "INSERT INTO NODE_ATTRIBUTE (NODERESTRICTION) VALUES\n"
+              + "                                                    ('PPE_REQUIRED'),\n"
+              + "                                                    ('STAFF_ONLY'),\n"
+              + "                                                    ('WHEELCHAIR_INACCESSIBLE')");
+
+      stmt.addBatch(
+          "INSERT INTO NODE_TO_ATTRIBUTE (NODE_ID, ATTRIBUTE_ID) VALUES\n"
+              + "('ISTAI00101', (SELECT ATTRIBUTE_ID FROM NODE_ATTRIBUTE WHERE NODERESTRICTION='WHEELCHAIR_INACCESSIBLE')),"
+              + "('ISTAI00102', (SELECT ATTRIBUTE_ID FROM NODE_ATTRIBUTE WHERE NODERESTRICTION='WHEELCHAIR_INACCESSIBLE')),"
+              + "('ISTAI00103', (SELECT ATTRIBUTE_ID FROM NODE_ATTRIBUTE WHERE NODERESTRICTION='WHEELCHAIR_INACCESSIBLE')),"
+              + "('ISTAI00104', (SELECT ATTRIBUTE_ID FROM NODE_ATTRIBUTE WHERE NODERESTRICTION='WHEELCHAIR_INACCESSIBLE')),"
+              + "('ISTAI00105', (SELECT ATTRIBUTE_ID FROM NODE_ATTRIBUTE WHERE NODERESTRICTION='WHEELCHAIR_INACCESSIBLE')),"
+              + "('ISTAI00201', (SELECT ATTRIBUTE_ID FROM NODE_ATTRIBUTE WHERE NODERESTRICTION='WHEELCHAIR_INACCESSIBLE')),"
+              + "('ISTAI00202', (SELECT ATTRIBUTE_ID FROM NODE_ATTRIBUTE WHERE NODERESTRICTION='WHEELCHAIR_INACCESSIBLE')),"
+              + "('ISTAI00203', (SELECT ATTRIBUTE_ID FROM NODE_ATTRIBUTE WHERE NODERESTRICTION='WHEELCHAIR_INACCESSIBLE')),"
+              + "('ISTAI00204', (SELECT ATTRIBUTE_ID FROM NODE_ATTRIBUTE WHERE NODERESTRICTION='WHEELCHAIR_INACCESSIBLE')),"
+              + "('ISTAI00205', (SELECT ATTRIBUTE_ID FROM NODE_ATTRIBUTE WHERE NODERESTRICTION='WHEELCHAIR_INACCESSIBLE')),"
+              + "('ISTAI00301', (SELECT ATTRIBUTE_ID FROM NODE_ATTRIBUTE WHERE NODERESTRICTION='WHEELCHAIR_INACCESSIBLE')),"
+              + "('ISTAI00304', (SELECT ATTRIBUTE_ID FROM NODE_ATTRIBUTE WHERE NODERESTRICTION='WHEELCHAIR_INACCESSIBLE')),"
+              + "('ISTAI00305', (SELECT ATTRIBUTE_ID FROM NODE_ATTRIBUTE WHERE NODERESTRICTION='WHEELCHAIR_INACCESSIBLE')),"
+              + "('ISTAI00401', (SELECT ATTRIBUTE_ID FROM NODE_ATTRIBUTE WHERE NODERESTRICTION='WHEELCHAIR_INACCESSIBLE')),"
+              + "('ISTAI00404', (SELECT ATTRIBUTE_ID FROM NODE_ATTRIBUTE WHERE NODERESTRICTION='WHEELCHAIR_INACCESSIBLE')),"
+              + "('ISTAI00405', (SELECT ATTRIBUTE_ID FROM NODE_ATTRIBUTE WHERE NODERESTRICTION='WHEELCHAIR_INACCESSIBLE')),"
+              + "('ISTAI00504', (SELECT ATTRIBUTE_ID FROM NODE_ATTRIBUTE WHERE NODERESTRICTION='WHEELCHAIR_INACCESSIBLE')),"
+              + "('ISTAI00505', (SELECT ATTRIBUTE_ID FROM NODE_ATTRIBUTE WHERE NODERESTRICTION='WHEELCHAIR_INACCESSIBLE'))");
+      stmt.executeBatch();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
   }
 }
