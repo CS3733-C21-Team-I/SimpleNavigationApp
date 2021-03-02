@@ -1,16 +1,13 @@
 package edu.wpi.cs3733.c21.teamI.view;
 
+import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
-import edu.wpi.cs3733.c21.teamI.database.NavDatabaseManager;
-import edu.wpi.cs3733.c21.teamI.hospitalMap.EuclidianDistCalc;
-import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMapNode;
-import edu.wpi.cs3733.c21.teamI.hospitalMap.LocationNode;
-import edu.wpi.cs3733.c21.teamI.pathfinding.PathFinder;
-import edu.wpi.cs3733.c21.teamI.pathfinding.PathPlanningAlgorithm;
-import edu.wpi.cs3733.c21.teamI.pathfinding.TextDirections;
+import edu.wpi.cs3733.c21.teamI.hospitalMap.*;
+import edu.wpi.cs3733.c21.teamI.pathfinding.*;
 import edu.wpi.cs3733.c21.teamI.user.User;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,9 +18,12 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.value.ChangeListener;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
@@ -46,16 +46,20 @@ public class MapController extends Application {
 
   @FXML Button save, discard, undoButton, redoButton, adminMapToggle;
   @FXML TextField start, destination;
-  @FXML ListView startList, destList;
+  @FXML ListView startList, destList, directionsField;
   private HospitalMapNode movingNode;
   @FXML AnchorPane nodeMenu;
   @FXML Button nodeDeleteButton, saveButton;
+  @FXML JFXComboBox algorithmPick;
   @FXML TextField sNameField, lNameField;
   private boolean isDrag = false;
+  private boolean isFirstLoad = true;
   @FXML AnchorPane mapPane;
+  @FXML AnchorPane tabPane;
+  @FXML ImageView mapImage;
 
   private final double scale = 3.05;
-  private EuclidianDistCalc scorer;
+  private EuclidianDistCalc scorer = new EuclidianDistCalc();
   private int imgWidth = 2989;
   private int imgHeight = 2457;
 
@@ -63,21 +67,45 @@ public class MapController extends Application {
   private Color red = Color.color(217.0 / 256.0, 89.0 / 256.0, 89.0 / 256.0);
   private Color color2 = Color.DARKBLUE;
 
+  private PathPlanningAlgorithm pathFinderAlgorithm = new PathFinder();
+  private List<HospitalMapNode> foundPath;
+
+  public void updateView() {
+    if (adminMap) {
+      startEditView();
+    } else {
+      try {
+        mapImage.setImage(
+            new Image(
+                (getClass()
+                        .getResource(
+                            "/fxml/mapImages/" + ViewManager.getMapID().replace(" ", "") + ".png"))
+                    .toURI()
+                    .toString()));
+      } catch (URISyntaxException e) {
+        e.printStackTrace();
+      }
+      mapPane.getChildren().clear();
+      if (this.foundPath != null) {
+        drawCalculatedPath();
+      }
+    }
+  }
+
   @FXML
   public void toggleEditMap(ActionEvent e) {
     adminMap = !adminMap;
+    algorithmPick.setVisible(adminMap);
     mapPane.setVisible(adminMap);
     save.setVisible(adminMap);
     discard.setVisible(adminMap);
     if (adminMap) {
-      ViewManager.getDataCont()
-          .setActiveMap(NavDatabaseManager.getInstance().loadMapsFromMemory().get("Faulkner 0"));
       startEditView();
       undoButton.setVisible(true);
       redoButton.setVisible(true);
     } else {
       nodeMenu.setVisible(false);
-      ViewManager.getDataCont().discardChanges();
+      //      ViewManager.getDataCont().discardChanges();
       undoButton.setVisible(false);
       redoButton.setVisible(false);
     }
@@ -120,6 +148,7 @@ public class MapController extends Application {
   }
 
   public void navigate(ActionEvent e) throws IOException {
+    ViewManager.setSelectedNode(null);
     ViewManager.navigate(e);
   }
 
@@ -127,12 +156,19 @@ public class MapController extends Application {
   public void getDirections(ActionEvent e) throws IOException {
     String begin = start.getText();
     String end = destination.getText();
-    drawPathBetweenNodes(begin, end);
+    if (begin.length() > 0 && end.length() > 0) {
+      System.out.println(begin + " " + end);
+
+      HospitalMapNode nodeA = getNodeByLongName(begin);
+      HospitalMapNode nodeB = getNodeByLongName(end);
+      getNewPath(nodeA, nodeB);
+      System.out.println(this.foundPath);
+      drawCalculatedPath();
+    }
   }
 
   public LocationNode getNodeByLongName(String longName) {
-    for (HospitalMapNode node :
-        NavDatabaseManager.getInstance().loadMapsFromMemory().get("Faulkner 0").getNodes()) {
+    for (HospitalMapNode node : ViewManager.getAllNodesSet()) {
       if (node.getClass() == LocationNode.class
           && ((LocationNode) node).getLongName().equals(longName)) {
         return (LocationNode) node;
@@ -141,9 +177,16 @@ public class MapController extends Application {
     return null;
   }
 
-  @FXML
   public void deletePath() {
     mapPane.getChildren().clear();
+  }
+
+  public void getNewPath(HospitalMapNode nodeA, HospitalMapNode nodeB) {
+    this.foundPath = pathFinderAlgorithm.findPath(nodeA, nodeB, scorer);
+
+    ArrayList<String> directions = TextDirections.getDirections(scorer, foundPath);
+    System.out.println(directions);
+    displayDirections(directions);
   }
 
   @FXML
@@ -162,6 +205,21 @@ public class MapController extends Application {
 
     drawPath(aStarPath);
   }
+
+    @FXML
+    public void drawCalculatedPath() {
+        deletePath();
+        if (this.foundPath.size() >= 2) {
+            HospitalMapNode nodeA = this.foundPath.get(0);
+            HospitalMapNode nodeB = this.foundPath.get(this.foundPath.toArray().length - 1);
+            mapPane
+                    .getChildren()
+                    .removeIf(n -> (n.getClass() == Line.class) || (n.getClass() == Circle.class));
+            drawPath(this.foundPath);
+            if (nodeA.getMapID().equals(ViewManager.getMapID())) drawNode(nodeA, Color.BLUE);
+            if (nodeB.getMapID().equals(ViewManager.getMapID())) drawNode(nodeB, Color.BLUE);
+        }
+    }
 
   private void drawNode(HospitalMapNode node, Color color) {
     Circle circle =
@@ -302,8 +360,11 @@ public class MapController extends Application {
     for (int i = 0; i < path.size() - 1; i++) {
       currNode = path.get(i);
       nextNode = path.get(i + 1);
-      drawArrow(currNode, nextNode);
-      drawEdge(currNode, nextNode, blue);
+      if (nextNode.getMapID().equals(ViewManager.getMapID())
+          && currNode.getMapID().equals(ViewManager.getMapID())) {
+          drawArrow(currNode, nextNode);
+          drawEdge(currNode, nextNode, Color.BLUE);
+      }
     }
     drawNode(path.get(0), blue);
     drawNode(path.get(path.size() - 1), red);
@@ -380,26 +441,58 @@ public class MapController extends Application {
   @Override
   public void start(Stage primaryStage) throws Exception {}
 
-  private void startEditView() {
-    setAddNodeHander();
-    nodeMenu.setVisible(ViewManager.getSelectedNode() != null && adminMap);
+  void startEditView() {
+    if (isFirstLoad) {
+      isFirstLoad = false;
+      setAddNodeHander();
+      undoButton.setOnAction(
+          e -> {
+            if (ViewManager.getDataCont().isUndoAvailable()) {
+              ViewManager.getDataCont().undo();
+            }
+            update();
+          });
+      redoButton.setOnAction(
+          e -> {
+            if (ViewManager.getDataCont().isRedoAvailable()) {
+              ViewManager.getDataCont().redo();
+            }
+            update();
+          });
+    }
+    try {
+      mapImage.setImage(
+          new Image(
+              (getClass()
+                      .getResource(
+                          "/fxml/mapImages/" + ViewManager.getMapID().replace(" ", "") + ".png"))
+                  .toURI()
+                  .toString()));
+    } catch (URISyntaxException e) {
+      e.printStackTrace();
+    }
+    nodeMenu.setVisible(
+        ViewManager.selectedInActiveMap() && ViewManager.getSelectedNode() != null && adminMap);
     undoButton.setVisible(false);
     redoButton.setVisible(false);
-    undoButton.setOnAction(
-        e -> {
-          if (ViewManager.getDataCont().isUndoAvailable()) {
-            ViewManager.getDataCont().undo();
-          }
-          update();
-        });
-    redoButton.setOnAction(
-        e -> {
-          if (ViewManager.getDataCont().isRedoAvailable()) {
-            ViewManager.getDataCont().redo();
-          }
-          update();
-        });
     update();
+  }
+
+  @FXML
+  private void switchAlgorithm() {
+    switch (algorithmPick.getValue().toString()) {
+      case "Depth First":
+        System.out.println("Making new Depth first...");
+        this.pathFinderAlgorithm = new DepthFirstSearch();
+        break;
+      case "Breadth First":
+        System.out.println("Making new Breadth first...");
+        this.pathFinderAlgorithm = new BreadthFirstSearch();
+        break;
+      default:
+        this.pathFinderAlgorithm = new PathFinder();
+        break;
+    }
   }
 
   private void populateEditNodeMenu(HospitalMapNode node) {
@@ -431,10 +524,10 @@ public class MapController extends Application {
               node.getyCoord(),
               sName,
               lName,
+              LocationCategory.HALL,
               "I",
               node.getConnections());
-      ViewManager.getDataCont().deleteNode(node.getID());
-      ViewManager.getDataCont().addNode(newNode);
+      ViewManager.getDataCont().editNode(node.getID(), newNode);
     }
   }
 
@@ -444,6 +537,7 @@ public class MapController extends Application {
             e -> {
               if (e.getButton() == MouseButton.SECONDARY) {
                 // definitely need a better way of making an ID
+                System.out.println("u just right clicked");
                 ViewManager.getDataCont()
                     .addNode(
                         new HospitalMapNode(
@@ -489,17 +583,22 @@ public class MapController extends Application {
   }
 
   @FXML
-  public void initialize() {
+  public void initialize() throws IOException {
+    ViewManager.setMapController(this);
+    tabPane.getChildren().clear();
+    tabPane.getChildren().add(FXMLLoader.load(getClass().getResource("/fxml/TabPane.fxml")));
     setupMapViewHandlers();
     boolean isAdmin =
         ApplicationDataController.getInstance()
             .getLoggedInUser()
             .hasPermission(User.Permission.EDIT_MAP);
     adminMapToggle.setVisible(isAdmin);
+    algorithmPick.setVisible(isAdmin);
+    algorithmPick.getItems().addAll("A*", "Depth First", "Breadth First");
   }
 
   private void drawSelectedNode() {
-    if (ViewManager.getSelectedNode() != null) {
+    if (ViewManager.selectedInActiveMap()) {
       Circle circle = new Circle();
       circle.setFill(Color.PURPLE);
       circle.setCenterX((ViewManager.getSelectedNode().getxCoord() * imgWidth / 100000 / scale));
@@ -572,6 +671,17 @@ public class MapController extends Application {
   }
 
   private void makeNodeCircle(HospitalMapNode node) {
+    for (HospitalMapNode child : node.getConnections()) {
+      if (!node.getMapID().equals(child.getMapID())) {
+        Circle highlight =
+            new Circle(
+                (node.getxCoord() * imgWidth / 100000 / scale),
+                (node.getyCoord() * imgHeight / 100000 / scale),
+                20 / scale);
+        highlight.setFill(Color.GREEN);
+        mapPane.getChildren().add(highlight);
+      }
+    }
     Circle circle = new Circle();
     circle.setFill(Color.RED);
     circle.setCenterX((node.getxCoord() * imgWidth / 100000 / scale));
@@ -592,7 +702,6 @@ public class MapController extends Application {
             if (!isDrag) {
               nodeMenu.setVisible(ViewManager.toggleNode(node));
             } else {
-              ViewManager.setSelectedNode(null);
               isDrag = false;
               ViewManager.getDataCont().editNode(movingNode.getID(), movingNode);
             }
@@ -600,6 +709,9 @@ public class MapController extends Application {
                 e -> {
                   nodeMenu.setVisible(ViewManager.toggleNode(node));
                   ViewManager.getDataCont().deleteNode(node.getID());
+                  if (ViewManager.getSelectedNode() == node) {
+                    ViewManager.setSelectedNode(null);
+                  }
                   update();
                 });
 
@@ -630,7 +742,7 @@ public class MapController extends Application {
               (Circle) mapPane.getChildren().get(mapPane.getChildren().indexOf(circle));
           newCircle.setFill(Color.YELLOW);
           newCircle.setCenterX(t.getSceneX());
-          newCircle.setCenterY(t.getSceneY());
+          newCircle.setCenterY(t.getSceneY() - 50);
 
           HospitalMapNode newNode =
               new HospitalMapNode(
@@ -643,5 +755,40 @@ public class MapController extends Application {
           isDrag = true;
         });
     mapPane.getChildren().add(circle);
+  }
+
+  @FXML
+  public void onSwitch() {
+    //        String begin = start.getValue();
+    String begin = start.getText();
+    //        String end = destination.getValue();
+    String end = destination.getText();
+    start.setText(end);
+    destination.setText(begin);
+  }
+
+  @FXML
+  public void onClear() {
+    start.setText("");
+    destination.setText("");
+    this.foundPath = null;
+    ObservableList<String> items = FXCollections.observableArrayList(new ArrayList<String>());
+    directionsField.setItems(items);
+    deletePath();
+  }
+
+  @FXML
+  public void toggleAccessible(ActionEvent e) {
+    if (this.scorer.nodeTypesToAvoid.size() > 0) {
+      this.scorer.nodeTypesToAvoid.clear();
+    } else {
+      this.scorer.nodeTypesToAvoid.add(NodeRestrictions.WHEELCHAIR_INACCESSIBLE);
+    }
+    System.out.print("NodeRestrictions:" + this.scorer.nodeTypesToAvoid);
+  }
+
+  private void displayDirections(ArrayList<String> directions) {
+    ObservableList<String> items = FXCollections.observableArrayList(directions);
+    directionsField.setItems(items);
   }
 }
