@@ -180,14 +180,16 @@ public class MapController extends Application {
   @FXML
   public void drawCalculatedPath() {
     deletePath();
-    HospitalMapNode nodeA = this.foundPath.get(0);
-    HospitalMapNode nodeB = this.foundPath.get(this.foundPath.toArray().length - 1);
-    mapPane
-        .getChildren()
-        .removeIf(n -> (n.getClass() == Line.class) || (n.getClass() == Circle.class));
-    drawPath(this.foundPath);
-    if (nodeA.getMapID().equals(ViewManager.getMapID())) drawNode(nodeA, Color.BLUE);
-    if (nodeB.getMapID().equals(ViewManager.getMapID())) drawNode(nodeB, Color.BLUE);
+    if (this.foundPath.size() >= 2) {
+      HospitalMapNode nodeA = this.foundPath.get(0);
+      HospitalMapNode nodeB = this.foundPath.get(this.foundPath.toArray().length - 1);
+      mapPane
+          .getChildren()
+          .removeIf(n -> (n.getClass() == Line.class) || (n.getClass() == Circle.class));
+      drawPath(this.foundPath);
+      if (nodeA.getMapID().equals(ViewManager.getMapID())) drawNode(nodeA, Color.BLUE);
+      if (nodeB.getMapID().equals(ViewManager.getMapID())) drawNode(nodeB, Color.BLUE);
+    }
   }
 
   private void drawNode(HospitalMapNode node, Color color) {
