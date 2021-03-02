@@ -87,13 +87,15 @@ public class HospitalMapCSVBuilder {
 
     Set<EdgePair> edgePairSet = new HashSet<>();
 
+    nodesString.append(
+        "nodeId,xcoord,ycoord,floor,building,nodetype,type,longname,shortname,teamassigned,mapId,,,OldY\n");
+
     for (HospitalMap map : maps) {
       String mapId = map.getId();
       String buildingName = map.getBuildingName();
       int floorNumber = map.getFloorNumber();
 
       for (HospitalMapNode node : map.getNodes()) {
-        System.out.println(node.getClass());
         if (node instanceof LocationNode) {
           nodesString.append(node.getID() + ",");
           nodesString.append(node.getxCoord() + ",");

@@ -59,6 +59,10 @@ public class LocationNode extends HospitalMapNode {
     return teamAssigned;
   }
 
+  public LocationCategory getLocationCategory() {
+    return this.locationCategory;
+  }
+
   @Override
   public String toString() {
     return "Node: " + longName + " (a.k.a) " + shortName + " for team: " + teamAssigned;
