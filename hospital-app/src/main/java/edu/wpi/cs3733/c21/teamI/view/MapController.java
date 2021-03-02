@@ -15,7 +15,11 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
+import javafx.animation.*;
 import javafx.application.Application;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -30,10 +34,12 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Line;
-import javafx.scene.shape.LineBuilder;
+import javafx.scene.paint.CycleMethod;
+import javafx.scene.paint.LinearGradient;
+import javafx.scene.paint.Stop;
+import javafx.scene.shape.*;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class MapController extends Application {
   boolean adminMap = false;
@@ -52,6 +58,10 @@ public class MapController extends Application {
   private EuclidianDistCalc scorer;
   private int imgWidth = 2989;
   private int imgHeight = 2457;
+
+  private Color blue = Color.color(68.0 / 256.0, 136.0 / 256.0, 166.0 / 256.0);
+  private Color red = Color.color(217.0 / 256.0, 89.0 / 256.0, 89.0 / 256.0);
+  private Color color2 = Color.DARKBLUE;
 
   @FXML
   public void toggleEditMap(ActionEvent e) {
@@ -156,8 +166,8 @@ public class MapController extends Application {
   private void drawNode(HospitalMapNode node, Color color) {
     Circle circle =
         new Circle(
-            (node.getxCoord() * imgWidth / 100000 / scale),
-            (node.getyCoord() * imgHeight / 100000 / scale),
+            (node.getxCoord() * imgWidth / 100000.0 / scale),
+            (node.getyCoord() * imgHeight / 100000.0 / scale),
             13 / scale);
     circle.setFill(color);
     mapPane.getChildren().add(circle);
@@ -166,41 +176,178 @@ public class MapController extends Application {
   private void drawEdge(HospitalMapNode start, HospitalMapNode end, Color color) {
     Line line =
         LineBuilder.create()
-            .startX((start.getxCoord() * imgWidth / 100000 / scale))
-            .startY((start.getyCoord() * imgHeight / 100000 / scale))
-            .endX((end.getxCoord() * imgWidth / 100000 / scale))
-            .endY((end.getyCoord() * imgHeight / 100000 / scale))
+            .startX((start.getxCoord() * imgWidth / 100000.0 / scale))
+            .startY((start.getyCoord() * imgHeight / 100000.0 / scale))
+            .endX((end.getxCoord() * imgWidth / 100000.0 / scale))
+            .endY((end.getyCoord() * imgHeight / 100000.0 / scale))
             .stroke(color)
-            .strokeWidth(14 / scale)
+            .strokeLineCap(StrokeLineCap.ROUND)
+            .strokeDashArray(28.0 / scale)
+            .strokeWidth(14.0 / scale)
             .build();
+
+    animateLine(start, end, line);
+
     mapPane.getChildren().add(line);
+  }
+
+  // First half of animation where it fades from light blue to dark blue
+  private EventHandler animateLine(HospitalMapNode start, HospitalMapNode end, Line line) {
+    int startX = 0;
+    int startY = 0;
+    int endX = 0;
+    int endY = 0;
+    if (start.getxCoord() > end.getxCoord()) startX = 1;
+    else endX = 1;
+    if (start.getyCoord() > end.getyCoord()) startY = 1;
+    else endY = 1;
+
+    DoubleProperty signalPosition = new SimpleDoubleProperty(0);
+    int finalStartX = startX;
+    int finalStartY = startY;
+    int finalEndX = endX;
+    int finalEndY = endY;
+    line.strokeProperty()
+        .bind(
+            Bindings.createObjectBinding(
+                () ->
+                    new LinearGradient(
+                        finalStartX,
+                        finalStartY,
+                        finalEndX,
+                        finalEndY,
+                        true,
+                        CycleMethod.NO_CYCLE,
+                        new Stop(0, color2),
+                        new Stop(signalPosition.get(), color2),
+                        new Stop(signalPosition.get(), blue),
+                        new Stop(1, blue)),
+                signalPosition));
+
+    Timeline animation =
+        new Timeline(
+            new KeyFrame(Duration.ZERO, new KeyValue(signalPosition, 0)),
+            new KeyFrame(Duration.seconds(5), new KeyValue(signalPosition, 1)));
+
+    animation.setOnFinished(finish -> animateLinePhase2(start, end, line));
+    animation.setRate(2.0);
+    // animation.setCycleCount(100);
+    animation.play();
+
+    return null;
+  }
+
+  // second phase of animation where it goes back from dark blue to light blue for a smooth looping
+  // transition
+  private EventHandler animateLinePhase2(HospitalMapNode start, HospitalMapNode end, Line line) {
+    int startX = 0;
+    int startY = 0;
+    int endX = 0;
+    int endY = 0;
+    if (start.getxCoord() > end.getxCoord()) startX = 1;
+    else endX = 1;
+    if (start.getyCoord() > end.getyCoord()) startY = 1;
+    else endY = 1;
+
+    DoubleProperty signalPosition = new SimpleDoubleProperty(0);
+    int finalStartX = startX;
+    int finalStartY = startY;
+    int finalEndX = endX;
+    int finalEndY = endY;
+    line.strokeProperty()
+        .bind(
+            Bindings.createObjectBinding(
+                () ->
+                    new LinearGradient(
+                        finalStartX,
+                        finalStartY,
+                        finalEndX,
+                        finalEndY,
+                        true,
+                        CycleMethod.NO_CYCLE,
+                        new Stop(0, blue),
+                        new Stop(signalPosition.get(), blue),
+                        new Stop(signalPosition.get(), color2),
+                        new Stop(1, color2)),
+                signalPosition));
+
+    Timeline animation =
+        new Timeline(
+            new KeyFrame(Duration.ZERO, new KeyValue(signalPosition, 0)),
+            new KeyFrame(Duration.seconds(5), new KeyValue(signalPosition, 1)));
+
+    animation.setOnFinished(finish -> animateLine(start, end, line));
+    animation.setRate(2.0);
+    //    animation.setCycleCount(100);
+    animation.play();
+    return null;
   }
 
   private void drawPath(List<HospitalMapNode> path) throws IOException {
     HospitalMapNode currNode;
     HospitalMapNode nextNode = null;
+    double xAdjustment = imgWidth / 100000.0 / scale;
+    double yAdjustment = imgHeight / 100000.0 / scale;
 
     double imgScale = 256 / scale;
     String startIcon =
         System.getProperty("user.dir") + "\\src/main/resources/fxml/fxmlResources/startIcon.png";
-    double startIconX = path.get(0).getxCoord() * imgWidth / 100000.0 / scale - imgScale / 2;
-    double startIconY = path.get(0).getyCoord() * imgWidth / 100000.0 / scale - imgScale * 2;
+    double startIconX = path.get(0).getxCoord() * xAdjustment - imgScale / 2;
+    double startIconY = path.get(0).getyCoord() * yAdjustment - imgScale;
     String finishIcon =
         System.getProperty("user.dir") + "\\src/main/resources/fxml/fxmlResources/finishIcon.png";
-    double finishIconX =
-        path.get(path.size() - 1).getxCoord() * imgWidth / 100000.0 / scale - imgScale / 2;
-    double finishIconY =
-        path.get(path.size() - 1).getyCoord() * imgWidth / 100000.0 / scale - imgScale * 2;
+    double finishIconX = path.get(path.size() - 1).getxCoord() * xAdjustment - imgScale / 2;
+    double finishIconY = path.get(path.size() - 1).getyCoord() * yAdjustment - imgScale;
 
     for (int i = 0; i < path.size() - 1; i++) {
       currNode = path.get(i);
       nextNode = path.get(i + 1);
-      drawEdge(currNode, nextNode, Color.BLUE);
+      drawArrow(currNode, nextNode);
+      drawEdge(currNode, nextNode, blue);
     }
-    drawNode(path.get(0), Color.BLUE);
-    drawNode(path.get(path.size() - 1), Color.BLUE);
+    drawNode(path.get(0), blue);
+    drawNode(path.get(path.size() - 1), red);
     displayImage(startIcon, startIconX, startIconY, imgScale);
     displayImage(finishIcon, finishIconX, finishIconY, imgScale);
+  }
+
+  private void drawArrow(HospitalMapNode start, HospitalMapNode end) {
+    double xAdjustment = imgWidth / 100000.0 / scale;
+    double yAdjustment = imgHeight / 100000.0 / scale;
+    double arrowWidth = 25 / scale;
+    double arrowLength = 25 / scale;
+
+    double x1 = start.getxCoord() * xAdjustment;
+    double x2 = end.getxCoord() * xAdjustment;
+    double y1 = start.getyCoord() * yAdjustment;
+    double y2 = end.getyCoord() * yAdjustment;
+
+    double dx = x2 - x1, dy = y2 - y1;
+    double D = Math.sqrt(dx * dx + dy * dy);
+    double xm = D - arrowWidth, xn = xm, ym = arrowLength, yn = -arrowLength, x;
+    double sin = dy / D, cos = dx / D;
+
+    x = xm * cos - ym * sin + x1;
+    ym = xm * sin + ym * cos + y1;
+    xm = x;
+
+    x = xn * cos - yn * sin + x1;
+    yn = xn * sin + yn * cos + y1;
+    xn = x;
+
+    double[] xpoints = {x2, xm, xn};
+    double[] ypoints = {y2, ym, yn};
+
+    Polygon arrow = new Polygon();
+    arrow
+        .getPoints()
+        .addAll(
+            xpoints[0], ypoints[0],
+            xpoints[1], ypoints[1],
+            xpoints[2], ypoints[2]);
+
+    arrow.setFill(blue);
+    mapPane.getChildren().add(arrow);
   }
 
   private void displayImage(String path, double x, double y, double size) throws IOException {
