@@ -182,6 +182,51 @@ public class ParkingPeripheralServerManager extends DatabaseManager {
               + "floor_id integer,"
               + "PRIMARY KEY (id),"
               + "FOREIGN KEY (floor_id) REFERENCES PARKING_FLOORS(id))");
+
+      statement.execute(
+          "CREATE TABLE PARKING_CUSTOMERS("
+              + "id integer NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),"
+              + "vehicle_licence varchar(8),"
+              + "is_staff boolean,"
+              + "contact_number varchar(10),"
+              + "registration_date date,"
+              + "PRIMARY KEY (id))");
+
+      statement.execute(
+          "CREATE TABLE PARKING_SLOT_RESERVATIONS("
+              + "id integer NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),"
+              + "customer_id integer NOT NULL,"
+              + "slot_id integer NOT NULL,"
+              + "start_timestamp timestamp,"
+              + "duration_in_minutes integer,"
+              + "booking_date date,"
+              + "PRIMARY KEY (id),"
+              + "FOREIGN KEY (customer_id) REFERENCES PARKING_CUSTOMERS(id),"
+              + "FOREIGN KEY (slot_id) REFERENCES PARKING_SLOTS(id))");
+
+      statement.execute(
+          "CREATE TABLE STAFF_PERMITS("
+              + "id integer NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),"
+              + "customer_id integer NOT NULL,"
+              + "user_id integer NOT NULL,"
+              + "reservation_id integer NOT NULL,"
+              + "assignment_date date NOT NULL,"
+              + "PRIMARY KEY (id),"
+              + "FOREIGN KEY (customer_id) REFERENCES PARKING_CUSTOMERS(id),"
+              + "FOREIGN KEY (reservation_id) REFERENCES PARKING_SLOT_RESERVATIONS(id))");
+
+      statement.execute(
+          "CREATE TABLE PARKING_SLIPS("
+              + "id integer NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),"
+              + "slot_reservation_id integer NOT NULL,"
+              + "entry_timestamp timestamp NOT NULL,"
+              + "exit_timestamp timestamp,"
+              + "base_cost integer NOT NULL,"
+              + "penalty integer,"
+              + "is_paid boolean,"
+              + "PRIMARY KEY (id),"
+              + "FOREIGN KEY (slot_reservation_id) REFERENCES PARKING_SLOT_RESERVATIONS(id))");
+
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -191,6 +236,10 @@ public class ParkingPeripheralServerManager extends DatabaseManager {
   void dropTables() {
     try {
       Statement statement = databaseRef.getConnection().createStatement();
+      statement.addBatch("DROP TABLE STAFF_PERMITS");
+      statement.addBatch("DROP TABLE PARKING_SLIPS");
+      statement.addBatch("DROP TABLE PARKING_SLOT_RESERVATIONS");
+      statement.addBatch("DROP TABLE PARKING_CUSTOMERS");
       statement.addBatch("DROP TABLE PARKING_SLOTS");
       statement.addBatch("DROP TABLE PARKING_FLOORS");
       statement.addBatch("DROP TABLE PARKING_BLOCKS");
@@ -271,4 +320,6 @@ public class ParkingPeripheralServerManager extends DatabaseManager {
       e.printStackTrace();
     }
   }
+
+
 }
