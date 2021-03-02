@@ -77,7 +77,7 @@ public class MapEditDataController {
     undoRedoPointer++;
   }
 
-  public void deleteEdge(String fromNode, String toNode) {
+  public void deleteEdge(HospitalMapNode fromNode, HospitalMapNode toNode) {
     deleteElementsAfterPointer(undoRedoPointer);
     MapEditCommand command = new DeleteEdgeCommand(this, fromNode, toNode);
     command.execute();
