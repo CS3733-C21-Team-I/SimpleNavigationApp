@@ -29,7 +29,6 @@ public class ServiceRequestTableController implements Initializable {
 
   @FXML private JFXTextField input;
 
-
   @Override
   public void initialize(URL url, ResourceBundle rb) {
 
@@ -120,7 +119,6 @@ public class ServiceRequestTableController implements Initializable {
 
     ObservableList<ServiceTicket> serviceTickets = FXCollections.observableArrayList();
     serviceTickets.addAll(ServiceTicketDatabaseManager.getInstance().getServiceTicketDB());
-
 
     final TreeItem<ServiceTicket> root =
         new RecursiveTreeItem<ServiceTicket>(serviceTickets, RecursiveTreeObject::getChildren);

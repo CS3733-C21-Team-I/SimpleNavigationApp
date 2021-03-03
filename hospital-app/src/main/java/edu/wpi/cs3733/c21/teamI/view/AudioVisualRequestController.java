@@ -35,16 +35,16 @@ public class AudioVisualRequestController {
     try {
       int RequestID = ApplicationDataController.getInstance().getLoggedInUser().getUserId();
       int AssignedID =
-              UserDatabaseManager.getInstance()
-                      .getUserForScreenname(requestAssigned.getText())
-                      .getUserId();
+          UserDatabaseManager.getInstance()
+              .getUserForScreenname(requestAssigned.getText())
+              .getUserId();
       ticket =
-              new ServiceTicket(
-                      RequestID,
-                      ServiceTicket.TicketType.SECURITY,
-                      NavDatabaseManager.getInstance().getMapIdFromLongName(roomNumber.getText()),
-                      requestDetails.getText(),
-                      false);
+          new ServiceTicket(
+              RequestID,
+              ServiceTicket.TicketType.SECURITY,
+              NavDatabaseManager.getInstance().getMapIdFromLongName(roomNumber.getText()),
+              requestDetails.getText(),
+              false);
       ServiceTicketDatabaseManager.getInstance().addTicket(ticket);
     } catch (Exception o) {
       System.out.println("Error" + o);
@@ -53,30 +53,30 @@ public class AudioVisualRequestController {
 
   private void setupRequestView() {
     serviceLocationList
-            .getSelectionModel()
-            .selectedItemProperty()
-            .addListener(
-                    (ChangeListener<String>)
-                            (ov, oldVal, newVal) -> {
-                              roomNumber.setText(newVal);
-                              serviceLocationList.setVisible(false);
-                            });
+        .getSelectionModel()
+        .selectedItemProperty()
+        .addListener(
+            (ChangeListener<String>)
+                (ov, oldVal, newVal) -> {
+                  roomNumber.setText(newVal);
+                  serviceLocationList.setVisible(false);
+                });
 
     requestAssignedList
-            .getSelectionModel()
-            .selectedItemProperty()
-            .addListener(
-                    (ChangeListener<String>)
-                            (ov, oldVal, newVal) -> {
-                              requestAssigned.setText(newVal);
-                              requestAssignedList.setVisible(false);
-                            });
+        .getSelectionModel()
+        .selectedItemProperty()
+        .addListener(
+            (ChangeListener<String>)
+                (ov, oldVal, newVal) -> {
+                  requestAssigned.setText(newVal);
+                  requestAssignedList.setVisible(false);
+                });
 
     background.setOnMouseClicked(
-            t -> {
-              serviceLocationList.setVisible(false);
-              requestAssignedList.setVisible(false);
-            });
+        t -> {
+          serviceLocationList.setVisible(false);
+          requestAssignedList.setVisible(false);
+        });
 
     requesterID.setText(ApplicationDataController.getInstance().getLoggedInUser().getName());
     typeRequested.getItems().addAll("Headphones", "Monitor", "Other");
@@ -97,12 +97,13 @@ public class AudioVisualRequestController {
     /*TODO common stuff*/
     setupRequestView();
   }
+
   public void lookup(KeyEvent e) {
     ServiceTicketDataController.lookupNodes(e, serviceLocationList, roomNumber);
   }
 
   public void lookupUser(KeyEvent e) {
     ServiceTicketDataController.lookupUsernames(
-            e, User.Permission.RESPOND_TO_SECURITY, requestAssignedList, requestAssigned);
+        e, User.Permission.RESPOND_TO_SECURITY, requestAssignedList, requestAssigned);
   }
 }

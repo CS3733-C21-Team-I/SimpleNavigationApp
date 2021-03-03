@@ -1,12 +1,23 @@
 package edu.wpi.cs3733.c21.teamI.view;
 
 import com.jfoenix.controls.*;
+import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
+import edu.wpi.cs3733.c21.teamI.database.NavDatabaseManager;
+import edu.wpi.cs3733.c21.teamI.database.ServiceTicketDatabaseManager;
+import edu.wpi.cs3733.c21.teamI.database.UserDatabaseManager;
+import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicket;
+import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicketDataController;
+import edu.wpi.cs3733.c21.teamI.user.User;
+import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.ListView;
+import javafx.scene.input.KeyEvent;
 
 public class ReligiousRequestController {
+  ServiceTicket ticket;
   @FXML private JFXTextField requesterID;
   @FXML private JFXTextField patientName;
   @FXML private JFXTextField religiousDenomination;
@@ -16,6 +27,7 @@ public class ReligiousRequestController {
   @FXML private JFXTextField assignedEmployeeID;
   @FXML private JFXDatePicker date;
   @FXML private JFXTimePicker time;
+  @FXML ListView serviceLocationList, requestAssignedList;
   @FXML private JFXButton clearButton;
   @FXML private JFXButton submitButton;
 
@@ -31,6 +43,16 @@ public class ReligiousRequestController {
             "Memorial Service",
             "Other");
     typeOfRequest.setItems(requestTypeList);
+    setupRequestView();
+  }
+
+  public void lookup(KeyEvent e) {
+    ServiceTicketDataController.lookupNodes(e, serviceLocationList, requestlocation);
+  }
+
+  public void lookupUser(KeyEvent e) {
+    ServiceTicketDataController.lookupUsernames(
+        e, User.Permission.RESPOND_TO_SECURITY, requestAssignedList, assignedEmployeeID);
   }
 
   @FXML
@@ -59,24 +81,23 @@ public class ReligiousRequestController {
     if (date.getValue() != null) reqDate = date.getValue().toString();
     if (time.getValue() != null) reqTime = time.getValue().toString();
 
-    System.out.println(
-        rID
-            + "\n"
-            + pName
-            + "\n"
-            + rDenomination
-            + "\n"
-            + requestType
-            + "\n"
-            + requestDetails
-            + "\n"
-            + loc
-            + "\n"
-            + assignedEmployee
-            + "\n"
-            + reqDate
-            + "\n"
-            + reqTime);
+    try {
+      int RequestID = ApplicationDataController.getInstance().getLoggedInUser().getUserId();
+      int AssignedID =
+          UserDatabaseManager.getInstance()
+              .getUserForScreenname(assignedEmployeeID.getText())
+              .getUserId();
+      ticket =
+          new ServiceTicket(
+              RequestID,
+              ServiceTicket.TicketType.RELIGIOUS,
+              NavDatabaseManager.getInstance().getMapIdFromLongName(requestlocation.getText()),
+              details.getText(),
+              false);
+      ServiceTicketDatabaseManager.getInstance().addTicket(ticket);
+    } catch (Exception o) {
+      System.out.println("Error" + o);
+    }
   }
 
   @FXML
@@ -90,5 +111,28 @@ public class ReligiousRequestController {
     assignedEmployeeID.clear();
     date.valueProperty().set(null);
     time.valueProperty().set(null);
+  }
+
+  private void setupRequestView() {
+    serviceLocationList
+        .getSelectionModel()
+        .selectedItemProperty()
+        .addListener(
+            (ChangeListener<String>)
+                (ov, oldVal, newVal) -> {
+                  requestlocation.setText(newVal);
+                  serviceLocationList.setVisible(false);
+                });
+
+    requestAssignedList
+        .getSelectionModel()
+        .selectedItemProperty()
+        .addListener(
+            (ChangeListener<String>)
+                (ov, oldVal, newVal) -> {
+                  assignedEmployeeID.setText(newVal);
+                  requestAssignedList.setVisible(false);
+                });
+    requesterID.setText(ApplicationDataController.getInstance().getLoggedInUser().getName());
   }
 }
