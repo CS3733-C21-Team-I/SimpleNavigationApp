@@ -2,6 +2,7 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXCheckBox?>
+<?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXListView?>
 <?import com.jfoenix.controls.JFXTabPane?>
 <?import javafx.geometry.Insets?>
@@ -103,6 +104,14 @@
                         <Insets bottom="10.0" />
                      </VBox.margin>
                   </JFXButton>
+                  <JFXComboBox fx:id="algorithmPick" onAction="#switchAlgorithm" prefHeight="10.0" prefWidth="215.0" promptText="Path Algorithm" style="-fx-background-color: ffffff;">
+                     <padding>
+                        <Insets left="10.0" />
+                     </padding>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </JFXComboBox>
                         <HBox alignment="CENTER" prefHeight="115.0" prefWidth="330.0">
                             <children>
                                 <VBox alignment="CENTER" prefHeight="102.0" prefWidth="204.0">

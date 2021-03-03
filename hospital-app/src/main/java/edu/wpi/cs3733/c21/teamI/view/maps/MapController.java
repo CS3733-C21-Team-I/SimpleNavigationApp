@@ -38,10 +38,7 @@ import javafx.util.Duration;
 public abstract class MapController extends Application {
   boolean adminMap = false;
 
-  @FXML Button adminMapToggle;
-
   @FXML AnchorPane nodeMenu;
-  @FXML Button nodeDeleteButton, saveButton;
   @FXML TextField sNameField, lNameField;
   protected boolean isDrag = false;
   protected boolean isFirstLoad = true;
@@ -56,9 +53,8 @@ public abstract class MapController extends Application {
   @FXML Tab floor3;
   @FXML Tab floor4;
   @FXML Tab floor6;
+  protected String currTab = null;
   protected Tab currentTab = null;
-
-  protected MapDataEntity data = new MapDataEntity();
 
   final double scale = 3.05;
   double fullImgWidth = 0;
@@ -68,6 +64,9 @@ public abstract class MapController extends Application {
   double xOffset = 0;
   double yOffset = 0;
   boolean panAllowed = true;
+
+  protected HospitalMapNode selectedNode = null;
+  protected String currentMapID = "Faulkner 0";
 
   protected Color blue = Color.color(68.0 / 256.0, 136.0 / 256.0, 166.0 / 256.0);
   protected Color red = Color.color(217.0 / 256.0, 89.0 / 256.0, 89.0 / 256.0);
@@ -97,6 +96,8 @@ public abstract class MapController extends Application {
   public void clearMap() {
     mapPane.getChildren().clear();
   }
+
+  // replacing viewmanager split
 
   protected void drawNode(HospitalMapNode node, Color color) {
     Circle circle =
@@ -224,8 +225,7 @@ public abstract class MapController extends Application {
     for (int i = 0; i < path.size() - 1; i++) {
       currNode = path.get(i);
       nextNode = path.get(i + 1);
-      if (nextNode.getMapID().equals(ViewManager.getMapID())
-          && currNode.getMapID().equals(ViewManager.getMapID())) {
+      if (nextNode.getMapID().equals(currentMapID) && currNode.getMapID().equals(currentMapID)) {
         drawArrow(currNode, nextNode);
         drawEdge(currNode, nextNode, Color.BLUE);
       }
@@ -311,141 +311,29 @@ public abstract class MapController extends Application {
   public abstract void initialize() throws IOException;
 
   protected void drawSelectedNode() {
-    if (ViewManager.selectedInActiveMap()) {
+    if (selectedInActiveMap()) {
       Circle circle =
           makeCircle(
-              transformX(ViewManager.getSelectedNode().getxCoord()),
-              transformY(ViewManager.getSelectedNode().getyCoord()),
+              transformX(selectedNode.getxCoord()),
+              transformY(selectedNode.getyCoord()),
               20 / scale,
               Color.PURPLE);
       mapPane.getChildren().add(circle);
     }
   }
 
-  protected void drawEdges(HospitalMapNode parent) {
-    Image xIconImg = new Image("/fxml/fxmlResources/redxicon.png");
-    for (HospitalMapNode child : parent.getConnections()) {
-      if (ViewManager.getEntityNodes().contains(child)
-          && ViewManager.getEntityNodes().contains(parent)) {
-        ImageView xMarker = new ImageView();
-        xMarker.setImage(xIconImg);
-        xMarker.setFitHeight(12);
-        xMarker.setFitWidth(12);
-        xMarker.setVisible(false);
-        xMarker.setStyle("-fx-cursor: hand");
-        mapPane.getChildren().add(xMarker);
-        Line line =
-            LineBuilder.create()
-                .startX(clamp(transformX(parent.getxCoord()), 0, mapPane.getPrefWidth()))
-                .startY(clamp(transformY(parent.getyCoord()), 0, mapPane.getPrefHeight()))
-                .endX(clamp(transformX(child.getxCoord()), 0, mapPane.getPrefWidth()))
-                .endY(clamp(transformY(child.getyCoord()), 0, mapPane.getPrefHeight()))
-                .stroke(Color.ORANGE)
-                .strokeWidth(10 / scale)
-                .build();
-        line.setStyle("-fx-cursor: hand");
-        mapPane.getChildren().add(line);
-        line.setOnMouseEntered(
-            t -> {
-              xMarker.setVisible(true);
-              xMarker.toFront();
-              xMarker.setX(
-                  transformX((parent.getxCoord() + child.getxCoord()) / 2)
-                      - xMarker.getFitWidth() / 2);
-              xMarker.setY(
-                  transformY((parent.getyCoord() + child.getyCoord()) / 2)
-                      - xMarker.getFitHeight() / 2);
-            });
-        line.setOnMouseExited(
-            t -> {
-              line.setStroke(Color.ORANGE);
-              xMarker.setVisible(false);
-            });
-        line.setOnMouseClicked(
-            t -> {
-              mapPane.getChildren().remove(line);
-              ViewManager.getDataCont().deleteEdge(parent, child);
-              update();
-            });
-        xMarker.setOnMouseEntered(
-            t -> {
-              xMarker.setVisible(true);
-            });
-        xMarker.setOnMouseClicked(
-            t -> {
-              mapPane.getChildren().remove(line);
-              ViewManager.getDataCont().deleteEdge(parent, child);
-              update();
-            });
-        xMarker.setOnMouseExited(
-            t -> {
-              xMarker.setVisible(false);
-            });
-      } else {
-        ImageView xMarker = new ImageView();
-        xMarker.setImage(xIconImg);
-        xMarker.setFitHeight(12);
-        xMarker.setFitWidth(12);
-        xMarker.setVisible(false);
-        xMarker.setStyle("-fx-cursor: hand");
-        mapPane.getChildren().add(xMarker);
-        HospitalMapNode nodeInMap = ViewManager.getAllNodesSet().contains(parent) ? parent : child;
-        Line line =
-            LineBuilder.create()
-                .startX(clamp(transformX(nodeInMap.getxCoord()), 0, mapPane.getPrefWidth()))
-                .startY(clamp(transformY(nodeInMap.getyCoord()), 0, mapPane.getPrefHeight()))
-                .endX(
-                    clamp(
-                        transformX(nodeInMap.getxCoord() - mapPane.getPrefHeight()),
-                        0,
-                        mapPane.getPrefWidth()))
-                .endY(
-                    clamp(
-                        transformY(nodeInMap.getyCoord() - mapPane.getPrefHeight()),
-                        0,
-                        mapPane.getPrefHeight()))
-                .stroke(Color.GREEN)
-                .strokeWidth(10 / scale)
-                .build();
-        line.setStyle("-fx-cursor: hand");
-        mapPane.getChildren().add(line);
-        line.setOnMouseEntered(
-            t -> {
-              xMarker.setVisible(true);
-              xMarker.toFront();
-              xMarker.setX(
-                  transformX(nodeInMap.getxCoord() - (mapPane.getPrefHeight() / 2))
-                      - xMarker.getFitWidth() / 2);
-              xMarker.setY(
-                  transformY(nodeInMap.getyCoord() - (mapPane.getPrefHeight() / 2))
-                      - xMarker.getFitHeight() / 2);
-            });
-        line.setOnMouseExited(
-            t -> {
-              xMarker.setVisible(false);
-            });
-        line.setOnMouseClicked(
-            t -> {
-              mapPane.getChildren().remove(line);
-              ViewManager.getDataCont().deleteEdge(parent, child);
-              update();
-            });
-        xMarker.setOnMouseEntered(
-            t -> {
-              xMarker.setVisible(true);
-            });
-        xMarker.setOnMouseClicked(
-            t -> {
-              mapPane.getChildren().remove(line);
-              ViewManager.getDataCont().deleteEdge(parent, child);
-              update();
-            });
-        xMarker.setOnMouseExited(
-            t -> {
-              xMarker.setVisible(false);
-            });
-      }
+  protected boolean selectedInActiveMap() {
+    return selectedNode.getMapID().equals(currentMapID);
+  }
+
+  public boolean toggleNode(HospitalMapNode node) {
+    if (selectedNode == null) {
+      selectedNode = node;
+      return true;
+    } else if (selectedNode.equals(node)) {
+      selectedNode = null;
     }
+    return false;
   }
 
   protected void makeNodeCircle(HospitalMapNode node) {
@@ -478,14 +366,22 @@ public abstract class MapController extends Application {
     return returnCircle;
   }
 
+  public void switchTab(Event e) throws IOException {
+    String id = ((Button) e.getSource()).getId();
+    System.out.println(id);
+    if (currTab != null && currTab != id) {
+      currentMapID = "Faulkner Lot";
+      currentTab = campus;
+      startZoomPan(mapPane);
+      updateView();
+      resize();
+    }
+  }
+
   public void campusTab(Event event) throws IOException {
-    if (campus != currentTab && currentTab != null) {
+    if (campus != currentTab) {
       System.out.println("Tab 1");
-      if (adminMap) {
-        ViewManager.setActiveMap("Faulkner Lot");
-      } else {
-        ViewManager.setActiveMapFromCache("Faulkner Lot", data.source);
-      }
+      currentMapID = "Faulkner Lot";
       updateView();
       currentTab = campus;
       startZoomPan(mapPane);
@@ -496,11 +392,7 @@ public abstract class MapController extends Application {
   public void floor1Tab(Event event) throws IOException {
     if (floor1 != currentTab) {
       System.out.println("Tab 2");
-      if (adminMap || isFirstLoad) {
-        ViewManager.setActiveMap("Faulkner 1");
-      } else {
-        ViewManager.setActiveMapFromCache("Faulkner 1", data.source);
-      }
+      currentMapID = "Faulkner 1";
       updateView();
       currentTab = floor1;
       startZoomPan(mapPane);
@@ -511,11 +403,7 @@ public abstract class MapController extends Application {
   public void floor2Tab(Event event) throws IOException {
     if (floor2 != currentTab) {
       System.out.println("Tab 3");
-      if (adminMap) {
-        ViewManager.setActiveMap("Faulkner 2");
-      } else {
-        ViewManager.setActiveMapFromCache("Faulkner 2", data.source);
-      }
+      currentMapID = "Faulkner 2";
       updateView();
       currentTab = floor2;
       startZoomPan(mapPane);
@@ -525,13 +413,8 @@ public abstract class MapController extends Application {
 
   public void floor3Tab(Event event) throws IOException {
     if (floor3 != currentTab) {
-
       System.out.println("Tab 4");
-      if (adminMap) {
-        ViewManager.setActiveMap("Faulkner 3");
-      } else {
-        ViewManager.setActiveMapFromCache("Faulkner 3", data.source);
-      }
+      currentMapID = "Faulkner 3";
       updateView();
       currentTab = floor3;
       startZoomPan(mapPane);
@@ -542,11 +425,7 @@ public abstract class MapController extends Application {
   public void floor4Tab(Event event) throws IOException {
     if (floor4 != currentTab) {
       System.out.println("Tab 5");
-      if (adminMap) {
-        ViewManager.setActiveMap("Faulkner 4");
-      } else {
-        ViewManager.setActiveMapFromCache("Faulkner 4", data.source);
-      }
+      currentMapID = "Faulkner 4";
       updateView();
       currentTab = floor4;
       startZoomPan(mapPane);
@@ -557,11 +436,7 @@ public abstract class MapController extends Application {
   public void floor5Tab(Event event) throws IOException {
     if (floor6 != currentTab) {
       System.out.println("Tab 6");
-      if (adminMap) {
-        ViewManager.setActiveMap("Faulkner 5");
-      } else {
-        ViewManager.setActiveMapFromCache("Faulkner 5", data.source);
-      }
+      currentMapID = "Faulkner 5";
       updateView();
       currentTab = floor6;
       startZoomPan(mapPane);
@@ -666,7 +541,7 @@ public abstract class MapController extends Application {
         mapPane.setPrefWidth(mapImage.getFitHeight() * imgWidth / imgHeight);
         mapPane.setMaxWidth(mapImage.getFitHeight() * imgWidth / imgHeight);
       }
-      updateView();
+      // updateView();
     }
   }
 

@@ -1,23 +1,24 @@
 package edu.wpi.cs3733.c21.teamI.view.maps;
 
+import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
+import edu.wpi.cs3733.c21.teamI.hospitalMap.EuclidianDistCalc;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMapNode;
+import edu.wpi.cs3733.c21.teamI.hospitalMap.MapDataEntity;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.NodeRestrictions;
+import edu.wpi.cs3733.c21.teamI.pathfinding.*;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicketDataController;
-import edu.wpi.cs3733.c21.teamI.user.User;
-import edu.wpi.cs3733.c21.teamI.view.ViewManager;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
+
+import edu.wpi.cs3733.c21.teamI.user.User;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Group;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
@@ -28,38 +29,49 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 
 public class MapPathfindingController extends MapController {
+  @FXML Button adminMapToggle;
+  @FXML JFXComboBox algorithmPick;
   @FXML TextField start, destination;
   @FXML ListView startList, destList, directionsField;
 
+  private EuclidianDistCalc scorer = new EuclidianDistCalc();
+  private PathPlanningAlgorithm pathFinderAlgorithm = new PathFinder();
+
+  private List<HospitalMapNode> foundPath;
+  private ArrayList<String> foundPathDescription;
+
+  // setup stuff
   @FXML
   public void initialize() throws IOException {
-    System.out.println("Initializing pathfinding controller...");
-    floor1Tab(new ActionEvent());
+    System.out.println("Initializing pathfinding controller");
+    currentMapID = "Faulkner Lot";
     campusTab(new ActionEvent());
     boolean isAdmin =
         ApplicationDataController.getInstance()
             .getLoggedInUser()
             .hasPermission(User.Permission.EDIT_MAP);
-    adminMapToggle.setVisible(isAdmin);
-    ViewManager.setMapController(this);
+    if (!isAdmin) {
+      adminMapToggle.setVisible(isAdmin);
+      adminMapToggle.setMinHeight(0);
+      algorithmPick.setVisible(isAdmin);
+      algorithmPick.setMinHeight(0);
+    }
+    algorithmPick.getItems().addAll("A*", "Depth First", "Breadth First");
+    // ViewManager.setMapController(this);
     setupMapViewHandlers();
+    // pre-load these things before their use
+    MapDataEntity.getNodesSet(true);
   }
 
   @FXML
-  public void toggleEditMap(ActionEvent e) throws IOException {
-    Group root = new Group();
-    Scene scene = ((Button) e.getSource()).getScene();
-    root.getChildren()
-        .add(FXMLLoader.load(ViewManager.class.getResource("/fxml/Pathediting.fxml")));
-  }
+  public void toggleEditMap(ActionEvent e) throws IOException {}
 
+  // viewport stuff
   public void updateView() throws IOException {
     try {
       Image background =
           new Image(
-              (getClass()
-                      .getResource(
-                          "/fxml/mapImages/" + ViewManager.getMapID().replace(" ", "") + ".png"))
+              (getClass().getResource("/fxml/mapImages/" + currentMapID.replace(" ", "") + ".png"))
                   .toURI()
                   .toString());
       mapImage.setImage(background);
@@ -75,13 +87,14 @@ public class MapPathfindingController extends MapController {
 
   protected void update() {
     mapPane.getChildren().clear();
-    if (data.foundPathExists()) {
+    if (foundPathExists()) {
       ObservableList<String> items = FXCollections.observableArrayList(new ArrayList<String>());
       directionsField.setItems(items);
-      drawCalculatedPath(data.getFoundPath());
+      drawCalculatedPath(getFoundPath());
     }
   }
 
+  // start & end dialogue boxes stuff
   public void lookup(KeyEvent e) {
     if (e.getSource() == start) {
       ServiceTicketDataController.lookupNodes(e, startList, start);
@@ -118,6 +131,40 @@ public class MapPathfindingController extends MapController {
         });
   }
 
+  // pathfinding functions
+  public void clearFoundPath() {
+    foundPath = null;
+  }
+
+  public boolean foundPathExists() {
+    return foundPath != null && !foundPath.isEmpty();
+  }
+
+  public List<HospitalMapNode> getFoundPath() {
+    if (foundPathExists()) {
+      return foundPath;
+    } else {
+      return new ArrayList<HospitalMapNode>();
+    }
+  }
+
+  public List<HospitalMapNode> getFoundPath(HospitalMapNode nodeA, HospitalMapNode nodeB) {
+    this.foundPath = pathFinderAlgorithm.findPath(nodeA, nodeB, scorer);
+    this.foundPathDescription = TextDirections.getDirections(scorer, foundPath);
+    return foundPath;
+  }
+
+  public ArrayList<String> getFoundPathDescription(List<HospitalMapNode> path) {
+    if (!path.equals(foundPath)) {
+      foundPathDescription = TextDirections.getDirections(scorer, path);
+    }
+    return foundPathDescription;
+  }
+
+  public ArrayList<String> getFoundPathDescription() {
+    return foundPathDescription;
+  }
+
   @FXML
   public void getDirections(ActionEvent e) throws IOException {
     String begin = start.getText();
@@ -125,9 +172,9 @@ public class MapPathfindingController extends MapController {
     if (begin.length() > 0 && end.length() > 0) {
       System.out.println(begin + " " + end);
 
-      HospitalMapNode nodeA = data.getNodeByLongName(begin);
-      HospitalMapNode nodeB = data.getNodeByLongName(end);
-      data.getFoundPath(nodeA, nodeB);
+      HospitalMapNode nodeA = MapDataEntity.getNodeByLongName(begin);
+      HospitalMapNode nodeB = MapDataEntity.getNodeByLongName(end);
+      getFoundPath(nodeA, nodeB);
       updateView();
     }
   }
@@ -143,12 +190,31 @@ public class MapPathfindingController extends MapController {
           .removeIf(n -> (n.getClass() == Line.class) || (n.getClass() == Circle.class));
       try {
         drawPath(foundPath);
-        if (nodeA.getMapID().equals(ViewManager.getMapID())) drawStartPoint(foundPath);
-        if (nodeB.getMapID().equals(ViewManager.getMapID())) drawEndPoint(foundPath);
+        if (nodeA.getMapID().equals(currentMapID)) drawStartPoint(foundPath);
+        if (nodeB.getMapID().equals(currentMapID)) drawEndPoint(foundPath);
       } catch (IOException e) {
         e.printStackTrace();
       }
-      displayDirections(data.getFoundPathDescription());
+      displayDirections(getFoundPathDescription());
+    }
+  }
+
+  // algorithm stuff
+
+  @FXML
+  private void switchAlgorithm() {
+    switch (algorithmPick.getValue().toString()) {
+      case "Depth First":
+        System.out.println("Making new Depth first...");
+        pathFinderAlgorithm = new DepthFirstSearch();
+        break;
+      case "Breadth First":
+        System.out.println("Making new Breadth first...");
+        pathFinderAlgorithm = new BreadthFirstSearch();
+        break;
+      default:
+        pathFinderAlgorithm = new PathFinder();
+        break;
     }
   }
 
@@ -164,7 +230,7 @@ public class MapPathfindingController extends MapController {
   public void onClear() {
     start.setText("");
     destination.setText("");
-    data.clearFoundPath();
+    clearFoundPath();
     ObservableList<String> items = FXCollections.observableArrayList(new ArrayList<String>());
     directionsField.setItems(items);
     clearMap();
@@ -172,12 +238,12 @@ public class MapPathfindingController extends MapController {
 
   @FXML
   public void toggleAccessible(ActionEvent e) {
-    if (data.scorer.nodeTypesToAvoid.size() > 0) {
-      data.scorer.nodeTypesToAvoid.clear();
+    if (scorer.nodeTypesToAvoid.size() > 0) {
+      scorer.nodeTypesToAvoid.clear();
     } else {
-      data.scorer.nodeTypesToAvoid.add(NodeRestrictions.WHEELCHAIR_INACCESSIBLE);
+      scorer.nodeTypesToAvoid.add(NodeRestrictions.WHEELCHAIR_INACCESSIBLE);
     }
-    System.out.print("NodeRestrictions:" + data.scorer.nodeTypesToAvoid);
+    System.out.print("NodeRestrictions:" + scorer.nodeTypesToAvoid);
   }
 
   protected void displayDirections(ArrayList<String> directions) {
