@@ -1,5 +1,6 @@
 .root {
     font-family: 'Open Sans', sans-serif;
+    -fx-font-size: 16px;
 }
 .styledBackground {
     -fx-background-color: #FFFFFF;
