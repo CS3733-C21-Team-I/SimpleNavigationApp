@@ -13,8 +13,12 @@ public class Main {
     //    if ((args.length > 0) && Arrays.asList(args).contains("regenerate")) {
     DatabaseManager.initDatabaseManagers(true);
     DatabaseManager.regenTables();
+
+    //    DatabaseManager.initPeripheralDatabaseManagers(true);
+    //    DatabaseManager.regenPeripheralDB();
     //    } else {
-    //      NavDatabaseManager.init(false);
+    //      DatabaseManager.initDatabaseManagers(false);
+    //      DatabaseManager.initPeripheralDatabaseManagers(false);
     //    }
 
     Application.launch(HomeController.class);
