@@ -239,6 +239,7 @@ public class UserDatabaseManager extends DatabaseManager {
     //      System.out.println("Error generating User table");
     //      e.printStackTrace();
     //    }
+
   }
 
   @Override
