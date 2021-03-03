@@ -2,6 +2,7 @@ package edu.wpi.cs3733.c21.teamI;
 
 import edu.wpi.cs3733.c21.teamI.database.DatabaseManager;
 import edu.wpi.cs3733.c21.teamI.view.HomeController;
+import java.util.Arrays;
 import javafx.application.Application;
 
 public class Main {
@@ -20,7 +21,7 @@ public class Main {
     //      DatabaseManager.initDatabaseManagers(false);
     //      DatabaseManager.initPeripheralDatabaseManagers(false);
     //    }
-
+    
     Application.launch(HomeController.class);
   }
 }
