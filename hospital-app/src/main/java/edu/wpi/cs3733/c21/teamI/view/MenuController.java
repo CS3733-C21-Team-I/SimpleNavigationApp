@@ -24,10 +24,7 @@ public class MenuController implements Initializable {
     VBox box = null;
     try {
       box = FXMLLoader.load(getClass().getResource("/fxml/menuFiles/VisitorMenu.fxml"));
-      titleLabel.setText("Language Service Request");
-      replacePane
-          .getChildren()
-          .add(FXMLLoader.load(getClass().getResource("/fxml/serviceRequests/Home.fxml")));
+      replacePane.getChildren().add(FXMLLoader.load(getClass().getResource("/fxml/Home.fxml")));
     } catch (IOException e) {
       e.printStackTrace();
     }
