@@ -1,8 +1,9 @@
 package edu.wpi.cs3733.c21.teamI.ticket;
 
+import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import java.util.List;
 
-public class ServiceTicket {
+public class ServiceTicket extends RecursiveTreeObject<ServiceTicket> {
 
   private int ticketID;
   private int requestingUserID;
