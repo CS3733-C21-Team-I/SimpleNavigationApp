@@ -3,7 +3,6 @@ package edu.wpi.cs3733.c21.teamI.view;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 import javafx.application.Application;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.value.ObservableValue;
@@ -19,10 +18,6 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 
 public class EmployeeTableController extends Application {
-
-  //  @FXML TreeTableView employeeTable;
-  //  @FXML TextField employeeID, firstName, lastName, gender, position;
-  //    @FXML Button addBtn, delBtn;
 
   private List<Employee> dummyList =
       new ArrayList<>(
@@ -43,38 +38,14 @@ public class EmployeeTableController extends Application {
                   "FF",
                   "F",
                   new ArrayList<>(Arrays.asList("documentation", "engineer")))));
-  final List<TreeItem<Employee>> positions = sortByPos(dummyList);
-  //  final TreeItem<Employee> base = new TreeItem<>();
-
-  private List<TreeItem<Employee>> sortByPos(List<Employee> employees) {
-    List<String> listofPos = new ArrayList<>();
-    for (Employee emp : employees) {
-      for (String pos : emp.position) {
-        listofPos.add(pos);
-      }
-    }
-    List<String> withoutDuplicate =
-        listofPos.stream().sorted().distinct().collect(Collectors.toList());
-    List<TreeItem<Employee>> finalPos = new ArrayList<>();
-    for (String pos : withoutDuplicate) {
-      finalPos.add(new TreeItem<>(new Employee(pos, "", "", "", new ArrayList<>())));
-    }
-    return finalPos;
-  }
+  final TreeItem<Employee> base = new TreeItem<>();
 
   private void refresh() {
-    positions.forEach(pos -> pos.getChildren().clear());
-    positions.forEach(pos -> pos.setExpanded(true));
+    base.getChildren().clear();
     dummyList.forEach(
-        (employee -> {
-          for (TreeItem pos : positions) {
-            for (String empPos : employee.position) {
-              if (((Employee) pos.getValue()).getEmployeeID().equals(empPos)) {
-                pos.getChildren().add(new TreeItem<>(employee));
-              }
-            }
-          }
-        }));
+        employee -> {
+          base.getChildren().add(new TreeItem<>(employee));
+        });
   }
 
   @Override
@@ -96,16 +67,10 @@ public class EmployeeTableController extends Application {
     posField.setPromptText("Pos1,Pos2,Pos3");
 
     employeeTable.setEditable(true);
-    positions.forEach(pos -> pos.setExpanded(true));
+
     dummyList.forEach(
         (employee -> {
-          for (TreeItem pos : positions) {
-            for (String empPos : employee.position) {
-              if (((Employee) pos.getValue()).getEmployeeID().equals(empPos)) {
-                pos.getChildren().add(new TreeItem<>(employee));
-              }
-            }
-          }
+          base.getChildren().add(new TreeItem<>(employee));
         }));
 
     addBtn.setOnAction(
@@ -120,13 +85,7 @@ public class EmployeeTableController extends Application {
                     genderField.getText(),
                     positionToList(posField.getText()));
             dummyList.add(newEmp);
-            for (TreeItem pos : positions) {
-              for (String empPos : newEmp.position) {
-                if (((Employee) pos.getValue()).getEmployeeID().equals(empPos)) {
-                  pos.getChildren().add(new TreeItem<>(newEmp));
-                }
-              }
-            }
+            base.getChildren().add(new TreeItem<>(newEmp));
             idField.clear();
             lNameField.clear();
             fNameField.clear();
@@ -277,16 +236,15 @@ public class EmployeeTableController extends Application {
                 emp.setPosition(positionToList(event.getNewValue()));
               }
             }
+            //            positions = sortByPos(dummyList);
             refresh();
           }
         });
 
-    employeeTable.setRoot(new TreeItem<>());
+    employeeTable.setRoot(base);
     employeeTable.setShowRoot(false);
-    for (TreeItem pos : positions) {
-      pos.setExpanded(true);
-      employeeTable.getRoot().getChildren().add(pos);
-    }
+
+    base.setExpanded(true);
     employeeTable.getColumns().addAll(idCol, fNameCol, lNameCol, genderCol, posCol);
 
     employeeTable.addEventHandler(
@@ -300,15 +258,13 @@ public class EmployeeTableController extends Application {
                       employeeTable.getSelectionModel().getSelectedItem().getValue();
                   dummyList.removeIf(
                       employee -> employee.getEmployeeID().equals(selectedEmp.getEmployeeID()));
-                  for (TreeItem pos : positions) {
-                    pos.getChildren()
-                        .removeIf(
-                            child ->
-                                ((TreeItem<Employee>) child)
-                                    .getValue()
-                                    .getEmployeeID()
-                                    .equals(selectedEmp.getEmployeeID()));
-                  }
+                  base.getChildren()
+                      .removeIf(
+                          child ->
+                              ((TreeItem<Employee>) child)
+                                  .getValue()
+                                  .getEmployeeID()
+                                  .equals(selectedEmp.getEmployeeID()));
                 });
           }
         });
