@@ -29,7 +29,7 @@ public class ViewManager {
   private static Group root = null;
   private static Stage stage = null;
   private static String selectedNode = null;
-  private static String selectedNodeMapID = null;
+  private static String selectedNodeMapID = "Faulkner Lot";
   private static final MapEditDataController dataCont = new MapEditDataController();
   private static ServiceTicket serviceTicketToShow;
   private static MapController mapControl = null;
@@ -142,7 +142,13 @@ public class ViewManager {
       selectedNode = null;
       return false;
     } else {
-      dataCont.addEdge(node.getID(), selectedNode);
+      dataCont.addEdge(
+          node,
+          NavDatabaseManager.getInstance()
+              .loadMapsFromMemory()
+              .get(selectedNodeMapID)
+              .getNode(selectedNode));
+      selectedNodeMapID = null;
       selectedNode = null;
       return false;
     }

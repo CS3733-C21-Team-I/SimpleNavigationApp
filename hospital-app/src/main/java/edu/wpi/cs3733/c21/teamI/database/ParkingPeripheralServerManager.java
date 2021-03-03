@@ -357,7 +357,8 @@ public class ParkingPeripheralServerManager extends DatabaseManager {
       User user, String vehicleLicence, String contactNumber, Date assignmentDate) {
 
     if (!user.hasPermission(User.Permission.REQUEST_PARKING_PERMIT))
-      throw new IllegalArgumentException("User did not have permission to request a staff parking permit");
+      throw new IllegalArgumentException(
+          "User did not have permission to request a staff parking permit");
 
     try {
       Statement statement = databaseRef.getConnection().createStatement();

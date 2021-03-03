@@ -115,7 +115,7 @@ public class NavDatabaseManager extends DatabaseManager {
         }
       }
     } catch (SQLException e) {
-      System.out.println("Log error queerying map database");
+      System.out.println("Log error querying map database");
       return null;
     }
 
