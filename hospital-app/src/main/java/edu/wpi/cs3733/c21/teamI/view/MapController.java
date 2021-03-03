@@ -113,6 +113,8 @@ public class MapController extends Application {
       }
       mapPane.getChildren().clear();
       if (data.foundPathExists()) {
+        ObservableList<String> items = FXCollections.observableArrayList(new ArrayList<String>());
+        directionsField.setItems(items);
         drawCalculatedPath(data.getFoundPath());
       }
     }
@@ -198,8 +200,8 @@ public class MapController extends Application {
 
       HospitalMapNode nodeA = data.getNodeByLongName(begin);
       HospitalMapNode nodeB = data.getNodeByLongName(end);
-      List<HospitalMapNode> path = data.getFoundPath(nodeA, nodeB);
-      drawCalculatedPath(path);
+      data.getFoundPath(nodeA, nodeB);
+      updateView();
     }
   }
 
@@ -219,7 +221,6 @@ public class MapController extends Application {
       drawPath(foundPath);
       if (nodeA.getMapID().equals(ViewManager.getMapID())) drawStartPoint(foundPath);
       if (nodeB.getMapID().equals(ViewManager.getMapID())) drawEndPoint(foundPath);
-      displayDirections(data.getFoundPathDescription());
       displayDirections(data.getFoundPathDescription());
     }
   }
@@ -594,8 +595,6 @@ public class MapController extends Application {
   public void initialize() throws IOException {
     floor1Tab(new ActionEvent());
     campusTab(new ActionEvent());
-    ViewManager.setMapController(this);
-    setupMapViewHandlers();
     boolean isAdmin =
         ApplicationDataController.getInstance()
             .getLoggedInUser()
@@ -603,6 +602,8 @@ public class MapController extends Application {
     adminMapToggle.setVisible(isAdmin);
     algorithmPick.setVisible(isAdmin);
     algorithmPick.getItems().addAll("A*", "Depth First", "Breadth First");
+    ViewManager.setMapController(this);
+    setupMapViewHandlers();
   }
 
   private void drawSelectedNode() {
@@ -863,7 +864,7 @@ public class MapController extends Application {
 
   private void displayDirections(ArrayList<String> directions) {
     ObservableList<String> items = FXCollections.observableArrayList(directions);
-    System.out.println(items);
+    // System.out.println(items);
     directionsField.setItems(items);
   }
 
