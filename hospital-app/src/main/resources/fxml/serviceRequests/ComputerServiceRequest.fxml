@@ -4,48 +4,73 @@
 <?import com.jfoenix.controls.JFXTextArea?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import com.jfoenix.controls.JFXToggleButton?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.LinearGradient?>
 <?import javafx.scene.paint.RadialGradient?>
 <?import javafx.scene.paint.Stop?>
 
-<AnchorPane accessibleRole="DATE_PICKER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="571.0" prefWidth="602.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamI.view.ComputerServiceRequestController">
+<AnchorPane accessibleRole="DATE_PICKER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="622.0" prefWidth="359.0" stylesheets="@../fxmlResources/main.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamI.view.ComputerServiceRequestController">
    <children>
-      <JFXTextField fx:id="compServReqID" layoutX="39.0" layoutY="89.0" text="Requester ID" />
-      <JFXTextField fx:id="compServAssID" layoutX="39.0" layoutY="156.0" text="Assigned ID" />
-      <JFXTextField fx:id="compServReqLoc" layoutX="39.0" layoutY="212.0" prefHeight="48.0" prefWidth="193.0" text="location" />
-      <JFXTextArea fx:id="compServReqDes" layoutX="42.0" layoutY="277.0" prefHeight="62.0" prefWidth="303.0" text="&#10;Description" />
-      <JFXToggleButton fx:id="compServReqUrgent" layoutX="39.0" layoutY="339.0" prefHeight="62.0" prefWidth="154.0" size="15.0" text="Urgent" textFill="#0067b1" toggleLineColor="#012d5a">
-         <unToggleColor>
-            <LinearGradient endX="1.0" endY="1.0">
-               <stops>
-                  <Stop color="#012d5a" />
-                  <Stop color="WHITE" offset="1.0" />
-               </stops>
-            </LinearGradient>
-         </unToggleColor>
-         <unToggleLineColor>
-            <LinearGradient endX="1.0" endY="1.0">
-               <stops>
-                  <Stop color="WHITE" />
-                  <Stop color="#f6bd38" offset="1.0" />
-               </stops>
-            </LinearGradient>
-         </unToggleLineColor>
-         <toggleColor>
-            <LinearGradient endX="1.0" endY="1.0">
-               <stops>
-                  <Stop color="#f6bd38" />
-                  <Stop color="WHITE" offset="1.0" />
-               </stops>
-            </LinearGradient>
-         </toggleColor>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </JFXToggleButton>
-      <JFXButton fx:id="compServReqClear" buttonType="RAISED" layoutX="364.0" layoutY="442.0" prefHeight="41.0" prefWidth="112.0" text="Clear" textFill="#0067b1">
+      <VBox layoutX="42.0" layoutY="65.0" prefHeight="452.0" prefWidth="255.0" AnchorPane.bottomAnchor="150.0" AnchorPane.leftAnchor="42.0" AnchorPane.rightAnchor="62.0" AnchorPane.topAnchor="50.0">
+         <children>
+            <JFXTextField fx:id="compServReqID" text="Requester ID">
+               <VBox.margin>
+                  <Insets left="10.0" right="10.0" top="15.0" />
+               </VBox.margin>
+            </JFXTextField>
+            <JFXTextField fx:id="compServAssID" text="Assigned ID">
+               <VBox.margin>
+                  <Insets left="10.0" right="10.0" top="15.0" />
+               </VBox.margin>
+            </JFXTextField>
+            <JFXTextField fx:id="compServReqLoc" prefHeight="48.0" prefWidth="193.0" text="location">
+               <VBox.margin>
+                  <Insets left="10.0" right="10.0" top="15.0" />
+               </VBox.margin>
+            </JFXTextField>
+            <JFXTextArea fx:id="compServReqDes" prefHeight="62.0" prefWidth="303.0" text="&#10;Description">
+               <VBox.margin>
+                  <Insets left="10.0" right="10.0" top="20.0" />
+               </VBox.margin>
+            </JFXTextArea>
+            <JFXToggleButton fx:id="compServReqUrgent" prefHeight="116.0" prefWidth="215.0" size="25.0" text="Urgent" textFill="#0067b1" toggleLineColor="#012d5a">
+               <unToggleColor>
+                  <LinearGradient endX="1.0" endY="1.0">
+                     <stops>
+                        <Stop color="#012d5a" />
+                        <Stop color="WHITE" offset="1.0" />
+                     </stops>
+                  </LinearGradient>
+               </unToggleColor>
+               <unToggleLineColor>
+                  <LinearGradient endX="1.0" endY="1.0">
+                     <stops>
+                        <Stop color="WHITE" />
+                        <Stop color="#f6bd38" offset="1.0" />
+                     </stops>
+                  </LinearGradient>
+               </unToggleLineColor>
+               <toggleColor>
+                  <LinearGradient endX="1.0" endY="1.0">
+                     <stops>
+                        <Stop color="#f6bd38" />
+                        <Stop color="WHITE" offset="1.0" />
+                     </stops>
+                  </LinearGradient>
+               </toggleColor>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <VBox.margin>
+                  <Insets left="10.0" top="10.0" />
+               </VBox.margin>
+            </JFXToggleButton>
+         </children>
+      </VBox>
+      <JFXButton fx:id="compServReqClear" buttonType="RAISED" layoutX="100.0" layoutY="507.0" prefHeight="45.0" prefWidth="98.0" style="-fx-background-color: #0067b1;" styleClass="styledButton" text="Clear" textFill="#0067b1">
          <ripplerFill>
             <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
                <stops>
@@ -57,8 +82,11 @@
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
+         <padding>
+            <Insets top="5.0" />
+         </padding>
       </JFXButton>
-      <JFXButton fx:id="compServReqSubmit" buttonType="RAISED" layoutX="476.0" layoutY="442.0" prefHeight="41.0" prefWidth="112.0" text="Submit" textFill="#0067b1">
+      <JFXButton fx:id="compServReqSubmit" buttonType="RAISED" layoutX="225.0" layoutY="507.0" prefHeight="45.0" prefWidth="98.0" style="-fx-background-color: #0067b1;" styleClass="styledButton" text="Submit" textFill="#0067b1">
          <ripplerFill>
             <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
                <stops>
