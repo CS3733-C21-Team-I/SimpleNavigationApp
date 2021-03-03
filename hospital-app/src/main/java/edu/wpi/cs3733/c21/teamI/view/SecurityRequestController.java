@@ -44,6 +44,7 @@ public class SecurityRequestController {
               NavDatabaseManager.getInstance().getMapIdFromLongName(locationText.getText()),
               description.getText(),
               false);
+      ticket.addAssignedUserID(AssignedID);
       ServiceTicketDatabaseManager.getInstance().addTicket(ticket);
     } catch (Exception o) {
       System.out.println("Error" + o);
