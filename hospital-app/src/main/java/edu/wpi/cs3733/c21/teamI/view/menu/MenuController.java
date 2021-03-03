@@ -27,7 +27,9 @@ public class MenuController implements Initializable {
       titleLabel.setText("Language Service Request");
       replacePane
           .getChildren()
-          .add(FXMLLoader.load(getClass().getResource("/fxml/menuFiles/LanguageRequest.fxml")));
+          .add(
+              FXMLLoader.load(
+                  getClass().getResource("/fxml/serviceRequests/LanguageRequest.fxml")));
     } catch (IOException e) {
       e.printStackTrace();
     }
