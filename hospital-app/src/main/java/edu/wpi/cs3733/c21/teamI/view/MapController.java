@@ -6,6 +6,7 @@ import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.*;
 import edu.wpi.cs3733.c21.teamI.pathfinding.*;
+import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicketDataController;
 import edu.wpi.cs3733.c21.teamI.user.User;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -65,7 +66,6 @@ public class MapController extends Application {
   private boolean isFirstLoad = true;
   @FXML AnchorPane mapPane;
   @FXML ImageView mapImage;
-
   @FXML StackPane imageContainer;
   @FXML VBox stackContainer;
   @FXML Tab campus;
@@ -142,20 +142,10 @@ public class MapController extends Application {
 
   public void lookup(KeyEvent e) {
     if (e.getSource() == start) {
-      data.lookupNodes(e, startList, start);
+      ServiceTicketDataController.lookupNodes(e, startList, start);
     } else {
-      data.lookupNodes(e, destList, destination);
+      ServiceTicketDataController.lookupNodes(e, destList, destination);
     }
-  }
-
-  private double transformX(double x) {
-    return x * (fullImgWidth / imgWidth) * mapPane.getPrefWidth() / 100000
-        - xOffset * mapPane.getPrefWidth() / imgWidth;
-  }
-
-  private double transformY(double y) {
-    return y * (fullImgHeight / imgHeight) * mapPane.getPrefHeight() / 100000
-        - yOffset * mapPane.getPrefHeight() / imgHeight;
   }
 
   private void setupMapViewHandlers() {
@@ -187,7 +177,6 @@ public class MapController extends Application {
   }
 
   public void navigate(ActionEvent e) throws IOException {
-    ViewManager.setSelectedNode(null);
     ViewManager.navigate(e);
   }
 
@@ -361,22 +350,34 @@ public class MapController extends Application {
 
   private void drawStartPoint(List<HospitalMapNode> path) throws IOException {
     double imgScale = 256 / scale;
-    String startIcon =
-        System.getProperty("user.dir") + "\\src/main/resources/fxml/fxmlResources/startIcon.png";
+    Image startIcon = null;
+    try {
+      startIcon =
+          new Image(
+              (getClass().getResource("/fxml/fxmlResources/startIcon.png")).toURI().toString());
+    } catch (URISyntaxException e) {
+      e.printStackTrace();
+    }
     double startIconX = transformX(path.get(0).getxCoord()) - imgScale / 2;
     double startIconY = transformY(path.get(0).getyCoord()) - imgScale;
     drawNode(path.get(0), blue);
-    // displayImage(startIcon, startIconX, startIconY, imgScale);
+    displayImage(startIcon, startIconX, startIconY, imgScale);
   }
 
   private void drawEndPoint(List<HospitalMapNode> path) throws IOException {
     double imgScale = 256 / scale;
-    String finishIcon =
-        System.getProperty("user.dir") + "\\src/main/resources/fxml/fxmlResources/finishIcon.png";
+    Image finishIcon = null;
+    try {
+      finishIcon =
+          new Image(
+              (getClass().getResource("/fxml/fxmlResources/finishIcon.png")).toURI().toString());
+    } catch (URISyntaxException e) {
+      e.printStackTrace();
+    }
     double finishIconX = transformX(path.get(path.size() - 1).getxCoord()) - imgScale / 2;
     double finishIconY = transformY(path.get(path.size() - 1).getyCoord()) - imgScale;
     drawNode(path.get(path.size() - 1), red);
-    // displayImage(finishIcon, finishIconX, finishIconY, imgScale);
+    displayImage(finishIcon, finishIconX, finishIconY, imgScale);
   }
 
   private void drawArrow(HospitalMapNode start, HospitalMapNode end) {
@@ -416,9 +417,7 @@ public class MapController extends Application {
     mapPane.getChildren().add(arrow);
   }
 
-  private void displayImage(String path, double x, double y, double size) throws IOException {
-    InputStream stream = new FileInputStream(path);
-    Image image = new Image(stream);
+  private void displayImage(Image image, double x, double y, double size) throws IOException {
     // Creating the image view
     ImageView imageView = new ImageView();
     // Setting image to the image view
@@ -795,7 +794,6 @@ public class MapController extends Application {
                 });
 
             populateEditNodeMenu(node);
-
             update();
           }
         });
@@ -864,8 +862,225 @@ public class MapController extends Application {
 
   private void displayDirections(ArrayList<String> directions) {
     ObservableList<String> items = FXCollections.observableArrayList(directions);
-    // System.out.println(items);
     directionsField.setItems(items);
+  }
+
+  public void campusTab(Event event) throws IOException {
+    if (campus != currentTab && currentTab != null) {
+      System.out.println("Tab 1");
+      ViewManager.setActiveMap("Faulkner Lot");
+      updateView();
+      currentTab = campus;
+      startZoomPan(mapPane);
+      resize();
+    }
+  }
+
+  public void floor1Tab(Event event) throws IOException {
+    if (floor1 != currentTab) {
+      System.out.println("Tab 2");
+      ViewManager.setActiveMap("Faulkner 1");
+      updateView();
+      currentTab = floor1;
+      startZoomPan(mapPane);
+      resize();
+    }
+  }
+
+  public void floor2Tab(Event event) throws IOException {
+    if (floor2 != currentTab) {
+      System.out.println("Tab 3");
+      ViewManager.setActiveMap("Faulkner 2");
+      updateView();
+      currentTab = floor2;
+      startZoomPan(mapPane);
+      resize();
+    }
+  }
+
+  public void floor3Tab(Event event) throws IOException {
+    if (floor3 != currentTab) {
+
+      System.out.println("Tab 4");
+      ViewManager.setActiveMap("Faulkner 3");
+      updateView();
+      currentTab = floor3;
+      startZoomPan(mapPane);
+      resize();
+    }
+  }
+
+  public void floor4Tab(Event event) throws IOException {
+    if (floor4 != currentTab) {
+      System.out.println("Tab 5");
+      ViewManager.setActiveMap("Faulkner 4");
+      updateView();
+      currentTab = floor4;
+      startZoomPan(mapPane);
+      resize();
+    }
+  }
+
+  public void floor5Tab(Event event) throws IOException {
+    if (floor6 != currentTab) {
+      System.out.println("Tab 6");
+      ViewManager.setActiveMap("Faulkner 5");
+      updateView();
+      currentTab = floor6;
+      startZoomPan(mapPane);
+      resize();
+    }
+  }
+
+  // Scaling code is from https://gist.github.com/james-d/ce5ec1fd44ce6c64e81a
+  private static final int MIN_PIXELS = 200;
+
+  private void startZoomPan(AnchorPane zoomPane) {
+    mapImage.fitWidthProperty().bind(imageContainer.widthProperty());
+    mapImage.fitHeightProperty().bind(imageContainer.heightProperty());
+    mapImage.setPreserveRatio(true);
+    double width = imgWidth;
+    double height = imgHeight;
+    reset(mapImage, width, height);
+    ObjectProperty<Point2D> mouseDown = new SimpleObjectProperty<>();
+
+    mapImage
+        .fitWidthProperty()
+        .addListener(
+            (obs, oldVal, newVal) -> {
+              try {
+                resize();
+              } catch (IOException e) {
+                e.printStackTrace();
+              }
+            });
+    mapImage
+        .fitHeightProperty()
+        .addListener(
+            (obs, oldVal, newVal) -> {
+              try {
+                resize();
+              } catch (IOException e) {
+                e.printStackTrace();
+              }
+            });
+
+    zoomPane.setOnMousePressed(
+        e -> {
+          if (panAllowed) {
+            Point2D mousePress = imageViewToImage(mapImage, new Point2D(e.getX(), e.getY()));
+            mouseDown.set(mousePress);
+          }
+        });
+
+    zoomPane.setOnMouseDragged(
+        e -> {
+          if (panAllowed) {
+            Point2D dragPoint = imageViewToImage(mapImage, new Point2D(e.getX(), e.getY()));
+            shift(mapImage, dragPoint.subtract(mouseDown.get()));
+            mouseDown.set(imageViewToImage(mapImage, new Point2D(e.getX(), e.getY())));
+            xOffset = mapImage.getViewport().getMinX();
+            yOffset = mapImage.getViewport().getMinY();
+            if (!adminMap) {
+              try {
+                getDirections(new ActionEvent());
+              } catch (IOException ioException) {
+                ioException.printStackTrace();
+              }
+            } else {
+              update();
+            }
+          }
+        });
+
+    zoomPane.setOnScroll(
+        e -> {
+          double delta = e.getDeltaY();
+          Rectangle2D viewport = mapImage.getViewport();
+          double scale =
+              clamp(
+                  Math.pow(1.001, delta),
+                  // don't scale so we're zoomed in to fewer than MIN_PIXELS in any direction:
+                  Math.min(MIN_PIXELS / viewport.getWidth(), MIN_PIXELS / viewport.getHeight()),
+                  // don't scale so that we're bigger than image dimensions:
+                  Math.max(width / viewport.getWidth(), height / viewport.getHeight()));
+          Point2D mouse = imageViewToImage(mapImage, new Point2D(e.getX(), e.getY()));
+          double newWidth = viewport.getWidth() * scale;
+          double newHeight = viewport.getHeight() * scale;
+          double newMinX =
+              clamp(
+                  mouse.getX() - (mouse.getX() - viewport.getMinX()) * scale, 0, width - newWidth);
+          double newMinY =
+              clamp(
+                  mouse.getY() - (mouse.getY() - viewport.getMinY()) * scale,
+                  0,
+                  height - newHeight);
+          mapImage.setViewport(new Rectangle2D(newMinX, newMinY, newWidth, newHeight));
+          imgWidth = mapImage.getViewport().getWidth();
+          imgHeight = mapImage.getViewport().getHeight();
+          xOffset = mapImage.getViewport().getMinX();
+          yOffset = mapImage.getViewport().getMinY();
+          if (!adminMap) {
+            if (!start.getText().equals("") && !destination.getText().equals("")) {
+              try {
+                getDirections(new ActionEvent());
+              } catch (IOException ioException) {
+                ioException.printStackTrace();
+              }
+            }
+          } else {
+            update();
+          }
+        });
+  }
+
+  private void resize() throws IOException {
+    if (mapImage != null && mapImage.getFitWidth() > 0) {
+      if (imageContainer.getHeight() / imageContainer.getWidth() > fullImgHeight / fullImgWidth) {
+        mapPane.setPrefWidth(mapImage.getFitWidth());
+        mapPane.setMaxWidth(mapImage.getFitWidth());
+        mapPane.setPrefHeight(mapImage.getFitWidth() * imgHeight / imgWidth);
+        mapPane.setMaxHeight(mapImage.getFitWidth() * imgHeight / imgWidth);
+      } else {
+        mapPane.setPrefHeight(mapImage.getFitHeight());
+        mapPane.setMaxHeight(mapImage.getFitHeight());
+        mapPane.setPrefWidth(mapImage.getFitHeight() * imgWidth / imgHeight);
+        mapPane.setMaxWidth(mapImage.getFitHeight() * imgWidth / imgHeight);
+      }
+      updateView();
+    }
+  }
+
+  // reset to the top left:
+  private void reset(ImageView imageView, double width, double height) {
+    imageView.setViewport(new Rectangle2D(0, 0, width, height));
+  }
+
+  // shift the viewport of the imageView by the specified delta, clamping so
+  // the viewport does not move off the actual image:
+  private void shift(ImageView imageView, Point2D delta) {
+    Rectangle2D viewport = imageView.getViewport();
+    double width = imageView.getImage().getWidth();
+    double height = imageView.getImage().getHeight();
+    double maxX = width - viewport.getWidth();
+    double maxY = height - viewport.getHeight();
+    double minX = clamp(viewport.getMinX() - delta.getX(), 0, maxX);
+    double minY = clamp(viewport.getMinY() - delta.getY(), 0, maxY);
+    imageView.setViewport(new Rectangle2D(minX, minY, viewport.getWidth(), viewport.getHeight()));
+  }
+
+  private double clamp(double value, double min, double max) {
+    return Math.max(min, Math.min(max, value));
+  }
+
+  // convert mouse coordinates in the imageView to coordinates in the actual image:
+  private Point2D imageViewToImage(ImageView imageView, Point2D imageViewCoordinates) {
+    double xProportion = imageViewCoordinates.getX() / imageView.getBoundsInLocal().getWidth();
+    double yProportion = imageViewCoordinates.getY() / imageView.getBoundsInLocal().getHeight();
+    Rectangle2D viewport = imageView.getViewport();
+    return new Point2D(
+        viewport.getMinX() + xProportion * viewport.getWidth(),
+        viewport.getMinY() + yProportion * viewport.getHeight());
   }
 
   public void campusTab(Event event) throws IOException {
