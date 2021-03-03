@@ -247,7 +247,7 @@ public class ParkingPeripheralServerManager extends DatabaseManager {
       statement.addBatch("DROP TABLE PARKING_LOTS");
       statement.executeBatch();
     } catch (SQLException e) {
-      e.printStackTrace();
+      // e.printStackTrace();
     }
   }
 

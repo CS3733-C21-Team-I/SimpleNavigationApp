@@ -68,12 +68,12 @@
                   <Insets bottom="15.0" />
                </VBox.margin>
             </JFXTextArea>
-            <JFXTextField fx:id="requestlocation" focusColor="#0067b1" maxWidth="300.0" promptText="Location" unFocusColor="#012d5a">
+            <JFXTextField fx:id="requestlocation" focusColor="#0067b1" onKeyTyped="#lookup" maxWidth="300.0" promptText="Location" unFocusColor="#012d5a">
                <VBox.margin>
                   <Insets bottom="15.0" />
                </VBox.margin>
             </JFXTextField>
-            <JFXTextField fx:id="assignedEmployeeID" focusColor="#0067b1" maxWidth="300.0" promptText="Employee Assigned ID" unFocusColor="#012d5a">
+            <JFXTextField fx:id="assignedEmployeeID" focusColor="#0067b1" onKeyPressed="#lookupUser" maxWidth="300.0" promptText="Employee Assigned ID" unFocusColor="#012d5a">
                <VBox.margin>
                   <Insets bottom="15.0" />
                </VBox.margin>
