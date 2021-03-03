@@ -22,6 +22,10 @@ public abstract class DatabaseManager {
     NavDatabaseManager.init(regen);
   }
 
+  public static void initPeripheralDatabaseManagers(boolean regen) {
+    ParkingPeripheralServerManager.init(regen);
+  }
+
   public static void regenTables() {
     ServiceTicketDatabaseManager.getInstance().dropTables();
     UserDatabaseManager.getInstance().dropTables();
@@ -33,11 +37,19 @@ public abstract class DatabaseManager {
 
     Map<String, HospitalMap> maps =
         HospitalMapCSVBuilder.loadCSV(
-            System.getProperty("user.dir") + "\\MapINodes.csv",
-            System.getProperty("user.dir") + "\\MapIEdges.csv");
+            System.getProperty("user.dir") + "/MapINodes.csv",
+            System.getProperty("user.dir") + "/MapIEdges.csv");
+
     NavDatabaseManager.getInstance().saveMapsIntoMemory(maps.values());
     UserDatabaseManager.populateExampleData();
     ServiceTicketDatabaseManager.populateExampleData();
     NavDatabaseManager.populateExampleData();
+  }
+
+  public static void regenPeripheralDB() {
+    ParkingPeripheralServerManager.getInstance().dropTables();
+    ParkingPeripheralServerManager.getInstance().createTables();
+
+    ParkingPeripheralServerManager.getInstance().populateExampleData();
   }
 }

@@ -132,42 +132,6 @@ class RemoveNodeCommand extends MapEditCommand {
   }
 }
 
-// Doesn't support edges between maps
-// class AddEdgeCommand extends MapEditCommand {
-//  private String fromNode;
-//  private String toNode;
-//
-//  public AddEdgeCommand(MapEditDataController controller, String fromNode, String toNode) {
-//    super(controller);
-//    this.fromNode = fromNode;
-//    this.toNode = toNode;
-//  }
-//
-//  @Override
-//  void execute() {
-//    memento = new HospitalMap(controller.getActiveMap());
-//
-//    controller
-//        .getActiveMap()
-//        .getNode(fromNode)
-//        .addConnection(controller.getActiveMap().getNode(toNode));
-//    controller
-//        .getActiveMap()
-//        .getNode(toNode)
-//        .addConnection(controller.getActiveMap().getNode(fromNode));
-//  }
-//
-//  @Override
-//  void unExecute() {
-//    controller.setActiveMap(memento);
-//  }
-//
-//  @Override
-//  NavEditOperation getOperation() {
-//    return new NavEditOperation(NavEditOperation.OperationType.ADD_EDGE, fromNode, null, toNode);
-//  }
-// }
-
 class AddEdgeCommand extends MapEditCommand {
   private HospitalMapNode fromNode;
   private HospitalMapNode toNode;

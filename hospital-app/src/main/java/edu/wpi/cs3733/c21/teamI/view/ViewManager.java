@@ -21,7 +21,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 public class ViewManager {
@@ -30,45 +29,36 @@ public class ViewManager {
   private static Group root = null;
   private static Stage stage = null;
   private static String selectedNode = null;
-  private static String selectedNodeMapID = "Faulkner 0";
+  private static String selectedNodeMapID = "Faulkner Lot";
   private static final MapEditDataController dataCont = new MapEditDataController();
-  private static StackPane replacePane = null;
   private static ServiceTicket serviceTicketToShow;
   private static MapController mapControl = null;
 
   public ViewManager() {}
 
   public static void navigate(ActionEvent e) throws IOException {
-    System.out.println("I'm in ViewManager");
-    //        Group root = new Group();
-    //        Scene scene = ((Button) e.getSource()).getScene();
+    Group root = new Group();
+    Scene scene = ((Button) e.getSource()).getScene();
     String id = ((Button) e.getSource()).getId();
-    //    if (id.equals("loginButton")) {
-    //
-    // root.getChildren().add(FXMLLoader.load(ViewManager.class.getResource("/fxml/Home.fxml")));
-    //    } else if (id.equals("COVIDButton")) {
-    //
-    // root.getChildren().add(FXMLLoader.load(ViewManager.class.getResource("/fxml/Requests.fxml")));
-    //    } else if (id.equals("")) {
-    //
-    // root.getChildren().add(FXMLLoader.load(ViewManager.class.getResource("/fxml/Map.fxml")));
-    //    } else if (id.equals("serviceRequests")) {
-    //
-    //
-    // root.getChildren().add(FXMLLoader.load(ViewManager.class.getResource("/fxml/Requests.fxml")));
-    //        } else if (id.equals("maintenance")) {
-    //          root.getChildren()
-    //
-    // .add(FXMLLoader.load(ViewManager.class.getResource("/fxml/MaintenanceRequest.fxml")));
-    //    } else if (id.equals("profile")) {
-    //
-    // root.getChildren().add(FXMLLoader.load(ViewManager.class.getResource("/fxml/Profile.fxml")));
-    //    } else {
-    //      root.getChildren()
-    //
-    // .add(FXMLLoader.load(ViewManager.class.getResource("/fxml/SanitationRequest.fxml")));
-    //    }
-    //    scene.setRoot(root);
+    if (id.equals("mapReturn") || id.equals("requestsReturn") || id.equals("loginReturn")) {
+      root.getChildren().add(FXMLLoader.load(ViewManager.class.getResource("/fxml/Home.fxml")));
+    } else if (id.equals("sanitationReturn") || id.equals("maintenanceReturn")) {
+      root.getChildren().add(FXMLLoader.load(ViewManager.class.getResource("/fxml/Requests.fxml")));
+    } else if (id.equals("map")) {
+      root.getChildren()
+          .add(FXMLLoader.load(ViewManager.class.getResource("/fxml/PathfindingOldTime.fxml")));
+    } else if (id.equals("serviceRequests")) {
+      root.getChildren().add(FXMLLoader.load(ViewManager.class.getResource("/fxml/Requests.fxml")));
+    } else if (id.equals("maintenance")) {
+      root.getChildren()
+          .add(FXMLLoader.load(ViewManager.class.getResource("/fxml/MaintenanceRequest.fxml")));
+    } else if (id.equals("profile")) {
+      root.getChildren().add(FXMLLoader.load(ViewManager.class.getResource("/fxml/Profile.fxml")));
+    } else {
+      root.getChildren()
+          .add(FXMLLoader.load(ViewManager.class.getResource("/fxml/SanitationRequest.fxml")));
+    }
+    scene.setRoot(root);
   }
 
   public static void navigateToActiveRequest(ActionEvent e) {
@@ -103,7 +93,6 @@ public class ViewManager {
             .map(n -> ((LocationNode) n).getLongName())
             .filter(s -> !s.equals(""))
             .collect(Collectors.toCollection(ArrayList::new));
-
     ArrayList<String> matches = new ArrayList<>();
     for (String location : nodeNames) {
       if (location.toLowerCase().contains(matchString)) {
@@ -165,14 +154,6 @@ public class ViewManager {
     }
   }
 
-  public static StackPane getReplacePane() {
-    return replacePane;
-  }
-
-  public static void setReplacePane(StackPane replacePane) {
-    ViewManager.replacePane = replacePane;
-  }
-
   public static double getScale() {
     return scale;
   }
@@ -189,7 +170,7 @@ public class ViewManager {
     mapControl = mapController;
   }
 
-  public static void refreshMap() {
+  public static void refreshMap() throws IOException {
     mapControl.updateView();
   }
 
