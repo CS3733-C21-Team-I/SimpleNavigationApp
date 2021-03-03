@@ -5,6 +5,7 @@ import com.jfoenix.controls.JFXTreeTableColumn;
 import com.jfoenix.controls.JFXTreeTableView;
 import com.jfoenix.controls.RecursiveTreeItem;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
+import edu.wpi.cs3733.c21.teamI.database.ServiceTicketDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.ticket.*;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -27,6 +28,7 @@ public class ServiceRequestTableController implements Initializable {
   @FXML private JFXTreeTableView<ServiceTicket> treeView;
 
   @FXML private JFXTextField input;
+
 
   @Override
   public void initialize(URL url, ResourceBundle rb) {
@@ -117,11 +119,8 @@ public class ServiceRequestTableController implements Initializable {
         });
 
     ObservableList<ServiceTicket> serviceTickets = FXCollections.observableArrayList();
-    /*serviceTickets.add(new LanguageTicket(123, 321, "Room 23", "Interpreter needed" , false, "French", "8:00PM", false ));
-            serviceTickets.add(new AudioVisualTicket(456, 654, "Room 4", "Broken TV" , false, "Ryan Reynolds", "TV"));
-            serviceTickets.add(new LaundryTicket(789, 987,"Laundry Room 2", "Sheets" , false, "10/3/2021", "4:00PM", false  ));
-            serviceTickets.add(new MedicineTicket(987, 789, "Room 40", "Medicine delivery", false , "Blake Lively", "Ativan", "0.5mg", "30", "12/2/2021", "8:00AM"));
-    */
+    serviceTickets.addAll(ServiceTicketDatabaseManager.getInstance().getServiceTicketDB());
+
 
     final TreeItem<ServiceTicket> root =
         new RecursiveTreeItem<ServiceTicket>(serviceTickets, RecursiveTreeObject::getChildren);
