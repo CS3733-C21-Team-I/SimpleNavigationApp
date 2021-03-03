@@ -226,7 +226,7 @@ public class MapController extends Application {
           .getChildren()
           .removeIf(n -> (n.getClass() == Line.class) || (n.getClass() == Circle.class));
       drawPath(foundPath);
-
+      displayDirections(data.getFoundPathDescription());
       if (nodeA.getMapID().equals(ViewManager.getMapID())) drawStartPoint(foundPath);
       if (nodeB.getMapID().equals(ViewManager.getMapID())) drawEndPoint(foundPath);
     }
@@ -373,7 +373,7 @@ public class MapController extends Application {
     double startIconX = transformX(path.get(0).getxCoord()) - imgScale / 2;
     double startIconY = transformY(path.get(0).getyCoord()) - imgScale;
     drawNode(path.get(0), blue);
-    displayImage(startIcon, startIconX, startIconY, imgScale);
+    // displayImage(startIcon, startIconX, startIconY, imgScale);
   }
 
   private void drawEndPoint(List<HospitalMapNode> path) throws IOException {
@@ -383,7 +383,7 @@ public class MapController extends Application {
     double finishIconX = transformX(path.get(path.size() - 1).getxCoord()) - imgScale / 2;
     double finishIconY = transformY(path.get(path.size() - 1).getyCoord()) - imgScale;
     drawNode(path.get(path.size() - 1), red);
-    displayImage(finishIcon, finishIconX, finishIconY, imgScale);
+    // displayImage(finishIcon, finishIconX, finishIconY, imgScale);
   }
 
   private void drawArrow(HospitalMapNode start, HospitalMapNode end) {
@@ -871,6 +871,7 @@ public class MapController extends Application {
 
   private void displayDirections(ArrayList<String> directions) {
     ObservableList<String> items = FXCollections.observableArrayList(directions);
+    System.out.println(items);
     directionsField.setItems(items);
   }
 
