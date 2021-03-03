@@ -37,8 +37,9 @@ public abstract class DatabaseManager {
 
     Map<String, HospitalMap> maps =
         HospitalMapCSVBuilder.loadCSV(
-            System.getProperty("user.dir") + "\\csv\\MapINodes.csv",
-            System.getProperty("user.dir") + "\\csv\\MapIEdges.csv");
+            System.getProperty("user.dir") + "/MapINodes.csv",
+            System.getProperty("user.dir") + "/MapIEdges.csv");
+
     NavDatabaseManager.getInstance().saveMapsIntoMemory(maps.values());
     UserDatabaseManager.populateExampleData();
     ServiceTicketDatabaseManager.populateExampleData();

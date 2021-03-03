@@ -2,15 +2,14 @@ package edu.wpi.cs3733.c21.teamI.view;
 
 import edu.wpi.cs3733.c21.teamI.database.NavDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.database.UserDatabaseManager;
+import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMap;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMapNode;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.LocationNode;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.mapEditing.MapEditDataController;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicket;
 import edu.wpi.cs3733.c21.teamI.user.User;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -22,6 +21,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 public class ViewManager {
@@ -29,34 +29,46 @@ public class ViewManager {
   private static double scale = 3.05; // scales image to 1/scale
   private static Group root = null;
   private static Stage stage = null;
-  private static HospitalMapNode selectedNode = null;
+  private static String selectedNode = null;
+  private static String selectedNodeMapID = "Faulkner 0";
   private static final MapEditDataController dataCont = new MapEditDataController();
+  private static StackPane replacePane = null;
   private static ServiceTicket serviceTicketToShow;
+  private static MapController mapControl = null;
 
   public ViewManager() {}
 
   public static void navigate(ActionEvent e) throws IOException {
-    Group root = new Group();
-    Scene scene = ((Button) e.getSource()).getScene();
+    System.out.println("I'm in ViewManager");
+    //        Group root = new Group();
+    //        Scene scene = ((Button) e.getSource()).getScene();
     String id = ((Button) e.getSource()).getId();
-    if (id.equals("mapReturn") || id.equals("requestsReturn") || id.equals("loginReturn")) {
-      root.getChildren().add(FXMLLoader.load(ViewManager.class.getResource("/fxml/Home.fxml")));
-    } else if (id.equals("sanitationReturn") || id.equals("maintenanceReturn")) {
-      root.getChildren().add(FXMLLoader.load(ViewManager.class.getResource("/fxml/Requests.fxml")));
-    } else if (id.equals("map")) {
-      root.getChildren().add(FXMLLoader.load(ViewManager.class.getResource("/fxml/Map.fxml")));
-    } else if (id.equals("serviceRequests")) {
-      root.getChildren().add(FXMLLoader.load(ViewManager.class.getResource("/fxml/Requests.fxml")));
-    } else if (id.equals("maintenance")) {
-      root.getChildren()
-          .add(FXMLLoader.load(ViewManager.class.getResource("/fxml/MaintenanceRequest.fxml")));
-    } else if (id.equals("profile")) {
-      root.getChildren().add(FXMLLoader.load(ViewManager.class.getResource("/fxml/Profile.fxml")));
-    } else {
-      root.getChildren()
-          .add(FXMLLoader.load(ViewManager.class.getResource("/fxml/SanitationRequest.fxml")));
-    }
-    scene.setRoot(root);
+    //    if (id.equals("loginButton")) {
+    //
+    // root.getChildren().add(FXMLLoader.load(ViewManager.class.getResource("/fxml/Home.fxml")));
+    //    } else if (id.equals("COVIDButton")) {
+    //
+    // root.getChildren().add(FXMLLoader.load(ViewManager.class.getResource("/fxml/Requests.fxml")));
+    //    } else if (id.equals("")) {
+    //
+    // root.getChildren().add(FXMLLoader.load(ViewManager.class.getResource("/fxml/Map.fxml")));
+    //    } else if (id.equals("serviceRequests")) {
+    //
+    //
+    // root.getChildren().add(FXMLLoader.load(ViewManager.class.getResource("/fxml/Requests.fxml")));
+    //        } else if (id.equals("maintenance")) {
+    //          root.getChildren()
+    //
+    // .add(FXMLLoader.load(ViewManager.class.getResource("/fxml/MaintenanceRequest.fxml")));
+    //    } else if (id.equals("profile")) {
+    //
+    // root.getChildren().add(FXMLLoader.load(ViewManager.class.getResource("/fxml/Profile.fxml")));
+    //    } else {
+    //      root.getChildren()
+    //
+    // .add(FXMLLoader.load(ViewManager.class.getResource("/fxml/SanitationRequest.fxml")));
+    //    }
+    //    scene.setRoot(root);
   }
 
   public static void navigateToActiveRequest(ActionEvent e) {
@@ -71,17 +83,27 @@ public class ViewManager {
     scene.setRoot(root);
   }
 
+  public static Set<HospitalMapNode> getAllNodesSet() {
+    Set<HospitalMapNode> nodeSet = new HashSet<>();
+    Map<String, HospitalMap> source = NavDatabaseManager.getInstance().loadMapsFromMemory();
+    for (Map.Entry<String, HospitalMap> map : source.entrySet()) {
+      nodeSet.addAll(source.get(map.getKey()).getNodes());
+    }
+    return nodeSet;
+  }
+
   public static void lookupNodes(KeyEvent e, ListView listView, TextField target) {
     String matchString =
         (((TextField) e.getSource()).getText()
                 + (!e.getCharacter().equals(Character.toString((char) 8)) ? e.getCharacter() : ""))
             .toLowerCase();
     ArrayList<String> nodeNames =
-        NavDatabaseManager.getInstance().loadMapsFromMemory().get("Faulkner 0").getNodes().stream()
+        getAllNodesSet().stream()
             .filter(n -> n instanceof LocationNode)
             .map(n -> ((LocationNode) n).getLongName())
             .filter(s -> !s.equals(""))
             .collect(Collectors.toCollection(ArrayList::new));
+
     ArrayList<String> matches = new ArrayList<>();
     for (String location : nodeNames) {
       if (location.toLowerCase().contains(matchString)) {
@@ -123,16 +145,32 @@ public class ViewManager {
    */
   public static boolean toggleNode(HospitalMapNode node) {
     if (selectedNode == null) {
-      selectedNode = node;
+      selectedNodeMapID = node.getMapID();
+      selectedNode = node.getID();
       return true;
     } else if (selectedNode.equals(node)) {
+      selectedNodeMapID = null;
       selectedNode = null;
       return false;
     } else {
-      dataCont.addEdge(node.getID(), selectedNode.getID());
+      dataCont.addEdge(
+          node,
+          NavDatabaseManager.getInstance()
+              .loadMapsFromMemory()
+              .get(selectedNodeMapID)
+              .getNode(selectedNode));
+      selectedNodeMapID = null;
       selectedNode = null;
       return false;
     }
+  }
+
+  public static StackPane getReplacePane() {
+    return replacePane;
+  }
+
+  public static void setReplacePane(StackPane replacePane) {
+    ViewManager.replacePane = replacePane;
   }
 
   public static double getScale() {
@@ -141,6 +179,14 @@ public class ViewManager {
 
   public static Set<HospitalMapNode> getEntityNodes() {
     return dataCont.getActiveMap().getNodes();
+  }
+
+  public static void setActiveMap(String mapID) {
+    dataCont.setActiveMap(NavDatabaseManager.getInstance().loadMapsFromMemory().get(mapID));
+  }
+
+  public static void setMapController(MapController mapController) {
+    mapControl = mapController;
   }
 
   public void setRoot(Group root) {
@@ -164,7 +210,24 @@ public class ViewManager {
   }
 
   public static HospitalMapNode getSelectedNode() {
-    return selectedNode;
+    if (selectedInActiveMap()) {
+      return dataCont.getActiveMap().getNode(selectedNode);
+    } else if (selectedNodeMapID != null) {
+      return NavDatabaseManager.getInstance()
+          .loadMapsFromMemory()
+          .get(selectedNodeMapID)
+          .getNode(selectedNode);
+    }
+    return null;
+  }
+
+  public static boolean selectedInActiveMap() {
+    try {
+      dataCont.getActiveMap().getNode(selectedNode);
+      return true;
+    } catch (Exception e) {
+      return false;
+    }
   }
 
   public static MapEditDataController getDataCont() {
@@ -172,7 +235,11 @@ public class ViewManager {
   }
 
   public static void setSelectedNode(HospitalMapNode node) {
-    ViewManager.selectedNode = node;
+    if (node == null) {
+      selectedNode = null;
+    } else {
+      ViewManager.selectedNode = node.getID();
+    }
   }
 
   public static ServiceTicket getServiceTicketToShow() {
