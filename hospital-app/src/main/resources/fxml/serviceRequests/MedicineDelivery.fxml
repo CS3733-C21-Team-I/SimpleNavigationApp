@@ -15,15 +15,14 @@
    <children>
       <JFXDatePicker fx:id="date" defaultColor="#0067b1" layoutX="72.0" layoutY="75.0" prefHeight="40.0" prefWidth="210.0" promptText="DD/MM/YYYY" showWeekNumbers="true" />
       <JFXTimePicker fx:id="time" defaultColor="#0067b1" layoutX="72.0" layoutY="128.0" prefHeight="40.0" prefWidth="210.0" promptText="Time" />
-      <JFXButton fx:id="submitBtn" layoutX="33.0" layoutY="452.0" onAction="#onSubmit" prefHeight="40.0" prefWidth="80.0" style="-fx-background-color: #0067b1;" text="Submit" textFill="WHITE" />
-      <JFXButton fx:id="cancelBtn" layoutX="222.0" layoutY="452.0" onAction="#onCancel" prefHeight="40.0" prefWidth="80.0" style="-fx-background-color: #0067b1;" text="Cancel" textFill="WHITE" />
+      <JFXButton fx:id="submitBtn" layoutX="177.0" layoutY="452.0" onAction="#onSubmit" prefHeight="40.0" prefWidth="80.0" style="-fx-background-color: #0067b1;" text="Submit" textFill="WHITE" />
       <JFXCheckBox fx:id="checkNote" checkedColor="#0067b1" graphicTextGap="6.0" layoutX="72.0" layoutY="395.0" prefHeight="40.0" prefWidth="255.0" text="Receive notifications">
          <font>
             <Font name="Verdana Bold" size="14.0" />
          </font>
       </JFXCheckBox>
       <JFXComboBox fx:id="floor" layoutX="72.0" layoutY="191.0" prefHeight="31.0" prefWidth="210.0" promptText="Patient's Floor" />
-      <JFXButton fx:id="clearBtn" layoutX="128.0" layoutY="452.0" onAction="#onClear" prefHeight="40.0" prefWidth="80.0" style="-fx-background-color: #0067b1;" text="Clear" textFill="WHITE" />
+      <JFXButton fx:id="clearBtn" layoutX="88.0" layoutY="452.0" onAction="#onClear" prefHeight="40.0" prefWidth="80.0" style="-fx-background-color: #0067b1;" text="Clear" textFill="WHITE" />
       <TextArea fx:id="comment" layoutX="72.0" layoutY="294.0" prefHeight="47.0" prefWidth="210.0" promptText="Comments" />
       <JFXComboBox fx:id="room" layoutX="72.0" layoutY="243.0" prefHeight="31.0" prefWidth="210.0" promptText="Patient's Room" />
       <JFXTextField fx:id="patient_name" focusColor="#0067b1" layoutX="73.0" layoutY="30.0" prefHeight="31.0" prefWidth="177.0" promptText="Patient's Name" />

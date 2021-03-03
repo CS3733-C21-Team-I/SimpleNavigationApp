@@ -12,12 +12,12 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="622.0" prefWidth="359.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <JFXButton layoutX="138.0" layoutY="472.0" prefHeight="38.0" prefWidth="82.0" style="-fx-background-color: #0067b1;" styleClass="styledButton" stylesheets="@../fxmlResources/main.css" text="Clear" textFill="WHITE">
+      <JFXButton layoutX="89.0" layoutY="472.0" prefHeight="38.0" prefWidth="82.0" style="-fx-background-color: #0067b1;" styleClass="styledButton" stylesheets="@../fxmlResources/main.css" text="Clear" textFill="WHITE">
          <font>
             <Font size="14.0" />
          </font>
       </JFXButton>
-      <JFXButton layoutX="243.0" layoutY="472.0" style="-fx-background-color: #0067b1;" styleClass="styledButton" stylesheets="@../fxmlResources/main.css" text="Submit" textFill="WHITE">
+      <JFXButton layoutX="191.0" layoutY="472.0" style="-fx-background-color: #0067b1;" styleClass="styledButton" stylesheets="@../fxmlResources/main.css" text="Submit" textFill="WHITE">
          <font>
             <Font size="14.0" />
          </font>
@@ -71,10 +71,5 @@
             </JFXCheckBox>
          </children>
       </VBox>
-      <JFXButton layoutX="35.0" layoutY="472.0" prefHeight="38.0" prefWidth="82.0" style="-fx-background-color: #0067b1;" styleClass="styledButton" stylesheets="@../fxmlResources/main.css" text="Cancel" textFill="WHITE">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </JFXButton>
    </children>
 </AnchorPane>
