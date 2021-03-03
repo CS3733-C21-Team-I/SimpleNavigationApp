@@ -6,6 +6,8 @@ import edu.wpi.cs3733.c21.teamI.database.NavDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.database.ServiceTicketDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.database.UserDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicket;
+import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicketDataController;
+import edu.wpi.cs3733.c21.teamI.user.User;
 import java.io.IOException;
 import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
@@ -103,10 +105,11 @@ public class SecurityRequestController {
   }
 
   public void lookup(KeyEvent e) {
-    ViewManager.lookupNodes(e, serviceLocationList, locationText);
+    ServiceTicketDataController.lookupNodes(e, serviceLocationList, locationText);
   }
 
   public void lookupUser(KeyEvent e) {
-    ViewManager.lookupUsernames(e, requestAssignedList, requestAssigned);
+    ServiceTicketDataController.lookupUsernames(
+        e, User.Permission.RESPOND_TO_SECURITY, requestAssignedList, requestAssigned);
   }
 }
