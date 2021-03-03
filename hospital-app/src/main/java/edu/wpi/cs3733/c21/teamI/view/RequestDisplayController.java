@@ -66,10 +66,10 @@ public class RequestDisplayController extends Application {
         String.valueOf(
             UserDatabaseManager.getInstance()
                 .getDisplayNameForId(serviceTicket.getRequestingUserID())));
-    assignmentID.setText(
-        String.valueOf(
-            UserDatabaseManager.getInstance()
-                .getDisplayNameForId(serviceTicket.getAssignedUserID())));
+    for (Integer i : serviceTicket.getAssignedUserID()) {
+      assignmentID.setText(
+          String.valueOf(UserDatabaseManager.getInstance().getDisplayNameForId(i)));
+    }
     locationBox.setText(serviceTicket.getLocation());
     description.setText(serviceTicket.getDescription());
     completed.setSelected(serviceTicket.isCompleted());

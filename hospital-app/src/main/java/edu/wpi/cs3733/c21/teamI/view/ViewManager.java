@@ -1,26 +1,17 @@
 package edu.wpi.cs3733.c21.teamI.view;
 
 import edu.wpi.cs3733.c21.teamI.database.NavDatabaseManager;
-import edu.wpi.cs3733.c21.teamI.database.UserDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMap;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMapNode;
-import edu.wpi.cs3733.c21.teamI.hospitalMap.LocationNode;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.mapEditing.MapEditDataController;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicket;
-import edu.wpi.cs3733.c21.teamI.user.User;
 import java.io.IOException;
 import java.util.*;
-import java.util.stream.Collectors;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
@@ -90,52 +81,6 @@ public class ViewManager {
       nodeSet.addAll(source.get(map.getKey()).getNodes());
     }
     return nodeSet;
-  }
-
-  public static void lookupNodes(KeyEvent e, ListView listView, TextField target) {
-    String matchString =
-        (((TextField) e.getSource()).getText()
-                + (!e.getCharacter().equals(Character.toString((char) 8)) ? e.getCharacter() : ""))
-            .toLowerCase();
-    ArrayList<String> nodeNames =
-        getAllNodesSet().stream()
-            .filter(n -> n instanceof LocationNode)
-            .map(n -> ((LocationNode) n).getLongName())
-            .filter(s -> !s.equals(""))
-            .collect(Collectors.toCollection(ArrayList::new));
-
-    ArrayList<String> matches = new ArrayList<>();
-    for (String location : nodeNames) {
-      if (location.toLowerCase().contains(matchString)) {
-        matches.add(location);
-      }
-    }
-
-    // Add elements to ListView
-    ObservableList<String> items = FXCollections.observableArrayList(matches);
-    listView.setItems(items);
-    listView.setVisible(e.getSource() == target);
-  }
-
-  public static void lookupUsernames(KeyEvent e, ListView listView, TextField target) {
-    String matchString =
-        (((TextField) e.getSource()).getText()
-                + (!e.getCharacter().equals(Character.toString((char) 8)) ? e.getCharacter() : ""))
-            .toLowerCase()
-            .replaceAll("[^a-zA-Z]+", "");
-    List<String> nameList =
-        UserDatabaseManager.getInstance().getUsernamesWithPermission(User.Permission.VIEW_TICKET);
-    ArrayList<String> matches = new ArrayList<>();
-    for (String username : nameList) {
-      if (username.toLowerCase().contains(matchString)) {
-        matches.add(username);
-      }
-    }
-
-    // Add elements to ListView
-    ObservableList<String> items = FXCollections.observableArrayList(matches);
-    listView.setItems(items);
-    listView.setVisible(e.getSource() == target);
   }
 
   /**
