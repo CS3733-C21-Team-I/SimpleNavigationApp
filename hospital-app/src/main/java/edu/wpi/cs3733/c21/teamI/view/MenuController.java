@@ -1,4 +1,4 @@
-package edu.wpi.cs3733.c21.teamI.view.menu;
+package edu.wpi.cs3733.c21.teamI.view;
 
 import com.jfoenix.controls.JFXDrawer;
 import com.jfoenix.controls.JFXHamburger;
