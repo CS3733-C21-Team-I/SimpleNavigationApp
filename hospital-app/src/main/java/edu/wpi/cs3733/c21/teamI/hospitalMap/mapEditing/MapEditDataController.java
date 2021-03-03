@@ -69,7 +69,7 @@ public class MapEditDataController {
     undoRedoPointer++;
   }
 
-  public void addEdge(String fromNode, String toNode) {
+  public void addEdge(HospitalMapNode fromNode, HospitalMapNode toNode) {
     deleteElementsAfterPointer(undoRedoPointer);
     MapEditCommand command = new AddEdgeCommand(this, fromNode, toNode);
     command.execute();
@@ -77,7 +77,7 @@ public class MapEditDataController {
     undoRedoPointer++;
   }
 
-  public void deleteEdge(String fromNode, String toNode) {
+  public void deleteEdge(HospitalMapNode fromNode, HospitalMapNode toNode) {
     deleteElementsAfterPointer(undoRedoPointer);
     MapEditCommand command = new DeleteEdgeCommand(this, fromNode, toNode);
     command.execute();
@@ -114,13 +114,14 @@ public class MapEditDataController {
 
     NavDatabaseManager.getInstance().applyNavEditOperations(ops);
 
-    activeMap = null;
+    // Changed this and discardChanges where it had activeMap = null
+    activeMap = NavDatabaseManager.getInstance().loadMapsFromMemory().get(activeMap.getId());
     dataOperations = new Stack<>();
     undoRedoPointer = -1;
   }
 
   public void discardChanges() {
-    activeMap = null;
+    activeMap = NavDatabaseManager.getInstance().loadMapsFromMemory().get(activeMap.getId());
     dataOperations = new Stack<>();
     undoRedoPointer = -1;
   }

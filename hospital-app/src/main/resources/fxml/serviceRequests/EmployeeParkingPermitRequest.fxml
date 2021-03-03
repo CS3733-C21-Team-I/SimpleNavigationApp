@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXCheckBox?>
+<?import com.jfoenix.controls.JFXDatePicker?>
+<?import com.jfoenix.controls.JFXTextArea?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="637.0" prefWidth="549.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <HBox prefHeight="100.0" prefWidth="200.0" />
+      <JFXButton fx:id="empParkClear" layoutX="74.0" layoutY="582.0" style="-fx-background-color: #0067b1;" styleClass="styledButton" stylesheets="@../fxmlResources/main.css" text="Clear" textFill="WHITE" />
+      <JFXButton fx:id="empParkSubmit" layoutX="169.0" layoutY="582.0" style="-fx-background-color: #0067b1;" styleClass="styledButton" stylesheets="@../fxmlResources/main.css" text="Submit" textFill="WHITE" />
+      <Pane layoutX="50.0" layoutY="14.0" prefHeight="504.0" prefWidth="237.0">
+         <children>
+            <JFXTextField fx:id="licensePlateTextfield" focusColor="#012d5a" layoutX="14.0" layoutY="14.0" promptText="License Plate" styleClass="styledTextField" stylesheets="@../fxmlResources/main.css" unFocusColor="#012d5a">
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+            </JFXTextField>
+            <JFXTextField fx:id="contactNumTextfield" focusColor="#012d5a" layoutX="14.0" layoutY="123.0" promptText="Contact Number" unFocusColor="#012d5a">
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+            </JFXTextField>
+            <JFXTextField fx:id="prefLotTextfield" focusColor="#012d5a" layoutX="14.0" layoutY="170.0" text="Preferred Lot" unFocusColor="#012d5a">
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+            </JFXTextField>
+            <JFXDatePicker fx:id="empParkStartDate" defaultColor="#012d5a" layoutX="14.0" layoutY="221.0" promptText="Start Date">
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+            </JFXDatePicker>
+            <JFXDatePicker fx:id="empParkEndDate" defaultColor="#012d5a" layoutX="14.0" layoutY="275.0" promptText="End Date">
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+            </JFXDatePicker>
+            <JFXTextField fx:id="empParkReqID" focusColor="#012d5a" layoutX="14.0" layoutY="68.0" promptText="License Plate" text="Requestor ID" unFocusColor="#012d5a">
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+            </JFXTextField>
+            <JFXTextArea fx:id="empParkReqDetails" focusColor="#012d5a" layoutX="24.0" layoutY="385.0" prefHeight="100.0" prefWidth="182.0" promptText="Request Details" unFocusColor="#012d5a" />
+            <JFXTextField fx:id="empParkEmpAssigned" focusColor="#012d5a" layoutX="14.0" layoutY="330.0" promptText="License Plate" text="Employee Assigned" unFocusColor="#012d5a">
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+            </JFXTextField>
+         </children>
+      </Pane>
+      <Pane layoutX="308.0" layoutY="37.0" prefHeight="315.0" prefWidth="212.0">
+         <children>
+            <Label layoutX="14.0" layoutY="14.0" prefHeight="31.0" prefWidth="182.0" text="Currently Assigned Parking" />
+            <Pane layoutX="5.0" layoutY="54.0" prefHeight="262.0" prefWidth="200.0" style="-fx-background-color: #DDDDDD;">
+               <children>
+                  <JFXButton layoutX="164.0" layoutY="6.0" prefHeight="31.0" prefWidth="1.0" text="X" textAlignment="CENTER" textFill="RED" />
+                  <Label layoutX="14.0" layoutY="27.0" prefHeight="21.0" prefWidth="122.0" text="Lot: ">
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                  </Label>
+                  <Label layoutX="14.0" layoutY="57.0" prefHeight="21.0" prefWidth="122.0" text="Block: ">
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                  </Label>
+                  <Label layoutX="14.0" layoutY="90.0" prefHeight="21.0" prefWidth="122.0" text="Floor: ">
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                  </Label>
+                  <Label layoutX="14.0" layoutY="120.0" prefHeight="21.0" prefWidth="122.0" text="Slot:">
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                  </Label>
+                  <Label layoutX="14.0" layoutY="151.0" prefHeight="21.0" prefWidth="122.0" text="Vehicle: ">
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                  </Label>
+                  <Label layoutX="14.0" layoutY="180.0" prefHeight="73.0" prefWidth="182.0" text="Note: You can only hold one staff parking assignment. Submitting this form will delete your current assignment." wrapText="true">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+         </children>
+      </Pane>
+      <JFXCheckBox fx:id="disabilityStickerCheckbox" checkedColor="#0067b1" layoutX="80.0" layoutY="517.0" text="Disability Sticker" unCheckedColor="#012d5a">
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </JFXCheckBox>
+   </children>
+</AnchorPane>
