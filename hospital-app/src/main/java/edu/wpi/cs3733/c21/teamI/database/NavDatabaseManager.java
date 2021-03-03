@@ -115,7 +115,7 @@ public class NavDatabaseManager extends DatabaseManager {
         }
       }
     } catch (SQLException e) {
-      System.out.println("Log error queerying map database");
+      System.out.println("Log error querying map database");
       return null;
     }
 
@@ -151,7 +151,7 @@ public class NavDatabaseManager extends DatabaseManager {
         // Drop the Edges table.
         stmt.execute("DROP TABLE NODE_TO_ATTRIBUTE");
       } catch (SQLException ex) {
-        ex.printStackTrace();
+        // ex.printStackTrace();
         // No need to report an error.
         // The table simply did not exist.
       }
@@ -161,7 +161,7 @@ public class NavDatabaseManager extends DatabaseManager {
         // Drop the Edges table.
         stmt.execute("DROP TABLE navEdges");
       } catch (SQLException ex) {
-        ex.printStackTrace();
+        // ex.printStackTrace();
         // No need to report an error.
         // The table simply did not exist.
       }
@@ -182,7 +182,7 @@ public class NavDatabaseManager extends DatabaseManager {
         // Drop the Nodes table.
         stmt.execute("DROP TABLE navNodes");
       } catch (SQLException ex) {
-        ex.printStackTrace();
+        // ex.printStackTrace();
         // No need to report an error.
         // The table simply did not exist.
       }
@@ -192,7 +192,7 @@ public class NavDatabaseManager extends DatabaseManager {
         // Drop the Maps table.
         stmt.execute("DROP TABLE navMaps");
       } catch (SQLException ex) {
-        ex.printStackTrace();
+        // ex.printStackTrace();
         // No need to report an error.
         // The table simply did not exist.
       }
@@ -582,6 +582,22 @@ public class NavDatabaseManager extends DatabaseManager {
       stmt.executeBatch();
     } catch (SQLException e) {
       e.printStackTrace();
+    }
+  }
+
+  public List<String> getLocationNodeLongNames() {
+    try {
+      Statement statement = databaseRef.getConnection().createStatement();
+      ResultSet resultSet =
+          statement.executeQuery("SELECT long_name FROM NAVNODES WHERE node_type='LOC'");
+      List<String> out = new ArrayList<>();
+      while (resultSet.next()) {
+        out.add(resultSet.getString("long_name"));
+      }
+      return out;
+    } catch (SQLException e) {
+      e.printStackTrace();
+      return null;
     }
   }
 }

@@ -1,41 +1,45 @@
 package edu.wpi.cs3733.c21.teamI.ticket;
 
-public class ServiceTicket {
+import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
+import java.util.List;
+
+public class ServiceTicket extends RecursiveTreeObject<ServiceTicket> {
 
   private int ticketID;
   private int requestingUserID;
-  private int assignedUserID;
-  private String requestType;
+  private List<Integer> assignedUserID;
   private TicketType ticketType;
   private String location;
   private String description;
   private boolean completed;
-  private boolean emergency;
+  // private String requestType;
+  // private boolean emergency;
 
   public ServiceTicket() {}
 
   public ServiceTicket(
-      int requestID,
-      int assignID,
-      String requestType,
-      TicketType ticketType,
-      String location,
-      String desc,
-      boolean emergency,
-      boolean completed) {
+      int requestID, TicketType ticketType, String location, String desc, boolean completed) {
     this.requestingUserID = requestID;
-    this.assignedUserID = assignID;
-    this.requestType = requestType;
+    // this.requestType = requestType;
     this.ticketType = ticketType;
     this.location = location;
     this.description = desc;
-    this.emergency = emergency;
+    // this.emergency = emergency;
     this.completed = completed;
   }
 
   public enum TicketType {
+    AUDIO_VISUAL,
+    COMPUTER,
+    LANGUAGE,
+    PARKING,
+    FLORAL,
+    GIFT,
+    INTERNAL_TRANSPORTATION,
+    EXTERNAL_TRANSPORTATION,
     LAUNDRY,
-    FOOD,
+    MEDICINE,
+    RELIGIOUS,
     SECURITY,
     SANITATION,
     MAINTENANCE
@@ -53,8 +57,6 @@ public class ServiceTicket {
         + location
         + "\nDESCPRIPTION: "
         + description
-        + "\nEMERGENCY: "
-        + emergency
         + "\tCOMPLETED: "
         + completed;
   }
@@ -67,12 +69,8 @@ public class ServiceTicket {
     return ticketID;
   }
 
-  public int getAssignedUserID() {
+  public List<Integer> getAssignedUserID() {
     return assignedUserID;
-  }
-
-  public String getRequestType() {
-    return requestType;
   }
 
   public TicketType getTicketType() {
@@ -87,10 +85,6 @@ public class ServiceTicket {
     return description;
   }
 
-  public boolean isEmergency() {
-    return emergency;
-  }
-
   public boolean isCompleted() {
     return completed;
   }
@@ -102,4 +96,19 @@ public class ServiceTicket {
   public void setTicketID(int id) {
     this.ticketID = id;
   }
+
+  public void setAssignedUserID(List<Integer> employee) {
+    this.assignedUserID = employee;
+  }
+
+  public void addAssignedUserID(int employee) {
+    assignedUserID.add(employee);
+  }
+
+  //  public String getRequestType() {
+  //    return requestType;
+  //  }
+  //  public boolean isEmergency() {
+  //    return emergency;
+  //  }
 }

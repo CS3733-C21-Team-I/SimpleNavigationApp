@@ -51,6 +51,14 @@ public class AdminMenuController extends Application {
           .add(FXMLLoader.load(getClass().getResource("/fxml/menuFiles/ServiceView.fxml")));
     } else if (id.equals("logoutButton")) {
       replacePane.getChildren().add(FXMLLoader.load(getClass().getResource("/fxml/Profile.fxml")));
+    } else if (id.equals("parkingButton")) {
+      replacePane
+          .getChildren()
+          .add(FXMLLoader.load(getClass().getResource("/fxml/ActiveLots.fxml")));
+    } else if (id.equals("ticketButton")) {
+      replacePane
+          .getChildren()
+          .add(FXMLLoader.load(getClass().getResource("/fxml/ServiceRequestTableView.fxml")));
     } else {
     }
   }

@@ -140,9 +140,9 @@ public class MapController extends Application {
 
   public void lookup(KeyEvent e) {
     if (e.getSource() == start) {
-      ViewManager.lookupNodes(e, startList, start);
+      data.lookupNodes(e, startList, start);
     } else {
-      ViewManager.lookupNodes(e, destList, destination);
+      data.lookupNodes(e, destList, destination);
     }
   }
 
@@ -196,20 +196,11 @@ public class MapController extends Application {
     if (begin.length() > 0 && end.length() > 0) {
       System.out.println(begin + " " + end);
 
-      HospitalMapNode nodeA = getNodeByLongName(begin);
-      HospitalMapNode nodeB = getNodeByLongName(end);
-      drawCalculatedPath(data.getFoundPath(nodeA, nodeB));
+      HospitalMapNode nodeA = data.getNodeByLongName(begin);
+      HospitalMapNode nodeB = data.getNodeByLongName(end);
+      List<HospitalMapNode> path = data.getFoundPath(nodeA, nodeB);
+      drawCalculatedPath(path);
     }
-  }
-
-  public LocationNode getNodeByLongName(String longName) {
-    for (HospitalMapNode node : ViewManager.getAllNodesSet()) {
-      if (node.getClass() == LocationNode.class
-          && ((LocationNode) node).getLongName().equals(longName)) {
-        return (LocationNode) node;
-      }
-    }
-    return null;
   }
 
   public void deletePath() {
@@ -226,9 +217,10 @@ public class MapController extends Application {
           .getChildren()
           .removeIf(n -> (n.getClass() == Line.class) || (n.getClass() == Circle.class));
       drawPath(foundPath);
-      displayDirections(data.getFoundPathDescription());
       if (nodeA.getMapID().equals(ViewManager.getMapID())) drawStartPoint(foundPath);
       if (nodeB.getMapID().equals(ViewManager.getMapID())) drawEndPoint(foundPath);
+      displayDirections(data.getFoundPathDescription());
+      displayDirections(data.getFoundPathDescription());
     }
   }
 
@@ -878,7 +870,11 @@ public class MapController extends Application {
   public void campusTab(Event event) throws IOException {
     if (campus != currentTab && currentTab != null) {
       System.out.println("Tab 1");
-      ViewManager.setActiveMap("Faulkner Lot");
+      if (adminMap) {
+        ViewManager.setActiveMap("Faulkner Lot");
+      } else {
+        ViewManager.setActiveMapFromCache("Faulkner Lot", data.source);
+      }
       updateView();
       currentTab = campus;
       startZoomPan(mapPane);
@@ -889,7 +885,11 @@ public class MapController extends Application {
   public void floor1Tab(Event event) throws IOException {
     if (floor1 != currentTab) {
       System.out.println("Tab 2");
-      ViewManager.setActiveMap("Faulkner 1");
+      if (adminMap || isFirstLoad) {
+        ViewManager.setActiveMap("Faulkner 1");
+      } else {
+        ViewManager.setActiveMapFromCache("Faulkner 1", data.source);
+      }
       updateView();
       currentTab = floor1;
       startZoomPan(mapPane);
@@ -900,7 +900,11 @@ public class MapController extends Application {
   public void floor2Tab(Event event) throws IOException {
     if (floor2 != currentTab) {
       System.out.println("Tab 3");
-      ViewManager.setActiveMap("Faulkner 2");
+      if (adminMap) {
+        ViewManager.setActiveMap("Faulkner 2");
+      } else {
+        ViewManager.setActiveMapFromCache("Faulkner 2", data.source);
+      }
       updateView();
       currentTab = floor2;
       startZoomPan(mapPane);
@@ -912,7 +916,11 @@ public class MapController extends Application {
     if (floor3 != currentTab) {
 
       System.out.println("Tab 4");
-      ViewManager.setActiveMap("Faulkner 3");
+      if (adminMap) {
+        ViewManager.setActiveMap("Faulkner 3");
+      } else {
+        ViewManager.setActiveMapFromCache("Faulkner 3", data.source);
+      }
       updateView();
       currentTab = floor3;
       startZoomPan(mapPane);
@@ -923,7 +931,11 @@ public class MapController extends Application {
   public void floor4Tab(Event event) throws IOException {
     if (floor4 != currentTab) {
       System.out.println("Tab 5");
-      ViewManager.setActiveMap("Faulkner 4");
+      if (adminMap) {
+        ViewManager.setActiveMap("Faulkner 4");
+      } else {
+        ViewManager.setActiveMapFromCache("Faulkner 4", data.source);
+      }
       updateView();
       currentTab = floor4;
       startZoomPan(mapPane);
@@ -934,7 +946,11 @@ public class MapController extends Application {
   public void floor5Tab(Event event) throws IOException {
     if (floor6 != currentTab) {
       System.out.println("Tab 6");
-      ViewManager.setActiveMap("Faulkner 5");
+      if (adminMap) {
+        ViewManager.setActiveMap("Faulkner 5");
+      } else {
+        ViewManager.setActiveMapFromCache("Faulkner 5", data.source);
+      }
       updateView();
       currentTab = floor6;
       startZoomPan(mapPane);

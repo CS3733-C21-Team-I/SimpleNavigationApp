@@ -159,11 +159,7 @@ public class HomeController extends Application {
         ((VisitorMenuController) vLoader.getController()).setHomeController(this);
         titleLabel.setText("General Portal");
       }
-      replacePane
-          .getChildren()
-          .add(
-              FXMLLoader.load(
-                  getClass().getResource("/fxml/serviceRequests/LanguageRequest.fxml")));
+      replacePane.getChildren().add(FXMLLoader.load(getClass().getResource("/fxml/Home.fxml")));
     } catch (IOException e) {
       e.printStackTrace();
     }

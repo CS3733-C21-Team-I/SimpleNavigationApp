@@ -6,6 +6,7 @@
 <?import com.jfoenix.controls.JFXTextField?>
 <?import com.jfoenix.controls.JFXTimePicker?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
@@ -68,5 +69,7 @@
             <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
          </padding>
       </VBox>
+      <ListView fx:id="serviceLocationList" layoutX="59.0" layoutY="166.0" prefHeight="93.0" prefWidth="196.0" visible="false" />
+      <ListView fx:id="requestAssignedList" layoutX="55.0" layoutY="384.0" prefHeight="111.0" prefWidth="204.0" visible="false" />
    </children>
 </AnchorPane>

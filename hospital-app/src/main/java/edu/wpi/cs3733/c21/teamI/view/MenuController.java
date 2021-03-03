@@ -1,4 +1,4 @@
-package edu.wpi.cs3733.c21.teamI.view.menu;
+package edu.wpi.cs3733.c21.teamI.view;
 
 import com.jfoenix.controls.JFXDrawer;
 import com.jfoenix.controls.JFXHamburger;
@@ -24,12 +24,7 @@ public class MenuController implements Initializable {
     VBox box = null;
     try {
       box = FXMLLoader.load(getClass().getResource("/fxml/menuFiles/VisitorMenu.fxml"));
-      titleLabel.setText("Language Service Request");
-      replacePane
-          .getChildren()
-          .add(
-              FXMLLoader.load(
-                  getClass().getResource("/fxml/serviceRequests/LanguageRequest.fxml")));
+      replacePane.getChildren().add(FXMLLoader.load(getClass().getResource("/fxml/Home.fxml")));
     } catch (IOException e) {
       e.printStackTrace();
     }
