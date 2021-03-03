@@ -97,12 +97,12 @@ public class MapController extends Application {
     } else {
       try {
         Image background =
-                new Image(
-                        (getClass()
-                                .getResource(
-                                        "/fxml/mapImages/" + ViewManager.getMapID().replace(" ", "") + ".png"))
-                                .toURI()
-                                .toString());
+            new Image(
+                (getClass()
+                        .getResource(
+                            "/fxml/mapImages/" + ViewManager.getMapID().replace(" ", "") + ".png"))
+                    .toURI()
+                    .toString());
         mapImage.setImage(background);
         fullImgWidth = background.getWidth();
         fullImgHeight = background.getHeight();
@@ -150,40 +150,40 @@ public class MapController extends Application {
 
   private double transformX(double x) {
     return x * (fullImgWidth / imgWidth) * mapPane.getPrefWidth() / 100000
-            - xOffset * mapPane.getPrefWidth() / imgWidth;
+        - xOffset * mapPane.getPrefWidth() / imgWidth;
   }
 
   private double transformY(double y) {
     return y * (fullImgHeight / imgHeight) * mapPane.getPrefHeight() / 100000
-            - yOffset * mapPane.getPrefHeight() / imgHeight;
+        - yOffset * mapPane.getPrefHeight() / imgHeight;
   }
 
   private void setupMapViewHandlers() {
     startList
-            .getSelectionModel()
-            .selectedItemProperty()
-            .addListener(
-                    (ChangeListener<String>)
-                            (ov, oldVal, newVal) -> {
-                              start.setText(newVal);
-                              startList.setVisible(false);
-                            });
+        .getSelectionModel()
+        .selectedItemProperty()
+        .addListener(
+            (ChangeListener<String>)
+                (ov, oldVal, newVal) -> {
+                  start.setText(newVal);
+                  startList.setVisible(false);
+                });
     destList
-            .getSelectionModel()
-            .selectedItemProperty()
-            .addListener(
-                    (ChangeListener<String>)
-                            (ov, oldVal, newVal) -> {
-                              destination.setText(newVal);
-                              destList.setVisible(false);
-                            });
+        .getSelectionModel()
+        .selectedItemProperty()
+        .addListener(
+            (ChangeListener<String>)
+                (ov, oldVal, newVal) -> {
+                  destination.setText(newVal);
+                  destList.setVisible(false);
+                });
     mapPane.setOnMouseClicked(
-            (MouseEvent evt) -> {
-              if (mapPane != null) {
-                startList.setVisible(false);
-                destList.setVisible(false);
-              }
-            });
+        (MouseEvent evt) -> {
+          if (mapPane != null) {
+            startList.setVisible(false);
+            destList.setVisible(false);
+          }
+        });
   }
 
   public void navigate(ActionEvent e) throws IOException {
@@ -215,8 +215,8 @@ public class MapController extends Application {
       HospitalMapNode nodeA = foundPath.get(0);
       HospitalMapNode nodeB = foundPath.get(foundPath.toArray().length - 1);
       mapPane
-              .getChildren()
-              .removeIf(n -> (n.getClass() == Line.class) || (n.getClass() == Circle.class));
+          .getChildren()
+          .removeIf(n -> (n.getClass() == Line.class) || (n.getClass() == Circle.class));
       drawPath(foundPath);
       if (nodeA.getMapID().equals(ViewManager.getMapID())) drawStartPoint(foundPath);
       if (nodeB.getMapID().equals(ViewManager.getMapID())) drawEndPoint(foundPath);
@@ -226,26 +226,26 @@ public class MapController extends Application {
 
   private void drawNode(HospitalMapNode node, Color color) {
     Circle circle =
-            makeCircle(
-                    transformX(node.getxCoord()),
-                    transformY(node.getyCoord()),
-                    13 / scale * fullImgHeight / imgHeight,
-                    color);
+        makeCircle(
+            transformX(node.getxCoord()),
+            transformY(node.getyCoord()),
+            13 / scale * fullImgHeight / imgHeight,
+            color);
     mapPane.getChildren().add(circle);
   }
 
   private void drawEdge(HospitalMapNode start, HospitalMapNode end, Color color) {
     Line line =
-            LineBuilder.create()
-                    .startX(clamp(transformX(start.getxCoord()), 0, mapPane.getPrefWidth()))
-                    .startY(clamp(transformY(start.getyCoord()), 0, mapPane.getPrefHeight()))
-                    .endX(clamp(transformX(end.getxCoord()), 0, mapPane.getPrefWidth()))
-                    .endY(clamp(transformY(end.getyCoord()), 0, mapPane.getPrefHeight()))
-                    .stroke(color)
-                    .strokeLineCap(StrokeLineCap.ROUND)
-                    .strokeDashArray(28.0 / scale)
-                    .strokeWidth(14 / scale * fullImgHeight / imgHeight)
-                    .build();
+        LineBuilder.create()
+            .startX(clamp(transformX(start.getxCoord()), 0, mapPane.getPrefWidth()))
+            .startY(clamp(transformY(start.getyCoord()), 0, mapPane.getPrefHeight()))
+            .endX(clamp(transformX(end.getxCoord()), 0, mapPane.getPrefWidth()))
+            .endY(clamp(transformY(end.getyCoord()), 0, mapPane.getPrefHeight()))
+            .stroke(color)
+            .strokeLineCap(StrokeLineCap.ROUND)
+            .strokeDashArray(28.0 / scale)
+            .strokeWidth(14 / scale * fullImgHeight / imgHeight)
+            .build();
 
     animateLine(start, end, line);
 
@@ -269,26 +269,26 @@ public class MapController extends Application {
     int finalEndX = endX;
     int finalEndY = endY;
     line.strokeProperty()
-            .bind(
-                    Bindings.createObjectBinding(
-                            () ->
-                                    new LinearGradient(
-                                            finalStartX,
-                                            finalStartY,
-                                            finalEndX,
-                                            finalEndY,
-                                            true,
-                                            CycleMethod.NO_CYCLE,
-                                            new Stop(0, color2),
-                                            new Stop(signalPosition.get(), color2),
-                                            new Stop(signalPosition.get(), blue),
-                                            new Stop(1, blue)),
-                            signalPosition));
+        .bind(
+            Bindings.createObjectBinding(
+                () ->
+                    new LinearGradient(
+                        finalStartX,
+                        finalStartY,
+                        finalEndX,
+                        finalEndY,
+                        true,
+                        CycleMethod.NO_CYCLE,
+                        new Stop(0, color2),
+                        new Stop(signalPosition.get(), color2),
+                        new Stop(signalPosition.get(), blue),
+                        new Stop(1, blue)),
+                signalPosition));
 
     Timeline animation =
-            new Timeline(
-                    new KeyFrame(Duration.ZERO, new KeyValue(signalPosition, 0)),
-                    new KeyFrame(Duration.seconds(5), new KeyValue(signalPosition, 1)));
+        new Timeline(
+            new KeyFrame(Duration.ZERO, new KeyValue(signalPosition, 0)),
+            new KeyFrame(Duration.seconds(5), new KeyValue(signalPosition, 1)));
 
     animation.setOnFinished(finish -> animateLinePhase2(start, end, line));
     animation.setRate(2.0);
@@ -316,26 +316,26 @@ public class MapController extends Application {
     int finalEndX = endX;
     int finalEndY = endY;
     line.strokeProperty()
-            .bind(
-                    Bindings.createObjectBinding(
-                            () ->
-                                    new LinearGradient(
-                                            finalStartX,
-                                            finalStartY,
-                                            finalEndX,
-                                            finalEndY,
-                                            true,
-                                            CycleMethod.NO_CYCLE,
-                                            new Stop(0, blue),
-                                            new Stop(signalPosition.get(), blue),
-                                            new Stop(signalPosition.get(), color2),
-                                            new Stop(1, color2)),
-                            signalPosition));
+        .bind(
+            Bindings.createObjectBinding(
+                () ->
+                    new LinearGradient(
+                        finalStartX,
+                        finalStartY,
+                        finalEndX,
+                        finalEndY,
+                        true,
+                        CycleMethod.NO_CYCLE,
+                        new Stop(0, blue),
+                        new Stop(signalPosition.get(), blue),
+                        new Stop(signalPosition.get(), color2),
+                        new Stop(1, color2)),
+                signalPosition));
 
     Timeline animation =
-            new Timeline(
-                    new KeyFrame(Duration.ZERO, new KeyValue(signalPosition, 0)),
-                    new KeyFrame(Duration.seconds(5), new KeyValue(signalPosition, 1)));
+        new Timeline(
+            new KeyFrame(Duration.ZERO, new KeyValue(signalPosition, 0)),
+            new KeyFrame(Duration.seconds(5), new KeyValue(signalPosition, 1)));
 
     animation.setOnFinished(finish -> animateLine(start, end, line));
     animation.setRate(2.0);
@@ -351,7 +351,7 @@ public class MapController extends Application {
       currNode = path.get(i);
       nextNode = path.get(i + 1);
       if (nextNode.getMapID().equals(ViewManager.getMapID())
-              && currNode.getMapID().equals(ViewManager.getMapID())) {
+          && currNode.getMapID().equals(ViewManager.getMapID())) {
         drawArrow(currNode, nextNode);
         drawEdge(currNode, nextNode, Color.BLUE);
       }
@@ -361,7 +361,7 @@ public class MapController extends Application {
   private void drawStartPoint(List<HospitalMapNode> path) throws IOException {
     double imgScale = 256 / scale;
     String startIcon =
-            System.getProperty("user.dir") + "\\src/main/resources/fxml/fxmlResources/startIcon.png";
+        System.getProperty("user.dir") + "\\src/main/resources/fxml/fxmlResources/startIcon.png";
     double startIconX = transformX(path.get(0).getxCoord()) - imgScale / 2;
     double startIconY = transformY(path.get(0).getyCoord()) - imgScale;
     drawNode(path.get(0), blue);
@@ -371,7 +371,7 @@ public class MapController extends Application {
   private void drawEndPoint(List<HospitalMapNode> path) throws IOException {
     double imgScale = 256 / scale;
     String finishIcon =
-            System.getProperty("user.dir") + "\\src/main/resources/fxml/fxmlResources/finishIcon.png";
+        System.getProperty("user.dir") + "\\src/main/resources/fxml/fxmlResources/finishIcon.png";
     double finishIconX = transformX(path.get(path.size() - 1).getxCoord()) - imgScale / 2;
     double finishIconY = transformY(path.get(path.size() - 1).getyCoord()) - imgScale;
     drawNode(path.get(path.size() - 1), red);
@@ -405,11 +405,11 @@ public class MapController extends Application {
 
     Polygon arrow = new Polygon();
     arrow
-            .getPoints()
-            .addAll(
-                    xpoints[0], ypoints[0],
-                    xpoints[1], ypoints[1],
-                    xpoints[2], ypoints[2]);
+        .getPoints()
+        .addAll(
+            xpoints[0], ypoints[0],
+            xpoints[1], ypoints[1],
+            xpoints[2], ypoints[2]);
 
     arrow.setFill(blue);
     mapPane.getChildren().add(arrow);
@@ -450,28 +450,28 @@ public class MapController extends Application {
       isFirstLoad = false;
       setAddNodeHandler();
       undoButton.setOnAction(
-              e -> {
-                if (ViewManager.getDataCont().isUndoAvailable()) {
-                  ViewManager.getDataCont().undo();
-                }
-                update();
-              });
+          e -> {
+            if (ViewManager.getDataCont().isUndoAvailable()) {
+              ViewManager.getDataCont().undo();
+            }
+            update();
+          });
       redoButton.setOnAction(
-              e -> {
-                if (ViewManager.getDataCont().isRedoAvailable()) {
-                  ViewManager.getDataCont().redo();
-                }
-                update();
-              });
+          e -> {
+            if (ViewManager.getDataCont().isRedoAvailable()) {
+              ViewManager.getDataCont().redo();
+            }
+            update();
+          });
     }
     try {
       Image background =
-              new Image(
-                      (getClass()
-                              .getResource(
-                                      "/fxml/mapImages/" + ViewManager.getMapID().replace(" ", "") + ".png"))
-                              .toURI()
-                              .toString());
+          new Image(
+              (getClass()
+                      .getResource(
+                          "/fxml/mapImages/" + ViewManager.getMapID().replace(" ", "") + ".png"))
+                  .toURI()
+                  .toString());
       mapImage.setImage(background);
       fullImgWidth = background.getWidth();
       fullImgHeight = background.getHeight();
@@ -481,7 +481,7 @@ public class MapController extends Application {
       e.printStackTrace();
     }
     nodeMenu.setVisible(
-            ViewManager.selectedInActiveMap() && ViewManager.getSelectedNode() != null && adminMap);
+        ViewManager.selectedInActiveMap() && ViewManager.getSelectedNode() != null && adminMap);
     undoButton.setVisible(false);
     redoButton.setVisible(false);
     update();
@@ -526,38 +526,38 @@ public class MapController extends Application {
       ViewManager.getDataCont().editNode(node.getID(), newNode);
     } catch (ClassCastException e) {
       LocationNode newNode =
-              new LocationNode(
-                      node.getID(),
-                      node.getMapID(),
-                      node.getxCoord(),
-                      node.getyCoord(),
-                      sName,
-                      lName,
-                      LocationCategory.HALL,
-                      "I",
-                      node.getConnections());
+          new LocationNode(
+              node.getID(),
+              node.getMapID(),
+              node.getxCoord(),
+              node.getyCoord(),
+              sName,
+              lName,
+              LocationCategory.HALL,
+              "I",
+              node.getConnections());
       ViewManager.getDataCont().editNode(node.getID(), newNode);
     }
   }
 
   private void setAddNodeHandler() {
     EventHandler<? super MouseEvent> eventHandler =
-            (EventHandler<MouseEvent>)
-                    e -> {
-                      if (e.getButton() == MouseButton.SECONDARY) {
-                        // definitely need a better way of making an ID
-                        Point2D mousePress = imageViewToImage(mapImage, new Point2D(e.getX(), e.getY()));
-                        ViewManager.getDataCont()
-                                .addNode(
-                                        new HospitalMapNode(
-                                                randomGenerate(),
-                                                ViewManager.getMapID(),
-                                                (int) (mousePress.getX() / fullImgWidth * 100000),
-                                                (int) (mousePress.getY() / fullImgHeight * 100000),
-                                                new ArrayList<>()));
-                        update();
-                      }
-                    };
+        (EventHandler<MouseEvent>)
+            e -> {
+              if (e.getButton() == MouseButton.SECONDARY) {
+                // definitely need a better way of making an ID
+                Point2D mousePress = imageViewToImage(mapImage, new Point2D(e.getX(), e.getY()));
+                ViewManager.getDataCont()
+                    .addNode(
+                        new HospitalMapNode(
+                            randomGenerate(),
+                            ViewManager.getMapID(),
+                            (int) (mousePress.getX() / fullImgWidth * 100000),
+                            (int) (mousePress.getY() / fullImgHeight * 100000),
+                            new ArrayList<>()));
+                update();
+              }
+            };
     mapPane.addEventFilter(MouseEvent.MOUSE_CLICKED, eventHandler);
   }
 
@@ -595,9 +595,9 @@ public class MapController extends Application {
     floor1Tab(new ActionEvent());
     campusTab(new ActionEvent());
     boolean isAdmin =
-            ApplicationDataController.getInstance()
-                    .getLoggedInUser()
-                    .hasPermission(User.Permission.EDIT_MAP);
+        ApplicationDataController.getInstance()
+            .getLoggedInUser()
+            .hasPermission(User.Permission.EDIT_MAP);
     adminMapToggle.setVisible(isAdmin);
     algorithmPick.setVisible(isAdmin);
     algorithmPick.getItems().addAll("A*", "Depth First", "Breadth First");
@@ -608,11 +608,11 @@ public class MapController extends Application {
   private void drawSelectedNode() {
     if (ViewManager.selectedInActiveMap()) {
       Circle circle =
-              makeCircle(
-                      transformX(ViewManager.getSelectedNode().getxCoord()),
-                      transformY(ViewManager.getSelectedNode().getyCoord()),
-                      20 / scale,
-                      Color.PURPLE);
+          makeCircle(
+              transformX(ViewManager.getSelectedNode().getxCoord()),
+              transformY(ViewManager.getSelectedNode().getyCoord()),
+              20 / scale,
+              Color.PURPLE);
       mapPane.getChildren().add(circle);
     }
   }
@@ -621,7 +621,7 @@ public class MapController extends Application {
     Image xIconImg = new Image("/fxml/fxmlResources/redxicon.png");
     for (HospitalMapNode child : parent.getConnections()) {
       if (ViewManager.getEntityNodes().contains(child)
-              && ViewManager.getEntityNodes().contains(parent)) {
+          && ViewManager.getEntityNodes().contains(parent)) {
         ImageView xMarker = new ImageView();
         xMarker.setImage(xIconImg);
         xMarker.setFitHeight(12);
@@ -630,52 +630,52 @@ public class MapController extends Application {
         xMarker.setStyle("-fx-cursor: hand");
         mapPane.getChildren().add(xMarker);
         Line line =
-                LineBuilder.create()
-                        .startX(clamp(transformX(parent.getxCoord()), 0, mapPane.getPrefWidth()))
-                        .startY(clamp(transformY(parent.getyCoord()), 0, mapPane.getPrefHeight()))
-                        .endX(clamp(transformX(child.getxCoord()), 0, mapPane.getPrefWidth()))
-                        .endY(clamp(transformY(child.getyCoord()), 0, mapPane.getPrefHeight()))
-                        .stroke(Color.ORANGE)
-                        .strokeWidth(10 / scale)
-                        .build();
+            LineBuilder.create()
+                .startX(clamp(transformX(parent.getxCoord()), 0, mapPane.getPrefWidth()))
+                .startY(clamp(transformY(parent.getyCoord()), 0, mapPane.getPrefHeight()))
+                .endX(clamp(transformX(child.getxCoord()), 0, mapPane.getPrefWidth()))
+                .endY(clamp(transformY(child.getyCoord()), 0, mapPane.getPrefHeight()))
+                .stroke(Color.ORANGE)
+                .strokeWidth(10 / scale)
+                .build();
         line.setStyle("-fx-cursor: hand");
         mapPane.getChildren().add(line);
         line.setOnMouseEntered(
-                t -> {
-                  xMarker.setVisible(true);
-                  xMarker.toFront();
-                  xMarker.setX(
-                          transformX((parent.getxCoord() + child.getxCoord()) / 2)
-                                  - xMarker.getFitWidth() / 2);
-                  xMarker.setY(
-                          transformY((parent.getyCoord() + child.getyCoord()) / 2)
-                                  - xMarker.getFitHeight() / 2);
-                });
+            t -> {
+              xMarker.setVisible(true);
+              xMarker.toFront();
+              xMarker.setX(
+                  transformX((parent.getxCoord() + child.getxCoord()) / 2)
+                      - xMarker.getFitWidth() / 2);
+              xMarker.setY(
+                  transformY((parent.getyCoord() + child.getyCoord()) / 2)
+                      - xMarker.getFitHeight() / 2);
+            });
         line.setOnMouseExited(
-                t -> {
-                  line.setStroke(Color.ORANGE);
-                  xMarker.setVisible(false);
-                });
+            t -> {
+              line.setStroke(Color.ORANGE);
+              xMarker.setVisible(false);
+            });
         line.setOnMouseClicked(
-                t -> {
-                  mapPane.getChildren().remove(line);
-                  ViewManager.getDataCont().deleteEdge(parent, child);
-                  update();
-                });
+            t -> {
+              mapPane.getChildren().remove(line);
+              ViewManager.getDataCont().deleteEdge(parent, child);
+              update();
+            });
         xMarker.setOnMouseEntered(
-                t -> {
-                  xMarker.setVisible(true);
-                });
+            t -> {
+              xMarker.setVisible(true);
+            });
         xMarker.setOnMouseClicked(
-                t -> {
-                  mapPane.getChildren().remove(line);
-                  ViewManager.getDataCont().deleteEdge(parent, child);
-                  update();
-                });
+            t -> {
+              mapPane.getChildren().remove(line);
+              ViewManager.getDataCont().deleteEdge(parent, child);
+              update();
+            });
         xMarker.setOnMouseExited(
-                t -> {
-                  xMarker.setVisible(false);
-                });
+            t -> {
+              xMarker.setVisible(false);
+            });
       } else {
         ImageView xMarker = new ImageView();
         xMarker.setImage(xIconImg);
@@ -686,59 +686,59 @@ public class MapController extends Application {
         mapPane.getChildren().add(xMarker);
         HospitalMapNode nodeInMap = ViewManager.getAllNodesSet().contains(parent) ? parent : child;
         Line line =
-                LineBuilder.create()
-                        .startX(clamp(transformX(nodeInMap.getxCoord()), 0, mapPane.getPrefWidth()))
-                        .startY(clamp(transformY(nodeInMap.getyCoord()), 0, mapPane.getPrefHeight()))
-                        .endX(
-                                clamp(
-                                        transformX(nodeInMap.getxCoord() - mapPane.getPrefHeight()),
-                                        0,
-                                        mapPane.getPrefWidth()))
-                        .endY(
-                                clamp(
-                                        transformY(nodeInMap.getyCoord() - mapPane.getPrefHeight()),
-                                        0,
-                                        mapPane.getPrefHeight()))
-                        .stroke(Color.GREEN)
-                        .strokeWidth(10 / scale)
-                        .build();
+            LineBuilder.create()
+                .startX(clamp(transformX(nodeInMap.getxCoord()), 0, mapPane.getPrefWidth()))
+                .startY(clamp(transformY(nodeInMap.getyCoord()), 0, mapPane.getPrefHeight()))
+                .endX(
+                    clamp(
+                        transformX(nodeInMap.getxCoord() - mapPane.getPrefHeight()),
+                        0,
+                        mapPane.getPrefWidth()))
+                .endY(
+                    clamp(
+                        transformY(nodeInMap.getyCoord() - mapPane.getPrefHeight()),
+                        0,
+                        mapPane.getPrefHeight()))
+                .stroke(Color.GREEN)
+                .strokeWidth(10 / scale)
+                .build();
         line.setStyle("-fx-cursor: hand");
         mapPane.getChildren().add(line);
         line.setOnMouseEntered(
-                t -> {
-                  xMarker.setVisible(true);
-                  xMarker.toFront();
-                  xMarker.setX(
-                          transformX(nodeInMap.getxCoord() - (mapPane.getPrefHeight() / 2))
-                                  - xMarker.getFitWidth() / 2);
-                  xMarker.setY(
-                          transformY(nodeInMap.getyCoord() - (mapPane.getPrefHeight() / 2))
-                                  - xMarker.getFitHeight() / 2);
-                });
+            t -> {
+              xMarker.setVisible(true);
+              xMarker.toFront();
+              xMarker.setX(
+                  transformX(nodeInMap.getxCoord() - (mapPane.getPrefHeight() / 2))
+                      - xMarker.getFitWidth() / 2);
+              xMarker.setY(
+                  transformY(nodeInMap.getyCoord() - (mapPane.getPrefHeight() / 2))
+                      - xMarker.getFitHeight() / 2);
+            });
         line.setOnMouseExited(
-                t -> {
-                  xMarker.setVisible(false);
-                });
+            t -> {
+              xMarker.setVisible(false);
+            });
         line.setOnMouseClicked(
-                t -> {
-                  mapPane.getChildren().remove(line);
-                  ViewManager.getDataCont().deleteEdge(parent, child);
-                  update();
-                });
+            t -> {
+              mapPane.getChildren().remove(line);
+              ViewManager.getDataCont().deleteEdge(parent, child);
+              update();
+            });
         xMarker.setOnMouseEntered(
-                t -> {
-                  xMarker.setVisible(true);
-                });
+            t -> {
+              xMarker.setVisible(true);
+            });
         xMarker.setOnMouseClicked(
-                t -> {
-                  mapPane.getChildren().remove(line);
-                  ViewManager.getDataCont().deleteEdge(parent, child);
-                  update();
-                });
+            t -> {
+              mapPane.getChildren().remove(line);
+              ViewManager.getDataCont().deleteEdge(parent, child);
+              update();
+            });
         xMarker.setOnMouseExited(
-                t -> {
-                  xMarker.setVisible(false);
-                });
+            t -> {
+              xMarker.setVisible(false);
+            });
       }
     }
   }
@@ -747,80 +747,80 @@ public class MapController extends Application {
     for (HospitalMapNode child : node.getConnections()) {
       if (!node.getMapID().equals(child.getMapID())) {
         Circle highlight =
-                makeCircle(
-                        transformX(node.getxCoord()),
-                        transformY(node.getyCoord()),
-                        20 / scale,
-                        Color.GREEN);
+            makeCircle(
+                transformX(node.getxCoord()),
+                transformY(node.getyCoord()),
+                20 / scale,
+                Color.GREEN);
         mapPane.getChildren().add(highlight);
       }
     }
     Circle circle =
-            makeCircle(
-                    transformX(node.getxCoord()), transformY(node.getyCoord()), 12 / scale, Color.RED);
+        makeCircle(
+            transformX(node.getxCoord()), transformY(node.getyCoord()), 12 / scale, Color.RED);
     circle.setOnMouseEntered(
-            t -> {
-              Circle newCircle =
-                      (Circle) mapPane.getChildren().get(mapPane.getChildren().indexOf(circle));
-              newCircle.setFill(Color.YELLOW);
-              circle.setStyle("-fx-cursor: hand");
-            });
+        t -> {
+          Circle newCircle =
+              (Circle) mapPane.getChildren().get(mapPane.getChildren().indexOf(circle));
+          newCircle.setFill(Color.YELLOW);
+          circle.setStyle("-fx-cursor: hand");
+        });
 
     circle.setOnMouseClicked(
-            t -> {
-              if (t.getButton() == MouseButton.PRIMARY) {
-                if (!isDrag) {
+        t -> {
+          if (t.getButton() == MouseButton.PRIMARY) {
+            if (!isDrag) {
+              nodeMenu.setVisible(ViewManager.toggleNode(node));
+            } else {
+              panAllowed = true;
+              ViewManager.setSelectedNode(null);
+              isDrag = false;
+              Point2D mousePress = imageViewToImage(mapImage, new Point2D(t.getX(), t.getY()));
+              movingNode.setxCoord((int) (mousePress.getX() / fullImgWidth * 100000));
+              movingNode.setyCoord((int) (mousePress.getY() / fullImgHeight * 100000));
+              ViewManager.getDataCont().editNode(movingNode.getID(), movingNode);
+            }
+            nodeDeleteButton.setOnAction(
+                e -> {
                   nodeMenu.setVisible(ViewManager.toggleNode(node));
-                } else {
-                  panAllowed = true;
-                  ViewManager.setSelectedNode(null);
-                  isDrag = false;
-                  Point2D mousePress = imageViewToImage(mapImage, new Point2D(t.getX(), t.getY()));
-                  movingNode.setxCoord((int) (mousePress.getX() / fullImgWidth * 100000));
-                  movingNode.setyCoord((int) (mousePress.getY() / fullImgHeight * 100000));
-                  ViewManager.getDataCont().editNode(movingNode.getID(), movingNode);
-                }
-                nodeDeleteButton.setOnAction(
-                        e -> {
-                          nodeMenu.setVisible(ViewManager.toggleNode(node));
-                          ViewManager.getDataCont().deleteNode(node.getID());
-                          update();
-                        });
+                  ViewManager.getDataCont().deleteNode(node.getID());
+                  update();
+                });
 
-                saveButton.setOnAction(
-                        e -> {
-                          editNodeName(node);
-                          update();
-                        });
+            saveButton.setOnAction(
+                e -> {
+                  editNodeName(node);
+                  update();
+                });
 
-                populateEditNodeMenu(node);
+            populateEditNodeMenu(node);
 
-                update();
-              }
-            });
+            update();
+          }
+        });
 
     circle.setOnMouseExited(
-            t -> {
-              Circle newCircle =
-                      (Circle) mapPane.getChildren().get(mapPane.getChildren().indexOf(circle));
-              newCircle.setFill(Color.RED);
-              newCircle.setRadius(12 / scale);
-              circle.setStyle("-fx-cursor: default");
-            });
+        t -> {
+          Circle newCircle =
+              (Circle) mapPane.getChildren().get(mapPane.getChildren().indexOf(circle));
+          newCircle.setFill(Color.RED);
+          newCircle.setRadius(12 / scale);
+          circle.setStyle("-fx-cursor: default");
+        });
 
     circle.setOnMouseDragged(
-            t -> {
-              panAllowed = false;
-              Circle newCircle =
-                      (Circle) mapPane.getChildren().get(mapPane.getChildren().indexOf(circle));
-              newCircle.setFill(Color.YELLOW);
-              newCircle.setCenterX(t.getX());
-              newCircle.setCenterY(t.getY());
-              HospitalMapNode newNode =
-                      new HospitalMapNode(node.getID(), node.getMapID(), 0, 0, node.getConnections());
-              movingNode = newNode;
-              isDrag = true;
-            });
+        t -> {
+          panAllowed = false;
+          Circle newCircle =
+              (Circle) mapPane.getChildren().get(mapPane.getChildren().indexOf(circle));
+          newCircle.setFill(Color.YELLOW);
+          newCircle.setCenterX(t.getX());
+          newCircle.setCenterY(t.getY());
+          HospitalMapNode newNode =
+              new HospitalMapNode(node.getID(), node.getMapID(), 0, 0, node.getConnections());
+          movingNode = newNode;
+          isDrag = true;
+        });
     mapPane.getChildren().add(circle);
   }
 
@@ -971,93 +971,93 @@ public class MapController extends Application {
     ObjectProperty<Point2D> mouseDown = new SimpleObjectProperty<>();
 
     mapImage
-            .fitWidthProperty()
-            .addListener(
-                    (obs, oldVal, newVal) -> {
-                      try {
-                        resize();
-                      } catch (IOException e) {
-                        e.printStackTrace();
-                      }
-                    });
+        .fitWidthProperty()
+        .addListener(
+            (obs, oldVal, newVal) -> {
+              try {
+                resize();
+              } catch (IOException e) {
+                e.printStackTrace();
+              }
+            });
     mapImage
-            .fitHeightProperty()
-            .addListener(
-                    (obs, oldVal, newVal) -> {
-                      try {
-                        resize();
-                      } catch (IOException e) {
-                        e.printStackTrace();
-                      }
-                    });
+        .fitHeightProperty()
+        .addListener(
+            (obs, oldVal, newVal) -> {
+              try {
+                resize();
+              } catch (IOException e) {
+                e.printStackTrace();
+              }
+            });
 
     zoomPane.setOnMousePressed(
-            e -> {
-              if (panAllowed) {
-                Point2D mousePress = imageViewToImage(mapImage, new Point2D(e.getX(), e.getY()));
-                mouseDown.set(mousePress);
-              }
-            });
+        e -> {
+          if (panAllowed) {
+            Point2D mousePress = imageViewToImage(mapImage, new Point2D(e.getX(), e.getY()));
+            mouseDown.set(mousePress);
+          }
+        });
 
     zoomPane.setOnMouseDragged(
-            e -> {
-              if (panAllowed) {
-                Point2D dragPoint = imageViewToImage(mapImage, new Point2D(e.getX(), e.getY()));
-                shift(mapImage, dragPoint.subtract(mouseDown.get()));
-                mouseDown.set(imageViewToImage(mapImage, new Point2D(e.getX(), e.getY())));
-                xOffset = mapImage.getViewport().getMinX();
-                yOffset = mapImage.getViewport().getMinY();
-                if (!adminMap) {
-                  try {
-                    getDirections(new ActionEvent());
-                  } catch (IOException ioException) {
-                    ioException.printStackTrace();
-                  }
-                } else {
-                  update();
-                }
+        e -> {
+          if (panAllowed) {
+            Point2D dragPoint = imageViewToImage(mapImage, new Point2D(e.getX(), e.getY()));
+            shift(mapImage, dragPoint.subtract(mouseDown.get()));
+            mouseDown.set(imageViewToImage(mapImage, new Point2D(e.getX(), e.getY())));
+            xOffset = mapImage.getViewport().getMinX();
+            yOffset = mapImage.getViewport().getMinY();
+            if (!adminMap) {
+              try {
+                getDirections(new ActionEvent());
+              } catch (IOException ioException) {
+                ioException.printStackTrace();
               }
-            });
+            } else {
+              update();
+            }
+          }
+        });
 
     zoomPane.setOnScroll(
-            e -> {
-              double delta = e.getDeltaY();
-              Rectangle2D viewport = mapImage.getViewport();
-              double scale =
-                      clamp(
-                              Math.pow(1.001, delta),
-                              // don't scale so we're zoomed in to fewer than MIN_PIXELS in any direction:
-                              Math.min(MIN_PIXELS / viewport.getWidth(), MIN_PIXELS / viewport.getHeight()),
-                              // don't scale so that we're bigger than image dimensions:
-                              Math.max(width / viewport.getWidth(), height / viewport.getHeight()));
-              Point2D mouse = imageViewToImage(mapImage, new Point2D(e.getX(), e.getY()));
-              double newWidth = viewport.getWidth() * scale;
-              double newHeight = viewport.getHeight() * scale;
-              double newMinX =
-                      clamp(
-                              mouse.getX() - (mouse.getX() - viewport.getMinX()) * scale, 0, width - newWidth);
-              double newMinY =
-                      clamp(
-                              mouse.getY() - (mouse.getY() - viewport.getMinY()) * scale,
-                              0,
-                              height - newHeight);
-              mapImage.setViewport(new Rectangle2D(newMinX, newMinY, newWidth, newHeight));
-              imgWidth = mapImage.getViewport().getWidth();
-              imgHeight = mapImage.getViewport().getHeight();
-              xOffset = mapImage.getViewport().getMinX();
-              yOffset = mapImage.getViewport().getMinY();
-              if (!adminMap) {
-                if (!start.getText().equals("") && !destination.getText().equals("")) {
-                  try {
-                    getDirections(new ActionEvent());
-                  } catch (IOException ioException) {
-                    ioException.printStackTrace();
-                  }
-                }
-              } else {
-                update();
+        e -> {
+          double delta = e.getDeltaY();
+          Rectangle2D viewport = mapImage.getViewport();
+          double scale =
+              clamp(
+                  Math.pow(1.001, delta),
+                  // don't scale so we're zoomed in to fewer than MIN_PIXELS in any direction:
+                  Math.min(MIN_PIXELS / viewport.getWidth(), MIN_PIXELS / viewport.getHeight()),
+                  // don't scale so that we're bigger than image dimensions:
+                  Math.max(width / viewport.getWidth(), height / viewport.getHeight()));
+          Point2D mouse = imageViewToImage(mapImage, new Point2D(e.getX(), e.getY()));
+          double newWidth = viewport.getWidth() * scale;
+          double newHeight = viewport.getHeight() * scale;
+          double newMinX =
+              clamp(
+                  mouse.getX() - (mouse.getX() - viewport.getMinX()) * scale, 0, width - newWidth);
+          double newMinY =
+              clamp(
+                  mouse.getY() - (mouse.getY() - viewport.getMinY()) * scale,
+                  0,
+                  height - newHeight);
+          mapImage.setViewport(new Rectangle2D(newMinX, newMinY, newWidth, newHeight));
+          imgWidth = mapImage.getViewport().getWidth();
+          imgHeight = mapImage.getViewport().getHeight();
+          xOffset = mapImage.getViewport().getMinX();
+          yOffset = mapImage.getViewport().getMinY();
+          if (!adminMap) {
+            if (!start.getText().equals("") && !destination.getText().equals("")) {
+              try {
+                getDirections(new ActionEvent());
+              } catch (IOException ioException) {
+                ioException.printStackTrace();
               }
-            });
+            }
+          } else {
+            update();
+          }
+        });
   }
 
   private void resize() throws IOException {
@@ -1105,7 +1105,7 @@ public class MapController extends Application {
     double yProportion = imageViewCoordinates.getY() / imageView.getBoundsInLocal().getHeight();
     Rectangle2D viewport = imageView.getViewport();
     return new Point2D(
-            viewport.getMinX() + xProportion * viewport.getWidth(),
-            viewport.getMinY() + yProportion * viewport.getHeight());
+        viewport.getMinX() + xProportion * viewport.getWidth(),
+        viewport.getMinY() + yProportion * viewport.getHeight());
   }
 }

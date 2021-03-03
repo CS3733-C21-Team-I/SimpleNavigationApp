@@ -27,7 +27,7 @@
             <children>
             <VBox fx:id="stackContainer" alignment="TOP_RIGHT" nodeOrientation="LEFT_TO_RIGHT" HBox.hgrow="ALWAYS">
                <children>
-                            <JFXTabPane maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="50.0" stylesheets="@fxmlResources/tab.css" tabMaxHeight="50.0" tabMaxWidth="0.0" tabMinHeight="50.0">
+                            <JFXTabPane maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="50.0" stylesheets="@../../../../../../../Documents/SimpleNavigationApp/hospital-app/src/main/resources/fxml/fxmlResources/tab.css" tabMaxHeight="50.0" tabMaxWidth="0.0" tabMinHeight="50.0">
                                 <tabs>
                                     <Tab fx:id="campus" onSelectionChanged="#campusTab" text="Campus" />
                                     <Tab fx:id="floor1" onSelectionChanged="#floor1Tab" text="Floor 1" />
@@ -128,7 +128,7 @@
                                     <graphic>
                                         <ImageView fitHeight="55.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" styleClass=".styledLogo">
                                             <image>
-                                                <Image url="@fxmlResources/switch_icon.png" />
+                                                <Image url="@../../../../../../../Documents/SimpleNavigationApp/hospital-app/src/main/resources/fxml/fxmlResources/switch_icon.png" />
                                             </image>
                                         </ImageView>
                                     </graphic>
@@ -185,7 +185,7 @@
                      <graphic>
                         <ImageView fitHeight="55.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" styleClass=".styledLogo">
                            <image>
-                              <Image url="@fxmlResources/switch_icon.png" />
+                              <Image url="@../../../../../../../Documents/SimpleNavigationApp/hospital-app/src/main/resources/fxml/fxmlResources/switch_icon.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -220,53 +220,65 @@
             <Insets right="50.0" top="245.0" />
          </StackPane.margin>
       </ListView>
-        <Button fx:id="save" maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" onAction="#saveChanges" prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: rgb(1, 45, 90); -fx-background-radius: 100;" visible="false">
+        <Button fx:id="save" maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" onAction="#saveChanges" prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: rgb(1, 45, 90); -fx-background-radius: 100;" StackPane.alignment="BOTTOM_LEFT">
             <cursor>
                 <Cursor fx:constant="HAND" />
             </cursor>
             <graphic>
                 <ImageView fitHeight="27.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@fxmlResources/baseline_save_white_18dp.png" />
+                        <Image url="@../../../../../../../Documents/SimpleNavigationApp/hospital-app/src/main/resources/fxml/fxmlResources/baseline_save_white_18dp.png" />
                     </image>
                 </ImageView>
             </graphic>
+         <StackPane.margin>
+            <Insets bottom="20.0" left="20.0" />
+         </StackPane.margin>
         </Button>
-        <Button fx:id="discard" maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" onAction="#discardChanges" prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: rgb(1, 45, 90); -fx-background-radius: 100;" visible="false">
+        <Button fx:id="discard" maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" onAction="#discardChanges" prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: rgb(1, 45, 90); -fx-background-radius: 100;" StackPane.alignment="BOTTOM_LEFT">
             <cursor>
                 <Cursor fx:constant="HAND" />
             </cursor>
             <graphic>
                 <ImageView fitHeight="27.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@fxmlResources/baseline_restart_alt_white_18dp.png" />
+                        <Image url="@../../../../../../../Documents/SimpleNavigationApp/hospital-app/src/main/resources/fxml/fxmlResources/baseline_restart_alt_white_18dp.png" />
                     </image>
                 </ImageView>
             </graphic>
+         <StackPane.margin>
+            <Insets bottom="20.0" left="60.0" />
+         </StackPane.margin>
         </Button>
-        <Button fx:id="undoButton" maxHeight="50.0" maxWidth="50.0" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: rgb(1, 45, 90); -fx-background-radius: 100;" visible="false">
+        <Button fx:id="undoButton" maxHeight="50.0" maxWidth="50.0" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: rgb(1, 45, 90); -fx-background-radius: 100;" StackPane.alignment="BOTTOM_LEFT">
             <cursor>
                 <Cursor fx:constant="HAND" />
             </cursor>
             <graphic>
                 <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" smooth="false">
                     <image>
-                        <Image url="@fxmlResources/undo_arrow.png" />
+                        <Image url="@../../../../../../../Documents/SimpleNavigationApp/hospital-app/src/main/resources/fxml/fxmlResources/undo_arrow.png" />
                     </image>
                 </ImageView>
             </graphic>
+         <StackPane.margin>
+            <Insets bottom="10.0" left="120.0" />
+         </StackPane.margin>
         </Button>
-        <Button fx:id="redoButton" maxHeight="50.0" maxWidth="50.0" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: rgb(1, 45, 90); -fx-background-radius: 100;" visible="false">
+        <Button fx:id="redoButton" maxHeight="50.0" maxWidth="50.0" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: rgb(1, 45, 90); -fx-background-radius: 100;" StackPane.alignment="BOTTOM_LEFT">
             <cursor>
                 <Cursor fx:constant="HAND" />
             </cursor>
             <graphic>
                 <ImageView fitHeight="277.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@fxmlResources/redo_arrow.png" />
+                        <Image url="@../../../../../../../Documents/SimpleNavigationApp/hospital-app/src/main/resources/fxml/fxmlResources/redo_arrow.png" />
                     </image>
                 </ImageView>
             </graphic>
+         <StackPane.margin>
+            <Insets bottom="10.0" left="180.0" />
+         </StackPane.margin>
         </Button>
    </children>
 </StackPane>
