@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXCheckBox?>
 <?import com.jfoenix.controls.JFXDatePicker?>
 <?import com.jfoenix.controls.JFXRadioButton?>
 <?import com.jfoenix.controls.JFXTextField?>
@@ -35,11 +34,6 @@
                   <Insets bottom="20.0" />
                </VBox.margin>
             </JFXTextField>
-            <JFXCheckBox checkedColor="#0067b1" text="Emergency" textFill="#012d5a">
-               <VBox.margin>
-                  <Insets bottom="20.0" />
-               </VBox.margin>
-            </JFXCheckBox>
             <JFXRadioButton style="-jfx-selected-color: #0067b1;" text="Stretcher Transportation" textFill="#012d5a">
                <VBox.margin>
                   <Insets bottom="20.0" />
