@@ -220,7 +220,7 @@
             <Insets right="50.0" top="245.0" />
          </StackPane.margin>
       </ListView>
-        <Button fx:id="save" maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" onAction="#saveChanges" prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: rgb(1, 45, 90); -fx-background-radius: 100;" StackPane.alignment="BOTTOM_LEFT">
+        <Button fx:id="save" maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" onAction="#saveChanges" prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: rgb(1, 45, 90); -fx-background-radius: 100;" visible="false" StackPane.alignment="BOTTOM_LEFT">
             <cursor>
                 <Cursor fx:constant="HAND" />
             </cursor>
@@ -235,7 +235,7 @@
             <Insets bottom="20.0" left="20.0" />
          </StackPane.margin>
         </Button>
-        <Button fx:id="discard" maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" onAction="#discardChanges" prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: rgb(1, 45, 90); -fx-background-radius: 100;" StackPane.alignment="BOTTOM_LEFT">
+        <Button fx:id="discard" maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" onAction="#discardChanges" prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: rgb(1, 45, 90); -fx-background-radius: 100;" visible="false" StackPane.alignment="BOTTOM_LEFT">
             <cursor>
                 <Cursor fx:constant="HAND" />
             </cursor>
@@ -250,7 +250,7 @@
             <Insets bottom="20.0" left="60.0" />
          </StackPane.margin>
         </Button>
-        <Button fx:id="undoButton" maxHeight="50.0" maxWidth="50.0" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: rgb(1, 45, 90); -fx-background-radius: 100;" StackPane.alignment="BOTTOM_LEFT">
+        <Button fx:id="undoButton" maxHeight="50.0" maxWidth="50.0" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: rgb(1, 45, 90); -fx-background-radius: 100;" visible="false" StackPane.alignment="BOTTOM_LEFT">
             <cursor>
                 <Cursor fx:constant="HAND" />
             </cursor>
@@ -265,7 +265,7 @@
             <Insets bottom="10.0" left="120.0" />
          </StackPane.margin>
         </Button>
-        <Button fx:id="redoButton" maxHeight="50.0" maxWidth="50.0" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: rgb(1, 45, 90); -fx-background-radius: 100;" StackPane.alignment="BOTTOM_LEFT">
+        <Button fx:id="redoButton" maxHeight="50.0" maxWidth="50.0" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: rgb(1, 45, 90); -fx-background-radius: 100;" visible="false" StackPane.alignment="BOTTOM_LEFT">
             <cursor>
                 <Cursor fx:constant="HAND" />
             </cursor>
