@@ -8,7 +8,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import javax.swing.*;
 
 public class ServiceViewController extends Application {
 
@@ -45,11 +44,15 @@ public class ServiceViewController extends Application {
     } else if (id.equals("maintenanceButton")) {
       replaceRequest
           .getChildren()
-          .add(FXMLLoader.load(getClass().getResource("/fxml/MaintenanceRequest.fxml")));
+          .add(
+              FXMLLoader.load(
+                  getClass().getResource("/fxml/serviceRequests/MaintenanceRequest.fxml")));
     } else if (id.equals("sanitationButton")) {
       replaceRequest
           .getChildren()
-          .add(FXMLLoader.load(getClass().getResource("/fxml/SanitationRequest.fxml")));
+          .add(
+              FXMLLoader.load(
+                  getClass().getResource("/fxml/serviceRequests/SanitationRequest.fxml")));
     } else if (id.equals("laundryButton")) {
       replaceRequest
           .getChildren()

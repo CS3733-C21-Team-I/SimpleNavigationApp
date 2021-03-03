@@ -16,7 +16,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="800.0" prefWidth="973.0" styleClass=".root" stylesheets="fxmlResources/main.css" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="edu.wpi.cs3733.c21.teamI.view.ServiceFormController">
+<AnchorPane prefHeight="800.0" prefWidth="973.0" styleClass=".root" stylesheets="../fxmlResources/main.css" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="edu.wpi.cs3733.c21.teamI.view.ServiceFormController">
    <children>
       <VBox fx:id="background" layoutX="185.0" layoutY="126.0" prefHeight="436.0" prefWidth="733.0">
          <children>
@@ -56,7 +56,7 @@
                   </TextField>
                </children>
             </HBox>
-            <HBox prefHeight="52.0" prefWidth="626.0" stylesheets="@fxmlResources/main.css">
+            <HBox prefHeight="52.0" prefWidth="626.0" stylesheets="@../fxmlResources/main.css">
                <children>
                   <Label prefHeight="26.0" prefWidth="140.0" text="Requestor ID:">
                      <HBox.margin>
@@ -73,7 +73,7 @@
                   </TextField>
                </children>
             </HBox>
-            <HBox prefHeight="52.0" prefWidth="626.0" stylesheets="@fxmlResources/main.css">
+            <HBox prefHeight="52.0" prefWidth="626.0" stylesheets="@../fxmlResources/main.css">
                <children>
                   <Label prefHeight="26.0" prefWidth="175.0" text="Employee Assigned ID:">
                      <HBox.margin>
@@ -112,14 +112,14 @@
             </HBox>
             <HBox alignment="TOP_RIGHT" prefHeight="82.0" prefWidth="573.0">
                <children>
-                  <Button mnemonicParsing="false" onAction="#clearSanitation" prefHeight="50.0" prefWidth="107.0" styleClass="styledButton" stylesheets="@fxmlResources/main.css" text="Clear">
+                  <Button mnemonicParsing="false" onAction="#clearSanitation" prefHeight="50.0" prefWidth="107.0" styleClass="styledButton" stylesheets="@../fxmlResources/main.css" text="Clear">
                      <HBox.margin>
                         <Insets right="10.0" />
                      </HBox.margin>
                      <graphic>
                         <ImageView fx:id="clearSanitation" fitHeight="25.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@fxmlResources/baseline_delete_white_18dp.png" />
+                              <Image url="@../fxmlResources/baseline_delete_white_18dp.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -127,14 +127,14 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <Button fx:id="sanSubmit" mnemonicParsing="false" onAction="#createSanitationTicket" prefHeight="50.0" prefWidth="120.0" styleClass="styledButton" stylesheets="@fxmlResources/main.css" text="Submit">
+                  <Button fx:id="sanSubmit" mnemonicParsing="false" onAction="#createSanitationTicket" prefHeight="50.0" prefWidth="120.0" styleClass="styledButton" stylesheets="@../fxmlResources/main.css" text="Submit">
                      <HBox.margin>
                         <Insets left="20.0" right="10.0" />
                      </HBox.margin>
                      <graphic>
                         <ImageView fitHeight="53.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@fxmlResources/baseline_send_white_18dp.png" />
+                              <Image url="@../fxmlResources/baseline_send_white_18dp.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -166,7 +166,7 @@
          <graphic>
             <ImageView fitHeight="49.0" fitWidth="49.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@fxmlResources/baseline_arrow_back_ios_white_18dp.png" />
+                  <Image url="@../fxmlResources/baseline_arrow_back_ios_white_18dp.png" />
                </image>
             </ImageView>
          </graphic>

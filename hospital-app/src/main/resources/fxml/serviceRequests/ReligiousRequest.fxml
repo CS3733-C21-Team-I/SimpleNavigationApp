@@ -14,9 +14,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="878.0" prefWidth="647.0" style="-fx-background-color: #F1F1F1;" styleClass=".root" stylesheets="@../fxmlResources/main.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamI.view.ReligiousRequestController">
+<AnchorPane maxHeight="800.0" maxWidth="800.0" minHeight="600.0" minWidth="500.0" prefHeight="800.0" prefWidth="500.0" style="-fx-background-color: #F1F1F1;" styleClass=".root" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamI.view.ReligiousRequestController">
    <children>
-      <VBox fx:id="background" fillWidth="false" layoutX="267.0" layoutY="35.0" maxHeight="200.0" prefHeight="728.0" prefWidth="521.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox fx:id="background" fillWidth="false" layoutX="267.0" layoutY="35.0" maxHeight="780.0" prefHeight="728.0" prefWidth="444.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="42.0" AnchorPane.rightAnchor="42.0" AnchorPane.topAnchor="20.0">
          <children>
             <HBox minHeight="30.0" prefHeight="50.0" prefWidth="200.0">
                <children>
@@ -43,52 +43,52 @@
                   <Insets bottom="20.0" right="10.0" top="10.0" />
                </VBox.margin>
             </Label>
-            <JFXTextField focusColor="#012d5a" maxWidth="300.0" promptText="Requestor ID" unFocusColor="#012d5a">
+            <JFXTextField fx:id="requesterID" focusColor="#0067b1" maxWidth="300.0" promptText="Requester ID" unFocusColor="#012d5a">
                <VBox.margin>
                   <Insets bottom="15.0" />
                </VBox.margin>
             </JFXTextField>
-            <JFXTextField focusColor="#012d5a" maxWidth="300.0" promptText="Patient Name" unFocusColor="#012d5a">
+            <JFXTextField fx:id="patientName" focusColor="#0067b1" maxWidth="300.0" promptText="Patient Name" unFocusColor="#012d5a">
                <VBox.margin>
                   <Insets bottom="15.0" />
                </VBox.margin>
             </JFXTextField>
-            <JFXTextField focusColor="#012d5a" maxWidth="300.0" promptText="Religious Denomination" unFocusColor="#012d5a">
+            <JFXTextField fx:id="religiousDenomination" focusColor="#0067b1" maxWidth="300.0" promptText="Religious Denomination" unFocusColor="#012d5a">
                <VBox.margin>
                   <Insets bottom="15.0" />
                </VBox.margin>
             </JFXTextField>
-            <JFXComboBox focusColor="#012d5a" promptText="Type of Request" unFocusColor="#012d5a">
+            <JFXComboBox fx:id="typeOfRequest" focusColor="#012d5a" promptText="Type of Request" unFocusColor="#012d5a">
                <VBox.margin>
                   <Insets bottom="15.0" />
                </VBox.margin>
             </JFXComboBox>
-            <JFXTextArea focusColor="#012d5a" minHeight="100.0" minWidth="400.0" prefHeight="130.0" prefWidth="400.0" promptText="If Other, or there are any details regarding your request, please specify" unFocusColor="#012d5a">
+            <JFXTextArea fx:id="details" focusColor="#012d5a" minHeight="100.0" minWidth="400.0" prefHeight="130.0" prefWidth="400.0" promptText="If Other, or there are any details regarding your request, please specify" style="-fx-background-color: #F0F8FF;" unFocusColor="#012d5a">
                <VBox.margin>
                   <Insets bottom="15.0" />
                </VBox.margin>
             </JFXTextArea>
-            <JFXTextField focusColor="#012d5a" maxWidth="300.0" promptText="Location" unFocusColor="#012d5a">
+            <JFXTextField fx:id="requestlocation" focusColor="#0067b1" maxWidth="300.0" promptText="Location" unFocusColor="#012d5a">
                <VBox.margin>
                   <Insets bottom="15.0" />
                </VBox.margin>
             </JFXTextField>
-            <JFXTextField focusColor="#012d5a" maxWidth="300.0" promptText="Employee Assigned ID" unFocusColor="#012d5a">
+            <JFXTextField fx:id="assignedEmployeeID" focusColor="#0067b1" maxWidth="300.0" promptText="Employee Assigned ID" unFocusColor="#012d5a">
                <VBox.margin>
                   <Insets bottom="15.0" />
                </VBox.margin>
             </JFXTextField>
-            <JFXDatePicker defaultColor="#012d5a" promptText="Date">
+            <JFXDatePicker fx:id="date" defaultColor="#012d5a" promptText="Date">
                <VBox.margin>
                   <Insets bottom="15.0" />
                </VBox.margin>
             </JFXDatePicker>
-            <JFXTimePicker defaultColor="#012d5a" promptText="Time">
+            <JFXTimePicker fx:id="time" defaultColor="#012d5a" promptText="Time">
                <VBox.margin>
                   <Insets bottom="15.0" />
                </VBox.margin>
             </JFXTimePicker>
-            <Label minHeight="120.0" minWidth="400.0" prefHeight="105.0" prefWidth="400.0" text="For emergencies, please contact the on-call chaplain by calling 617-983-7000 and paging 66946. A Roman Catholic priest is on-call for emergency sacramental needs as well as a rabbi" wrapText="true">
+            <Label minHeight="98.0" minWidth="400.0" prefHeight="98.0" prefWidth="456.0" text="For emergencies, contact the on-call chaplain by calling 617-983-7000 and paging 66946. A Roman Catholic priest is on-call for emergency sacramental needs as well as a rabbi" wrapText="true">
                <VBox.margin>
                   <Insets bottom="15.0" />
                </VBox.margin>
@@ -96,29 +96,17 @@
                   <Font size="17.0" />
                </font>
             </Label>
-            <HBox prefHeight="82.0" prefWidth="573.0" styleClass=".root" />
-            <HBox prefHeight="82.0" prefWidth="573.0">
+            <HBox alignment="CENTER" prefHeight="82.0" prefWidth="573.0">
                <children>
-                  <JFXButton style="-fx-background-color: #0067b1;" styleClass="styledButton" stylesheets="@../fxmlResources/main.css" text="Cancel" textFill="WHITE">
+                  <JFXButton fx:id="clearButton" buttonType="RAISED" onAction="#clearForm" prefHeight="38.0" prefWidth="82.0" style="-fx-background-color: #0067b1;" text="Clear" textFill="WHITE">
                      <HBox.margin>
-                        <Insets right="20.0" />
+                        <Insets right="15.0" />
                      </HBox.margin>
                   </JFXButton>
-                  <JFXButton style="-fx-background-color: #0067b1;" styleClass="styledButton" stylesheets="@../fxmlResources/main.css" text="Submit" textFill="WHITE">
-                     <HBox.margin>
-                        <Insets right="20.0" />
-                     </HBox.margin></JFXButton>
-                  <JFXButton style="-fx-background-color: #0067b1;" styleClass="styledButton" stylesheets="@../fxmlResources/main.css" text="Clear" textFill="WHITE">
-                     <HBox.margin>
-                        <Insets right="20.0" />
-                     </HBox.margin>
-                  </JFXButton>
+                  <JFXButton fx:id="submitButton" buttonType="RAISED" onAction="#submitForm" prefHeight="38.0" prefWidth="82.0" style="-fx-background-color: #0067b1;" text="Submit" textFill="WHITE" />
                </children>
             </HBox>
          </children>
-         <padding>
-            <Insets bottom="100.0" left="100.0" right="100.0" top="100.0" />
-         </padding>
       </VBox>
       <ListView fx:id="serviceLocationList" layoutX="324.0" layoutY="325.0" prefHeight="200.0" prefWidth="200.0" visible="false" />
       <ListView fx:id="requestAssignedList" layoutX="392.0" layoutY="416.0" prefHeight="200.0" prefWidth="200.0" visible="false" />
