@@ -9,6 +9,8 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="1000.0" maxWidth="1500.0" minHeight="300.0" minWidth="713.0" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamI.view.ServiceViewController">
    <children>
@@ -155,7 +157,23 @@
                   </AnchorPane>
                </content>
             </ScrollPane>
-            <AnchorPane fx:id="replaceRequest" minHeight="300.0" minWidth="600.0" prefHeight="700.0" prefWidth="800.0" />
+            <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <Label text="Service Request Systems" VBox.vgrow="ALWAYS">
+                     <font>
+                        <Font size="32.0" />
+                     </font>
+                     <padding>
+                        <Insets bottom="20.0" left="20.0" right="10.0" top="10.0" />
+                     </padding>
+                  </Label>
+                  <ScrollPane prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                    <content>
+                      <AnchorPane fx:id="replaceRequest" minHeight="0.0" minWidth="0.0" />
+                    </content>
+                  </ScrollPane>
+               </children>
+            </VBox>
          </children>
       </HBox>
    </children>
