@@ -584,4 +584,20 @@ public class NavDatabaseManager extends DatabaseManager {
       e.printStackTrace();
     }
   }
+
+  public List<String> getLocationNodeLongNames() {
+    try {
+      Statement statement = databaseRef.getConnection().createStatement();
+      ResultSet resultSet =
+          statement.executeQuery("SELECT long_name FROM NAVNODES WHERE node_type='LOC'");
+      List<String> out = new ArrayList<>();
+      while (resultSet.next()) {
+        out.add(resultSet.getString("long_name"));
+      }
+      return out;
+    } catch (SQLException e) {
+      e.printStackTrace();
+      return null;
+    }
+  }
 }

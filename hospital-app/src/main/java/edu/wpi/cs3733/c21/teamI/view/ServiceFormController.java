@@ -5,6 +5,8 @@ import edu.wpi.cs3733.c21.teamI.database.NavDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.database.ServiceTicketDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.database.UserDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicket;
+import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicketDataController;
+import edu.wpi.cs3733.c21.teamI.user.User;
 import java.io.IOException;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
@@ -140,11 +142,17 @@ public class ServiceFormController extends Application {
   }
 
   public void lookup(KeyEvent e) {
-    ViewManager.lookupNodes(e, serviceLocationList, requestLocation);
+    ServiceTicketDataController.lookupNodes(e, serviceLocationList, requestLocation);
   }
 
-  public void lookupUser(KeyEvent e) {
-    ViewManager.lookupUsernames(e, requestAssignedList, requestAssigned);
+  public void lookupUserSan(KeyEvent e) {
+    ServiceTicketDataController.lookupUsernames(
+        e, User.Permission.RESPOND_TO_SANITATION, requestAssignedList, requestAssigned);
+  }
+
+  public void lookupUserMai(KeyEvent e) {
+    ServiceTicketDataController.lookupUsernames(
+        e, User.Permission.RESPOND_TO_MAINTENANCE, requestAssignedList, requestAssigned);
   }
 
   @Override

@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.*;
 import edu.wpi.cs3733.c21.teamI.pathfinding.*;
+import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicketDataController;
 import edu.wpi.cs3733.c21.teamI.user.User;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -142,9 +143,9 @@ public class MapController extends Application {
 
   public void lookup(KeyEvent e) {
     if (e.getSource() == start) {
-      ViewManager.lookupNodes(e, startList, start);
+      ServiceTicketDataController.lookupNodes(e, startList, start);
     } else {
-      ViewManager.lookupNodes(e, destList, destination);
+      ServiceTicketDataController.lookupNodes(e, destList, destination);
     }
   }
 
