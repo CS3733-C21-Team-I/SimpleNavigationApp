@@ -229,12 +229,12 @@ public class UserDatabaseManager extends DatabaseManager {
     try {
       Statement stmt = databaseRef.getConnection().createStatement();
       stmt.execute(
-              "CREATE TABLE HOSPITAL_EMPLOYEE"
-                      + "("
-                      + " employeeID    integer NOT NULL,"
-                      + " firstName varchar(20) NOT NULL ,"
-                      + " lastName  varchar(20) NOT NULL,"
-                      + "FOREIGN KEY (employeeID) REFERENCES HOSPITAL_USERS(user_ID))");
+          "CREATE TABLE HOSPITAL_EMPLOYEE"
+              + "("
+              + " employeeID    integer NOT NULL,"
+              + " firstName varchar(20) NOT NULL ,"
+              + " lastName  varchar(20) NOT NULL,"
+              + "FOREIGN KEY (employeeID) REFERENCES HOSPITAL_USERS(user_ID))");
     } catch (SQLException e) {
       System.out.println("Error generating User table");
       e.printStackTrace();
@@ -356,9 +356,8 @@ public class UserDatabaseManager extends DatabaseManager {
     }
   }
 
-  public void addUser(){
+  public void addUser() {}
 
-  }
   public static void populateExampleData() {
     try {
       Statement stmt = ourInstance.databaseRef.getConnection().createStatement();
