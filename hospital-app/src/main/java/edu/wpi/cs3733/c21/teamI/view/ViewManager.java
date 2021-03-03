@@ -46,7 +46,7 @@ public class ViewManager {
       root.getChildren().add(FXMLLoader.load(ViewManager.class.getResource("/fxml/Requests.fxml")));
     } else if (id.equals("map")) {
       root.getChildren()
-          .add(FXMLLoader.load(ViewManager.class.getResource("/fxml/PathfindingOldTime.fxml")));
+          .add(FXMLLoader.load(ViewManager.class.getResource("/fxml/Pathfinding.fxml")));
     } else if (id.equals("serviceRequests")) {
       root.getChildren().add(FXMLLoader.load(ViewManager.class.getResource("/fxml/Requests.fxml")));
     } else if (id.equals("maintenance")) {
