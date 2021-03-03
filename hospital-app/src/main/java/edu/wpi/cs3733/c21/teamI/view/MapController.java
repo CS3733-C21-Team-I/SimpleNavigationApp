@@ -58,17 +58,15 @@ public class MapController extends Application {
   @FXML AnchorPane tabPane;
   @FXML ImageView mapImage;
 
+  private MapDataEntity data = new MapDataEntity();
+
   private final double scale = 3.05;
-  private EuclidianDistCalc scorer = new EuclidianDistCalc();
   private int imgWidth = 2989;
   private int imgHeight = 2457;
 
   private Color blue = Color.color(68.0 / 256.0, 136.0 / 256.0, 166.0 / 256.0);
   private Color red = Color.color(217.0 / 256.0, 89.0 / 256.0, 89.0 / 256.0);
   private Color color2 = Color.DARKBLUE;
-
-  private PathPlanningAlgorithm pathFinderAlgorithm = new PathFinder();
-  private List<HospitalMapNode> foundPath;
 
   public void updateView() throws IOException {
     if (adminMap) {
@@ -86,8 +84,8 @@ public class MapController extends Application {
         e.printStackTrace();
       }
       mapPane.getChildren().clear();
-      if (this.foundPath != null) {
-        drawCalculatedPath();
+      if (data.foundPathExists()) {
+        drawCalculatedPath(data.getFoundPath());
       }
     }
   }
@@ -161,9 +159,7 @@ public class MapController extends Application {
 
       HospitalMapNode nodeA = getNodeByLongName(begin);
       HospitalMapNode nodeB = getNodeByLongName(end);
-      getNewPath(nodeA, nodeB);
-      System.out.println(this.foundPath);
-      drawCalculatedPath();
+      drawCalculatedPath(data.getFoundPath(nodeA, nodeB));
     }
   }
 
@@ -181,27 +177,19 @@ public class MapController extends Application {
     mapPane.getChildren().clear();
   }
 
-  public void getNewPath(HospitalMapNode nodeA, HospitalMapNode nodeB) {
-    this.foundPath = pathFinderAlgorithm.findPath(nodeA, nodeB, scorer);
-
-    ArrayList<String> directions = TextDirections.getDirections(scorer, foundPath);
-    System.out.println(directions);
-    displayDirections(directions);
-  }
-
   @FXML
-  public void drawCalculatedPath() throws IOException {
+  public void drawCalculatedPath(List<HospitalMapNode> foundPath) throws IOException {
     deletePath();
-    if (this.foundPath.size() >= 2) {
-      HospitalMapNode nodeA = this.foundPath.get(0);
-      HospitalMapNode nodeB = this.foundPath.get(this.foundPath.toArray().length - 1);
+    if (foundPath.size() >= 2) {
+      HospitalMapNode nodeA = foundPath.get(0);
+      HospitalMapNode nodeB = foundPath.get(foundPath.toArray().length - 1);
       mapPane
           .getChildren()
           .removeIf(n -> (n.getClass() == Line.class) || (n.getClass() == Circle.class));
-      drawPath(this.foundPath);
+      drawPath(foundPath);
 
-      if (nodeA.getMapID().equals(ViewManager.getMapID())) drawStartPoint(this.foundPath);
-      if (nodeB.getMapID().equals(ViewManager.getMapID())) drawEndPoint(this.foundPath);
+      if (nodeA.getMapID().equals(ViewManager.getMapID())) drawStartPoint(foundPath);
+      if (nodeB.getMapID().equals(ViewManager.getMapID())) drawEndPoint(foundPath);
     }
   }
 
@@ -477,14 +465,14 @@ public class MapController extends Application {
     switch (algorithmPick.getValue().toString()) {
       case "Depth First":
         System.out.println("Making new Depth first...");
-        this.pathFinderAlgorithm = new DepthFirstSearch();
+        data.pathFinderAlgorithm = new DepthFirstSearch();
         break;
       case "Breadth First":
         System.out.println("Making new Breadth first...");
-        this.pathFinderAlgorithm = new BreadthFirstSearch();
+        data.pathFinderAlgorithm = new BreadthFirstSearch();
         break;
       default:
-        this.pathFinderAlgorithm = new PathFinder();
+        data.pathFinderAlgorithm = new PathFinder();
         break;
     }
   }
@@ -765,7 +753,7 @@ public class MapController extends Application {
   public void onClear() {
     start.setText("");
     destination.setText("");
-    this.foundPath = null;
+    data.clearFoundPath();
     ObservableList<String> items = FXCollections.observableArrayList(new ArrayList<String>());
     directionsField.setItems(items);
     deletePath();
@@ -773,12 +761,12 @@ public class MapController extends Application {
 
   @FXML
   public void toggleAccessible(ActionEvent e) {
-    if (this.scorer.nodeTypesToAvoid.size() > 0) {
-      this.scorer.nodeTypesToAvoid.clear();
+    if (data.scorer.nodeTypesToAvoid.size() > 0) {
+      data.scorer.nodeTypesToAvoid.clear();
     } else {
-      this.scorer.nodeTypesToAvoid.add(NodeRestrictions.WHEELCHAIR_INACCESSIBLE);
+      data.scorer.nodeTypesToAvoid.add(NodeRestrictions.WHEELCHAIR_INACCESSIBLE);
     }
-    System.out.print("NodeRestrictions:" + this.scorer.nodeTypesToAvoid);
+    System.out.print("NodeRestrictions:" + data.scorer.nodeTypesToAvoid);
   }
 
   private void displayDirections(ArrayList<String> directions) {
