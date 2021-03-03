@@ -46,12 +46,9 @@ public class MedicineDeliveryController {
       ticket =
           new ServiceTicket(
               RequestID,
-              AssignedID,
-              "",
               ServiceTicket.TicketType.SECURITY,
               "Floor: " + floorPicked + " Room: " + roomPicked,
               comment.getText(),
-              false,
               false);
 
       ServiceTicketDatabaseManager.getInstance().addTicket(ticket);

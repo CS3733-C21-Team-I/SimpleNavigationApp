@@ -40,12 +40,9 @@ public class SecurityRequestController {
       ticket =
           new ServiceTicket(
               RequestID,
-              AssignedID,
-              "",
               ServiceTicket.TicketType.SECURITY,
               NavDatabaseManager.getInstance().getMapIdFromLongName(locationText.getText()),
               description.getText(),
-              emergency.isSelected(),
               false);
       ServiceTicketDatabaseManager.getInstance().addTicket(ticket);
     } catch (Exception o) {
