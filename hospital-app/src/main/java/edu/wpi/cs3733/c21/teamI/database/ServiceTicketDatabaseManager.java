@@ -136,6 +136,169 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
       } catch (SQLException e) {
         System.out.println("Error in generating Employee Table");
       }
+
+      try { // Creating the audioVisualTicket table
+        stmt.execute(
+                "create table audioVisualTicket(\n"
+                        + "patientName varchar(25),\n"
+                        + "mediaType varchar(25),\n"
+                        + "tixID integer NOT NULL,\n"
+                        + "FOREIGN KEY (tixID) REFERENCES SERVICETICKET(ticketID))");
+        // System.out.println("AudioVisualTicket table created.");
+      } catch (SQLException e) {
+        System.out.println("Error in generating AudioVisualTicket Table");
+      }
+
+      try { // Creating the computerTicket table
+        stmt.execute(
+                "create table computerTicket(\n"
+                        + "computerType varchar(25),\n"
+                        + "urgency boolean,\n"
+                        + "tixID integer NOT NULL,\n"
+                        + "FOREIGN KEY (tixID) REFERENCES SERVICETICKET(ticketID))");
+        // System.out.println("computerTicket table created.");
+      } catch (SQLException e) {
+        System.out.println("Error in generating computerTicket Table");
+      }
+
+      try { // Creating the employeeParkingTicket table
+        stmt.execute(
+                "create table employeeParkingTicket(\n"
+                        + "licensePlate varchar(25),\n"
+                        + "contact integer,\n"
+                        + "startDate varchar(25),\n"
+                        + "endDate varchar(25),\n"
+                        + "disability boolean,\n"
+                        + "tixID integer NOT NULL,\n"
+                        + "FOREIGN KEY (tixID) REFERENCES SERVICETICKET(ticketID))");
+        // System.out.println("employeeParkingTicket table created.");
+      } catch (SQLException e) {
+        System.out.println("Error in generating employeeParkingTicket Table");
+      }
+
+      try { // Creating the externalTransportationTicket table
+        stmt.execute(
+                "create table externalTransportationTicket(\n"
+                        + "pickUpDate varchar(25),\n"
+                        + "pickUpTime varchar(25),\n"
+                        + "destination varchar(25),\n"
+                        + "tixID integer NOT NULL,\n"
+                        + "FOREIGN KEY (tixID) REFERENCES SERVICETICKET(ticketID))");
+        // System.out.println("externalTransportationTicket table created.");
+      } catch (SQLException e) {
+        System.out.println("Error in generating externalTransportationTicket Table");
+      }
+
+      try { // Creating the floralTicket table
+        stmt.execute(
+                "create table floralTicket(\n"
+                        + "patientName varchar(25),\n"
+                        + "deliveryDate varchar(25),\n"
+                        + "deliveryTime varchar(25),\n"
+                        + "tixID integer NOT NULL,\n"
+                        + "FOREIGN KEY (tixID) REFERENCES SERVICETICKET(ticketID))");
+        // System.out.println("floralTicket table created.");
+      } catch (SQLException e) {
+        System.out.println("Error in generating floralTicket Table");
+      }
+
+      try { // Creating the giftTicket table
+        stmt.execute(
+                "create table giftTicket(\n"
+                        + "patientName varchar(25),\n"
+                        + "deliveryDate varchar(25),\n"
+                        + "deliveryTime varchar(25),\n"
+                        + "giftType varchar(25),\n"
+                        + "tixID integer NOT NULL,\n"
+                        + "FOREIGN KEY (tixID) REFERENCES SERVICETICKET(ticketID))");
+        // System.out.println("giftTicket table created.");
+      } catch (SQLException e) {
+        System.out.println("Error in generating giftTicket Table");
+      }
+
+      try { // Creating the internalTransportationTicket table
+        stmt.execute(
+                "create table internalTransportationTicket(\n"
+                        + "pickUpDate varchar(25),\n"
+                        + "pickUpTime varchar(25),\n"
+                        + "emergency boolean,\n"
+                        + "stretcher boolean,\n"
+                        + "wheelchair boolean,\n"
+                        + "tixID integer NOT NULL,\n"
+                        + "FOREIGN KEY (tixID) REFERENCES SERVICETICKET(ticketID))");
+        // System.out.println("internalTransportationTicket table created.");
+      } catch (SQLException e) {
+        System.out.println("Error in generating internalTransportationTicket Table");
+      }
+
+      try { // Creating the languageTicket table
+        stmt.execute(
+                "create table languageTicket(\n"
+                        + "language varchar(25),\n"
+                        + "meetingTime varchar(25),\n"
+                        + "legalDocs boolean,\n"
+                        + "tixID integer NOT NULL,\n"
+                        + "FOREIGN KEY (tixID) REFERENCES SERVICETICKET(ticketID))");
+        // System.out.println("languageTicket table created.");
+      } catch (SQLException e) {
+        System.out.println("Error in generating languageTicket Table");
+      }
+
+      try { // Creating the laundryTicket table
+        stmt.execute(
+                "create table laundryTicket(\n"
+                        + "pickUpDate varchar(25),\n"
+                        + "pickUpTime varchar(25),\n"
+                        + "dryClean boolean,\n"
+                        + "tixID integer NOT NULL,\n"
+                        + "FOREIGN KEY (tixID) REFERENCES SERVICETICKET(ticketID))");
+        // System.out.println("laundryTicket table created.");
+      } catch (SQLException e) {
+        System.out.println("Error in generating laundryTicket Table");
+      }
+
+      try { // Creating the medicineTicket table
+        stmt.execute(
+                "create table medicineTicket(\n"
+                        + "patientName varchar(25),\n"
+                        + "drugName varchar(25),\n"
+                        + "dose varchar(25),\n"
+                        + "quantity varchar(25),\n"
+                        + "date varchar(25),\n"
+                        + "time varchar(25),\n"
+                        + "tixID integer NOT NULL,\n"
+                        + "FOREIGN KEY (tixID) REFERENCES SERVICETICKET(ticketID))");
+        // System.out.println("medicineTicket table created.");
+      } catch (SQLException e) {
+        System.out.println("Error in generating medicineTicket Table");
+      }
+
+      try { // Creating the religiousTicket table
+        stmt.execute(
+                "create table religiousTicket(\n"
+                        + "patientName varchar(25),\n"
+                        + "religiousDenomination varchar(25),\n"
+                        + "religiousType varchar(25),\n"
+                        + "date varchar(25),\n"
+                        + "time varchar(25),\n"
+                        + "tixID integer NOT NULL,\n"
+                        + "FOREIGN KEY (tixID) REFERENCES SERVICETICKET(ticketID))");
+        // System.out.println("religiousTicket table created.");
+      } catch (SQLException e) {
+        System.out.println("Error in generating religiousTicket Table");
+      }
+
+      try { // Creating the securityTicket table
+        stmt.execute(
+                "create table securityTicket(\n"
+                        + "securityType varchar(25),\n"
+                        + "emergency boolean,\n"
+                        + "tixID integer NOT NULL,\n"
+                        + "FOREIGN KEY (tixID) REFERENCES SERVICETICKET(ticketID))");
+        // System.out.println("securityTicket table created.");
+      } catch (SQLException e) {
+        System.out.println("Error in generating securityTicket Table");
+      }
     } catch (SQLException throwables) {
       throwables.printStackTrace();
     }
@@ -145,6 +308,115 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
   void dropTables() {
     try {
       Statement stmt = databaseRef.getConnection().createStatement();
+
+      try {
+        // Drop the religiousTicket table.
+        stmt.execute("DROP TABLE audioVisualTicket");
+        // System.out.println("religiousTicket table dropped.");
+      } catch (SQLException ex) {
+        // No need to report an error.
+        // The table simply did not exist.
+      }
+
+      try {
+        // Drop the religiousTicket table.
+        stmt.execute("DROP TABLE computerTicket");
+        // System.out.println("religiousTicket table dropped.");
+      } catch (SQLException ex) {
+        // No need to report an error.
+        // The table simply did not exist.
+      }
+
+      try {
+        // Drop the religiousTicket table.
+        stmt.execute("DROP TABLE employeeParkingTicket");
+        // System.out.println("religiousTicket table dropped.");
+      } catch (SQLException ex) {
+        // No need to report an error.
+        // The table simply did not exist.
+      }
+
+      try {
+        // Drop the religiousTicket table.
+        stmt.execute("DROP TABLE externalTransportationTicket");
+        // System.out.println("religiousTicket table dropped.");
+      } catch (SQLException ex) {
+        // No need to report an error.
+        // The table simply did not exist.
+      }
+
+      try {
+        // Drop the religiousTicket table.
+        stmt.execute("DROP TABLE floralTicket");
+        // System.out.println("religiousTicket table dropped.");
+      } catch (SQLException ex) {
+        // No need to report an error.
+        // The table simply did not exist.
+      }
+
+      try {
+        // Drop the religiousTicket table.
+        stmt.execute("DROP TABLE giftTicket");
+        // System.out.println("religiousTicket table dropped.");
+      } catch (SQLException ex) {
+        // No need to report an error.
+        // The table simply did not exist.
+      }
+
+      try {
+        // Drop the religiousTicket table.
+        stmt.execute("DROP TABLE internalTransportationTicket");
+        // System.out.println("religiousTicket table dropped.");
+      } catch (SQLException ex) {
+        // No need to report an error.
+        // The table simply did not exist.
+      }
+
+      try {
+        // Drop the religiousTicket table.
+        stmt.execute("DROP TABLE languageTicket");
+        // System.out.println("religiousTicket table dropped.");
+      } catch (SQLException ex) {
+        // No need to report an error.
+        // The table simply did not exist.
+      }
+
+      try {
+        // Drop the religiousTicket table.
+        stmt.execute("DROP TABLE laundryTicket");
+        // System.out.println("religiousTicket table dropped.");
+      } catch (SQLException ex) {
+        // No need to report an error.
+        // The table simply did not exist.
+      }
+
+      try {
+        // Drop the religiousTicket table.
+        stmt.execute("DROP TABLE medicineTicket");
+        // System.out.println("religiousTicket table dropped.");
+      } catch (SQLException ex) {
+        // No need to report an error.
+        // The table simply did not exist.
+      }
+
+      try {
+        // Drop the religiousTicket table.
+        stmt.execute("DROP TABLE religiousTicket");
+        // System.out.println("religiousTicket table dropped.");
+      } catch (SQLException ex) {
+        // No need to report an error.
+        // The table simply did not exist.
+      }
+
+      try {
+        // Drop the securityTicket table.
+        stmt.execute("DROP TABLE securityTicket");
+        // System.out.println("securityTicket table dropped.");
+      } catch (SQLException ex) {
+        // No need to report an error.
+        // The table simply did not exist.
+      }
+
       try {
         // Drop the Employee table.
         stmt.execute("DROP TABLE employee");

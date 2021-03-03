@@ -6,7 +6,6 @@ public class AudioVisualTicket extends ServiceTicket {
 
   public AudioVisualTicket(
       int requestID,
-      int assignID,
       String location,
       String desc,
       boolean completed,

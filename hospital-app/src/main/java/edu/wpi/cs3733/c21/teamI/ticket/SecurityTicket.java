@@ -6,7 +6,6 @@ public class SecurityTicket extends ServiceTicket {
 
   public SecurityTicket(
       int requestID,
-      int assignID,
       String location,
       String desc,
       boolean completed,

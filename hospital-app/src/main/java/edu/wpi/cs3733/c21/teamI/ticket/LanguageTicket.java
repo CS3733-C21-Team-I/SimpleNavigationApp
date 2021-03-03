@@ -7,7 +7,6 @@ public class LanguageTicket extends ServiceTicket {
 
   public LanguageTicket(
       int requestID,
-      int assignID,
       String location,
       String desc,
       boolean completed,

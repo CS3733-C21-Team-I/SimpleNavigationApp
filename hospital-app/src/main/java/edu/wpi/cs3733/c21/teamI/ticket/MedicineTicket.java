@@ -10,7 +10,6 @@ public class MedicineTicket extends ServiceTicket {
 
   public MedicineTicket(
       int requestID,
-      int assignID,
       String location,
       String desc,
       boolean completed,

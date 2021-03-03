@@ -6,7 +6,6 @@ public class ComputerTicket extends ServiceTicket {
 
   public ComputerTicket(
       int requestID,
-      int assignID,
       String location,
       String desc,
       boolean completed,

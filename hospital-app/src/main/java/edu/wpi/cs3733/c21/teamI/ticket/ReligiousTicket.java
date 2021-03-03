@@ -9,7 +9,6 @@ public class ReligiousTicket extends ServiceTicket {
 
   public ReligiousTicket(
       int requestID,
-      int assignID,
       String location,
       String desc,
       boolean completed,

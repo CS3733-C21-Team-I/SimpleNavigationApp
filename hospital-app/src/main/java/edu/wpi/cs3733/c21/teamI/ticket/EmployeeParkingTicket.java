@@ -9,7 +9,6 @@ public class EmployeeParkingTicket extends ServiceTicket {
 
   public EmployeeParkingTicket(
       int requestID,
-      int assignID,
       String location,
       String desc,
       boolean completed,

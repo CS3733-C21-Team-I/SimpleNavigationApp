@@ -8,7 +8,6 @@ public class GiftTicket extends ServiceTicket {
 
   public GiftTicket(
       int requestID,
-      int assignID,
       String location,
       String desc,
       boolean completed,

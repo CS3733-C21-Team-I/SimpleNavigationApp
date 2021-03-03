@@ -7,7 +7,6 @@ public class FloralTicket extends ServiceTicket {
 
   public FloralTicket(
       int requestID,
-      int assignID,
       String location,
       String desc,
       boolean completed,

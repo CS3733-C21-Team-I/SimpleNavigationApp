@@ -7,7 +7,6 @@ public class LaundryTicket extends ServiceTicket {
 
   public LaundryTicket(
       int requestID,
-      int assignID,
       String location,
       String desc,
       boolean completed,
