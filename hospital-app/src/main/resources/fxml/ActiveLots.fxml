@@ -7,12 +7,12 @@
 
 
 <AnchorPane fx:controller="edu.wpi.cs3733.c21.teamI.parking.view.ActiveLotsController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="608.0" prefWidth="738.0" xmlns="http://javafx.com/javafx/8.0.181" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <Label layoutX="39.0" layoutY="39.0" text="Active Lots">
-         <font>
-            <Font size="22.0" />
-         </font>
-      </Label>
-      <JFXListView fx:id="lotView" layoutX="39.0" layoutY="89.0" prefHeight="700.0" prefWidth="800.0" />
-   </children>
+    <children>
+        <Label layoutX="39.0" layoutY="39.0" text="Active Lots">
+            <font>
+                <Font size="22.0" />
+            </font>
+        </Label>
+        <JFXListView fx:id="lotView" layoutX="39.0" layoutY="89.0" prefHeight="700.0" prefWidth="800.0" />
+    </children>
 </AnchorPane>

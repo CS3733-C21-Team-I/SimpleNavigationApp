@@ -19,14 +19,13 @@ public class DepthFirstSearch implements PathPlanningAlgorithm {
       T currNode = frontier.pop();
       visited.add(currNode);
       List<T> connectedNodes = currNode.getConnections();
+
       for (T node : connectedNodes) {
         boolean shouldAvoid = !scorer.isValid(node);
-
         if (!visited.contains(node) && !shouldAvoid) {
           ArrayList<T> tempPath = new ArrayList(currPath);
           tempPath.add(node);
-
-          if (node == end) {
+          if (node.equals(end)) {
             return tempPath;
           } else {
             frontier.push(node);
