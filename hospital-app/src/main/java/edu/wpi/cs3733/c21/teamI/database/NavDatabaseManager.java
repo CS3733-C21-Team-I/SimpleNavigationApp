@@ -151,7 +151,7 @@ public class NavDatabaseManager extends DatabaseManager {
         // Drop the Edges table.
         stmt.execute("DROP TABLE NODE_TO_ATTRIBUTE");
       } catch (SQLException ex) {
-        ex.printStackTrace();
+        // ex.printStackTrace();
         // No need to report an error.
         // The table simply did not exist.
       }
@@ -161,7 +161,7 @@ public class NavDatabaseManager extends DatabaseManager {
         // Drop the Edges table.
         stmt.execute("DROP TABLE navEdges");
       } catch (SQLException ex) {
-        ex.printStackTrace();
+        // ex.printStackTrace();
         // No need to report an error.
         // The table simply did not exist.
       }
@@ -182,7 +182,7 @@ public class NavDatabaseManager extends DatabaseManager {
         // Drop the Nodes table.
         stmt.execute("DROP TABLE navNodes");
       } catch (SQLException ex) {
-        ex.printStackTrace();
+        // ex.printStackTrace();
         // No need to report an error.
         // The table simply did not exist.
       }
@@ -192,7 +192,7 @@ public class NavDatabaseManager extends DatabaseManager {
         // Drop the Maps table.
         stmt.execute("DROP TABLE navMaps");
       } catch (SQLException ex) {
-        ex.printStackTrace();
+        // ex.printStackTrace();
         // No need to report an error.
         // The table simply did not exist.
       }
