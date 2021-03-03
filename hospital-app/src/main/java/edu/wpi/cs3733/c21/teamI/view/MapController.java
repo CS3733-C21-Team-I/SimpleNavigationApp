@@ -187,7 +187,6 @@ public class MapController extends Application {
   }
 
   public void navigate(ActionEvent e) throws IOException {
-    ViewManager.setSelectedNode(null);
     ViewManager.navigate(e);
   }
 
