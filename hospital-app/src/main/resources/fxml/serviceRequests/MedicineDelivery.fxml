@@ -1,79 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXCheckBox?>
+<?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXDatePicker?>
-<?import com.jfoenix.controls.JFXTextArea?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import com.jfoenix.controls.JFXTimePicker?>
-<?import javafx.geometry.Insets?>
+<?import com.jfoenix.controls.JFXToggleButton?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="708.0" prefWidth="365.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamI.view.MedicineDeliveryController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="322.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamI.view.MedicineDeliveryController">
    <children>
-      <VBox alignment="CENTER" prefHeight="595.0" prefWidth="255.0">
-         <children>
-            <JFXTextField focusColor="#012d5a" prefHeight="31.0" prefWidth="177.0" promptText="Quantity" unFocusColor="#012d5a">
-               <VBox.margin>
-                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-               </VBox.margin>
-            </JFXTextField>
-            <JFXTextField focusColor="#012d5a" prefHeight="31.0" prefWidth="177.0" promptText="Patient Name" unFocusColor="#012d5a">
-               <VBox.margin>
-                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-               </VBox.margin>
-            </JFXTextField>
-            <JFXTextField focusColor="#012d5a" prefHeight="31.0" prefWidth="177.0" promptText="Drug Name" unFocusColor="#012d5a">
-               <VBox.margin>
-                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-               </VBox.margin>
-            </JFXTextField>
-            <JFXTextField focusColor="#012d5a" prefHeight="31.0" prefWidth="177.0" promptText="Dose" unFocusColor="#012d5a">
-               <VBox.margin>
-                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-               </VBox.margin>
-            </JFXTextField>
-            <JFXDatePicker defaultColor="#012d5a" prefHeight="40.0" prefWidth="210.0" promptText="Delivery Date" showWeekNumbers="true">
-               <VBox.margin>
-                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-               </VBox.margin>
-            </JFXDatePicker>
-            <JFXTimePicker defaultColor="#012d5a" prefHeight="40.0" prefWidth="210.0" promptText="Delivery Time">
-               <VBox.margin>
-                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-               </VBox.margin>
-            </JFXTimePicker>
-            <JFXTextField promptText="Location">
-               <VBox.margin>
-                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-               </VBox.margin>
-            </JFXTextField>
-            <JFXTextArea prefHeight="76.0" prefWidth="206.0" promptText="Request Details">
-               <VBox.margin>
-                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-               </VBox.margin>
-            </JFXTextArea>
-         </children>
-      </VBox>
-      <HBox alignment="CENTER" layoutX="13.0" layoutY="576.0" prefHeight="96.0" prefWidth="339.0">
-         <children>
-            <JFXButton buttonType="RAISED" style="-fx-background-radius: 5px;" styleClass="styledButton" stylesheets="@../fxmlResources/main.css" text="Cancel">
-               <HBox.margin>
-                  <Insets right="20.0" />
-               </HBox.margin>
-            </JFXButton>
-            <JFXButton style="-fx-background-radius: 5px;" styleClass="styledButton" stylesheets="@../fxmlResources/main.css" text="Clear">
-               <HBox.margin>
-                  <Insets right="20.0" />
-               </HBox.margin>
-            </JFXButton>
-            <JFXButton style="-fx-background-radius: 5px;" styleClass="styledButton" stylesheets="@../fxmlResources/main.css" text="Submit">
-               <HBox.margin>
-                  <Insets right="20.0" />
-               </HBox.margin>
-            </JFXButton>
-         </children>
-      </HBox>
+      <JFXDatePicker fx:id="date" defaultColor="#0067b1" layoutX="72.0" layoutY="75.0" prefHeight="40.0" prefWidth="210.0" promptText="DD/MM/YYYY" showWeekNumbers="true" />
+      <JFXTimePicker fx:id="time" defaultColor="#0067b1" layoutX="72.0" layoutY="128.0" prefHeight="40.0" prefWidth="210.0" promptText="Time" />
+      <JFXButton fx:id="submitBtn" layoutX="82.0" layoutY="550.0" onAction="#submit" prefHeight="40.0" prefWidth="80.0" style="-fx-background-color: #0067b1;" text="Submit" textFill="WHITE" />
+      <JFXCheckBox fx:id="checkNote" checkedColor="#0067b1" graphicTextGap="6.0" layoutX="72.0" layoutY="500.0" prefHeight="40.0" prefWidth="255.0" text="Receive notifications">
+         <font>
+            <Font name="Verdana Bold" size="14.0" />
+         </font>
+      </JFXCheckBox>
+      <JFXTextField fx:id="floor" layoutX="72.0" layoutY="191.0" prefHeight="31.0" prefWidth="210.0" promptText="Patient's Floor" />
+      <JFXButton fx:id="clearBtn" layoutX="177.0" layoutY="550.0" onAction="#onClear" prefHeight="40.0" prefWidth="80.0" style="-fx-background-color: #0067b1;" text="Clear" textFill="WHITE" />
+      <TextArea fx:id="comment" layoutX="72.0" layoutY="440.0" prefHeight="47.0" prefWidth="210.0" promptText="Comments" />
+      <JFXTextField fx:id="room" layoutX="72.0" layoutY="243.0" prefHeight="31.0" prefWidth="210.0" promptText="Patient's Room" />
+      <JFXTextField fx:id="patient_name" focusColor="#0067b1" layoutX="73.0" layoutY="30.0" prefHeight="31.0" prefWidth="177.0" promptText="Patient's Name" />
+      <JFXToggleButton fx:id="urgentCond" layoutX="73.0" layoutY="375.0" text="Urgent Condition" textFill="#0067b1" toggleColor="#0067b1" toggleLineColor="#2096eb" />
+      <JFXTextField fx:id="currentID" focusColor="#0067b1" layoutX="72.0" layoutY="290.0" prefHeight="31.0" prefWidth="177.0" promptText="Employee ID" />
+      <JFXTextField fx:id="assignedID" focusColor="#0067b1" layoutX="72.0" layoutY="335.0" prefHeight="31.0" prefWidth="177.0" promptText="Assigned Employee ID" />
    </children>
 </AnchorPane>

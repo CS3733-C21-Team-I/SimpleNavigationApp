@@ -133,7 +133,6 @@ public class ServiceFormController extends Application {
     sanEmergency.setSelected(false);
   }
 
-  @FXML
   public void initialize() {
     setupRequestView();
   }
