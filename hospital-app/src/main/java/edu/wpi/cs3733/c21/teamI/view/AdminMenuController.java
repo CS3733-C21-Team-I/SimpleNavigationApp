@@ -59,7 +59,6 @@ public class AdminMenuController extends Application {
       replacePane
           .getChildren()
           .add(FXMLLoader.load(getClass().getResource("/fxml/ServiceRequestTableView.fxml")));
-    } else {
     }
   }
 
