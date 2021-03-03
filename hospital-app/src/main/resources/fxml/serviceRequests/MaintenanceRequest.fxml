@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="800.0" prefWidth="973.0" styleClass=".root" stylesheets="@fxmlResources/main.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamI.view.ServiceFormController">
+<AnchorPane prefHeight="800.0" prefWidth="973.0" styleClass=".root" stylesheets="@../fxmlResources/main.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamI.view.ServiceFormController">
    <VBox fx:id="background" layoutX="185.0" layoutY="126.0" prefHeight="436.0" prefWidth="733.0" AnchorPane.bottomAnchor="236.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="132.0" AnchorPane.topAnchor="122.0">
       <HBox prefHeight="123.0" prefWidth="573.0">
          <JFXTextArea fx:id="mainDesc" focusColor="#012d5a" prefHeight="110.0" prefWidth="475.0" promptText="Request Details" unFocusColor="#012d5a">
@@ -33,7 +33,7 @@
             </HBox.margin>
          </JFXTextField>
       </HBox>
-      <HBox prefHeight="52.0" prefWidth="626.0" stylesheets="@fxmlResources/main.css">
+      <HBox prefHeight="52.0" prefWidth="626.0" stylesheets="@../fxmlResources/main.css">
          <children>
             <JFXTextField fx:id="requestID" focusColor="#012d5a" promptText="Requestor ID" unFocusColor="#012d5a">
                <font>
@@ -45,7 +45,7 @@
             </JFXTextField>
          </children>
       </HBox>
-      <HBox prefHeight="52.0" prefWidth="626.0" stylesheets="@fxmlResources/main.css">
+      <HBox prefHeight="52.0" prefWidth="626.0" stylesheets="@../fxmlResources/main.css">
          <JFXTextField fx:id="requestAssigned" focusColor="#012d5a" promptText="Employee Assigned" unFocusColor="#012d5a">
             <font>
                <Font size="16.0" />
@@ -66,17 +66,17 @@
          </JFXCheckBox>
       </HBox>
       <HBox alignment="TOP_RIGHT" prefHeight="82.0" prefWidth="573.0">
-         <JFXButton fx:id="mainCancel" styleClass="styledButton" stylesheets="@fxmlResources/main.css" text="Cancel">
+         <JFXButton fx:id="mainCancel" styleClass="styledButton" stylesheets="@../fxmlResources/main.css" text="Cancel">
             <HBox.margin>
                <Insets right="20.0" />
             </HBox.margin>
          </JFXButton>
-         <JFXButton fx:id="mainClear" onAction="#clearMaintenance" styleClass="styledButton" stylesheets="@fxmlResources/main.css" text="Clear">
+         <JFXButton fx:id="mainClear" onAction="#clearMaintenance" styleClass="styledButton" stylesheets="@../fxmlResources/main.css" text="Clear">
             <HBox.margin>
                <Insets right="20.0" />
             </HBox.margin>
          </JFXButton>
-         <JFXButton fx:id="mainSubmit" onAction="#createMaintenanceTicket" styleClass="styledButton" stylesheets="@fxmlResources/main.css" text="Submit">
+         <JFXButton fx:id="mainSubmit" onAction="#createMaintenanceTicket" styleClass="styledButton" stylesheets="@../fxmlResources/main.css" text="Submit">
             <HBox.margin>
                <Insets right="20.0" />
             </HBox.margin>

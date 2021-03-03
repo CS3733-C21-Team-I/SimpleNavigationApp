@@ -58,7 +58,9 @@ public class VisitorMenuController extends Application {
     } else {
       replacePane
           .getChildren()
-          .add(FXMLLoader.load(getClass().getResource("/fxml/MaintenanceRequest.fxml")));
+          .add(
+              FXMLLoader.load(
+                  getClass().getResource("/fxml/serviceRequests/MaintenanceRequest.fxml")));
     }
   }
 
