@@ -132,42 +132,6 @@ class RemoveNodeCommand extends MapEditCommand {
   }
 }
 
-// Doesn't support edges between maps
-// class AddEdgeCommand extends MapEditCommand {
-//  private String fromNode;
-//  private String toNode;
-//
-//  public AddEdgeCommand(MapEditDataController controller, String fromNode, String toNode) {
-//    super(controller);
-//    this.fromNode = fromNode;
-//    this.toNode = toNode;
-//  }
-//
-//  @Override
-//  void execute() {
-//    memento = new HospitalMap(controller.getActiveMap());
-//
-//    controller
-//        .getActiveMap()
-//        .getNode(fromNode)
-//        .addConnection(controller.getActiveMap().getNode(toNode));
-//    controller
-//        .getActiveMap()
-//        .getNode(toNode)
-//        .addConnection(controller.getActiveMap().getNode(fromNode));
-//  }
-//
-//  @Override
-//  void unExecute() {
-//    controller.setActiveMap(memento);
-//  }
-//
-//  @Override
-//  NavEditOperation getOperation() {
-//    return new NavEditOperation(NavEditOperation.OperationType.ADD_EDGE, fromNode, null, toNode);
-//  }
-// }
-
 class AddEdgeCommand extends MapEditCommand {
   private HospitalMapNode fromNode;
   private HospitalMapNode toNode;
@@ -200,10 +164,11 @@ class AddEdgeCommand extends MapEditCommand {
 }
 
 class DeleteEdgeCommand extends MapEditCommand {
-  private String fromNode;
-  private String toNode;
+  private HospitalMapNode fromNode;
+  private HospitalMapNode toNode;
 
-  public DeleteEdgeCommand(MapEditDataController controller, String fromNode, String toNode) {
+  public DeleteEdgeCommand(
+      MapEditDataController controller, HospitalMapNode fromNode, HospitalMapNode toNode) {
     super(controller);
     this.fromNode = fromNode;
     this.toNode = toNode;
@@ -213,16 +178,8 @@ class DeleteEdgeCommand extends MapEditCommand {
   void execute() {
     memento = new HospitalMap(controller.getActiveMap());
 
-    controller
-        .getActiveMap()
-        .getNode(fromNode)
-        .getConnections()
-        .removeIf(n -> n.getID().equals(toNode));
-    controller
-        .getActiveMap()
-        .getNode(toNode)
-        .getConnections()
-        .removeIf(n -> n.getID().equals(fromNode));
+    fromNode.getConnections().removeIf(n -> n.getID().equals(toNode.getID()));
+    toNode.getConnections().removeIf(n -> n.getID().equals(fromNode.getID()));
   }
 
   @Override
@@ -232,6 +189,7 @@ class DeleteEdgeCommand extends MapEditCommand {
 
   @Override
   NavEditOperation getOperation() {
-    return new NavEditOperation(NavEditOperation.OperationType.DELETE_EDGE, fromNode, null, toNode);
+    return new NavEditOperation(
+        NavEditOperation.OperationType.DELETE_EDGE, fromNode.getID(), null, toNode.getID());
   }
 }

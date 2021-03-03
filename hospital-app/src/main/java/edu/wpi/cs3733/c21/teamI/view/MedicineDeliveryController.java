@@ -47,11 +47,13 @@ public class MedicineDeliveryController {
           new ServiceTicket(
               RequestID,
               AssignedID,
+              "",
               ServiceTicket.TicketType.SECURITY,
               "Floor: " + floorPicked + " Room: " + roomPicked,
               comment.getText(),
               false,
               false);
+
       ServiceTicketDatabaseManager.getInstance().addTicket(ticket);
     } catch (Exception o) {
       System.out.println("Error" + o);

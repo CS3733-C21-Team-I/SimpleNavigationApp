@@ -37,20 +37,19 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
       ResultSet rs =
           stmt.executeQuery("SELECT * FROM serviceticket WHERE ticketID=" + String.valueOf(id));
       if (rs.next()) {
-        ServiceTicket cur =
+        ServiceTicket ticket =
             new ServiceTicket(
                 rs.getInt("requestingUserID"),
                 rs.getInt("assignedUserID"),
+                rs.getString("requestType"),
                 ServiceTicket.TicketType.valueOf(rs.getString("ticketType")),
                 rs.getString("location"),
                 rs.getString("description"),
                 rs.getBoolean("emergency"),
                 rs.getBoolean("completed"));
-        cur.setTicketID(rs.getInt("ticketID"));
-        return cur;
-      } else {
-        return null;
-      }
+        ticket.setTicketID(rs.getInt("ID"));
+        return ticket;
+      } else return null;
     } catch (SQLException e) {
       e.printStackTrace();
       return null;
@@ -69,6 +68,7 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
             new ServiceTicket(
                 rs.getInt("requestingUserID"),
                 rs.getInt("assignedUserID"),
+                rs.getString("requestType"),
                 ServiceTicket.TicketType.valueOf(rs.getString("ticketType")),
                 rs.getString("location"),
                 rs.getString("description"),
@@ -96,6 +96,7 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
                 + "    ticketID         integer NOT NULL GENERATED ALWAYS AS IDENTITY,\n"
                 + "    requestingUserID integer NOT NULL,\n"
                 + "    assignedUserID   integer NOT NULL,\n"
+                + "    requestType      varchar(25),\n"
                 + "    ticketType       varchar(25),\n"
                 + "    location         varchar(45) NOT NULL,\n"
                 + "    description      varchar(50),\n"
@@ -169,12 +170,14 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
       Statement stmt = databaseRef.getConnection().createStatement();
 
       stmt.executeUpdate(
-          "INSERT INTO serviceticket(requestingUserID, assignedUserID, ticketType, location, description, emergency, completed)\n"
+          "INSERT INTO serviceticket(requestingUserID, assignedUserID, requestType, ticketType, location, description, emergency, completed)\n"
               + "VALUES ("
               + t.getRequestingUserID()
               + ", "
               + t.getAssignedUserID()
               + ", '"
+              + t.getRequestType()
+              + "', '"
               + t.getTicketType().toString()
               + "', '"
               + t.getLocation()
@@ -200,6 +203,7 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
             new ServiceTicket(
                 rs.getInt("requestingUserID"),
                 rs.getInt("assignedUserID"),
+                rs.getString("requestType"),
                 ServiceTicket.TicketType.valueOf(rs.getString("ticketType")),
                 rs.getString("location"),
                 rs.getString("description"),
@@ -227,6 +231,7 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
             new ServiceTicket(
                 rs.getInt("requestingUserID"),
                 rs.getInt("assignedUserID"),
+                rs.getString("requestType"),
                 ServiceTicket.TicketType.valueOf(rs.getString("ticketType")),
                 rs.getString("location"),
                 rs.getString("description"),
@@ -254,6 +259,7 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
             new ServiceTicket(
                 rs.getInt("requestingUserID"),
                 rs.getInt("assignedUserID"),
+                rs.getString("requestType"),
                 ServiceTicket.TicketType.valueOf(rs.getString("ticketType")),
                 rs.getString("location"),
                 rs.getString("description"),
@@ -275,6 +281,7 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
             UserDatabaseManager.getInstance()
                 .getUserForScreenname("TestServiceEmployee")
                 .getUserId(),
+            "TESTYPE1",
             ServiceTicket.TicketType.MAINTENANCE,
             "ICONF00103",
             "info",
@@ -287,6 +294,7 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
             UserDatabaseManager.getInstance()
                 .getUserForScreenname("TestServiceEmployee")
                 .getUserId(),
+            "TESTYPE2",
             ServiceTicket.TicketType.LAUNDRY,
             "ICONF00104",
             "more info",

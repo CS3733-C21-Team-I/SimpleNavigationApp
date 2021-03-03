@@ -39,6 +39,7 @@ public class SecurityRequestController {
           new ServiceTicket(
               RequestID,
               AssignedID,
+              "",
               ServiceTicket.TicketType.SECURITY,
               NavDatabaseManager.getInstance().getMapIdFromLongName(locationText.getText()),
               description.getText(),

@@ -48,6 +48,7 @@ public class ServiceFormController extends Application {
           new ServiceTicket(
               RequestID,
               AssignedID,
+              "",
               ServiceTicket.TicketType.SANITATION,
               NavDatabaseManager.getInstance().getMapIdFromLongName(requestLocation.getText()),
               sanDescription.getText(),
@@ -72,6 +73,7 @@ public class ServiceFormController extends Application {
           new ServiceTicket(
               RequestID,
               AssignID,
+              "",
               ServiceTicket.TicketType.MAINTENANCE,
               NavDatabaseManager.getInstance().getMapIdFromLongName(requestLocation.getText()),
               mainDesc.getText(),

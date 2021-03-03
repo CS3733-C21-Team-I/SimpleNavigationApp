@@ -189,10 +189,6 @@ public class ViewManager {
     mapControl = mapController;
   }
 
-  public static void refreshMap() {
-    mapControl.updateView();
-  }
-
   public void setRoot(Group root) {
     ViewManager.root = root;
   }

@@ -21,6 +21,7 @@ public class HospitalMapCSVBuilder {
                 Integer.parseInt(nodeEntry.get(2)),
                 nodeEntry.get(8),
                 nodeEntry.get(7),
+                LocationCategory.valueOf(nodeEntry.get(5)),
                 nodeEntry.get(9),
                 new ArrayList<>());
       } else {
@@ -102,7 +103,7 @@ public class HospitalMapCSVBuilder {
           nodesString.append(node.getyCoord() + ",");
           nodesString.append(floorNumber + ",");
           nodesString.append(buildingName + ",");
-          nodesString.append("Temp,");
+          nodesString.append(((LocationNode) node).getLocationCategory().toString() + ",");
           nodesString.append("LOC,");
           nodesString.append(((LocationNode) node).getLongName() + ",");
           nodesString.append(((LocationNode) node).getShortName() + ",");
