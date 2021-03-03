@@ -31,8 +31,16 @@ public class ServiceTicket {
   }
 
   public enum TicketType {
+    AUDIO_VISUAL,
+    COMPUTER,
+    LANGUAGE,
+    PARKING,
+    FLORAL,
+    GIFT,
+    TRANSPORTATION,
     LAUNDRY,
-    FOOD,
+    MEDICINE,
+    RELIGIOUS,
     SECURITY,
     SANITATION,
     MAINTENANCE
