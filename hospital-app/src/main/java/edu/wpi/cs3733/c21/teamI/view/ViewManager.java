@@ -7,6 +7,8 @@ import edu.wpi.cs3733.c21.teamI.hospitalMap.mapEditing.MapEditDataController;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicket;
 import java.io.IOException;
 import java.util.*;
+
+import edu.wpi.cs3733.c21.teamI.view.maps.MapController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
