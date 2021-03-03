@@ -8,6 +8,7 @@ import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicket;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicketDataController;
 import edu.wpi.cs3733.c21.teamI.user.User;
 import java.io.IOException;
+import java.util.List;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
@@ -49,14 +50,12 @@ public class ServiceFormController extends Application {
       sanitationTicket =
           new ServiceTicket(
               RequestID,
-              AssignedID,
-              "",
               ServiceTicket.TicketType.SANITATION,
               NavDatabaseManager.getInstance().getMapIdFromLongName(requestLocation.getText()),
               sanDescription.getText(),
-              sanEmergency.isSelected(),
               false);
       ServiceTicketDatabaseManager.getInstance().addTicket(sanitationTicket);
+      addEmployeeForTicket(RequestID, AssignedID);
     } catch (Exception o) {
       System.out.println("Error" + o);
     }
@@ -74,15 +73,12 @@ public class ServiceFormController extends Application {
       maintenanceTicket =
           new ServiceTicket(
               RequestID,
-              AssignID,
-              "",
               ServiceTicket.TicketType.MAINTENANCE,
               NavDatabaseManager.getInstance().getMapIdFromLongName(requestLocation.getText()),
               mainDesc.getText(),
-              mainEmerg.isSelected(),
               false);
       ServiceTicketDatabaseManager.getInstance().addTicket(maintenanceTicket);
-
+      addEmployeeForTicket(RequestID, AssignID);
     } catch (Exception e) {
       e.printStackTrace();
       System.out.println(" Error " + e);
@@ -157,4 +153,17 @@ public class ServiceFormController extends Application {
 
   @Override
   public void start(Stage primaryStage) throws Exception {}
+
+  public void addEmployeeForTicket(int requestID, int assignID) {
+    try {
+      List<ServiceTicket> tixLs =
+          ServiceTicketDatabaseManager.getInstance().getTicketsForRequestId(requestID);
+      for (ServiceTicket cur : tixLs) {
+        int tixID = cur.getTicketId();
+        ServiceTicketDatabaseManager.getInstance().addEmployee(tixID, assignID);
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
 }
