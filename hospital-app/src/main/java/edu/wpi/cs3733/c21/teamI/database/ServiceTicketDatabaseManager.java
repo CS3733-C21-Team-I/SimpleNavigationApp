@@ -139,11 +139,11 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
 
       try { // Creating the audioVisualTicket table
         stmt.execute(
-                "create table audioVisualTicket(\n"
-                        + "patientName varchar(25),\n"
-                        + "mediaType varchar(25),\n"
-                        + "tixID integer NOT NULL,\n"
-                        + "FOREIGN KEY (tixID) REFERENCES SERVICETICKET(ticketID))");
+            "create table audioVisualTicket(\n"
+                + "tixID integer NOT NULL,\n"
+                + "patientName varchar(25),\n"
+                + "mediaType varchar(25),\n"
+                + "FOREIGN KEY (tixID) REFERENCES SERVICETICKET(ticketID))");
         // System.out.println("AudioVisualTicket table created.");
       } catch (SQLException e) {
         System.out.println("Error in generating AudioVisualTicket Table");
@@ -151,11 +151,11 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
 
       try { // Creating the computerTicket table
         stmt.execute(
-                "create table computerTicket(\n"
-                        + "computerType varchar(25),\n"
-                        + "urgency boolean,\n"
-                        + "tixID integer NOT NULL,\n"
-                        + "FOREIGN KEY (tixID) REFERENCES SERVICETICKET(ticketID))");
+            "create table computerTicket(\n"
+                + "tixID integer NOT NULL,\n"
+                + "computerType varchar(25),\n"
+                + "urgency boolean,\n"
+                + "FOREIGN KEY (tixID) REFERENCES SERVICETICKET(ticketID))");
         // System.out.println("computerTicket table created.");
       } catch (SQLException e) {
         System.out.println("Error in generating computerTicket Table");
@@ -163,14 +163,14 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
 
       try { // Creating the employeeParkingTicket table
         stmt.execute(
-                "create table employeeParkingTicket(\n"
-                        + "licensePlate varchar(25),\n"
-                        + "contact integer,\n"
-                        + "startDate varchar(25),\n"
-                        + "endDate varchar(25),\n"
-                        + "disability boolean,\n"
-                        + "tixID integer NOT NULL,\n"
-                        + "FOREIGN KEY (tixID) REFERENCES SERVICETICKET(ticketID))");
+            "create table employeeParkingTicket(\n"
+                + "tixID integer NOT NULL,\n"
+                + "licensePlate varchar(25),\n"
+                + "contact integer,\n"
+                + "startDate varchar(25),\n"
+                + "endDate varchar(25),\n"
+                + "disability boolean,\n"
+                + "FOREIGN KEY (tixID) REFERENCES SERVICETICKET(ticketID))");
         // System.out.println("employeeParkingTicket table created.");
       } catch (SQLException e) {
         System.out.println("Error in generating employeeParkingTicket Table");
@@ -178,12 +178,12 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
 
       try { // Creating the externalTransportationTicket table
         stmt.execute(
-                "create table externalTransportationTicket(\n"
-                        + "pickUpDate varchar(25),\n"
-                        + "pickUpTime varchar(25),\n"
-                        + "destination varchar(25),\n"
-                        + "tixID integer NOT NULL,\n"
-                        + "FOREIGN KEY (tixID) REFERENCES SERVICETICKET(ticketID))");
+            "create table externalTransportationTicket(\n"
+                + "tixID integer NOT NULL,\n"
+                + "pickUpDate varchar(25),\n"
+                + "pickUpTime varchar(25),\n"
+                + "destination varchar(25),\n"
+                + "FOREIGN KEY (tixID) REFERENCES SERVICETICKET(ticketID))");
         // System.out.println("externalTransportationTicket table created.");
       } catch (SQLException e) {
         System.out.println("Error in generating externalTransportationTicket Table");
@@ -191,12 +191,12 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
 
       try { // Creating the floralTicket table
         stmt.execute(
-                "create table floralTicket(\n"
-                        + "patientName varchar(25),\n"
-                        + "deliveryDate varchar(25),\n"
-                        + "deliveryTime varchar(25),\n"
-                        + "tixID integer NOT NULL,\n"
-                        + "FOREIGN KEY (tixID) REFERENCES SERVICETICKET(ticketID))");
+            "create table floralTicket(\n"
+                + "tixID integer NOT NULL,\n"
+                + "patientName varchar(25),\n"
+                + "deliveryDate varchar(25),\n"
+                + "deliveryTime varchar(25),\n"
+                + "FOREIGN KEY (tixID) REFERENCES SERVICETICKET(ticketID))");
         // System.out.println("floralTicket table created.");
       } catch (SQLException e) {
         System.out.println("Error in generating floralTicket Table");
@@ -204,13 +204,13 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
 
       try { // Creating the giftTicket table
         stmt.execute(
-                "create table giftTicket(\n"
-                        + "patientName varchar(25),\n"
-                        + "deliveryDate varchar(25),\n"
-                        + "deliveryTime varchar(25),\n"
-                        + "giftType varchar(25),\n"
-                        + "tixID integer NOT NULL,\n"
-                        + "FOREIGN KEY (tixID) REFERENCES SERVICETICKET(ticketID))");
+            "create table giftTicket(\n"
+                + "tixID integer NOT NULL,\n"
+                + "patientName varchar(25),\n"
+                + "deliveryDate varchar(25),\n"
+                + "deliveryTime varchar(25),\n"
+                + "giftType varchar(25),\n"
+                + "FOREIGN KEY (tixID) REFERENCES SERVICETICKET(ticketID))");
         // System.out.println("giftTicket table created.");
       } catch (SQLException e) {
         System.out.println("Error in generating giftTicket Table");
@@ -218,14 +218,14 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
 
       try { // Creating the internalTransportationTicket table
         stmt.execute(
-                "create table internalTransportationTicket(\n"
-                        + "pickUpDate varchar(25),\n"
-                        + "pickUpTime varchar(25),\n"
-                        + "emergency boolean,\n"
-                        + "stretcher boolean,\n"
-                        + "wheelchair boolean,\n"
-                        + "tixID integer NOT NULL,\n"
-                        + "FOREIGN KEY (tixID) REFERENCES SERVICETICKET(ticketID))");
+            "create table internalTransportationTicket(\n"
+                + "tixID integer NOT NULL,\n"
+                + "pickUpDate varchar(25),\n"
+                + "pickUpTime varchar(25),\n"
+                + "emergency boolean,\n"
+                + "stretcher boolean,\n"
+                + "wheelchair boolean,\n"
+                + "FOREIGN KEY (tixID) REFERENCES SERVICETICKET(ticketID))");
         // System.out.println("internalTransportationTicket table created.");
       } catch (SQLException e) {
         System.out.println("Error in generating internalTransportationTicket Table");
@@ -233,12 +233,12 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
 
       try { // Creating the languageTicket table
         stmt.execute(
-                "create table languageTicket(\n"
-                        + "language varchar(25),\n"
-                        + "meetingTime varchar(25),\n"
-                        + "legalDocs boolean,\n"
-                        + "tixID integer NOT NULL,\n"
-                        + "FOREIGN KEY (tixID) REFERENCES SERVICETICKET(ticketID))");
+            "create table languageTicket(\n"
+                + "tixID integer NOT NULL,\n"
+                + "language varchar(25),\n"
+                + "meetingTime varchar(25),\n"
+                + "legalDocs boolean,\n"
+                + "FOREIGN KEY (tixID) REFERENCES SERVICETICKET(ticketID))");
         // System.out.println("languageTicket table created.");
       } catch (SQLException e) {
         System.out.println("Error in generating languageTicket Table");
@@ -246,12 +246,12 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
 
       try { // Creating the laundryTicket table
         stmt.execute(
-                "create table laundryTicket(\n"
-                        + "pickUpDate varchar(25),\n"
-                        + "pickUpTime varchar(25),\n"
-                        + "dryClean boolean,\n"
-                        + "tixID integer NOT NULL,\n"
-                        + "FOREIGN KEY (tixID) REFERENCES SERVICETICKET(ticketID))");
+            "create table laundryTicket(\n"
+                + "tixID integer NOT NULL,\n"
+                + "pickUpDate varchar(25),\n"
+                + "pickUpTime varchar(25),\n"
+                + "dryClean boolean,\n"
+                + "FOREIGN KEY (tixID) REFERENCES SERVICETICKET(ticketID))");
         // System.out.println("laundryTicket table created.");
       } catch (SQLException e) {
         System.out.println("Error in generating laundryTicket Table");
@@ -259,15 +259,15 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
 
       try { // Creating the medicineTicket table
         stmt.execute(
-                "create table medicineTicket(\n"
-                        + "patientName varchar(25),\n"
-                        + "drugName varchar(25),\n"
-                        + "dose varchar(25),\n"
-                        + "quantity varchar(25),\n"
-                        + "date varchar(25),\n"
-                        + "time varchar(25),\n"
-                        + "tixID integer NOT NULL,\n"
-                        + "FOREIGN KEY (tixID) REFERENCES SERVICETICKET(ticketID))");
+            "create table medicineTicket(\n"
+                + "tixID integer NOT NULL,\n"
+                + "patientName varchar(25),\n"
+                + "drugName varchar(25),\n"
+                + "dose varchar(25),\n"
+                + "quantity varchar(25),\n"
+                + "date varchar(25),\n"
+                + "time varchar(25),\n"
+                + "FOREIGN KEY (tixID) REFERENCES SERVICETICKET(ticketID))");
         // System.out.println("medicineTicket table created.");
       } catch (SQLException e) {
         System.out.println("Error in generating medicineTicket Table");
@@ -275,14 +275,14 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
 
       try { // Creating the religiousTicket table
         stmt.execute(
-                "create table religiousTicket(\n"
-                        + "patientName varchar(25),\n"
-                        + "religiousDenomination varchar(25),\n"
-                        + "religiousType varchar(25),\n"
-                        + "date varchar(25),\n"
-                        + "time varchar(25),\n"
-                        + "tixID integer NOT NULL,\n"
-                        + "FOREIGN KEY (tixID) REFERENCES SERVICETICKET(ticketID))");
+            "create table religiousTicket(\n"
+                + "tixID integer NOT NULL,\n"
+                + "patientName varchar(25),\n"
+                + "religiousDenomination varchar(25),\n"
+                + "religiousType varchar(25),\n"
+                + "date varchar(25),\n"
+                + "time varchar(25),\n"
+                + "FOREIGN KEY (tixID) REFERENCES SERVICETICKET(ticketID))");
         // System.out.println("religiousTicket table created.");
       } catch (SQLException e) {
         System.out.println("Error in generating religiousTicket Table");
@@ -290,11 +290,11 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
 
       try { // Creating the securityTicket table
         stmt.execute(
-                "create table securityTicket(\n"
-                        + "securityType varchar(25),\n"
-                        + "emergency boolean,\n"
-                        + "tixID integer NOT NULL,\n"
-                        + "FOREIGN KEY (tixID) REFERENCES SERVICETICKET(ticketID))");
+            "create table securityTicket(\n"
+                + "tixID integer NOT NULL,\n"
+                + "securityType varchar(25),\n"
+                + "emergency boolean,\n"
+                + "FOREIGN KEY (tixID) REFERENCES SERVICETICKET(ticketID))");
         // System.out.println("securityTicket table created.");
       } catch (SQLException e) {
         System.out.println("Error in generating securityTicket Table");
