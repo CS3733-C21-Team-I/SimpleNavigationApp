@@ -5,31 +5,23 @@ import edu.wpi.cs3733.c21.teamI.database.NavDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.database.ServiceTicketDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.database.UserDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicket;
+import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicketDataController;
+import edu.wpi.cs3733.c21.teamI.user.User;
 import java.io.IOException;
+import java.util.List;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 public class ServiceFormController extends Application {
   ServiceTicket sanitationTicket;
   ServiceTicket maintenanceTicket;
-  Stage textStage;
-  FXMLLoader textBoxLoader;
-  Label textLabel;
 
   @FXML CheckBox sanEmergency;
   @FXML TextArea sanDescription;
@@ -58,34 +50,15 @@ public class ServiceFormController extends Application {
       sanitationTicket =
           new ServiceTicket(
               RequestID,
-              AssignedID,
-              "Test",
               ServiceTicket.TicketType.SANITATION,
               NavDatabaseManager.getInstance().getMapIdFromLongName(requestLocation.getText()),
               sanDescription.getText(),
-              sanEmergency.isSelected(),
               false);
       ServiceTicketDatabaseManager.getInstance().addTicket(sanitationTicket);
-      System.out.println("service request sent");
-      clearSanitation();
-      showSuccess();
-
+      addEmployeeForTicket(RequestID, AssignedID);
     } catch (Exception o) {
       System.out.println("Error" + o);
-      showError();
     }
-  }
-
-  private void showError() {
-    textLabel.setTextFill(Color.RED);
-    textLabel.setText("Please enter valid information.");
-    textStage.show();
-  }
-
-  private void showSuccess() {
-    textLabel.setTextFill(Color.GREEN);
-    textLabel.setText("Service Request Submitted.");
-    textStage.show();
   }
 
   @FXML
@@ -100,20 +73,15 @@ public class ServiceFormController extends Application {
       maintenanceTicket =
           new ServiceTicket(
               RequestID,
-              AssignID,
-              "Test",
               ServiceTicket.TicketType.MAINTENANCE,
               NavDatabaseManager.getInstance().getMapIdFromLongName(requestLocation.getText()),
               mainDesc.getText(),
-              mainEmerg.isSelected(),
               false);
       ServiceTicketDatabaseManager.getInstance().addTicket(maintenanceTicket);
-      clearMaintenance();
-      showSuccess();
-
+      addEmployeeForTicket(RequestID, AssignID);
     } catch (Exception e) {
+      e.printStackTrace();
       System.out.println(" Error " + e);
-      showError();
     }
   }
 
@@ -165,41 +133,37 @@ public class ServiceFormController extends Application {
     sanEmergency.setSelected(false);
   }
 
-  @FXML
   public void initialize() {
     setupRequestView();
-    // dialog box code
-    try {
-      textBoxLoader = new FXMLLoader(getClass().getResource("/fxml/dialogBox.fxml"));
-      AnchorPane textBoxRoot = textBoxLoader.load();
-
-      textStage = new Stage();
-      textStage.initModality(Modality.APPLICATION_MODAL);
-      textStage.initStyle(StageStyle.UNDECORATED);
-      textStage.setScene(new Scene(textBoxRoot));
-
-      Button okBtn = (Button) textBoxLoader.getNamespace().get("okBtn");
-      textLabel = (Label) textBoxLoader.getNamespace().get("textLabel");
-      okBtn.setOnMouseClicked(
-          new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-              textStage.hide();
-            }
-          });
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
   }
 
   public void lookup(KeyEvent e) {
-    ViewManager.lookupNodes(e, serviceLocationList, requestLocation);
+    ServiceTicketDataController.lookupNodes(e, serviceLocationList, requestLocation);
   }
 
-  public void lookupUser(KeyEvent e) {
-    ViewManager.lookupUsernames(e, requestAssignedList, requestAssigned);
+  public void lookupUserSan(KeyEvent e) {
+    ServiceTicketDataController.lookupUsernames(
+        e, User.Permission.RESPOND_TO_SANITATION, requestAssignedList, requestAssigned);
+  }
+
+  public void lookupUserMai(KeyEvent e) {
+    ServiceTicketDataController.lookupUsernames(
+        e, User.Permission.RESPOND_TO_MAINTENANCE, requestAssignedList, requestAssigned);
   }
 
   @Override
   public void start(Stage primaryStage) throws Exception {}
+
+  public void addEmployeeForTicket(int requestID, int assignID) {
+    try {
+      List<ServiceTicket> tixLs =
+          ServiceTicketDatabaseManager.getInstance().getTicketsForRequestId(requestID);
+      for (ServiceTicket cur : tixLs) {
+        int tixID = cur.getTicketId();
+        ServiceTicketDatabaseManager.getInstance().addEmployee(tixID, assignID);
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
 }

@@ -44,6 +44,10 @@ public class ActiveLotsController extends Application {
     lotView.setCellFactory(new LotPaneFactory());
     lotView.setOrientation(Orientation.HORIZONTAL);
 
+    for (Lot lot : lots) {
+      lot.refreshUnocupied();
+    }
+
     //    Timer timer = new Timer();
     //    timer.schedule(
     //        new TimerTask() {

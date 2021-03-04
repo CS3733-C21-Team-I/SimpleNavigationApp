@@ -9,13 +9,13 @@
 
 <?import javafx.scene.layout.VBox?>
 <JFXListCell prefWidth="300.0" prefHeight="500.0" xmlns="http://javafx.com/javafx/8.0.181" xmlns:fx="http://javafx.com/fxml/1">
-      <VBox fx:id="vBox">
-         <Label fx:id="nameLabel" text="Lot Name">
+    <VBox fx:id="vBox">
+        <Label fx:id="nameLabel" text="Lot Name">
             <font>
-               <Font size="18.0" />
+                <Font size="18.0" />
             </font>
-         </Label>
-         <Label fx:id="occupancyLabel" text="Slots: 100/150" />
-         <JFXListView fx:id="blockList" prefWidth="280.0" prefHeight="580.0"/>
-      </VBox>
+        </Label>
+        <Label fx:id="occupancyLabel" text="Slots: 100/150" />
+        <JFXListView fx:id="blockList" prefWidth="280.0" prefHeight="580.0"/>
+    </VBox>
 </JFXListCell>

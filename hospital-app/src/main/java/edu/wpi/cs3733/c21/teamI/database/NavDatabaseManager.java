@@ -63,6 +63,7 @@ public class NavDatabaseManager extends DatabaseManager {
                   String shortName = nodeResults.getString("SHORT_NAME");
                   String longName = nodeResults.getString("LONG_NAME");
                   String teamAssigned = nodeResults.getString("TEAM_ASSIGNED");
+                  String locationCategory = nodeResults.getString("location_category");
                   node =
                       new LocationNode(
                           nodeId,
@@ -71,7 +72,7 @@ public class NavDatabaseManager extends DatabaseManager {
                           yCoord,
                           shortName,
                           longName,
-                          LocationCategory.EXIT,
+                          LocationCategory.valueOf(locationCategory),
                           teamAssigned,
                           new ArrayList<>());
                   break;
@@ -89,11 +90,11 @@ public class NavDatabaseManager extends DatabaseManager {
                           + "'");
 
               while (attributeResults.next()) {
-                System.out.println(attributeResults.getString("NODERESTRICTION"));
+                // System.out.println(attributeResults.getString("NODERESTRICTION"));
                 node.getNodeRestrictions()
                     .add(NodeRestrictions.valueOf(attributeResults.getString("NODERESTRICTION")));
               }
-              System.out.println(nodeId + " : " + mapId);
+              // System.out.println(nodeId + " : " + mapId);
 
               tempNodeLookup.put(node.getID(), node);
               nodes.add(node);
@@ -114,7 +115,7 @@ public class NavDatabaseManager extends DatabaseManager {
         }
       }
     } catch (SQLException e) {
-      System.out.println("Log error queerying map database");
+      System.out.println("Log error querying map database");
       return null;
     }
 
@@ -150,7 +151,7 @@ public class NavDatabaseManager extends DatabaseManager {
         // Drop the Edges table.
         stmt.execute("DROP TABLE NODE_TO_ATTRIBUTE");
       } catch (SQLException ex) {
-        ex.printStackTrace();
+        // ex.printStackTrace();
         // No need to report an error.
         // The table simply did not exist.
       }
@@ -160,7 +161,7 @@ public class NavDatabaseManager extends DatabaseManager {
         // Drop the Edges table.
         stmt.execute("DROP TABLE navEdges");
       } catch (SQLException ex) {
-        ex.printStackTrace();
+        // ex.printStackTrace();
         // No need to report an error.
         // The table simply did not exist.
       }
@@ -181,7 +182,7 @@ public class NavDatabaseManager extends DatabaseManager {
         // Drop the Nodes table.
         stmt.execute("DROP TABLE navNodes");
       } catch (SQLException ex) {
-        ex.printStackTrace();
+        // ex.printStackTrace();
         // No need to report an error.
         // The table simply did not exist.
       }
@@ -191,7 +192,7 @@ public class NavDatabaseManager extends DatabaseManager {
         // Drop the Maps table.
         stmt.execute("DROP TABLE navMaps");
       } catch (SQLException ex) {
-        ex.printStackTrace();
+        // ex.printStackTrace();
         // No need to report an error.
         // The table simply did not exist.
       }
@@ -219,7 +220,7 @@ public class NavDatabaseManager extends DatabaseManager {
         stmt.execute(
             "CREATE TABLE navNodes(node_ID varchar(45) NOT NULL,"
                 + " x_Coord integer NOT NULL, y_Coord integer NOT NULL, node_Type varchar(3),"
-                + "long_Name varchar(45), short_Name varchar(45), map_ID varchar(45), team_Assigned varchar(45),"
+                + "long_Name varchar(45), short_Name varchar(45), location_category varchar(10), map_ID varchar(45), team_Assigned varchar(45),"
                 + "PRIMARY KEY(node_ID), FOREIGN KEY (map_ID) references navMaps(map_ID))");
       } catch (SQLException e) {
         e.printStackTrace();
@@ -327,7 +328,7 @@ public class NavDatabaseManager extends DatabaseManager {
           if (node instanceof LocationNode) {
             // TODO locationNode handling
             statement.executeUpdate(
-                "INSERT INTO navNodes (MAP_ID, NODE_ID, X_COORD, Y_COORD, NODE_TYPE, SHORT_NAME, LONG_NAME, TEAM_ASSIGNED)"
+                "INSERT INTO navNodes (MAP_ID, NODE_ID, X_COORD, Y_COORD, NODE_TYPE, SHORT_NAME, LONG_NAME, location_category, TEAM_ASSIGNED)"
                     + "VALUES ('"
                     + hMap.getId()
                     + "', '"
@@ -340,6 +341,8 @@ public class NavDatabaseManager extends DatabaseManager {
                     + ((LocationNode) node).getShortName()
                     + "', '"
                     + ((LocationNode) node).getLongName()
+                    + "', '"
+                    + ((LocationNode) node).getLocationCategory().toString()
                     + "', '"
                     + ((LocationNode) node).getTeamAssigned()
                     + "')");
@@ -579,6 +582,22 @@ public class NavDatabaseManager extends DatabaseManager {
       stmt.executeBatch();
     } catch (SQLException e) {
       e.printStackTrace();
+    }
+  }
+
+  public List<String> getLocationNodeLongNames() {
+    try {
+      Statement statement = databaseRef.getConnection().createStatement();
+      ResultSet resultSet =
+          statement.executeQuery("SELECT long_name FROM NAVNODES WHERE node_type='LOC'");
+      List<String> out = new ArrayList<>();
+      while (resultSet.next()) {
+        out.add(resultSet.getString("long_name"));
+      }
+      return out;
+    } catch (SQLException e) {
+      e.printStackTrace();
+      return null;
     }
   }
 }

@@ -3,9 +3,10 @@ package edu.wpi.cs3733.c21.teamI.database;
 import edu.wpi.cs3733.c21.teamI.parking.Block;
 import edu.wpi.cs3733.c21.teamI.parking.Floor;
 import edu.wpi.cs3733.c21.teamI.parking.Lot;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import edu.wpi.cs3733.c21.teamI.parking.reservations.ParkingCustomer;
+import edu.wpi.cs3733.c21.teamI.parking.reservations.StaffPermit;
+import edu.wpi.cs3733.c21.teamI.user.User;
+import java.sql.*;
 import java.util.HashMap;
 import java.util.Map;
 import org.apache.derby.drda.NetworkServerControl;
@@ -182,6 +183,51 @@ public class ParkingPeripheralServerManager extends DatabaseManager {
               + "floor_id integer,"
               + "PRIMARY KEY (id),"
               + "FOREIGN KEY (floor_id) REFERENCES PARKING_FLOORS(id))");
+
+      statement.execute(
+          "CREATE TABLE PARKING_CUSTOMERS("
+              + "id integer NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),"
+              + "vehicle_licence varchar(8),"
+              + "is_staff boolean,"
+              + "contact_number varchar(10),"
+              + "registration_date date,"
+              + "PRIMARY KEY (id))");
+
+      statement.execute(
+          "CREATE TABLE PARKING_SLOT_RESERVATIONS("
+              + "id integer NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),"
+              + "customer_id integer NOT NULL,"
+              + "slot_id integer NOT NULL,"
+              + "start_timestamp timestamp,"
+              + "duration_in_minutes integer,"
+              + "booking_date date,"
+              + "PRIMARY KEY (id),"
+              + "FOREIGN KEY (customer_id) REFERENCES PARKING_CUSTOMERS(id),"
+              + "FOREIGN KEY (slot_id) REFERENCES PARKING_SLOTS(id))");
+
+      statement.execute(
+          "CREATE TABLE STAFF_PERMITS("
+              + "id integer NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),"
+              + "customer_id integer NOT NULL,"
+              + "user_id integer NOT NULL,"
+              + "reservation_id integer NOT NULL,"
+              + "assignment_date date NOT NULL,"
+              + "PRIMARY KEY (id),"
+              + "FOREIGN KEY (customer_id) REFERENCES PARKING_CUSTOMERS(id),"
+              + "FOREIGN KEY (reservation_id) REFERENCES PARKING_SLOT_RESERVATIONS(id))");
+
+      statement.execute(
+          "CREATE TABLE PARKING_SLIPS("
+              + "id integer NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),"
+              + "slot_reservation_id integer NOT NULL,"
+              + "entry_timestamp timestamp NOT NULL,"
+              + "exit_timestamp timestamp,"
+              + "base_cost integer NOT NULL,"
+              + "penalty integer,"
+              + "is_paid boolean,"
+              + "PRIMARY KEY (id),"
+              + "FOREIGN KEY (slot_reservation_id) REFERENCES PARKING_SLOT_RESERVATIONS(id))");
+
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -191,13 +237,17 @@ public class ParkingPeripheralServerManager extends DatabaseManager {
   void dropTables() {
     try {
       Statement statement = databaseRef.getConnection().createStatement();
+      statement.addBatch("DROP TABLE STAFF_PERMITS");
+      statement.addBatch("DROP TABLE PARKING_SLIPS");
+      statement.addBatch("DROP TABLE PARKING_SLOT_RESERVATIONS");
+      statement.addBatch("DROP TABLE PARKING_CUSTOMERS");
       statement.addBatch("DROP TABLE PARKING_SLOTS");
       statement.addBatch("DROP TABLE PARKING_FLOORS");
       statement.addBatch("DROP TABLE PARKING_BLOCKS");
       statement.addBatch("DROP TABLE PARKING_LOTS");
       statement.executeBatch();
     } catch (SQLException e) {
-      e.printStackTrace();
+      // e.printStackTrace();
     }
   }
 
@@ -268,6 +318,149 @@ public class ParkingPeripheralServerManager extends DatabaseManager {
               + "(106, 'D', false, 5)");
       statement.executeBatch();
     } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  public StaffPermit getStaffPermitForUser(User user) {
+    try {
+      Statement statement = databaseRef.getConnection().createStatement();
+
+      ResultSet rs =
+          statement.executeQuery(
+              "SELECT * FROM STAFF_PERMITS JOIN PARKING_CUSTOMERS PC on PC.ID = STAFF_PERMITS.CUSTOMER_ID JOIN PARKING_SLOT_RESERVATIONS PSR on PSR.ID = STAFF_PERMITS.RESERVATION_ID WHERE USER_ID="
+                  + user.getUserId());
+
+      if (!rs.next()) {
+        System.out.println("No permit for user id: " + user.getUserId());
+        return null;
+      }
+
+      StaffPermit permit =
+          new StaffPermit(
+              rs.getInt("SLOT_ID"),
+              user,
+              rs.getDate("assignment_date"),
+              new ParkingCustomer(
+                  rs.getString("vehicle_licence"),
+                  rs.getBoolean("is_staff"),
+                  rs.getString("contact_number"),
+                  rs.getDate("registration_date")));
+      return permit;
+    } catch (SQLException e) {
+      e.printStackTrace();
+      return null;
+    }
+  }
+
+  public void requestStaffPermit(
+      User user, String vehicleLicence, String contactNumber, Date assignmentDate) {
+
+    if (!user.hasPermission(User.Permission.REQUEST_PARKING_PERMIT))
+      throw new IllegalArgumentException(
+          "User did not have permission to request a staff parking permit");
+
+    try {
+      Statement statement = databaseRef.getConnection().createStatement();
+
+      statement.execute("DELETE FROM STAFF_PERMITS WHERE USER_ID=" + user.getUserId());
+
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
+    int customerId = -1;
+    try {
+      String query =
+          "INSERT INTO PARKING_CUSTOMERS(VEHICLE_LICENCE, IS_STAFF, CONTACT_NUMBER, REGISTRATION_DATE) VALUES "
+              + "('"
+              + vehicleLicence
+              + "', true, '"
+              + contactNumber
+              + "', ?)";
+      PreparedStatement statement =
+          databaseRef
+              .getConnection()
+              .prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
+      statement.setDate(1, new Date(new java.util.Date().getTime()));
+      statement.execute();
+
+      ResultSet rs = statement.getGeneratedKeys();
+      rs.next();
+      customerId = rs.getInt(1);
+      System.out.println("customer ID: " + customerId);
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
+    int openSlotId = -1;
+
+    try {
+
+      Statement floorStatement = databaseRef.getConnection().createStatement();
+      ResultSet floorResults =
+          floorStatement.executeQuery("SELECT ID FROM PARKING_FLOORS WHERE IS_RESERVED_STAFF=true");
+
+      while (floorResults.next()) {
+
+        Statement slotStatement = databaseRef.getConnection().createStatement();
+        ResultSet slotResults =
+            slotStatement.executeQuery(
+                "SELECT ps.id FROM PARKING_SLOTS ps LEFT JOIN PARKING_SLOT_RESERVATIONS PSR on ps.ID = PSR.SLOT_ID WHERE PSR.SLOT_ID IS NULL AND PS.FLOOR_ID="
+                    + floorResults.getInt("id"));
+
+        if (slotResults.next()) {
+          openSlotId = slotResults.getInt(1);
+          System.out.println("openSlotId ID: " + openSlotId);
+          break;
+        }
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
+    if (openSlotId == -1) {
+      throw new IllegalStateException("No open staff only slots to assign to staff member");
+    }
+
+    int reservationId = -1;
+    try {
+      String query =
+          "INSERT INTO PARKING_SLOT_RESERVATIONS (CUSTOMER_ID, SLOT_ID) VALUES "
+              + "("
+              + customerId
+              + ", "
+              + openSlotId
+              + ")";
+      PreparedStatement statement =
+          databaseRef
+              .getConnection()
+              .prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
+      statement.execute();
+
+      ResultSet rs = statement.getGeneratedKeys();
+      rs.next();
+      reservationId = rs.getInt(1);
+      System.out.println("reservation ID: " + reservationId);
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
+    try {
+      String query =
+          "INSERT INTO STAFF_PERMITS(CUSTOMER_ID, USER_ID, RESERVATION_ID, ASSIGNMENT_DATE) VALUES "
+              + "("
+              + customerId
+              + ", "
+              + user.getUserId()
+              + ", "
+              + reservationId
+              + ", ?)";
+
+      PreparedStatement statement = databaseRef.getConnection().prepareStatement(query);
+      statement.setDate(1, assignmentDate);
+      statement.execute();
+    } catch (SQLException e) {
       e.printStackTrace();
     }
   }
