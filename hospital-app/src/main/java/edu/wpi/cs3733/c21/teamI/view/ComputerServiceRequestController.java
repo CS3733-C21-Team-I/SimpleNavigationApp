@@ -39,6 +39,7 @@ public class ComputerServiceRequestController {
               NavDatabaseManager.getInstance().getMapIdFromLongName(compServReqLoc.getText()),
               compServReqDes.getText(),
               false);
+      ticket.addAssignedUserID(AssignedID);
       ServiceTicketDatabaseManager.getInstance().addTicket(ticket);
     } catch (Exception o) {
       System.out.println("Error" + o);
