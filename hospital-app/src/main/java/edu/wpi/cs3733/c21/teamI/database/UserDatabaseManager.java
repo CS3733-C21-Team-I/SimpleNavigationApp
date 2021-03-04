@@ -3,14 +3,12 @@ package edu.wpi.cs3733.c21.teamI.database;
 import static edu.wpi.cs3733.c21.teamI.user.User.Permission.*;
 import static edu.wpi.cs3733.c21.teamI.user.User.Role.*;
 
+import edu.wpi.cs3733.c21.teamI.user.Employee;
 import edu.wpi.cs3733.c21.teamI.user.User;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class UserDatabaseManager extends DatabaseManager {
 
@@ -541,5 +539,9 @@ public class UserDatabaseManager extends DatabaseManager {
     } catch (SQLException e) {
       e.printStackTrace();
     }
+  }
+
+  public List<Employee> getAllEmployees() {
+    return new ArrayList<>();
   }
 }
