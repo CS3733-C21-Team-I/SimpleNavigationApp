@@ -48,7 +48,7 @@ public class InternalTransportationController {
               NavDatabaseManager.getInstance().getMapIdFromLongName(internalLocation.getText()),
               internalDetails.getText(),
               false);
-      //      ticket.addAssignedUserID(AssignedID);
+      ticket.addAssignedUserID(AssignedID);
       ServiceTicketDatabaseManager.getInstance().addTicket(ticket);
       ServiceTicketDatabaseManager.getInstance().addEmployeeForTicket(RequestID, AssignedID);
     } catch (Exception o) {
