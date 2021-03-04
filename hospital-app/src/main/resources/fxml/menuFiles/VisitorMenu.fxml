@@ -162,7 +162,7 @@
       </HBox>
       <HBox prefHeight="60.0" prefWidth="201.0" style="-fx-background-color: #012D5A;">
          <children>
-            <JFXRippler fx:id="logoutButton" alignment="CENTER_RIGHT" maskType="RECT" onMouseClicked="#navigate" prefHeight="60.0" prefWidth="199.0" ripplerFill="#0067b1">
+            <JFXRippler fx:id="logoutButton" alignment="CENTER_RIGHT" maskType="RECT" onMouseClicked="#logout" prefHeight="60.0" prefWidth="199.0" ripplerFill="#0067b1">
                <control>
                   <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
                      <children>
