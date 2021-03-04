@@ -55,7 +55,7 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
     }
   }
 
-  public List<Integer> getEmployeesForId(int id) {
+  public List<Integer>  getEmployeesForId(int id) {
     List<Integer> emps = new ArrayList<>();
     try {
       Statement stmt = databaseRef.getConnection().createStatement();
@@ -508,10 +508,10 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
     }
   }
 
-  public void removeEmployee(int employeeID) {
+  public void removeEmployee(int ticketID, int employeeID) {
     try {
       Statement stmt = databaseRef.getConnection().createStatement();
-      stmt.executeQuery("DELETE FROM employee WHERE employeeID = " + String.valueOf(employeeID));
+      stmt.executeQuery("DELETE FROM employee WHERE employeeID = " + String.valueOf(employeeID) + " AND tixID = " + String.valueOf(ticketID));
     } catch (SQLException e) {
       e.printStackTrace();
     }
