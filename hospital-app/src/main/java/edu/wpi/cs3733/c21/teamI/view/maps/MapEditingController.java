@@ -43,7 +43,6 @@ public class MapEditingController extends MapController {
     // ViewManager.setMapController(this);
     // pre-load these things before their use
     MapDataEntity.getNodesSet(true);
-    initializeTabs();
   }
 
   @FXML

@@ -72,7 +72,7 @@ public abstract class MapController extends Application {
   protected Color red = Color.color(217.0 / 256.0, 89.0 / 256.0, 89.0 / 256.0);
   protected Color color2 = Color.DARKBLUE;
 
-  public void initializeTabs() {
+  /*public void initializeTabs() {
     campus.setOnSelectionChanged(
         t -> {
           if (campus != currentTab) {
@@ -85,7 +85,7 @@ public abstract class MapController extends Application {
           }
           ;
         });
-  }
+  }*/
 
   public abstract void updateView();
 
@@ -474,30 +474,16 @@ public abstract class MapController extends Application {
     }
   }
 
-  /*
-   public void switchTab(Event e) throws IOException {
-       String id = ((Button) e.getSource()).getId();
-       System.out.println(id);
-       if (currTab != null && currTab != id) {
-           currentMapID = "Faulkner Lot";
-           currentTab = campus;
-           startZoomPan(mapPane);
-           updateView();
-           resize();
-       }
-   }
-
-   public void campusTab(Event event) throws IOException {
-       if (campus != currentTab) {
-           System.out.println("Tab 1");
-           currentMapID = "Faulkner Lot";
-           updateView();
-           currentTab = campus;
-           startZoomPan(mapPane);
-           resize();
-       }
-   }
-  */
+  public void campusTab(Event event) throws IOException {
+    if (campus != currentTab && mapPane != null) {
+      System.out.println("Tab 1");
+      currentMapID = "Faulkner Lot";
+      updateView();
+      currentTab = campus;
+      startZoomPan(mapPane);
+      resize();
+    }
+  }
 
   public void floor1Tab(Event event) throws IOException {
     if (floor1 != currentTab) {

@@ -60,8 +60,8 @@ public class MapPathfindingController extends MapController {
     algorithmPick.getItems().addAll("A*", "Depth First", "Breadth First");
     // ViewManager.setMapController(this);
     setupMapViewHandlers();
-    currentMapID = "Faulkner 1";
-    floor1Tab(new ActionEvent());
+    currentMapID = "Faulkner Lot";
+    campusTab(new ActionEvent());
   }
 
   @FXML
