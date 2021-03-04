@@ -45,8 +45,9 @@ public class AudioVisualRequestController {
               NavDatabaseManager.getInstance().getMapIdFromLongName(roomNumber.getText()),
               requestDetails.getText(),
               false);
-      //      ticket.addAssignedUserID(AssignedID);
+      ticket.addAssignedUserID(AssignedID);
       ServiceTicketDatabaseManager.getInstance().addTicket(ticket);
+      ServiceTicketDatabaseManager.getInstance().addEmployeeForTicket(RequestID, AssignedID);
     } catch (Exception o) {
       System.out.println("Error" + o);
     }
@@ -96,6 +97,7 @@ public class AudioVisualRequestController {
 
   public void initialize() {
     /*TODO common stuff*/
+    typeRequested.setPromptText("Type of Media Requested");
     setupRequestView();
   }
 

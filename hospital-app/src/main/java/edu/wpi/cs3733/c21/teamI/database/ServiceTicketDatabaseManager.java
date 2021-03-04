@@ -499,9 +499,9 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
       stmt.executeUpdate(
           "INSERT INTO employee(employeeID, tixID)\n"
               + "VALUES("
-              + String.valueOf(tixID)
-              + ", "
               + String.valueOf(employeeID)
+              + ", "
+              + String.valueOf(tixID)
               + ")");
     } catch (SQLException e) {
       e.printStackTrace();
@@ -548,6 +548,7 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
         tixID = rs.getInt("ticketID");
         cur.setTicketID(tixID);
         cur.setAssignedUserID(getEmployeesForId(tixID));
+        // System.out.println(getEmployeesForId(tixID));
         tix.add(cur);
       }
     } catch (SQLException e) {
@@ -595,26 +596,47 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
         new ServiceTicket(
             empRequestID, ServiceTicket.TicketType.MAINTENANCE, "ICONF00103", "info", false);
     ticket1.setTicketID(11);
+    ticket1.addAssignedUserID(empAssignID);
     ServiceTicket ticket2 =
         new ServiceTicket(
             empRequestID, ServiceTicket.TicketType.LAUNDRY, "ICONF00104", "more info", true);
     ticket2.setTicketID(21);
+    ticket2.addAssignedUserID(empAssignID);
+    System.out.println("THIS IS EMPLOYEE FOR TICKET2:   " + ticket2.getAssignedUserID());
 
     ourInstance.addTicket(ticket1);
     ourInstance.addTicket(ticket2);
+    ourInstance.addEmployeeForTicket(empRequestID, empAssignID);
 
+    //    try {
+    //      Statement stmt = ourInstance.databaseRef.getConnection().createStatement();
+    //      ResultSet rs =
+    //          stmt.executeQuery(
+    //              "SELECT * FROM SERVICETICKET WHERE REQUESTINGUSERID=" +
+    // String.valueOf(empRequestID));
+    //      int tixID = 0;
+    //      if (rs.next()) {
+    //        tixID = rs.getInt("ticketID");
+    //        stmt.executeUpdate(
+    //            "INSERT INTO employee(employeeID, tixID) VALUES("
+    //                + String.valueOf(empAssignID)
+    //                + ","
+    //                + String.valueOf(tixID)
+    //                + ")");
+    //      }
+    //    } catch (SQLException e) {
+    //      e.printStackTrace();
+    //    }
+  }
+
+  public void addEmployeeForTicket(int requestID, int assignID) {
     try {
-      Statement stmt = ourInstance.databaseRef.getConnection().createStatement();
-      ResultSet rs =
-          stmt.executeQuery(
-              "SELECT * FROM SERVICETICKET WHERE REQUESTINGUSERID=" + String.valueOf(empRequestID));
-      int tixID = 0;
-      if (rs.next()) {
-        tixID = rs.getInt("ticketID");
-        stmt.executeUpdate(
-            "INSERT INTO employee(employeeID, tixID) VALUES(" + empAssignID + "," + tixID + ")");
+      List<ServiceTicket> tixLs = ourInstance.getTicketsForRequestId(requestID);
+      for (ServiceTicket cur : tixLs) {
+        int tixID = cur.getTicketId();
+        ourInstance.addEmployee(tixID, assignID);
       }
-    } catch (SQLException e) {
+    } catch (Exception e) {
       e.printStackTrace();
     }
   }

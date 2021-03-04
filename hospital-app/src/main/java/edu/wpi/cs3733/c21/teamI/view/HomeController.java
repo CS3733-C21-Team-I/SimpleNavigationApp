@@ -152,14 +152,19 @@ public class HomeController extends Application {
         box = vLoader.load();
         ((AdminMenuController) vLoader.getController()).setHomeController(this);
         titleLabel.setText("Admin Portal");
+        replacePane
+            .getChildren()
+            .add(FXMLLoader.load(getClass().getResource("/fxml/ServiceRequestTableView.fxml")));
       } else {
         FXMLLoader vLoader =
             new FXMLLoader(getClass().getResource("/fxml/menuFiles/VisitorMenu.fxml"));
         box = vLoader.load();
         ((VisitorMenuController) vLoader.getController()).setHomeController(this);
         titleLabel.setText("General Portal");
+        replacePane.getChildren().add(FXMLLoader.load(getClass().getResource("/fxml/Home.fxml")));
       }
-      replacePane.getChildren().add(FXMLLoader.load(getClass().getResource("/fxml/Home.fxml")));
+      //
+      // replacePane.getChildren().add(FXMLLoader.load(getClass().getResource("/fxml/Home.fxml")));
     } catch (IOException e) {
       e.printStackTrace();
     }

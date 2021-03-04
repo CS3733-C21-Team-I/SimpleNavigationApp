@@ -43,7 +43,9 @@ public class SanitationController {
               sanitationDetails.getText(),
               false);
       //      ticket.addAssignedUserID(AssignedID);
+      ticket.addAssignedUserID(AssignedID);
       ServiceTicketDatabaseManager.getInstance().addTicket(ticket);
+      ServiceTicketDatabaseManager.getInstance().addEmployeeForTicket(RequestID, AssignedID);
     } catch (Exception o) {
       System.out.println("Error" + o);
     }
