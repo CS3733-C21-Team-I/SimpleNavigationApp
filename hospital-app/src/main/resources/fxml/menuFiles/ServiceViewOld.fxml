@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="1000.0" maxWidth="1500.0" minHeight="300.0" minWidth="713.0" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamI.view.ServiceViewController">
+    <children>
+        <HBox prefHeight="194.0" prefWidth="186.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <children>
+                <ScrollPane minHeight="300.0" minWidth="240.0" prefHeight="600.0" prefWidth="240.0">
+                    <content>
+                        <AnchorPane minWidth="150.0" prefHeight="594.0" prefWidth="218.0">
+                            <children>
+                                <GridPane prefHeight="800.0" prefWidth="216.0">
+                                    <columnConstraints>
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    </columnConstraints>
+                                    <rowConstraints>
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    </rowConstraints>
+                                    <children>
+                                        <JFXButton fx:id="parkingButton" onAction="#navigate" prefWidth="200.0" styleClass="styledButton" stylesheets="@../fxmlResources/main.css" text="Parking Permit" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="16" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+                                            <GridPane.margin>
+                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                            </GridPane.margin></JFXButton>
+                                        <JFXButton fx:id="medicineButton" onAction="#navigate" prefHeight="41.0" prefWidth="200.0" styleClass="styledButton" stylesheets="@../fxmlResources/main.css" text="Medicine Delivery" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+                                            <GridPane.margin>
+                                                <Insets bottom="20.0" left="10.0" right="10.0" top="30.0" />
+                                            </GridPane.margin></JFXButton>
+                                        <JFXButton fx:id="securityButton" onAction="#navigate" prefWidth="200.0" styleClass="styledButton" stylesheets="@../fxmlResources/main.css" text="Security" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+                                            <GridPane.margin>
+                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                            </GridPane.margin></JFXButton>
+                                        <JFXButton fx:id="internalButton" onAction="#navigate" prefWidth="200.0" styleClass="styledButton" stylesheets="@../fxmlResources/main.css" text="Internal Transportation" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="4" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+                                            <GridPane.margin>
+                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                            </GridPane.margin></JFXButton>
+                                        <JFXButton fx:id="maintenanceButton" onAction="#navigate" prefWidth="200.0" styleClass="styledButton" stylesheets="@../fxmlResources/main.css" text="Maintenance" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="20" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+                                            <GridPane.margin>
+                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                            </GridPane.margin></JFXButton>
+                                        <JFXButton fx:id="sanitationButton" onAction="#navigate" prefWidth="200.0" styleClass="styledButton" stylesheets="@../fxmlResources/main.css" text="Sanitation" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="18" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+                                            <GridPane.margin>
+                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                            </GridPane.margin></JFXButton>
+                                        <JFXButton fx:id="laundryButton" onAction="#navigate" prefWidth="200.0" styleClass="styledButton" stylesheets="@../fxmlResources/main.css" text="Laundry" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="6" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+                                            <GridPane.margin>
+                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                            </GridPane.margin></JFXButton>
+                                        <JFXButton fx:id="computerButton" onAction="#navigate" prefWidth="200.0" styleClass="styledButton" stylesheets="@../fxmlResources/main.css" text="Computer" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="8" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+                                            <GridPane.margin>
+                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                            </GridPane.margin></JFXButton>
+                                        <JFXButton fx:id="audioButton" onAction="#navigate" prefWidth="200.0" styleClass="styledButton" stylesheets="@../fxmlResources/main.css" text="Audio/Visual" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="10" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+                                            <GridPane.margin>
+                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                            </GridPane.margin></JFXButton>
+                                        <JFXButton fx:id="languageButton" onAction="#navigate" prefWidth="200.0" styleClass="styledButton" stylesheets="@../fxmlResources/main.css" text="Language" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="12" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+                                            <GridPane.margin>
+                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                            </GridPane.margin></JFXButton>
+                                        <JFXButton fx:id="religiousButton" onAction="#navigate" prefWidth="200.0" styleClass="styledButton" stylesheets="@../fxmlResources/main.css" text="Religious" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="14" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+                                            <GridPane.margin>
+                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                            </GridPane.margin></JFXButton>
+                                        <Label prefHeight="21.0" prefWidth="89.0" text="Norman Zhu" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.valignment="TOP" GridPane.vgrow="ALWAYS">
+                                            <GridPane.margin>
+                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                            </GridPane.margin>
+                                        </Label>
+                                        <Label text="Bao Huynh" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" GridPane.vgrow="ALWAYS">
+                                            <GridPane.margin>
+                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                            </GridPane.margin>
+                                        </Label>
+                                        <Label text="Freud Oulon" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="5" GridPane.vgrow="ALWAYS">
+                                            <GridPane.margin>
+                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                            </GridPane.margin>
+                                        </Label>
+                                        <Label text="Carley Gilmore" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="7" GridPane.vgrow="ALWAYS">
+                                            <GridPane.margin>
+                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                            </GridPane.margin>
+                                        </Label>
+                                        <Label text="Othniel Bondah" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="9" GridPane.vgrow="ALWAYS">
+                                            <GridPane.margin>
+                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                            </GridPane.margin>
+                                        </Label>
+                                        <Label text="Owen Blaufuss" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="11" GridPane.vgrow="ALWAYS">
+                                            <GridPane.margin>
+                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                            </GridPane.margin>
+                                        </Label>
+                                        <Label text="Margaret Earnest" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="13" GridPane.vgrow="ALWAYS">
+                                            <GridPane.margin>
+                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                            </GridPane.margin>
+                                        </Label>
+                                        <Label text="Isaac Abouaf" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="15" GridPane.vgrow="ALWAYS">
+                                            <GridPane.margin>
+                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                            </GridPane.margin>
+                                        </Label>
+                                        <Label text="James Doherty" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="17" GridPane.vgrow="ALWAYS">
+                                            <GridPane.margin>
+                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                            </GridPane.margin>
+                                        </Label>
+                                        <Label text="Chris Lobo" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="19" GridPane.vgrow="ALWAYS">
+                                            <GridPane.margin>
+                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                            </GridPane.margin>
+                                        </Label>
+                                        <Label text="Will Shaver" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="21" GridPane.vgrow="ALWAYS">
+                                            <GridPane.margin>
+                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                            </GridPane.margin>
+                                        </Label>
+                                    </children>
+                                    <padding>
+                                        <Insets top="20.0" />
+                                    </padding>
+                                </GridPane>
+                            </children>
+                        </AnchorPane>
+                    </content>
+                </ScrollPane>
+                <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+                    <children>
+                        <Label text="Service Request Systems" VBox.vgrow="ALWAYS">
+                            <font>
+                                <Font size="32.0" />
+                            </font>
+                            <padding>
+                                <Insets bottom="20.0" left="20.0" right="10.0" top="10.0" />
+                            </padding>
+                        </Label>
+                        <ScrollPane prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                            <content>
+                                <AnchorPane fx:id="replaceRequest" minHeight="0.0" minWidth="0.0" />
+                            </content>
+                        </ScrollPane>
+                    </children>
+                </VBox>
+            </children>
+        </HBox>
+    </children>
+</AnchorPane>
