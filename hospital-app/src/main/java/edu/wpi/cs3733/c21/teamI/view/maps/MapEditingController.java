@@ -39,6 +39,7 @@ public class MapEditingController extends MapController {
     System.out.println("Initializing editing controller...");
     currentMapID = "Faulkner Lot";
     floor1Tab(new ActionEvent());
+    campusTab(new ActionEvent());
     boolean isAdmin = true;
     navigateButton.setVisible(true);
   }
@@ -94,8 +95,8 @@ public class MapEditingController extends MapController {
 
   protected void update() {
     // set datacont to the correct map ID if null or outdated
-    System.out.println("Updating map");
     if (dataCont.getActiveMap() == null || !dataCont.getActiveMap().getId().equals(currentMapID)) {
+      System.out.println("Loading fresh map rom memory");
       dataCont.setActiveMap(MapDataEntity.getMap().get(currentMapID));
       dataCont.discardChanges();
     }
@@ -397,11 +398,7 @@ public class MapEditingController extends MapController {
   @FXML
   public void saveChanges() {
     dataCont.saveChanges();
-    try {
-      toggleEditMap(new ActionEvent());
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
+    update();
   }
 
   @FXML

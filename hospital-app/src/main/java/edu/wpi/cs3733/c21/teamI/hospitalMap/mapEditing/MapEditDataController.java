@@ -72,6 +72,7 @@ public class MapEditDataController {
 
   public void addEdge(HospitalMapNode fromNode, HospitalMapNode toNode) {
     deleteElementsAfterPointer(undoRedoPointer);
+    System.out.println("Adding edge: " + fromNode + " : " + toNode);
     MapEditCommand command = new AddEdgeCommand(this, fromNode, toNode);
     command.execute();
     dataOperations.push(command);
@@ -80,6 +81,7 @@ public class MapEditDataController {
 
   public void deleteEdge(HospitalMapNode fromNode, HospitalMapNode toNode) {
     deleteElementsAfterPointer(undoRedoPointer);
+    System.out.println("Deleting edge: " + fromNode + " : " + toNode);
     MapEditCommand command = new DeleteEdgeCommand(this, fromNode, toNode);
     command.execute();
     dataOperations.push(command);
