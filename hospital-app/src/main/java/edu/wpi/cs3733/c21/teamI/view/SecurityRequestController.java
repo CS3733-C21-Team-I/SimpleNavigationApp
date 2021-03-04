@@ -37,6 +37,7 @@ public class SecurityRequestController {
           UserDatabaseManager.getInstance()
               .getUserForScreenname(requestAssigned.getText())
               .getUserId();
+      System.out.println(AssignedID);
       ticket =
           new ServiceTicket(
               RequestID,
