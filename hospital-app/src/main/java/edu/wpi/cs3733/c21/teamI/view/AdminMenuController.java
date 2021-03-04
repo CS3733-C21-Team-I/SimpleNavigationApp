@@ -66,6 +66,10 @@ public class AdminMenuController extends Application {
       replacePane
           .getChildren()
           .add(FXMLLoader.load(getClass().getResource("/fxml/ServiceRequestTableView.fxml")));
+    } else if (id.equals("feedbackButton")) {
+      replacePane
+          .getChildren()
+          .add(FXMLLoader.load(getClass().getResource("/fxml/menuFiles/feedbackView.fxml")));
     }
   }
 
