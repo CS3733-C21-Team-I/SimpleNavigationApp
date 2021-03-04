@@ -121,6 +121,7 @@ public class ServiceRequestTableController implements Initializable {
     ObservableList<ServiceTicket> serviceTickets = FXCollections.observableArrayList();
     serviceTickets.addAll(ServiceTicketDatabaseManager.getInstance().getServiceTicketDB());
     System.out.println(serviceTickets);
+    System.out.println("yolo");
 
     final TreeItem<ServiceTicket> root =
         new RecursiveTreeItem<ServiceTicket>(serviceTickets, RecursiveTreeObject::getChildren);
@@ -146,7 +147,7 @@ public class ServiceRequestTableController implements Initializable {
                                 .getTicketType()
                                 .toString()
                                 .contains(newValue.toUpperCase());
-
+                        System.out.println(treeView.getSelectionModel().getSelectedItem());
                         return flag;
                       }
                     });
