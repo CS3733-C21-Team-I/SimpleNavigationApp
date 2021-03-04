@@ -1,9 +1,8 @@
 package edu.wpi.cs3733.c21.teamI.view.maps;
 
 import edu.wpi.cs3733.c21.teamI.hospitalMap.*;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
+import java.net.URISyntaxException;
 import java.util.List;
 import javafx.animation.*;
 import javafx.application.Application;
@@ -243,22 +242,34 @@ public abstract class MapController extends Application {
 
   protected void drawStartPoint(List<HospitalMapNode> path) throws IOException {
     double imgScale = 256 / scale;
-    String startIcon =
-        System.getProperty("user.dir") + "\\src/main/resources/fxml/fxmlResources/startIcon.png";
+    Image startIcon = null;
+    try {
+      startIcon =
+          new Image(
+              (getClass().getResource("/fxml/fxmlResources/startIcon.png")).toURI().toString());
+    } catch (URISyntaxException e) {
+      e.printStackTrace();
+    }
     double startIconX = transformX(path.get(0).getxCoord()) - imgScale / 2;
     double startIconY = transformY(path.get(0).getyCoord()) - imgScale;
     drawNode(path.get(0), blue);
-    // displayImage(startIcon, startIconX, startIconY, imgScale);
+    displayImage(startIcon, startIconX, startIconY, imgScale);
   }
 
   protected void drawEndPoint(List<HospitalMapNode> path) throws IOException {
     double imgScale = 256 / scale;
-    String finishIcon =
-        System.getProperty("user.dir") + "\\src/main/resources/fxml/fxmlResources/finishIcon.png";
+    Image finishIcon = null;
+    try {
+      finishIcon =
+          new Image(
+              (getClass().getResource("/fxml/fxmlResources/finishIcon.png")).toURI().toString());
+    } catch (URISyntaxException e) {
+      e.printStackTrace();
+    }
     double finishIconX = transformX(path.get(path.size() - 1).getxCoord()) - imgScale / 2;
     double finishIconY = transformY(path.get(path.size() - 1).getyCoord()) - imgScale;
     drawNode(path.get(path.size() - 1), red);
-    // displayImage(finishIcon, finishIconX, finishIconY, imgScale);
+    displayImage(finishIcon, finishIconX, finishIconY, imgScale);
   }
 
   protected void drawArrow(HospitalMapNode start, HospitalMapNode end) {
@@ -298,9 +309,7 @@ public abstract class MapController extends Application {
     mapPane.getChildren().add(arrow);
   }
 
-  protected void displayImage(String path, double x, double y, double size) throws IOException {
-    InputStream stream = new FileInputStream(path);
-    Image image = new Image(stream);
+  protected void displayImage(Image image, double x, double y, double size) throws IOException {
     // Creating the image view
     ImageView imageView = new ImageView();
     // Setting image to the image view

@@ -143,9 +143,9 @@
                                 <Insets top="15.0" />
                             </VBox.margin>
                         </HBox>
-                        <HBox alignment="CENTER" prefWidth="200.0">
+                        <HBox alignment="CENTER">
                             <children>
-                                <Button fx:id="save" maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="100.0" mnemonicParsing="false" onAction="#saveChanges" prefHeight="30.0" prefWidth="100.0" style="-fx-background-color: rgb(1, 45, 90); -fx-background-radius: 100;" text="Save" textFill="WHITE">
+                                <Button fx:id="save" maxWidth="30.0" minHeight="30.0" minWidth="100.0" mnemonicParsing="false" onAction="#saveChanges" prefWidth="100.0" style="-fx-background-color: rgb(1, 45, 90); -fx-background-radius: 100;" text="Save" textFill="WHITE">
                                     <cursor>
                                         <Cursor fx:constant="HAND" />
                                     </cursor>
@@ -160,7 +160,7 @@
                                         <Font size="18.0" />
                                     </font>
                                 </Button>
-                                <Button fx:id="discard" maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="120.0" mnemonicParsing="false" onAction="#discardChanges" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: rgb(1, 45, 90); -fx-background-radius: 100;" text="Revert" textFill="WHITE">
+                                <Button fx:id="discard" maxWidth="30.0" minHeight="30.0" minWidth="120.0" mnemonicParsing="false" onAction="#discardChanges" prefWidth="120.0" style="-fx-background-color: rgb(1, 45, 90); -fx-background-radius: 100;" text="Revert" textFill="WHITE">
                                     <cursor>
                                         <Cursor fx:constant="HAND" />
                                     </cursor>
