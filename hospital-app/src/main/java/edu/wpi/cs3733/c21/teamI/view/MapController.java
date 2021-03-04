@@ -1,18 +1,22 @@
 package edu.wpi.cs3733.c21.teamI.view;
 
-import static com.jfoenix.controls.pannable.gestures.PanningGestures.clamp;
-
 import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
+import edu.wpi.cs3733.c21.teamI.database.NavDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.*;
-import edu.wpi.cs3733.c21.teamI.pathfinding.*;
+import edu.wpi.cs3733.c21.teamI.pathfinding.BreadthFirstSearch;
+import edu.wpi.cs3733.c21.teamI.pathfinding.DepthFirstSearch;
+import edu.wpi.cs3733.c21.teamI.pathfinding.PathFinder;
 import edu.wpi.cs3733.c21.teamI.user.User;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
-import javafx.animation.*;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.DoubleProperty;
@@ -63,6 +67,7 @@ public class MapController extends Application {
   private boolean isFirstLoad = true;
   @FXML AnchorPane mapPane;
   @FXML ImageView mapImage;
+  @FXML TextField nodePath, edgePath;
 
   @FXML StackPane imageContainer;
   @FXML VBox stackContainer;
@@ -1115,5 +1120,20 @@ public class MapController extends Application {
     return new Point2D(
         viewport.getMinX() + xProportion * viewport.getWidth(),
         viewport.getMinY() + yProportion * viewport.getHeight());
+  }
+
+  @FXML
+  public void save(ActionEvent actionEvent) {
+    HospitalMapCSVBuilder.saveCSV(
+        NavDatabaseManager.getInstance().loadMapsFromMemory().values(),
+        nodePath.getText(),
+        edgePath.getText());
+  }
+
+  @FXML
+  public void load(ActionEvent actionEvent) {
+    Map<String, HospitalMap> maps =
+        HospitalMapCSVBuilder.loadCSV(nodePath.getText(), edgePath.getText());
+    NavDatabaseManager.getInstance().saveMapsIntoMemory(maps.values());
   }
 }
