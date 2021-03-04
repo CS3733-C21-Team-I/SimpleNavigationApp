@@ -2,21 +2,29 @@ package edu.wpi.cs3733.c21.teamI.view;
 
 import com.jfoenix.controls.*;
 import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
+import edu.wpi.cs3733.c21.teamI.database.NavDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.database.ServiceTicketDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.database.UserDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicket;
+import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicketDataController;
+import edu.wpi.cs3733.c21.teamI.user.User;
+import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.AnchorPane;
 import javax.swing.*;
 
 public class MedicineDeliveryController {
-  @FXML JFXTextField patient_name, currentID, assignedID, floor, room;
+  @FXML JFXTextField patient_name, currentID, assignedID, floor, room, locationText;
   @FXML JFXDatePicker date;
   @FXML JFXTimePicker time;
-  @FXML JFXToggleButton urgentCond;
   @FXML TextArea comment;
   @FXML JFXCheckBox checkNote;
   @FXML JFXButton clearBtn, submitBtn, cancelBtn;
+  @FXML ListView serviceLocationList, requestAssignedList;
+  @FXML AnchorPane background;
   ServiceTicket ticket;
 
   @FXML
@@ -27,11 +35,6 @@ public class MedicineDeliveryController {
     roomPicked = room.getText();
     datePicked = date.getValue().toString();
     timePicked = time.getValue().toString();
-    if (urgentCond.isSelected()) {
-      cond = "urgent";
-    } else {
-      cond = "not urgent";
-    }
     com = comment.getText();
     if (checkNote.isSelected()) {
       check = "want notification";
@@ -46,15 +49,60 @@ public class MedicineDeliveryController {
       ticket =
           new ServiceTicket(
               RequestID,
-              ServiceTicket.TicketType.SECURITY,
-              "Floor: " + floorPicked + " Room: " + roomPicked,
+              ServiceTicket.TicketType.MEDICINE,
+              NavDatabaseManager.getInstance().getMapIdFromLongName(locationText.getText()),
               comment.getText(),
               false);
 
+      ticket.addAssignedUserID(AssignedID);
       ServiceTicketDatabaseManager.getInstance().addTicket(ticket);
+      ServiceTicketDatabaseManager.getInstance().addEmployeeForTicket(RequestID, AssignedID);
     } catch (Exception o) {
       System.out.println("Error" + o);
     }
+  }
+
+  private void setupRequestView() {
+    serviceLocationList
+        .getSelectionModel()
+        .selectedItemProperty()
+        .addListener(
+            (ChangeListener<String>)
+                (ov, oldVal, newVal) -> {
+                  locationText.setText(newVal);
+                  serviceLocationList.setVisible(false);
+                });
+
+    requestAssignedList
+        .getSelectionModel()
+        .selectedItemProperty()
+        .addListener(
+            (ChangeListener<String>)
+                (ov, oldVal, newVal) -> {
+                  assignedID.setText(newVal);
+                  requestAssignedList.setVisible(false);
+                });
+
+    background.setOnMouseClicked(
+        t -> {
+          serviceLocationList.setVisible(false);
+          requestAssignedList.setVisible(false);
+        });
+
+    currentID.setText(ApplicationDataController.getInstance().getLoggedInUser().getName());
+  }
+
+  public void initialize() {
+    setupRequestView();
+  }
+
+  public void lookup(KeyEvent e) {
+    ServiceTicketDataController.lookupNodes(e, serviceLocationList, locationText);
+  }
+
+  public void lookupUser(KeyEvent e) {
+    ServiceTicketDataController.lookupUsernames(
+        e, User.Permission.RESPOND_TO_MEDICINE_REQUEST, requestAssignedList, assignedID);
   }
 
   @FXML
@@ -64,7 +112,6 @@ public class MedicineDeliveryController {
     date.valueProperty().set(null);
     room.clear();
     time.valueProperty().set(null);
-    urgentCond.setSelected(false);
     comment.clear();
     checkNote.setSelected(false);
     assignedID.clear();

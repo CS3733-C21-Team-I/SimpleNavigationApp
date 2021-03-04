@@ -9,33 +9,33 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="443.0" prefWidth="359.0" stylesheets="@../fxmlResources/main.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamI.view.ComputerServiceRequestController">
+<AnchorPane fx:id="background" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="443.0" prefWidth="359.0" stylesheets="@../fxmlResources/main.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamI.view.ComputerServiceRequestController">
    <children>
       <VBox layoutX="42.0" layoutY="42.0" prefHeight="294.0" prefWidth="255.0" AnchorPane.bottomAnchor="107.0" AnchorPane.leftAnchor="42.0" AnchorPane.rightAnchor="62.0" AnchorPane.topAnchor="42.0">
          <children>
-            <JFXTextField fx:id="compServReqID" text="Requester ID">
+            <JFXTextField fx:id="compServReqID" promptText="Requester ID">
                <VBox.margin>
                   <Insets left="10.0" right="10.0" top="15.0" />
                </VBox.margin>
             </JFXTextField>
-            <JFXTextField fx:id="compServAssID" text="Assigned ID">
+            <JFXTextField fx:id="compServAssID" onKeyPressed="#lookupUser" promptText="Assigned ID">
                <VBox.margin>
                   <Insets left="10.0" right="10.0" top="15.0" />
                </VBox.margin>
             </JFXTextField>
-            <JFXTextField fx:id="compServReqLoc" prefHeight="48.0" prefWidth="235.0" text="Location">
+            <JFXTextField fx:id="compServReqLoc" onKeyTyped="#lookup" prefHeight="48.0" prefWidth="235.0" promptText="Location">
                <VBox.margin>
                   <Insets left="10.0" right="10.0" top="15.0" />
                </VBox.margin>
             </JFXTextField>
-            <JFXTextArea fx:id="compServReqDes" prefHeight="62.0" prefWidth="303.0" text="&#10;Description">
+            <JFXTextArea fx:id="compServReqDes" prefHeight="62.0" prefWidth="303.0" promptText="Description">
                <VBox.margin>
                   <Insets left="10.0" right="10.0" top="20.0" />
                </VBox.margin>
             </JFXTextArea>
          </children>
       </VBox>
-      <JFXButton fx:id="compServReqClear" buttonType="RAISED" layoutX="77.0" layoutY="366.0" prefHeight="38.0" prefWidth="82.0" ripplerFill="WHITE" style="-fx-background-color: #0067b1;" styleClass="styledButton" text="Clear" textFill="#0067b1">
+      <JFXButton fx:id="compServReqClear" onAction="#clear" buttonType="RAISED" layoutX="77.0" layoutY="366.0" prefHeight="38.0" prefWidth="82.0" ripplerFill="WHITE" style="-fx-background-color: #0067b1;" styleClass="styledButton" text="Clear" textFill="#0067b1">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
@@ -43,7 +43,7 @@
             <Insets top="5.0" />
          </padding>
       </JFXButton>
-      <JFXButton fx:id="compServReqSubmit" buttonType="RAISED" layoutX="180.0" layoutY="366.0" prefHeight="42.0" prefWidth="94.0" ripplerFill="WHITE" style="-fx-background-color: #0067b1;" styleClass="styledButton" text="Submit" textFill="#0067b1">
+      <JFXButton fx:id="compServReqSubmit" onAction="#getComputerServiceRequest" buttonType="RAISED" layoutX="180.0" layoutY="366.0" prefHeight="42.0" prefWidth="94.0" ripplerFill="WHITE" style="-fx-background-color: #0067b1;" styleClass="styledButton" text="Submit" textFill="#0067b1">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
