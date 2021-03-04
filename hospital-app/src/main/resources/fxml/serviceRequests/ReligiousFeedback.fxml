@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextArea?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import com.jfoenix.controls.JFXToggleButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="474.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamI.view.FeedbackViewController">
+   <children>
+      <JFXTextField fx:id="time" focusColor="#0067b1" prefHeight="31.0" prefWidth="267.0" promptText="How long did the appointment take?" unFocusColor="#012d5a">
+         <VBox.margin>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </VBox.margin>
+      </JFXTextField>
+      <JFXToggleButton fx:id="emergency" text="Was it an emergency sacramental need?" toggleColor="#012d5a" toggleLineColor="#0067b1" />
+      <JFXToggleButton fx:id="satisfied" text="Did the patient seem satisfied?" toggleColor="#012d5a" toggleLineColor="#0067b1" />
+      <JFXTextArea fx:id="description" focusColor="#0067b1" prefHeight="109.0" prefWidth="330.0" promptText="Describe the event" style="-fx-background-color: white;">
+         <padding>
+            <Insets top="10.0" />
+         </padding>
+      </JFXTextArea>
+      <JFXToggleButton fx:id="impact" text="Do you feel you had a positive impact on the patient?" toggleColor="#012d5a" toggleLineColor="#0067b1" />
+      <HBox alignment="CENTER">
+         <children>
+            <JFXButton buttonType="RAISED" onAction="#clear" style="-fx-background-color: #0067b1;" text="Clear" textFill="WHITE">
+               <HBox.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </HBox.margin>
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </JFXButton>
+            <JFXButton buttonType="RAISED" style="-fx-background-color: #0067b1;" text="Submit" textFill="WHITE">
+               <HBox.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </HBox.margin>
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </JFXButton>
+         </children>
+         <VBox.margin>
+            <Insets top="20.0" />
+         </VBox.margin>
+      </HBox>
+   </children>
+   <padding>
+      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+   </padding>
+</VBox>

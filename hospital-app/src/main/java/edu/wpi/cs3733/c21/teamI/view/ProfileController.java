@@ -39,16 +39,8 @@ public class ProfileController extends Application {
   }
 
   private void populateTicketsProfile() {
-    if (ApplicationDataController.getInstance()
-        .getLoggedInUser()
-        .hasPermission(User.Permission.VIEW_TICKET)) {
-      generateRequestList();
-      loginVBox.setVisible(false);
-      serviceDisplay.setVisible(true);
-    } else {
-      loginVBox.setVisible(true);
-      serviceDisplay.setVisible(false);
-    }
+    loginVBox.setVisible(true);
+    serviceDisplay.setVisible(false);
   }
 
   @FXML
@@ -68,12 +60,6 @@ public class ProfileController extends Application {
     } else {
       //      headerLabel.setText("Error: Invalid login.");
     }
-  }
-
-  @FXML
-  public void logout() {
-    ApplicationDataController.getInstance().logOutUser();
-    homeController.update();
   }
 
   public void generateRequestList() {
