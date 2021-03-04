@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.c21.teamI.view;
 
 import com.jfoenix.controls.JFXCheckBox;
+import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXTimePicker;
 import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
@@ -32,6 +33,8 @@ public class LanguageController extends Application {
 
   @FXML private JFXTextField langAssignedEmp;
 
+  @FXML private JFXTextArea langDetails;
+
   @FXML private JFXCheckBox langCheckbox;
 
   @FXML ListView serviceLocationList, requestAssignedList;
@@ -42,6 +45,7 @@ public class LanguageController extends Application {
   void clear(ActionEvent event) {
 
     langTextfield.clear();
+    langDetails.clear();
     langLocationTextfield.clear();
     langTime.valueProperty().set(null);
     langReqID.clear();
@@ -51,25 +55,24 @@ public class LanguageController extends Application {
 
   @FXML
   void submit(ActionEvent event) {
-    String langString = langTextfield.getText();
-    String locString = langLocationTextfield.getText();
-    String timeString = langTime.getValue().toString();
-    String reqString = langReqID.getText();
-    String assignedString = langAssignedEmp.getText();
-    Boolean isLegal = langCheckbox.isSelected();
     try {
       int RequestID = ApplicationDataController.getInstance().getLoggedInUser().getUserId();
       int AssignedID =
-          UserDatabaseManager.getInstance().getUserForScreenname(assignedString).getUserId();
+          UserDatabaseManager.getInstance()
+              .getUserForScreenname(langAssignedEmp.getText())
+              .getUserId();
       ticket =
           new ServiceTicket(
               RequestID,
               ServiceTicket.TicketType.LANGUAGE,
               NavDatabaseManager.getInstance()
                   .getMapIdFromLongName(langLocationTextfield.getText()),
-              langTextfield.getText(),
+              langDetails.getText(),
               false);
+      //      ticket.addAssignedUserID(AssignedID);
+      ticket.addAssignedUserID(AssignedID);
       ServiceTicketDatabaseManager.getInstance().addTicket(ticket);
+      ServiceTicketDatabaseManager.getInstance().addEmployeeForTicket(RequestID, AssignedID);
     } catch (Exception o) {
       System.out.println("Error" + o);
     }
@@ -115,7 +118,7 @@ public class LanguageController extends Application {
 
   public void lookupUser(KeyEvent e) {
     ServiceTicketDataController.lookupUsernames(
-        e, User.Permission.RESPOND_TO_SECURITY, requestAssignedList, langAssignedEmp);
+        e, User.Permission.RESPOND_TO_LANGUAGE, requestAssignedList, langAssignedEmp);
   }
 
   @Override

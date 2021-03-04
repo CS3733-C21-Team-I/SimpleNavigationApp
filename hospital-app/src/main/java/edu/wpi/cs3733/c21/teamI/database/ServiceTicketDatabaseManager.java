@@ -602,7 +602,7 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
             empRequestID, ServiceTicket.TicketType.LAUNDRY, "ICONF00104", "more info", true);
     ticket2.setTicketID(21);
     ticket2.addAssignedUserID(empAssignID);
-    //System.out.println("THIS IS EMPLOYEE FOR TICKET2:   " + ticket2.getAssignedUserID());
+    // System.out.println("THIS IS EMPLOYEE FOR TICKET2:   " + ticket2.getAssignedUserID());
 
     ourInstance.addTicket(ticket1);
     ourInstance.addTicket(ticket2);
