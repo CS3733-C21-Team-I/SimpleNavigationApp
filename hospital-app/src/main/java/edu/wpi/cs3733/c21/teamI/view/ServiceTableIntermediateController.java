@@ -5,16 +5,11 @@ import java.util.List;
 
 public class ServiceTableIntermediateController {
 
-    public List<ServiceTicket> getUserTickets(){
-        return null;
-    }
+  public List<ServiceTicket> getUserTickets() {
+    return null;
+  }
 
-    public void updateAssignedID(int serviceTicketID, int newAssignedID){
+  public void updateAssignedID(int serviceTicketID, int newAssignedID) {}
 
-    }
-    public void markCompleted(int serviceTicketID){
-
-    }
-
-
+  public void markCompleted(int serviceTicketID) {}
 }
