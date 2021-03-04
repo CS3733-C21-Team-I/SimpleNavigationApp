@@ -2,6 +2,7 @@ package edu.wpi.cs3733.c21.teamI.view;
 
 import com.jfoenix.controls.*;
 import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
+import edu.wpi.cs3733.c21.teamI.database.NavDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.database.ServiceTicketDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.database.UserDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicket;
@@ -49,11 +50,13 @@ public class MedicineDeliveryController {
           new ServiceTicket(
               RequestID,
               ServiceTicket.TicketType.MEDICINE,
-              "Floor: " + floorPicked + " Room: " + roomPicked,
+              NavDatabaseManager.getInstance().getMapIdFromLongName(locationText.getText()),
               comment.getText(),
               false);
 
+      ticket.addAssignedUserID(AssignedID);
       ServiceTicketDatabaseManager.getInstance().addTicket(ticket);
+      ServiceTicketDatabaseManager.getInstance().addEmployeeForTicket(RequestID, AssignedID);
     } catch (Exception o) {
       System.out.println("Error" + o);
     }
