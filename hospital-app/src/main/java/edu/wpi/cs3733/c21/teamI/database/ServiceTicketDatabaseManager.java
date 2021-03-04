@@ -602,31 +602,11 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
             empRequestID, ServiceTicket.TicketType.LAUNDRY, "ICONF00104", "more info", true);
     ticket2.setTicketID(21);
     ticket2.addAssignedUserID(empAssignID);
-    System.out.println("THIS IS EMPLOYEE FOR TICKET2:   " + ticket2.getAssignedUserID());
+    //System.out.println("THIS IS EMPLOYEE FOR TICKET2:   " + ticket2.getAssignedUserID());
 
     ourInstance.addTicket(ticket1);
     ourInstance.addTicket(ticket2);
     ourInstance.addEmployeeForTicket(empRequestID, empAssignID);
-
-    //    try {
-    //      Statement stmt = ourInstance.databaseRef.getConnection().createStatement();
-    //      ResultSet rs =
-    //          stmt.executeQuery(
-    //              "SELECT * FROM SERVICETICKET WHERE REQUESTINGUSERID=" +
-    // String.valueOf(empRequestID));
-    //      int tixID = 0;
-    //      if (rs.next()) {
-    //        tixID = rs.getInt("ticketID");
-    //        stmt.executeUpdate(
-    //            "INSERT INTO employee(employeeID, tixID) VALUES("
-    //                + String.valueOf(empAssignID)
-    //                + ","
-    //                + String.valueOf(tixID)
-    //                + ")");
-    //      }
-    //    } catch (SQLException e) {
-    //      e.printStackTrace();
-    //    }
   }
 
   public void addEmployeeForTicket(int requestID, int assignID) {
