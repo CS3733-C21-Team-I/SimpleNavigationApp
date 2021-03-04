@@ -45,7 +45,7 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
                 rs.getString("location"),
                 rs.getString("description"),
                 rs.getBoolean("completed"));
-        ticket.setTicketID(rs.getInt("ID"));
+        ticket.setTicketID(rs.getInt("ticketID"));
         ticket.setAssignedUserID(getEmployeesForId(id));
         return ticket;
       } else return null;
@@ -55,7 +55,7 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
     }
   }
 
-  public List<Integer>  getEmployeesForId(int id) {
+  public List<Integer> getEmployeesForId(int id) {
     List<Integer> emps = new ArrayList<>();
     try {
       Statement stmt = databaseRef.getConnection().createStatement();
@@ -511,7 +511,11 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
   public void removeEmployee(int ticketID, int employeeID) {
     try {
       Statement stmt = databaseRef.getConnection().createStatement();
-      stmt.executeQuery("DELETE FROM employee WHERE employeeID = " + String.valueOf(employeeID) + " AND tixID = " + String.valueOf(ticketID));
+      stmt.executeUpdate(
+          "DELETE FROM employee WHERE employeeID = "
+              + String.valueOf(employeeID)
+              + " AND tixID = "
+              + String.valueOf(ticketID));
     } catch (SQLException e) {
       e.printStackTrace();
     }

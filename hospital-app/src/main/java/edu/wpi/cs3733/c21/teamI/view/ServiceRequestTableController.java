@@ -73,7 +73,8 @@ public class ServiceRequestTableController implements Initializable {
             + Integer.parseInt(IDTextField.getText())
             + " to "
             + treeView.getSelectionModel().getSelectedItem().getValue().getTicketId());
-    interController.addAssignedID(treeView.getSelectionModel().getSelectedItem().getValue().getTicketId(),
+    interController.addAssignedID(
+        treeView.getSelectionModel().getSelectedItem().getValue().getTicketId(),
         Integer.parseInt(IDTextField.getText()));
     update();
   }
@@ -145,9 +146,8 @@ public class ServiceRequestTableController implements Initializable {
           @Override
           public ObservableValue<String> call(
               TreeTableColumn.CellDataFeatures<ServiceTicket, String> param) {
-            System.out.println(param.getValue().getValue().getAssignedUserID().get(0));
-            return new SimpleStringProperty(
-                Integer.toString(param.getValue().getValue().getAssignedUserID().get(0)));
+            String listString = param.getValue().getValue().getAssignedUserID().toString();
+            return new SimpleStringProperty(listString.substring(1, listString.length() - 1));
           }
         });
 

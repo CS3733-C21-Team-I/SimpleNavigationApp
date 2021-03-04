@@ -11,24 +11,14 @@ public class ServiceTableIntermediateController {
   }
 
   public void addAssignedID(int serviceTicketID, int newAssignedID) {
-    System.out.println(ServiceTicketDatabaseManager.getInstance().getServiceTicketDB());
-//    ServiceTicketDatabaseManager.getInstance().addEmployeeForTicket(requestID, newAssignedID);
     ServiceTicketDatabaseManager.getInstance().addEmployee(serviceTicketID, newAssignedID);
-//    ServiceTicketDatabaseManager.getInstance()
-//        .getTicketForId(serviceTicketID)
-//        .addAssignedUserID(newAssignedID);
   }
 
   public void removeAssignedID(int serviceTicketID, int newAssignedID) {
-    System.out.println(ServiceTicketDatabaseManager.getInstance().getServiceTicketDB());
-//    ServiceTicketDatabaseManager.getInstance().removeEmployee(serviceTicketID, newAssignedID);
-//    ServiceTicketDatabaseManager.getInstance()
-//        .getTicketForId(serviceTicketID)
-//        .addAssignedUserID(newAssignedID);
+    ServiceTicketDatabaseManager.getInstance().removeEmployee(serviceTicketID, newAssignedID);
   }
 
   public void markCompleted(int serviceTicketID) {
-    System.out.println(ServiceTicketDatabaseManager.getInstance().getServiceTicketDB());
     ServiceTicketDatabaseManager.getInstance().updateTicket(serviceTicketID);
   }
 }
