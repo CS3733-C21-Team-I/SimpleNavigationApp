@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import com.jfoenix.controls.JFXTreeTableView?>
 <?import javafx.geometry.Insets?>
@@ -24,6 +25,29 @@
          </children>
       </HBox>
       <JFXTreeTableView fx:id="treeView" editable="true" prefHeight="350.0" prefWidth="786.0" stylesheets="@fxmlResources/ServiceRequestTable.css" />
+      <HBox prefHeight="46.0" prefWidth="786.0">
+         <children>
+            <JFXButton fx:id="markCompleteButton" onAction="#markComplete" style="-fx-background-color: #012d5a;" text="Mark as complete" textFill="WHITE">
+               <HBox.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </HBox.margin>
+            </JFXButton>
+         </children>
+      </HBox>
+      <HBox prefHeight="46.0" prefWidth="786.0">
+         <children>
+            <JFXTextField fx:id="newAssignedIDTextField" focusColor="#012d5a" promptText="New Assigned ID">
+               <HBox.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </HBox.margin>
+            </JFXTextField>
+            <JFXButton fx:id="updateAssignedIDButton" onAction="#updateAssignedID" style="-fx-background-color: #012d5a;" text="Update" textFill="WHITE">
+               <HBox.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </HBox.margin>
+            </JFXButton>
+         </children>
+      </HBox>
    </children>
    <padding>
       <Insets bottom="80.0" left="80.0" right="80.0" top="80.0" />
