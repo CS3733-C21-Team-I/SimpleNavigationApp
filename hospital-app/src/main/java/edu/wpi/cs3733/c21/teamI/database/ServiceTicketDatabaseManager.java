@@ -115,8 +115,8 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
                 + "    completed        boolean DEFAULT false,\n"
                 + "    CONSTRAINT ticketID_PK PRIMARY KEY (ticketID),\n"
                 + "    CONSTRAINT ticket_ck CHECK (serviceticket.ticketType in "
-                + "('AUDIO_VISUAL', 'COMPUTER', 'LANGUAGE', 'PARKING', 'FLORAL', 'GIFT', 'TRANSPORTATION',"
-                + "'LAUNDRY', 'MEDICINE', 'RELIGIOUS', 'SECURITY', 'SANITATION', 'MAINTENANCE')),\n"
+                + "('AUDIO_VISUAL', 'COMPUTER', 'LANGUAGE', 'PARKING', 'FLORAL', 'GIFT', 'INTERNAL_TRANSPORTATION',"
+                + "'EXTERNAL_TRANSPORTATION', 'LAUNDRY', 'MEDICINE', 'RELIGIOUS', 'SECURITY', 'SANITATION', 'MAINTENANCE')),\n"
                 + "    CONSTRAINT location_FK FOREIGN KEY (location) REFERENCES navNodes(node_ID),"
                 + "  CONSTRAINT requestID_FK FOREIGN KEY (requestingUserID) REFERENCES HOSPITAL_USERS(user_ID))");
         // System.out.println("ServiceTicket table created.");
@@ -587,26 +587,44 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
   }
 
   public static void populateExampleData() {
-    int empRequestID =
-        UserDatabaseManager.getInstance().getUserForScreenname("TestEmployee").getUserId();
-    int empAssignID =
-        UserDatabaseManager.getInstance().getUserForScreenname("TestServiceEmployee").getUserId();
 
-    ServiceTicket ticket1 =
-        new ServiceTicket(
-            empRequestID, ServiceTicket.TicketType.MAINTENANCE, "ICONF00103", "info", false);
-    ticket1.setTicketID(11);
-    ticket1.addAssignedUserID(empAssignID);
-    ServiceTicket ticket2 =
-        new ServiceTicket(
-            empRequestID, ServiceTicket.TicketType.LAUNDRY, "ICONF00104", "more info", true);
-    ticket2.setTicketID(21);
-    ticket2.addAssignedUserID(empAssignID);
-    //System.out.println("THIS IS EMPLOYEE FOR TICKET2:   " + ticket2.getAssignedUserID());
+    //    int empRequestID =
+    //        UserDatabaseManager.getInstance().getUserForScreenname("TestEmployee").getUserId();
+    //    int empAssignID =
+    //
+    // UserDatabaseManager.getInstance().getUserForScreenname("TestServiceEmployee").getUserId();
+    //
+    //    ServiceTicket ticket1 =
+    //        new ServiceTicket(
+    //            empRequestID, ServiceTicket.TicketType.MAINTENANCE, "ICONF00103", "info", false);
+    //    ticket1.setTicketID(11);
+    //    ServiceTicket ticket2 =
+    //        new ServiceTicket(
+    //            empRequestID, ServiceTicket.TicketType.LAUNDRY, "ICONF00104", "more info", true);
+    //    ticket2.setTicketID(21);
+    //
+    //    ourInstance.addTicket(ticket1);
+    //    ourInstance.addTicket(ticket2);
+    //
 
-    ourInstance.addTicket(ticket1);
-    ourInstance.addTicket(ticket2);
-    ourInstance.addEmployeeForTicket(empRequestID, empAssignID);
+    //    try {
+    //      Statement stmt = ourInstance.databaseRef.getConnection().createStatement();
+    //      ResultSet rs =
+    //          stmt.executeQuery(
+    //              "SELECT * FROM SERVICETICKET WHERE REQUESTINGUSERID=" +
+    // String.valueOf(empRequestID));
+    //      int tixID = 0;
+    //      if (rs.next()) {
+    //        tixID = rs.getInt("ticketID");
+    //        stmt.executeUpdate(
+
+    //            "INSERT INTO employee(employeeID, tixID) VALUES(" + empAssignID + "," + tixID +
+    // ")");
+
+    //      }
+    //    } catch (SQLException e) {
+    //      e.printStackTrace();
+    //    }
   }
 
   public void addEmployeeForTicket(int requestID, int assignID) {

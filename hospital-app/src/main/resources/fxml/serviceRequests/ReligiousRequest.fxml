@@ -68,12 +68,12 @@
                   <Insets bottom="15.0" />
                </VBox.margin>
             </JFXTextArea>
-            <JFXTextField fx:id="requestlocation" focusColor="#0067b1" onKeyTyped="#lookup" maxWidth="300.0" promptText="Location" unFocusColor="#012d5a">
+            <JFXTextField fx:id="requestLocation" focusColor="#0067b1" maxWidth="300.0" onKeyTyped="#lookup" promptText="Location" unFocusColor="#012d5a">
                <VBox.margin>
                   <Insets bottom="15.0" />
                </VBox.margin>
             </JFXTextField>
-            <JFXTextField fx:id="assignedEmployeeID" focusColor="#0067b1" onKeyPressed="#lookupUser" maxWidth="300.0" promptText="Employee Assigned ID" unFocusColor="#012d5a">
+            <JFXTextField fx:id="assignedEmployeeID" focusColor="#0067b1" maxWidth="300.0" onKeyPressed="#lookupUser" promptText="Employee Assigned ID" unFocusColor="#012d5a">
                <VBox.margin>
                   <Insets bottom="15.0" />
                </VBox.margin>
@@ -88,7 +88,7 @@
                   <Insets bottom="15.0" />
                </VBox.margin>
             </JFXTimePicker>
-            <Label minHeight="98.0" minWidth="400.0" prefHeight="98.0" prefWidth="456.0" text="For emergencies, contact the on-call chaplain by calling 617-983-7000 and paging 66946. A Roman Catholic priest is on-call for emergency sacramental needs as well as a rabbi" wrapText="true">
+            <Label minHeight="98.0" minWidth="400.0" prefHeight="98.0" prefWidth="456.0" text="For emergencies, call the chaplain (617-983-7000) and page 66946. A Rabbi and Roman Catholic priest are on-call for emergency sacramental needs." wrapText="true">
                <VBox.margin>
                   <Insets bottom="15.0" />
                </VBox.margin>
@@ -108,7 +108,7 @@
             </HBox>
          </children>
       </VBox>
-      <ListView fx:id="serviceLocationList" layoutX="324.0" layoutY="325.0" prefHeight="200.0" prefWidth="200.0" visible="false" />
-      <ListView fx:id="requestAssignedList" layoutX="392.0" layoutY="416.0" prefHeight="200.0" prefWidth="200.0" visible="false" />
+      <ListView fx:id="serviceLocationList" layoutX="42.0" layoutY="475.0" prefHeight="155.0" prefWidth="169.0" visible="false" />
+      <ListView fx:id="requestAssignedList" layoutX="44.0" layoutY="518.0" prefHeight="142.0" prefWidth="169.0" visible="false" />
    </children>
 </AnchorPane>

@@ -45,8 +45,6 @@ public class ApplicationDataController {
       user = UserDatabaseManager.getInstance().getUserWithPassword(username, password);
     }
 
-
-
     if (user == null) return false;
 
     loggedInUser = user;
