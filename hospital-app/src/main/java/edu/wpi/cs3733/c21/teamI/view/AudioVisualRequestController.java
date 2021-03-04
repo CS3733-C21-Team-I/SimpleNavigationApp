@@ -45,6 +45,7 @@ public class AudioVisualRequestController {
               NavDatabaseManager.getInstance().getMapIdFromLongName(roomNumber.getText()),
               requestDetails.getText(),
               false);
+      //      ticket.addAssignedUserID(AssignedID);
       ServiceTicketDatabaseManager.getInstance().addTicket(ticket);
     } catch (Exception o) {
       System.out.println("Error" + o);

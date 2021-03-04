@@ -42,6 +42,7 @@ public class SanitationController {
               NavDatabaseManager.getInstance().getMapIdFromLongName(sanitationLocation.getText()),
               sanitationDetails.getText(),
               false);
+      //      ticket.addAssignedUserID(AssignedID);
       ServiceTicketDatabaseManager.getInstance().addTicket(ticket);
     } catch (Exception o) {
       System.out.println("Error" + o);

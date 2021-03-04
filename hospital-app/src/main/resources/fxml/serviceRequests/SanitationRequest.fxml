@@ -13,22 +13,22 @@
    <children>
       <VBox layoutX="42.0" layoutY="65.0" prefHeight="302.0" prefWidth="255.0" AnchorPane.bottomAnchor="154.0" AnchorPane.leftAnchor="42.0" AnchorPane.rightAnchor="62.0" AnchorPane.topAnchor="50.0">
          <children>
-            <JFXTextField fx:id="requesterID" text="Requester ID">
+            <JFXTextField fx:id="requesterID" promptText="Requester ID">
                <VBox.margin>
                   <Insets left="10.0" right="10.0" top="15.0" />
                </VBox.margin>
             </JFXTextField>
-            <JFXTextField fx:id="requestAssigned" text="Assigned ID">
+            <JFXTextField fx:id="requestAssigned" promptText="Assigned Employee" onKeyPressed="#lookupUser">
                <VBox.margin>
                   <Insets left="10.0" right="10.0" top="15.0" />
                </VBox.margin>
             </JFXTextField>
-            <JFXTextField fx:id="sanitationLocation" prefHeight="48.0" prefWidth="193.0" text="Location">
+            <JFXTextField fx:id="sanitationLocation" onKeyTyped="#lookup" prefHeight="48.0" prefWidth="193.0" promptText="Location">
                <VBox.margin>
                   <Insets left="10.0" right="10.0" top="15.0" />
                </VBox.margin>
             </JFXTextField>
-            <JFXTextArea fx:id="sanitationDetails" prefHeight="62.0" prefWidth="303.0" text="Request Details">
+            <JFXTextArea fx:id="sanitationDetails" prefHeight="62.0" prefWidth="303.0" promptText="Request Details">
                <VBox.margin>
                   <Insets left="10.0" right="10.0" top="20.0" />
                </VBox.margin>
