@@ -66,17 +66,17 @@ public class ServiceRequestTableController implements Initializable {
     JFXTreeTableColumn<ServiceTicket, String> assignIDCol = new JFXTreeTableColumn<>("Assigned ID");
     assignIDCol.setPrefWidth(150);
     assignIDCol.setEditable(true);
-    //    assignIDCol.setCellValueFactory(
-    //        new Callback<
-    //            TreeTableColumn.CellDataFeatures<ServiceTicket, String>,
-    // ObservableValue<String>>() {
-    //          @Override
-    //          public ObservableValue<String> call(
-    //              TreeTableColumn.CellDataFeatures<ServiceTicket, String> param) {
-    //            return new SimpleStringProperty(
-    //                Integer.toString(param.getValue().getValue().getAssignedUserID().get(0)));
-    //          }
-    //        });
+    assignIDCol.setCellValueFactory(
+        new Callback<
+            TreeTableColumn.CellDataFeatures<ServiceTicket, String>, ObservableValue<String>>() {
+          @Override
+          public ObservableValue<String> call(
+              TreeTableColumn.CellDataFeatures<ServiceTicket, String> param) {
+            System.out.println(param.getValue().getValue().getAssignedUserID().get(0));
+            return new SimpleStringProperty(
+                Integer.toString(param.getValue().getValue().getAssignedUserID().get(0)));
+          }
+        });
 
     JFXTreeTableColumn<ServiceTicket, String> locationCol = new JFXTreeTableColumn<>("Location");
     locationCol.setPrefWidth(150);
