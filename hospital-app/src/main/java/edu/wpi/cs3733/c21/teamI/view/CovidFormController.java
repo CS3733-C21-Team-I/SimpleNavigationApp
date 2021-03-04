@@ -1,6 +1,5 @@
 package edu.wpi.cs3733.c21.teamI.view;
 
-import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXRadioButton;
 import com.jfoenix.controls.JFXTextField;
@@ -14,21 +13,21 @@ import javafx.stage.Stage;
 public class CovidFormController extends Application {
 
   @FXML
-  JFXCheckBox throat,
-      breath,
-      headache,
-      smell,
-      fever,
-      nose,
-      cough,
-      nausea,
-      diarrhea,
-      proximityWithConfirmedCase,
-      ProximityWithSymptomaticCase;
-  @FXML JFXRadioButton yes, no;
+  JFXCheckBox soreThroatCheckbox,
+      breathCheckbox,
+      headacheCheckbox,
+      tasteCheckbox,
+      feverCheckbox,
+      congestionCheckbox,
+      coughCheckbox,
+      nauseaCheckbox,
+      diarrheaCheckbox,
+      confirmedCheckbox,
+      symptomCheckbox;
+  @FXML JFXRadioButton covidYesRadioBtn, covidNoRadioBtn;
 
-  @FXML JFXTextField temperature;
-  @FXML JFXButton cancel, clear, submit;
+  @FXML JFXTextField tempTextfield;
+  // @FXML JFXButton cancel, clear, submit;
 
   @Override
   public void start(Stage primaryStage) throws Exception {
@@ -44,21 +43,21 @@ public class CovidFormController extends Application {
     boolean symptoms, waitingForResult, suspect = false;
     double bodyTemperature = 97;
 
-    if (throat.isSelected()
-        | breath.isSelected()
-        | headache.isSelected()
-        | smell.isSelected()
-        | fever.isSelected()
-        | nose.isSelected()
-        | cough.isSelected()
-        | nausea.isSelected()
-        | diarrhea.isSelected()
-        | proximityWithConfirmedCase.isSelected()
-        | ProximityWithSymptomaticCase.isSelected()) {
+    if (soreThroatCheckbox.isSelected()
+        | breathCheckbox.isSelected()
+        | headacheCheckbox.isSelected()
+        | tasteCheckbox.isSelected()
+        | feverCheckbox.isSelected()
+        | congestionCheckbox.isSelected()
+        | coughCheckbox.isSelected()
+        | nauseaCheckbox.isSelected()
+        | diarrheaCheckbox.isSelected()
+        | confirmedCheckbox.isSelected()
+        | symptomCheckbox.isSelected()) {
       symptoms = true;
     }
 
-    if (yes.isSelected()) {
+    if (covidYesRadioBtn.isSelected()) {
       waitingForResult = true;
     }
 
@@ -68,20 +67,20 @@ public class CovidFormController extends Application {
   }
 
   public void clear() {
-    throat.setSelected(false);
-    breath.setSelected(false);
-    headache.setSelected(false);
-    smell.setSelected(false);
-    fever.setSelected(false);
-    nose.setSelected(false);
-    cough.setSelected(false);
-    nausea.setSelected(false);
-    diarrhea.setSelected(false);
-    proximityWithConfirmedCase.setSelected(false);
-    ProximityWithSymptomaticCase.setSelected(false);
-    yes.setSelected(false);
-    no.setSelected(false);
-    temperature.clear();
+    soreThroatCheckbox.setSelected(false);
+    breathCheckbox.setSelected(false);
+    headacheCheckbox.setSelected(false);
+    tasteCheckbox.setSelected(false);
+    feverCheckbox.setSelected(false);
+    congestionCheckbox.setSelected(false);
+    coughCheckbox.setSelected(false);
+    nauseaCheckbox.setSelected(false);
+    diarrheaCheckbox.setSelected(false);
+    confirmedCheckbox.setSelected(false);
+    symptomCheckbox.setSelected(false);
+    covidYesRadioBtn.setSelected(false);
+    covidNoRadioBtn.setSelected(false);
+    tempTextfield.clear();
   }
 
   public void cancel() {}

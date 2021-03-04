@@ -23,11 +23,11 @@
             <AnchorPane maxHeight="20.0" minHeight="20.0" prefHeight="20.0" prefWidth="200.0" style="-fx-background-color: #F6BD38;" />
             <HBox nodeOrientation="RIGHT_TO_LEFT" VBox.vgrow="ALWAYS">
                <children>
-                  <StackPane fx:id="replacePane" nodeOrientation="LEFT_TO_RIGHT" prefHeight="600.0" prefWidth="516.0" style="-fx-background-color: #F1F1F1;" HBox.hgrow="ALWAYS">
-                     <padding>
-                        <Insets left="100.0" top="20.0" />
-                     </padding></StackPane>
-                  <JFXDrawer fx:id="drawer" alignment="TOP_RIGHT" centerShape="false" maxWidth="55.0" minWidth="55.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="600.0" prefWidth="55.0" style="-fx-background-color: #F1F1F1;" />
+                  <StackPane fx:id="replacePane" nodeOrientation="LEFT_TO_RIGHT" style="-fx-background-color: #F1F1F1;" HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin></StackPane>
+                  <JFXDrawer fx:id="drawer" alignment="TOP_RIGHT" centerShape="false" minWidth="55.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="600.0" prefWidth="55.0" style="-fx-background-color: #F1F1F1;" />
                </children>
             </HBox>
          </children>

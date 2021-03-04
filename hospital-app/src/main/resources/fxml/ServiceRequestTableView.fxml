@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import com.jfoenix.controls.JFXTreeTableView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<FlowPane fx:id="main" maxHeight="400.0" maxWidth="800.0" minHeight="400.0" minWidth="800.0" prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamI.view.ServiceRequestTableController">
+<VBox xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamI.view.ServiceRequestTableController">
    <children>
-      <HBox alignment="CENTER_LEFT" prefHeight="35.0" prefWidth="200.0">
+      <HBox alignment="CENTER_LEFT" prefHeight="35.0" prefWidth="300.0">
          <children>
             <Label text="Filter:" textFill="#012d5a">
                <HBox.margin>
@@ -18,13 +19,37 @@
                </HBox.margin>
                <font>
                   <Font size="15.0" />
-               </font></Label>
-            <JFXTextField fx:id="input" focusColor="#012d5a" />
+               </font>
+            </Label>
+            <JFXTextField fx:id="input" focusColor="#012d5a" HBox.hgrow="ALWAYS" />
          </children>
       </HBox>
-      <JFXTreeTableView fx:id="treeView" editable="true" prefHeight="350.0" prefWidth="786.0" stylesheets="@fxmlResources/ServiceRequestTable.css">
-         <FlowPane.margin>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-         </FlowPane.margin></JFXTreeTableView>
+      <JFXTreeTableView fx:id="treeView" editable="true" prefHeight="350.0" prefWidth="786.0" stylesheets="@fxmlResources/ServiceRequestTable.css" />
+      <HBox prefHeight="46.0" prefWidth="786.0">
+         <children>
+            <JFXButton fx:id="markCompleteButton" onAction="#markComplete" style="-fx-background-color: #012d5a;" text="Mark as complete" textFill="WHITE">
+               <HBox.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </HBox.margin>
+            </JFXButton>
+         </children>
+      </HBox>
+      <HBox prefHeight="46.0" prefWidth="786.0">
+         <children>
+            <JFXTextField fx:id="newAssignedIDTextField" focusColor="#012d5a" promptText="New Assigned ID">
+               <HBox.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </HBox.margin>
+            </JFXTextField>
+            <JFXButton fx:id="updateAssignedIDButton" onAction="#updateAssignedID" style="-fx-background-color: #012d5a;" text="Update" textFill="WHITE">
+               <HBox.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </HBox.margin>
+            </JFXButton>
+         </children>
+      </HBox>
    </children>
-</FlowPane>
+   <padding>
+      <Insets bottom="80.0" left="80.0" right="80.0" top="80.0" />
+   </padding>
+</VBox>

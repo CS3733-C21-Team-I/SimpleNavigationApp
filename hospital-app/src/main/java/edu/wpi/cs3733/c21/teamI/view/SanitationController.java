@@ -1,6 +1,6 @@
 package edu.wpi.cs3733.c21.teamI.view;
 
-import com.jfoenix.controls.*;
+import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
 import edu.wpi.cs3733.c21.teamI.database.NavDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.database.ServiceTicketDatabaseManager;
@@ -12,27 +12,21 @@ import java.io.IOException;
 import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.*;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 
-public class InternalTransportationController {
+public class SanitationController {
   ServiceTicket ticket;
-  @FXML JFXDatePicker internalDate;
-  @FXML JFXTimePicker internalTime;
-  @FXML JFXTextField requesterID, requestAssigned, internalLocation, internalDestination;
-  @FXML JFXTextArea internalDetails;
-  @FXML JFXRadioButton stretcherRadio, wheelchairRadio;
-  @FXML ListView requestAssignedList;
-  @FXML ListView serviceLocationList;
+  @FXML TextField sanitationLocation, requesterID, requestAssigned;
+  @FXML TextArea sanitationDetails;
+  @FXML ListView serviceLocationList, requestAssignedList;
   @FXML AnchorPane background;
-  @FXML JFXButton clearBttn;
-  @FXML JFXButton submitBttn;
 
-  //  String sDate, time, sName, sDestination, sPickupLocation, ID, employee;
-  //  boolean bStrecherRadio = false;
-  //  boolean bWheelerRadio = true;
-  //  boolean bEmergency = false;
+  @FXML JFXComboBox securityType;
 
   public void submit(ActionEvent e) {
     try {
@@ -44,10 +38,11 @@ public class InternalTransportationController {
       ticket =
           new ServiceTicket(
               RequestID,
-              ServiceTicket.TicketType.INTERNAL_TRANSPORTATION,
-              NavDatabaseManager.getInstance().getMapIdFromLongName(internalLocation.getText()),
-              internalDetails.getText(),
+              ServiceTicket.TicketType.SANITATION,
+              NavDatabaseManager.getInstance().getMapIdFromLongName(sanitationLocation.getText()),
+              sanitationDetails.getText(),
               false);
+      //      ticket.addAssignedUserID(AssignedID);
       ticket.addAssignedUserID(AssignedID);
       ServiceTicketDatabaseManager.getInstance().addTicket(ticket);
       ServiceTicketDatabaseManager.getInstance().addEmployeeForTicket(RequestID, AssignedID);
@@ -67,7 +62,7 @@ public class InternalTransportationController {
         .addListener(
             (ChangeListener<String>)
                 (ov, oldVal, newVal) -> {
-                  internalLocation.setText(newVal);
+                  sanitationLocation.setText(newVal);
                   serviceLocationList.setVisible(false);
                 });
 
@@ -91,15 +86,10 @@ public class InternalTransportationController {
   }
 
   public void clear() {
-    internalDetails.clear();
-    internalLocation.clear();
+    sanitationDetails.clear();
+    sanitationLocation.clear();
     requestAssigned.clear();
     requesterID.clear();
-    stretcherRadio.setSelected(false);
-    wheelchairRadio.setSelected(false);
-    //    emergency.setSelected(false);
-    internalDate.valueProperty().set(null);
-    internalTime.valueProperty().set(null);
     serviceLocationList.setVisible(false);
     requestAssignedList.setVisible(false);
   }
@@ -109,11 +99,11 @@ public class InternalTransportationController {
   }
 
   public void lookup(KeyEvent e) {
-    ServiceTicketDataController.lookupNodes(e, serviceLocationList, internalLocation);
+    ServiceTicketDataController.lookupNodes(e, serviceLocationList, sanitationLocation);
   }
 
   public void lookupUser(KeyEvent e) {
     ServiceTicketDataController.lookupUsernames(
-        e, User.Permission.RESPOND_TO_INTERNAL, requestAssignedList, requestAssigned);
+        e, User.Permission.RESPOND_TO_SANITATION, requestAssignedList, requestAssigned);
   }
 }

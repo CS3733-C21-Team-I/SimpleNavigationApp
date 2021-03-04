@@ -1,9 +1,10 @@
 package edu.wpi.cs3733.c21.teamI.view;
 
 import com.jfoenix.controls.JFXRippler;
+import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
 import java.io.IOException;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
@@ -20,12 +21,19 @@ public class AdminMenuController extends Application {
   @FXML
   public void navigate(MouseEvent e) throws IOException {
     String id = ((JFXRippler) e.getSource()).getId();
-    replacePane = homeController.getReplacePane();
-    System.out.println(replacePane);
+    replacePane =
+        (StackPane)
+            ((JFXRippler) e.getSource())
+                .getParent()
+                .getParent()
+                .getParent()
+                .getParent()
+                .getParent()
+                .getChildrenUnmodifiable()
+                .get(0);
     replacePane.getChildren().clear();
 
     if (id.equals("loginButton")) {
-      System.out.println(getClass().getResource("/fxml/Profile.fxml"));
       FXMLLoader profLoader =
           new FXMLLoader(getClass().getClassLoader().getResource("/fxml/Profile.fxml"));
       profLoader.setLocation(getClass().getResource("/fxml/Profile.fxml"));
@@ -49,6 +57,10 @@ public class AdminMenuController extends Application {
       replacePane
           .getChildren()
           .add(FXMLLoader.load(getClass().getResource("/fxml/menuFiles/ServiceView.fxml")));
+    } else if (id.equals("employeeButton")) {
+      replacePane
+          .getChildren()
+          .add(FXMLLoader.load(getClass().getResource("/fxml/EmployeeTable.fxml")));
     } else if (id.equals("logoutButton")) {
       replacePane.getChildren().add(FXMLLoader.load(getClass().getResource("/fxml/Profile.fxml")));
     } else if (id.equals("parkingButton")) {
@@ -59,12 +71,25 @@ public class AdminMenuController extends Application {
       replacePane
           .getChildren()
           .add(FXMLLoader.load(getClass().getResource("/fxml/ServiceRequestTableView.fxml")));
-    } else {
+    } else if (id.equals("feedbackButton")) {
+      replacePane
+          .getChildren()
+          .add(FXMLLoader.load(getClass().getResource("/fxml/menuFiles/feedbackView.fxml")));
     }
   }
 
   @FXML
-  public void logout(ActionEvent event) {}
+  public void exit() {
+    Platform.exit();
+    System.exit(0);
+  }
+
+  @FXML
+  public void logout(MouseEvent event) throws IOException {
+    ApplicationDataController.getInstance().logOutUser();
+    navigate(event);
+    homeController.update();
+  }
 
   public HomeController getHomeController() {
     return homeController;

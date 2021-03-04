@@ -1,6 +1,5 @@
 package edu.wpi.cs3733.c21.teamI.view;
 
-import com.jfoenix.controls.*;
 import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
 import edu.wpi.cs3733.c21.teamI.database.NavDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.database.ServiceTicketDatabaseManager;
@@ -12,27 +11,21 @@ import java.io.IOException;
 import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.*;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 
-public class InternalTransportationController {
+public class MaintenanceController {
   ServiceTicket ticket;
-  @FXML JFXDatePicker internalDate;
-  @FXML JFXTimePicker internalTime;
-  @FXML JFXTextField requesterID, requestAssigned, internalLocation, internalDestination;
-  @FXML JFXTextArea internalDetails;
-  @FXML JFXRadioButton stretcherRadio, wheelchairRadio;
-  @FXML ListView requestAssignedList;
-  @FXML ListView serviceLocationList;
+  @FXML TextField requestLocation, requestID, requestAssigned;
+  @FXML TextArea mainDesc;
+  @FXML CheckBox mainEmerg;
+  @FXML ListView serviceLocationList, requestAssignedList;
   @FXML AnchorPane background;
-  @FXML JFXButton clearBttn;
-  @FXML JFXButton submitBttn;
-
-  //  String sDate, time, sName, sDestination, sPickupLocation, ID, employee;
-  //  boolean bStrecherRadio = false;
-  //  boolean bWheelerRadio = true;
-  //  boolean bEmergency = false;
 
   public void submit(ActionEvent e) {
     try {
@@ -41,12 +34,13 @@ public class InternalTransportationController {
           UserDatabaseManager.getInstance()
               .getUserForScreenname(requestAssigned.getText())
               .getUserId();
+      System.out.println(AssignedID);
       ticket =
           new ServiceTicket(
               RequestID,
-              ServiceTicket.TicketType.INTERNAL_TRANSPORTATION,
-              NavDatabaseManager.getInstance().getMapIdFromLongName(internalLocation.getText()),
-              internalDetails.getText(),
+              ServiceTicket.TicketType.MAINTENANCE,
+              NavDatabaseManager.getInstance().getMapIdFromLongName(requestLocation.getText()),
+              mainDesc.getText(),
               false);
       ticket.addAssignedUserID(AssignedID);
       ServiceTicketDatabaseManager.getInstance().addTicket(ticket);
@@ -67,7 +61,7 @@ public class InternalTransportationController {
         .addListener(
             (ChangeListener<String>)
                 (ov, oldVal, newVal) -> {
-                  internalLocation.setText(newVal);
+                  requestLocation.setText(newVal);
                   serviceLocationList.setVisible(false);
                 });
 
@@ -87,19 +81,14 @@ public class InternalTransportationController {
           requestAssignedList.setVisible(false);
         });
 
-    requesterID.setText(ApplicationDataController.getInstance().getLoggedInUser().getName());
+    requestID.setText(ApplicationDataController.getInstance().getLoggedInUser().getName());
   }
 
   public void clear() {
-    internalDetails.clear();
-    internalLocation.clear();
+    mainDesc.clear();
+    requestLocation.clear();
     requestAssigned.clear();
-    requesterID.clear();
-    stretcherRadio.setSelected(false);
-    wheelchairRadio.setSelected(false);
-    //    emergency.setSelected(false);
-    internalDate.valueProperty().set(null);
-    internalTime.valueProperty().set(null);
+    mainEmerg.setSelected(false);
     serviceLocationList.setVisible(false);
     requestAssignedList.setVisible(false);
   }
@@ -109,11 +98,11 @@ public class InternalTransportationController {
   }
 
   public void lookup(KeyEvent e) {
-    ServiceTicketDataController.lookupNodes(e, serviceLocationList, internalLocation);
+    ServiceTicketDataController.lookupNodes(e, serviceLocationList, requestLocation);
   }
 
   public void lookupUser(KeyEvent e) {
     ServiceTicketDataController.lookupUsernames(
-        e, User.Permission.RESPOND_TO_INTERNAL, requestAssignedList, requestAssigned);
+        e, User.Permission.RESPOND_TO_MAINTENANCE, requestAssignedList, requestAssigned);
   }
 }

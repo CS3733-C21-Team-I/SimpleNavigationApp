@@ -11,7 +11,7 @@ public class User {
   private Set<Permission> userPermissions;
   private String name;
 
-  public String getName() {
+  public String getScreenName() {
     return name;
   }
 
@@ -32,6 +32,10 @@ public class User {
   public boolean hasPermission(User.Permission permission) {
     // TODO - implement User.hasPermission
     return userPermissions.contains(permission);
+  }
+
+  public String getName() {
+    return name;
   }
 
   public enum Role {
@@ -64,6 +68,8 @@ public class User {
     RESPOND_TO_AV,
     RESPOND_TO_COMPUTER,
     RESPOND_TO_TRANSLATOR,
-    RESPOND_TO_MEDICINE_REQUEST
+    RESPOND_TO_MEDICINE_REQUEST,
+    RESPOND_TO_INTERNAL,
+    RESPOND_TO_LANGUAGE
   }
 }

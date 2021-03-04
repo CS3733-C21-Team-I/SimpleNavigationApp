@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TreeTableView?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.text.Font?>
+<VBox fx:id="rolePane" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+    <Label fx:id="roleLabel" text="Role">
+        <font>
+            <Font size="12.0" />
+        </font>
+    </Label>
+<TreeTableView fx:id="employeeTable" >
+    <!--              <columns>-->
+    <!--                <TreeTableColumn fx:id="idCol" prefWidth="160.0" text="EmployeeID" />-->
+    <!--                  <TreeTableColumn fx:id="fNameCol" prefWidth="160.0" text="FirstName" />-->
+    <!--                  <TreeTableColumn fx:id="lNameCol" prefWidth="160.0" text="LastName" />-->
+    <!--                  <TreeTableColumn fx:id="genderCol" prefWidth="160.0" text="Gender" />-->
+    <!--                  <TreeTableColumn fx:id="posCol" prefWidth="160.0" text="Position" />-->
+    <!--              </columns>-->
+</TreeTableView>
+</VBox>
