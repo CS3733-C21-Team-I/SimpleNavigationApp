@@ -133,7 +133,6 @@ public abstract class MapController extends Application {
             .build();
 
     animateLine(start, end, line);
-
     mapPane.getChildren().add(line);
   }
 

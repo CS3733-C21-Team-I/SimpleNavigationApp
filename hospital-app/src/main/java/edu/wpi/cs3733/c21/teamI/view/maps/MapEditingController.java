@@ -27,6 +27,7 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.LineBuilder;
 
 public class MapEditingController extends MapController {
+  @FXML StackPane rootPane;
   @FXML Button save, discard, undoButton, redoButton, navigateButton;
   @FXML Button nodeDeleteButton, saveButton;
   protected HospitalMapNode movingNode;
@@ -40,9 +41,6 @@ public class MapEditingController extends MapController {
     floor1Tab(new ActionEvent());
     boolean isAdmin = true;
     navigateButton.setVisible(true);
-    // ViewManager.setMapController(this);
-    // pre-load these things before their use
-    MapDataEntity.getNodesSet(true);
   }
 
   @FXML
@@ -96,15 +94,17 @@ public class MapEditingController extends MapController {
 
   protected void update() {
     // set datacont to the correct map ID if null or outdated
+    System.out.println("Updating map");
     if (dataCont.getActiveMap() == null || !dataCont.getActiveMap().getId().equals(currentMapID)) {
       dataCont.setActiveMap(MapDataEntity.getMap().get(currentMapID));
+      dataCont.discardChanges();
     }
     mapPane.getChildren().clear();
     drawSelectedNode();
-    for (HospitalMapNode node : MapDataEntity.getMapNodesSet(currentMapID)) {
+    for (HospitalMapNode node : dataCont.getActiveMap().getNodes()) { // same
       drawEdges(node);
     }
-    for (HospitalMapNode node : MapDataEntity.getMapNodesSet(currentMapID)) {
+    for (HospitalMapNode node : dataCont.getActiveMap().getNodes()) { // same
       makeNodeCircle(node);
     }
     if (dataCont.isUndoAvailable()) {
@@ -193,9 +193,7 @@ public class MapEditingController extends MapController {
       selectedNode = null;
       return false;
     } else {
-      dataCont.addEdge(
-          node,
-          MapDataEntity.getMap(false).get(selectedNode.getMapID()).getNode(selectedNode.getID()));
+      dataCont.addEdge(node, selectedNode);
       selectedNode = null;
       return false;
     }
@@ -204,8 +202,8 @@ public class MapEditingController extends MapController {
   protected void drawEdges(HospitalMapNode parent) {
     Image xIconImg = new Image("/fxml/fxmlResources/redxicon.png");
     for (HospitalMapNode child : parent.getConnections()) {
-      if (MapDataEntity.getMapNodesSet(currentMapID).contains(child)
-          && MapDataEntity.getMapNodesSet(currentMapID).contains(parent)) {
+      if (dataCont.getActiveMap().getNodes().contains(child)
+          && dataCont.getActiveMap().getNodes().contains(parent)) {
         ImageView xMarker = new ImageView();
         xMarker.setImage(xIconImg);
         xMarker.setFitHeight(12);
@@ -269,7 +267,7 @@ public class MapEditingController extends MapController {
         xMarker.setStyle("-fx-cursor: hand");
         mapPane.getChildren().add(xMarker);
         HospitalMapNode nodeInMap =
-            MapDataEntity.getMapNodesSet(currentMapID).contains(parent) ? parent : child;
+            dataCont.getActiveMap().getNodes().contains(parent) ? parent : child;
         Line line =
             LineBuilder.create()
                 .startX(clamp(transformX(nodeInMap.getxCoord()), 0, mapPane.getPrefWidth()))
