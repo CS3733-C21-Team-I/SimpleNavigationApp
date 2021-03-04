@@ -32,6 +32,10 @@ public class MapDataEntity {
     return getNodesSet(false);
   }
 
+  public static Set<HospitalMapNode> getMapNodesSet(String id) {
+    return getMap().get(id).getNodes();
+  }
+
   public static HospitalMapNode getNodeByLongName(String longName) {
     Set<HospitalMapNode> nodesLookup = getNodesSet(false);
     for (HospitalMapNode node : nodesLookup) {

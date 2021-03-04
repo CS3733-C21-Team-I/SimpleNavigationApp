@@ -8,27 +8,30 @@ import edu.wpi.cs3733.c21.teamI.hospitalMap.MapDataEntity;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.NodeRestrictions;
 import edu.wpi.cs3733.c21.teamI.pathfinding.*;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicketDataController;
+import edu.wpi.cs3733.c21.teamI.user.User;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
-
-import edu.wpi.cs3733.c21.teamI.user.User;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 
 public class MapPathfindingController extends MapController {
+  @FXML ImageView mapImage;
   @FXML Button adminMapToggle;
   @FXML JFXComboBox algorithmPick;
   @FXML TextField start, destination;
@@ -45,6 +48,7 @@ public class MapPathfindingController extends MapController {
   public void initialize() throws IOException {
     System.out.println("Initializing pathfinding controller");
     currentMapID = "Faulkner Lot";
+    mapImage = new ImageView();
     campusTab(new ActionEvent());
     boolean isAdmin =
         ApplicationDataController.getInstance()
@@ -64,10 +68,16 @@ public class MapPathfindingController extends MapController {
   }
 
   @FXML
-  public void toggleEditMap(ActionEvent e) throws IOException {}
+  public void toggleEditMap(ActionEvent e) throws IOException {
+    StackPane replacePane = (StackPane) rootPane.getParent();
+    replacePane.getChildren().clear();
+    replacePane
+        .getChildren()
+        .add(FXMLLoader.load(getClass().getResource("/fxml/Pathediting.fxml")));
+  }
 
   // viewport stuff
-  public void updateView() throws IOException {
+  public void updateView(){
     try {
       Image background =
           new Image(

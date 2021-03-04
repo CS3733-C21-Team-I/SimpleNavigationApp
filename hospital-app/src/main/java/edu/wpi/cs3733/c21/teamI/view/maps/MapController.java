@@ -38,6 +38,7 @@ import javafx.util.Duration;
 public abstract class MapController extends Application {
   boolean adminMap = false;
 
+  @FXML StackPane rootPane;
   @FXML AnchorPane nodeMenu;
   @FXML TextField sNameField, lNameField;
   protected boolean isDrag = false;
@@ -323,7 +324,7 @@ public abstract class MapController extends Application {
   }
 
   protected boolean selectedInActiveMap() {
-    return selectedNode.getMapID().equals(currentMapID);
+    return (selectedNode != null) && selectedNode.getMapID().equals(currentMapID);
   }
 
   public boolean toggleNode(HospitalMapNode node) {
