@@ -152,17 +152,17 @@
             </HBox>
             <HBox alignment="CENTER" prefHeight="107.0" prefWidth="211.0">
                <children>
-                  <JFXButton fx:id="covidCancel" style="-fx-background-color: #0067b1;" styleClass="styledButton" stylesheets="@../fxmlResources/main.css" text="Cancel">
+                  <JFXButton onAction="#cancel" style="-fx-background-color: #0067b1;" styleClass="styledButton" stylesheets="@../fxmlResources/main.css" text="Cancel">
                      <HBox.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </HBox.margin>
                   </JFXButton>
-                  <JFXButton fx:id="covidSubmit" style="-fx-background-color: #0067b1;" styleClass="styledButton" stylesheets="@../fxmlResources/main.css" text="Submit">
+                  <JFXButton onAction="#submit" style="-fx-background-color: #0067b1;" styleClass="styledButton" stylesheets="@../fxmlResources/main.css" text="Submit">
                      <HBox.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </HBox.margin>
                   </JFXButton>
-                  <JFXButton fx:id="covidClear1" style="-fx-background-color: #0067b1;" styleClass="styledButton" stylesheets="@../fxmlResources/main.css" text="Clear">
+                  <JFXButton onAction="#clear" style="-fx-background-color: #0067b1;" styleClass="styledButton" stylesheets="@../fxmlResources/main.css" text="Clear">
                      <HBox.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </HBox.margin>
