@@ -44,7 +44,7 @@ public class ProfileController extends Application {
   }
 
   @FXML
-  public void login() throws IOException {
+  public void login() {
     uName = username.getText();
     pass = password.getText();
     if (ApplicationDataController.getInstance().logInUser(uName, pass)) {
