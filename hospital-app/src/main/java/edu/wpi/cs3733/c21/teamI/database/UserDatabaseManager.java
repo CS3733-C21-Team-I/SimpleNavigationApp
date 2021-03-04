@@ -5,6 +5,7 @@ import static edu.wpi.cs3733.c21.teamI.user.User.Role.*;
 
 import edu.wpi.cs3733.c21.teamI.user.Employee;
 import edu.wpi.cs3733.c21.teamI.user.User;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -121,6 +122,81 @@ public class UserDatabaseManager extends DatabaseManager {
     return new User(userId, screenName, rolesSet, permissionSet);
   }
 
+  public User getUserWithPassword(String screenName, String password) {
+    // TODO - implement UserDatabaseManager.getUserForId
+
+    int userId;
+
+    try {
+      Statement statement = databaseRef.getConnection().createStatement();
+      ResultSet rs =
+          statement.executeQuery(
+              "SELECT * FROM HOSPITAL_USERS WHERE SCREENNAME='" + screenName + "'");
+
+      if (!rs.next()) {
+        // TODO error handling
+        throw new IllegalArgumentException("Attempted to acess nonexistant user");
+      }
+      userId = rs.getInt("USER_ID");
+      byte[] salt = rs.getBytes("SALT");
+      byte[] hashed = rs.getBytes("hashed_password");
+
+      if (!Password.isExpectedPassword(password.toCharArray(), salt, hashed)) {
+        return null;
+      }
+
+    } catch (SQLException e) {
+      // TODO Error logging
+      e.printStackTrace();
+      return null;
+    }
+
+    Set<User.Role> rolesSet = new HashSet<>();
+
+    try {
+      Statement statement = databaseRef.getConnection().createStatement();
+      ResultSet rs =
+          statement.executeQuery(
+              "SELECT HR.ROLE_NAME FROM USER_TO_ROLE INNER JOIN HOSPITAL_ROLES HR on HR.ROLE_ID = USER_TO_ROLE.ROLE_ID WHERE USER_ID="
+                  + userId);
+
+      while (rs.next()) {
+        rolesSet.add(getRoleForDatabaseName(rs.getString("ROLE_NAME")));
+      }
+
+      if (!rolesSet.contains(User.Role.BASE)) {
+        // TODO Error Logging
+        throw new IllegalStateException(
+            "Requested user: " + screenName + " does not contain role BASE");
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
+    Set<User.Permission> permissionSet = new HashSet<>();
+
+    try {
+
+      for (User.Role role : rolesSet) {
+        Statement statement = databaseRef.getConnection().createStatement();
+        ResultSet rs =
+            statement.executeQuery(
+                "SELECT RP.RESOURCE_NAME FROM ROLE_TO_PERMISSION INNER JOIN RESOURCE_PERMISSIONS RP on ROLE_TO_PERMISSION.RESOURCE_ID = RP.RESOURCE_ID WHERE ROLE_ID=(SELECT ROLE_ID FROM HOSPITAL_ROLES WHERE ROLE_NAME='"
+                    + getDatabaseNameForRole(role)
+                    + "')");
+
+        while (rs.next()) {
+          permissionSet.add(User.Permission.valueOf(rs.getString("RESOURCE_NAME")));
+        }
+      }
+    } catch (SQLException e) {
+      // TODO ERROR Logging
+      e.printStackTrace();
+    }
+
+    return new User(userId, screenName, rolesSet, permissionSet);
+  }
+
   /**
    * Gets a screename for a user id
    *
@@ -152,14 +228,35 @@ public class UserDatabaseManager extends DatabaseManager {
 
   @Override
   void createTables() {
+
     try {
       Statement stmt = databaseRef.getConnection().createStatement();
       stmt.execute(
           "CREATE TABLE HOSPITAL_USERS"
               + "("
-              + " user_ID    integer NOT NULL GENERATED ALWAYS AS IDENTITY,"
+              + " user_id    integer NOT NULL GENERATED ALWAYS AS IDENTITY,"
               + " screenName varchar(30) NOT NULL ,"
+              + "hashed_password blob(32),"
+              + "salt blob(32),"
               + "PRIMARY KEY (user_ID)"
+              + ")");
+    } catch (SQLException e) {
+      System.out.println("Error generating User table");
+      e.printStackTrace();
+    }
+
+    try {
+      Statement stmt = databaseRef.getConnection().createStatement();
+      stmt.execute(
+          "CREATE TABLE HOSPITAL_EMPLOYEES"
+              + "("
+              + "id integer NOT NULL GENERATED ALWAYS AS IDENTITY, "
+              + "user_ID    integer NOT NULL, "
+              + "first_name varchar(30) NOT NULL, "
+              + "last_name varchar(30) NOT NULL,"
+              + "gender varchar(8),"
+              + "PRIMARY KEY (id),"
+              + "FOREIGN KEY(user_ID) REFERENCES HOSPITAL_USERS(user_id)"
               + ")");
     } catch (SQLException e) {
       System.out.println("Error generating User table");
@@ -543,5 +640,84 @@ public class UserDatabaseManager extends DatabaseManager {
 
   public List<Employee> getAllEmployees() {
     return new ArrayList<>();
+  }
+
+  public int createNewUser(String username, String password, User.Role... roles) {
+    int insertedUser = -1;
+    if (password.isEmpty()) {
+      try {
+        String query = "INSERT INTO HOSPITAL_USERS (screenname) VALUES ";
+        query += "('" + username + "')";
+        PreparedStatement statement =
+            databaseRef.getConnection().prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+        statement.execute();
+
+        ResultSet rs = statement.getGeneratedKeys();
+        rs.next();
+        insertedUser = rs.getInt(1);
+      } catch (SQLException e) {
+        printSQLException(e);
+      }
+    } else {
+
+      try {
+        byte[] salt = Password.getNextSalt();
+        byte[] hashedPassword = Password.hash(password.toCharArray(), salt);
+
+        System.out.println(salt);
+
+        String query = "INSERT INTO HOSPITAL_USERS (screenname, hashed_password, salt) VALUES ";
+        query += "('" + username + "', ?, ?)";
+        PreparedStatement statement =
+            databaseRef.getConnection().prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+        statement.setBytes(1, hashedPassword);
+        statement.setBytes(2, salt);
+        statement.execute();
+
+        ResultSet rs = statement.getGeneratedKeys();
+        rs.next();
+        insertedUser = rs.getInt(1);
+
+      } catch (SQLException e) {
+        printSQLException(e);
+      }
+    }
+
+    if (insertedUser == -1)
+      throw new IllegalArgumentException("Illegal returnedkey for insering new user");
+
+    try {
+      for (User.Role role : roles) {
+        String query =
+            "INSERT INTO USER_TO_ROLE(USER_ID, ROLE_ID) VALUES ("
+                + insertedUser
+                + ", (SELECT ROLE_ID FROM HOSPITAL_ROLES WHERE ROLE_NAME='"
+                + role.toString()
+                + "'))";
+
+        PreparedStatement statement = databaseRef.getConnection().prepareStatement(query);
+        statement.execute();
+      }
+    } catch (SQLException e) {
+      printSQLException(e);
+    }
+
+    return insertedUser;
+  }
+
+  public int createNewEmployee(
+      String username,
+      String password,
+      String firstName,
+      String lastName,
+      Employee.Gender gender,
+      User.Role... roles) {
+    int insertedUser = createNewUser(username, password, roles);
+    if (insertedUser == -1)
+      throw new IllegalStateException("Failed to insert user to DB when creating employee");
+
+    int insertedEmployee = -1;
+
+    return insertedEmployee;
   }
 }

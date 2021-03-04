@@ -38,7 +38,14 @@ public class ApplicationDataController {
    * @return True if valid log in false if not
    */
   public boolean logInUser(String username, String password) {
-    User user = UserDatabaseManager.getInstance().getUserForScreenname(username);
+    User user;
+    if (password == null || password.isEmpty()) {
+      user = UserDatabaseManager.getInstance().getUserForScreenname(username);
+    } else {
+      user = UserDatabaseManager.getInstance().getUserWithPassword(username, password);
+    }
+
+
 
     if (user == null) return false;
 
