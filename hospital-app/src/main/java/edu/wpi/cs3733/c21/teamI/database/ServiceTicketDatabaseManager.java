@@ -587,26 +587,25 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
   }
 
   public static void populateExampleData() {
-    int empRequestID =
-        UserDatabaseManager.getInstance().getUserForScreenname("TestEmployee").getUserId();
-    int empAssignID =
-        UserDatabaseManager.getInstance().getUserForScreenname("TestServiceEmployee").getUserId();
 
-    ServiceTicket ticket1 =
-        new ServiceTicket(
-            empRequestID, ServiceTicket.TicketType.MAINTENANCE, "ICONF00103", "info", false);
-    ticket1.setTicketID(11);
-    ticket1.addAssignedUserID(empAssignID);
-    ServiceTicket ticket2 =
-        new ServiceTicket(
-            empRequestID, ServiceTicket.TicketType.LAUNDRY, "ICONF00104", "more info", true);
-    ticket2.setTicketID(21);
-    ticket2.addAssignedUserID(empAssignID);
-    System.out.println("THIS IS EMPLOYEE FOR TICKET2:   " + ticket2.getAssignedUserID());
-
-    ourInstance.addTicket(ticket1);
-    ourInstance.addTicket(ticket2);
-    ourInstance.addEmployeeForTicket(empRequestID, empAssignID);
+    //    int empRequestID =
+    //        UserDatabaseManager.getInstance().getUserForScreenname("TestEmployee").getUserId();
+    //    int empAssignID =
+    //
+    // UserDatabaseManager.getInstance().getUserForScreenname("TestServiceEmployee").getUserId();
+    //
+    //    ServiceTicket ticket1 =
+    //        new ServiceTicket(
+    //            empRequestID, ServiceTicket.TicketType.MAINTENANCE, "ICONF00103", "info", false);
+    //    ticket1.setTicketID(11);
+    //    ServiceTicket ticket2 =
+    //        new ServiceTicket(
+    //            empRequestID, ServiceTicket.TicketType.LAUNDRY, "ICONF00104", "more info", true);
+    //    ticket2.setTicketID(21);
+    //
+    //    ourInstance.addTicket(ticket1);
+    //    ourInstance.addTicket(ticket2);
+    //
 
     //    try {
     //      Statement stmt = ourInstance.databaseRef.getConnection().createStatement();
@@ -618,15 +617,15 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
     //      if (rs.next()) {
     //        tixID = rs.getInt("ticketID");
     //        stmt.executeUpdate(
-    //            "INSERT INTO employee(employeeID, tixID) VALUES("
-    //                + String.valueOf(empAssignID)
-    //                + ","
-    //                + String.valueOf(tixID)
-    //                + ")");
+
+    //            "INSERT INTO employee(employeeID, tixID) VALUES(" + empAssignID + "," + tixID +
+    // ")");
+
     //      }
     //    } catch (SQLException e) {
     //      e.printStackTrace();
     //    }
+
   }
 
   public void addEmployeeForTicket(int requestID, int assignID) {
