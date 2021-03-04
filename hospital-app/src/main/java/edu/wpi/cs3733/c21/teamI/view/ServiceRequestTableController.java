@@ -73,8 +73,7 @@ public class ServiceRequestTableController implements Initializable {
             + Integer.parseInt(IDTextField.getText())
             + " to "
             + treeView.getSelectionModel().getSelectedItem().getValue().getTicketId());
-    interController.addAssignedID(treeView.getSelectionModel().getSelectedItem().getValue().getRequestingUserID(),
-        treeView.getSelectionModel().getSelectedItem().getValue().getTicketId(),
+    interController.addAssignedID(treeView.getSelectionModel().getSelectedItem().getValue().getTicketId(),
         Integer.parseInt(IDTextField.getText()));
     update();
   }
