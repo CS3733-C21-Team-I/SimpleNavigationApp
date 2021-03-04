@@ -1,9 +1,9 @@
 package edu.wpi.cs3733.c21.teamI.view;
 
 import com.jfoenix.controls.JFXRippler;
+import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
 import java.io.IOException;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
@@ -20,12 +20,19 @@ public class AdminMenuController extends Application {
   @FXML
   public void navigate(MouseEvent e) throws IOException {
     String id = ((JFXRippler) e.getSource()).getId();
-    replacePane = homeController.getReplacePane();
-    System.out.println(replacePane);
+    replacePane =
+        (StackPane)
+            ((JFXRippler) e.getSource())
+                .getParent()
+                .getParent()
+                .getParent()
+                .getParent()
+                .getParent()
+                .getChildrenUnmodifiable()
+                .get(0);
     replacePane.getChildren().clear();
 
     if (id.equals("loginButton")) {
-      System.out.println(getClass().getResource("/fxml/Profile.fxml"));
       FXMLLoader profLoader =
           new FXMLLoader(getClass().getClassLoader().getResource("/fxml/Profile.fxml"));
       profLoader.setLocation(getClass().getResource("/fxml/Profile.fxml"));
@@ -55,12 +62,19 @@ public class AdminMenuController extends Application {
       replacePane
           .getChildren()
           .add(FXMLLoader.load(getClass().getResource("/fxml/ActiveLots.fxml")));
-    } else {
+    } else if (id.equals("ticketButton")) {
+      replacePane
+          .getChildren()
+          .add(FXMLLoader.load(getClass().getResource("/fxml/ServiceRequestTableView.fxml")));
     }
   }
 
   @FXML
-  public void logout(ActionEvent event) {}
+  public void logout(MouseEvent event) throws IOException {
+    ApplicationDataController.getInstance().logOutUser();
+    navigate(event);
+    homeController.update();
+  }
 
   public HomeController getHomeController() {
     return homeController;

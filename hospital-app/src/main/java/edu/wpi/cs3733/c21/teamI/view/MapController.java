@@ -2,14 +2,17 @@ package edu.wpi.cs3733.c21.teamI.view;
 
 import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
+import edu.wpi.cs3733.c21.teamI.database.NavDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.*;
-import edu.wpi.cs3733.c21.teamI.pathfinding.*;
-import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicketDataController;
+import edu.wpi.cs3733.c21.teamI.pathfinding.BreadthFirstSearch;
+import edu.wpi.cs3733.c21.teamI.pathfinding.DepthFirstSearch;
+import edu.wpi.cs3733.c21.teamI.pathfinding.PathFinder;
 import edu.wpi.cs3733.c21.teamI.user.User;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -64,6 +67,8 @@ public class MapController extends Application {
   private boolean isFirstLoad = true;
   @FXML AnchorPane mapPane;
   @FXML ImageView mapImage;
+  @FXML TextField nodePath, edgePath;
+
   @FXML StackPane imageContainer;
   @FXML VBox stackContainer;
   @FXML Tab campus;
@@ -74,13 +79,13 @@ public class MapController extends Application {
   @FXML Tab floor6;
   private Tab currentTab = null;
 
+  private MapDataEntity data = new MapDataEntity();
+
   private final double scale = 3.05;
-  private EuclidianDistCalc scorer = new EuclidianDistCalc();
   private double fullImgWidth = 0;
   private double fullImgHeight = 0;
   private double imgWidth = 0;
   private double imgHeight = 0;
-  private List<HospitalMapNode> aStarPath;
   private double xOffset = 0;
   private double yOffset = 0;
   private boolean panAllowed = true;
@@ -88,9 +93,6 @@ public class MapController extends Application {
   private Color blue = Color.color(68.0 / 256.0, 136.0 / 256.0, 166.0 / 256.0);
   private Color red = Color.color(217.0 / 256.0, 89.0 / 256.0, 89.0 / 256.0);
   private Color color2 = Color.DARKBLUE;
-
-  private PathPlanningAlgorithm pathFinderAlgorithm = new PathFinder();
-  private List<HospitalMapNode> foundPath;
 
   public void updateView() throws IOException {
     if (adminMap) {
@@ -113,8 +115,10 @@ public class MapController extends Application {
         e.printStackTrace();
       }
       mapPane.getChildren().clear();
-      if (this.foundPath != null) {
-        drawCalculatedPath();
+      if (data.foundPathExists()) {
+        ObservableList<String> items = FXCollections.observableArrayList(new ArrayList<String>());
+        directionsField.setItems(items);
+        drawCalculatedPath(data.getFoundPath());
       }
     }
   }
@@ -141,9 +145,9 @@ public class MapController extends Application {
 
   public void lookup(KeyEvent e) {
     if (e.getSource() == start) {
-      ServiceTicketDataController.lookupNodes(e, startList, start);
+      data.lookupNodes(e, startList, start);
     } else {
-      ServiceTicketDataController.lookupNodes(e, destList, destination);
+      data.lookupNodes(e, destList, destination);
     }
   }
 
@@ -196,49 +200,30 @@ public class MapController extends Application {
     if (begin.length() > 0 && end.length() > 0) {
       System.out.println(begin + " " + end);
 
-      HospitalMapNode nodeA = getNodeByLongName(begin);
-      HospitalMapNode nodeB = getNodeByLongName(end);
-      getNewPath(nodeA, nodeB);
-      System.out.println(this.foundPath);
-      drawCalculatedPath();
+      HospitalMapNode nodeA = data.getNodeByLongName(begin);
+      HospitalMapNode nodeB = data.getNodeByLongName(end);
+      data.getFoundPath(nodeA, nodeB);
+      updateView();
     }
-  }
-
-  public LocationNode getNodeByLongName(String longName) {
-    for (HospitalMapNode node : ViewManager.getAllNodesSet()) {
-      if (node.getClass() == LocationNode.class
-          && ((LocationNode) node).getLongName().equals(longName)) {
-        return (LocationNode) node;
-      }
-    }
-    return null;
   }
 
   public void deletePath() {
     mapPane.getChildren().clear();
   }
 
-  public void getNewPath(HospitalMapNode nodeA, HospitalMapNode nodeB) {
-    this.foundPath = pathFinderAlgorithm.findPath(nodeA, nodeB, scorer);
-
-    ArrayList<String> directions = TextDirections.getDirections(scorer, foundPath);
-    System.out.println(directions);
-    displayDirections(directions);
-  }
-
   @FXML
-  public void drawCalculatedPath() throws IOException {
+  public void drawCalculatedPath(List<HospitalMapNode> foundPath) throws IOException {
     deletePath();
-    if (this.foundPath.size() >= 2) {
-      HospitalMapNode nodeA = this.foundPath.get(0);
-      HospitalMapNode nodeB = this.foundPath.get(this.foundPath.toArray().length - 1);
+    if (foundPath.size() >= 2) {
+      HospitalMapNode nodeA = foundPath.get(0);
+      HospitalMapNode nodeB = foundPath.get(foundPath.toArray().length - 1);
       mapPane
           .getChildren()
           .removeIf(n -> (n.getClass() == Line.class) || (n.getClass() == Circle.class));
-      drawPath(this.foundPath);
-
-      if (nodeA.getMapID().equals(ViewManager.getMapID())) drawStartPoint(this.foundPath);
-      if (nodeB.getMapID().equals(ViewManager.getMapID())) drawEndPoint(this.foundPath);
+      drawPath(foundPath);
+      if (nodeA.getMapID().equals(ViewManager.getMapID())) drawStartPoint(foundPath);
+      if (nodeB.getMapID().equals(ViewManager.getMapID())) drawEndPoint(foundPath);
+      displayDirections(data.getFoundPathDescription());
     }
   }
 
@@ -264,7 +249,9 @@ public class MapController extends Application {
             .strokeDashArray(28.0 / scale)
             .strokeWidth(14 / scale * fullImgHeight / imgHeight)
             .build();
+
     animateLine(start, end, line);
+
     mapPane.getChildren().add(line);
   }
 
@@ -518,14 +505,14 @@ public class MapController extends Application {
     switch (algorithmPick.getValue().toString()) {
       case "Depth First":
         System.out.println("Making new Depth first...");
-        this.pathFinderAlgorithm = new DepthFirstSearch();
+        data.pathFinderAlgorithm = new DepthFirstSearch();
         break;
       case "Breadth First":
         System.out.println("Making new Breadth first...");
-        this.pathFinderAlgorithm = new BreadthFirstSearch();
+        data.pathFinderAlgorithm = new BreadthFirstSearch();
         break;
       default:
-        this.pathFinderAlgorithm = new PathFinder();
+        data.pathFinderAlgorithm = new PathFinder();
         break;
     }
   }
@@ -620,8 +607,6 @@ public class MapController extends Application {
   public void initialize() throws IOException {
     floor1Tab(new ActionEvent());
     campusTab(new ActionEvent());
-    ViewManager.setMapController(this);
-    setupMapViewHandlers();
     boolean isAdmin =
         ApplicationDataController.getInstance()
             .getLoggedInUser()
@@ -629,6 +614,8 @@ public class MapController extends Application {
     adminMapToggle.setVisible(isAdmin);
     algorithmPick.setVisible(isAdmin);
     algorithmPick.getItems().addAll("A*", "Depth First", "Breadth First");
+    ViewManager.setMapController(this);
+    setupMapViewHandlers();
   }
 
   private void drawSelectedNode() {
@@ -820,6 +807,7 @@ public class MapController extends Application {
                 });
 
             populateEditNodeMenu(node);
+
             update();
           }
         });
@@ -870,7 +858,7 @@ public class MapController extends Application {
   public void onClear() {
     start.setText("");
     destination.setText("");
-    this.foundPath = null;
+    data.clearFoundPath();
     ObservableList<String> items = FXCollections.observableArrayList(new ArrayList<String>());
     directionsField.setItems(items);
     deletePath();
@@ -878,23 +866,28 @@ public class MapController extends Application {
 
   @FXML
   public void toggleAccessible(ActionEvent e) {
-    if (this.scorer.nodeTypesToAvoid.size() > 0) {
-      this.scorer.nodeTypesToAvoid.clear();
+    if (data.scorer.nodeTypesToAvoid.size() > 0) {
+      data.scorer.nodeTypesToAvoid.clear();
     } else {
-      this.scorer.nodeTypesToAvoid.add(NodeRestrictions.WHEELCHAIR_INACCESSIBLE);
+      data.scorer.nodeTypesToAvoid.add(NodeRestrictions.WHEELCHAIR_INACCESSIBLE);
     }
-    System.out.print("NodeRestrictions:" + this.scorer.nodeTypesToAvoid);
+    System.out.print("NodeRestrictions:" + data.scorer.nodeTypesToAvoid);
   }
 
   private void displayDirections(ArrayList<String> directions) {
     ObservableList<String> items = FXCollections.observableArrayList(directions);
+    // System.out.println(items);
     directionsField.setItems(items);
   }
 
   public void campusTab(Event event) throws IOException {
     if (campus != currentTab && currentTab != null) {
       System.out.println("Tab 1");
-      ViewManager.setActiveMap("Faulkner Lot");
+      if (adminMap) {
+        ViewManager.setActiveMap("Faulkner Lot");
+      } else {
+        ViewManager.setActiveMapFromCache("Faulkner Lot", data.source);
+      }
       updateView();
       currentTab = campus;
       startZoomPan(mapPane);
@@ -905,7 +898,11 @@ public class MapController extends Application {
   public void floor1Tab(Event event) throws IOException {
     if (floor1 != currentTab) {
       System.out.println("Tab 2");
-      ViewManager.setActiveMap("Faulkner 1");
+      if (adminMap || isFirstLoad) {
+        ViewManager.setActiveMap("Faulkner 1");
+      } else {
+        ViewManager.setActiveMapFromCache("Faulkner 1", data.source);
+      }
       updateView();
       currentTab = floor1;
       startZoomPan(mapPane);
@@ -916,7 +913,11 @@ public class MapController extends Application {
   public void floor2Tab(Event event) throws IOException {
     if (floor2 != currentTab) {
       System.out.println("Tab 3");
-      ViewManager.setActiveMap("Faulkner 2");
+      if (adminMap) {
+        ViewManager.setActiveMap("Faulkner 2");
+      } else {
+        ViewManager.setActiveMapFromCache("Faulkner 2", data.source);
+      }
       updateView();
       currentTab = floor2;
       startZoomPan(mapPane);
@@ -928,7 +929,11 @@ public class MapController extends Application {
     if (floor3 != currentTab) {
 
       System.out.println("Tab 4");
-      ViewManager.setActiveMap("Faulkner 3");
+      if (adminMap) {
+        ViewManager.setActiveMap("Faulkner 3");
+      } else {
+        ViewManager.setActiveMapFromCache("Faulkner 3", data.source);
+      }
       updateView();
       currentTab = floor3;
       startZoomPan(mapPane);
@@ -939,7 +944,11 @@ public class MapController extends Application {
   public void floor4Tab(Event event) throws IOException {
     if (floor4 != currentTab) {
       System.out.println("Tab 5");
-      ViewManager.setActiveMap("Faulkner 4");
+      if (adminMap) {
+        ViewManager.setActiveMap("Faulkner 4");
+      } else {
+        ViewManager.setActiveMapFromCache("Faulkner 4", data.source);
+      }
       updateView();
       currentTab = floor4;
       startZoomPan(mapPane);
@@ -950,7 +959,11 @@ public class MapController extends Application {
   public void floor5Tab(Event event) throws IOException {
     if (floor6 != currentTab) {
       System.out.println("Tab 6");
-      ViewManager.setActiveMap("Faulkner 5");
+      if (adminMap) {
+        ViewManager.setActiveMap("Faulkner 5");
+      } else {
+        ViewManager.setActiveMapFromCache("Faulkner 5", data.source);
+      }
       updateView();
       currentTab = floor6;
       startZoomPan(mapPane);
@@ -1107,5 +1120,20 @@ public class MapController extends Application {
     return new Point2D(
         viewport.getMinX() + xProportion * viewport.getWidth(),
         viewport.getMinY() + yProportion * viewport.getHeight());
+  }
+
+  @FXML
+  public void save(ActionEvent actionEvent) {
+    HospitalMapCSVBuilder.saveCSV(
+        NavDatabaseManager.getInstance().loadMapsFromMemory().values(),
+        nodePath.getText(),
+        edgePath.getText());
+  }
+
+  @FXML
+  public void load(ActionEvent actionEvent) {
+    Map<String, HospitalMap> maps =
+        HospitalMapCSVBuilder.loadCSV(nodePath.getText(), edgePath.getText());
+    NavDatabaseManager.getInstance().saveMapsIntoMemory(maps.values());
   }
 }

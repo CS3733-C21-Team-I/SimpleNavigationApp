@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.c21.teamI.view;
 
 import com.jfoenix.controls.JFXRippler;
+import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
 import java.io.IOException;
 import javafx.application.Application;
 import javafx.fxml.FXML;
@@ -29,12 +30,9 @@ public class VisitorMenuController extends Application {
                 .getParent()
                 .getChildrenUnmodifiable()
                 .get(0);
-    System.out.println(replacePane);
-    System.out.println("Hello");
     replacePane.getChildren().clear();
 
     if (id.equals("loginButton")) {
-      System.out.println(getClass().getResource("/fxml/Profile.fxml"));
       FXMLLoader profLoader =
           new FXMLLoader(getClass().getClassLoader().getResource("/fxml/Profile.fxml"));
       profLoader.setLocation(getClass().getResource("/fxml/Profile.fxml"));
@@ -42,12 +40,13 @@ public class VisitorMenuController extends Application {
       ((ProfileController) profLoader.getController()).setVisitorMenuController(this);
       ((ProfileController) profLoader.getController()).setHomeController(homeController);
     } else if (id.equals("COVIDButton")) {
-      //      titleLabel.setText("Language Service Request");
       replacePane
           .getChildren()
           .add(FXMLLoader.load(getClass().getResource("/fxml/menuFiles/CovidForm.fxml")));
     } else if (id.equals("navigateButton")) {
-      replacePane.getChildren().add(FXMLLoader.load(getClass().getResource("/fxml/Map.fxml")));
+      replacePane
+          .getChildren()
+          .add(FXMLLoader.load(getClass().getResource("/fxml/Pathfinding.fxml")));
     } else if (id.equals("giftsButton")) {
       replacePane
           .getChildren()
@@ -58,10 +57,15 @@ public class VisitorMenuController extends Application {
     } else {
       replacePane
           .getChildren()
-          .add(
-              FXMLLoader.load(
-                  getClass().getResource("/fxml/serviceRequests/MaintenanceRequest.fxml")));
+          .add(FXMLLoader.load(getClass().getResource("/fxml/serviceRequests/Home.fxml")));
     }
+  }
+
+  @FXML
+  public void logout(MouseEvent event) throws IOException {
+    ApplicationDataController.getInstance().logOutUser();
+    navigate(event);
+    homeController.update();
   }
 
   public HomeController getHomeController() {

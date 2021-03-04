@@ -62,6 +62,10 @@ public class ViewManager {
     //    scene.setRoot(root);
   }
 
+  public static Set<HospitalMapNode> getAllNodesSet() {
+    return dataCont.getActiveMap().getNodes();
+  }
+
   public static void navigateToActiveRequest(ActionEvent e) {
     Group root = new Group();
     Scene scene = ((Button) e.getSource()).getScene();
@@ -72,15 +76,6 @@ public class ViewManager {
       ioException.printStackTrace();
     }
     scene.setRoot(root);
-  }
-
-  public static Set<HospitalMapNode> getAllNodesSet() {
-    Set<HospitalMapNode> nodeSet = new HashSet<>();
-    Map<String, HospitalMap> source = NavDatabaseManager.getInstance().loadMapsFromMemory();
-    for (Map.Entry<String, HospitalMap> map : source.entrySet()) {
-      nodeSet.addAll(source.get(map.getKey()).getNodes());
-    }
-    return nodeSet;
   }
 
   /**
@@ -128,6 +123,10 @@ public class ViewManager {
 
   public static void setActiveMap(String mapID) {
     dataCont.setActiveMap(NavDatabaseManager.getInstance().loadMapsFromMemory().get(mapID));
+  }
+
+  public static void setActiveMapFromCache(String mapID, Map<String, HospitalMap> cache) {
+    dataCont.setActiveMap(cache.get(mapID));
   }
 
   public static void setMapController(MapController mapController) {
