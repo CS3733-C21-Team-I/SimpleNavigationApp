@@ -37,6 +37,7 @@ public class SecurityRequestController {
           UserDatabaseManager.getInstance()
               .getUserForScreenname(requestAssigned.getText())
               .getUserId();
+      System.out.println(AssignedID);
       ticket =
           new ServiceTicket(
               RequestID,
@@ -44,7 +45,9 @@ public class SecurityRequestController {
               NavDatabaseManager.getInstance().getMapIdFromLongName(locationText.getText()),
               description.getText(),
               false);
+      ticket.addAssignedUserID(AssignedID);
       ServiceTicketDatabaseManager.getInstance().addTicket(ticket);
+      ServiceTicketDatabaseManager.getInstance().addEmployeeForTicket(RequestID, AssignedID);
     } catch (Exception o) {
       System.out.println("Error" + o);
     }

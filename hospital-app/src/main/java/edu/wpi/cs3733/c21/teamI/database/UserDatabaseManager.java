@@ -84,10 +84,11 @@ public class UserDatabaseManager extends DatabaseManager {
       ResultSet rs =
           statement.executeQuery(
               "SELECT HR.ROLE_NAME FROM USER_TO_ROLE INNER JOIN HOSPITAL_ROLES HR on HR.ROLE_ID = USER_TO_ROLE.ROLE_ID WHERE USER_ID="
-                  + userId);
+                  + String.valueOf(userId));
 
       while (rs.next()) {
-        rolesSet.add(getRoleForDatabaseName(rs.getString("ROLE_NAME")));
+        // rolesSet.add(getRoleForDatabaseName(rs.getString("ROLE_NAME")));
+        rolesSet.add(User.Role.valueOf(rs.getString("ROLE_NAME")));
       }
 
       if (!rolesSet.contains(User.Role.BASE)) {
