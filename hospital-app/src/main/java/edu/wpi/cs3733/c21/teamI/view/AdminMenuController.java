@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXRippler;
 import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
 import java.io.IOException;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
@@ -75,6 +76,12 @@ public class AdminMenuController extends Application {
           .getChildren()
           .add(FXMLLoader.load(getClass().getResource("/fxml/menuFiles/feedbackView.fxml")));
     }
+  }
+
+  @FXML
+  public void exit() {
+    Platform.exit();
+    System.exit(0);
   }
 
   @FXML

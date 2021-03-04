@@ -385,6 +385,43 @@
             <Insets bottom="10.0" right="-10.0" top="40.0" />
          </VBox.margin>
       </HBox>
+      <HBox prefHeight="60.0" prefWidth="201.0" style="-fx-background-color: #012D5A;">
+         <children>
+            <JFXRippler alignment="CENTER_RIGHT" maskType="RECT" onMouseClicked="#exit" prefHeight="60.0" prefWidth="199.0" ripplerFill="#0067b1">
+               <control>
+                  <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Label prefHeight="60.0" prefWidth="206.0" text="Exit" textFill="WHITE">
+                           <padding>
+                              <Insets left="20.0" />
+                           </padding>
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Label>
+                        <ImageView fitHeight="50.0" fitWidth="54.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../fxmlResources/baseline_close_white_18dp.png" />
+                           </image>
+                           <HBox.margin>
+                              <Insets right="12.0" />
+                           </HBox.margin>
+                        </ImageView>
+                     </children>
+                  </HBox>
+               </control>
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </JFXRippler>
+         </children>
+         <VBox.margin>
+            <Insets bottom="20.0" right="-10.0" />
+         </VBox.margin>
+      </HBox>
    </children>
    <padding>
       <Insets top="40.0" />

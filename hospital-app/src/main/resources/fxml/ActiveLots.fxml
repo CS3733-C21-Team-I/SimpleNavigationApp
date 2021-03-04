@@ -1,18 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXListView?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane fx:controller="edu.wpi.cs3733.c21.teamI.parking.view.ActiveLotsController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="608.0" prefWidth="738.0" xmlns="http://javafx.com/javafx/8.0.181" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamI.parking.view.ActiveLotsController">
     <children>
-        <Label layoutX="39.0" layoutY="39.0" text="Active Lots">
-            <font>
-                <Font size="22.0" />
-            </font>
-        </Label>
-        <JFXListView fx:id="lotView" layoutX="39.0" layoutY="89.0" prefHeight="700.0" prefWidth="800.0" />
+      <VBox alignment="CENTER">
+         <children>
+              <Label text="Active Lots">
+                  <font>
+                      <Font size="22.0" />
+                  </font>
+               <padding>
+                  <Insets bottom="20.0" />
+               </padding>
+              </Label>
+              <JFXListView fx:id="lotView" prefHeight="700.0" prefWidth="305.0">
+               <VBox.margin>
+                  <Insets bottom="60.0" left="60.0" right="60.0" />
+               </VBox.margin>
+            </JFXListView>
+         </children>
+      </VBox>
     </children>
 </AnchorPane>
