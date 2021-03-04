@@ -2,6 +2,7 @@ package edu.wpi.cs3733.c21.teamI.view;
 
 import com.jfoenix.controls.JFXRippler;
 import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
+import edu.wpi.cs3733.c21.teamI.hospitalMap.MapDataEntity;
 import java.io.IOException;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -48,6 +49,8 @@ public class VisitorMenuController extends Application {
       replacePane
           .getChildren()
           .add(FXMLLoader.load(getClass().getResource("/fxml/Pathfinding.fxml")));
+      // pre-load these things before their use
+      MapDataEntity.getNodesSet(true);
     } else if (id.equals("giftsButton")) {
       replacePane
           .getChildren()
