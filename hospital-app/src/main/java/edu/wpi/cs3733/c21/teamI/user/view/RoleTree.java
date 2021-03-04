@@ -184,10 +184,9 @@ public class RoleTree extends JFXListCell<User.Role> {
       roleLabel.setText(item.toString());
 
       employeeTable.getRoot().getChildren().clear();
-      employeeTable
-          .getRoot()
-          .getChildren()
-          .addAll(EmployeeDataController.getInstance().getEmployeesWithRole(item));
+      for (Employee employee : EmployeeDataController.getInstance().getEmployeesWithRole(item)) {
+        employeeTable.getRoot().getChildren().add(new TreeItem<>(employee));
+      }
 
       setGraphic(rolePane);
       setContentDisplay(ContentDisplay.GRAPHIC_ONLY);

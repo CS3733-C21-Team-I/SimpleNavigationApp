@@ -22,7 +22,10 @@ public class EmployeeDataController {
 
   private EmployeeDataController() {
     this.allEmployees = new ArrayList<>();
+    this.allEmployees.addAll(UserDatabaseManager.getInstance().getAllEmployees());
     this.employeesWithRole = new HashMap<>();
+
+    System.out.println(allEmployees.size());
   }
 
   public List<Employee> getAllEmployees() {

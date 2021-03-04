@@ -586,36 +586,39 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
   }
 
   public static void populateExampleData() {
-    int empRequestID =
-        UserDatabaseManager.getInstance().getUserForScreenname("TestEmployee").getUserId();
-    int empAssignID =
-        UserDatabaseManager.getInstance().getUserForScreenname("TestServiceEmployee").getUserId();
-
-    ServiceTicket ticket1 =
-        new ServiceTicket(
-            empRequestID, ServiceTicket.TicketType.MAINTENANCE, "ICONF00103", "info", false);
-    ticket1.setTicketID(11);
-    ServiceTicket ticket2 =
-        new ServiceTicket(
-            empRequestID, ServiceTicket.TicketType.LAUNDRY, "ICONF00104", "more info", true);
-    ticket2.setTicketID(21);
-
-    ourInstance.addTicket(ticket1);
-    ourInstance.addTicket(ticket2);
-
-    try {
-      Statement stmt = ourInstance.databaseRef.getConnection().createStatement();
-      ResultSet rs =
-          stmt.executeQuery(
-              "SELECT * FROM SERVICETICKET WHERE REQUESTINGUSERID=" + String.valueOf(empRequestID));
-      int tixID = 0;
-      if (rs.next()) {
-        tixID = rs.getInt("ticketID");
-        stmt.executeUpdate(
-            "INSERT INTO employee(employeeID, tixID) VALUES(" + empAssignID + "," + tixID + ")");
-      }
-    } catch (SQLException e) {
-      e.printStackTrace();
-    }
+    //    int empRequestID =
+    //        UserDatabaseManager.getInstance().getUserForScreenname("TestEmployee").getUserId();
+    //    int empAssignID =
+    //
+    // UserDatabaseManager.getInstance().getUserForScreenname("TestServiceEmployee").getUserId();
+    //
+    //    ServiceTicket ticket1 =
+    //        new ServiceTicket(
+    //            empRequestID, ServiceTicket.TicketType.MAINTENANCE, "ICONF00103", "info", false);
+    //    ticket1.setTicketID(11);
+    //    ServiceTicket ticket2 =
+    //        new ServiceTicket(
+    //            empRequestID, ServiceTicket.TicketType.LAUNDRY, "ICONF00104", "more info", true);
+    //    ticket2.setTicketID(21);
+    //
+    //    ourInstance.addTicket(ticket1);
+    //    ourInstance.addTicket(ticket2);
+    //
+    //    try {
+    //      Statement stmt = ourInstance.databaseRef.getConnection().createStatement();
+    //      ResultSet rs =
+    //          stmt.executeQuery(
+    //              "SELECT * FROM SERVICETICKET WHERE REQUESTINGUSERID=" +
+    // String.valueOf(empRequestID));
+    //      int tixID = 0;
+    //      if (rs.next()) {
+    //        tixID = rs.getInt("ticketID");
+    //        stmt.executeUpdate(
+    //            "INSERT INTO employee(employeeID, tixID) VALUES(" + empAssignID + "," + tixID +
+    // ")");
+    //      }
+    //    } catch (SQLException e) {
+    //      e.printStackTrace();
+    //    }
   }
 }
