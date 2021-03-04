@@ -81,7 +81,6 @@ public class MapPathfindingController extends MapController {
               (getClass().getResource("/fxml/mapImages/" + currentMapID.replace(" ", "") + ".png"))
                   .toURI()
                   .toString());
-      System.out.println(mapImage);
       mapImage.setImage(background);
       fullImgWidth = background.getWidth();
       fullImgHeight = background.getHeight();

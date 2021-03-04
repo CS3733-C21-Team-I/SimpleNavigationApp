@@ -1,7 +1,6 @@
 package edu.wpi.cs3733.c21.teamI.view.maps;
 
 import edu.wpi.cs3733.c21.teamI.hospitalMap.*;
-import edu.wpi.cs3733.c21.teamI.view.ViewManager;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -102,10 +101,6 @@ public abstract class MapController extends Application {
   protected double transformY(double y) {
     return y * (fullImgHeight / imgHeight) * mapPane.getPrefHeight() / 100000
         - yOffset * mapPane.getPrefHeight() / imgHeight;
-  }
-
-  public void navigate(ActionEvent e) throws IOException {
-    ViewManager.navigate(e);
   }
 
   public void clearMap() {

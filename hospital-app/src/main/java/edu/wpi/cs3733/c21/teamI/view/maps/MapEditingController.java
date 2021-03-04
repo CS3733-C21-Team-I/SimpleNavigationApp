@@ -5,7 +5,6 @@ import edu.wpi.cs3733.c21.teamI.hospitalMap.LocationCategory;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.LocationNode;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.MapDataEntity;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.mapEditing.MapEditDataController;
-import edu.wpi.cs3733.c21.teamI.view.ViewManager;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -13,6 +12,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point2D;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -20,6 +20,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
@@ -36,7 +37,6 @@ public class MapEditingController extends MapController {
   public void initialize() throws IOException {
     System.out.println("Initializing editing controller...");
     currentMapID = "Faulkner Lot";
-    mapImage = new ImageView();
     floor1Tab(new ActionEvent());
     boolean isAdmin = true;
     navigateButton.setVisible(true);
@@ -46,7 +46,13 @@ public class MapEditingController extends MapController {
   }
 
   @FXML
-  public void toggleEditMap(ActionEvent e) throws IOException {}
+  public void toggleEditMap(ActionEvent e) throws IOException {
+    StackPane replacePane = (StackPane) rootPane.getParent();
+    replacePane.getChildren().clear();
+    replacePane
+        .getChildren()
+        .add(FXMLLoader.load(getClass().getResource("/fxml/Pathfinding.fxml")));
+  }
 
   // viewport stuff
 
@@ -75,6 +81,7 @@ public class MapEditingController extends MapController {
               (getClass().getResource("/fxml/mapImages/" + currentMapID.replace(" ", "") + ".png"))
                   .toURI()
                   .toString());
+      System.out.println("/fxml/mapImages/" + currentMapID.replace(" ", "") + ".png");
       mapImage.setImage(background);
       fullImgWidth = background.getWidth();
       fullImgHeight = background.getHeight();
@@ -84,8 +91,6 @@ public class MapEditingController extends MapController {
       e.printStackTrace();
     }
     nodeMenu.setVisible(selectedInActiveMap() && selectedNode != null && adminMap);
-    undoButton.setVisible(false);
-    redoButton.setVisible(false);
     update();
   }
 
@@ -336,7 +341,7 @@ public class MapEditingController extends MapController {
         t -> {
           if (t.getButton() == MouseButton.PRIMARY) {
             if (!isDrag) {
-              nodeMenu.setVisible(ViewManager.toggleNode(node));
+              nodeMenu.setVisible(toggleNode(node));
             } else {
               panAllowed = true;
               this.selectedNode = null;
@@ -348,7 +353,7 @@ public class MapEditingController extends MapController {
             }
             nodeDeleteButton.setOnAction(
                 e -> {
-                  nodeMenu.setVisible(ViewManager.toggleNode(node));
+                  nodeMenu.setVisible(toggleNode(node));
                   dataCont.deleteNode(node.getID());
                   update();
                 });

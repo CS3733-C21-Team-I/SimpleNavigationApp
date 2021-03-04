@@ -3,6 +3,7 @@ package edu.wpi.cs3733.c21.teamI.hospitalMap.mapEditing;
 import edu.wpi.cs3733.c21.teamI.database.NavDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMap;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMapNode;
+import edu.wpi.cs3733.c21.teamI.hospitalMap.MapDataEntity;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Stack;
@@ -111,11 +112,10 @@ public class MapEditDataController {
         ops.add(dataOperations.get(i).getOperation());
       }
     }
-
     NavDatabaseManager.getInstance().applyNavEditOperations(ops);
 
     // Changed this and discardChanges where it had activeMap = null
-    activeMap = NavDatabaseManager.getInstance().loadMapsFromMemory().get(activeMap.getId());
+    activeMap = MapDataEntity.getMap(true).get(activeMap.getId());
     dataOperations = new Stack<>();
     undoRedoPointer = -1;
   }
