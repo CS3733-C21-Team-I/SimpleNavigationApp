@@ -70,12 +70,6 @@ public class ProfileController extends Application {
     }
   }
 
-  @FXML
-  public void logout() {
-    ApplicationDataController.getInstance().logOutUser();
-    homeController.update();
-  }
-
   public void generateRequestList() {
     List<ServiceTicket> requests =
         ServiceTicketDatabaseManager.getInstance()
