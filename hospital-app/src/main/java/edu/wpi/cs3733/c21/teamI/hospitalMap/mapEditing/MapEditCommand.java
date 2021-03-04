@@ -146,9 +146,12 @@ class AddEdgeCommand extends MapEditCommand {
   @Override
   void execute() {
     memento = new HospitalMap(controller.getActiveMap());
-
-    fromNode.addConnection(toNode);
-    toNode.addConnection(fromNode);
+    // fromNode.addConnection(toNode);
+    // toNode.addConnection(fromNode);
+    controller.getActiveMap().getNode(fromNode.getID()).addConnection(toNode);
+    controller.getActiveMap().getNode(toNode.getID()).addConnection(fromNode);
+    System.out.println("Fromnodeconnections:" + fromNode.getConnections());
+    System.out.println("Fromnodeconnections:" + fromNode.getConnections());
   }
 
   @Override
@@ -178,8 +181,16 @@ class DeleteEdgeCommand extends MapEditCommand {
   void execute() {
     memento = new HospitalMap(controller.getActiveMap());
 
-    fromNode.getConnections().removeIf(n -> n.getID().equals(toNode.getID()));
-    toNode.getConnections().removeIf(n -> n.getID().equals(fromNode.getID()));
+    controller
+        .getActiveMap()
+        .getNode(fromNode.getID())
+        .getConnections()
+        .removeIf(n -> n.getID().equals(toNode.getID()));
+    controller
+        .getActiveMap()
+        .getNode(toNode.getID())
+        .getConnections()
+        .removeIf(n -> n.getID().equals(fromNode.getID()));
   }
 
   @Override
