@@ -71,12 +71,12 @@
       <ListView fx:id="requestAssignedList" layoutX="59.0" layoutY="85.0" prefHeight="115.0" prefWidth="283.0" visible="false" />
       <HBox alignment="CENTER" layoutX="157.0" layoutY="409.0" prefHeight="44.0" prefWidth="316.0">
          <children>
-            <JFXButton style="-fx-background-color: #0067b1;" text="Clear" textFill="WHITE">
+            <JFXButton style="-fx-background-color: #0067b1;" text="Clear" onAction="#clear" textFill="WHITE">
                <HBox.margin>
                   <Insets right="10.0" />
                </HBox.margin>
             </JFXButton>
-            <JFXButton style="-fx-background-color: #0067b1;" text="Submit" textFill="WHITE" />
+            <JFXButton style="-fx-background-color: #0067b1;" text="Submit" onAction="#submit" textFill="WHITE" />
          </children>
       </HBox>
    </children>
