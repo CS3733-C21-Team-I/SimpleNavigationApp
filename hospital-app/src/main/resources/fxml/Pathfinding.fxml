@@ -29,7 +29,7 @@
                <children>
                             <JFXTabPane maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="50.0" stylesheets="@fxmlResources/tab.css" tabMaxHeight="50.0" tabMaxWidth="0.0" tabMinHeight="50.0">
                                 <tabs>
-                                    <Tab fx:id="campus" onSelectionChanged="#campusTab" text="Campus" />
+                                    <Tab fx:id="campus" text="Campus" />
                                     <Tab fx:id="floor1" onSelectionChanged="#floor1Tab" text="Floor 1" />
                                     <Tab fx:id="floor2" onSelectionChanged="#floor2Tab" text="Floor 2" />
                                     <Tab fx:id="floor3" onSelectionChanged="#floor3Tab" text="Floor 3" />

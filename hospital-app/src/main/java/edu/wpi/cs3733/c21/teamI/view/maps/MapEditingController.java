@@ -26,8 +26,6 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.LineBuilder;
 
 public class MapEditingController extends MapController {
-  @FXML ImageView mapImage;
-
   @FXML Button save, discard, undoButton, redoButton, navigateButton;
   @FXML Button nodeDeleteButton, saveButton;
   protected HospitalMapNode movingNode;
@@ -39,12 +37,13 @@ public class MapEditingController extends MapController {
     System.out.println("Initializing editing controller...");
     currentMapID = "Faulkner Lot";
     mapImage = new ImageView();
-    campusTab(new ActionEvent());
+    floor1Tab(new ActionEvent());
     boolean isAdmin = true;
     navigateButton.setVisible(true);
     // ViewManager.setMapController(this);
     // pre-load these things before their use
     MapDataEntity.getNodesSet(true);
+    initializeTabs();
   }
 
   @FXML
@@ -52,7 +51,7 @@ public class MapEditingController extends MapController {
 
   // viewport stuff
 
-  public void updateView() throws IOException {
+  public void updateView() {
     if (isFirstLoad) {
       isFirstLoad = false;
       setAddNodeHandler();
@@ -92,6 +91,10 @@ public class MapEditingController extends MapController {
   }
 
   protected void update() {
+    // set datacont to the correct map ID if null or outdated
+    if (dataCont.getActiveMap() == null || !dataCont.getActiveMap().getId().equals(currentMapID)) {
+      dataCont.setActiveMap(MapDataEntity.getMap().get(currentMapID));
+    }
     mapPane.getChildren().clear();
     drawSelectedNode();
     for (HospitalMapNode node : MapDataEntity.getMapNodesSet(currentMapID)) {
@@ -387,6 +390,7 @@ public class MapEditingController extends MapController {
         });
     return circle;
   }
+
   // save/discard/data management
   @FXML
   public void saveChanges() {

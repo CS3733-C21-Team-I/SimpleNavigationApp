@@ -19,7 +19,6 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
-import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -73,7 +72,22 @@ public abstract class MapController extends Application {
   protected Color red = Color.color(217.0 / 256.0, 89.0 / 256.0, 89.0 / 256.0);
   protected Color color2 = Color.DARKBLUE;
 
-  public abstract void updateView() throws IOException;
+  public void initializeTabs() {
+    campus.setOnSelectionChanged(
+        t -> {
+          if (campus != currentTab) {
+            System.out.println("Tab 1");
+            currentMapID = "Faulkner Lot";
+            updateView();
+            currentTab = campus;
+            startZoomPan(mapPane);
+            resize();
+          }
+          ;
+        });
+  }
+
+  public abstract void updateView();
 
   protected abstract void update();
 
@@ -367,84 +381,6 @@ public abstract class MapController extends Application {
     return returnCircle;
   }
 
-  public void switchTab(Event e) throws IOException {
-    String id = ((Button) e.getSource()).getId();
-    System.out.println(id);
-    if (currTab != null && currTab != id) {
-      currentMapID = "Faulkner Lot";
-      currentTab = campus;
-      startZoomPan(mapPane);
-      updateView();
-      resize();
-    }
-  }
-
-  public void campusTab(Event event) throws IOException {
-    if (campus != currentTab) {
-      System.out.println("Tab 1");
-      currentMapID = "Faulkner Lot";
-      updateView();
-      currentTab = campus;
-      startZoomPan(mapPane);
-      resize();
-    }
-  }
-
-  public void floor1Tab(Event event) throws IOException {
-    if (floor1 != currentTab) {
-      System.out.println("Tab 2");
-      currentMapID = "Faulkner 1";
-      updateView();
-      currentTab = floor1;
-      startZoomPan(mapPane);
-      resize();
-    }
-  }
-
-  public void floor2Tab(Event event) throws IOException {
-    if (floor2 != currentTab) {
-      System.out.println("Tab 3");
-      currentMapID = "Faulkner 2";
-      updateView();
-      currentTab = floor2;
-      startZoomPan(mapPane);
-      resize();
-    }
-  }
-
-  public void floor3Tab(Event event) throws IOException {
-    if (floor3 != currentTab) {
-      System.out.println("Tab 4");
-      currentMapID = "Faulkner 3";
-      updateView();
-      currentTab = floor3;
-      startZoomPan(mapPane);
-      resize();
-    }
-  }
-
-  public void floor4Tab(Event event) throws IOException {
-    if (floor4 != currentTab) {
-      System.out.println("Tab 5");
-      currentMapID = "Faulkner 4";
-      updateView();
-      currentTab = floor4;
-      startZoomPan(mapPane);
-      resize();
-    }
-  }
-
-  public void floor5Tab(Event event) throws IOException {
-    if (floor6 != currentTab) {
-      System.out.println("Tab 6");
-      currentMapID = "Faulkner 5";
-      updateView();
-      currentTab = floor6;
-      startZoomPan(mapPane);
-      resize();
-    }
-  }
-
   // Scaling code is from https://gist.github.com/james-d/ce5ec1fd44ce6c64e81a
   protected static final int MIN_PIXELS = 200;
 
@@ -461,21 +397,13 @@ public abstract class MapController extends Application {
         .fitWidthProperty()
         .addListener(
             (obs, oldVal, newVal) -> {
-              try {
-                resize();
-              } catch (IOException e) {
-                e.printStackTrace();
-              }
+              resize();
             });
     mapImage
         .fitHeightProperty()
         .addListener(
             (obs, oldVal, newVal) -> {
-              try {
-                resize();
-              } catch (IOException e) {
-                e.printStackTrace();
-              }
+              resize();
             });
 
     zoomPane.setOnMousePressed(
@@ -529,7 +457,7 @@ public abstract class MapController extends Application {
         });
   }
 
-  protected void resize() throws IOException {
+  protected void resize() {
     if (mapImage != null && mapImage.getFitWidth() > 0) {
       if (imageContainer.getHeight() / imageContainer.getWidth() > fullImgHeight / fullImgWidth) {
         mapPane.setPrefWidth(mapImage.getFitWidth());
@@ -543,6 +471,86 @@ public abstract class MapController extends Application {
         mapPane.setMaxWidth(mapImage.getFitHeight() * imgWidth / imgHeight);
       }
       // updateView();
+    }
+  }
+
+  /*
+   public void switchTab(Event e) throws IOException {
+       String id = ((Button) e.getSource()).getId();
+       System.out.println(id);
+       if (currTab != null && currTab != id) {
+           currentMapID = "Faulkner Lot";
+           currentTab = campus;
+           startZoomPan(mapPane);
+           updateView();
+           resize();
+       }
+   }
+
+   public void campusTab(Event event) throws IOException {
+       if (campus != currentTab) {
+           System.out.println("Tab 1");
+           currentMapID = "Faulkner Lot";
+           updateView();
+           currentTab = campus;
+           startZoomPan(mapPane);
+           resize();
+       }
+   }
+  */
+
+  public void floor1Tab(Event event) throws IOException {
+    if (floor1 != currentTab) {
+      System.out.println("Tab 2");
+      currentMapID = "Faulkner 1";
+      updateView();
+      currentTab = floor1;
+      startZoomPan(mapPane);
+      resize();
+    }
+  }
+
+  public void floor2Tab(Event event) throws IOException {
+    if (floor2 != currentTab) {
+      System.out.println("Tab 3");
+      currentMapID = "Faulkner 2";
+      updateView();
+      currentTab = floor2;
+      startZoomPan(mapPane);
+      resize();
+    }
+  }
+
+  public void floor3Tab(Event event) throws IOException {
+    if (floor3 != currentTab) {
+      System.out.println("Tab 4");
+      currentMapID = "Faulkner 3";
+      updateView();
+      currentTab = floor3;
+      startZoomPan(mapPane);
+      resize();
+    }
+  }
+
+  public void floor4Tab(Event event) throws IOException {
+    if (floor4 != currentTab) {
+      System.out.println("Tab 5");
+      currentMapID = "Faulkner 4";
+      updateView();
+      currentTab = floor4;
+      startZoomPan(mapPane);
+      resize();
+    }
+  }
+
+  public void floor5Tab(Event event) throws IOException {
+    if (floor6 != currentTab) {
+      System.out.println("Tab 6");
+      currentMapID = "Faulkner 5";
+      updateView();
+      currentTab = floor6;
+      startZoomPan(mapPane);
+      resize();
     }
   }
 

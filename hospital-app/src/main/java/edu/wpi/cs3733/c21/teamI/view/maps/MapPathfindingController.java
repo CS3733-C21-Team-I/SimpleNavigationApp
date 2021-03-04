@@ -47,9 +47,6 @@ public class MapPathfindingController extends MapController {
   @FXML
   public void initialize() throws IOException {
     System.out.println("Initializing pathfinding controller");
-    currentMapID = "Faulkner Lot";
-    mapImage = new ImageView();
-    campusTab(new ActionEvent());
     boolean isAdmin =
         ApplicationDataController.getInstance()
             .getLoggedInUser()
@@ -63,8 +60,8 @@ public class MapPathfindingController extends MapController {
     algorithmPick.getItems().addAll("A*", "Depth First", "Breadth First");
     // ViewManager.setMapController(this);
     setupMapViewHandlers();
-    // pre-load these things before their use
-    MapDataEntity.getNodesSet(true);
+    currentMapID = "Faulkner 1";
+    floor1Tab(new ActionEvent());
   }
 
   @FXML
@@ -77,13 +74,14 @@ public class MapPathfindingController extends MapController {
   }
 
   // viewport stuff
-  public void updateView(){
+  public void updateView() {
     try {
       Image background =
           new Image(
               (getClass().getResource("/fxml/mapImages/" + currentMapID.replace(" ", "") + ".png"))
                   .toURI()
                   .toString());
+      System.out.println(mapImage);
       mapImage.setImage(background);
       fullImgWidth = background.getWidth();
       fullImgHeight = background.getHeight();
