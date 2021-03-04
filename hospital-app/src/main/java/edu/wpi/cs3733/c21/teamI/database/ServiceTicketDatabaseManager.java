@@ -115,8 +115,8 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
                 + "    completed        boolean DEFAULT false,\n"
                 + "    CONSTRAINT ticketID_PK PRIMARY KEY (ticketID),\n"
                 + "    CONSTRAINT ticket_ck CHECK (serviceticket.ticketType in "
-                + "('AUDIO_VISUAL', 'COMPUTER', 'LANGUAGE', 'PARKING', 'FLORAL', 'GIFT', 'TRANSPORTATION',"
-                + "'LAUNDRY', 'MEDICINE', 'RELIGIOUS', 'SECURITY', 'SANITATION', 'MAINTENANCE')),\n"
+                + "('AUDIO_VISUAL', 'COMPUTER', 'LANGUAGE', 'PARKING', 'FLORAL', 'GIFT', 'INTERNAL_TRANSPORTATION',"
+                + "'EXTERNAL_TRANSPORTATION', 'LAUNDRY', 'MEDICINE', 'RELIGIOUS', 'SECURITY', 'SANITATION', 'MAINTENANCE')),\n"
                 + "    CONSTRAINT location_FK FOREIGN KEY (location) REFERENCES navNodes(node_ID),"
                 + "  CONSTRAINT requestID_FK FOREIGN KEY (requestingUserID) REFERENCES HOSPITAL_USERS(user_ID))");
         // System.out.println("ServiceTicket table created.");
@@ -602,7 +602,7 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
             empRequestID, ServiceTicket.TicketType.LAUNDRY, "ICONF00104", "more info", true);
     ticket2.setTicketID(21);
     ticket2.addAssignedUserID(empAssignID);
-    System.out.println("THIS IS EMPLOYEE FOR TICKET2:   " + ticket2.getAssignedUserID());
+    //System.out.println("THIS IS EMPLOYEE FOR TICKET2:   " + ticket2.getAssignedUserID());
 
     ourInstance.addTicket(ticket1);
     ourInstance.addTicket(ticket2);
