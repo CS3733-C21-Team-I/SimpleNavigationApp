@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.c21.teamI.view;
 
 import com.jfoenix.controls.JFXRippler;
+import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
 import java.io.IOException;
 import javafx.application.Application;
 import javafx.fxml.FXML;
@@ -58,6 +59,13 @@ public class VisitorMenuController extends Application {
           .getChildren()
           .add(FXMLLoader.load(getClass().getResource("/fxml/serviceRequests/Home.fxml")));
     }
+  }
+
+  @FXML
+  public void logout(MouseEvent event) throws IOException {
+    ApplicationDataController.getInstance().logOutUser();
+    navigate(event);
+    homeController.update();
   }
 
   public HomeController getHomeController() {

@@ -174,31 +174,58 @@
                      <padding>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </padding>
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin>
                   </JFXCheckBox>
-                        <JFXButton fx:id="wheelchair" buttonType="RAISED" prefHeight="40.0" prefWidth="273.0" style="-fx-background-color: #0067b1;" text="Accessible Only" textFill="WHITE" visible="false">
-                            <font>
-                                <Font name="System Bold" size="18.0" />
-                            </font>
-                            <VBox.margin>
-                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                            </VBox.margin>
-                     <graphic>
-                        <ImageView fitHeight="55.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" styleClass=".styledLogo">
-                           <image>
-                              <Image url="@fxmlResources/switch_icon.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
+                  <VBox prefWidth="100.0">
+                     <children>
+                        <TextField fx:id="nodePath" onKeyTyped="#lookup" prefHeight="10.0" prefWidth="215.0" promptText="    Node CSV Name" style="-fx-background-color: ffffff;">
+                           <VBox.margin>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </VBox.margin>
+                        </TextField>
+                        <TextField fx:id="edgePath" onKeyTyped="#lookup" prefHeight="10.0" prefWidth="215.0" promptText="    Edge CSV Name" style="-fx-background-color: ffffff;">
+                           <VBox.margin>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </VBox.margin>
+                        </TextField>
+                     </children>
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin>
+                  </VBox>
+                  <HBox alignment="CENTER">
+                     <children>
+                        <JFXButton buttonType="RAISED" onAction="#save" style="-fx-background-color: #0067b1;" text="Save" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </HBox.margin>
                         </JFXButton>
-                        <AnchorPane prefHeight="87.0" prefWidth="220.0">
-                            <children>
-                                <Label text="Route Details:" textFill="WHITE">
-                                    <font>
-                                        <Font name="System Bold" size="13.0" />
-                                    </font>
-                                </Label>
-                            </children>
-                        </AnchorPane>
+                        <JFXButton buttonType="RAISED" onAction="#load" style="-fx-background-color: #0067b1;" text="Load" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </HBox.margin>
+                        </JFXButton>
+                     </children>
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin>
+                  </HBox>
+                          <Label text="Route Details:" textFill="WHITE">
+                              <font>
+                                  <Font name="System Bold" size="13.0" />
+                              </font>
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin>
+                          </Label>
                   <JFXListView fx:id="directionsField" />
                     </children>
                     <HBox.margin>
