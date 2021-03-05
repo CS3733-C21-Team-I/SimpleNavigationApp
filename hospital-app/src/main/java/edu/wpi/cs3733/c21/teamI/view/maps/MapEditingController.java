@@ -206,127 +206,125 @@ public class MapEditingController extends MapController {
   protected void drawEdges(HospitalMapNode parent) {
     Image xIconImg = new Image("/fxml/fxmlResources/redxicon.png");
     for (HospitalMapNode child : parent.getConnections()) {
-      if (dataCont.getActiveMap().getNodes().contains(child)
-          && dataCont.getActiveMap().getNodes().contains(parent)) {
-        ImageView xMarker = new ImageView();
-        xMarker.setImage(xIconImg);
-        xMarker.setFitHeight(12);
-        xMarker.setFitWidth(12);
-        xMarker.setVisible(false);
-        xMarker.setStyle("-fx-cursor: hand");
-        mapPane.getChildren().add(xMarker);
-        Line line =
-            LineBuilder.create()
-                .startX(clamp(transformX(parent.getxCoord()), 0, mapPane.getPrefWidth()))
-                .startY(clamp(transformY(parent.getyCoord()), 0, mapPane.getPrefHeight()))
-                .endX(clamp(transformX(child.getxCoord()), 0, mapPane.getPrefWidth()))
-                .endY(clamp(transformY(child.getyCoord()), 0, mapPane.getPrefHeight()))
-                .stroke(Color.ORANGE)
-                .strokeWidth(10 / scale)
-                .build();
-        line.setStyle("-fx-cursor: hand");
-        mapPane.getChildren().add(line);
-        line.setOnMouseEntered(
-            t -> {
-              xMarker.setVisible(true);
-              xMarker.toFront();
-              xMarker.setX(
-                  transformX((parent.getxCoord() + child.getxCoord()) / 2)
-                      - xMarker.getFitWidth() / 2);
-              xMarker.setY(
-                  transformY((parent.getyCoord() + child.getyCoord()) / 2)
-                      - xMarker.getFitHeight() / 2);
-            });
-        line.setOnMouseExited(
-            t -> {
-              line.setStroke(Color.ORANGE);
-              xMarker.setVisible(false);
-            });
-        line.setOnMouseClicked(
-            t -> {
-              mapPane.getChildren().remove(line);
-              dataCont.deleteEdge(parent, child);
-              update();
-            });
-        xMarker.setOnMouseEntered(
-            t -> {
-              xMarker.setVisible(true);
-            });
-        xMarker.setOnMouseClicked(
-            t -> {
-              mapPane.getChildren().remove(line);
-              dataCont.deleteEdge(parent, child);
-              update();
-            });
-        xMarker.setOnMouseExited(
-            t -> {
-              xMarker.setVisible(false);
-            });
-      } else {
-        ImageView xMarker = new ImageView();
-        xMarker.setImage(xIconImg);
-        xMarker.setFitHeight(12);
-        xMarker.setFitWidth(12);
-        xMarker.setVisible(false);
-        xMarker.setStyle("-fx-cursor: hand");
-        mapPane.getChildren().add(xMarker);
-        HospitalMapNode nodeInMap =
-            dataCont.getActiveMap().getNodes().contains(parent) ? parent : child;
-        Line line =
-            LineBuilder.create()
-                .startX(clamp(transformX(nodeInMap.getxCoord()), 0, mapPane.getPrefWidth()))
-                .startY(clamp(transformY(nodeInMap.getyCoord()), 0, mapPane.getPrefHeight()))
-                .endX(
-                    clamp(
-                        transformX(nodeInMap.getxCoord() - mapPane.getPrefHeight()),
-                        0,
-                        mapPane.getPrefWidth()))
-                .endY(
-                    clamp(
-                        transformY(nodeInMap.getyCoord() - mapPane.getPrefHeight()),
-                        0,
-                        mapPane.getPrefHeight()))
-                .stroke(Color.GREEN)
-                .strokeWidth(10 / scale)
-                .build();
-        line.setStyle("-fx-cursor: hand");
-        mapPane.getChildren().add(line);
-        line.setOnMouseEntered(
-            t -> {
-              xMarker.setVisible(true);
-              xMarker.toFront();
-              xMarker.setX(
-                  transformX(nodeInMap.getxCoord() - (mapPane.getPrefHeight() / 2))
-                      - xMarker.getFitWidth() / 2);
-              xMarker.setY(
-                  transformY(nodeInMap.getyCoord() - (mapPane.getPrefHeight() / 2))
-                      - xMarker.getFitHeight() / 2);
-            });
-        line.setOnMouseExited(
-            t -> {
-              xMarker.setVisible(false);
-            });
-        line.setOnMouseClicked(
-            t -> {
-              mapPane.getChildren().remove(line);
-              dataCont.deleteEdge(parent, child);
-              update();
-            });
-        xMarker.setOnMouseEntered(
-            t -> {
-              xMarker.setVisible(true);
-            });
-        xMarker.setOnMouseClicked(
-            t -> {
-              mapPane.getChildren().remove(line);
-              dataCont.deleteEdge(parent, child);
-              update();
-            });
-        xMarker.setOnMouseExited(
-            t -> {
-              xMarker.setVisible(false);
-            });
+      HospitalMapNode startNode =
+          dataCont.getActiveMap().getNodes().contains(parent) ? parent : child;
+      HospitalMapNode endNode = child;
+      Color color = Color.ORANGE;
+      if (!dataCont.getActiveMap().getNodes().contains(child)
+          || !dataCont.getActiveMap().getNodes().contains(parent)) {
+        endNode =
+            new HospitalMapNode(
+                null,
+                null,
+                (int) (startNode.getxCoord() - mapPane.getPrefWidth()),
+                (int) (startNode.getyCoord() - mapPane.getPrefWidth()),
+                null);
+        color = Color.GREEN;
       }
+      ImageView xMarker = new ImageView();
+      xMarker.setImage(xIconImg);
+      xMarker.setFitHeight(12);
+      xMarker.setFitWidth(12);
+      xMarker.setVisible(false);
+      xMarker.setStyle("-fx-cursor: hand");
+      mapPane.getChildren().add(xMarker);
+      Line line =
+          LineBuilder.create()
+              .startX(transformX(startNode.getxCoord()))
+              .startY(transformY(startNode.getyCoord()))
+              .endX(transformX(endNode.getxCoord()))
+              .endY(transformY(endNode.getyCoord()))
+              .stroke(color)
+              .strokeWidth(10 / scale)
+              .build();
+      line.setStyle("-fx-cursor: hand");
+      mapPane.getChildren().add(line);
+      HospitalMapNode finalEndNode = endNode;
+      line.setOnMouseEntered(
+          t -> {
+            xMarker.setVisible(true);
+            xMarker.toFront();
+            xMarker.setX(
+                transformX((startNode.getxCoord() + finalEndNode.getxCoord()) / 2)
+                    - xMarker.getFitWidth() / 2);
+            xMarker.setY(
+                transformY((startNode.getyCoord() + finalEndNode.getyCoord()) / 2)
+                    - xMarker.getFitHeight() / 2);
+          });
+      line.setOnMouseExited(
+          t -> {
+            xMarker.setVisible(false);
+          });
+      line.setOnMouseClicked(
+          t -> {
+            mapPane.getChildren().remove(line);
+            dataCont.deleteEdge(parent, child);
+            update();
+          });
+      xMarker.setOnMouseEntered(
+          t -> {
+            xMarker.setVisible(true);
+          });
+      xMarker.setOnMouseClicked(
+          t -> {
+            mapPane.getChildren().remove(line);
+            dataCont.deleteEdge(parent, child);
+            update();
+          });
+      xMarker.setOnMouseExited(
+          t -> {
+            xMarker.setVisible(false);
+          });
+      //      } else {
+      //        HospitalMapNode nodeInMap =
+      //            dataCont.getActiveMap().getNodes().contains(parent) ? parent : child;
+      //        Line line =
+      //            LineBuilder.create()
+      //                .startX(transformX(nodeInMap.getxCoord()))
+      //                .startY(transformY(nodeInMap.getyCoord()))
+      //                .endX(transformX(nodeInMap.getxCoord() - mapPane.getPrefHeight()))
+      //                .endY(transformY(nodeInMap.getyCoord() - mapPane.getPrefHeight()))
+      //                .stroke(Color.GREEN)
+      //                .strokeWidth(10 / scale)
+      //                .build();
+      //        line.setStyle("-fx-cursor: hand");
+      //        mapPane.getChildren().add(line);
+      //        line.setOnMouseEntered(
+      //            t -> {
+      //              xMarker.setVisible(true);
+      //              xMarker.toFront();
+      //              xMarker.setX(
+      //                  transformX(nodeInMap.getxCoord() - (mapPane.getPrefHeight() / 2))
+      //                      - xMarker.getFitWidth() / 2);
+      //              xMarker.setY(
+      //                  transformY(nodeInMap.getyCoord() - (mapPane.getPrefHeight() / 2))
+      //                      - xMarker.getFitHeight() / 2);
+      //            });
+      //        line.setOnMouseExited(
+      //            t -> {
+      //              xMarker.setVisible(false);
+      //            });
+      //        line.setOnMouseClicked(
+      //            t -> {
+      //              mapPane.getChildren().remove(line);
+      //              dataCont.deleteEdge(parent, child);
+      //              update();
+      //            });
+      //        xMarker.setOnMouseEntered(
+      //            t -> {
+      //              xMarker.setVisible(true);
+      //            });
+      //        xMarker.setOnMouseClicked(
+      //            t -> {
+      //              mapPane.getChildren().remove(line);
+      //              dataCont.deleteEdge(parent, child);
+      //              update();
+      //            });
+      //        xMarker.setOnMouseExited(
+      //            t -> {
+      //              xMarker.setVisible(false);
+      //            });
+      //      }
     }
   }
 

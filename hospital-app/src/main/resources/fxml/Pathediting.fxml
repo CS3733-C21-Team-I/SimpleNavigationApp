@@ -177,7 +177,7 @@
                                 </Button>
                             </children>
                         </HBox>
-                        <HBox prefHeight="100.0" prefWidth="200.0" style="-fx-border-color: #0459ae; -fx-border-width: 2;">
+                        <HBox style="-fx-border-color: #0459ae; -fx-border-width: 2;">
                             <children>
                                 <Label text="Please save before switching floors or changes may be lost." textFill="WHITE" wrapText="true">
                                     <font>

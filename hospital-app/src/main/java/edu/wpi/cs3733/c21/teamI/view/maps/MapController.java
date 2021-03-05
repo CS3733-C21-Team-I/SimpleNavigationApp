@@ -21,6 +21,7 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -385,9 +386,6 @@ public abstract class MapController extends Application {
   protected Circle makeCircle(double x, double y, double r, Color color) {
     Circle returnCircle = new Circle(x, y, r);
     returnCircle.setFill(color);
-    if (x <= 0 || x >= mapPane.getPrefWidth() || y <= 0 || y >= mapPane.getPrefHeight()) {
-      returnCircle.setVisible(false);
-    }
     return returnCircle;
   }
 
@@ -402,6 +400,10 @@ public abstract class MapController extends Application {
     double height = imgHeight;
     reset(mapImage, width, height);
     ObjectProperty<Point2D> mouseDown = new SimpleObjectProperty<>();
+    imgWidth = mapImage.getViewport().getWidth();
+    imgHeight = mapImage.getViewport().getHeight();
+    xOffset = mapImage.getViewport().getMinX();
+    yOffset = mapImage.getViewport().getMinY();
 
     mapImage
         .fitWidthProperty()
@@ -438,33 +440,33 @@ public abstract class MapController extends Application {
 
     zoomPane.setOnScroll(
         e -> {
-          double delta = e.getDeltaY();
-          Rectangle2D viewport = mapImage.getViewport();
-          double scale =
-              clamp(
-                  Math.pow(1.001, delta),
-                  // don't scale so we're zoomed in to fewer than MIN_PIXELS in any direction:
-                  Math.min(MIN_PIXELS / viewport.getWidth(), MIN_PIXELS / viewport.getHeight()),
-                  // don't scale so that we're bigger than image dimensions:
-                  Math.max(width / viewport.getWidth(), height / viewport.getHeight()));
-          Point2D mouse = imageViewToImage(mapImage, new Point2D(e.getX(), e.getY()));
-          double newWidth = viewport.getWidth() * scale;
-          double newHeight = viewport.getHeight() * scale;
-          double newMinX =
-              clamp(
-                  mouse.getX() - (mouse.getX() - viewport.getMinX()) * scale, 0, width - newWidth);
-          double newMinY =
-              clamp(
-                  mouse.getY() - (mouse.getY() - viewport.getMinY()) * scale,
-                  0,
-                  height - newHeight);
-          mapImage.setViewport(new Rectangle2D(newMinX, newMinY, newWidth, newHeight));
-          imgWidth = mapImage.getViewport().getWidth();
-          imgHeight = mapImage.getViewport().getHeight();
-          xOffset = mapImage.getViewport().getMinX();
-          yOffset = mapImage.getViewport().getMinY();
-          update();
+          updateScale(e, (int) width, (int) height);
         });
+  }
+
+  private void updateScale(ScrollEvent e, double width, double height) {
+    double delta = e.getDeltaY();
+    Rectangle2D viewport = mapImage.getViewport();
+    double scale =
+        clamp(
+            Math.pow(1.001, delta),
+            // don't scale so we're zoomed in to fewer than MIN_PIXELS in any direction:
+            Math.min(MIN_PIXELS / viewport.getWidth(), MIN_PIXELS / viewport.getHeight()),
+            // don't scale so that we're bigger than image dimensions:
+            Math.max(width / viewport.getWidth(), height / viewport.getHeight()));
+    Point2D mouse = imageViewToImage(mapImage, new Point2D(e.getX(), e.getY()));
+    double newWidth = viewport.getWidth() * scale;
+    double newHeight = viewport.getHeight() * scale;
+    double newMinX =
+        clamp(mouse.getX() - (mouse.getX() - viewport.getMinX()) * scale, 0, width - newWidth);
+    double newMinY =
+        clamp(mouse.getY() - (mouse.getY() - viewport.getMinY()) * scale, 0, height - newHeight);
+    mapImage.setViewport(new Rectangle2D(newMinX, newMinY, newWidth, newHeight));
+    imgWidth = mapImage.getViewport().getWidth();
+    imgHeight = mapImage.getViewport().getHeight();
+    xOffset = mapImage.getViewport().getMinX();
+    yOffset = mapImage.getViewport().getMinY();
+    update();
   }
 
   protected void resize() {
@@ -480,73 +482,89 @@ public abstract class MapController extends Application {
         mapPane.setPrefWidth(mapImage.getFitHeight() * imgWidth / imgHeight);
         mapPane.setMaxWidth(mapImage.getFitHeight() * imgWidth / imgHeight);
       }
+      Rectangle clip = new Rectangle(mapPane.getPrefWidth(), mapPane.getPrefHeight());
+      clip.setLayoutX(0);
+      clip.setLayoutY(0);
+      mapPane.setClip(clip);
       // updateView();
     }
   }
 
-  public void campusTab(Event event) throws IOException {
+  public void campusTab(Event event) {
     if (campus != currentTab && mapPane != null) {
       System.out.println("Tab 1");
       currentMapID = "Faulkner Lot";
       updateView();
       currentTab = campus;
-      startZoomPan(mapPane);
       resize();
+      startZoomPan(mapPane);
+      update();
+      //      reset(mapImage, imgWidth, imgHeight);
     }
   }
 
-  public void floor1Tab(Event event) throws IOException {
+  public void floor1Tab(Event event) {
     if (floor1 != currentTab) {
       System.out.println("Tab 2");
       currentMapID = "Faulkner 1";
       updateView();
       currentTab = floor1;
-      startZoomPan(mapPane);
       resize();
+      startZoomPan(mapPane);
+      update();
+      //      reset(mapImage, imgWidth, imgHeight);
     }
   }
 
-  public void floor2Tab(Event event) throws IOException {
+  public void floor2Tab(Event event) {
     if (floor2 != currentTab) {
       System.out.println("Tab 3");
       currentMapID = "Faulkner 2";
       updateView();
       currentTab = floor2;
-      startZoomPan(mapPane);
       resize();
+      startZoomPan(mapPane);
+      update();
+      //      reset(mapImage, imgWidth, imgHeight);
     }
   }
 
-  public void floor3Tab(Event event) throws IOException {
+  public void floor3Tab(Event event) {
     if (floor3 != currentTab) {
       System.out.println("Tab 4");
       currentMapID = "Faulkner 3";
       updateView();
       currentTab = floor3;
-      startZoomPan(mapPane);
       resize();
+      startZoomPan(mapPane);
+      update();
+      //      reset(mapImage, imgWidth, imgHeight);
     }
   }
 
-  public void floor4Tab(Event event) throws IOException {
+  public void floor4Tab(Event event) {
     if (floor4 != currentTab) {
       System.out.println("Tab 5");
       currentMapID = "Faulkner 4";
       updateView();
       currentTab = floor4;
-      startZoomPan(mapPane);
       resize();
+      startZoomPan(mapPane);
+      update();
+      //      reset(mapImage, imgWidth, imgHeight);
     }
   }
 
-  public void floor5Tab(Event event) throws IOException {
+  public void floor5Tab(Event event) {
     if (floor6 != currentTab) {
       System.out.println("Tab 6");
       currentMapID = "Faulkner 5";
       updateView();
       currentTab = floor6;
-      startZoomPan(mapPane);
       resize();
+      startZoomPan(mapPane);
+      update();
+      //      reset(mapImage, imgWidth, imgHeight);
     }
   }
 
