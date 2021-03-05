@@ -366,9 +366,16 @@ public abstract class MapController extends Application {
         mapPane.getChildren().add(highlight);
       }
     }
-    Circle circle =
-        makeCircle(
-            transformX(node.getxCoord()), transformY(node.getyCoord()), 12 / scale, Color.RED);
+    Circle circle;
+    if (node instanceof LocationNode) {
+      circle =
+          makeCircle(
+              transformX(node.getxCoord()), transformY(node.getyCoord()), 12 / scale, Color.PURPLE);
+    } else {
+      circle =
+          makeCircle(
+              transformX(node.getxCoord()), transformY(node.getyCoord()), 12 / scale, Color.RED);
+    }
     circle = setMouseActions(circle, node);
     mapPane.getChildren().add(circle);
   }
