@@ -147,12 +147,25 @@ class AddEdgeCommand extends MapEditCommand {
   @Override
   void execute() {
     memento = new HospitalMap(controller.getActiveMap());
-    // fromNode.addConnection(toNode);
-    // toNode.addConnection(fromNode);
-    controller.getActiveMap().getNode(fromNode.getID()).addConnection(toNode);
-    controller.getActiveMap().getNode(toNode.getID()).addConnection(fromNode);
-    System.out.println("Fromnodeconnections:" + fromNode.getConnections());
-    System.out.println("Fromnodeconnections:" + fromNode.getConnections());
+
+    try {
+      controller.getActiveMap().getNode(fromNode.getID()).addConnection(toNode);
+    } catch (Exception e) {
+      for (HospitalMap map : MapDataEntity.getMap().values()) {
+        if (map.getNodes().contains(fromNode)) {
+          map.getNode(fromNode.getID()).addConnection(toNode);
+        }
+      }
+    }
+    try {
+      controller.getActiveMap().getNode(toNode.getID()).addConnection(fromNode);
+    } catch (Exception e) {
+      for (HospitalMap map : MapDataEntity.getMap().values()) {
+        if (map.getNodes().contains(toNode)) {
+          map.getNode(toNode.getID()).addConnection(fromNode);
+        }
+      }
+    }
   }
 
   @Override
