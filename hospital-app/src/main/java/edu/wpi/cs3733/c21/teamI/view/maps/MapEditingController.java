@@ -41,11 +41,10 @@ public class MapEditingController extends MapController {
   @FXML
   public void initialize() throws IOException {
     System.out.println("Initializing editing controller...");
-    currentMapID = "Faulkner Lot";
-    floor1Tab(new ActionEvent());
-    campusTab(new ActionEvent());
-    boolean isAdmin = true;
     navigateButton.setVisible(true);
+    currentMapID = "Faulkner Lot";
+    currentTab = null;
+    campusTab(new ActionEvent());
   }
 
   @FXML
@@ -275,56 +274,6 @@ public class MapEditingController extends MapController {
           t -> {
             xMarker.setVisible(false);
           });
-      //      } else {
-      //        HospitalMapNode nodeInMap =
-      //            dataCont.getActiveMap().getNodes().contains(parent) ? parent : child;
-      //        Line line =
-      //            LineBuilder.create()
-      //                .startX(transformX(nodeInMap.getxCoord()))
-      //                .startY(transformY(nodeInMap.getyCoord()))
-      //                .endX(transformX(nodeInMap.getxCoord() - mapPane.getPrefHeight()))
-      //                .endY(transformY(nodeInMap.getyCoord() - mapPane.getPrefHeight()))
-      //                .stroke(Color.GREEN)
-      //                .strokeWidth(10 / scale)
-      //                .build();
-      //        line.setStyle("-fx-cursor: hand");
-      //        mapPane.getChildren().add(line);
-      //        line.setOnMouseEntered(
-      //            t -> {
-      //              xMarker.setVisible(true);
-      //              xMarker.toFront();
-      //              xMarker.setX(
-      //                  transformX(nodeInMap.getxCoord() - (mapPane.getPrefHeight() / 2))
-      //                      - xMarker.getFitWidth() / 2);
-      //              xMarker.setY(
-      //                  transformY(nodeInMap.getyCoord() - (mapPane.getPrefHeight() / 2))
-      //                      - xMarker.getFitHeight() / 2);
-      //            });
-      //        line.setOnMouseExited(
-      //            t -> {
-      //              xMarker.setVisible(false);
-      //            });
-      //        line.setOnMouseClicked(
-      //            t -> {
-      //              mapPane.getChildren().remove(line);
-      //              dataCont.deleteEdge(parent, child);
-      //              update();
-      //            });
-      //        xMarker.setOnMouseEntered(
-      //            t -> {
-      //              xMarker.setVisible(true);
-      //            });
-      //        xMarker.setOnMouseClicked(
-      //            t -> {
-      //              mapPane.getChildren().remove(line);
-      //              dataCont.deleteEdge(parent, child);
-      //              update();
-      //            });
-      //        xMarker.setOnMouseExited(
-      //            t -> {
-      //              xMarker.setVisible(false);
-      //            });
-      //      }
     }
   }
 

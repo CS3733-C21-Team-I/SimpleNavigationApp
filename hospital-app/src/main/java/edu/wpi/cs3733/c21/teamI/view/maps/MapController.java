@@ -52,7 +52,6 @@ public abstract class MapController extends Application {
   @FXML Tab floor3;
   @FXML Tab floor4;
   @FXML Tab floor6;
-  protected String currTab = null;
   protected Tab currentTab = null;
 
   final double scale = 3.05;
@@ -479,7 +478,7 @@ public abstract class MapController extends Application {
       clip.setLayoutX(0);
       clip.setLayoutY(0);
       mapPane.setClip(clip);
-      // updateView();
+      update();
     }
   }
 
@@ -492,7 +491,6 @@ public abstract class MapController extends Application {
       resize();
       startZoomPan(mapPane);
       update();
-      //      reset(mapImage, imgWidth, imgHeight);
     }
   }
 
@@ -505,7 +503,6 @@ public abstract class MapController extends Application {
       resize();
       startZoomPan(mapPane);
       update();
-      //      reset(mapImage, imgWidth, imgHeight);
     }
   }
 
@@ -518,7 +515,6 @@ public abstract class MapController extends Application {
       resize();
       startZoomPan(mapPane);
       update();
-      //      reset(mapImage, imgWidth, imgHeight);
     }
   }
 
@@ -531,7 +527,6 @@ public abstract class MapController extends Application {
       resize();
       startZoomPan(mapPane);
       update();
-      //      reset(mapImage, imgWidth, imgHeight);
     }
   }
 
@@ -544,7 +539,6 @@ public abstract class MapController extends Application {
       resize();
       startZoomPan(mapPane);
       update();
-      //      reset(mapImage, imgWidth, imgHeight);
     }
   }
 
@@ -557,7 +551,6 @@ public abstract class MapController extends Application {
       resize();
       startZoomPan(mapPane);
       update();
-      //      reset(mapImage, imgWidth, imgHeight);
     }
   }
 
