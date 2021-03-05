@@ -376,7 +376,11 @@ public class MapEditingController extends MapController {
         t -> {
           Circle newCircle =
               (Circle) mapPane.getChildren().get(mapPane.getChildren().indexOf(circle));
-          newCircle.setFill(Color.RED);
+          if (node instanceof LocationNode) {
+            newCircle.setFill(Color.PURPLE);
+          } else {
+            newCircle.setFill(Color.RED);
+          }
           newCircle.setRadius(12 / scale);
           circle.setStyle("-fx-cursor: default");
         });
