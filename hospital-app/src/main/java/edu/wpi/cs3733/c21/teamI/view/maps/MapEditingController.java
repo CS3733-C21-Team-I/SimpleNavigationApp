@@ -36,6 +36,7 @@ public class MapEditingController extends MapController {
   @FXML TextField nodePath, edgePath;
   protected HospitalMapNode movingNode;
   private static final MapEditDataController dataCont = new MapEditDataController();
+  private boolean shift;
 
   // setup stuff
   @FXML
@@ -290,7 +291,12 @@ public class MapEditingController extends MapController {
         t -> {
           if (t.getButton() == MouseButton.PRIMARY) {
             if (!isDrag) {
-              nodeMenu.setVisible(toggleNode(node));
+                if (t.isShiftDown()) {
+                    selectedNode.add(node);
+                } else {
+                    //check this, probably wack
+                    nodeMenu.setVisible(toggleNode(node));
+                }
             } else {
               panAllowed = true;
               this.selectedNode.clear();

@@ -331,13 +331,15 @@ public abstract class MapController extends Application {
 
   protected void drawSelectedNode() {
     if (selectedInActiveMap()) {
-      Circle circle =
-          makeCircle(
-              transformX(selectedNode.get(0).getxCoord()),
-              transformY(selectedNode.get(0).getyCoord()),
-              20 / scale,
-              Color.PURPLE);
-      mapPane.getChildren().add(circle);
+      for (HospitalMapNode node : selectedNode) {
+        Circle circle =
+            makeCircle(
+                transformX(node.getxCoord()),
+                transformY(node.getyCoord()),
+                20 / scale,
+                Color.PURPLE);
+        mapPane.getChildren().add(circle);
+      }
     }
   }
 
