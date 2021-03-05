@@ -1,9 +1,6 @@
 package edu.wpi.cs3733.c21.teamI.view;
 
-import com.jfoenix.controls.JFXTextField;
-import com.jfoenix.controls.JFXTreeTableColumn;
-import com.jfoenix.controls.JFXTreeTableView;
-import com.jfoenix.controls.RecursiveTreeItem;
+import com.jfoenix.controls.*;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import edu.wpi.cs3733.c21.teamI.database.ServiceTicketDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.ticket.*;
@@ -29,10 +26,87 @@ public class ServiceRequestTableController implements Initializable {
 
   @FXML private JFXTextField input;
 
+  @FXML private JFXButton markCompleteButton;
+  @FXML private JFXTextField IDTextField;
+  @FXML private JFXButton updateAssignedIDButton;
+
+  ServiceTableIntermediateController interController;
+
   @Override
   public void initialize(URL url, ResourceBundle rb) {
+    interController = new ServiceTableIntermediateController();
+    update();
+    input
+        .textProperty()
+        .addListener(
+            new ChangeListener<String>() {
+              @Override
+              public void changed(
+                  ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                treeView.setPredicate(
+                    new Predicate<TreeItem<ServiceTicket>>() {
+                      @Override
+                      public boolean test(TreeItem<ServiceTicket> ServiceTicketTreeItem) {
+                        Boolean flag =
+                            ServiceTicketTreeItem.getValue()
+                                .getTicketType()
+                                .toString()
+                                .contains(newValue.toUpperCase());
+                        return flag;
+                      }
+                    });
+              }
+            });
+  }
 
+  public void markComplete() {
+    System.out.println(treeView.getSelectionModel().getSelectedItem().getValue().getTicketId());
+    //
+    interController.markCompleted(
+        treeView.getSelectionModel().getSelectedItem().getValue().getTicketId());
+    update();
+  }
+
+  public void addAssignedID() {
+    System.out.println(
+        "Add "
+            + Integer.parseInt(IDTextField.getText())
+            + " to "
+            + treeView.getSelectionModel().getSelectedItem().getValue().getTicketId());
+    interController.addAssignedID(
+        treeView.getSelectionModel().getSelectedItem().getValue().getTicketId(),
+        Integer.parseInt(IDTextField.getText()));
+    update();
+  }
+
+  public void removeAssignedID() {
+    System.out.println(
+        "Delete "
+            + Integer.parseInt(IDTextField.getText())
+            + " from "
+            + treeView.getSelectionModel().getSelectedItem().getValue().getTicketId());
+    interController.removeAssignedID(
+        treeView.getSelectionModel().getSelectedItem().getValue().getTicketId(),
+        Integer.parseInt(IDTextField.getText()));
+    update();
+  }
+
+  public void update() {
     treeView.setEditable(true);
+
+    JFXTreeTableColumn<ServiceTicket, String> ticketIDCol = new JFXTreeTableColumn<>("Ticket ID");
+    ticketIDCol.setPrefWidth(150);
+    ticketIDCol.setEditable(true);
+    ticketIDCol.setCellValueFactory(
+        new Callback<
+            TreeTableColumn.CellDataFeatures<ServiceTicket, String>, ObservableValue<String>>() {
+          @Override
+          public ObservableValue<String> call(
+              TreeTableColumn.CellDataFeatures<ServiceTicket, String> param) {
+            return new SimpleStringProperty(
+                Integer.toString(param.getValue().getValue().getTicketId()));
+          }
+        });
 
     JFXTreeTableColumn<ServiceTicket, String> requestTypeCol =
         new JFXTreeTableColumn<>("Request Type");
@@ -66,17 +140,16 @@ public class ServiceRequestTableController implements Initializable {
     JFXTreeTableColumn<ServiceTicket, String> assignIDCol = new JFXTreeTableColumn<>("Assigned ID");
     assignIDCol.setPrefWidth(150);
     assignIDCol.setEditable(true);
-    //    assignIDCol.setCellValueFactory(
-    //        new Callback<
-    //            TreeTableColumn.CellDataFeatures<ServiceTicket, String>,
-    // ObservableValue<String>>() {
-    //          @Override
-    //          public ObservableValue<String> call(
-    //              TreeTableColumn.CellDataFeatures<ServiceTicket, String> param) {
-    //            return new SimpleStringProperty(
-    //                Integer.toString(param.getValue().getValue().getAssignedUserID().get(0)));
-    //          }
-    //        });
+    assignIDCol.setCellValueFactory(
+        new Callback<
+            TreeTableColumn.CellDataFeatures<ServiceTicket, String>, ObservableValue<String>>() {
+          @Override
+          public ObservableValue<String> call(
+              TreeTableColumn.CellDataFeatures<ServiceTicket, String> param) {
+            String listString = param.getValue().getValue().getAssignedUserID().toString();
+            return new SimpleStringProperty(listString.substring(1, listString.length() - 1));
+          }
+        });
 
     JFXTreeTableColumn<ServiceTicket, String> locationCol = new JFXTreeTableColumn<>("Location");
     locationCol.setPrefWidth(150);
@@ -120,37 +193,13 @@ public class ServiceRequestTableController implements Initializable {
 
     ObservableList<ServiceTicket> serviceTickets = FXCollections.observableArrayList();
     serviceTickets.addAll(ServiceTicketDatabaseManager.getInstance().getServiceTicketDB());
-    System.out.println(serviceTickets);
 
     final TreeItem<ServiceTicket> root =
         new RecursiveTreeItem<ServiceTicket>(serviceTickets, RecursiveTreeObject::getChildren);
     treeView
         .getColumns()
-        .setAll(requestTypeCol, requestIDCol, assignIDCol, locationCol, detailsCol, completeCol);
+        .setAll(ticketIDCol, requestIDCol, assignIDCol, locationCol, detailsCol, completeCol);
     treeView.setRoot(root);
     treeView.setShowRoot(false);
-
-    input
-        .textProperty()
-        .addListener(
-            new ChangeListener<String>() {
-              @Override
-              public void changed(
-                  ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                treeView.setPredicate(
-                    new Predicate<TreeItem<ServiceTicket>>() {
-                      @Override
-                      public boolean test(TreeItem<ServiceTicket> ServiceTicketTreeItem) {
-                        Boolean flag =
-                            ServiceTicketTreeItem.getValue()
-                                .getTicketType()
-                                .toString()
-                                .contains(newValue.toUpperCase());
-
-                        return flag;
-                      }
-                    });
-              }
-            });
   }
 }

@@ -142,7 +142,6 @@ public class ParkingPeripheralServerManager extends DatabaseManager {
   void createTables() {
     try {
       Statement statement = databaseRef.getConnection().createStatement();
-      System.out.println("Hello WORLD");
       statement.execute(
           "CREATE TABLE PARKING_LOTS("
               + "id integer NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),"

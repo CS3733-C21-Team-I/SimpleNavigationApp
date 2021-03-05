@@ -1,9 +1,11 @@
 package edu.wpi.cs3733.c21.teamI.view;
 
 import com.jfoenix.controls.JFXRippler;
+import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
+import edu.wpi.cs3733.c21.teamI.hospitalMap.MapDataEntity;
 import java.io.IOException;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
@@ -48,6 +50,8 @@ public class AdminMenuController extends Application {
       replacePane
           .getChildren()
           .add(FXMLLoader.load(getClass().getResource("/fxml/Pathfinding.fxml")));
+      // pre-load these things before their use
+      MapDataEntity.getNodesSet(true);
     } else if (id.equals("giftsButton")) {
       replacePane
           .getChildren()
@@ -56,6 +60,10 @@ public class AdminMenuController extends Application {
       replacePane
           .getChildren()
           .add(FXMLLoader.load(getClass().getResource("/fxml/menuFiles/ServiceView.fxml")));
+    } else if (id.equals("employeeButton")) {
+      replacePane
+          .getChildren()
+          .add(FXMLLoader.load(getClass().getResource("/fxml/EmployeeTable.fxml")));
     } else if (id.equals("logoutButton")) {
       replacePane.getChildren().add(FXMLLoader.load(getClass().getResource("/fxml/Profile.fxml")));
     } else if (id.equals("parkingButton")) {
@@ -66,11 +74,25 @@ public class AdminMenuController extends Application {
       replacePane
           .getChildren()
           .add(FXMLLoader.load(getClass().getResource("/fxml/ServiceRequestTableView.fxml")));
+    } else if (id.equals("feedbackButton")) {
+      replacePane
+          .getChildren()
+          .add(FXMLLoader.load(getClass().getResource("/fxml/menuFiles/feedbackView.fxml")));
     }
   }
 
   @FXML
-  public void logout(ActionEvent event) {}
+  public void exit() {
+    Platform.exit();
+    System.exit(0);
+  }
+
+  @FXML
+  public void logout(MouseEvent event) throws IOException {
+    ApplicationDataController.getInstance().logOutUser();
+    navigate(event);
+    homeController.update();
+  }
 
   public HomeController getHomeController() {
     return homeController;

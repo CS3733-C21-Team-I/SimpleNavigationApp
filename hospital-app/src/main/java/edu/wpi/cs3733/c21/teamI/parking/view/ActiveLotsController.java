@@ -49,7 +49,7 @@ public class ActiveLotsController extends Application {
     }
 
     //    Timer timer = new Timer();
-    //    timer.schedule(
+    //    timer.schedule(b
     //        new TimerTask() {
     //
     //          @Override

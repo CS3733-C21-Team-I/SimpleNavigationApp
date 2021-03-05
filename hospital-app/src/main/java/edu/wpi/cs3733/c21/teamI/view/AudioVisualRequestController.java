@@ -41,11 +41,13 @@ public class AudioVisualRequestController {
       ticket =
           new ServiceTicket(
               RequestID,
-              ServiceTicket.TicketType.SECURITY,
+              ServiceTicket.TicketType.AUDIO_VISUAL,
               NavDatabaseManager.getInstance().getMapIdFromLongName(roomNumber.getText()),
               requestDetails.getText(),
               false);
+      ticket.addAssignedUserID(AssignedID);
       ServiceTicketDatabaseManager.getInstance().addTicket(ticket);
+      ServiceTicketDatabaseManager.getInstance().addEmployeeForTicket(RequestID, AssignedID);
     } catch (Exception o) {
       System.out.println("Error" + o);
     }
@@ -95,6 +97,7 @@ public class AudioVisualRequestController {
 
   public void initialize() {
     /*TODO common stuff*/
+    typeRequested.setPromptText("Type of Media Requested");
     setupRequestView();
   }
 
@@ -104,6 +107,6 @@ public class AudioVisualRequestController {
 
   public void lookupUser(KeyEvent e) {
     ServiceTicketDataController.lookupUsernames(
-        e, User.Permission.RESPOND_TO_SECURITY, requestAssignedList, requestAssigned);
+        e, User.Permission.RESPOND_TO_AV, requestAssignedList, requestAssigned);
   }
 }
