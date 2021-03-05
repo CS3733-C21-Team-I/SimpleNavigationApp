@@ -91,7 +91,7 @@ public class MapEditingController extends MapController {
     } catch (URISyntaxException e) {
       e.printStackTrace();
     }
-    nodeMenu.setVisible(selectedInActiveMap() && selectedNode != null && adminMap);
+    nodeMenu.setVisible(selectedInActiveMap() && selectedNode.size() != 0 && adminMap);
     update();
   }
 
@@ -189,15 +189,15 @@ public class MapEditingController extends MapController {
   }
 
   public boolean toggleNode(HospitalMapNode node) {
-    if (selectedNode == null) {
-      selectedNode = node;
+    if (selectedNode.size() == 0) {
+      selectedNode.add(node);
       return true;
     } else if (selectedNode.equals(node)) {
-      selectedNode = null;
+      selectedNode.clear();
       return false;
     } else {
-      dataCont.addEdge(node, selectedNode);
-      selectedNode = null;
+      dataCont.addEdge(node, selectedNode.get(0));
+      selectedNode.clear();
       return false;
     }
   }
@@ -293,7 +293,7 @@ public class MapEditingController extends MapController {
               nodeMenu.setVisible(toggleNode(node));
             } else {
               panAllowed = true;
-              this.selectedNode = null;
+              this.selectedNode.clear();
               isDrag = false;
               Point2D mousePress = imageViewToImage(mapImage, new Point2D(t.getX(), t.getY()));
               movingNode.setxCoord((int) (mousePress.getX() / fullImgWidth * 100000));

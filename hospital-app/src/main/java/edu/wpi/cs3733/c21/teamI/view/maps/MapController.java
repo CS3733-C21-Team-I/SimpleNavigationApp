@@ -3,6 +3,7 @@ package edu.wpi.cs3733.c21.teamI.view.maps;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.*;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
 import javafx.animation.*;
 import javafx.application.Application;
@@ -63,7 +64,7 @@ public abstract class MapController extends Application {
   double yOffset = 0;
   boolean panAllowed = true;
 
-  protected HospitalMapNode selectedNode = null;
+  protected ArrayList<HospitalMapNode> selectedNode = new ArrayList<>();
   protected String currentMapID = "Faulkner 0";
 
   protected Color blue = Color.color(68.0 / 256.0, 136.0 / 256.0, 166.0 / 256.0);
@@ -332,8 +333,8 @@ public abstract class MapController extends Application {
     if (selectedInActiveMap()) {
       Circle circle =
           makeCircle(
-              transformX(selectedNode.getxCoord()),
-              transformY(selectedNode.getyCoord()),
+              transformX(selectedNode.get(0).getxCoord()),
+              transformY(selectedNode.get(0).getyCoord()),
               20 / scale,
               Color.PURPLE);
       mapPane.getChildren().add(circle);
@@ -341,15 +342,15 @@ public abstract class MapController extends Application {
   }
 
   protected boolean selectedInActiveMap() {
-    return (selectedNode != null) && selectedNode.getMapID().equals(currentMapID);
+    return (selectedNode.size() != 0) && selectedNode.get(0).getMapID().equals(currentMapID);
   }
 
   public boolean toggleNode(HospitalMapNode node) {
-    if (selectedNode == null) {
-      selectedNode = node;
+    if (selectedNode.size() == 0) {
+      selectedNode.add(node);
       return true;
-    } else if (selectedNode.equals(node)) {
-      selectedNode = null;
+    } else if (selectedNode.get(0).equals(node)) {
+      selectedNode.clear();
     }
     return false;
   }
