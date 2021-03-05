@@ -193,12 +193,15 @@ public class MapEditingController extends MapController {
     if (selectedNode.size() == 0) {
       selectedNode.add(node);
       return true;
-    } else if (selectedNode.equals(node)) {
-      selectedNode.clear();
-      return false;
-    } else {
+    } else if (selectedNode.size() == 1 && !selectedNode.get(0).equals(node)) {
       dataCont.addEdge(node, selectedNode.get(0));
       selectedNode.clear();
+      return false;
+    } else if (selectedNode.contains(node)) {
+      selectedNode.clear();
+      selectedNode.add(node);
+      return false;
+    } else {
       return false;
     }
   }
@@ -291,12 +294,12 @@ public class MapEditingController extends MapController {
         t -> {
           if (t.getButton() == MouseButton.PRIMARY) {
             if (!isDrag) {
-                if (t.isShiftDown()) {
-                    selectedNode.add(node);
-                } else {
-                    //check this, probably wack
-                    nodeMenu.setVisible(toggleNode(node));
-                }
+              if (t.isShiftDown()) {
+                selectedNode.add(node);
+              } else {
+                // check this, probably wack
+                nodeMenu.setVisible(toggleNode(node));
+              }
             } else {
               panAllowed = true;
               this.selectedNode.clear();
