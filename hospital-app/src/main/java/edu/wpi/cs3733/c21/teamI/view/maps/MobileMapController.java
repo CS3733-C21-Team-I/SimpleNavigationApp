@@ -1,10 +1,9 @@
 package edu.wpi.cs3733.c21.teamI.view.maps;
 
-import edu.wpi.cs3733.c21.teamI.hospitalMap.*;
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.util.List;
-import javafx.animation.*;
+import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMapNode;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.DoubleProperty;
@@ -33,19 +32,20 @@ import javafx.scene.shape.*;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-public abstract class MapController extends Application {
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.util.List;
+
+public abstract class MobileMapController extends Application {
   boolean adminMap = false;
 
   @FXML StackPane rootPane;
   @FXML AnchorPane nodeMenu;
   @FXML TextField sNameField, lNameField;
-  protected boolean isDrag = false;
-  protected boolean isFirstLoad = true;
   @FXML AnchorPane mapPane;
   @FXML ImageView mapImage;
 
   @FXML StackPane imageContainer;
-  @FXML VBox stackContainer;
   @FXML Tab campus;
   @FXML Tab floor1;
   @FXML Tab floor2;
@@ -121,10 +121,10 @@ public abstract class MapController extends Application {
   protected void drawEdge(HospitalMapNode start, HospitalMapNode end, Color color) {
     Line line =
         LineBuilder.create()
-            .startX(transformX(start.getxCoord()))
-            .startY(transformY(start.getyCoord()))
-            .endX(transformX(end.getxCoord()))
-            .endY(transformY(end.getyCoord()))
+            .startX(clamp(transformX(start.getxCoord()), 0, mapPane.getPrefWidth()))
+            .startY(clamp(transformY(start.getyCoord()), 0, mapPane.getPrefHeight()))
+            .endX(clamp(transformX(end.getxCoord()), 0, mapPane.getPrefWidth()))
+            .endY(clamp(transformY(end.getyCoord()), 0, mapPane.getPrefHeight()))
             .stroke(color)
             .strokeLineCap(StrokeLineCap.ROUND)
             .strokeDashArray(28.0 / scale)

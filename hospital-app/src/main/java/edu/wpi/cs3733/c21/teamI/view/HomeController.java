@@ -99,7 +99,8 @@ public class HomeController extends Application {
 
   @Override
   public void start(Stage primaryStage) throws Exception {
-    Parent root = FXMLLoader.load(getClass().getResource("/fxml/menuFiles/Menu.fxml"));
+    //    Parent root = FXMLLoader.load(getClass().getResource("/fxml/menuFiles/Menu.fxml"));
+    Parent root = FXMLLoader.load(getClass().getResource("/fxml/PathfindingMobile.fxml"));
     primaryStage.setTitle("Hospital App");
     Scene applicationScene = new Scene(root, 973, 800);
     ViewManager.setReplacePane(replacePane);

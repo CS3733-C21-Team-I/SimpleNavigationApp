@@ -1,6 +1,5 @@
 package edu.wpi.cs3733.c21.teamI.view.maps;
 
-import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.EuclidianDistCalc;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMapNode;
@@ -19,7 +18,6 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -30,10 +28,8 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 
-public class MapPathfindingController extends MapController {
+public class MapPathfindingControllerMobile extends MobileMapController {
   @FXML ImageView mapImage;
-  @FXML Button adminMapToggle;
-  @FXML JFXComboBox algorithmPick;
   @FXML TextField start, destination;
   @FXML ListView startList, destList, directionsField;
 
@@ -51,14 +47,6 @@ public class MapPathfindingController extends MapController {
         ApplicationDataController.getInstance()
             .getLoggedInUser()
             .hasPermission(User.Permission.EDIT_MAP);
-    if (!isAdmin) {
-      //      adminMapToggle.setVisible(isAdmin);
-      //      adminMapToggle.setMinHeight(0);
-      //      algorithmPick.setVisible(isAdmin);
-      //      algorithmPick.setMinHeight(0);
-    }
-    //    algorithmPick.getItems().addAll("A*", "Depth First", "Breadth First");
-    // ViewManager.setMapController(this);
     setupMapViewHandlers();
     currentMapID = "Faulkner Lot";
     campusTab(new ActionEvent());
@@ -207,23 +195,6 @@ public class MapPathfindingController extends MapController {
   }
 
   // algorithm stuff
-
-  @FXML
-  private void switchAlgorithm() {
-    switch (algorithmPick.getValue().toString()) {
-      case "Depth First":
-        System.out.println("Making new Depth first...");
-        pathFinderAlgorithm = new DepthFirstSearch();
-        break;
-      case "Breadth First":
-        System.out.println("Making new Breadth first...");
-        pathFinderAlgorithm = new BreadthFirstSearch();
-        break;
-      default:
-        pathFinderAlgorithm = new PathFinder();
-        break;
-    }
-  }
 
   @FXML
   public void onSwitch() {
