@@ -21,6 +21,7 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -392,6 +393,10 @@ public abstract class MapController extends Application {
     double height = imgHeight;
     reset(mapImage, width, height);
     ObjectProperty<Point2D> mouseDown = new SimpleObjectProperty<>();
+    imgWidth = mapImage.getViewport().getWidth();
+    imgHeight = mapImage.getViewport().getHeight();
+    xOffset = mapImage.getViewport().getMinX();
+    yOffset = mapImage.getViewport().getMinY();
 
     mapImage
         .fitWidthProperty()
@@ -428,33 +433,33 @@ public abstract class MapController extends Application {
 
     zoomPane.setOnScroll(
         e -> {
-          double delta = e.getDeltaY();
-          Rectangle2D viewport = mapImage.getViewport();
-          double scale =
-              clamp(
-                  Math.pow(1.001, delta),
-                  // don't scale so we're zoomed in to fewer than MIN_PIXELS in any direction:
-                  Math.min(MIN_PIXELS / viewport.getWidth(), MIN_PIXELS / viewport.getHeight()),
-                  // don't scale so that we're bigger than image dimensions:
-                  Math.max(width / viewport.getWidth(), height / viewport.getHeight()));
-          Point2D mouse = imageViewToImage(mapImage, new Point2D(e.getX(), e.getY()));
-          double newWidth = viewport.getWidth() * scale;
-          double newHeight = viewport.getHeight() * scale;
-          double newMinX =
-              clamp(
-                  mouse.getX() - (mouse.getX() - viewport.getMinX()) * scale, 0, width - newWidth);
-          double newMinY =
-              clamp(
-                  mouse.getY() - (mouse.getY() - viewport.getMinY()) * scale,
-                  0,
-                  height - newHeight);
-          mapImage.setViewport(new Rectangle2D(newMinX, newMinY, newWidth, newHeight));
-          imgWidth = mapImage.getViewport().getWidth();
-          imgHeight = mapImage.getViewport().getHeight();
-          xOffset = mapImage.getViewport().getMinX();
-          yOffset = mapImage.getViewport().getMinY();
-          update();
+          updateScale(e, (int) width, (int) height);
         });
+  }
+
+  private void updateScale(ScrollEvent e, double width, double height) {
+    double delta = e.getDeltaY();
+    Rectangle2D viewport = mapImage.getViewport();
+    double scale =
+        clamp(
+            Math.pow(1.001, delta),
+            // don't scale so we're zoomed in to fewer than MIN_PIXELS in any direction:
+            Math.min(MIN_PIXELS / viewport.getWidth(), MIN_PIXELS / viewport.getHeight()),
+            // don't scale so that we're bigger than image dimensions:
+            Math.max(width / viewport.getWidth(), height / viewport.getHeight()));
+    Point2D mouse = imageViewToImage(mapImage, new Point2D(e.getX(), e.getY()));
+    double newWidth = viewport.getWidth() * scale;
+    double newHeight = viewport.getHeight() * scale;
+    double newMinX =
+        clamp(mouse.getX() - (mouse.getX() - viewport.getMinX()) * scale, 0, width - newWidth);
+    double newMinY =
+        clamp(mouse.getY() - (mouse.getY() - viewport.getMinY()) * scale, 0, height - newHeight);
+    mapImage.setViewport(new Rectangle2D(newMinX, newMinY, newWidth, newHeight));
+    imgWidth = mapImage.getViewport().getWidth();
+    imgHeight = mapImage.getViewport().getHeight();
+    xOffset = mapImage.getViewport().getMinX();
+    yOffset = mapImage.getViewport().getMinY();
+    update();
   }
 
   protected void resize() {
@@ -484,8 +489,10 @@ public abstract class MapController extends Application {
       currentMapID = "Faulkner Lot";
       updateView();
       currentTab = campus;
-      startZoomPan(mapPane);
       resize();
+      startZoomPan(mapPane);
+      update();
+      //      reset(mapImage, imgWidth, imgHeight);
     }
   }
 
@@ -495,8 +502,10 @@ public abstract class MapController extends Application {
       currentMapID = "Faulkner 1";
       updateView();
       currentTab = floor1;
-      startZoomPan(mapPane);
       resize();
+      startZoomPan(mapPane);
+      update();
+      //      reset(mapImage, imgWidth, imgHeight);
     }
   }
 
@@ -506,8 +515,10 @@ public abstract class MapController extends Application {
       currentMapID = "Faulkner 2";
       updateView();
       currentTab = floor2;
-      startZoomPan(mapPane);
       resize();
+      startZoomPan(mapPane);
+      update();
+      //      reset(mapImage, imgWidth, imgHeight);
     }
   }
 
@@ -517,8 +528,10 @@ public abstract class MapController extends Application {
       currentMapID = "Faulkner 3";
       updateView();
       currentTab = floor3;
-      startZoomPan(mapPane);
       resize();
+      startZoomPan(mapPane);
+      update();
+      //      reset(mapImage, imgWidth, imgHeight);
     }
   }
 
@@ -528,8 +541,10 @@ public abstract class MapController extends Application {
       currentMapID = "Faulkner 4";
       updateView();
       currentTab = floor4;
-      startZoomPan(mapPane);
       resize();
+      startZoomPan(mapPane);
+      update();
+      //      reset(mapImage, imgWidth, imgHeight);
     }
   }
 
@@ -539,8 +554,10 @@ public abstract class MapController extends Application {
       currentMapID = "Faulkner 5";
       updateView();
       currentTab = floor6;
-      startZoomPan(mapPane);
       resize();
+      startZoomPan(mapPane);
+      update();
+      //      reset(mapImage, imgWidth, imgHeight);
     }
   }
 
