@@ -378,9 +378,6 @@ public abstract class MapController extends Application {
   protected Circle makeCircle(double x, double y, double r, Color color) {
     Circle returnCircle = new Circle(x, y, r);
     returnCircle.setFill(color);
-    if (x <= 0 || x >= mapPane.getPrefWidth() || y <= 0 || y >= mapPane.getPrefHeight()) {
-      returnCircle.setVisible(false);
-    }
     return returnCircle;
   }
 
@@ -473,11 +470,15 @@ public abstract class MapController extends Application {
         mapPane.setPrefWidth(mapImage.getFitHeight() * imgWidth / imgHeight);
         mapPane.setMaxWidth(mapImage.getFitHeight() * imgWidth / imgHeight);
       }
+      Rectangle clip = new Rectangle(mapPane.getPrefWidth(), mapPane.getPrefHeight());
+      clip.setLayoutX(0);
+      clip.setLayoutY(0);
+      mapPane.setClip(clip);
       // updateView();
     }
   }
 
-  public void campusTab(Event event) throws IOException {
+  public void campusTab(Event event) {
     if (campus != currentTab && mapPane != null) {
       System.out.println("Tab 1");
       currentMapID = "Faulkner Lot";
@@ -488,7 +489,7 @@ public abstract class MapController extends Application {
     }
   }
 
-  public void floor1Tab(Event event) throws IOException {
+  public void floor1Tab(Event event) {
     if (floor1 != currentTab) {
       System.out.println("Tab 2");
       currentMapID = "Faulkner 1";
@@ -499,7 +500,7 @@ public abstract class MapController extends Application {
     }
   }
 
-  public void floor2Tab(Event event) throws IOException {
+  public void floor2Tab(Event event) {
     if (floor2 != currentTab) {
       System.out.println("Tab 3");
       currentMapID = "Faulkner 2";
@@ -510,7 +511,7 @@ public abstract class MapController extends Application {
     }
   }
 
-  public void floor3Tab(Event event) throws IOException {
+  public void floor3Tab(Event event) {
     if (floor3 != currentTab) {
       System.out.println("Tab 4");
       currentMapID = "Faulkner 3";
@@ -521,7 +522,7 @@ public abstract class MapController extends Application {
     }
   }
 
-  public void floor4Tab(Event event) throws IOException {
+  public void floor4Tab(Event event) {
     if (floor4 != currentTab) {
       System.out.println("Tab 5");
       currentMapID = "Faulkner 4";
@@ -532,7 +533,7 @@ public abstract class MapController extends Application {
     }
   }
 
-  public void floor5Tab(Event event) throws IOException {
+  public void floor5Tab(Event event) {
     if (floor6 != currentTab) {
       System.out.println("Tab 6");
       currentMapID = "Faulkner 5";
