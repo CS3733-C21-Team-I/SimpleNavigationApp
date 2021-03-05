@@ -193,10 +193,15 @@ public class MapEditingController extends MapController {
     if (selectedNode.size() == 0) {
       selectedNode.add(node);
       return true;
-    } else if (selectedNode.size() == 1 && !selectedNode.get(0).equals(node)) {
-      dataCont.addEdge(node, selectedNode.get(0));
-      selectedNode.clear();
-      return false;
+    } else if (selectedNode.size() == 1) {
+      if (selectedNode.get(0).equals(node)) {
+        selectedNode.clear();
+        return false;
+      } else {
+        dataCont.addEdge(node, selectedNode.get(0));
+        selectedNode.clear();
+        return false;
+      }
     } else {
       selectedNode.clear();
       selectedNode.add(node);
@@ -292,10 +297,9 @@ public class MapEditingController extends MapController {
         t -> {
           if (t.getButton() == MouseButton.PRIMARY) {
             if (!isDrag) {
-              if (t.isShiftDown()) {
+              if (t.isShiftDown() && node.getMapID().equals(selectedNode.get(0).getMapID())) {
                 selectedNode.add(node);
               } else {
-                // check this, probably wack
                 nodeMenu.setVisible(toggleNode(node));
               }
             } else {
