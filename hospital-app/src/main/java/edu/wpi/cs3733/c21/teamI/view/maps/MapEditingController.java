@@ -197,11 +197,9 @@ public class MapEditingController extends MapController {
       dataCont.addEdge(node, selectedNode.get(0));
       selectedNode.clear();
       return false;
-    } else if (selectedNode.contains(node)) {
+    } else {
       selectedNode.clear();
       selectedNode.add(node);
-      return false;
-    } else {
       return false;
     }
   }
