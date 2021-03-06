@@ -322,6 +322,7 @@ public class MapEditingController extends MapController {
           if (t.getButton() == MouseButton.PRIMARY) {
             if (!isDrag) {
               if (t.isShiftDown() && node.getMapID().equals(selectedNode.get(0).getMapID())) {
+                shift = true;
                 if (selectedNode.contains(node)) {
                   selectedNode.remove(node);
                 } else {
@@ -329,16 +330,38 @@ public class MapEditingController extends MapController {
                 }
                 nodeMenu.setVisible(selectedNode.size() == 1);
               } else {
+                shift = false;
                 toggleNode(node);
               }
             } else {
               panAllowed = true;
-              this.selectedNode.clear();
               isDrag = false;
               Point2D mousePress = imageViewToImage(mapImage, new Point2D(t.getX(), t.getY()));
-              movingNode.setxCoord((int) (mousePress.getX() / fullImgWidth * 100000));
-              movingNode.setyCoord((int) (mousePress.getY() / fullImgHeight * 100000));
+              int currentX = (int) (mousePress.getX() / fullImgWidth * 100000);
+              int currentY = (int) (mousePress.getY() / fullImgHeight * 100000);
+
+              if (shift) {
+                int x = 0, y = 0;
+                for (HospitalMapNode n : this.selectedNode) {
+                  if (n.getID().equals(movingNode.getID())) {
+                    x = n.getxCoord();
+                    y = n.getyCoord();
+                  }
+                }
+                int xOffset = currentX - x;
+                int yOffset = currentY - y;
+                this.selectedNode.removeIf(n -> n.getID().equals(movingNode.getID()));
+                for (HospitalMapNode n : this.selectedNode) {
+                  n.setxCoord(n.getxCoord() + xOffset);
+                  n.setyCoord(n.getyCoord() + yOffset);
+                  dataCont.editNode(n.getID(), n);
+                }
+              }
+              movingNode.setxCoord(currentX);
+              movingNode.setyCoord(currentY);
               dataCont.editNode(movingNode.getID(), movingNode);
+
+              this.selectedNode.clear();
             }
             nodeDeleteButton.setOnAction(
                 e -> {
