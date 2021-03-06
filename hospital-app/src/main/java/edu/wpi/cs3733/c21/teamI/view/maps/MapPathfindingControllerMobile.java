@@ -1,13 +1,15 @@
 package edu.wpi.cs3733.c21.teamI.view.maps;
 
-import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXCheckBox;
+import com.jfoenix.controls.JFXHamburger;
+import com.jfoenix.transitions.hamburger.HamburgerSlideCloseTransition;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.EuclidianDistCalc;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMapNode;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.MapDataEntity;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.NodeRestrictions;
 import edu.wpi.cs3733.c21.teamI.pathfinding.*;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicketDataController;
-import edu.wpi.cs3733.c21.teamI.user.User;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -24,6 +26,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
@@ -32,6 +35,11 @@ public class MapPathfindingControllerMobile extends MobileMapController {
   @FXML ImageView mapImage;
   @FXML TextField start, destination;
   @FXML ListView startList, destList, directionsField;
+  @FXML HBox extraMenu;
+  @FXML JFXButton clear;
+  @FXML JFXCheckBox accessible;
+  @FXML StackPane allDirections;
+  @FXML JFXHamburger ham;
 
   private EuclidianDistCalc scorer = new EuclidianDistCalc();
   private PathPlanningAlgorithm pathFinderAlgorithm = new PathFinder();
@@ -43,10 +51,21 @@ public class MapPathfindingControllerMobile extends MobileMapController {
   @FXML
   public void initialize() throws IOException {
     System.out.println("Initializing pathfinding controller");
-    boolean isAdmin =
-        ApplicationDataController.getInstance()
-            .getLoggedInUser()
-            .hasPermission(User.Permission.EDIT_MAP);
+    extraMenu.managedProperty().bind(extraMenu.visibleProperty());
+    clear.managedProperty().bind(clear.visibleProperty());
+    accessible.managedProperty().bind(accessible.visibleProperty());
+    allDirections.managedProperty().bind(allDirections.visibleProperty());
+    HamburgerSlideCloseTransition hamburgerTransition = new HamburgerSlideCloseTransition(ham);
+    hamburgerTransition.setRate(-1);
+    ham.addEventHandler(
+        MouseEvent.MOUSE_CLICKED,
+        (e) -> {
+          hamburgerTransition.setRate(hamburgerTransition.getRate() * -1);
+          hamburgerTransition.play();
+          extraMenu.setVisible(!extraMenu.isVisible());
+          clear.setVisible(!clear.isVisible());
+          accessible.setVisible(!accessible.isVisible());
+        });
     setupMapViewHandlers();
     currentMapID = "Faulkner Lot";
     campusTab(new ActionEvent());
@@ -195,7 +214,6 @@ public class MapPathfindingControllerMobile extends MobileMapController {
   }
 
   // algorithm stuff
-
   @FXML
   public void onSwitch() {
     String begin = start.getText();
@@ -226,7 +244,6 @@ public class MapPathfindingControllerMobile extends MobileMapController {
 
   protected void displayDirections(ArrayList<String> directions) {
     ObservableList<String> items = FXCollections.observableArrayList(directions);
-    // System.out.println(items);
     directionsField.setItems(items);
   }
 

@@ -1,6 +1,9 @@
 package edu.wpi.cs3733.c21.teamI.view.maps;
 
 import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMapNode;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.util.List;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -23,7 +26,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.LinearGradient;
@@ -31,10 +33,6 @@ import javafx.scene.paint.Stop;
 import javafx.scene.shape.*;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.util.List;
 
 public abstract class MobileMapController extends Application {
   boolean adminMap = false;
@@ -385,9 +383,10 @@ public abstract class MobileMapController extends Application {
   protected static final int MIN_PIXELS = 200;
 
   protected void startZoomPan(AnchorPane zoomPane) {
+    mapImage.setPreserveRatio(true);
     mapImage.fitWidthProperty().bind(imageContainer.widthProperty());
     mapImage.fitHeightProperty().bind(imageContainer.heightProperty());
-    mapImage.setPreserveRatio(true);
+    System.out.println(mapImage.getFitHeight() + " " + mapImage.getFitWidth());
     double width = imgWidth;
     double height = imgHeight;
     reset(mapImage, width, height);
@@ -463,17 +462,21 @@ public abstract class MobileMapController extends Application {
 
   protected void resize() {
     if (mapImage != null && mapImage.getFitWidth() > 0) {
-      if (imageContainer.getHeight() / imageContainer.getWidth() > fullImgHeight / fullImgWidth) {
-        mapPane.setPrefWidth(mapImage.getFitWidth());
-        mapPane.setMaxWidth(mapImage.getFitWidth());
-        mapPane.setPrefHeight(mapImage.getFitWidth() * imgHeight / imgWidth);
-        mapPane.setMaxHeight(mapImage.getFitWidth() * imgHeight / imgWidth);
-      } else {
-        mapPane.setPrefHeight(mapImage.getFitHeight());
-        mapPane.setMaxHeight(mapImage.getFitHeight());
-        mapPane.setPrefWidth(mapImage.getFitHeight() * imgWidth / imgHeight);
-        mapPane.setMaxWidth(mapImage.getFitHeight() * imgWidth / imgHeight);
-      }
+      System.out.println(mapImage.getFitHeight() + " " + mapImage.getFitWidth());
+      //      if (imageContainer.getPrefHeight() / imageContainer.getPrefWidth()
+      //          > fullImgHeight / fullImgWidth) {
+      //        mapPane.setPrefWidth(mapImage.getFitWidth());
+      //        mapPane.setMaxWidth(mapImage.getFitWidth());
+      //        mapPane.setPrefHeight(mapImage.getFitWidth() * imgHeight / imgWidth);
+      //        mapPane.setMaxHeight(mapImage.getFitWidth() * imgHeight / imgWidth);
+      //      } else {
+      mapPane.setPrefHeight(mapImage.getFitHeight());
+      mapPane.setMaxHeight(mapImage.getFitHeight());
+      mapPane.setPrefWidth(mapImage.getFitHeight() * imgWidth / imgHeight);
+      mapPane.setMaxWidth(mapImage.getFitHeight() * imgWidth / imgHeight);
+      //      mapImage.getViewport().setWidth(mapImage.getFitHeight() * imgWidth / imgHeight);
+      //      mapImage.setMaxWidth(mapImage.getFitHeight() * imgWidth / imgHeight);
+      //      }
       Rectangle clip = new Rectangle(mapPane.getPrefWidth(), mapPane.getPrefHeight());
       clip.setLayoutX(0);
       clip.setLayoutY(0);
