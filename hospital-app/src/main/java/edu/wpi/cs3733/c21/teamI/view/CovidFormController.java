@@ -8,9 +8,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
-public class CovidFormController extends Application {
+public class CovidFormController  {
 
   @FXML
   JFXCheckBox soreThroatCheckbox,
@@ -26,21 +27,21 @@ public class CovidFormController extends Application {
       symptomCheckbox;
   @FXML JFXRadioButton covidYesRadioBtn, covidNoRadioBtn;
 
+  @FXML Label parkingIndication;
+
   @FXML JFXTextField tempTextfield;
   // @FXML JFXButton cancel, clear, submit;
 
-  @Override
-  public void start(Stage primaryStage) throws Exception {
-    Parent root = FXMLLoader.load(getClass().getResource("CovidForm.fxml"));
-    primaryStage.setTitle("Service Form Request");
-    Scene applicationScene = new Scene(root, 973, 800);
-    primaryStage.setScene(applicationScene);
-    primaryStage.show();
+
+
+  @FXML
+  public void initialize() {
+
   }
 
   public void submit() {
 
-    boolean symptoms, waitingForResult, suspect = false;
+    boolean symptoms = false, waitingForResult, suspect = false;
     double bodyTemperature = 97;
 
     if (soreThroatCheckbox.isSelected()
@@ -61,9 +62,10 @@ public class CovidFormController extends Application {
       waitingForResult = true;
     }
 
-    if (symptoms = true | bodyTemperature >= 99) {
+    if (symptoms == true | bodyTemperature >= 99) {
       suspect = true;
     }
+
   }
 
   public void clear() {
@@ -84,4 +86,15 @@ public class CovidFormController extends Application {
   }
 
   public void cancel() {}
+
+  /*
+  @
+   */
+  public void displayParkingSpot(int lotAssigned) {
+
+    parkingIndication.setText(
+        "Your parking spot is "
+            + String.valueOf(lotAssigned)
+            + ". Please take the following covid form before entering the hospital.");
+  }
 }
