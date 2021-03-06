@@ -91,7 +91,7 @@ public class MapEditingController extends MapController {
     } catch (URISyntaxException e) {
       e.printStackTrace();
     }
-    nodeMenu.setVisible(selectedInActiveMap() && selectedNode != null && adminMap);
+    nodeMenu.setVisible(selectedInActiveMap() && selectedNode.size() != 0 && adminMap);
     update();
   }
 
@@ -188,17 +188,24 @@ public class MapEditingController extends MapController {
     }
   }
 
-  public boolean toggleNode(HospitalMapNode node) {
-    if (selectedNode == null) {
-      selectedNode = node;
-      return true;
-    } else if (selectedNode.equals(node)) {
-      selectedNode = null;
-      return false;
+  public void toggleNode(HospitalMapNode node) {
+    if (selectedNode.size() == 0) {
+      selectedNode.add(node);
+      nodeMenu.setVisible(true);
+
+    } else if (selectedNode.size() == 1) {
+      nodeMenu.setVisible(false);
+      if (selectedNode.get(0).equals(node)) {
+        selectedNode.clear();
+
+      } else {
+        dataCont.addEdge(node, selectedNode.get(0));
+        selectedNode.clear();
+      }
     } else {
-      dataCont.addEdge(node, selectedNode);
-      selectedNode = null;
-      return false;
+      nodeMenu.setVisible(true);
+      selectedNode.clear();
+      selectedNode.add(node);
     }
   }
 
@@ -277,6 +284,29 @@ public class MapEditingController extends MapController {
     }
   }
 
+  @FXML
+  protected void straightenSelected(ActionEvent e) {
+    int minX = selectedNode.stream().mapToInt(HospitalMapNode::getxCoord).min().getAsInt();
+    int minY = selectedNode.stream().mapToInt(HospitalMapNode::getyCoord).min().getAsInt();
+    int maxX = selectedNode.stream().mapToInt(HospitalMapNode::getxCoord).max().getAsInt();
+    int maxY = selectedNode.stream().mapToInt(HospitalMapNode::getyCoord).max().getAsInt();
+    double xAvg =
+        selectedNode.stream().mapToInt(HospitalMapNode::getxCoord).average().getAsDouble();
+    double yAvg =
+        selectedNode.stream().mapToInt(HospitalMapNode::getyCoord).average().getAsDouble();
+
+    for (HospitalMapNode selected : selectedNode) {
+      if (maxX - minX > maxY - minY) {
+        selected.setyCoord((int) yAvg);
+        dataCont.editNode(selected.getID(), selected);
+      } else {
+        selected.setxCoord((int) xAvg);
+        dataCont.editNode(selected.getID(), selected);
+      }
+    }
+    update();
+  }
+
   protected Circle setMouseActions(Circle circle, HospitalMapNode node) {
     circle.setOnMouseEntered(
         t -> {
@@ -290,10 +320,19 @@ public class MapEditingController extends MapController {
         t -> {
           if (t.getButton() == MouseButton.PRIMARY) {
             if (!isDrag) {
-              nodeMenu.setVisible(toggleNode(node));
+              if (t.isShiftDown() && node.getMapID().equals(selectedNode.get(0).getMapID())) {
+                if (selectedNode.contains(node)) {
+                  selectedNode.remove(node);
+                } else {
+                  selectedNode.add(node);
+                }
+                nodeMenu.setVisible(selectedNode.size() == 1);
+              } else {
+                toggleNode(node);
+              }
             } else {
               panAllowed = true;
-              this.selectedNode = null;
+              this.selectedNode.clear();
               isDrag = false;
               Point2D mousePress = imageViewToImage(mapImage, new Point2D(t.getX(), t.getY()));
               movingNode.setxCoord((int) (mousePress.getX() / fullImgWidth * 100000));
@@ -302,7 +341,7 @@ public class MapEditingController extends MapController {
             }
             nodeDeleteButton.setOnAction(
                 e -> {
-                  nodeMenu.setVisible(toggleNode(node));
+                  toggleNode(node);
                   dataCont.deleteNode(node.getID());
                   update();
                 });
