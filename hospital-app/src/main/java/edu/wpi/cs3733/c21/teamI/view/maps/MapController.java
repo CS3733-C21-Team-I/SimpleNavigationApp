@@ -347,14 +347,13 @@ public abstract class MapController extends Application {
     return (selectedNode.size() != 0) && selectedNode.get(0).getMapID().equals(currentMapID);
   }
 
-  public boolean toggleNode(HospitalMapNode node) {
+  public void toggleNode(HospitalMapNode node) {
     if (selectedNode.size() == 0) {
       selectedNode.add(node);
-      return true;
+
     } else if (selectedNode.get(0).equals(node)) {
       selectedNode.clear();
     }
-    return false;
   }
 
   protected void makeNodeCircle(HospitalMapNode node) {

@@ -189,23 +189,24 @@ public class MapEditingController extends MapController {
     }
   }
 
-  public boolean toggleNode(HospitalMapNode node) {
+  public void toggleNode(HospitalMapNode node) {
     if (selectedNode.size() == 0) {
       selectedNode.add(node);
-      return true;
+      nodeMenu.setVisible(true);
+
     } else if (selectedNode.size() == 1) {
+      nodeMenu.setVisible(false);
       if (selectedNode.get(0).equals(node)) {
         selectedNode.clear();
-        return false;
+
       } else {
         dataCont.addEdge(node, selectedNode.get(0));
         selectedNode.clear();
-        return false;
       }
     } else {
+      nodeMenu.setVisible(true);
       selectedNode.clear();
       selectedNode.add(node);
-      return false;
     }
   }
 
@@ -299,8 +300,10 @@ public class MapEditingController extends MapController {
             if (!isDrag) {
               if (t.isShiftDown() && node.getMapID().equals(selectedNode.get(0).getMapID())) {
                 selectedNode.add(node);
+                nodeMenu.setVisible(selectedNode.size() == 1);
               } else {
-                nodeMenu.setVisible(toggleNode(node));
+                // check this, probably wack
+                toggleNode(node);
               }
             } else {
               panAllowed = true;
@@ -313,7 +316,7 @@ public class MapEditingController extends MapController {
             }
             nodeDeleteButton.setOnAction(
                 e -> {
-                  nodeMenu.setVisible(toggleNode(node));
+                  toggleNode(node);
                   dataCont.deleteNode(node.getID());
                   update();
                 });
