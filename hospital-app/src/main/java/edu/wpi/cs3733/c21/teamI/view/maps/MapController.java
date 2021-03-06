@@ -335,7 +335,7 @@ public abstract class MapController extends Application {
               transformX(selectedNode.getxCoord()),
               transformY(selectedNode.getyCoord()),
               20 / scale,
-              Color.PURPLE);
+              Color.YELLOW);
       mapPane.getChildren().add(circle);
     }
   }
@@ -370,7 +370,10 @@ public abstract class MapController extends Application {
     if (node instanceof LocationNode) {
       circle =
           makeCircle(
-              transformX(node.getxCoord()), transformY(node.getyCoord()), 12 / scale, Color.PURPLE);
+              transformX(node.getxCoord()),
+              transformY(node.getyCoord()),
+              12 / scale,
+              Color.DARKRED);
     } else {
       circle =
           makeCircle(

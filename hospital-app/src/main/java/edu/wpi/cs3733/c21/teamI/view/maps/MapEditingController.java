@@ -324,7 +324,7 @@ public class MapEditingController extends MapController {
           Circle newCircle =
               (Circle) mapPane.getChildren().get(mapPane.getChildren().indexOf(circle));
           if (node instanceof LocationNode) {
-            newCircle.setFill(Color.PURPLE);
+            newCircle.setFill(Color.DARKRED);
           } else {
             newCircle.setFill(Color.RED);
           }
