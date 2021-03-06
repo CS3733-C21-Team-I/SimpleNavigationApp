@@ -285,6 +285,29 @@ public class MapEditingController extends MapController {
     }
   }
 
+  @FXML
+  protected void straightenSelected(ActionEvent e) {
+    int minX = selectedNode.stream().mapToInt(HospitalMapNode::getxCoord).min().getAsInt();
+    int minY = selectedNode.stream().mapToInt(HospitalMapNode::getyCoord).min().getAsInt();
+    int maxX = selectedNode.stream().mapToInt(HospitalMapNode::getxCoord).max().getAsInt();
+    int maxY = selectedNode.stream().mapToInt(HospitalMapNode::getyCoord).max().getAsInt();
+    double xAvg =
+        selectedNode.stream().mapToInt(HospitalMapNode::getxCoord).average().getAsDouble();
+    double yAvg =
+        selectedNode.stream().mapToInt(HospitalMapNode::getyCoord).average().getAsDouble();
+
+    for (HospitalMapNode selected : selectedNode) {
+      if (maxX - minX > maxY - minY) {
+        selected.setyCoord((int) yAvg);
+        dataCont.editNode(selected.getID(), selected);
+      } else {
+        selected.setxCoord((int) xAvg);
+        dataCont.editNode(selected.getID(), selected);
+      }
+    }
+    update();
+  }
+
   protected Circle setMouseActions(Circle circle, HospitalMapNode node) {
     circle.setOnMouseEntered(
         t -> {
@@ -299,10 +322,13 @@ public class MapEditingController extends MapController {
           if (t.getButton() == MouseButton.PRIMARY) {
             if (!isDrag) {
               if (t.isShiftDown() && node.getMapID().equals(selectedNode.get(0).getMapID())) {
-                selectedNode.add(node);
+                if (selectedNode.contains(node)) {
+                  selectedNode.remove(node);
+                } else {
+                  selectedNode.add(node);
+                }
                 nodeMenu.setVisible(selectedNode.size() == 1);
               } else {
-                // check this, probably wack
                 toggleNode(node);
               }
             } else {
