@@ -5,6 +5,7 @@ import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
 import edu.wpi.cs3733.c21.teamI.database.NavDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.database.ServiceTicketDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.database.UserDatabaseManager;
+import edu.wpi.cs3733.c21.teamI.ticket.AudioVisualTicket;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicket;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicketDataController;
 import edu.wpi.cs3733.c21.teamI.user.User;
@@ -39,12 +40,13 @@ public class AudioVisualRequestController {
               .getUserForScreenname(requestAssigned.getText())
               .getUserId();
       ticket =
-          new ServiceTicket(
+          new AudioVisualTicket(
               RequestID,
-              ServiceTicket.TicketType.AUDIO_VISUAL,
               NavDatabaseManager.getInstance().getMapIdFromLongName(roomNumber.getText()),
               requestDetails.getText(),
-              false);
+              false,
+              patientName.getText(),
+              (String) typeRequested.getSelectionModel().getSelectedItem());
       ticket.addAssignedUserID(AssignedID);
       int id = ServiceTicketDatabaseManager.getInstance().addTicket(ticket);
       ServiceTicketDatabaseManager.getInstance().addEmployeeForTicket(id, AssignedID);

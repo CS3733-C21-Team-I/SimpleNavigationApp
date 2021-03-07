@@ -1,25 +1,23 @@
 package edu.wpi.cs3733.c21.teamI.ticket;
 
-public class GiftTicket extends ServiceTicket {
+public class GiftTicket {
   private String deliveryDate;
   private String deliveryTime;
   private String giftType;
   private String patientName;
+  private String location;
 
   public GiftTicket(
-      int requestID,
-      String location,
-      String desc,
-      boolean completed,
       String deliveryDate,
       String deliveryTime,
       String giftType,
-      String patientName) {
-    super(requestID, TicketType.GIFT, location, desc, completed);
+      String patientName,
+      String roomNum) {
     this.deliveryDate = deliveryDate;
     this.deliveryTime = deliveryTime;
     this.giftType = giftType;
     this.patientName = patientName;
+    this.location = roomNum;
   }
 
   public String getDeliveryDate() {
@@ -36,5 +34,9 @@ public class GiftTicket extends ServiceTicket {
 
   public String getPatientName() {
     return patientName;
+  }
+
+  public String getLocation() {
+    return location;
   }
 }

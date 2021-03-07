@@ -4,7 +4,6 @@ public class MedicineTicket extends ServiceTicket {
   private String patientName;
   private String drugName;
   private String dose;
-  private String quantity;
   private String date;
   private String time;
 
@@ -16,14 +15,12 @@ public class MedicineTicket extends ServiceTicket {
       String patientName,
       String drugName,
       String dose,
-      String quantity,
       String date,
       String time) {
     super(requestID, TicketType.MEDICINE, location, desc, completed);
     this.patientName = patientName;
     this.drugName = drugName;
     this.dose = dose;
-    this.quantity = quantity;
     this.date = date;
     this.time = time;
   }
@@ -38,10 +35,6 @@ public class MedicineTicket extends ServiceTicket {
 
   public String getDose() {
     return dose;
-  }
-
-  public String getQuantity() {
-    return quantity;
   }
 
   public String getDate() {
