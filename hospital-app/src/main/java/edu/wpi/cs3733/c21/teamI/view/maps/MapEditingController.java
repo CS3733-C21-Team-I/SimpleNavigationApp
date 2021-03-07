@@ -36,16 +36,16 @@ public class MapEditingController extends MapController {
   @FXML TextField nodePath, edgePath;
   protected HospitalMapNode movingNode;
   private static final MapEditDataController dataCont = new MapEditDataController();
+  private boolean shift;
 
   // setup stuff
   @FXML
   public void initialize() throws IOException {
     System.out.println("Initializing editing controller...");
-    currentMapID = "Faulkner Lot";
-    floor1Tab(new ActionEvent());
-    campusTab(new ActionEvent());
-    boolean isAdmin = true;
     navigateButton.setVisible(true);
+    currentMapID = "Faulkner Lot";
+    currentTab = null;
+    campusTab(new ActionEvent());
   }
 
   @FXML
@@ -92,7 +92,7 @@ public class MapEditingController extends MapController {
     } catch (URISyntaxException e) {
       e.printStackTrace();
     }
-    nodeMenu.setVisible(selectedInActiveMap() && selectedNode != null && adminMap);
+    nodeMenu.setVisible(selectedInActiveMap() && selectedNode.size() != 0 && adminMap);
     update();
   }
 
@@ -189,145 +189,123 @@ public class MapEditingController extends MapController {
     }
   }
 
-  public boolean toggleNode(HospitalMapNode node) {
-    if (selectedNode == null) {
-      selectedNode = node;
-      return true;
-    } else if (selectedNode.equals(node)) {
-      selectedNode = null;
-      return false;
+  public void toggleNode(HospitalMapNode node) {
+    if (selectedNode.size() == 0) {
+      selectedNode.add(node);
+      nodeMenu.setVisible(true);
+
+    } else if (selectedNode.size() == 1) {
+      nodeMenu.setVisible(false);
+      if (selectedNode.get(0).equals(node)) {
+        selectedNode.clear();
+
+      } else {
+        dataCont.addEdge(node, selectedNode.get(0));
+        selectedNode.clear();
+      }
     } else {
-      dataCont.addEdge(node, selectedNode);
-      selectedNode = null;
-      return false;
+      nodeMenu.setVisible(true);
+      selectedNode.clear();
+      selectedNode.add(node);
     }
   }
 
   protected void drawEdges(HospitalMapNode parent) {
     Image xIconImg = new Image("/fxml/fxmlResources/redxicon.png");
     for (HospitalMapNode child : parent.getConnections()) {
-      if (dataCont.getActiveMap().getNodes().contains(child)
-          && dataCont.getActiveMap().getNodes().contains(parent)) {
-        ImageView xMarker = new ImageView();
-        xMarker.setImage(xIconImg);
-        xMarker.setFitHeight(12);
-        xMarker.setFitWidth(12);
-        xMarker.setVisible(false);
-        xMarker.setStyle("-fx-cursor: hand");
-        mapPane.getChildren().add(xMarker);
-        Line line =
-            LineBuilder.create()
-                .startX(clamp(transformX(parent.getxCoord()), 0, mapPane.getPrefWidth()))
-                .startY(clamp(transformY(parent.getyCoord()), 0, mapPane.getPrefHeight()))
-                .endX(clamp(transformX(child.getxCoord()), 0, mapPane.getPrefWidth()))
-                .endY(clamp(transformY(child.getyCoord()), 0, mapPane.getPrefHeight()))
-                .stroke(Color.ORANGE)
-                .strokeWidth(10 / scale)
-                .build();
-        line.setStyle("-fx-cursor: hand");
-        mapPane.getChildren().add(line);
-        line.setOnMouseEntered(
-            t -> {
-              xMarker.setVisible(true);
-              xMarker.toFront();
-              xMarker.setX(
-                  transformX((parent.getxCoord() + child.getxCoord()) / 2)
-                      - xMarker.getFitWidth() / 2);
-              xMarker.setY(
-                  transformY((parent.getyCoord() + child.getyCoord()) / 2)
-                      - xMarker.getFitHeight() / 2);
-            });
-        line.setOnMouseExited(
-            t -> {
-              line.setStroke(Color.ORANGE);
-              xMarker.setVisible(false);
-            });
-        line.setOnMouseClicked(
-            t -> {
-              mapPane.getChildren().remove(line);
-              dataCont.deleteEdge(parent, child);
-              update();
-            });
-        xMarker.setOnMouseEntered(
-            t -> {
-              xMarker.setVisible(true);
-            });
-        xMarker.setOnMouseClicked(
-            t -> {
-              mapPane.getChildren().remove(line);
-              dataCont.deleteEdge(parent, child);
-              update();
-            });
-        xMarker.setOnMouseExited(
-            t -> {
-              xMarker.setVisible(false);
-            });
+      HospitalMapNode startNode =
+          dataCont.getActiveMap().getNodes().contains(parent) ? parent : child;
+      HospitalMapNode endNode = child;
+      Color color = Color.ORANGE;
+      if (!dataCont.getActiveMap().getNodes().contains(child)
+          || !dataCont.getActiveMap().getNodes().contains(parent)) {
+        endNode =
+            new HospitalMapNode(
+                null,
+                null,
+                (int) (startNode.getxCoord() - mapPane.getPrefWidth()),
+                (int) (startNode.getyCoord() - mapPane.getPrefWidth()),
+                null);
+        color = Color.GREEN;
+      }
+      ImageView xMarker = new ImageView();
+      xMarker.setImage(xIconImg);
+      xMarker.setFitHeight(12);
+      xMarker.setFitWidth(12);
+      xMarker.setVisible(false);
+      xMarker.setStyle("-fx-cursor: hand");
+      mapPane.getChildren().add(xMarker);
+      Line line =
+          LineBuilder.create()
+              .startX(transformX(startNode.getxCoord()))
+              .startY(transformY(startNode.getyCoord()))
+              .endX(transformX(endNode.getxCoord()))
+              .endY(transformY(endNode.getyCoord()))
+              .stroke(color)
+              .strokeWidth(10 / scale)
+              .build();
+      line.setStyle("-fx-cursor: hand");
+      mapPane.getChildren().add(line);
+      HospitalMapNode finalEndNode = endNode;
+      line.setOnMouseEntered(
+          t -> {
+            xMarker.setVisible(true);
+            xMarker.toFront();
+            xMarker.setX(
+                transformX((startNode.getxCoord() + finalEndNode.getxCoord()) / 2)
+                    - xMarker.getFitWidth() / 2);
+            xMarker.setY(
+                transformY((startNode.getyCoord() + finalEndNode.getyCoord()) / 2)
+                    - xMarker.getFitHeight() / 2);
+          });
+      line.setOnMouseExited(
+          t -> {
+            xMarker.setVisible(false);
+          });
+      line.setOnMouseClicked(
+          t -> {
+            mapPane.getChildren().remove(line);
+            dataCont.deleteEdge(parent, child);
+            update();
+          });
+      xMarker.setOnMouseEntered(
+          t -> {
+            xMarker.setVisible(true);
+          });
+      xMarker.setOnMouseClicked(
+          t -> {
+            mapPane.getChildren().remove(line);
+            dataCont.deleteEdge(parent, child);
+            update();
+          });
+      xMarker.setOnMouseExited(
+          t -> {
+            xMarker.setVisible(false);
+          });
+    }
+  }
+
+  @FXML
+  protected void straightenSelected(ActionEvent e) {
+    int minX = selectedNode.stream().mapToInt(HospitalMapNode::getxCoord).min().getAsInt();
+    int minY = selectedNode.stream().mapToInt(HospitalMapNode::getyCoord).min().getAsInt();
+    int maxX = selectedNode.stream().mapToInt(HospitalMapNode::getxCoord).max().getAsInt();
+    int maxY = selectedNode.stream().mapToInt(HospitalMapNode::getyCoord).max().getAsInt();
+    double xAvg =
+        selectedNode.stream().mapToInt(HospitalMapNode::getxCoord).average().getAsDouble();
+    double yAvg =
+        selectedNode.stream().mapToInt(HospitalMapNode::getyCoord).average().getAsDouble();
+
+    for (HospitalMapNode selected : selectedNode) {
+      if (maxX - minX > maxY - minY) {
+        selected.setyCoord((int) yAvg);
+        dataCont.editNode(selected.getID(), selected);
       } else {
-        ImageView xMarker = new ImageView();
-        xMarker.setImage(xIconImg);
-        xMarker.setFitHeight(12);
-        xMarker.setFitWidth(12);
-        xMarker.setVisible(false);
-        xMarker.setStyle("-fx-cursor: hand");
-        mapPane.getChildren().add(xMarker);
-        HospitalMapNode nodeInMap =
-            dataCont.getActiveMap().getNodes().contains(parent) ? parent : child;
-        Line line =
-            LineBuilder.create()
-                .startX(clamp(transformX(nodeInMap.getxCoord()), 0, mapPane.getPrefWidth()))
-                .startY(clamp(transformY(nodeInMap.getyCoord()), 0, mapPane.getPrefHeight()))
-                .endX(
-                    clamp(
-                        transformX(nodeInMap.getxCoord() - mapPane.getPrefHeight()),
-                        0,
-                        mapPane.getPrefWidth()))
-                .endY(
-                    clamp(
-                        transformY(nodeInMap.getyCoord() - mapPane.getPrefHeight()),
-                        0,
-                        mapPane.getPrefHeight()))
-                .stroke(Color.GREEN)
-                .strokeWidth(10 / scale)
-                .build();
-        line.setStyle("-fx-cursor: hand");
-        mapPane.getChildren().add(line);
-        line.setOnMouseEntered(
-            t -> {
-              xMarker.setVisible(true);
-              xMarker.toFront();
-              xMarker.setX(
-                  transformX(nodeInMap.getxCoord() - (mapPane.getPrefHeight() / 2))
-                      - xMarker.getFitWidth() / 2);
-              xMarker.setY(
-                  transformY(nodeInMap.getyCoord() - (mapPane.getPrefHeight() / 2))
-                      - xMarker.getFitHeight() / 2);
-            });
-        line.setOnMouseExited(
-            t -> {
-              xMarker.setVisible(false);
-            });
-        line.setOnMouseClicked(
-            t -> {
-              mapPane.getChildren().remove(line);
-              dataCont.deleteEdge(parent, child);
-              update();
-            });
-        xMarker.setOnMouseEntered(
-            t -> {
-              xMarker.setVisible(true);
-            });
-        xMarker.setOnMouseClicked(
-            t -> {
-              mapPane.getChildren().remove(line);
-              dataCont.deleteEdge(parent, child);
-              update();
-            });
-        xMarker.setOnMouseExited(
-            t -> {
-              xMarker.setVisible(false);
-            });
+        selected.setxCoord((int) xAvg);
+        dataCont.editNode(selected.getID(), selected);
       }
     }
+    update();
   }
 
   protected Circle setMouseActions(Circle circle, HospitalMapNode node) {
@@ -343,19 +321,51 @@ public class MapEditingController extends MapController {
         t -> {
           if (t.getButton() == MouseButton.PRIMARY) {
             if (!isDrag) {
-              nodeMenu.setVisible(toggleNode(node));
+              if (t.isShiftDown() && node.getMapID().equals(selectedNode.get(0).getMapID())) {
+                shift = true;
+                if (selectedNode.contains(node)) {
+                  selectedNode.remove(node);
+                } else {
+                  selectedNode.add(node);
+                }
+                nodeMenu.setVisible(selectedNode.size() == 1);
+              } else {
+                shift = false;
+                toggleNode(node);
+              }
             } else {
               panAllowed = true;
-              this.selectedNode = null;
               isDrag = false;
               Point2D mousePress = imageViewToImage(mapImage, new Point2D(t.getX(), t.getY()));
-              movingNode.setxCoord((int) (mousePress.getX() / fullImgWidth * 100000));
-              movingNode.setyCoord((int) (mousePress.getY() / fullImgHeight * 100000));
+              int currentX = (int) (mousePress.getX() / fullImgWidth * 100000);
+              int currentY = (int) (mousePress.getY() / fullImgHeight * 100000);
+
+              if (shift) {
+                int x = 0, y = 0;
+                for (HospitalMapNode n : this.selectedNode) {
+                  if (n.getID().equals(movingNode.getID())) {
+                    x = n.getxCoord();
+                    y = n.getyCoord();
+                  }
+                }
+                int xOffset = currentX - x;
+                int yOffset = currentY - y;
+                this.selectedNode.removeIf(n -> n.getID().equals(movingNode.getID()));
+                for (HospitalMapNode n : this.selectedNode) {
+                  n.setxCoord(n.getxCoord() + xOffset);
+                  n.setyCoord(n.getyCoord() + yOffset);
+                  dataCont.editNode(n.getID(), n);
+                }
+              }
+              movingNode.setxCoord(currentX);
+              movingNode.setyCoord(currentY);
               dataCont.editNode(movingNode.getID(), movingNode);
+
+              this.selectedNode.clear();
             }
             nodeDeleteButton.setOnAction(
                 e -> {
-                  nodeMenu.setVisible(toggleNode(node));
+                  toggleNode(node);
                   dataCont.deleteNode(node.getID());
                   update();
                 });
@@ -376,7 +386,11 @@ public class MapEditingController extends MapController {
         t -> {
           Circle newCircle =
               (Circle) mapPane.getChildren().get(mapPane.getChildren().indexOf(circle));
-          newCircle.setFill(Color.RED);
+          if (node instanceof LocationNode) {
+            newCircle.setFill(Color.DARKRED);
+          } else {
+            newCircle.setFill(Color.RED);
+          }
           newCircle.setRadius(12 / scale);
           circle.setStyle("-fx-cursor: default");
         });
@@ -389,8 +403,23 @@ public class MapEditingController extends MapController {
           newCircle.setFill(Color.YELLOW);
           newCircle.setCenterX(t.getX());
           newCircle.setCenterY(t.getY());
-          HospitalMapNode newNode =
-              new HospitalMapNode(node.getID(), node.getMapID(), 0, 0, node.getConnections());
+          HospitalMapNode newNode;
+          if (node instanceof LocationNode) {
+            newNode =
+                new LocationNode(
+                    node.getID(),
+                    node.getMapID(),
+                    0,
+                    0,
+                    ((LocationNode) node).getShortName(),
+                    ((LocationNode) node).getLongName(),
+                    ((LocationNode) node).getLocationCategory(),
+                    ((LocationNode) node).getTeamAssigned(),
+                    node.getConnections());
+          } else {
+            newNode =
+                new HospitalMapNode(node.getID(), node.getMapID(), 0, 0, node.getConnections());
+          }
           movingNode = newNode;
           isDrag = true;
         });

@@ -2,6 +2,7 @@ package edu.wpi.cs3733.c21.teamI.hospitalMap.mapEditing;
 
 import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMap;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMapNode;
+import edu.wpi.cs3733.c21.teamI.hospitalMap.MapDataEntity;
 
 public abstract class MapEditCommand {
 
@@ -146,12 +147,25 @@ class AddEdgeCommand extends MapEditCommand {
   @Override
   void execute() {
     memento = new HospitalMap(controller.getActiveMap());
-    // fromNode.addConnection(toNode);
-    // toNode.addConnection(fromNode);
-    controller.getActiveMap().getNode(fromNode.getID()).addConnection(toNode);
-    controller.getActiveMap().getNode(toNode.getID()).addConnection(fromNode);
-    System.out.println("Fromnodeconnections:" + fromNode.getConnections());
-    System.out.println("Fromnodeconnections:" + fromNode.getConnections());
+
+    try {
+      controller.getActiveMap().getNode(fromNode.getID()).addConnection(toNode);
+    } catch (Exception e) {
+      for (HospitalMap map : MapDataEntity.getMap().values()) {
+        if (map.getNodes().contains(fromNode)) {
+          map.getNode(fromNode.getID()).addConnection(toNode);
+        }
+      }
+    }
+    try {
+      controller.getActiveMap().getNode(toNode.getID()).addConnection(fromNode);
+    } catch (Exception e) {
+      for (HospitalMap map : MapDataEntity.getMap().values()) {
+        if (map.getNodes().contains(toNode)) {
+          map.getNode(toNode.getID()).addConnection(fromNode);
+        }
+      }
+    }
   }
 
   @Override
@@ -181,16 +195,36 @@ class DeleteEdgeCommand extends MapEditCommand {
   void execute() {
     memento = new HospitalMap(controller.getActiveMap());
 
-    controller
-        .getActiveMap()
-        .getNode(fromNode.getID())
-        .getConnections()
-        .removeIf(n -> n.getID().equals(toNode.getID()));
-    controller
-        .getActiveMap()
-        .getNode(toNode.getID())
-        .getConnections()
-        .removeIf(n -> n.getID().equals(fromNode.getID()));
+    try {
+      controller
+          .getActiveMap()
+          .getNode(fromNode.getID())
+          .getConnections()
+          .removeIf(n -> n.getID().equals(toNode.getID()));
+    } catch (Exception e) {
+      for (HospitalMap map : MapDataEntity.getMap().values()) {
+        if (map.getNodes().contains(fromNode)) {
+          map.getNode(fromNode.getID())
+              .getConnections()
+              .removeIf(n -> n.getID().equals(toNode.getID()));
+        }
+      }
+    }
+    try {
+      controller
+          .getActiveMap()
+          .getNode(toNode.getID())
+          .getConnections()
+          .removeIf(n -> n.getID().equals(fromNode.getID()));
+    } catch (Exception e) {
+      for (HospitalMap map : MapDataEntity.getMap().values()) {
+        if (map.getNodes().contains(toNode)) {
+          map.getNode(toNode.getID())
+              .getConnections()
+              .removeIf(n -> n.getID().equals(fromNode.getID()));
+        }
+      }
+    }
   }
 
   @Override
