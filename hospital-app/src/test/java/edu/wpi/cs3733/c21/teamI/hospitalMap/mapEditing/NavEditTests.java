@@ -1,16 +1,16 @@
-package edu.wpi.cs3733.c21.teamI.hospitalMap.mapEditing;
+ package edu.wpi.cs3733.c21.teamI.hospitalMap.mapEditing;
 
-import static org.junit.jupiter.api.Assertions.*;
+ import static org.junit.jupiter.api.Assertions.*;
 
-import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMap;
-import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMapCSVBuilder;
-import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMapNode;
-import edu.wpi.cs3733.c21.teamI.hospitalMap.LocationNode;
-import java.util.ArrayList;
-import java.util.Map;
-import org.junit.jupiter.api.Test;
+ import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMap;
+ import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMapCSVBuilder;
+ import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMapNode;
+ import edu.wpi.cs3733.c21.teamI.hospitalMap.LocationNode;
+ import java.util.ArrayList;
+ import java.util.Map;
+ import org.junit.jupiter.api.Test;
 
-public class NavEditTests {
+ public class NavEditTests {
 
   @Test
   public void mapCloneConstructorTest() {
@@ -329,4 +329,4 @@ public class NavEditTests {
             .getConnections()
             .contains(controller.getActiveMap().getNode("N01")));
   }
-}
+ }

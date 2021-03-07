@@ -1,7 +1,5 @@
 package edu.wpi.cs3733.c21.teamI.view;
 
-import static com.jfoenix.controls.pannable.gestures.PanningGestures.clamp;
-
 import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.*;
@@ -507,7 +505,7 @@ public class MapController extends Application {
         data.pathFinderAlgorithm = new BreadthFirstSearch();
         break;
       default:
-        data.pathFinderAlgorithm = new PathFinder();
+        data.pathFinderAlgorithm = new A_Star();
         break;
     }
   }

@@ -1,7 +1,7 @@
 package edu.wpi.cs3733.c21.teamI.hospitalMap;
 
 import edu.wpi.cs3733.c21.teamI.database.NavDatabaseManager;
-import edu.wpi.cs3733.c21.teamI.pathfinding.PathFinder;
+import edu.wpi.cs3733.c21.teamI.pathfinding.A_Star;
 import edu.wpi.cs3733.c21.teamI.pathfinding.PathPlanningAlgorithm;
 import edu.wpi.cs3733.c21.teamI.pathfinding.TextDirections;
 import java.util.*;
@@ -14,7 +14,7 @@ import javafx.scene.input.KeyEvent;
 public class MapDataEntity {
 
   public EuclidianDistCalc scorer = new EuclidianDistCalc();
-  public PathPlanningAlgorithm pathFinderAlgorithm = new PathFinder();
+  public PathPlanningAlgorithm pathFinderAlgorithm = new A_Star();
   private List<HospitalMapNode> foundPath;
 
   private ArrayList<String> foundPathDescription = new ArrayList<>();
