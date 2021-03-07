@@ -12,9 +12,9 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -43,7 +43,6 @@ public class HomeController extends Application {
 
   ProfileController profileController;
   VisitorMenuController visitorMenuController;
-  private Stage stage;
 
   @FXML
   public void initClock() {
@@ -65,9 +64,14 @@ public class HomeController extends Application {
   }
 
   @FXML
-  public void goToMobile(ActionEvent e) throws IOException {
-    stage.setScene(
-        new Scene(FXMLLoader.load(getClass().getResource("/fxml/MobilePages/GoogleMaps.fxml"))));
+  public void goToMobile() throws IOException {
+    Group root = new Group();
+    root.getChildren()
+        .add(FXMLLoader.load(getClass().getResource("/fxml/MobilePages/GoogleMaps.fxml")));
+    Scene mobile = new Scene(root, 306, 544);
+    Stage stage = new Stage();
+    stage.setScene(mobile);
+    stage.show();
   }
 
   //  public void navigate(ActionEvent e) throws IOException {
@@ -107,8 +111,8 @@ public class HomeController extends Application {
 
   @Override
   public void start(Stage primaryStage) throws Exception {
-    //    Parent root = FXMLLoader.load(getClass().getResource("/fxml/menuFiles/Menu.fxml"));
-    Parent root = FXMLLoader.load(getClass().getResource("/fxml/MobilePages/GoogleMaps.fxml"));
+    Parent root = FXMLLoader.load(getClass().getResource("/fxml/menuFiles/Menu.fxml"));
+    // Parent root = FXMLLoader.load(getClass().getResource("/fxml/MobilePages/GoogleMaps.fxml"));
     primaryStage.setTitle("Hospital App");
     Scene applicationScene = new Scene(root, 973, 800);
     ViewManager.setReplacePane(replacePane);
@@ -116,7 +120,6 @@ public class HomeController extends Application {
     primaryStage.setMinHeight(800);
     primaryStage.setMinWidth(1000);
     primaryStage.setMaximized(true);
-    this.stage = primaryStage;
     primaryStage.show();
   }
 
@@ -174,23 +177,25 @@ public class HomeController extends Application {
 
   @FXML
   public void initialize() throws IOException {
-    initClock();
-    update();
+    if (timeLabel != null) {
+      initClock();
+      update();
 
-    HamburgerSlideCloseTransition hamburgerTransition = new HamburgerSlideCloseTransition(ham1);
-    hamburgerTransition.setRate(-1);
-    ham1.addEventHandler(
-        MouseEvent.MOUSE_CLICKED,
-        (e) -> {
-          hamburgerTransition.setRate(hamburgerTransition.getRate() * -1);
-          hamburgerTransition.play();
+      HamburgerSlideCloseTransition hamburgerTransition = new HamburgerSlideCloseTransition(ham1);
+      hamburgerTransition.setRate(-1);
+      ham1.addEventHandler(
+          MouseEvent.MOUSE_CLICKED,
+          (e) -> {
+            hamburgerTransition.setRate(hamburgerTransition.getRate() * -1);
+            hamburgerTransition.play();
 
-          if (drawer.isOpened()) {
-            drawer.close();
-          } else {
-            drawer.open();
-          }
-        });
+            if (drawer.isOpened()) {
+              drawer.close();
+            } else {
+              drawer.open();
+            }
+          });
+    }
     //    if (ApplicationDataController.getInstance()
     //        .getLoggedInUser()
     //        .hasPermission(User.Permission.VIEW_TICKET)) {
