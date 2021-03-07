@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTabPane?>
+<?import javafx.geometry.Insets?>
+<?import javafx.geometry.Rectangle2D?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<StackPane fx:id="rootPane" alignment="TOP_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamI.view.maps.MapEditingController">
+    <children>
+        <HBox alignment="TOP_RIGHT" nodeOrientation="LEFT_TO_RIGHT" StackPane.alignment="TOP_RIGHT">
+            <children>
+                <VBox fx:id="stackContainer" alignment="TOP_RIGHT" nodeOrientation="LEFT_TO_RIGHT" HBox.hgrow="ALWAYS">
+                    <children>
+                        <JFXTabPane maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="50.0" stylesheets="@fxmlResources/tab.css" tabMaxHeight="50.0" tabMaxWidth="0.0" tabMinHeight="50.0">
+                            <tabs>
+                                <Tab fx:id="campus" onSelectionChanged="#campusTab" text="Campus" />
+                                <Tab fx:id="floor1" onSelectionChanged="#floor1Tab" text="Floor 1" />
+                                <Tab fx:id="floor2" onSelectionChanged="#floor2Tab" text="Floor 2" />
+                                <Tab fx:id="floor3" onSelectionChanged="#floor3Tab" text="Floor 3" />
+                                <Tab fx:id="floor4" onSelectionChanged="#floor4Tab" text="Floor 4" />
+                                <Tab fx:id="floor6" onSelectionChanged="#floor5Tab" text="Floor 5" />
+                            </tabs>
+                        </JFXTabPane>
+                        <StackPane fx:id="imageContainer" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="589.0" style="-fx-background-color: white;" VBox.vgrow="ALWAYS">
+                            <children>
+                                <ImageView fx:id="mapImage" fitHeight="10.0" fitWidth="10.0" pickOnBounds="true" StackPane.alignment="CENTER">
+                                    <viewport>
+                                        <Rectangle2D />
+                                    </viewport>
+                                </ImageView>
+                                <AnchorPane fx:id="mapPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="0.0" prefWidth="0.0" StackPane.alignment="CENTER" />
+                                <AnchorPane fx:id="nodeMenu" maxHeight="250.0" maxWidth="250.0" minHeight="250.0" prefHeight="250.0" prefWidth="300.0" style="-fx-background-color: #F1F1F1; -fx-border-style: solid;" visible="false" StackPane.alignment="BOTTOM_RIGHT">
+                                    <children>
+                                        <Label layoutX="105.0" layoutY="9.0" text="Edit Node">
+                                            <padding>
+                                                <Insets bottom="16.0" left="16.0" right="16.0" top="16.0" />
+                                            </padding>
+                                            <font>
+                                                <Font size="18.0" />
+                                            </font>
+                                        </Label>
+                                        <Label layoutX="17.0" layoutY="144.0" text="Long Name">
+                                            <padding>
+                                                <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+                                            </padding>
+                                        </Label>
+                                        <TextField fx:id="lNameField" layoutX="105.0" layoutY="146.0" prefWidth="180.0">
+                                            <padding>
+                                                <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+                                            </padding>
+                                        </TextField>
+                                        <Label layoutX="14.0" layoutY="76.0" text="Short Name">
+                                            <padding>
+                                                <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+                                            </padding>
+                                        </Label>
+                                        <TextField fx:id="sNameField" layoutX="105.0" layoutY="76.0" prefWidth="180.0">
+                                            <padding>
+                                                <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+                                            </padding>
+                                        </TextField>
+                                        <Button fx:id="nodeDeleteButton" layoutX="106.0" layoutY="197.0" mnemonicParsing="false" style="-fx-background-color: rgb(1, 45, 90); -fx-text-fill: white; " styleClass="styledButton" text="Delete Selected Node">
+                                            <cursor>
+                                                <Cursor fx:constant="HAND" />
+                                            </cursor>
+                                        </Button>
+                                        <Button fx:id="saveButton" layoutX="23.0" layoutY="197.0" mnemonicParsing="false" style="-fx-background-color: rgb(1, 45, 90); -fx-text-fill: white; " styleClass="styledButton" text="Save">
+                                            <cursor>
+                                                <Cursor fx:constant="HAND" />
+                                            </cursor>
+                                        </Button>
+                                    </children>
+                                </AnchorPane>
+                            </children>
+                            <VBox.margin>
+                                <Insets />
+                            </VBox.margin>
+                        </StackPane>
+                    </children>
+                </VBox>
+                <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="350.0" minWidth="350.0" prefWidth="350.0" style="-fx-background-color: #012D5A;" HBox.hgrow="NEVER">
+                    <children>
+                        <JFXButton fx:id="navigateButton" buttonType="RAISED" onAction="#toggleEditMap" style="-fx-background-color: #0067b1;" text="Pathfinding" textFill="WHITE">
+                            <font>
+                                <Font name="System Bold" size="18.0" />
+                            </font>
+                            <VBox.margin>
+                                <Insets bottom="10.0" />
+                            </VBox.margin>
+                        </JFXButton>
+                        <HBox alignment="CENTER" prefHeight="100.0">
+                            <children>
+                                <Button fx:id="undoButton" maxHeight="50.0" maxWidth="50.0" minHeight="50.0" minWidth="120.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: #0067b1; -fx-background-radius: 100;" text="Undo" textFill="WHITE">
+                                    <cursor>
+                                        <Cursor fx:constant="HAND" />
+                                    </cursor>
+                                    <graphic>
+                                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" smooth="false">
+                                            <image>
+                                                <Image url="@fxmlResources/undo_arrow.png" />
+                                            </image>
+                                        </ImageView>
+                                    </graphic>
+                                    <font>
+                                        <Font size="18.0" />
+                                    </font>
+                                    <HBox.margin>
+                                        <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+                                    </HBox.margin>
+                                </Button>
+                                <Button fx:id="redoButton" maxHeight="50.0" maxWidth="50.0" minHeight="50.0" minWidth="120.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: #0067b1; -fx-background-radius: 100;" text="Redo" textFill="WHITE">
+                                    <cursor>
+                                        <Cursor fx:constant="HAND" />
+                                    </cursor>
+                                    <graphic>
+                                        <ImageView fitHeight="277.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                            <image>
+                                                <Image url="@fxmlResources/redo_arrow.png" />
+                                            </image>
+                                        </ImageView>
+                                    </graphic>
+                                    <font>
+                                        <Font size="18.0" />
+                                    </font>
+                                    <HBox.margin>
+                                        <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+                                    </HBox.margin>
+                                </Button>
+                            </children>
+                            <VBox.margin>
+                                <Insets top="15.0" />
+                            </VBox.margin>
+                        </HBox>
+                        <HBox alignment="CENTER">
+                            <children>
+                                <Button fx:id="save" maxWidth="30.0" minHeight="30.0" minWidth="100.0" mnemonicParsing="false" onAction="#saveChanges" prefWidth="100.0" style="-fx-background-color: rgb(1, 45, 90); -fx-background-radius: 100;" text="Save" textFill="WHITE">
+                                    <cursor>
+                                        <Cursor fx:constant="HAND" />
+                                    </cursor>
+                                    <graphic>
+                                        <ImageView fitHeight="27.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true">
+                                            <image>
+                                                <Image url="@fxmlResources/baseline_save_white_18dp.png" />
+                                            </image>
+                                        </ImageView>
+                                    </graphic>
+                                    <font>
+                                        <Font size="18.0" />
+                                    </font>
+                                </Button>
+                                <Button fx:id="discard" maxWidth="30.0" minHeight="30.0" minWidth="120.0" mnemonicParsing="false" onAction="#discardChanges" prefWidth="120.0" style="-fx-background-color: rgb(1, 45, 90); -fx-background-radius: 100;" text="Revert" textFill="WHITE">
+                                    <cursor>
+                                        <Cursor fx:constant="HAND" />
+                                    </cursor>
+                                    <graphic>
+                                        <ImageView fitHeight="27.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
+                                            <image>
+                                                <Image url="@fxmlResources/baseline_restart_alt_white_18dp.png" />
+                                            </image>
+                                        </ImageView>
+                                    </graphic>
+                                    <font>
+                                        <Font size="18.0" />
+                                    </font>
+                                </Button>
+                            </children>
+                        </HBox>
+                  <JFXButton buttonType="RAISED" onAction="#straightenSelected" style="-fx-background-color: #0067b1;" text="Straighten Selected Nodes" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets top="20.0" />
+                     </VBox.margin>
+                  </JFXButton>
+                        <HBox style="-fx-border-color: #0459ae; -fx-border-width: 2;">
+                            <children>
+                                <Label text="Please save before switching floors or changes may be lost." textFill="WHITE" wrapText="true">
+                                    <font>
+                                        <Font size="14.0" />
+                                    </font>
+                                </Label>
+                            </children>
+                            <VBox.margin>
+                                <Insets bottom="10.0" left="10.0" right="10.0" top="20.0" />
+                            </VBox.margin>
+                            <padding>
+                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                            </padding>
+                        </HBox>
+                  <VBox prefWidth="100.0">
+                     <children>
+                        <TextField fx:id="nodePath" prefHeight="10.0" prefWidth="215.0" promptText="    Node CSV Name" style="-fx-background-color: ffffff;">
+                           <VBox.margin>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </VBox.margin>
+                        </TextField>
+                        <TextField fx:id="edgePath" prefHeight="10.0" prefWidth="215.0" promptText="    Edge CSV Name" style="-fx-background-color: ffffff;">
+                           <VBox.margin>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </VBox.margin>
+                        </TextField>
+                        <HBox alignment="CENTER">
+                           <children>
+                              <JFXButton buttonType="RAISED" onAction="#save" style="-fx-background-color: #0067b1;" text="Save" textFill="WHITE">
+                                 <font>
+                                    <Font name="System Bold" size="18.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                 </HBox.margin>
+                              </JFXButton>
+                              <JFXButton buttonType="RAISED" onAction="#load" style="-fx-background-color: #0067b1;" text="Load" textFill="WHITE">
+                                 <font>
+                                    <Font name="System Bold" size="18.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                 </HBox.margin>
+                              </JFXButton>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+                    </children>
+                    <HBox.margin>
+                        <Insets />
+                    </HBox.margin>
+                    <padding>
+                        <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+                    </padding>
+                </VBox>
+            </children>
+        </HBox>
+    </children>
+</StackPane>

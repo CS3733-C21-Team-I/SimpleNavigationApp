@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.c21.teamI.ticket;
 
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ServiceTicket extends RecursiveTreeObject<ServiceTicket> {
@@ -26,6 +27,7 @@ public class ServiceTicket extends RecursiveTreeObject<ServiceTicket> {
     this.description = desc;
     // this.emergency = emergency;
     this.completed = completed;
+    assignedUserID = new ArrayList<>();
   }
 
   public enum TicketType {

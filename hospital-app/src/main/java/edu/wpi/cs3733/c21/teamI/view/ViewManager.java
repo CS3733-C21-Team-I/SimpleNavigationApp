@@ -1,12 +1,11 @@
 package edu.wpi.cs3733.c21.teamI.view;
 
 import edu.wpi.cs3733.c21.teamI.database.NavDatabaseManager;
-import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMap;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMapNode;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.mapEditing.MapEditDataController;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicket;
+import edu.wpi.cs3733.c21.teamI.view.maps.MapController;
 import java.io.IOException;
-import java.util.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
@@ -62,10 +61,6 @@ public class ViewManager {
     //    scene.setRoot(root);
   }
 
-  public static Set<HospitalMapNode> getAllNodesSet() {
-    return dataCont.getActiveMap().getNodes();
-  }
-
   public static void navigateToActiveRequest(ActionEvent e) {
     Group root = new Group();
     Scene scene = ((Button) e.getSource()).getScene();
@@ -113,22 +108,6 @@ public class ViewManager {
     ViewManager.replacePane = replacePane;
   }
 
-  public static double getScale() {
-    return scale;
-  }
-
-  public static Set<HospitalMapNode> getEntityNodes() {
-    return dataCont.getActiveMap().getNodes();
-  }
-
-  public static void setActiveMap(String mapID) {
-    dataCont.setActiveMap(NavDatabaseManager.getInstance().loadMapsFromMemory().get(mapID));
-  }
-
-  public static void setActiveMapFromCache(String mapID, Map<String, HospitalMap> cache) {
-    dataCont.setActiveMap(cache.get(mapID));
-  }
-
   public static void setMapController(MapController mapController) {
     mapControl = mapController;
   }
@@ -147,31 +126,6 @@ public class ViewManager {
 
   public static Group getRoot() {
     return root;
-  }
-
-  public static String getMapID() {
-    return dataCont.getActiveMap().getId();
-  }
-
-  public static HospitalMapNode getSelectedNode() {
-    if (selectedInActiveMap()) {
-      return dataCont.getActiveMap().getNode(selectedNode);
-    } else if (selectedNodeMapID != null) {
-      return NavDatabaseManager.getInstance()
-          .loadMapsFromMemory()
-          .get(selectedNodeMapID)
-          .getNode(selectedNode);
-    }
-    return null;
-  }
-
-  public static boolean selectedInActiveMap() {
-    try {
-      dataCont.getActiveMap().getNode(selectedNode);
-      return true;
-    } catch (Exception e) {
-      return false;
-    }
   }
 
   public static MapEditDataController getDataCont() {

@@ -4,8 +4,6 @@ import com.jfoenix.controls.JFXDrawer;
 import com.jfoenix.controls.JFXHamburger;
 import com.jfoenix.transitions.hamburger.HamburgerSlideCloseTransition;
 import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
-import edu.wpi.cs3733.c21.teamI.database.NavDatabaseManager;
-import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMapCSVBuilder;
 import edu.wpi.cs3733.c21.teamI.user.User;
 import java.io.IOException;
 import java.time.ZonedDateTime;
@@ -14,7 +12,6 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -63,16 +60,6 @@ public class HomeController extends Application {
             new KeyFrame(Duration.seconds(1)));
     clock.setCycleCount(Animation.INDEFINITE);
     clock.play();
-  }
-
-  @FXML
-  public void exit() {
-    HospitalMapCSVBuilder.saveCSV(
-        NavDatabaseManager.getInstance().loadMapsFromMemory().values(),
-        "csv/MapINewNodes.csv",
-        "csv/MapINewEdgers.csv");
-    Platform.exit();
-    System.exit(0);
   }
 
   //  public void navigate(ActionEvent e) throws IOException {
@@ -152,14 +139,19 @@ public class HomeController extends Application {
         box = vLoader.load();
         ((AdminMenuController) vLoader.getController()).setHomeController(this);
         titleLabel.setText("Admin Portal");
+        replacePane
+            .getChildren()
+            .add(FXMLLoader.load(getClass().getResource("/fxml/ServiceRequestTableView.fxml")));
       } else {
         FXMLLoader vLoader =
             new FXMLLoader(getClass().getResource("/fxml/menuFiles/VisitorMenu.fxml"));
         box = vLoader.load();
         ((VisitorMenuController) vLoader.getController()).setHomeController(this);
         titleLabel.setText("General Portal");
+        replacePane.getChildren().add(FXMLLoader.load(getClass().getResource("/fxml/Home.fxml")));
       }
-      replacePane.getChildren().add(FXMLLoader.load(getClass().getResource("/fxml/Home.fxml")));
+      //
+      // replacePane.getChildren().add(FXMLLoader.load(getClass().getResource("/fxml/Home.fxml")));
     } catch (IOException e) {
       e.printStackTrace();
     }

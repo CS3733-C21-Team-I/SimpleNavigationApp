@@ -28,6 +28,8 @@ dependencies {
             'org.slf4j:slf4j-simple:1.7.30',
     )
     compile group: 'org.apache.derby', name: 'derby', version: '10.14.2.0'
+    compile group: 'org.apache.derby', name: 'derbynet', version: '10.14.2.0'
+    compile group: 'org.apache.derby', name: 'derbyclient', version: '10.14.2.0'
     compile group: 'com.jfoenix', name: 'jfoenix', version:'8.0.10'
     testCompile(
             "org.testfx:testfx-core:4.0.16-alpha",
