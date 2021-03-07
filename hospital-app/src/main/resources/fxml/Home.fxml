@@ -134,7 +134,7 @@
       </VBox>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" StackPane.alignment="TOP_RIGHT">
          <children>
-            <Button mnemonicParsing="false" onAction="#goToMobile" text="Button" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0" />
+            <Button mnemonicParsing="false" onAction="#goToMobile" text="Mobile Pathfinding" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0" />
          </children>
       </AnchorPane>
    </children>
