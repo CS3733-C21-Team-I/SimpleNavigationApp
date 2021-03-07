@@ -337,7 +337,7 @@ public abstract class MapController extends Application {
                 transformX(node.getxCoord()),
                 transformY(node.getyCoord()),
                 20 / scale,
-                Color.YELLOW);
+                Color.ORANGERED);
         mapPane.getChildren().add(circle);
       }
     }

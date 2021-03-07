@@ -403,8 +403,23 @@ public class MapEditingController extends MapController {
           newCircle.setFill(Color.YELLOW);
           newCircle.setCenterX(t.getX());
           newCircle.setCenterY(t.getY());
-          HospitalMapNode newNode =
-              new HospitalMapNode(node.getID(), node.getMapID(), 0, 0, node.getConnections());
+          HospitalMapNode newNode;
+          if (node instanceof LocationNode) {
+            newNode =
+                new LocationNode(
+                    node.getID(),
+                    node.getMapID(),
+                    0,
+                    0,
+                    ((LocationNode) node).getShortName(),
+                    ((LocationNode) node).getLongName(),
+                    ((LocationNode) node).getLocationCategory(),
+                    ((LocationNode) node).getTeamAssigned(),
+                    node.getConnections());
+          } else {
+            newNode =
+                new HospitalMapNode(node.getID(), node.getMapID(), 0, 0, node.getConnections());
+          }
           movingNode = newNode;
           isDrag = true;
         });
