@@ -71,8 +71,8 @@ public class LanguageController extends Application {
               false);
       //      ticket.addAssignedUserID(AssignedID);
       ticket.addAssignedUserID(AssignedID);
-      ServiceTicketDatabaseManager.getInstance().addTicket(ticket);
-      ServiceTicketDatabaseManager.getInstance().addEmployeeForTicket(RequestID, AssignedID);
+      int id = ServiceTicketDatabaseManager.getInstance().addTicket(ticket);
+      ServiceTicketDatabaseManager.getInstance().addEmployeeForTicket(id, AssignedID);
     } catch (Exception o) {
       System.out.println("Error" + o);
     }

@@ -2,6 +2,7 @@ package edu.wpi.cs3733.c21.teamI.database;
 
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicket;
 import edu.wpi.cs3733.c21.teamI.user.User;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -471,11 +472,9 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
     getTicketForId(id);
   }
 
-  public void addTicket(ServiceTicket t) {
+  public int addTicket(ServiceTicket t) {
     try {
-      Statement stmt = databaseRef.getConnection().createStatement();
-
-      stmt.executeUpdate(
+      String query =
           "INSERT INTO serviceticket(requestingUserID, ticketType, location, description, completed)\n"
               + "VALUES ("
               + t.getRequestingUserID()
@@ -487,9 +486,18 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
               + t.getDescription()
               + "', "
               + t.isCompleted()
-              + ")");
+              + ")";
+      PreparedStatement stmt =
+          databaseRef.getConnection().prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+      stmt.execute();
+
+      ResultSet rs = stmt.getGeneratedKeys();
+      rs.next();
+      return rs.getInt(1);
+
     } catch (SQLException e) {
       e.printStackTrace();
+      throw new IllegalStateException("Failed to insert ticket");
     }
   }
 
@@ -631,13 +639,9 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
     //    }
   }
 
-  public void addEmployeeForTicket(int requestID, int assignID) {
+  public void addEmployeeForTicket(int tixId, int assignID) {
     try {
-      List<ServiceTicket> tixLs = ourInstance.getTicketsForRequestId(requestID);
-      for (ServiceTicket cur : tixLs) {
-        int tixID = cur.getTicketId();
-        ourInstance.addEmployee(tixID, assignID);
-      }
+      ourInstance.addEmployee(tixId, assignID);
     } catch (Exception e) {
       e.printStackTrace();
     }
