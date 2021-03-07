@@ -12,6 +12,7 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -42,6 +43,7 @@ public class HomeController extends Application {
 
   ProfileController profileController;
   VisitorMenuController visitorMenuController;
+  private Stage stage;
 
   @FXML
   public void initClock() {
@@ -60,6 +62,12 @@ public class HomeController extends Application {
             new KeyFrame(Duration.seconds(1)));
     clock.setCycleCount(Animation.INDEFINITE);
     clock.play();
+  }
+
+  @FXML
+  public void goToMobile(ActionEvent e) throws IOException {
+    stage.setScene(
+        new Scene(FXMLLoader.load(getClass().getResource("/fxml/MobilePages/GoogleMaps.fxml"))));
   }
 
   //  public void navigate(ActionEvent e) throws IOException {
@@ -99,8 +107,8 @@ public class HomeController extends Application {
 
   @Override
   public void start(Stage primaryStage) throws Exception {
-    Parent root = FXMLLoader.load(getClass().getResource("/fxml/menuFiles/Menu.fxml"));
-    //    Parent root = FXMLLoader.load(getClass().getResource("/fxml/Home.fxml"));
+    //    Parent root = FXMLLoader.load(getClass().getResource("/fxml/menuFiles/Menu.fxml"));
+    Parent root = FXMLLoader.load(getClass().getResource("/fxml/MobilePages/GoogleMaps.fxml"));
     primaryStage.setTitle("Hospital App");
     Scene applicationScene = new Scene(root, 973, 800);
     ViewManager.setReplacePane(replacePane);
@@ -108,6 +116,7 @@ public class HomeController extends Application {
     primaryStage.setMinHeight(800);
     primaryStage.setMinWidth(1000);
     primaryStage.setMaximized(true);
+    this.stage = primaryStage;
     primaryStage.show();
   }
 

@@ -108,25 +108,21 @@ public abstract class MobileMapController extends Application {
 
   protected void drawNode(HospitalMapNode node, Color color) {
     Circle circle =
-        makeCircle(
-            transformX(node.getxCoord()),
-            transformY(node.getyCoord()),
-            13 / scale * fullImgHeight / imgHeight,
-            color);
+        makeCircle(transformX(node.getxCoord()), transformY(node.getyCoord()), 13 / scale, color);
     mapPane.getChildren().add(circle);
   }
 
   protected void drawEdge(HospitalMapNode start, HospitalMapNode end, Color color) {
     Line line =
         LineBuilder.create()
-            .startX(clamp(transformX(start.getxCoord()), 0, mapPane.getPrefWidth()))
-            .startY(clamp(transformY(start.getyCoord()), 0, mapPane.getPrefHeight()))
-            .endX(clamp(transformX(end.getxCoord()), 0, mapPane.getPrefWidth()))
-            .endY(clamp(transformY(end.getyCoord()), 0, mapPane.getPrefHeight()))
+            .startX(transformX(start.getxCoord()))
+            .startY(transformY(start.getyCoord()))
+            .endX(transformX(end.getxCoord()))
+            .endY(transformY(end.getyCoord()))
             .stroke(color)
             .strokeLineCap(StrokeLineCap.ROUND)
-            .strokeDashArray(28.0 / scale)
-            .strokeWidth(14 / scale * fullImgHeight / imgHeight)
+            .strokeDashArray(10.0 / scale * fullImgHeight / imgHeight)
+            .strokeWidth(18 / scale)
             .build();
 
     animateLine(start, end, line);
@@ -239,7 +235,7 @@ public abstract class MobileMapController extends Application {
   }
 
   protected void drawStartPoint(List<HospitalMapNode> path) throws IOException {
-    double imgScale = 256 / scale;
+    double imgScale = 160 / scale;
     Image startIcon = null;
     try {
       startIcon =
@@ -255,7 +251,7 @@ public abstract class MobileMapController extends Application {
   }
 
   protected void drawEndPoint(List<HospitalMapNode> path) throws IOException {
-    double imgScale = 256 / scale;
+    double imgScale = 160 / scale;
     Image finishIcon = null;
     try {
       finishIcon =
@@ -463,20 +459,20 @@ public abstract class MobileMapController extends Application {
   protected void resize() {
     if (mapImage != null && mapImage.getFitWidth() > 0) {
       System.out.println(mapImage.getFitHeight() + " " + mapImage.getFitWidth());
-      //      if (imageContainer.getPrefHeight() / imageContainer.getPrefWidth()
-      //          > fullImgHeight / fullImgWidth) {
-      //        mapPane.setPrefWidth(mapImage.getFitWidth());
-      //        mapPane.setMaxWidth(mapImage.getFitWidth());
-      //        mapPane.setPrefHeight(mapImage.getFitWidth() * imgHeight / imgWidth);
-      //        mapPane.setMaxHeight(mapImage.getFitWidth() * imgHeight / imgWidth);
-      //      } else {
-      mapPane.setPrefHeight(mapImage.getFitHeight());
-      mapPane.setMaxHeight(mapImage.getFitHeight());
-      mapPane.setPrefWidth(mapImage.getFitHeight() * imgWidth / imgHeight);
-      mapPane.setMaxWidth(mapImage.getFitHeight() * imgWidth / imgHeight);
-      //      mapImage.getViewport().setWidth(mapImage.getFitHeight() * imgWidth / imgHeight);
-      //      mapImage.setMaxWidth(mapImage.getFitHeight() * imgWidth / imgHeight);
-      //      }
+      if (imageContainer.getPrefHeight() / imageContainer.getPrefWidth()
+          > fullImgHeight / fullImgWidth) {
+        mapPane.setPrefWidth(mapImage.getFitWidth());
+        mapPane.setMaxWidth(mapImage.getFitWidth());
+        mapPane.setPrefHeight(mapImage.getFitWidth() * imgHeight / imgWidth);
+        mapPane.setMaxHeight(mapImage.getFitWidth() * imgHeight / imgWidth);
+      } else {
+        mapPane.setPrefHeight(mapImage.getFitHeight());
+        mapPane.setMaxHeight(mapImage.getFitHeight());
+        mapPane.setPrefWidth(mapImage.getFitHeight() * imgWidth / imgHeight);
+        mapPane.setMaxWidth(mapImage.getFitHeight() * imgWidth / imgHeight);
+        //      mapImage.getViewport().setWidth(mapImage.getFitHeight() * imgWidth / imgHeight);
+        //      mapImage.setMaxWidth(mapImage.getFitHeight() * imgWidth / imgHeight);
+      }
       Rectangle clip = new Rectangle(mapPane.getPrefWidth(), mapPane.getPrefHeight());
       clip.setLayoutX(0);
       clip.setLayoutY(0);

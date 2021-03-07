@@ -20,14 +20,15 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 
@@ -35,11 +36,12 @@ public class MapPathfindingControllerMobile extends MobileMapController {
   @FXML ImageView mapImage;
   @FXML TextField start, destination;
   @FXML ListView startList, destList, directionsField;
-  @FXML HBox extraMenu;
+  @FXML VBox extraMenu;
   @FXML JFXButton clear;
   @FXML JFXCheckBox accessible;
   @FXML StackPane allDirections;
   @FXML JFXHamburger ham;
+  @FXML Label singleInstruction;
 
   private EuclidianDistCalc scorer = new EuclidianDistCalc();
   private PathPlanningAlgorithm pathFinderAlgorithm = new PathFinder();
@@ -69,6 +71,11 @@ public class MapPathfindingControllerMobile extends MobileMapController {
     setupMapViewHandlers();
     currentMapID = "Faulkner Lot";
     campusTab(new ActionEvent());
+  }
+
+  @FXML
+  public void toggleDirections(ActionEvent e) {
+    allDirections.setVisible(!allDirections.isVisible());
   }
 
   @FXML
@@ -245,6 +252,7 @@ public class MapPathfindingControllerMobile extends MobileMapController {
   protected void displayDirections(ArrayList<String> directions) {
     ObservableList<String> items = FXCollections.observableArrayList(directions);
     directionsField.setItems(items);
+    singleInstruction.setText(directionsField.getItems().get(0).toString());
   }
 
   protected Circle setMouseActions(Circle circle, HospitalMapNode node) {
