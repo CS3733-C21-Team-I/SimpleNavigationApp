@@ -95,9 +95,11 @@ public class MapPathfindingController extends MapController {
   protected void update() {
     mapPane.getChildren().clear();
     if (foundPathExists()) {
+
       ObservableList<String> items = FXCollections.observableArrayList(new ArrayList<String>());
       directionsField.setItems(items);
-      drawCalculatedPath(getFoundPath());
+      displayDirections(foundPathDescription);
+      drawCalculatedPath(foundPath);
     }
   }
 
@@ -195,6 +197,7 @@ public class MapPathfindingController extends MapController {
       mapPane
           .getChildren()
           .removeIf(n -> (n.getClass() == Line.class) || (n.getClass() == Circle.class));
+
       try {
         drawPath(foundPath);
         if (nodeA.getMapID().equals(currentMapID)) drawStartPoint(foundPath);
@@ -202,7 +205,7 @@ public class MapPathfindingController extends MapController {
       } catch (IOException e) {
         e.printStackTrace();
       }
-      displayDirections(getFoundPathDescription());
+      //      displayDirections(getFoundPathDescription());
     }
   }
 
