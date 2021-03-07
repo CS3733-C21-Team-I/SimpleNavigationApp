@@ -14,6 +14,7 @@ import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -60,6 +61,17 @@ public class HomeController extends Application {
             new KeyFrame(Duration.seconds(1)));
     clock.setCycleCount(Animation.INDEFINITE);
     clock.play();
+  }
+
+  @FXML
+  public void goToMobile() throws IOException {
+    Group root = new Group();
+    root.getChildren()
+        .add(FXMLLoader.load(getClass().getResource("/fxml/MobilePages/GoogleMaps.fxml")));
+    Scene mobile = new Scene(root, 306, 544);
+    Stage stage = new Stage();
+    stage.setScene(mobile);
+    stage.show();
   }
 
   //  public void navigate(ActionEvent e) throws IOException {
@@ -165,23 +177,25 @@ public class HomeController extends Application {
 
   @FXML
   public void initialize() throws IOException {
-    initClock();
-    update();
+    if (timeLabel != null) {
+      initClock();
+      update();
 
-    HamburgerSlideCloseTransition hamburgerTransition = new HamburgerSlideCloseTransition(ham1);
-    hamburgerTransition.setRate(-1);
-    ham1.addEventHandler(
-        MouseEvent.MOUSE_CLICKED,
-        (e) -> {
-          hamburgerTransition.setRate(hamburgerTransition.getRate() * -1);
-          hamburgerTransition.play();
+      HamburgerSlideCloseTransition hamburgerTransition = new HamburgerSlideCloseTransition(ham1);
+      hamburgerTransition.setRate(-1);
+      ham1.addEventHandler(
+          MouseEvent.MOUSE_CLICKED,
+          (e) -> {
+            hamburgerTransition.setRate(hamburgerTransition.getRate() * -1);
+            hamburgerTransition.play();
 
-          if (drawer.isOpened()) {
-            drawer.close();
-          } else {
-            drawer.open();
-          }
-        });
+            if (drawer.isOpened()) {
+              drawer.close();
+            } else {
+              drawer.open();
+            }
+          });
+    }
     //    if (ApplicationDataController.getInstance()
     //        .getLoggedInUser()
     //        .hasPermission(User.Permission.VIEW_TICKET)) {

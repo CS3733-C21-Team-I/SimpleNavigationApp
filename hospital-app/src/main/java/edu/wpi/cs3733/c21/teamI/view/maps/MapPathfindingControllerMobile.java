@@ -1,14 +1,15 @@
 package edu.wpi.cs3733.c21.teamI.view.maps;
 
-import com.jfoenix.controls.JFXComboBox;
-import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXCheckBox;
+import com.jfoenix.controls.JFXHamburger;
+import com.jfoenix.transitions.hamburger.HamburgerSlideCloseTransition;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.EuclidianDistCalc;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMapNode;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.MapDataEntity;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.NodeRestrictions;
 import edu.wpi.cs3733.c21.teamI.pathfinding.*;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicketDataController;
-import edu.wpi.cs3733.c21.teamI.user.User;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -27,15 +28,20 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 
-public class MapPathfindingController extends MapController {
+public class MapPathfindingControllerMobile extends MobileMapController {
   @FXML ImageView mapImage;
-  @FXML Button adminMapToggle;
-  @FXML JFXComboBox algorithmPick;
   @FXML TextField start, destination;
   @FXML ListView startList, destList, directionsField;
+  @FXML VBox extraMenu;
+  @FXML JFXButton clear;
+  @FXML JFXCheckBox accessible;
+  @FXML StackPane allDirections;
+  @FXML JFXHamburger ham;
+  @FXML Label singleInstruction;
 
   private EuclidianDistCalc scorer = new EuclidianDistCalc();
   private PathPlanningAlgorithm pathFinderAlgorithm = new PathFinder();
@@ -47,21 +53,29 @@ public class MapPathfindingController extends MapController {
   @FXML
   public void initialize() throws IOException {
     System.out.println("Initializing pathfinding controller");
-    boolean isAdmin =
-        ApplicationDataController.getInstance()
-            .getLoggedInUser()
-            .hasPermission(User.Permission.EDIT_MAP);
-    if (!isAdmin) {
-      //      adminMapToggle.setVisible(isAdmin);
-      //      adminMapToggle.setMinHeight(0);
-      //      algorithmPick.setVisible(isAdmin);
-      //      algorithmPick.setMinHeight(0);
-    }
-    //    algorithmPick.getItems().addAll("A*", "Depth First", "Breadth First");
-    // ViewManager.setMapController(this);
+    extraMenu.managedProperty().bind(extraMenu.visibleProperty());
+    clear.managedProperty().bind(clear.visibleProperty());
+    accessible.managedProperty().bind(accessible.visibleProperty());
+    allDirections.managedProperty().bind(allDirections.visibleProperty());
+    HamburgerSlideCloseTransition hamburgerTransition = new HamburgerSlideCloseTransition(ham);
+    hamburgerTransition.setRate(-1);
+    ham.addEventHandler(
+        MouseEvent.MOUSE_CLICKED,
+        (e) -> {
+          hamburgerTransition.setRate(hamburgerTransition.getRate() * -1);
+          hamburgerTransition.play();
+          extraMenu.setVisible(!extraMenu.isVisible());
+          clear.setVisible(!clear.isVisible());
+          accessible.setVisible(!accessible.isVisible());
+        });
     setupMapViewHandlers();
     currentMapID = "Faulkner Lot";
     campusTab(new ActionEvent());
+  }
+
+  @FXML
+  public void toggleDirections(ActionEvent e) {
+    allDirections.setVisible(!allDirections.isVisible());
   }
 
   @FXML
@@ -207,24 +221,6 @@ public class MapPathfindingController extends MapController {
   }
 
   // algorithm stuff
-
-  @FXML
-  private void switchAlgorithm() {
-    switch (algorithmPick.getValue().toString()) {
-      case "Depth First":
-        System.out.println("Making new Depth first...");
-        pathFinderAlgorithm = new DepthFirstSearch();
-        break;
-      case "Breadth First":
-        System.out.println("Making new Breadth first...");
-        pathFinderAlgorithm = new BreadthFirstSearch();
-        break;
-      default:
-        pathFinderAlgorithm = new PathFinder();
-        break;
-    }
-  }
-
   @FXML
   public void onSwitch() {
     String begin = start.getText();
@@ -255,8 +251,8 @@ public class MapPathfindingController extends MapController {
 
   protected void displayDirections(ArrayList<String> directions) {
     ObservableList<String> items = FXCollections.observableArrayList(directions);
-    // System.out.println(items);
     directionsField.setItems(items);
+    singleInstruction.setText(directionsField.getItems().get(0).toString());
   }
 
   protected Circle setMouseActions(Circle circle, HospitalMapNode node) {

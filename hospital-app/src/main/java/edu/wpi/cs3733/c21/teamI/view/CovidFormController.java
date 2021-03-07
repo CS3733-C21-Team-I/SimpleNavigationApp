@@ -3,15 +3,13 @@ package edu.wpi.cs3733.c21.teamI.view;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXRadioButton;
 import com.jfoenix.controls.JFXTextField;
-import javafx.application.Application;
+import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.stage.Stage;
+import javafx.scene.layout.StackPane;
 
-public class CovidFormController  {
+public class CovidFormController {
 
   @FXML
   JFXCheckBox soreThroatCheckbox,
@@ -27,19 +25,15 @@ public class CovidFormController  {
       symptomCheckbox;
   @FXML JFXRadioButton covidYesRadioBtn, covidNoRadioBtn;
 
-  @FXML Label parkingIndication;
-
   @FXML JFXTextField tempTextfield;
   // @FXML JFXButton cancel, clear, submit;
-
-
+  @FXML StackPane root;
+  @FXML Label parkingIndication;
 
   @FXML
-  public void initialize() {
+  public void initialize() {}
 
-  }
-
-  public void submit() {
+  public void submit() throws IOException {
 
     boolean symptoms = false, waitingForResult, suspect = false;
     double bodyTemperature = 97;
@@ -66,6 +60,7 @@ public class CovidFormController  {
       suspect = true;
     }
 
+    goToWaitingScreen();
   }
 
   public void clear() {
@@ -87,14 +82,18 @@ public class CovidFormController  {
 
   public void cancel() {}
 
-  /*
-  @
-   */
   public void displayParkingSpot(int lotAssigned) {
 
     parkingIndication.setText(
         "Your parking spot is "
             + String.valueOf(lotAssigned)
             + ". Please take the following covid form before entering the hospital.");
+  }
+
+  public void goToWaitingScreen() throws IOException {
+    //    System.out.println(((JFXButton) actionEvent.getSource()).getScene());
+    root.getChildren().clear();
+    root.getChildren()
+        .add(FXMLLoader.load(getClass().getResource("/fxml/MobilePages/MWaitingScreen.fxml")));
   }
 }

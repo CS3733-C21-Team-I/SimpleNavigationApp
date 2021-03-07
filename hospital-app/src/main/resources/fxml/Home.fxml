@@ -16,117 +16,126 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
-<VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: #F1F1F1;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<StackPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamI.view.HomeController">
    <children>
-      <Label text="Welcome to" VBox.vgrow="ALWAYS">
-         <font>
-            <Font name="Zilla Slab" size="96.0" />
-         </font>
-         <VBox.margin>
-            <Insets top="20.0" />
-         </VBox.margin>
-      </Label>
-      <ImageView fitHeight="203.0" fitWidth="639.0" pickOnBounds="true" preserveRatio="true" VBox.vgrow="ALWAYS">
-         <image>
-            <Image url="@fxmlResources/Brigham-and-Womens.png" />
-         </image>
-         <VBox.margin>
-            <Insets />
-         </VBox.margin>
-      </ImageView>
-      <StackPane>
+      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: #F1F1F1;">
          <children>
-              <StackPane alignment="TOP_CENTER" maxHeight="300.0" maxWidth="450.0" minHeight="500.0" minWidth="445.0" prefHeight="500.0" prefWidth="450.0">
-               <VBox>
-                  <children>
-                        <Label alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="31.0" prefWidth="445.0" style="-fx-background-color: #012D5A;" styleClass=".root" text="Important Information" textAlignment="RIGHT" textFill="WHITE" VBox.vgrow="ALWAYS">
-                            <font>
-                                <Font size="20.0" />
-                            </font>
-                        </Label>
-                        <Accordion>
-                            <panes>
-                                <TitledPane animated="false" text="Visitor Check-In">
-                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="217.0" prefWidth="439.0">
-                                        <Button layoutX="163.0" layoutY="161.0" mnemonicParsing="false" styleClass="styledButton" text="Check In" />
-                                 <JFXTextField layoutX="68.0" layoutY="32.0" promptText="Visitor Name" />
-                                 <JFXTextField layoutX="68.0" layoutY="83.0" promptText="Patient Name" />
-                                 <JFXButton buttonType="RAISED" layoutX="301.0" layoutY="64.0" style="-fx-background-color: #0067b1;" text="Submit" textFill="WHITE">
-                                    <font>
-                                       <Font size="18.0" />
-                                    </font>
-                                 </JFXButton>
-                                    </AnchorPane>
-                                </TitledPane>
-                                <TitledPane animated="false" prefHeight="120.0" prefWidth="450.0" text="Visting Hours">
-                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                        <Text layoutX="14.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Non-essential visitors are not allowed at this time. Please call 617-983-4507 for questions about visiting hours." wrappingWidth="399.9999956637621">
-                                    <font>
-                                       <Font size="16.0" />
-                                    </font>
-                                 </Text>
-                                    </AnchorPane>
-                                </TitledPane>
-                                <TitledPane animated="false" prefHeight="310.0" prefWidth="450.0" text="Request PPE">
-                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="286.0" prefWidth="448.0">
-                                        <Text layoutX="41.0" layoutY="29.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Required PPE includes: a mask, gown, face shield, and gloves according to CDC guidelines. To request PPE, please submit this form prior to your visit." wrappingWidth="356.82373046875">
-                                    <font>
-                                       <Font size="16.0" />
-                                    </font>
-                                 </Text>
-                                        <Label layoutX="44.0" layoutY="109.0" text="Request Description">
-                                    <font>
-                                       <Font size="16.0" />
-                                    </font>
-                                 </Label>
-                                 <JFXTextArea layoutX="41.0" layoutY="141.0" prefHeight="121.0" prefWidth="238.0" style="-fx-background-color: #F1F1FF;">
-                                    <padding>
-                                       <Insets top="10.0" />
-                                    </padding>
-                                 </JFXTextArea>
-                                 <JFXButton buttonType="RAISED" layoutX="322.0" layoutY="182.0" style="-fx-background-color: #0067b1;" text="Submit" textFill="WHITE">
-                                    <font>
-                                       <Font name="System Bold" size="18.0" />
-                                    </font>
-                                 </JFXButton>
-                                    </AnchorPane>
-                                </TitledPane>
-                                <TitledPane animated="false" prefHeight="238.0" prefWidth="450.0" text="COVID-19 Policy">
-                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="139.0" prefWidth="448.0">
-                                        <Text layoutX="25.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Individuals will be prohibited from visiting if they have:" wrappingWidth="399.9999956637621">
-                                    <font>
-                                       <Font size="16.0" />
-                                    </font>
-                                 </Text>
-                                 <Text layoutX="25.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" text="1. Symptoms consistent with COVID-19" wrappingWidth="399.9999956637621">
-                                    <font>
-                                       <Font size="16.0" />
-                                    </font>
-                                 </Text>
-                                 <Text layoutX="25.0" layoutY="86.0" strokeType="OUTSIDE" strokeWidth="0.0" text="2. Confirmed COVID-19 infection" wrappingWidth="399.9999956637621">
-                                    <font>
-                                       <Font size="16.0" />
-                                    </font>
-                                 </Text>
-                                 <Text layoutX="25.0" layoutY="113.0" strokeType="OUTSIDE" strokeWidth="0.0" text="3. Traveled in the past 14 days to any area subject to the COVID-19 Travel Order" wrappingWidth="399.9999956637621">
-                                    <font>
-                                       <Font size="16.0" />
-                                    </font>
-                                 </Text>
-                                 <Text layoutX="20.0" layoutY="175.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Note: Essential visitors/support persons are exempt from the travel requirement" wrappingWidth="399.9999956637621">
-                                    <font>
-                                       <Font size="16.0" />
-                                    </font>
-                                 </Text>
-                                    </AnchorPane>
-                                </TitledPane>
-                            </panes>
-                        </Accordion>
-                  </children>
-               </VBox>
-              </StackPane>
+            <Label text="Welcome to" VBox.vgrow="ALWAYS">
+               <font>
+                  <Font name="Zilla Slab" size="96.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="20.0" />
+               </VBox.margin>
+            </Label>
+            <ImageView fitHeight="203.0" fitWidth="639.0" pickOnBounds="true" preserveRatio="true" VBox.vgrow="ALWAYS">
+               <image>
+                  <Image url="@fxmlResources/Brigham-and-Womens.png" />
+               </image>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </ImageView>
+            <StackPane>
+               <children>
+                    <StackPane alignment="TOP_CENTER" maxHeight="300.0" maxWidth="450.0" minHeight="500.0" minWidth="445.0" prefHeight="500.0" prefWidth="450.0">
+                     <VBox>
+                        <children>
+                              <Label alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="31.0" prefWidth="445.0" style="-fx-background-color: #012D5A;" styleClass=".root" text="Important Information" textAlignment="RIGHT" textFill="WHITE" VBox.vgrow="ALWAYS">
+                                  <font>
+                                      <Font size="20.0" />
+                                  </font>
+                              </Label>
+                              <Accordion>
+                                  <panes>
+                                      <TitledPane animated="false" text="Visitor Check-In">
+                                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="217.0" prefWidth="439.0">
+                                              <Button layoutX="163.0" layoutY="161.0" mnemonicParsing="false" styleClass="styledButton" text="Check In" />
+                                       <JFXTextField layoutX="68.0" layoutY="32.0" promptText="Visitor Name" />
+                                       <JFXTextField layoutX="68.0" layoutY="83.0" promptText="Patient Name" />
+                                       <JFXButton buttonType="RAISED" layoutX="301.0" layoutY="64.0" style="-fx-background-color: #0067b1;" text="Submit" textFill="WHITE">
+                                          <font>
+                                             <Font size="18.0" />
+                                          </font>
+                                       </JFXButton>
+                                          </AnchorPane>
+                                      </TitledPane>
+                                      <TitledPane animated="false" prefHeight="120.0" prefWidth="450.0" text="Visting Hours">
+                                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                              <Text layoutX="14.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Non-essential visitors are not allowed at this time. Please call 617-983-4507 for questions about visiting hours." wrappingWidth="399.9999956637621">
+                                          <font>
+                                             <Font size="16.0" />
+                                          </font>
+                                       </Text>
+                                          </AnchorPane>
+                                      </TitledPane>
+                                      <TitledPane animated="false" prefHeight="310.0" prefWidth="450.0" text="Request PPE">
+                                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="286.0" prefWidth="448.0">
+                                              <Text layoutX="41.0" layoutY="29.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Required PPE includes: a mask, gown, face shield, and gloves according to CDC guidelines. To request PPE, please submit this form prior to your visit." wrappingWidth="356.82373046875">
+                                          <font>
+                                             <Font size="16.0" />
+                                          </font>
+                                       </Text>
+                                              <Label layoutX="44.0" layoutY="109.0" text="Request Description">
+                                          <font>
+                                             <Font size="16.0" />
+                                          </font>
+                                       </Label>
+                                       <JFXTextArea layoutX="41.0" layoutY="141.0" prefHeight="121.0" prefWidth="238.0" style="-fx-background-color: #F1F1FF;">
+                                          <padding>
+                                             <Insets top="10.0" />
+                                          </padding>
+                                       </JFXTextArea>
+                                       <JFXButton buttonType="RAISED" layoutX="322.0" layoutY="182.0" style="-fx-background-color: #0067b1;" text="Submit" textFill="WHITE">
+                                          <font>
+                                             <Font name="System Bold" size="18.0" />
+                                          </font>
+                                       </JFXButton>
+                                          </AnchorPane>
+                                      </TitledPane>
+                                      <TitledPane animated="false" prefHeight="238.0" prefWidth="450.0" text="COVID-19 Policy">
+                                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="139.0" prefWidth="448.0">
+                                              <Text layoutX="25.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Individuals will be prohibited from visiting if they have:" wrappingWidth="399.9999956637621">
+                                          <font>
+                                             <Font size="16.0" />
+                                          </font>
+                                       </Text>
+                                       <Text layoutX="25.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" text="1. Symptoms consistent with COVID-19" wrappingWidth="399.9999956637621">
+                                          <font>
+                                             <Font size="16.0" />
+                                          </font>
+                                       </Text>
+                                       <Text layoutX="25.0" layoutY="86.0" strokeType="OUTSIDE" strokeWidth="0.0" text="2. Confirmed COVID-19 infection" wrappingWidth="399.9999956637621">
+                                          <font>
+                                             <Font size="16.0" />
+                                          </font>
+                                       </Text>
+                                       <Text layoutX="25.0" layoutY="113.0" strokeType="OUTSIDE" strokeWidth="0.0" text="3. Traveled in the past 14 days to any area subject to the COVID-19 Travel Order" wrappingWidth="399.9999956637621">
+                                          <font>
+                                             <Font size="16.0" />
+                                          </font>
+                                       </Text>
+                                       <Text layoutX="20.0" layoutY="175.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Note: Essential visitors/support persons are exempt from the travel requirement" wrappingWidth="399.9999956637621">
+                                          <font>
+                                             <Font size="16.0" />
+                                          </font>
+                                       </Text>
+                                          </AnchorPane>
+                                      </TitledPane>
+                                  </panes>
+                              </Accordion>
+                        </children>
+                     </VBox>
+                    </StackPane>
+               </children>
+            </StackPane>
+            <StackPane prefHeight="150.0" prefWidth="200.0" />
          </children>
-      </StackPane>
+      </VBox>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" StackPane.alignment="TOP_RIGHT">
+         <children>
+            <Button mnemonicParsing="false" onAction="#goToMobile" text="Mobile Pathfinding" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0" />
+         </children>
+      </AnchorPane>
    </children>
-</VBox>
+</StackPane>

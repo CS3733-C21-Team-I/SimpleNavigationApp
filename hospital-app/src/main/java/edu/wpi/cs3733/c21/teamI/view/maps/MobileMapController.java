@@ -1,10 +1,12 @@
 package edu.wpi.cs3733.c21.teamI.view.maps;
 
-import edu.wpi.cs3733.c21.teamI.hospitalMap.*;
+import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMapNode;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;
-import javafx.animation.*;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.DoubleProperty;
@@ -24,7 +26,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.LinearGradient;
@@ -33,19 +34,16 @@ import javafx.scene.shape.*;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-public abstract class MapController extends Application {
+public abstract class MobileMapController extends Application {
   boolean adminMap = false;
 
   @FXML StackPane rootPane;
   @FXML AnchorPane nodeMenu;
   @FXML TextField sNameField, lNameField;
-  protected boolean isDrag = false;
-  protected boolean isFirstLoad = true;
   @FXML AnchorPane mapPane;
   @FXML ImageView mapImage;
 
   @FXML StackPane imageContainer;
-  @FXML VBox stackContainer;
   @FXML Tab campus;
   @FXML Tab floor1;
   @FXML Tab floor2;
@@ -110,11 +108,7 @@ public abstract class MapController extends Application {
 
   protected void drawNode(HospitalMapNode node, Color color) {
     Circle circle =
-        makeCircle(
-            transformX(node.getxCoord()),
-            transformY(node.getyCoord()),
-            13 / scale * fullImgHeight / imgHeight,
-            color);
+        makeCircle(transformX(node.getxCoord()), transformY(node.getyCoord()), 13 / scale, color);
     mapPane.getChildren().add(circle);
   }
 
@@ -127,8 +121,8 @@ public abstract class MapController extends Application {
             .endY(transformY(end.getyCoord()))
             .stroke(color)
             .strokeLineCap(StrokeLineCap.ROUND)
-            .strokeDashArray(28.0 / scale)
-            .strokeWidth(14 / scale * fullImgHeight / imgHeight)
+            .strokeDashArray(10.0 / scale * fullImgHeight / imgHeight)
+            .strokeWidth(18 / scale)
             .build();
 
     animateLine(start, end, line);
@@ -241,7 +235,7 @@ public abstract class MapController extends Application {
   }
 
   protected void drawStartPoint(List<HospitalMapNode> path) throws IOException {
-    double imgScale = 256 / scale;
+    double imgScale = 160 / scale;
     Image startIcon = null;
     try {
       startIcon =
@@ -257,7 +251,7 @@ public abstract class MapController extends Application {
   }
 
   protected void drawEndPoint(List<HospitalMapNode> path) throws IOException {
-    double imgScale = 256 / scale;
+    double imgScale = 160 / scale;
     Image finishIcon = null;
     try {
       finishIcon =
@@ -385,9 +379,10 @@ public abstract class MapController extends Application {
   protected static final int MIN_PIXELS = 200;
 
   protected void startZoomPan(AnchorPane zoomPane) {
+    mapImage.setPreserveRatio(true);
     mapImage.fitWidthProperty().bind(imageContainer.widthProperty());
     mapImage.fitHeightProperty().bind(imageContainer.heightProperty());
-    mapImage.setPreserveRatio(true);
+    System.out.println(mapImage.getFitHeight() + " " + mapImage.getFitWidth());
     double width = imgWidth;
     double height = imgHeight;
     reset(mapImage, width, height);
@@ -463,7 +458,9 @@ public abstract class MapController extends Application {
 
   protected void resize() {
     if (mapImage != null && mapImage.getFitWidth() > 0) {
-      if (imageContainer.getHeight() / imageContainer.getWidth() > fullImgHeight / fullImgWidth) {
+      System.out.println(mapImage.getFitHeight() + " " + mapImage.getFitWidth());
+      if (imageContainer.getPrefHeight() / imageContainer.getPrefWidth()
+          > fullImgHeight / fullImgWidth) {
         mapPane.setPrefWidth(mapImage.getFitWidth());
         mapPane.setMaxWidth(mapImage.getFitWidth());
         mapPane.setPrefHeight(mapImage.getFitWidth() * imgHeight / imgWidth);
@@ -473,6 +470,8 @@ public abstract class MapController extends Application {
         mapPane.setMaxHeight(mapImage.getFitHeight());
         mapPane.setPrefWidth(mapImage.getFitHeight() * imgWidth / imgHeight);
         mapPane.setMaxWidth(mapImage.getFitHeight() * imgWidth / imgHeight);
+        //      mapImage.getViewport().setWidth(mapImage.getFitHeight() * imgWidth / imgHeight);
+        //      mapImage.setMaxWidth(mapImage.getFitHeight() * imgWidth / imgHeight);
       }
       Rectangle clip = new Rectangle(mapPane.getPrefWidth(), mapPane.getPrefHeight());
       clip.setLayoutX(0);
