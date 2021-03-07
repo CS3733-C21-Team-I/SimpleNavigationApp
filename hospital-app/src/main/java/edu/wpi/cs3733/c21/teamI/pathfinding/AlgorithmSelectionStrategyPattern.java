@@ -12,4 +12,8 @@ public class AlgorithmSelectionStrategyPattern<T extends GraphNode> {
   public List<T> findPath(T start, T end, PriorityCalc<T> scorer) {
     return planning.findPath(start, end, scorer);
   }
+
+  public void setPlanning(PathPlanningAlgorithm planning) {
+    this.planning = planning;
+  }
 }
