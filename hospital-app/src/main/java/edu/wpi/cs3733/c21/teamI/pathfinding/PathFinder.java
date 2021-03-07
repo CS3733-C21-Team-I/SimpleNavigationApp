@@ -2,8 +2,7 @@ package edu.wpi.cs3733.c21.teamI.pathfinding;
 
 import java.util.*;
 
-public class PathFinder<T extends GraphNode> implements PathPlanningAlgorithm {
-
+public abstract class AstarDijkstraTemplatePattern implements PathPlanningAlgorithm {
   public <T extends GraphNode> List<T> findPath(T start, T end, PriorityCalc<T> scorer) {
 
     boolean foundLocation = false;
@@ -67,4 +66,6 @@ public class PathFinder<T extends GraphNode> implements PathPlanningAlgorithm {
 
     return path;
   }
+
+  public abstract <T extends GraphNode> double heuristic(T next, T end, PriorityCalc<T> scorer);
 }

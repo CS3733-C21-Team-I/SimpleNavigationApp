@@ -22,16 +22,8 @@ public class AdminMenuController extends Application {
   @FXML
   public void navigate(MouseEvent e) throws IOException {
     String id = ((JFXRippler) e.getSource()).getId();
-    replacePane =
-        (StackPane)
-            ((JFXRippler) e.getSource())
-                .getParent()
-                .getParent()
-                .getParent()
-                .getParent()
-                .getParent()
-                .getChildrenUnmodifiable()
-                .get(0);
+    replacePane = homeController.getReplacePane();
+    System.out.println(replacePane);
     replacePane.getChildren().clear();
 
     if (id.equals("loginButton")) {
@@ -74,10 +66,7 @@ public class AdminMenuController extends Application {
       replacePane
           .getChildren()
           .add(FXMLLoader.load(getClass().getResource("/fxml/ServiceRequestTableView.fxml")));
-    } else if (id.equals("feedbackButton")) {
-      replacePane
-          .getChildren()
-          .add(FXMLLoader.load(getClass().getResource("/fxml/menuFiles/feedbackView.fxml")));
+    } else {
     }
   }
 

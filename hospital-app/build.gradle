@@ -19,6 +19,9 @@ dependencies {
     implementation(
             'com.jfoenix:jfoenix:8.0.10',
             'com.opencsv:opencsv:4.0',
+            //Google Maps required
+            'com.google.maps:google-maps-services:0.17.0',
+            'org.slf4j:slf4j-simple:1.7.25',
             // You may comment out the database dependency you do not use
             'org.xerial:sqlite-jdbc:3.30.1',
             'org.apache.derby:derby:10.14.2.0',
