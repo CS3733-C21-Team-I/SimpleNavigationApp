@@ -837,26 +837,4 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
     }
   }
 
-  public void addReligious(int tixID, ReligiousTicket reg) {
-    try {
-      Statement stmt = databaseRef.getConnection().createStatement();
-      stmt.executeUpdate(
-              "INSERT INTO RELIGIOUSTICKET(tixID, PATIENTNAME, RELIGIOUSDENOMINATION, RELIGIOUSTYPE, DATE, TIME)\n"
-                      + "VALUES("
-                      + String.valueOf(tixID)
-                      + ", "
-                      + reg.getPatientName()
-                      + ", "
-                      + reg.getReligiousDenomination()
-                      + ", "
-                      + reg.getReligiousType()
-                      + ", "
-                      + reg.getDate()
-                      + ", "
-                      + reg.getTime()
-                      + ")");
-    } catch (SQLException e) {
-      e.printStackTrace();
-    }
-  }
 }
