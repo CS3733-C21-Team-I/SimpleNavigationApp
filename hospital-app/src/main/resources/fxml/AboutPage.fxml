@@ -1,11 +1,85 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.ColorAdjust?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-
+<?import javafx.scene.text.Font?>
 
 <StackPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <VBox prefHeight="200.0" prefWidth="100.0" />
+      <VBox prefHeight="1011.0" prefWidth="1327.0">
+         <children>
+            <HBox prefHeight="103.0" prefWidth="1380.0">
+               <children>
+                  <Label alignment="TOP_LEFT" maxWidth="1.7976931348623157E308" prefHeight="132.0" prefWidth="332.0" style="-fx-background-color: #012D5A;" text="ABOUT US" textFill="WHITE">
+                     <font>
+                        <Font name="Sitka Heading" size="60.0" />
+                     </font>
+                     <padding>
+                        <Insets bottom="5.0" left="25.0" top="15.0" />
+                     </padding>
+                  </Label>
+                  <VBox prefHeight="0.0" prefWidth="1051.0">
+                     <children>
+                        <Label alignment="CENTER_RIGHT" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" prefHeight="80.0" prefWidth="1050.0" style="-fx-background-color: #012D5A;" text="WPI Computer Science Department" textAlignment="RIGHT" textFill="WHITE">
+                           <font>
+                              <Font name="Segoe UI Semibold" size="18.0" />
+                           </font>
+                           <padding>
+                              <Insets left="20.0" right="20.0" />
+                           </padding>
+                        </Label>
+                        <Label alignment="CENTER_RIGHT" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" prefHeight="82.0" prefWidth="1050.0" style="-fx-background-color: #012D5A;" text="CS3733-C21 Software Engineering " textAlignment="RIGHT" textFill="WHITE">
+                           <font>
+                              <Font name="Segoe UI Semibold" size="18.0" />
+                           </font>
+                           <padding>
+                              <Insets left="20.0" right="14.0" />
+                           </padding>
+                        </Label>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <StackPane prefHeight="0.0" prefWidth="1380.0">
+               <children>
+                  <ImageView fitHeight="398.0" fitWidth="1380.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@fxmlResources/about_background.png" />
+                     </image>
+                     <effect>
+                        <ColorAdjust brightness="-0.4" contrast="0.1" saturation="-0.2" />
+                     </effect>
+                  </ImageView>
+                  <VBox prefHeight="39.0" prefWidth="1380.0">
+                     <children>
+                        <Label prefWidth="1380.0" text="      Thank you Brigham and Women’s Faulkner Hospital and the representative, Andrew Shinn, for your time and input for this application." textFill="WHITE" wrapText="true">
+                           <font>
+                              <Font name="Cambria" size="32.0" />
+                           </font>
+                           <padding>
+                              <Insets left="30.0" right="20.0" top="30.0" />
+                           </padding>
+                        </Label>
+                        <Label text="      The Brigham and Women’s Faulkner Hospital maps and data used in this application are copyrighted and provided for the sole use of educational purposes." textFill="WHITE" wrapText="true">
+                           <font>
+                              <Font name="Cambria" size="32.0" />
+                           </font>
+                           <padding>
+                              <Insets left="30.0" right="20.0" top="30.0" />
+                           </padding>
+                        </Label>
+                     </children>
+                  </VBox>
+               </children>
+            </StackPane>
+         </children>
+      </VBox>
+      <Label maxWidth="1.7976931348623157E308" text="Label" />
    </children>
 </StackPane>
