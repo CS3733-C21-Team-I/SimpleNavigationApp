@@ -98,7 +98,7 @@
                                     <Insets left="10.0" right="15.0" top="15.0" />
                                  </VBox.margin>
                               </HBox>
-                              <VBox fx:id="extraMenu" alignment="CENTER" spacing="10.0">
+                              <VBox fx:id="extraMenu" alignment="CENTER" spacing="10.0" visible="false">
                                  <children>
                                           <HBox alignment="CENTER" prefWidth="200.0">
                                               <children>
