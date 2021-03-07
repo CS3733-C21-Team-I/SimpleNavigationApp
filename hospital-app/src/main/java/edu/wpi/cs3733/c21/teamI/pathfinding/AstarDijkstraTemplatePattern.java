@@ -42,7 +42,7 @@ public abstract class AstarDijkstraTemplatePattern implements PathPlanningAlgori
           PathNode<T> newPath = new PathNode<T>(next, currentNode, newCost);
           visited.put(next.getID(), newPath);
 
-          priority = newCost + scorer.calculateDistance(end, next);
+          priority = newCost + heuristic(next, end, scorer);
           frontier.add(new PathNode<>(next, currentNode, priority));
         }
       }
