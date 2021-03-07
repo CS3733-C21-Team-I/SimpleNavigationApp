@@ -68,7 +68,10 @@ public class LanguageController extends Application {
               NavDatabaseManager.getInstance()
                   .getMapIdFromLongName(langLocationTextfield.getText()),
               langDetails.getText(),
-              false, langTextfield.getText(), langTime.getValue().toString(), langCheckbox.isSelected());
+              false,
+              langTextfield.getText(),
+              langTime.getValue().toString(),
+              langCheckbox.isSelected());
       //      ticket.addAssignedUserID(AssignedID);
       ticket.addAssignedUserID(AssignedID);
       int id = ServiceTicketDatabaseManager.getInstance().addTicket(ticket);
