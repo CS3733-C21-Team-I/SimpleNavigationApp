@@ -1,6 +1,6 @@
 package edu.wpi.cs3733.c21.teamI.database;
 
-import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicket;
+import edu.wpi.cs3733.c21.teamI.ticket.*;
 import edu.wpi.cs3733.c21.teamI.user.User;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -138,6 +138,22 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
         System.out.println("Error in generating Employee Table");
       }
 
+      try { // Creating the giftTicket table
+        stmt.execute(
+            "create table giftTicket(\n"
+                + "giftID integer NOT NULL GENERATED ALWAYS AS IDENTITY,\n\n"
+                + "patientName varchar(25),\n"
+                + "deliveryDate varchar(25),\n"
+                + "deliveryTime varchar(25),\n"
+                + "giftType varchar(25),\n"
+                + "location varchar(45) NOT NULL,\n"
+                + "PRIMARY KEY(giftID),\n"
+                + "FOREIGN KEY (location) REFERENCES navNodes(node_ID))");
+        // System.out.println("giftTicket table created.");
+      } catch (SQLException e) {
+        System.out.println("Error in generating giftTicket Table");
+      }
+
       try { // Creating the audioVisualTicket table
         stmt.execute(
             "create table audioVisualTicket(\n"
@@ -203,26 +219,13 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
         System.out.println("Error in generating floralTicket Table");
       }
 
-      try { // Creating the giftTicket table
-        stmt.execute(
-            "create table giftTicket(\n"
-                + "tixID integer NOT NULL,\n"
-                + "patientName varchar(25),\n"
-                + "deliveryDate varchar(25),\n"
-                + "deliveryTime varchar(25),\n"
-                + "giftType varchar(25),\n"
-                + "FOREIGN KEY (tixID) REFERENCES SERVICETICKET(ticketID))");
-        // System.out.println("giftTicket table created.");
-      } catch (SQLException e) {
-        System.out.println("Error in generating giftTicket Table");
-      }
-
       try { // Creating the internalTransportationTicket table
         stmt.execute(
             "create table internalTransportationTicket(\n"
                 + "tixID integer NOT NULL,\n"
                 + "pickUpDate varchar(25),\n"
                 + "pickUpTime varchar(25),\n"
+                + "destination varchar(25),\n"
                 + "emergency boolean,\n"
                 + "stretcher boolean,\n"
                 + "wheelchair boolean,\n"
@@ -265,7 +268,6 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
                 + "patientName varchar(25),\n"
                 + "drugName varchar(25),\n"
                 + "dose varchar(25),\n"
-                + "quantity varchar(25),\n"
                 + "date varchar(25),\n"
                 + "time varchar(25),\n"
                 + "FOREIGN KEY (tixID) REFERENCES SERVICETICKET(ticketID))");
@@ -493,7 +495,8 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
 
       ResultSet rs = stmt.getGeneratedKeys();
       rs.next();
-      return rs.getInt(1);
+      int id = rs.getInt(1);
+      return id;
 
     } catch (SQLException e) {
       e.printStackTrace();
@@ -599,22 +602,22 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
   }
 
   public static void populateExampleData() {
-
     //    int empRequestID =
-    //        UserDatabaseManager.getInstance().getUserForScreenname("TestEmployee").getUserId();
-    //    int empAssignID =
+    // UserDatabaseManager.getInstance().getUserForScreenname("admin").getUserId();
+    //        int empAssignID =
+    //
     //
     // UserDatabaseManager.getInstance().getUserForScreenname("TestServiceEmployee").getUserId();
     //
     //    ServiceTicket ticket1 =
-    //        new ServiceTicket(
-    //            empRequestID, ServiceTicket.TicketType.MAINTENANCE, "ICONF00103", "info", false);
+    //        new AudioVisualTicket(empRequestID, "ICONF00103", "info", false, "ZOLO", "HEADPHONE");
     //    ticket1.setTicketID(11);
-    //    ServiceTicket ticket2 =
-    //        new ServiceTicket(
-    //            empRequestID, ServiceTicket.TicketType.LAUNDRY, "ICONF00104", "more info", true);
-    //    ticket2.setTicketID(21);
-    //
+    //        ServiceTicket ticket2 =
+    //            new ServiceTicket(
+    //                empRequestID, ServiceTicket.TicketType.LAUNDRY, "ICONF00104", "more info",
+    // true);
+    //        ticket2.setTicketID(21);
+
     //    ourInstance.addTicket(ticket1);
     //    ourInstance.addTicket(ticket2);
     //
@@ -646,4 +649,192 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
       e.printStackTrace();
     }
   }
+
+  public void addGift(GiftTicket gif) {
+    try {
+      Statement stmt = databaseRef.getConnection().createStatement();
+      stmt.executeUpdate(
+          "INSERT INTO GIFTTICKET(PATIENTNAME, DELIVERYDATE, DELIVERYTIME, GIFTTYPE, LOCATION)\n"
+              + "VALUES("
+              + gif.getPatientName()
+              + ", "
+              + gif.getDeliveryDate()
+              + ", "
+              + gif.getDeliveryTime()
+              + ", "
+              + gif.getGiftType()
+              + ", "
+              + gif.getLocation()
+              + ")");
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+  }
+
+  public void addAudioVisual(int tixID, AudioVisualTicket av) {
+    try {
+      Statement stmt = databaseRef.getConnection().createStatement();
+      stmt.executeUpdate(
+          "INSERT INTO AUDIOVISUALTICKET(tixID, PATIENTNAME, MEDIATYPE)\n"
+              + "VALUES("
+              + String.valueOf(tixID)
+              + ", "
+              + av.getPatientName()
+              + ", "
+              + av.getMediaType()
+              + ")");
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+  }
+
+  public void addComputer(int tixID, ComputerTicket comp) {
+    try {
+      Statement stmt = databaseRef.getConnection().createStatement();
+      stmt.executeUpdate(
+          "INSERT INTO COMPUTERTICKET(tixID, COMPUTERTYPE, URGENCY)\n"
+              + "VALUES("
+              + String.valueOf(tixID)
+              + ", "
+              + comp.getComputerType()
+              + ", "
+              + comp.isUrgency()
+              + ")");
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+  }
+
+  public void addEmployeeParking(int tixID, EmployeeParkingTicket emp) {
+    try {
+      Statement stmt = databaseRef.getConnection().createStatement();
+      stmt.executeUpdate(
+          "INSERT INTO EMPLOYEEPARKINGTICKET(tixID, LICENSEPLATE, CONTACT, STARTDATE, ENDDATE, DISABILITY)\n"
+              + "VALUES("
+              + String.valueOf(tixID)
+              + ", "
+              + emp.getLicensePlate()
+              + ", "
+              + emp.getContact()
+              + ", "
+              + emp.getStartDate()
+              + ", "
+              + emp.getEndDate()
+              + ", "
+              + emp.isDisability()
+              + ")");
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+  }
+
+  public void addInternalTransport(int tixID, InternalTransportationTicket inT) {
+    try {
+      Statement stmt = databaseRef.getConnection().createStatement();
+      stmt.executeUpdate(
+          "INSERT INTO INTERNALTRANSPORTATIONTICKET(tixID, PICKUPDATE, PICKUPTIME, DESTINATION, EMERGENCY, STRETCHER, WHEELCHAIR)\n"
+              + "VALUES("
+              + String.valueOf(tixID)
+              + ", "
+              + inT.getPickUpDate()
+              + ", "
+              + inT.getPickUpTime()
+              + ", "
+              + inT.getDestination()
+              + ", "
+              + inT.isEmergency()
+              + ", "
+              + inT.isStretcher()
+              + ", "
+              + inT.isWheelchair()
+              + ")");
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+  }
+
+  public void addLanguage(int tixID, LanguageTicket lang) {
+    try {
+      Statement stmt = databaseRef.getConnection().createStatement();
+      stmt.executeUpdate(
+          "INSERT INTO LANGUAGETICKET(tixID, LANGUAGE, MEETINGTIME, LEGALDOCS)\n"
+              + "VALUES("
+              + String.valueOf(tixID)
+              + ", "
+              + lang.getLanguage()
+              + ", "
+              + lang.getMeetingTime()
+              + ", "
+              + lang.isLegalDocs()
+              + ")");
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+  }
+
+  public void addLaundry(int tixID, LaundryTicket lau) {
+    try {
+      Statement stmt = databaseRef.getConnection().createStatement();
+      stmt.executeUpdate(
+          "INSERT INTO LAUNDRYTICKET(tixID, PICKUPDATE, PICKUPTIME, DRYCLEAN)\n"
+              + "VALUES("
+              + String.valueOf(tixID)
+              + ", "
+              + lau.getPickUpDate()
+              + ", "
+              + lau.getPickUpTime()
+              + ", "
+              + lau.isDryClean()
+              + ")");
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+  }
+
+  public void addMedicine(int tixID, MedicineTicket med) {
+    try {
+      Statement stmt = databaseRef.getConnection().createStatement();
+      stmt.executeUpdate(
+              "INSERT INTO MEDICINETICKET(tixID, PATIENTNAME, DRUGNAME, DOSE, DATE, TIME)\n"
+                      + "VALUES("
+                      + String.valueOf(tixID)
+                      + ", "
+                      + med.getPatientName()
+                      + ", "
+                      + med.getPatientName()
+                      + ", "
+                      + med.getDrugName()
+                      + ", "
+                      + med.getDate()
+                      + ", "
+                      + med.getTime()
+                      + ")");
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+  }
+
+  public void addReligious(int tixID, ReligiousTicket reg) {
+    try {
+      Statement stmt = databaseRef.getConnection().createStatement();
+      stmt.executeUpdate(
+          "INSERT INTO RELIGIOUSTICKET(tixID, PATIENTNAME, RELIGIOUSDENOMINATION, RELIGIOUSTYPE, DATE, TIME)\n"
+              + "VALUES("
+              + String.valueOf(tixID)
+              + ", "
+              + reg.getPatientName()
+              + ", "
+              + reg.getReligiousDenomination()
+              + ", "
+              + reg.getReligiousType()
+              + ", "
+              + reg.getDate()
+              + ", "
+              + reg.getTime()
+              + ")");
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+  }
+
 }
