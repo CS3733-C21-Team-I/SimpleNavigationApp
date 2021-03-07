@@ -8,6 +8,7 @@ import com.google.maps.model.DirectionsResult;
 import com.google.maps.model.FindPlaceFromText;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,15 +18,18 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Hyperlink;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ListView;
+import javafx.scene.layout.StackPane;
+import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 
 public class GoogleMapsController extends Application {
   @FXML private JFXButton submitButton;
   @FXML private JFXTextField addressSearch;
   @FXML private ListView autofillView;
-  @FXML private Hyperlink mapLink;
+  @FXML StackPane root;
+  @FXML WebView webview;
 
   String API_KEY = "AIzaSyDffrpgnSe9viRPYC1v_u6qth7IL5ufPJE";
   String url = "https://maps.googleapis.com/maps/api/place/autocomplete/output";
@@ -35,6 +39,7 @@ public class GoogleMapsController extends Application {
       "Brigham and Women's Faulkner Hospital, Centre Street, Jamaica Plain, MA, USA";
   String destinationID = "";
   HashMap<String, String> idLookUp;
+  String directionsLink = "";
 
   @FXML
   public void initialize() {
@@ -42,8 +47,8 @@ public class GoogleMapsController extends Application {
     context = new GeoApiContext.Builder().apiKey(API_KEY).build();
     token = new PlaceAutocompleteRequest.SessionToken();
     setupRequestView();
-    mapLink.setVisible(false);
     destinationID = searchForPlaceID(destination);
+    autofillView.setVisible(false);
   }
 
   @FXML
@@ -55,24 +60,26 @@ public class GoogleMapsController extends Application {
     String originID = "";
     if (idLookUp.containsKey(search)) {
       originID = idLookUp.get(search);
-      //System.out.println("Used known ID: " + originID);
+      // System.out.println("Used known ID: " + originID);
     } else originID = searchForPlaceID(search);
 
-    mapLink.setText(formDirectionsUrl(originID, destinationID));
-    // mapLink = new Hyperlink(formDirectionsUrl(search, destination));
-    mapLink.setVisible(true);
-    mapLink.setVisited(false);
-  }
+    directionsLink = formDirectionsUrl(originID, destinationID);
 
-  @FXML
-  public void clickLink(ActionEvent e) {
-    System.out.println("going to link!");
-    getHostServices().showDocument(mapLink.getText());
+    webview.setVisible(true);
+    webview.setZoom(0.5);
+    webview.getEngine().load(directionsLink);
+    //    getHostServices().showDocument(directionsLink);
   }
 
   @FXML
   public void autoComplete() {
     String currText = addressSearch.getText();
+
+    if (currText.length() <= 0) {
+      autofillView.setVisible(false);
+    } else {
+      autofillView.setVisible(true);
+    }
 
     AutocompletePrediction[] result =
         PlacesApi.placeAutocomplete(context, currText, token).awaitIgnoreError();
@@ -88,7 +95,6 @@ public class GoogleMapsController extends Application {
 
     ObservableList<String> items = FXCollections.observableArrayList(suggestions);
     autofillView.setItems(items);
-    autofillView.setVisible(true);
   }
 
   private void setupRequestView() {
@@ -133,6 +139,13 @@ public class GoogleMapsController extends Application {
 
     System.out.println(id);
     return id;
+  }
+
+  public void goToCovidForm(ActionEvent actionEvent) throws IOException {
+    System.out.println(((JFXButton) actionEvent.getSource()).getScene());
+    root.getChildren().clear();
+    root.getChildren()
+        .add(FXMLLoader.load(getClass().getResource("/fxml/MobilePages/MCovidForm.fxml")));
   }
 
   @Override

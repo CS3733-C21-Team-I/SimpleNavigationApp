@@ -24,7 +24,8 @@ public class NoticeScreenController {
     Label label3 = (Label) root.lookup("#label3");
     if (!covidRisk) {
       label2.setText("");
-      label3.setText("You can enter the hospital now and navigate to your destination through the pathfinding function");
+      label3.setText(
+          "You can enter the hospital now and navigate to your destination through the pathfinding function");
     }
   }
 }

@@ -114,7 +114,7 @@ public class HomeController extends Application {
     Parent root = FXMLLoader.load(getClass().getResource("/fxml/menuFiles/Menu.fxml"));
     // Parent root = FXMLLoader.load(getClass().getResource("/fxml/MenuFiles/CovidForm.fxml"));
     // Parent root = FXMLLoader.load(getClass().getResource("/fxml/MobilePages/MCovidForm.fxml"));
-//    Parent root = FXMLLoader.load(getClass().getResource("/fxml/GoogleMaps/GoogleMaps.fxml"));
+    //    Parent root = FXMLLoader.load(getClass().getResource("/fxml/GoogleMaps/GoogleMaps.fxml"));
     primaryStage.setTitle("Hospital App");
     Scene applicationScene = new Scene(root, 973, 800);
     ViewManager.setReplacePane(replacePane);

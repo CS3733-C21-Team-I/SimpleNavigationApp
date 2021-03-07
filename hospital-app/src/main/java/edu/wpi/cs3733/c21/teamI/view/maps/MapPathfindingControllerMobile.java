@@ -44,7 +44,8 @@ public class MapPathfindingControllerMobile extends MobileMapController {
   @FXML Label singleInstruction;
 
   private EuclidianDistCalc scorer = new EuclidianDistCalc();
-  private PathPlanningAlgorithm pathFinderAlgorithm = new PathFinder();
+  private AlgorithmSelectionStrategyPattern pathFinderAlgorithm =
+      new AlgorithmSelectionStrategyPattern(new A_Star<>());
 
   private List<HospitalMapNode> foundPath;
   private ArrayList<String> foundPathDescription;
