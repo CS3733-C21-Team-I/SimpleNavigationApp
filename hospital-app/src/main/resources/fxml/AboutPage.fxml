@@ -14,11 +14,11 @@
    <children>
       <VBox prefHeight="1011.0" prefWidth="1327.0">
          <children>
-            <HBox prefHeight="103.0" prefWidth="1380.0">
+            <HBox prefHeight="59.0" prefWidth="1380.0">
                <children>
                   <Label alignment="TOP_LEFT" maxWidth="1.7976931348623157E308" prefHeight="132.0" prefWidth="332.0" style="-fx-background-color: #012D5A;" text="ABOUT US" textFill="WHITE">
                      <font>
-                        <Font name="Sitka Heading" size="60.0" />
+                        <Font name="Sitka Heading" size="54.0" />
                      </font>
                      <padding>
                         <Insets bottom="5.0" left="25.0" top="15.0" />
@@ -60,7 +60,7 @@
                      <children>
                         <Label prefWidth="1380.0" text="      Thank you Brigham and Women’s Faulkner Hospital and the representative, Andrew Shinn, for your time and input for this application." textFill="WHITE" wrapText="true">
                            <font>
-                              <Font name="Cambria" size="32.0" />
+                              <Font name="Cambria" size="28.0" />
                            </font>
                            <padding>
                               <Insets left="30.0" right="20.0" top="30.0" />
@@ -68,7 +68,7 @@
                         </Label>
                         <Label text="      The Brigham and Women’s Faulkner Hospital maps and data used in this application are copyrighted and provided for the sole use of educational purposes." textFill="WHITE" wrapText="true">
                            <font>
-                              <Font name="Cambria" size="32.0" />
+                              <Font name="Cambria" size="28.0" />
                            </font>
                            <padding>
                               <Insets left="30.0" right="20.0" top="30.0" />
@@ -78,8 +78,29 @@
                   </VBox>
                </children>
             </StackPane>
+            <Label alignment="CENTER" maxWidth="1.7976931348623157E308" text=" TEAM">
+               <font>
+                  <Font name="Sitka Subheading" size="50.0" />
+               </font>
+               <VBox.margin>
+                  <Insets bottom="15.0" top="15.0" />
+               </VBox.margin>
+            </Label>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <VBox prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <ImageView fitHeight="217.0" fitWidth="214.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@fxmlResources/Margaret_pic.png" />
+                           </image>
+                        </ImageView>
+                        <Label text="Label" />
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
          </children>
       </VBox>
-      <Label maxWidth="1.7976931348623157E308" text="Label" />
    </children>
 </StackPane>
