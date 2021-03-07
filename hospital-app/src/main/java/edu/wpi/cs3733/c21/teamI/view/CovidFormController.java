@@ -1,9 +1,11 @@
 package edu.wpi.cs3733.c21.teamI.view;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXRadioButton;
-import com.jfoenix.controls.JFXTextField;
+import java.awt.*;
 import java.io.IOException;
+import java.util.ArrayList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
@@ -22,42 +24,67 @@ public class CovidFormController {
       nauseaCheckbox,
       diarrheaCheckbox,
       confirmedCheckbox,
-      symptomCheckbox;
+      symptomCheckbox,
+      noneCheckbox,
+      noneCheckbox2;
   @FXML JFXRadioButton covidYesRadioBtn, covidNoRadioBtn;
-
-  @FXML JFXTextField tempTextfield;
-  // @FXML JFXButton cancel, clear, submit;
+  @FXML Label parkingIndication, warningLabel;
+  @FXML JFXButton submitBttn;
   @FXML StackPane root;
-  @FXML Label parkingIndication;
+  ArrayList<JFXCheckBox> symptoms = new ArrayList<>();
+  ArrayList<JFXCheckBox> closeContactChecks = new ArrayList<>();
 
   @FXML
-  public void initialize() {}
+  public void initialize() {
+    symptoms.add(soreThroatCheckbox);
+    symptoms.add(breathCheckbox);
+    symptoms.add(headacheCheckbox);
+    symptoms.add(tasteCheckbox);
+    symptoms.add(feverCheckbox);
+    symptoms.add(congestionCheckbox);
+    symptoms.add(coughCheckbox);
+    symptoms.add(nauseaCheckbox);
+    symptoms.add(diarrheaCheckbox);
+    closeContactChecks.add(confirmedCheckbox);
+    closeContactChecks.add(symptomCheckbox);
+    submitBttn.setDisable(true);
+  }
 
   public void submit() throws IOException {
 
-    boolean symptoms = false, waitingForResult, suspect = false;
-    double bodyTemperature = 97;
+    boolean symptoms = false, waitingForResult, isCovidRisk = false;
 
-    if (soreThroatCheckbox.isSelected()
-        | breathCheckbox.isSelected()
-        | headacheCheckbox.isSelected()
-        | tasteCheckbox.isSelected()
-        | feverCheckbox.isSelected()
-        | congestionCheckbox.isSelected()
-        | coughCheckbox.isSelected()
-        | nauseaCheckbox.isSelected()
-        | diarrheaCheckbox.isSelected()
-        | confirmedCheckbox.isSelected()
-        | symptomCheckbox.isSelected()) {
-      symptoms = true;
-    }
+    if (!soreThroatCheckbox.isSelected()
+        && breathCheckbox.isSelected()
+            | headacheCheckbox.isSelected()
+            | tasteCheckbox.isSelected()
+            | feverCheckbox.isSelected()
+            | congestionCheckbox.isSelected()
+            | coughCheckbox.isSelected()
+            | nauseaCheckbox.isSelected()
+            | diarrheaCheckbox.isSelected()
+            | confirmedCheckbox.isSelected()
+            | symptomCheckbox.isSelected())
+      if (soreThroatCheckbox.isSelected()
+          | breathCheckbox.isSelected()
+          | headacheCheckbox.isSelected()
+          | tasteCheckbox.isSelected()
+          | feverCheckbox.isSelected()
+          | congestionCheckbox.isSelected()
+          | coughCheckbox.isSelected()
+          | nauseaCheckbox.isSelected()
+          | diarrheaCheckbox.isSelected()
+          | confirmedCheckbox.isSelected()
+          | symptomCheckbox.isSelected()) {
+        symptoms = true;
+      }
 
     if (covidYesRadioBtn.isSelected()) {
       waitingForResult = true;
     }
 
-    if (symptoms == true | bodyTemperature >= 99) {
-      suspect = true;
+    if (symptoms == true) {
+      isCovidRisk = true;
     }
 
     goToWaitingScreen();
@@ -77,7 +104,6 @@ public class CovidFormController {
     symptomCheckbox.setSelected(false);
     covidYesRadioBtn.setSelected(false);
     covidNoRadioBtn.setSelected(false);
-    tempTextfield.clear();
   }
 
   public void cancel() {}
@@ -95,5 +121,28 @@ public class CovidFormController {
     root.getChildren().clear();
     root.getChildren()
         .add(FXMLLoader.load(getClass().getResource("/fxml/MobilePages/MWaitingScreen.fxml")));
+  }
+
+  public void checkFinished() {
+
+    if (IsCheckboxGroupChecked(symptoms) | noneCheckbox.isSelected()
+        && IsCheckboxGroupChecked(closeContactChecks) | noneCheckbox2.isSelected()
+        && covidYesRadioBtn.isSelected() | covidNoRadioBtn.isSelected()) {
+      submitBttn.setDisable(false);
+      warningLabel.setVisible(false);
+    } else {
+      submitBttn.setDisable(true);
+      warningLabel.setVisible(true);
+    }
+  }
+
+  public boolean IsCheckboxGroupChecked(ArrayList<JFXCheckBox> checkboxElements) {
+
+    for (JFXCheckBox c : checkboxElements) {
+      if (c.isSelected()) {
+        return true;
+      }
+    }
+    return false;
   }
 }
