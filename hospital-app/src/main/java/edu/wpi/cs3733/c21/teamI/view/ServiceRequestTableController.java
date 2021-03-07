@@ -147,16 +147,24 @@ public class ServiceRequestTableController implements Initializable {
   @FXML
   public void onFilter() {
     System.out.println("REFRESHING");
-    System.out.println(
+    boolean allMatch =
         treeView.getRoot().getChildren().stream()
                 .map(c -> c.getValue().getTicketType())
                 .distinct()
                 .count()
-            <= 1);
-    JFXTreeTableColumn<ServiceTicket, String> extraCol2 = new JFXTreeTableColumn<>("More Extra");
-    extraCol2.setPrefWidth(150);
-    extraCol2.setEditable(true);
-    extraCol2.setCellValueFactory(param -> new SimpleStringProperty("more!"));
-    treeView.getColumns().add(extraCol2);
+            <= 1;
+    System.out.println(allMatch);
+
+    if (allMatch) {
+      // need check to see if other columns are already here
+
+      treeView
+          .getColumns()
+          .addAll(
+              UniqueColumnFactory.getColumns(treeView, treeView.getRoot().getChildren().get(0).getValue()));
+      // may need more things
+    } else {
+      // reset to only base columns, stream that filters out if column name isn't in list
+    }
   }
 }
