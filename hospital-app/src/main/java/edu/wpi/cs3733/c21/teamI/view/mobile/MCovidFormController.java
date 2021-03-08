@@ -8,7 +8,10 @@ import java.util.ArrayList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
+import javafx.scene.shape.Circle;
+import javafx.stage.Stage;
 
 public class MCovidFormController {
   @FXML
@@ -122,15 +125,12 @@ public class MCovidFormController {
   }
 
   public void checkFinished() {
-
     if (IsCheckboxGroupChecked(symptoms) | noneCheckbox.isSelected()
         && IsCheckboxGroupChecked(closeContactChecks) | noneCheckbox2.isSelected()
         && covidYesRadioBtn.isSelected() | covidNoRadioBtn.isSelected()) {
       submitBttn.setDisable(false);
-      warningLabel.setVisible(false);
     } else {
       submitBttn.setDisable(true);
-      warningLabel.setVisible(true);
     }
   }
 
@@ -142,5 +142,11 @@ public class MCovidFormController {
       }
     }
     return false;
+  }
+
+  @FXML
+  public void exit(MouseEvent e) {
+    Stage stage = (Stage) ((Circle) e.getSource()).getScene().getWindow();
+    stage.close();
   }
 }

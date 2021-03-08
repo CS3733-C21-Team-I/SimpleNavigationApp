@@ -20,7 +20,9 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
+import javafx.scene.shape.Circle;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 
@@ -95,6 +97,12 @@ public class GoogleMapsController extends Application {
 
     ObservableList<String> items = FXCollections.observableArrayList(suggestions);
     autofillView.setItems(items);
+  }
+
+  @FXML
+  public void exit(MouseEvent e) {
+    Stage stage = (Stage) ((Circle) e.getSource()).getScene().getWindow();
+    stage.close();
   }
 
   private void setupRequestView() {

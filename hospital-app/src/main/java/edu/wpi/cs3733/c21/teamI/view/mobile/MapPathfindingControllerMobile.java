@@ -31,6 +31,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.stage.Stage;
 
 public class MapPathfindingControllerMobile extends MobileMapController {
   @FXML ImageView mapImage;
@@ -258,5 +259,11 @@ public class MapPathfindingControllerMobile extends MobileMapController {
 
   protected Circle setMouseActions(Circle circle, HospitalMapNode node) {
     return circle;
+  }
+
+  @FXML
+  public void exit(MouseEvent e) {
+    Stage stage = (Stage) ((Circle) e.getSource()).getScene().getWindow();
+    stage.close();
   }
 }

@@ -1,42 +1,53 @@
 package edu.wpi.cs3733.c21.teamI.view.mobile;
 
 import java.io.IOException;
+
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class WaitingScreenController extends Application {
 
-  @FXML StackPane root;
+	@FXML
+	StackPane root;
 
-  @FXML
-  public void initialize() throws InterruptedException, IOException {
-    Timeline timeline =
-        new Timeline(
-            new KeyFrame(
-                Duration.seconds(5),
-                ev -> {
-                  try {
-                    returnReviewDescision();
-                  } catch (IOException e) {
-                    e.printStackTrace();
-                  }
-                }));
-    timeline.setCycleCount(1);
-    timeline.play();
-  }
+	@FXML
+	public void initialize() throws InterruptedException, IOException {
+		Timeline timeline =
+				new Timeline(
+						new KeyFrame(
+								Duration.seconds(5),
+								ev -> {
+									try {
+										returnReviewDescision();
+									} catch (IOException e) {
+										e.printStackTrace();
+									}
+								}));
+		timeline.setCycleCount(1);
+		timeline.play();
+	}
 
-  public void returnReviewDescision() throws IOException {
-    root.getChildren().clear();
-    root.getChildren()
-        .add(FXMLLoader.load(getClass().getResource("/fxml/MobilePages/MobileNoticePage.fxml")));
-  }
+	public void returnReviewDescision() throws IOException {
+		root.getChildren().clear();
+		root.getChildren()
+				.add(FXMLLoader.load(getClass().getResource("/fxml/MobilePages/MobileNoticePage.fxml")));
+	}
 
-  @Override
-  public void start(Stage primaryStage) throws Exception {}
+	@Override
+	public void start(Stage primaryStage) throws Exception {
+	}
+
+	@FXML
+	public void exit(MouseEvent e) {
+		Stage stage = (Stage) ((Circle) e.getSource()).getScene().getWindow();
+		stage.close();
+	}
 }
