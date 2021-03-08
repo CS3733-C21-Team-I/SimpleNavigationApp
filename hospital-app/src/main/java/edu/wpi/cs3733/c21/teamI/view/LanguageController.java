@@ -72,7 +72,6 @@ public class LanguageController extends Application {
               langTextfield.getText(),
               langTime.getValue().toString(),
               langCheckbox.isSelected());
-      //      ticket.addAssignedUserID(AssignedID);
       ticket.addAssignedUserID(AssignedID);
       int id = ServiceTicketDatabaseManager.getInstance().addTicket(ticket);
       ServiceTicketDatabaseManager.getInstance().addEmployeeForTicket(id, AssignedID);
