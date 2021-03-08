@@ -2,6 +2,7 @@ package edu.wpi.cs3733.c21.teamI.view;
 
 import com.jfoenix.controls.*;
 import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
+import edu.wpi.cs3733.c21.teamI.database.NavDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.database.ServiceTicketDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.database.UserDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.ticket.InternalTransportationTicket;
@@ -43,16 +44,15 @@ public class InternalTransportationController {
               .getUserId();
       ticket =
           new InternalTransportationTicket(
-              Integer.parseInt(requesterID.getText()),
-              internalLocation.getText(),
+                  RequestID,
+                  internalLocation.getText(),
               internalDetails.getText(),
-              false,
-              internalDate.valueProperty().toString(),
-              internalTime.valueProperty().toString(),
-              internalDestination.getText(),
-              false,
-              stretcherRadio.isSelected(),
-              wheelchairRadio.isSelected());
+                  false,
+                  internalDate.valueProperty().toString(),
+                  internalTime.valueProperty().toString(),
+                  internalDestination.getText(),
+                  false,stretcherRadio.isSelected(),
+                  wheelchairRadio.isSelected());
 
       ticket.addAssignedUserID(AssignedID);
       int id = ServiceTicketDatabaseManager.getInstance().addTicket(ticket);

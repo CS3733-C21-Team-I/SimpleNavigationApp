@@ -17,7 +17,7 @@ import javafx.scene.layout.AnchorPane;
 import javax.swing.*;
 
 public class MedicineDeliveryController {
-  @FXML JFXTextField patient_name, currentID, assignedID, floor, room, locationText;
+  @FXML JFXTextField patient_name, currentID, assignedID, drug, dose, locationText;
   @FXML JFXDatePicker date;
   @FXML JFXTimePicker time;
   @FXML TextArea comment;
@@ -31,8 +31,8 @@ public class MedicineDeliveryController {
   private void submit() {
     String patientName, floorPicked, roomPicked, datePicked, timePicked, cond, com, check;
     patientName = patient_name.getText();
-    floorPicked = floor.getText();
-    roomPicked = room.getText();
+    floorPicked = drug.getText();
+    roomPicked = dose.getText();
     datePicked = date.getValue().toString();
     timePicked = time.getValue().toString();
     com = comment.getText();
@@ -108,9 +108,9 @@ public class MedicineDeliveryController {
   @FXML
   private void onClear() {
     patient_name.clear();
-    floor.clear();
+    drug.clear();
     date.valueProperty().set(null);
-    room.clear();
+    dose.clear();
     time.valueProperty().set(null);
     comment.clear();
     checkNote.setSelected(false);
