@@ -18,9 +18,9 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<?import javafx.scene.shape.Circle?>
 <StackPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamI.view.mobile.MapPathfindingControllerMobile">
    <children>
        <AnchorPane prefHeight="88.0" prefWidth="352.0">
@@ -113,7 +113,7 @@
                                     <Insets left="10.0" right="15.0" top="15.0" />
                                  </VBox.margin>
                               </HBox>
-                              <VBox fx:id="extraMenu" alignment="CENTER" spacing="10.0" visible="false">
+                              <VBox fx:id="extraMenu" alignment="CENTER" spacing="10.0">
                                  <children>
                                           <HBox alignment="CENTER" prefWidth="200.0">
                                               <children>
@@ -141,11 +141,26 @@
                                           <Insets top="15.0" />
                                        </VBox.margin>
                                           </HBox>
-                                    <JFXButton buttonType="RAISED" onAction="#onClear" style="-fx-background-color: #0067b1;" text="Return to my car" textFill="WHITE">
-                                       <font>
-                                          <Font name="System Bold" size="14.0" />
-                                       </font>
-                                    </JFXButton>
+                                    <HBox alignment="CENTER" prefWidth="200.0">
+                                       <children>
+                                          <JFXButton buttonType="RAISED" onAction="#fillCar" style="-fx-background-color: #0067b1;" text="Return to my car" textFill="WHITE">
+                                             <font>
+                                                <Font name="System Bold" size="14.0" />
+                                             </font>
+                                             <HBox.margin>
+                                                <Insets right="5.0" />
+                                             </HBox.margin>
+                                          </JFXButton>
+                                          <JFXButton fx:id="clear1" buttonType="RAISED" onAction="#exit" style="-fx-background-color: #0067b1;" text="Return to Desktop" textFill="WHITE">
+                                             <font>
+                                                <Font name="System Bold" size="14.0" />
+                                             </font>
+                                             <HBox.margin>
+                                                <Insets left="5.0" right="5.0" />
+                                             </HBox.margin>
+                                          </JFXButton>
+                                       </children>
+                                    </HBox>
                                  </children>
                               </VBox>
                            </children>
