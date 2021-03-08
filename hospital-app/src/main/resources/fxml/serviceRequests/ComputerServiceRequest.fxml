@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXTextArea?>
 <?import com.jfoenix.controls.JFXTextField?>
+<?import com.jfoenix.controls.JFXToggleButton?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.ListView?>
@@ -11,7 +13,7 @@
 
 <AnchorPane fx:id="background" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="443.0" prefWidth="359.0" stylesheets="@../fxmlResources/main.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamI.view.ComputerServiceRequestController">
    <children>
-      <VBox layoutX="42.0" layoutY="42.0" prefHeight="294.0" prefWidth="255.0" AnchorPane.bottomAnchor="107.0" AnchorPane.leftAnchor="42.0" AnchorPane.rightAnchor="62.0" AnchorPane.topAnchor="42.0">
+      <VBox layoutX="42.0" layoutY="17.0" prefHeight="319.0" prefWidth="255.0" AnchorPane.bottomAnchor="107.0" AnchorPane.leftAnchor="42.0" AnchorPane.rightAnchor="62.0" AnchorPane.topAnchor="17.0">
          <children>
             <JFXTextField fx:id="compServReqID" promptText="Requester ID">
                <VBox.margin>
@@ -33,9 +35,19 @@
                   <Insets left="10.0" right="10.0" top="20.0" />
                </VBox.margin>
             </JFXTextArea>
+            <JFXComboBox fx:id="compType" prefHeight="37.0" prefWidth="236.0" promptText="Type Of Computer">
+               <VBox.margin>
+                  <Insets left="10.0" right="10.0" top="15.0" />
+               </VBox.margin>
+            </JFXComboBox>
+            <JFXToggleButton fx:id="compServReqUrgent" text="Urgent" toggleColor="WHITE" toggleLineColor="#0067b1" unToggleColor="WHITE" unToggleLineColor="#0067b1">
+               <VBox.margin>
+                  <Insets right="10.0" top="8.0" />
+               </VBox.margin>
+            </JFXToggleButton>
          </children>
       </VBox>
-      <JFXButton fx:id="compServReqClear" onAction="#clear" buttonType="RAISED" layoutX="77.0" layoutY="366.0" prefHeight="38.0" prefWidth="82.0" ripplerFill="WHITE" style="-fx-background-color: #0067b1;" styleClass="styledButton" text="Clear" textFill="#0067b1">
+      <JFXButton fx:id="compServReqClear" buttonType="RAISED" layoutX="77.0" layoutY="366.0" onAction="#clear" prefHeight="38.0" prefWidth="82.0" ripplerFill="WHITE" style="-fx-background-color: #0067b1;" styleClass="styledButton" text="Clear" textFill="#0067b1">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
@@ -43,7 +55,7 @@
             <Insets top="5.0" />
          </padding>
       </JFXButton>
-      <JFXButton fx:id="compServReqSubmit" onAction="#getComputerServiceRequest" buttonType="RAISED" layoutX="180.0" layoutY="366.0" prefHeight="42.0" prefWidth="94.0" ripplerFill="WHITE" style="-fx-background-color: #0067b1;" styleClass="styledButton" text="Submit" textFill="#0067b1">
+      <JFXButton fx:id="compServReqSubmit" buttonType="RAISED" layoutX="180.0" layoutY="366.0" onAction="#getComputerServiceRequest" prefHeight="42.0" prefWidth="94.0" ripplerFill="WHITE" style="-fx-background-color: #0067b1;" styleClass="styledButton" text="Submit" textFill="#0067b1">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
