@@ -50,7 +50,6 @@ public class CovidFormController {
   }
 
   public void submit() throws IOException {
-
     boolean symptoms = false, waitingForResult, isCovidRisk = false;
 
     if (!soreThroatCheckbox.isSelected()

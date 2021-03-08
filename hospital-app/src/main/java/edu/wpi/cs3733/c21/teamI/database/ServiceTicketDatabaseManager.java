@@ -671,6 +671,42 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
       e.printStackTrace();
     }
 
+    // Covid
+    try {
+      Statement stmt = databaseRef.getConnection().createStatement();
+      ResultSet rs =
+          stmt.executeQuery(
+              "SELECT * FROM serviceticket st JOIN COVIDTICKET UQ on st.TICKETID = UQ.TIXID");
+      while (rs.next()) {
+        cur =
+            new CovidTicket(
+                rs.getInt("requestingUserID"),
+                rs.getString("location"),
+                rs.getString("description"),
+                rs.getBoolean("completed"),
+                rs.getBoolean("soreThroat"),
+                rs.getBoolean("breathing"),
+                rs.getBoolean("tasteSmellLoss"),
+                rs.getBoolean("fever"),
+                rs.getBoolean("congestion"),
+                rs.getBoolean("cough"),
+                rs.getBoolean("nausea"),
+                rs.getBoolean("diarrhea"),
+                rs.getBoolean("headache"),
+                rs.getBoolean("noneSymptoms"),
+                rs.getBoolean("contactCovidConfirmed"),
+                rs.getBoolean("contactCovidSymptoms"),
+                rs.getBoolean("noneContact"),
+                rs.getBoolean("covidTest"));
+        tixID = rs.getInt("ticketID");
+        cur.setTicketID(tixID);
+        cur.setAssignedUserID(getEmployeesForId(tixID));
+        tix.add(cur);
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
     // Park
     try {
       Statement stmt = databaseRef.getConnection().createStatement();
