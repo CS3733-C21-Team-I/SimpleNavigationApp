@@ -495,6 +495,7 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
 
       ResultSet rs = stmt.getGeneratedKeys();
       rs.next();
+
       int id = rs.getInt(1);
 
       // Add unique based on type
