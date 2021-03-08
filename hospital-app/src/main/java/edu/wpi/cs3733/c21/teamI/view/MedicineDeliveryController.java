@@ -6,6 +6,7 @@ import edu.wpi.cs3733.c21.teamI.database.NavDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.database.ServiceTicketDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.database.UserDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicket;
+import edu.wpi.cs3733.c21.teamI.ticket.MedicineTicket;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicketDataController;
 import edu.wpi.cs3733.c21.teamI.user.User;
 import javafx.beans.value.ChangeListener;
@@ -29,12 +30,13 @@ public class MedicineDeliveryController {
 
   @FXML
   private void submit() {
-    String patientName, floorPicked, roomPicked, datePicked, timePicked, cond, com, check;
+    String patientName, drugPicked, dosePicked, datePicked, timePicked, locationPicked, cond, com, check;
     patientName = patient_name.getText();
-    floorPicked = drug.getText();
-    roomPicked = dose.getText();
+    drugPicked = drug.getText();
+    dosePicked = dose.getText();
     datePicked = date.getValue().toString();
     timePicked = time.getValue().toString();
+    locationPicked = locationText.getText();
     com = comment.getText();
     if (checkNote.isSelected()) {
       check = "want notification";
@@ -47,12 +49,16 @@ public class MedicineDeliveryController {
       int AssignedID =
           UserDatabaseManager.getInstance().getUserForScreenname(assignedID.getText()).getUserId();
       ticket =
-          new ServiceTicket(
+          new MedicineTicket(
               RequestID,
-              ServiceTicket.TicketType.MEDICINE,
-              NavDatabaseManager.getInstance().getMapIdFromLongName(locationText.getText()),
-              comment.getText(),
-              false);
+                  locationPicked,
+                  com,
+         false,
+                  patientName,
+                  drugPicked,
+                  dosePicked,
+              datePicked,
+              timePicked);
 
       ticket.addAssignedUserID(AssignedID);
       int id = ServiceTicketDatabaseManager.getInstance().addTicket(ticket);
