@@ -354,7 +354,7 @@
                <control>
                   <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <Label prefHeight="60.0" prefWidth="206.0" text="COVID Tracker" textFill="WHITE">
+                        <Label prefHeight="42.0" prefWidth="178.0" text="COVID Tracker" textFill="WHITE">
                            <padding>
                               <Insets left="20.0" />
                            </padding>
@@ -364,7 +364,7 @@
                         </Label>
                         <ImageView fitHeight="36.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@menuImages/car.png" />
+                              <Image url="@../fxmlResources/baseline_grading_white_18dp.png" />
                            </image>
                            <HBox.margin>
                               <Insets right="16.0" />
