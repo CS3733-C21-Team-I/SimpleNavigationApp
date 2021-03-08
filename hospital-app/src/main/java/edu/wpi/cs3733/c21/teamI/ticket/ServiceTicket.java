@@ -36,7 +36,6 @@ public class ServiceTicket extends RecursiveTreeObject<ServiceTicket> {
     LANGUAGE,
     PARKING,
     FLORAL,
-    GIFT,
     INTERNAL_TRANSPORTATION,
     EXTERNAL_TRANSPORTATION,
     LAUNDRY,
@@ -44,7 +43,8 @@ public class ServiceTicket extends RecursiveTreeObject<ServiceTicket> {
     RELIGIOUS,
     SECURITY,
     SANITATION,
-    MAINTENANCE
+    MAINTENANCE,
+    COVID
   }
 
   @Override

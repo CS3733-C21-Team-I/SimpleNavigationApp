@@ -8,6 +8,7 @@ import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
 import edu.wpi.cs3733.c21.teamI.database.NavDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.database.ServiceTicketDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.database.UserDatabaseManager;
+import edu.wpi.cs3733.c21.teamI.ticket.LanguageTicket;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicket;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicketDataController;
 import edu.wpi.cs3733.c21.teamI.user.User;
@@ -47,7 +48,7 @@ public class LanguageController extends Application {
     langTextfield.clear();
     langDetails.clear();
     langLocationTextfield.clear();
-    langTime.valueProperty().set(null);
+    langTime.setValue(null);
     langReqID.clear();
     langAssignedEmp.clear();
     langCheckbox.setSelected(false);
@@ -55,6 +56,8 @@ public class LanguageController extends Application {
 
   @FXML
   void submit(ActionEvent event) {
+    String time = "";
+    if (langTime.getValue() != null) time = langTime.getValue().toString();
     try {
       int RequestID = ApplicationDataController.getInstance().getLoggedInUser().getUserId();
       int AssignedID =
@@ -62,17 +65,18 @@ public class LanguageController extends Application {
               .getUserForScreenname(langAssignedEmp.getText())
               .getUserId();
       ticket =
-          new ServiceTicket(
+          new LanguageTicket(
               RequestID,
-              ServiceTicket.TicketType.LANGUAGE,
               NavDatabaseManager.getInstance()
                   .getMapIdFromLongName(langLocationTextfield.getText()),
               langDetails.getText(),
-              false);
-      //      ticket.addAssignedUserID(AssignedID);
+              false,
+              langTextfield.getText(),
+              time,
+              langCheckbox.isSelected());
       ticket.addAssignedUserID(AssignedID);
-      ServiceTicketDatabaseManager.getInstance().addTicket(ticket);
-      ServiceTicketDatabaseManager.getInstance().addEmployeeForTicket(RequestID, AssignedID);
+      int id = ServiceTicketDatabaseManager.getInstance().addTicket(ticket);
+      ServiceTicketDatabaseManager.getInstance().addEmployeeForTicket(id, AssignedID);
     } catch (Exception o) {
       System.out.println("Error" + o);
     }

@@ -5,6 +5,7 @@ import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import edu.wpi.cs3733.c21.teamI.database.ServiceTicketDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.ticket.*;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -67,6 +68,7 @@ public class ServiceRequestTableController implements Initializable {
   public void update() {
     // treeView.setEditable(true);
 
+    ArrayList<JFXTreeTableColumn> columns = new ArrayList();
     JFXTreeTableColumn<ServiceTicket, String> ticketIDCol = new JFXTreeTableColumn<>("Ticket ID");
     ticketIDCol.setPrefWidth(150);
     ticketIDCol.setEditable(true);
@@ -118,11 +120,6 @@ public class ServiceRequestTableController implements Initializable {
         param ->
             new SimpleStringProperty(Boolean.toString(param.getValue().getValue().isCompleted())));
 
-    JFXTreeTableColumn<ServiceTicket, String> extraCol = new JFXTreeTableColumn<>("Extra");
-    extraCol.setPrefWidth(150);
-    extraCol.setEditable(true);
-    extraCol.setCellValueFactory(param -> new SimpleStringProperty("mmmmmm"));
-
     ObservableList<ServiceTicket> serviceTickets = FXCollections.observableArrayList();
     serviceTickets.addAll(ServiceTicketDatabaseManager.getInstance().getServiceTicketDB());
 
@@ -137,8 +134,24 @@ public class ServiceRequestTableController implements Initializable {
             assignIDCol,
             locationCol,
             detailsCol,
-            completeCol,
-            extraCol);
+            completeCol);
+    if (treeView.getRoot() != null) {
+      System.out.println("Checking for extra columns");
+      boolean allMatch =
+          treeView.getRoot().getChildren().stream()
+                  .map(c -> c.getValue().getTicketType())
+                  .distinct()
+                  .count()
+              <= 1;
+
+      if (allMatch) {
+        treeView
+            .getColumns()
+            .addAll(
+                UniqueColumnFactory.getColumns(
+                    treeView, treeView.getRoot().getChildren().get(0).getValue()));
+      }
+    }
     treeView.setRoot(root);
     treeView.setShowRoot(false);
     System.out.println(treeView.getRoot().getChildren());
@@ -146,25 +159,6 @@ public class ServiceRequestTableController implements Initializable {
 
   @FXML
   public void onFilter() {
-    System.out.println("REFRESHING");
-    boolean allMatch =
-        treeView.getRoot().getChildren().stream()
-                .map(c -> c.getValue().getTicketType())
-                .distinct()
-                .count()
-            <= 1;
-    System.out.println(allMatch);
-
-    if (allMatch) {
-      // need check to see if other columns are already here
-
-      treeView
-          .getColumns()
-          .addAll(
-              UniqueColumnFactory.getColumns(treeView, treeView.getRoot().getChildren().get(0).getValue()));
-      // may need more things
-    } else {
-      // reset to only base columns, stream that filters out if column name isn't in list
-    }
+    update();
   }
 }

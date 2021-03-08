@@ -21,7 +21,7 @@
                   <Font size="15.0" />
                </font>
             </Label>
-            <JFXTextField fx:id="input" focusColor="#012d5a" onKeyReleased="#onFilter" HBox.hgrow="ALWAYS" />
+            <JFXTextField fx:id="input" focusColor="#012d5a" onKeyTyped="#onFilter" HBox.hgrow="ALWAYS" />
          </children>
       </HBox>
       <JFXTreeTableView fx:id="treeView" editable="true" prefHeight="350.0" prefWidth="786.0" stylesheets="@fxmlResources/ServiceRequestTable.css" />

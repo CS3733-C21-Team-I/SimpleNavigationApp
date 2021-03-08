@@ -5,6 +5,7 @@ import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
 import edu.wpi.cs3733.c21.teamI.database.NavDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.database.ServiceTicketDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.database.UserDatabaseManager;
+import edu.wpi.cs3733.c21.teamI.ticket.LaundryTicket;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicket;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicketDataController;
 import edu.wpi.cs3733.c21.teamI.user.User;
@@ -34,19 +35,8 @@ public class LaundryRequestController {
 
   @FXML
   private void submitForm(ActionEvent actionEvent) {
-    String requestDetails,
-        pickupDate = null,
-        pickupTime = null,
-        pickupLocation,
-        requesterID,
-        assignedEmployee,
-        dryClean = null;
-
-    requestDetails = laundryAssigned.getText();
-    pickupLocation = laundryPickupLocation.getText();
-    requesterID = laundryRequesterID.getText();
-    dryClean = String.valueOf(laundryCheckbox.isSelected());
-    assignedEmployee = laundryAssigned.getText();
+    String pickupDate, pickupTime;
+    pickupDate = pickupTime = "";
     if (laundryPickupDate.getValue() != null) pickupDate = laundryPickupDate.getValue().toString();
     if (laundryPickupTime.getValue() != null) pickupTime = laundryPickupTime.getValue().toString();
 
@@ -57,16 +47,18 @@ public class LaundryRequestController {
               .getUserForScreenname(laundryAssigned.getText())
               .getUserId();
       ticket =
-          new ServiceTicket(
+          new LaundryTicket(
               RequestID,
-              ServiceTicket.TicketType.LAUNDRY,
               NavDatabaseManager.getInstance()
                   .getMapIdFromLongName(laundryPickupLocation.getText()),
               laundryRequestDetails.getText(),
-              false);
+              false,
+              pickupDate,
+              pickupTime,
+              laundryCheckbox.isSelected());
       ticket.addAssignedUserID(AssignedID);
-      ServiceTicketDatabaseManager.getInstance().addTicket(ticket);
-      ServiceTicketDatabaseManager.getInstance().addEmployeeForTicket(RequestID, AssignedID);
+      int id = ServiceTicketDatabaseManager.getInstance().addTicket(ticket);
+      ServiceTicketDatabaseManager.getInstance().addEmployeeForTicket(id, AssignedID);
     } catch (Exception o) {
       System.out.println("Error" + o);
     }

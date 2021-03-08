@@ -5,6 +5,7 @@ import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
 import edu.wpi.cs3733.c21.teamI.database.NavDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.database.ServiceTicketDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.database.UserDatabaseManager;
+import edu.wpi.cs3733.c21.teamI.ticket.InternalTransportationTicket;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicket;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicketDataController;
 import edu.wpi.cs3733.c21.teamI.user.User;
@@ -32,9 +33,15 @@ public class InternalTransportationController {
   //  String sDate, time, sName, sDestination, sPickupLocation, ID, employee;
   //  boolean bStrecherRadio = false;
   //  boolean bWheelerRadio = true;
-  //  boolean bEmergency = false;
+  // boolean bEmergency = false;
 
   public void submit(ActionEvent e) {
+    String inDate, inTime;
+    inDate = inTime = "";
+    if (internalDate.getValue() != null) inDate = internalDate.getValue().toString();
+    if (internalTime.getValue() != null) inTime = internalTime.getValue().toString();
+
+    System.out.println(inDate);
     try {
       int RequestID = ApplicationDataController.getInstance().getLoggedInUser().getUserId();
       int AssignedID =
@@ -42,15 +49,22 @@ public class InternalTransportationController {
               .getUserForScreenname(requestAssigned.getText())
               .getUserId();
       ticket =
-          new ServiceTicket(
+          new InternalTransportationTicket(
               RequestID,
-              ServiceTicket.TicketType.INTERNAL_TRANSPORTATION,
               NavDatabaseManager.getInstance().getMapIdFromLongName(internalLocation.getText()),
               internalDetails.getText(),
-              false);
+              false,
+              inDate,
+              inTime,
+              internalDestination.getText(),
+              false,
+              stretcherRadio.isSelected(),
+              wheelchairRadio.isSelected());
+
       ticket.addAssignedUserID(AssignedID);
-      ServiceTicketDatabaseManager.getInstance().addTicket(ticket);
-      ServiceTicketDatabaseManager.getInstance().addEmployeeForTicket(RequestID, AssignedID);
+      System.out.println(ticket);
+      int id = ServiceTicketDatabaseManager.getInstance().addTicket(ticket);
+      ServiceTicketDatabaseManager.getInstance().addEmployeeForTicket(id, AssignedID);
     } catch (Exception o) {
       System.out.println("Error" + o);
     }

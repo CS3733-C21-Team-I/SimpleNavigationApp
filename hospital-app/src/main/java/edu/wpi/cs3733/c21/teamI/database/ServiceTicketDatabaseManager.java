@@ -1,7 +1,8 @@
 package edu.wpi.cs3733.c21.teamI.database;
 
-import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicket;
+import edu.wpi.cs3733.c21.teamI.ticket.*;
 import edu.wpi.cs3733.c21.teamI.user.User;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -137,6 +138,22 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
         System.out.println("Error in generating Employee Table");
       }
 
+      try { // Creating the giftTicket table
+        stmt.execute(
+            "create table giftTicket(\n"
+                + "giftID integer NOT NULL GENERATED ALWAYS AS IDENTITY,\n\n"
+                + "patientName varchar(25),\n"
+                + "deliveryDate varchar(50),\n"
+                + "deliveryTime varchar(50),\n"
+                + "giftType varchar(25),\n"
+                + "location varchar(45) NOT NULL,\n"
+                + "PRIMARY KEY(giftID),\n"
+                + "FOREIGN KEY (location) REFERENCES navNodes(node_ID))");
+        // System.out.println("giftTicket table created.");
+      } catch (SQLException e) {
+        System.out.println("Error in generating giftTicket Table");
+      }
+
       try { // Creating the audioVisualTicket table
         stmt.execute(
             "create table audioVisualTicket(\n"
@@ -167,8 +184,8 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
                 + "tixID integer NOT NULL,\n"
                 + "licensePlate varchar(25),\n"
                 + "contact integer,\n"
-                + "startDate varchar(25),\n"
-                + "endDate varchar(25),\n"
+                + "startDate varchar(50),\n"
+                + "endDate varchar(50),\n"
                 + "disability boolean,\n"
                 + "FOREIGN KEY (tixID) REFERENCES SERVICETICKET(ticketID))");
         // System.out.println("employeeParkingTicket table created.");
@@ -180,8 +197,8 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
         stmt.execute(
             "create table externalTransportationTicket(\n"
                 + "tixID integer NOT NULL,\n"
-                + "pickUpDate varchar(25),\n"
-                + "pickUpTime varchar(25),\n"
+                + "pickUpDate varchar(50),\n"
+                + "pickUpTime varchar(50),\n"
                 + "destination varchar(25),\n"
                 + "FOREIGN KEY (tixID) REFERENCES SERVICETICKET(ticketID))");
         // System.out.println("externalTransportationTicket table created.");
@@ -194,34 +211,21 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
             "create table floralTicket(\n"
                 + "tixID integer NOT NULL,\n"
                 + "patientName varchar(25),\n"
-                + "deliveryDate varchar(25),\n"
-                + "deliveryTime varchar(25),\n"
+                + "deliveryDate varchar(50),\n"
+                + "deliveryTime varchar(50),\n"
                 + "FOREIGN KEY (tixID) REFERENCES SERVICETICKET(ticketID))");
         // System.out.println("floralTicket table created.");
       } catch (SQLException e) {
         System.out.println("Error in generating floralTicket Table");
       }
 
-      try { // Creating the giftTicket table
-        stmt.execute(
-            "create table giftTicket(\n"
-                + "tixID integer NOT NULL,\n"
-                + "patientName varchar(25),\n"
-                + "deliveryDate varchar(25),\n"
-                + "deliveryTime varchar(25),\n"
-                + "giftType varchar(25),\n"
-                + "FOREIGN KEY (tixID) REFERENCES SERVICETICKET(ticketID))");
-        // System.out.println("giftTicket table created.");
-      } catch (SQLException e) {
-        System.out.println("Error in generating giftTicket Table");
-      }
-
       try { // Creating the internalTransportationTicket table
         stmt.execute(
             "create table internalTransportationTicket(\n"
                 + "tixID integer NOT NULL,\n"
-                + "pickUpDate varchar(25),\n"
-                + "pickUpTime varchar(25),\n"
+                + "pickUpDate varchar(50),\n"
+                + "pickUpTime varchar(50),\n"
+                + "destination varchar(25),\n"
                 + "emergency boolean,\n"
                 + "stretcher boolean,\n"
                 + "wheelchair boolean,\n"
@@ -236,7 +240,7 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
             "create table languageTicket(\n"
                 + "tixID integer NOT NULL,\n"
                 + "language varchar(25),\n"
-                + "meetingTime varchar(25),\n"
+                + "meetingTime varchar(50),\n"
                 + "legalDocs boolean,\n"
                 + "FOREIGN KEY (tixID) REFERENCES SERVICETICKET(ticketID))");
         // System.out.println("languageTicket table created.");
@@ -248,8 +252,8 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
         stmt.execute(
             "create table laundryTicket(\n"
                 + "tixID integer NOT NULL,\n"
-                + "pickUpDate varchar(25),\n"
-                + "pickUpTime varchar(25),\n"
+                + "pickUpDate varchar(50),\n"
+                + "pickUpTime varchar(50),\n"
                 + "dryClean boolean,\n"
                 + "FOREIGN KEY (tixID) REFERENCES SERVICETICKET(ticketID))");
         // System.out.println("laundryTicket table created.");
@@ -264,9 +268,8 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
                 + "patientName varchar(25),\n"
                 + "drugName varchar(25),\n"
                 + "dose varchar(25),\n"
-                + "quantity varchar(25),\n"
-                + "date varchar(25),\n"
-                + "time varchar(25),\n"
+                + "date varchar(50),\n"
+                + "time varchar(50),\n"
                 + "FOREIGN KEY (tixID) REFERENCES SERVICETICKET(ticketID))");
         // System.out.println("medicineTicket table created.");
       } catch (SQLException e) {
@@ -280,8 +283,8 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
                 + "patientName varchar(25),\n"
                 + "religiousDenomination varchar(25),\n"
                 + "religiousType varchar(25),\n"
-                + "date varchar(25),\n"
-                + "time varchar(25),\n"
+                + "date varchar(50),\n"
+                + "time varchar(50),\n"
                 + "FOREIGN KEY (tixID) REFERENCES SERVICETICKET(ticketID))");
         // System.out.println("religiousTicket table created.");
       } catch (SQLException e) {
@@ -471,11 +474,9 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
     getTicketForId(id);
   }
 
-  public void addTicket(ServiceTicket t) {
+  public int addTicket(ServiceTicket t) {
     try {
-      Statement stmt = databaseRef.getConnection().createStatement();
-
-      stmt.executeUpdate(
+      String query =
           "INSERT INTO serviceticket(requestingUserID, ticketType, location, description, completed)\n"
               + "VALUES ("
               + t.getRequestingUserID()
@@ -487,9 +488,57 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
               + t.getDescription()
               + "', "
               + t.isCompleted()
-              + ")");
+              + ")";
+      PreparedStatement stmt =
+          databaseRef.getConnection().prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+      stmt.execute();
+
+      ResultSet rs = stmt.getGeneratedKeys();
+      rs.next();
+      int id = rs.getInt(1);
+
+      // Add unique based on type
+      switch (t.getTicketType()) {
+        case AUDIO_VISUAL:
+          ourInstance.addAudioVisual(id, (AudioVisualTicket) t);
+          break;
+        case COMPUTER:
+          ourInstance.addComputer(id, (ComputerTicket) t);
+          break;
+        case LANGUAGE:
+          ourInstance.addLanguage(id, (LanguageTicket) t);
+          break;
+        case PARKING:
+          ourInstance.addEmployeeParking(id, (EmployeeParkingTicket) t);
+          break;
+        case INTERNAL_TRANSPORTATION:
+          ourInstance.addInternalTransport(id, (InternalTransportationTicket) t);
+          break;
+        case LAUNDRY:
+          ourInstance.addLaundry(id, (LaundryTicket) t);
+          break;
+        case MEDICINE:
+          ourInstance.addMedicine(id, (MedicineTicket) t);
+          break;
+        case RELIGIOUS:
+          ourInstance.addReligious(id, (ReligiousTicket) t);
+          break;
+        case SECURITY:
+          ourInstance.addSecurity(id, (SecurityTicket) t);
+          break;
+        case COVID:
+        case EXTERNAL_TRANSPORTATION:
+        case FLORAL:
+        case SANITATION:
+        case MAINTENANCE:
+        default:
+          break;
+      }
+      return id;
+
     } catch (SQLException e) {
       e.printStackTrace();
+      throw new IllegalStateException("Failed to insert ticket");
     }
   }
 
@@ -535,24 +584,260 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
   }
 
   public List<ServiceTicket> getServiceTicketDB() {
+    // Retrieve data from every possible joined table. Oh boi...
     List<ServiceTicket> tix = new ArrayList<>();
+    ServiceTicket cur;
+    int tixID = 0;
+    // AV
     try {
       Statement stmt = databaseRef.getConnection().createStatement();
-      ResultSet rs = stmt.executeQuery("SELECT * FROM serviceticket");
-      ServiceTicket cur;
-      int tixID = 0;
+      ResultSet rs =
+          stmt.executeQuery(
+              "SELECT * FROM serviceticket st JOIN AUDIOVISUALTICKET UQ on st.TICKETID = UQ.TIXID");
       while (rs.next()) {
         cur =
-            new ServiceTicket(
+            new AudioVisualTicket(
                 rs.getInt("requestingUserID"),
-                ServiceTicket.TicketType.valueOf(rs.getString("ticketType")),
                 rs.getString("location"),
                 rs.getString("description"),
-                rs.getBoolean("completed"));
+                rs.getBoolean("completed"),
+                rs.getString("patientName"),
+                rs.getString("mediaType"));
         tixID = rs.getInt("ticketID");
         cur.setTicketID(tixID);
         cur.setAssignedUserID(getEmployeesForId(tixID));
-        // System.out.println(getEmployeesForId(tixID));
+        tix.add(cur);
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
+    // Comp
+    try {
+      Statement stmt = databaseRef.getConnection().createStatement();
+      ResultSet rs =
+          stmt.executeQuery(
+              "SELECT * FROM serviceticket st JOIN COMPUTERTICKET UQ on st.TICKETID = UQ.TIXID");
+      while (rs.next()) {
+        cur =
+            new ComputerTicket(
+                rs.getInt("requestingUserID"),
+                rs.getString("location"),
+                rs.getString("description"),
+                rs.getBoolean("completed"),
+                rs.getString("computerType"),
+                rs.getBoolean("urgency"));
+        tixID = rs.getInt("ticketID");
+        cur.setTicketID(tixID);
+        cur.setAssignedUserID(getEmployeesForId(tixID));
+        tix.add(cur);
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
+    // Park
+    try {
+      Statement stmt = databaseRef.getConnection().createStatement();
+      ResultSet rs =
+          stmt.executeQuery(
+              "SELECT * FROM serviceticket st JOIN EMPLOYEEPARKINGTICKET UQ on st.TICKETID = UQ.TIXID");
+      while (rs.next()) {
+        cur =
+            new EmployeeParkingTicket(
+                rs.getInt("requestingUserID"),
+                rs.getString("location"),
+                rs.getString("description"),
+                rs.getBoolean("completed"),
+                rs.getString("licensePlate"),
+                rs.getInt("contact"),
+                rs.getString("startDate"),
+                rs.getString("endDate"),
+                rs.getBoolean("disability"));
+        tixID = rs.getInt("ticketID");
+        cur.setTicketID(tixID);
+        cur.setAssignedUserID(getEmployeesForId(tixID));
+        tix.add(cur);
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
+    // ExTransport
+    try {
+      Statement stmt = databaseRef.getConnection().createStatement();
+      ResultSet rs =
+          stmt.executeQuery(
+              "SELECT * FROM serviceticket st JOIN EXTERNALTRANSPORTATIONTICKET UQ on st.TICKETID = UQ.TIXID");
+      while (rs.next()) {
+        cur =
+            new ExternalTransportationTicket(
+                rs.getInt("requestingUserID"),
+                rs.getString("location"),
+                rs.getString("description"),
+                rs.getBoolean("completed"),
+                rs.getString("pickUpDate"),
+                rs.getString("pickUpTime"),
+                rs.getString("destination"));
+        tixID = rs.getInt("ticketID");
+        cur.setTicketID(tixID);
+        cur.setAssignedUserID(getEmployeesForId(tixID));
+        tix.add(cur);
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
+    // InTransport
+    try {
+      Statement stmt = databaseRef.getConnection().createStatement();
+      ResultSet rs =
+          stmt.executeQuery(
+              "SELECT * FROM serviceticket st JOIN INTERNALTRANSPORTATIONTICKET UQ on st.TICKETID = UQ.TIXID");
+      while (rs.next()) {
+        cur =
+            new InternalTransportationTicket(
+                rs.getInt("requestingUserID"),
+                rs.getString("location"),
+                rs.getString("description"),
+                rs.getBoolean("completed"),
+                rs.getString("pickUpDate"),
+                rs.getString("pickUpTime"),
+                rs.getString("destination"),
+                rs.getBoolean("emergency"),
+                rs.getBoolean("stretcher"),
+                rs.getBoolean("wheelchair"));
+        tixID = rs.getInt("ticketID");
+        cur.setTicketID(tixID);
+        cur.setAssignedUserID(getEmployeesForId(tixID));
+        tix.add(cur);
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
+    // Lang
+    try {
+      Statement stmt = databaseRef.getConnection().createStatement();
+      ResultSet rs =
+          stmt.executeQuery(
+              "SELECT * FROM serviceticket st JOIN LANGUAGETICKET UQ on st.TICKETID = UQ.TIXID");
+      while (rs.next()) {
+        cur =
+            new LanguageTicket(
+                rs.getInt("requestingUserID"),
+                rs.getString("location"),
+                rs.getString("description"),
+                rs.getBoolean("completed"),
+                rs.getString("language"),
+                rs.getString("meetingTime"),
+                rs.getBoolean("legalDocs"));
+        tixID = rs.getInt("ticketID");
+        cur.setTicketID(tixID);
+        cur.setAssignedUserID(getEmployeesForId(tixID));
+        tix.add(cur);
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
+    // Laundry
+    try {
+      Statement stmt = databaseRef.getConnection().createStatement();
+      ResultSet rs =
+          stmt.executeQuery(
+              "SELECT * FROM serviceticket st JOIN LAUNDRYTICKET UQ on st.TICKETID = UQ.TIXID");
+      while (rs.next()) {
+        cur =
+            new LaundryTicket(
+                rs.getInt("requestingUserID"),
+                rs.getString("location"),
+                rs.getString("description"),
+                rs.getBoolean("completed"),
+                rs.getString("pickUpDate"),
+                rs.getString("pickUpTime"),
+                rs.getBoolean("dryClean"));
+        tixID = rs.getInt("ticketID");
+        cur.setTicketID(tixID);
+        cur.setAssignedUserID(getEmployeesForId(tixID));
+        tix.add(cur);
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
+    // Med
+    try {
+      Statement stmt = databaseRef.getConnection().createStatement();
+      ResultSet rs =
+          stmt.executeQuery(
+              "SELECT * FROM serviceticket st JOIN MEDICINETICKET UQ on st.TICKETID = UQ.TIXID");
+      while (rs.next()) {
+        cur =
+            new MedicineTicket(
+                rs.getInt("requestingUserID"),
+                rs.getString("location"),
+                rs.getString("description"),
+                rs.getBoolean("completed"),
+                rs.getString("patientName"),
+                rs.getString("drugName"),
+                rs.getString("dose"),
+                rs.getString("date"),
+                rs.getString("time"));
+        tixID = rs.getInt("ticketID");
+        cur.setTicketID(tixID);
+        cur.setAssignedUserID(getEmployeesForId(tixID));
+        tix.add(cur);
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
+    // Religious
+    try {
+      Statement stmt = databaseRef.getConnection().createStatement();
+      ResultSet rs =
+          stmt.executeQuery(
+              "SELECT * FROM serviceticket st JOIN RELIGIOUSTICKET UQ on st.TICKETID = UQ.TIXID");
+      while (rs.next()) {
+        cur =
+            new ReligiousTicket(
+                rs.getInt("requestingUserID"),
+                rs.getString("location"),
+                rs.getString("description"),
+                rs.getBoolean("completed"),
+                rs.getString("patientName"),
+                rs.getString("religiousDenomination"),
+                rs.getString("religiousType"),
+                rs.getString("date"),
+                rs.getString("time"));
+        tixID = rs.getInt("ticketID");
+        cur.setTicketID(tixID);
+        cur.setAssignedUserID(getEmployeesForId(tixID));
+        tix.add(cur);
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
+    // Security
+    try {
+      Statement stmt = databaseRef.getConnection().createStatement();
+      ResultSet rs =
+          stmt.executeQuery(
+              "SELECT * FROM serviceticket st JOIN SECURITYTICKET UQ on st.TICKETID = UQ.TIXID");
+      while (rs.next()) {
+        cur =
+            new SecurityTicket(
+                rs.getInt("requestingUserID"),
+                rs.getString("location"),
+                rs.getString("description"),
+                rs.getBoolean("completed"),
+                rs.getString("securityType"),
+                rs.getBoolean("emergency"));
+        tixID = rs.getInt("ticketID");
+        cur.setTicketID(tixID);
+        cur.setAssignedUserID(getEmployeesForId(tixID));
         tix.add(cur);
       }
     } catch (SQLException e) {
@@ -591,22 +876,22 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
   }
 
   public static void populateExampleData() {
-
     //    int empRequestID =
-    //        UserDatabaseManager.getInstance().getUserForScreenname("TestEmployee").getUserId();
-    //    int empAssignID =
+    // UserDatabaseManager.getInstance().getUserForScreenname("admin").getUserId();
+    //        int empAssignID =
+    //
     //
     // UserDatabaseManager.getInstance().getUserForScreenname("TestServiceEmployee").getUserId();
     //
     //    ServiceTicket ticket1 =
-    //        new ServiceTicket(
-    //            empRequestID, ServiceTicket.TicketType.MAINTENANCE, "ICONF00103", "info", false);
+    //        new AudioVisualTicket(empRequestID, "ICONF00103", "info", false, "ZOLO", "HEADPHONE");
     //    ticket1.setTicketID(11);
-    //    ServiceTicket ticket2 =
-    //        new ServiceTicket(
-    //            empRequestID, ServiceTicket.TicketType.LAUNDRY, "ICONF00104", "more info", true);
-    //    ticket2.setTicketID(21);
-    //
+    //        ServiceTicket ticket2 =
+    //            new ServiceTicket(
+    //                empRequestID, ServiceTicket.TicketType.LAUNDRY, "ICONF00104", "more info",
+    // true);
+    //        ticket2.setTicketID(21);
+
     //    ourInstance.addTicket(ticket1);
     //    ourInstance.addTicket(ticket2);
     //
@@ -631,14 +916,234 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
     //    }
   }
 
-  public void addEmployeeForTicket(int requestID, int assignID) {
+  public void addEmployeeForTicket(int tixId, int assignID) {
     try {
-      List<ServiceTicket> tixLs = ourInstance.getTicketsForRequestId(requestID);
-      for (ServiceTicket cur : tixLs) {
-        int tixID = cur.getTicketId();
-        ourInstance.addEmployee(tixID, assignID);
-      }
+      ourInstance.addEmployee(tixId, assignID);
     } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  public void addGift(GiftTicket gif) {
+    try {
+      Statement stmt = databaseRef.getConnection().createStatement();
+      stmt.executeUpdate(
+          "INSERT INTO GIFTTICKET(PATIENTNAME, DELIVERYDATE, DELIVERYTIME, GIFTTYPE, LOCATION)\n"
+              + "VALUES('"
+              + gif.getPatientName()
+              + "', '"
+              + gif.getDeliveryDate()
+              + "', '"
+              + gif.getDeliveryTime()
+              + "', '"
+              + gif.getGiftType()
+              + "', '"
+              + gif.getLocation()
+              + "')");
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+  }
+
+  public void removeGift(int id) {
+    try {
+      Statement stmt = databaseRef.getConnection().createStatement();
+      stmt.executeUpdate("DELETE FROM GIFTTICKET WHERE GIFTID = " + String.valueOf(id));
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+  }
+
+  // Use to remove ANY ticket type that extends ServiceTicket
+  public void removeUniqueTicket(int id, String ticketType) {
+    try {
+      Statement stmt = databaseRef.getConnection().createStatement();
+      stmt.executeUpdate(
+          "DELETE FROM " + ticketType.toUpperCase() + "TICKET WHERE TIXID = " + String.valueOf(id));
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+  }
+
+  public void addAudioVisual(int tixID, AudioVisualTicket av) {
+    try {
+      Statement stmt = databaseRef.getConnection().createStatement();
+      stmt.executeUpdate(
+          "INSERT INTO AUDIOVISUALTICKET(tixID, PATIENTNAME, MEDIATYPE)\n"
+              + "VALUES("
+              + tixID
+              + ", '"
+              + av.getPatientName()
+              + "', '"
+              + av.getMediaType()
+              + "')");
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+  }
+
+  public void addComputer(int tixID, ComputerTicket comp) {
+    try {
+      Statement stmt = databaseRef.getConnection().createStatement();
+      stmt.executeUpdate(
+          "INSERT INTO COMPUTERTICKET(tixID, COMPUTERTYPE, URGENCY)\n"
+              + "VALUES("
+              + tixID
+              + ", '"
+              + comp.getComputerType()
+              + "', "
+              + comp.isUrgency()
+              + ")");
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+  }
+
+  public void addEmployeeParking(int tixID, EmployeeParkingTicket emp) {
+    try {
+      Statement stmt = databaseRef.getConnection().createStatement();
+      stmt.executeUpdate(
+          "INSERT INTO EMPLOYEEPARKINGTICKET(tixID, LICENSEPLATE, CONTACT, STARTDATE, ENDDATE, DISABILITY)\n"
+              + "VALUES("
+              + tixID
+              + ", '"
+              + emp.getLicensePlate()
+              + "', "
+              + emp.getContact()
+              + ", '"
+              + emp.getStartDate()
+              + "', '"
+              + emp.getEndDate()
+              + "', "
+              + emp.isDisability()
+              + ")");
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+  }
+
+  public void addInternalTransport(int tixID, InternalTransportationTicket inT) {
+    try {
+      Statement stmt = databaseRef.getConnection().createStatement();
+      stmt.executeUpdate(
+          "INSERT INTO INTERNALTRANSPORTATIONTICKET(tixID, PICKUPDATE, PICKUPTIME, DESTINATION, EMERGENCY, STRETCHER, WHEELCHAIR)\n"
+              + "VALUES("
+              + tixID
+              + ", '"
+              + inT.getPickUpDate()
+              + "', '"
+              + inT.getPickUpTime()
+              + "', '"
+              + inT.getDestination()
+              + "', "
+              + inT.isEmergency()
+              + ", "
+              + inT.isStretcher()
+              + ", "
+              + inT.isWheelchair()
+              + ")");
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+  }
+
+  public void addLanguage(int tixID, LanguageTicket lang) {
+    try {
+      Statement stmt = databaseRef.getConnection().createStatement();
+      stmt.executeUpdate(
+          "INSERT INTO LANGUAGETICKET(tixID, LANGUAGE, MEETINGTIME, LEGALDOCS)\n"
+              + "VALUES("
+              + tixID
+              + ", '"
+              + lang.getLanguage()
+              + "', '"
+              + lang.getMeetingTime()
+              + "', "
+              + lang.isLegalDocs()
+              + ")");
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+  }
+
+  public void addLaundry(int tixID, LaundryTicket lau) {
+    try {
+      Statement stmt = databaseRef.getConnection().createStatement();
+      stmt.executeUpdate(
+          "INSERT INTO LAUNDRYTICKET(tixID, PICKUPDATE, PICKUPTIME, DRYCLEAN)\n"
+              + "VALUES("
+              + tixID
+              + ", '"
+              + lau.getPickUpDate()
+              + "', '"
+              + lau.getPickUpTime()
+              + "', "
+              + lau.isDryClean()
+              + ")");
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+  }
+
+  public void addMedicine(int tixID, MedicineTicket med) {
+    try {
+      Statement stmt = databaseRef.getConnection().createStatement();
+      stmt.executeUpdate(
+          "INSERT INTO MEDICINETICKET(tixID, PATIENTNAME, DRUGNAME, DOSE, DATE, TIME)\n"
+              + "VALUES("
+              + tixID
+              + ", '"
+              + med.getPatientName()
+              + "', '"
+              + med.getDrugName()
+              + "', '"
+              + med.getDose()
+              + "', '"
+              + med.getDate()
+              + "', '"
+              + med.getTime()
+              + "')");
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+  }
+
+  public void addReligious(int tixID, ReligiousTicket reg) {
+    try {
+      Statement stmt = databaseRef.getConnection().createStatement();
+      stmt.executeUpdate(
+          "INSERT INTO RELIGIOUSTICKET(tixID, PATIENTNAME, RELIGIOUSDENOMINATION, RELIGIOUSTYPE, DATE, TIME)\n"
+              + "VALUES("
+              + tixID
+              + ", '"
+              + reg.getPatientName()
+              + "', '"
+              + reg.getReligiousDenomination()
+              + "', '"
+              + reg.getReligiousType()
+              + "', '"
+              + reg.getDate()
+              + "', '"
+              + reg.getTime()
+              + "')");
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+  }
+
+  public void addSecurity(int tixID, SecurityTicket sec) {
+    try {
+      Statement stmt = databaseRef.getConnection().createStatement();
+      stmt.executeUpdate(
+          "INSERT INTO SECURITYTICKET(tixID, SECURITYTYPE, EMERGENCY)\n"
+              + "VALUES("
+              + tixID
+              + ", '"
+              + sec.getSecurityType()
+              + "', "
+              + sec.isEmergency()
+              + ")");
+    } catch (SQLException e) {
       e.printStackTrace();
     }
   }
