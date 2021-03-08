@@ -1,4 +1,4 @@
-package edu.wpi.cs3733.c21.teamI.view.maps;
+package edu.wpi.cs3733.c21.teamI.view.mobile;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
+
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

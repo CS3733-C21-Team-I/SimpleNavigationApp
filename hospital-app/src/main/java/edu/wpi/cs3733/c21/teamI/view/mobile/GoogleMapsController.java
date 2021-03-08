@@ -1,4 +1,4 @@
-package edu.wpi.cs3733.c21.teamI.view;
+package edu.wpi.cs3733.c21.teamI.view.mobile;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

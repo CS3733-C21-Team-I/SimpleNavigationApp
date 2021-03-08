@@ -1,4 +1,4 @@
-package edu.wpi.cs3733.c21.teamI.view.maps;
+package edu.wpi.cs3733.c21.teamI.view.mobile;
 
 import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMapNode;
 import java.io.IOException;
