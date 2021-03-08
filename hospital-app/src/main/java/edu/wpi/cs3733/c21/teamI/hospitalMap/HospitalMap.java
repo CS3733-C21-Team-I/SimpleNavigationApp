@@ -32,7 +32,31 @@ public class HospitalMap implements Graph<HospitalMapNode> {
     Map<String, List<String>> newConnections = new HashMap<>();
 
     for (HospitalMapNode nodeToClone : toClone.nodes) {
-      if (nodeToClone instanceof HospitalMapNode)
+      //      if (nodeToClone instanceof HospitalMapNode)
+      //        newNodes.put(
+      //            nodeToClone.getID(),
+      //            new HospitalMapNode(
+      //                nodeToClone.getID(),
+      //                nodeToClone.getMapID(),
+      //                nodeToClone.getxCoord(),
+      //                nodeToClone.getyCoord(),
+      //                new ArrayList<>()));
+      //      else if (nodeToClone instanceof LocationNode)
+      //        newNodes.put(nodeToClone.getID(), new LocationNode());
+      if (nodeToClone instanceof LocationNode) {
+        newNodes.put(
+            nodeToClone.getID(),
+            new LocationNode(
+                nodeToClone.getID(),
+                nodeToClone.getMapID(),
+                nodeToClone.getxCoord(),
+                nodeToClone.getyCoord(),
+                ((LocationNode) nodeToClone).getShortName(),
+                ((LocationNode) nodeToClone).getLongName(),
+                ((LocationNode) nodeToClone).getLocationCategory(),
+                ((LocationNode) nodeToClone).getTeamAssigned(),
+                new ArrayList<>()));
+      } else if (nodeToClone != null) {
         newNodes.put(
             nodeToClone.getID(),
             new HospitalMapNode(
@@ -41,9 +65,7 @@ public class HospitalMap implements Graph<HospitalMapNode> {
                 nodeToClone.getxCoord(),
                 nodeToClone.getyCoord(),
                 new ArrayList<>()));
-      else if (nodeToClone instanceof LocationNode)
-        newNodes.put(nodeToClone.getID(), new LocationNode());
-      else
+      } else
         throw new IllegalStateException(
             "Found unhandled node type in HospitalMap copy constructor");
 

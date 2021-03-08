@@ -97,47 +97,9 @@ public class HomeController extends Application {
     stage.show();
   }
 
-  //  public void navigate(ActionEvent e) throws IOException {
-  //    String id = ((JFXRippler) e.getSource()).getId();
-  //    if (id.equals("loginButton")) {
-  //      replacePane.getChildren().clear();
-  //      replacePane
-  //          .getChildren()
-  //          .add(FXMLLoader.load(ViewManager.class.getResource("/fxml/Profile.fxml")));
-  //    } else if (id.equals("COVIDButton")) {
-  //      replacePane.getChildren().clear();
-  //      replacePane
-  //          .getChildren()
-  //          .add(FXMLLoader.load(ViewManager.class.getResource("/fxml/Requests.fxml")));
-  //    } else if (id.equals("navigateButton")) {
-  //      replacePane.getChildren().clear();
-  //      replacePane
-  //          .getChildren()
-  //          .add(FXMLLoader.load(ViewManager.class.getResource("/fxml/Map.fxml")));
-  //    } else if (id.equals("giftsButton")) {
-  //      replacePane.getChildren().clear();
-  //      replacePane
-  //          .getChildren()
-  //          .add(FXMLLoader.load(ViewManager.class.getResource("/fxml/SanitationRequest.fxml")));
-  //    } else if (id.equals("logoutButton")) {
-  //      replacePane.getChildren().clear();
-  //      replacePane
-  //          .getChildren()
-  //          .add(FXMLLoader.load(ViewManager.class.getResource("/fxml/Profile.fxml")));
-  //    } else {
-  //      replacePane.getChildren().clear();
-  //      replacePane
-  //          .getChildren()
-  //          .add(FXMLLoader.load(ViewManager.class.getResource("/fxml/MaintenanceRequest.fxml")));
-  //    }
-  //  }
-
   @Override
   public void start(Stage primaryStage) throws Exception {
     Parent root = FXMLLoader.load(getClass().getResource("/fxml/menuFiles/Menu.fxml"));
-    // Parent root = FXMLLoader.load(getClass().getResource("/fxml/MenuFiles/CovidForm.fxml"));
-    // Parent root = FXMLLoader.load(getClass().getResource("/fxml/MobilePages/MCovidForm.fxml"));
-    //    Parent root = FXMLLoader.load(getClass().getResource("/fxml/GoogleMaps/GoogleMaps.fxml"));
     primaryStage.setTitle("Hospital App");
     Scene applicationScene = new Scene(root, 973, 800);
     ViewManager.setReplacePane(replacePane);
@@ -221,17 +183,5 @@ public class HomeController extends Application {
             }
           });
     }
-    //    if (ApplicationDataController.getInstance()
-    //        .getLoggedInUser()
-    //        .hasPermission(User.Permission.VIEW_TICKET)) {
-    //      serviceRequests.setMaxWidth(map.getMaxWidth());
-    //      serviceRequests.setVisible(true);
-    //      serviceRequests.setManaged(true);
-    //    } else {
-    //      serviceRequests.setMaxWidth(0);
-    //      serviceRequests.setVisible(false);
-    //      serviceRequests.setManaged(false);
-    //    }
-
   }
 }

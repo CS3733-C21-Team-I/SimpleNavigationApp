@@ -3,12 +3,21 @@ package edu.wpi.cs3733.c21.teamI.view.mobile;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXRadioButton;
+import edu.wpi.cs3733.c21.teamI.database.NavDatabaseManager;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+import javafx.beans.value.ChangeListener;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
@@ -34,6 +43,9 @@ public class MCovidFormController {
   @FXML StackPane root;
   ArrayList<JFXCheckBox> symptoms = new ArrayList<>();
   ArrayList<JFXCheckBox> closeContactChecks = new ArrayList<>();
+  @FXML AnchorPane background;
+  @FXML ListView parkingList;
+  @FXML TextField parkingInput;
 
   @FXML
   public void initialize() {
@@ -49,6 +61,46 @@ public class MCovidFormController {
     closeContactChecks.add(confirmedCheckbox);
     closeContactChecks.add(symptomCheckbox);
     submitBttn.setDisable(true);
+    setUpParkingDropdown();
+  }
+
+  private void setUpParkingDropdown() {
+    parkingList
+        .getSelectionModel()
+        .selectedItemProperty()
+        .addListener(
+            (ChangeListener<String>)
+                (ov, oldVal, newVal) -> {
+                  parkingInput.setText(newVal);
+                  parkingList.setVisible(false);
+                });
+    background.setOnMouseClicked(
+        t -> {
+          parkingList.setVisible(false);
+        });
+  }
+
+  @FXML
+  public void lookupParking(KeyEvent e) {
+    String matchString =
+        (parkingInput.getText()
+                + (!e.getCharacter().equals(Character.toString((char) 8)) ? e.getCharacter() : ""))
+            .toLowerCase();
+    List<String> nodeNames = NavDatabaseManager.getInstance().getParkingLongNames();
+
+    List<String> matches = new ArrayList<>();
+    System.out.println(nodeNames);
+    System.out.println(matchString);
+    for (String location : nodeNames) {
+      if (location.toLowerCase().contains(matchString)) {
+        matches.add(location);
+      }
+    }
+
+    // Add elements to ListView
+    ObservableList<String> items = FXCollections.observableArrayList(matches);
+    parkingList.setItems(items);
+    parkingList.setVisible(true);
   }
 
   public void submit() throws IOException {
@@ -110,7 +162,6 @@ public class MCovidFormController {
   public void cancel() {}
 
   public void displayParkingSpot(int lotAssigned) {
-
     parkingIndication.setText(
         "Your parking spot is "
             + String.valueOf(lotAssigned)
@@ -118,7 +169,6 @@ public class MCovidFormController {
   }
 
   public void goToWaitingScreen() throws IOException {
-    //    System.out.println(((JFXButton) actionEvent.getSource()).getScene());
     root.getChildren().clear();
     root.getChildren()
         .add(FXMLLoader.load(getClass().getResource("/fxml/MobilePages/MWaitingScreen.fxml")));

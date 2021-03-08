@@ -5,16 +5,17 @@ import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
 import edu.wpi.cs3733.c21.teamI.database.NavDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.database.ServiceTicketDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.database.UserDatabaseManager;
+import edu.wpi.cs3733.c21.teamI.ticket.ReligiousTicket;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicket;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicketDataController;
 import edu.wpi.cs3733.c21.teamI.user.User;
-import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.AnchorPane;
 
 public class ReligiousRequestController {
   ServiceTicket ticket;
@@ -30,6 +31,7 @@ public class ReligiousRequestController {
   @FXML ListView serviceLocationList, requestAssignedList;
   @FXML private JFXButton clearButton;
   @FXML private JFXButton submitButton;
+  @FXML private AnchorPane background;
 
   @FXML
   public void initialize() {
@@ -43,7 +45,14 @@ public class ReligiousRequestController {
             "Memorial Service",
             "Other");
     typeOfRequest.setItems(requestTypeList);
-    setupRequestView();
+
+    ServiceTicketDataController.setupRequestView(
+        background,
+        serviceLocationList,
+        requestAssignedList,
+        requesterID,
+        assignedEmployeeID,
+        requestLocation);
   }
 
   public void lookup(KeyEvent e) {
@@ -88,15 +97,19 @@ public class ReligiousRequestController {
               .getUserForScreenname(assignedEmployeeID.getText())
               .getUserId();
       ticket =
-          new ServiceTicket(
+          new ReligiousTicket(
               RequestID,
-              ServiceTicket.TicketType.RELIGIOUS,
               NavDatabaseManager.getInstance().getMapIdFromLongName(requestLocation.getText()),
               details.getText(),
-              false);
+              false,
+              pName,
+              rDenomination,
+              requestType,
+              reqDate,
+              reqTime);
       ticket.addAssignedUserID(AssignedID);
-      ServiceTicketDatabaseManager.getInstance().addTicket(ticket);
-      ServiceTicketDatabaseManager.getInstance().addEmployeeForTicket(RequestID, AssignedID);
+      int id = ServiceTicketDatabaseManager.getInstance().addTicket(ticket);
+      ServiceTicketDatabaseManager.getInstance().addEmployeeForTicket(id, AssignedID);
     } catch (Exception o) {
       System.out.println("Error" + o);
     }
@@ -113,28 +126,5 @@ public class ReligiousRequestController {
     assignedEmployeeID.clear();
     date.valueProperty().set(null);
     time.valueProperty().set(null);
-  }
-
-  private void setupRequestView() {
-    serviceLocationList
-        .getSelectionModel()
-        .selectedItemProperty()
-        .addListener(
-            (ChangeListener<String>)
-                (ov, oldVal, newVal) -> {
-                  requestLocation.setText(newVal);
-                  serviceLocationList.setVisible(false);
-                });
-
-    requestAssignedList
-        .getSelectionModel()
-        .selectedItemProperty()
-        .addListener(
-            (ChangeListener<String>)
-                (ov, oldVal, newVal) -> {
-                  assignedEmployeeID.setText(newVal);
-                  requestAssignedList.setVisible(false);
-                });
-    requesterID.setText(ApplicationDataController.getInstance().getLoggedInUser().getName());
   }
 }

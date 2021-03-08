@@ -21,7 +21,7 @@
             <Insets bottom="20.0" />
          </VBox.margin>
       </JFXTextArea>
-      <JFXTextField fx:id="requestLocation" onKeyTyped="#lookup" focusColor="#012d5a" maxWidth="200.0" promptText="Request Location" unFocusColor="#012d5a">
+      <JFXTextField fx:id="requestLocation" focusColor="#012d5a" maxWidth="200.0" onKeyTyped="#lookup" promptText="Request Location" unFocusColor="#012d5a">
          <font>
             <Font size="16.0" />
          </font>
@@ -37,7 +37,7 @@
             <Insets bottom="20.0" />
          </VBox.margin>
       </JFXTextField>
-      <JFXTextField fx:id="requestAssigned" onKeyPressed="#lookupUser" focusColor="#012d5a" maxWidth="200.0" promptText="Employee Assigned" unFocusColor="#012d5a">
+      <JFXTextField fx:id="requestAssigned" focusColor="#012d5a" maxWidth="200.0" onKeyPressed="#lookupUser" promptText="Employee Assigned" unFocusColor="#012d5a">
          <font>
             <Font size="16.0" />
          </font>
@@ -66,6 +66,6 @@
          </JFXButton>
       </HBox>
    </VBox>
-   <ListView fx:id="serviceLocationList" prefHeight="114.0" prefWidth="613.0" visible="false" />
-   <ListView fx:id="requestAssignedList" layoutX="407.0" layoutY="388.0" prefHeight="200.0" prefWidth="200.0" visible="false" />
+   <ListView fx:id="serviceLocationList" layoutX="83.0" layoutY="123.0" prefHeight="114.0" prefWidth="200.0" visible="false" />
+   <ListView fx:id="requestAssignedList" layoutX="83.0" layoutY="240.0" prefHeight="169.0" prefWidth="200.0" visible="false" />
 </AnchorPane>

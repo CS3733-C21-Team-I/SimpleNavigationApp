@@ -199,7 +199,7 @@
                                 </Label>
                             </children>
                         </AnchorPane>
-                        <JFXListView fx:id="directionsField" maxHeight="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" VBox.vgrow="ALWAYS" />
+                        <JFXListView fx:id="directionsField" />
                     </children>
                     <HBox.margin>
                         <Insets />
