@@ -117,7 +117,7 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
                 + "    CONSTRAINT ticketID_PK PRIMARY KEY (ticketID),\n"
                 + "    CONSTRAINT ticket_ck CHECK (serviceticket.ticketType in "
                 + "('AUDIO_VISUAL', 'COMPUTER', 'LANGUAGE', 'PARKING', 'FLORAL', 'GIFT', 'INTERNAL_TRANSPORTATION',"
-                + "'EXTERNAL_TRANSPORTATION', 'LAUNDRY', 'MEDICINE', 'RELIGIOUS', 'SECURITY', 'SANITATION', 'MAINTENANCE')),\n"
+                + "'EXTERNAL_TRANSPORTATION', 'LAUNDRY', 'MEDICINE', 'RELIGIOUS', 'SECURITY', 'SANITATION', 'MAINTENANCE', 'COVID')),\n"
                 + "    CONSTRAINT location_FK FOREIGN KEY (location) REFERENCES navNodes(node_ID),"
                 + "  CONSTRAINT requestID_FK FOREIGN KEY (requestingUserID) REFERENCES HOSPITAL_USERS(user_ID))");
         // System.out.println("ServiceTicket table created.");
@@ -176,6 +176,30 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
         // System.out.println("computerTicket table created.");
       } catch (SQLException e) {
         System.out.println("Error in generating computerTicket Table");
+      }
+
+      try { // Creating the covidTicket table
+        stmt.execute(
+            "create table covidTicket(\n"
+                + "tixID integer NOT NULL,\n"
+                + "soreThroat boolean,\n"
+                + "breathing boolean,\n"
+                + "tasteSmellLoss boolean,\n"
+                + "fever boolean,\n"
+                + "congestion boolean,\n"
+                + "cough boolean,\n"
+                + "nausea boolean,\n"
+                + "diarrhea boolean,\n"
+                + "headache boolean,\n"
+                + "noneSymptoms boolean,\n"
+                + "contactCovidConfirmed boolean,\n"
+                + "contactCovidSymptoms boolean,\n"
+                + "noneContact boolean,\n"
+                + "covidTest boolean,\n"
+                + "FOREIGN KEY (tixID) REFERENCES SERVICETICKET(ticketID))");
+        // System.out.println("covidTicket table created.");
+      } catch (SQLException e) {
+        System.out.println("Error in generating covidTicket Table");
       }
 
       try { // Creating the employeeParkingTicket table
@@ -324,6 +348,15 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
       try {
         // Drop the religiousTicket table.
         stmt.execute("DROP TABLE computerTicket");
+        // System.out.println("religiousTicket table dropped.");
+      } catch (SQLException ex) {
+        // No need to report an error.
+        // The table simply did not exist.
+      }
+
+      try {
+        // Drop the religiousTicket table.
+        stmt.execute("DROP TABLE covidTicket");
         // System.out.println("religiousTicket table dropped.");
       } catch (SQLException ex) {
         // No need to report an error.
@@ -505,6 +538,9 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
         case COMPUTER:
           ourInstance.addComputer(id, (ComputerTicket) t);
           break;
+        case COVID:
+          ourInstance.addCovid(id, (CovidTicket) t);
+          break;
         case LANGUAGE:
           ourInstance.addLanguage(id, (LanguageTicket) t);
           break;
@@ -526,7 +562,6 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
         case SECURITY:
           ourInstance.addSecurity(id, (SecurityTicket) t);
           break;
-        case COVID:
         case EXTERNAL_TRANSPORTATION:
         case FLORAL:
         case SANITATION:
@@ -576,7 +611,7 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
       stmt.execute(
           "UPDATE employee SET employeeID= "
               + String.valueOf(employeeID)
-              + " WHERE TICKETID = "
+              + " WHERE TIXID = "
               + String.valueOf(id));
     } catch (SQLException e) {
       e.printStackTrace();
@@ -584,24 +619,260 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
   }
 
   public List<ServiceTicket> getServiceTicketDB() {
+    // Retrieve data from every possible joined table. Oh boi...
     List<ServiceTicket> tix = new ArrayList<>();
+    ServiceTicket cur;
+    int tixID = 0;
+    // AV
     try {
       Statement stmt = databaseRef.getConnection().createStatement();
-      ResultSet rs = stmt.executeQuery("SELECT * FROM serviceticket");
-      ServiceTicket cur;
-      int tixID = 0;
+      ResultSet rs =
+          stmt.executeQuery(
+              "SELECT * FROM serviceticket st JOIN AUDIOVISUALTICKET UQ on st.TICKETID = UQ.TIXID");
       while (rs.next()) {
         cur =
-            new ServiceTicket(
+            new AudioVisualTicket(
                 rs.getInt("requestingUserID"),
-                ServiceTicket.TicketType.valueOf(rs.getString("ticketType")),
                 rs.getString("location"),
                 rs.getString("description"),
-                rs.getBoolean("completed"));
+                rs.getBoolean("completed"),
+                rs.getString("patientName"),
+                rs.getString("mediaType"));
         tixID = rs.getInt("ticketID");
         cur.setTicketID(tixID);
         cur.setAssignedUserID(getEmployeesForId(tixID));
-        // System.out.println(getEmployeesForId(tixID));
+        tix.add(cur);
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
+    // Comp
+    try {
+      Statement stmt = databaseRef.getConnection().createStatement();
+      ResultSet rs =
+          stmt.executeQuery(
+              "SELECT * FROM serviceticket st JOIN COMPUTERTICKET UQ on st.TICKETID = UQ.TIXID");
+      while (rs.next()) {
+        cur =
+            new ComputerTicket(
+                rs.getInt("requestingUserID"),
+                rs.getString("location"),
+                rs.getString("description"),
+                rs.getBoolean("completed"),
+                rs.getString("computerType"),
+                rs.getBoolean("urgency"));
+        tixID = rs.getInt("ticketID");
+        cur.setTicketID(tixID);
+        cur.setAssignedUserID(getEmployeesForId(tixID));
+        tix.add(cur);
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
+    // Park
+    try {
+      Statement stmt = databaseRef.getConnection().createStatement();
+      ResultSet rs =
+          stmt.executeQuery(
+              "SELECT * FROM serviceticket st JOIN EMPLOYEEPARKINGTICKET UQ on st.TICKETID = UQ.TIXID");
+      while (rs.next()) {
+        cur =
+            new EmployeeParkingTicket(
+                rs.getInt("requestingUserID"),
+                rs.getString("location"),
+                rs.getString("description"),
+                rs.getBoolean("completed"),
+                rs.getString("licensePlate"),
+                rs.getInt("contact"),
+                rs.getString("startDate"),
+                rs.getString("endDate"),
+                rs.getBoolean("disability"));
+        tixID = rs.getInt("ticketID");
+        cur.setTicketID(tixID);
+        cur.setAssignedUserID(getEmployeesForId(tixID));
+        tix.add(cur);
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
+    // ExTransport
+    try {
+      Statement stmt = databaseRef.getConnection().createStatement();
+      ResultSet rs =
+          stmt.executeQuery(
+              "SELECT * FROM serviceticket st JOIN EXTERNALTRANSPORTATIONTICKET UQ on st.TICKETID = UQ.TIXID");
+      while (rs.next()) {
+        cur =
+            new ExternalTransportationTicket(
+                rs.getInt("requestingUserID"),
+                rs.getString("location"),
+                rs.getString("description"),
+                rs.getBoolean("completed"),
+                rs.getString("pickUpDate"),
+                rs.getString("pickUpTime"),
+                rs.getString("destination"));
+        tixID = rs.getInt("ticketID");
+        cur.setTicketID(tixID);
+        cur.setAssignedUserID(getEmployeesForId(tixID));
+        tix.add(cur);
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
+    // InTransport
+    try {
+      Statement stmt = databaseRef.getConnection().createStatement();
+      ResultSet rs =
+          stmt.executeQuery(
+              "SELECT * FROM serviceticket st JOIN INTERNALTRANSPORTATIONTICKET UQ on st.TICKETID = UQ.TIXID");
+      while (rs.next()) {
+        cur =
+            new InternalTransportationTicket(
+                rs.getInt("requestingUserID"),
+                rs.getString("location"),
+                rs.getString("description"),
+                rs.getBoolean("completed"),
+                rs.getString("pickUpDate"),
+                rs.getString("pickUpTime"),
+                rs.getString("destination"),
+                rs.getBoolean("emergency"),
+                rs.getBoolean("stretcher"),
+                rs.getBoolean("wheelchair"));
+        tixID = rs.getInt("ticketID");
+        cur.setTicketID(tixID);
+        cur.setAssignedUserID(getEmployeesForId(tixID));
+        tix.add(cur);
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
+    // Lang
+    try {
+      Statement stmt = databaseRef.getConnection().createStatement();
+      ResultSet rs =
+          stmt.executeQuery(
+              "SELECT * FROM serviceticket st JOIN LANGUAGETICKET UQ on st.TICKETID = UQ.TIXID");
+      while (rs.next()) {
+        cur =
+            new LanguageTicket(
+                rs.getInt("requestingUserID"),
+                rs.getString("location"),
+                rs.getString("description"),
+                rs.getBoolean("completed"),
+                rs.getString("language"),
+                rs.getString("meetingTime"),
+                rs.getBoolean("legalDocs"));
+        tixID = rs.getInt("ticketID");
+        cur.setTicketID(tixID);
+        cur.setAssignedUserID(getEmployeesForId(tixID));
+        tix.add(cur);
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
+    // Laundry
+    try {
+      Statement stmt = databaseRef.getConnection().createStatement();
+      ResultSet rs =
+          stmt.executeQuery(
+              "SELECT * FROM serviceticket st JOIN LAUNDRYTICKET UQ on st.TICKETID = UQ.TIXID");
+      while (rs.next()) {
+        cur =
+            new LaundryTicket(
+                rs.getInt("requestingUserID"),
+                rs.getString("location"),
+                rs.getString("description"),
+                rs.getBoolean("completed"),
+                rs.getString("pickUpDate"),
+                rs.getString("pickUpTime"),
+                rs.getBoolean("dryClean"));
+        tixID = rs.getInt("ticketID");
+        cur.setTicketID(tixID);
+        cur.setAssignedUserID(getEmployeesForId(tixID));
+        tix.add(cur);
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
+    // Med
+    try {
+      Statement stmt = databaseRef.getConnection().createStatement();
+      ResultSet rs =
+          stmt.executeQuery(
+              "SELECT * FROM serviceticket st JOIN MEDICINETICKET UQ on st.TICKETID = UQ.TIXID");
+      while (rs.next()) {
+        cur =
+            new MedicineTicket(
+                rs.getInt("requestingUserID"),
+                rs.getString("location"),
+                rs.getString("description"),
+                rs.getBoolean("completed"),
+                rs.getString("patientName"),
+                rs.getString("drugName"),
+                rs.getString("dose"),
+                rs.getString("date"),
+                rs.getString("time"));
+        tixID = rs.getInt("ticketID");
+        cur.setTicketID(tixID);
+        cur.setAssignedUserID(getEmployeesForId(tixID));
+        tix.add(cur);
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
+    // Religious
+    try {
+      Statement stmt = databaseRef.getConnection().createStatement();
+      ResultSet rs =
+          stmt.executeQuery(
+              "SELECT * FROM serviceticket st JOIN RELIGIOUSTICKET UQ on st.TICKETID = UQ.TIXID");
+      while (rs.next()) {
+        cur =
+            new ReligiousTicket(
+                rs.getInt("requestingUserID"),
+                rs.getString("location"),
+                rs.getString("description"),
+                rs.getBoolean("completed"),
+                rs.getString("patientName"),
+                rs.getString("religiousDenomination"),
+                rs.getString("religiousType"),
+                rs.getString("date"),
+                rs.getString("time"));
+        tixID = rs.getInt("ticketID");
+        cur.setTicketID(tixID);
+        cur.setAssignedUserID(getEmployeesForId(tixID));
+        tix.add(cur);
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
+    // Security
+    try {
+      Statement stmt = databaseRef.getConnection().createStatement();
+      ResultSet rs =
+          stmt.executeQuery(
+              "SELECT * FROM serviceticket st JOIN SECURITYTICKET UQ on st.TICKETID = UQ.TIXID");
+      while (rs.next()) {
+        cur =
+            new SecurityTicket(
+                rs.getInt("requestingUserID"),
+                rs.getString("location"),
+                rs.getString("description"),
+                rs.getBoolean("completed"),
+                rs.getString("securityType"),
+                rs.getBoolean("emergency"));
+        tixID = rs.getInt("ticketID");
+        cur.setTicketID(tixID);
+        cur.setAssignedUserID(getEmployeesForId(tixID));
         tix.add(cur);
       }
     } catch (SQLException e) {
@@ -757,6 +1028,48 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
               + comp.getComputerType()
               + "', "
               + comp.isUrgency()
+              + ")");
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+  }
+
+  public void addCovid(int tixID, CovidTicket cov) {
+    try {
+      Statement stmt = databaseRef.getConnection().createStatement();
+      stmt.executeUpdate(
+          "INSERT INTO COVIDTICKET(tixID, SORETHROAT, BREATHING, TASTESMELLLOSS, FEVER, CONGESTION, "
+              + "COUGH, NAUSEA, DIARRHEA, HEADACHE, NONESYMPTOMS, CONTACTCOVIDCONFIRMED, CONTACTCOVIDSYMPTOMS, NONECONTACT, COVIDTEST)\n"
+              + "VALUES("
+              + tixID
+              + ", "
+              + cov.isSoreThroat()
+              + ", "
+              + cov.isBreathing()
+              + ", "
+              + cov.isTasteSmellLoss()
+              + ", "
+              + cov.isFever()
+              + ", "
+              + cov.isCongestion()
+              + ", "
+              + cov.isCough()
+              + ", "
+              + cov.isNausea()
+              + ", "
+              + cov.isDiarrhea()
+              + ", "
+              + cov.isHeadache()
+              + ", "
+              + cov.isNoneSymptoms()
+              + ", "
+              + cov.isContactCovidConfirmed()
+              + ", "
+              + cov.isContactCovidSymptoms()
+              + ", "
+              + cov.isNoneContact()
+              + ", "
+              + cov.isCovidTest()
               + ")");
     } catch (SQLException e) {
       e.printStackTrace();

@@ -484,6 +484,8 @@ public class UserDatabaseManager extends DatabaseManager {
     ourInstance.createNewRole(IT_EMPLOYEE, "TODO", RESPOND_TO_COMPUTER, RESPOND_TO_AV);
     ourInstance.createNewRole(TRANSLATOR, "TODO", RESPOND_TO_TRANSLATOR);
     ourInstance.createNewRole(NURSE, "TODO", RESPOND_TO_MEDICINE_REQUEST);
+    ourInstance.createNewRole(VISITOR, "TODO", SUBMIT_COVD_TICKET);
+    ourInstance.createNewUser("visitor", "visitor", VISITOR);
 
     //      Statement stmt = ourInstance.databaseRef.getConnection().createStatement();
     //      stmt.addBatch("INSERT INTO HOSPITAL_USERS (SCREENNAME) VALUES ('TestVisitor')");

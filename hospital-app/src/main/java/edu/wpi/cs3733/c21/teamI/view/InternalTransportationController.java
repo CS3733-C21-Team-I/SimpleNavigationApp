@@ -2,6 +2,7 @@ package edu.wpi.cs3733.c21.teamI.view;
 
 import com.jfoenix.controls.*;
 import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
+import edu.wpi.cs3733.c21.teamI.database.NavDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.database.ServiceTicketDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.database.UserDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.ticket.InternalTransportationTicket;
@@ -34,6 +35,12 @@ public class InternalTransportationController {
   // boolean bEmergency = false;
 
   public void submit(ActionEvent e) {
+    String inDate, inTime;
+    inDate = inTime = "";
+    if (internalDate.getValue() != null) inDate = internalDate.getValue().toString();
+    if (internalTime.getValue() != null) inTime = internalTime.getValue().toString();
+
+    System.out.println(inDate);
     try {
       int RequestID = ApplicationDataController.getInstance().getLoggedInUser().getUserId();
       int AssignedID =
@@ -42,18 +49,19 @@ public class InternalTransportationController {
               .getUserId();
       ticket =
           new InternalTransportationTicket(
-              Integer.parseInt(requesterID.getText()),
-              internalLocation.getText(),
+              RequestID,
+              NavDatabaseManager.getInstance().getMapIdFromLongName(internalLocation.getText()),
               internalDetails.getText(),
               false,
-              internalDate.valueProperty().toString(),
-              internalTime.valueProperty().toString(),
+              inDate,
+              inTime,
               internalDestination.getText(),
               false,
               stretcherRadio.isSelected(),
               wheelchairRadio.isSelected());
 
       ticket.addAssignedUserID(AssignedID);
+      System.out.println(ticket);
       int id = ServiceTicketDatabaseManager.getInstance().addTicket(ticket);
       ServiceTicketDatabaseManager.getInstance().addEmployeeForTicket(id, AssignedID);
     } catch (Exception o) {
