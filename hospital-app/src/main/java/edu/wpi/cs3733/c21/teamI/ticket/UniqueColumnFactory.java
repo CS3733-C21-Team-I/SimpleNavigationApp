@@ -3,16 +3,15 @@ package edu.wpi.cs3733.c21.teamI.ticket;
 import static edu.wpi.cs3733.c21.teamI.ticket.ServiceTicket.TicketType.*;
 
 import com.jfoenix.controls.JFXTreeTableColumn;
-import java.util.ArrayList;
-
 import com.jfoenix.controls.JFXTreeTableView;
+import java.util.ArrayList;
 import javafx.beans.property.SimpleStringProperty;
 
 public class UniqueColumnFactory {
   private static JFXTreeTableView<ServiceTicket> table;
 
   public static ArrayList<JFXTreeTableColumn<ServiceTicket, String>> getColumns(
-          JFXTreeTableView<ServiceTicket> treeView, ServiceTicket ticket) {
+      JFXTreeTableView<ServiceTicket> treeView, ServiceTicket ticket) {
     table = treeView;
     ArrayList<JFXTreeTableColumn<ServiceTicket, String>> columnList = new ArrayList();
     ServiceTicket.TicketType type = ticket.getTicketType();
@@ -32,11 +31,11 @@ public class UniqueColumnFactory {
       columnList.add(makeColumn("Patient Name", ((FloralTicket) ticket).getPatientName()));
       columnList.add(makeColumn("Delivery Date", ((FloralTicket) ticket).getDeliveryDate()));
       columnList.add(makeColumn("Delivery Time", ((FloralTicket) ticket).getDeliveryTime()));
-    } else if (type == GIFT) {
-      columnList.add(makeColumn("Patient Name", ((GiftTicket) ticket).getPatientName()));
-      columnList.add(makeColumn("Delivery Date", ((GiftTicket) ticket).getDeliveryDate()));
-      columnList.add(makeColumn("Delivery Time", ((GiftTicket) ticket).getDeliveryTime()));
-      columnList.add(makeColumn("Gift Type", ((GiftTicket) ticket).getGiftType()));
+      //    } else if (type == GIFT) {
+      //      columnList.add(makeColumn("Patient Name", ((GiftTicket) ticket).getPatientName()));
+      //      columnList.add(makeColumn("Delivery Date", ((GiftTicket) ticket).getDeliveryDate()));
+      //      columnList.add(makeColumn("Delivery Time", ((GiftTicket) ticket).getDeliveryTime()));
+      //      columnList.add(makeColumn("Gift Type", ((GiftTicket) ticket).getGiftType()));
     } else if (type == INTERNAL_TRANSPORTATION) {
       columnList.add(
           makeColumn("Pick Up Date", ((InternalTransportationTicket) ticket).getPickUpDate()));
@@ -90,7 +89,7 @@ public class UniqueColumnFactory {
   }
 
   private static JFXTreeTableColumn makeColumn(String name, String value) {
-//    if(table.getColumns())
+    //    if(table.getColumns())
     JFXTreeTableColumn<ServiceTicket, String> column = new JFXTreeTableColumn<>(name);
     column.setCellValueFactory(param -> new SimpleStringProperty(value));
     column.setPrefWidth(150);

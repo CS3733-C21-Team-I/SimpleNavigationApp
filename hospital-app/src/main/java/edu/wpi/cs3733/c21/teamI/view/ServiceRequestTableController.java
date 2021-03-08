@@ -161,7 +161,8 @@ public class ServiceRequestTableController implements Initializable {
       treeView
           .getColumns()
           .addAll(
-              UniqueColumnFactory.getColumns(treeView, treeView.getRoot().getChildren().get(0).getValue()));
+              UniqueColumnFactory.getColumns(
+                  treeView, treeView.getRoot().getChildren().get(0).getValue()));
       // may need more things
     } else {
       // reset to only base columns, stream that filters out if column name isn't in list
