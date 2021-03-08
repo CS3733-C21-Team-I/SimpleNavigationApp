@@ -496,6 +496,35 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
       ResultSet rs = stmt.getGeneratedKeys();
       rs.next();
       int id = rs.getInt(1);
+
+      // Add unique based on type
+      switch (t.getTicketType()) {
+        case AUDIO_VISUAL:
+          ourInstance.addAudioVisual(id, (AudioVisualTicket) t);
+        case COMPUTER:
+          ourInstance.addComputer(id, (ComputerTicket) t);
+        case PARKING:
+          ourInstance.addEmployeeParking(id, (EmployeeParkingTicket) t);
+        case INTERNAL_TRANSPORTATION:
+          ourInstance.addInternalTransport(id, (InternalTransportationTicket) t);
+        case LANGUAGE:
+          ourInstance.addLanguage(id, (LanguageTicket) t);
+        case LAUNDRY:
+          ourInstance.addLaundry(id, (LaundryTicket) t);
+        case MEDICINE:
+          ourInstance.addMedicine(id, (MedicineTicket) t);
+        case RELIGIOUS:
+          ourInstance.addReligious(id, (ReligiousTicket) t);
+        case SECURITY:
+          ourInstance.addSecurity(id, (SecurityTicket) t);
+        case COVID:
+        case EXTERNAL_TRANSPORTATION:
+        case FLORAL:
+        case SANITATION:
+        case MAINTENANCE:
+        default:
+          break;
+      }
       return id;
 
     } catch (SQLException e) {
@@ -655,17 +684,37 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
       Statement stmt = databaseRef.getConnection().createStatement();
       stmt.executeUpdate(
           "INSERT INTO GIFTTICKET(PATIENTNAME, DELIVERYDATE, DELIVERYTIME, GIFTTYPE, LOCATION)\n"
-              + "VALUES("
+              + "VALUES('"
               + gif.getPatientName()
-              + ", "
+              + "', '"
               + gif.getDeliveryDate()
-              + ", "
+              + "', '"
               + gif.getDeliveryTime()
-              + ", "
+              + "', '"
               + gif.getGiftType()
-              + ", "
+              + "', '"
               + gif.getLocation()
-              + ")");
+              + "')");
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+  }
+
+  public void removeGift(int id) {
+    try {
+      Statement stmt = databaseRef.getConnection().createStatement();
+      stmt.executeUpdate("DELETE FROM GIFTTICKET WHERE GIFTID = " + String.valueOf(id));
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+  }
+
+  // Use to remove ANY ticket type that extends ServiceTicket
+  public void removeUniqueTicket(int id, String ticketType) {
+    try {
+      Statement stmt = databaseRef.getConnection().createStatement();
+      stmt.executeUpdate(
+          "DELETE FROM " + ticketType.toUpperCase() + "TICKET WHERE TIXID = " + String.valueOf(id));
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -677,12 +726,12 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
       stmt.executeUpdate(
           "INSERT INTO AUDIOVISUALTICKET(tixID, PATIENTNAME, MEDIATYPE)\n"
               + "VALUES("
-              + String.valueOf(tixID)
-              + ", "
+              + tixID
+              + ", '"
               + av.getPatientName()
-              + ", "
+              + "', '"
               + av.getMediaType()
-              + ")");
+              + "')");
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -694,10 +743,10 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
       stmt.executeUpdate(
           "INSERT INTO COMPUTERTICKET(tixID, COMPUTERTYPE, URGENCY)\n"
               + "VALUES("
-              + String.valueOf(tixID)
-              + ", "
+              + tixID
+              + ", '"
               + comp.getComputerType()
-              + ", "
+              + "', "
               + comp.isUrgency()
               + ")");
     } catch (SQLException e) {
@@ -711,16 +760,16 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
       stmt.executeUpdate(
           "INSERT INTO EMPLOYEEPARKINGTICKET(tixID, LICENSEPLATE, CONTACT, STARTDATE, ENDDATE, DISABILITY)\n"
               + "VALUES("
-              + String.valueOf(tixID)
-              + ", "
+              + tixID
+              + ", '"
               + emp.getLicensePlate()
-              + ", "
+              + "', "
               + emp.getContact()
-              + ", "
+              + ", '"
               + emp.getStartDate()
-              + ", "
+              + "', '"
               + emp.getEndDate()
-              + ", "
+              + "', "
               + emp.isDisability()
               + ")");
     } catch (SQLException e) {
@@ -734,14 +783,14 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
       stmt.executeUpdate(
           "INSERT INTO INTERNALTRANSPORTATIONTICKET(tixID, PICKUPDATE, PICKUPTIME, DESTINATION, EMERGENCY, STRETCHER, WHEELCHAIR)\n"
               + "VALUES("
-              + String.valueOf(tixID)
-              + ", "
+              + tixID
+              + ", '"
               + inT.getPickUpDate()
-              + ", "
+              + "', '"
               + inT.getPickUpTime()
-              + ", "
+              + "', '"
               + inT.getDestination()
-              + ", "
+              + "', "
               + inT.isEmergency()
               + ", "
               + inT.isStretcher()
@@ -759,12 +808,12 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
       stmt.executeUpdate(
           "INSERT INTO LANGUAGETICKET(tixID, LANGUAGE, MEETINGTIME, LEGALDOCS)\n"
               + "VALUES("
-              + String.valueOf(tixID)
-              + ", "
+              + tixID
+              + ", '"
               + lang.getLanguage()
-              + ", "
+              + "', '"
               + lang.getMeetingTime()
-              + ", "
+              + "', "
               + lang.isLegalDocs()
               + ")");
     } catch (SQLException e) {
@@ -778,12 +827,12 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
       stmt.executeUpdate(
           "INSERT INTO LAUNDRYTICKET(tixID, PICKUPDATE, PICKUPTIME, DRYCLEAN)\n"
               + "VALUES("
-              + String.valueOf(tixID)
-              + ", "
+              + tixID
+              + ", '"
               + lau.getPickUpDate()
-              + ", "
+              + "', '"
               + lau.getPickUpTime()
-              + ", "
+              + "', "
               + lau.isDryClean()
               + ")");
     } catch (SQLException e) {
@@ -795,20 +844,20 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
     try {
       Statement stmt = databaseRef.getConnection().createStatement();
       stmt.executeUpdate(
-              "INSERT INTO MEDICINETICKET(tixID, PATIENTNAME, DRUGNAME, DOSE, DATE, TIME)\n"
-                      + "VALUES("
-                      + String.valueOf(tixID)
-                      + ", "
-                      + med.getPatientName()
-                      + ", "
-                      + med.getPatientName()
-                      + ", "
-                      + med.getDrugName()
-                      + ", "
-                      + med.getDate()
-                      + ", "
-                      + med.getTime()
-                      + ")");
+          "INSERT INTO MEDICINETICKET(tixID, PATIENTNAME, DRUGNAME, DOSE, DATE, TIME)\n"
+              + "VALUES("
+              + tixID
+              + ", '"
+              + med.getPatientName()
+              + "', '"
+              + med.getDrugName()
+              + "', '"
+              + med.getDose()
+              + "', '"
+              + med.getDate()
+              + "', '"
+              + med.getTime()
+              + "')");
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -820,21 +869,37 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
       stmt.executeUpdate(
           "INSERT INTO RELIGIOUSTICKET(tixID, PATIENTNAME, RELIGIOUSDENOMINATION, RELIGIOUSTYPE, DATE, TIME)\n"
               + "VALUES("
-              + String.valueOf(tixID)
-              + ", "
+              + tixID
+              + ", '"
               + reg.getPatientName()
-              + ", "
+              + "', '"
               + reg.getReligiousDenomination()
-              + ", "
+              + "', '"
               + reg.getReligiousType()
-              + ", "
+              + "', '"
               + reg.getDate()
-              + ", "
+              + "', '"
               + reg.getTime()
-              + ")");
+              + "')");
     } catch (SQLException e) {
       e.printStackTrace();
     }
   }
 
+  public void addSecurity(int tixID, SecurityTicket sec) {
+    try {
+      Statement stmt = databaseRef.getConnection().createStatement();
+      stmt.executeUpdate(
+          "INSERT INTO SECURITYTICKET(tixID, SECURITYTYPE, EMERGENCY)\n"
+              + "VALUES("
+              + tixID
+              + ", '"
+              + sec.getSecurityType()
+              + "', "
+              + sec.isEmergency()
+              + ")");
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+  }
 }
