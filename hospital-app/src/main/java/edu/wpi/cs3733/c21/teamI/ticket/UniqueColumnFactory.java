@@ -4,9 +4,9 @@ import static edu.wpi.cs3733.c21.teamI.ticket.ServiceTicket.TicketType.*;
 
 import com.jfoenix.controls.JFXTreeTableColumn;
 import com.jfoenix.controls.JFXTreeTableView;
+import edu.wpi.cs3733.c21.teamI.ticket.ticketTypes.*;
 import java.util.ArrayList;
 import java.util.Arrays;
-
 import javafx.beans.property.SimpleStringProperty;
 
 public class UniqueColumnFactory {
@@ -276,7 +276,6 @@ public class UniqueColumnFactory {
     //    }
     return columnList;
   }
-
 
   private static JFXTreeTableColumn<ServiceTicket, String> makeColumn(String name) {
 
