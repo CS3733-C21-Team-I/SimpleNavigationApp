@@ -200,6 +200,14 @@
                             </children>
                         </AnchorPane>
                         <JFXListView fx:id="directionsField" />
+                  <JFXButton fx:id="aboutBtn" buttonType="RAISED" onAction="#toAboutPage" style="-fx-background-color: #0067b1;" text="About" textFill="WHITE">
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </JFXButton>
                     </children>
                     <HBox.margin>
                         <Insets />
