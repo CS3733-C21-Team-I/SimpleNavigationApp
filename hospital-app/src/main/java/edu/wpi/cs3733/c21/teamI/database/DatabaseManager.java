@@ -4,6 +4,7 @@ import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMap;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMapCSVBuilder;
 import java.sql.SQLException;
 import java.util.Map;
+import org.apache.derby.drda.NetworkServerControl;
 
 public abstract class DatabaseManager {
 
@@ -16,6 +17,15 @@ public abstract class DatabaseManager {
   abstract void createTables();
 
   abstract void dropTables();
+
+  public static void startNetworkServer() {
+    try {
+      NetworkServerControl control = new NetworkServerControl();
+      control.start(null);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
 
   public static void initDatabaseManagers(boolean regen) {
     ServiceTicketDatabaseManager.init(regen);

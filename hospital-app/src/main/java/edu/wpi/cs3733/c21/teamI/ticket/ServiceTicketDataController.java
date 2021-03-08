@@ -31,8 +31,7 @@ public class ServiceTicketDataController {
             .replaceAll("[^a-zA-Z]+", "");
     List<String> nameList;
     if (!ticketAssignees.containsKey(permission)) {
-      nameList =
-          UserDatabaseManager.getInstance().getUsernamesWithPermission(User.Permission.VIEW_TICKET);
+      nameList = UserDatabaseManager.getInstance().getUsernamesWithPermission(permission);
       ticketAssignees.put(permission, nameList);
     } else {
       nameList = ticketAssignees.get(permission);

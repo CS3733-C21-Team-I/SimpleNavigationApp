@@ -9,7 +9,7 @@ import java.util.*;
 
 public class NavDatabaseManager extends DatabaseManager {
 
-  private static final String DB_URL = "jdbc:derby:navDB";
+  private static final String DB_URL = "jdbc:derby://localhost:1527/navDB";
 
   private static NavDatabaseManager ourInstance;
 
@@ -453,6 +453,8 @@ public class NavDatabaseManager extends DatabaseManager {
                       + ((LocationNode) node).getLongName()
                       + "', TEAM_ASSIGNED = '"
                       + ((LocationNode) node).getTeamAssigned()
+                      + "', location_category = '"
+                      + ((LocationNode) node).getLocationCategory()
                       + "' WHERE NODE_ID = '"
                       + op.getTargetNode()
                       + "'");
