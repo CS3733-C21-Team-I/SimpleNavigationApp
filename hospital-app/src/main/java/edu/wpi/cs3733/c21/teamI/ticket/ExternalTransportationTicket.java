@@ -18,4 +18,16 @@ public class ExternalTransportationTicket extends ServiceTicket {
     this.pickUpTime = pickUpTime;
     this.destination = destination;
   }
+
+  public String getPickUpDate() {
+    return pickUpDate;
+  }
+
+  public String getPickUpTime() {
+    return pickUpTime;
+  }
+
+  public String getDestination() {
+    return destination;
+  }
 }
