@@ -48,7 +48,7 @@ public class LanguageController extends Application {
     langTextfield.clear();
     langDetails.clear();
     langLocationTextfield.clear();
-    langTime.setValue(null);
+    langTime.valueProperty().set(null);
     langReqID.clear();
     langAssignedEmp.clear();
     langCheckbox.setSelected(false);
@@ -113,7 +113,13 @@ public class LanguageController extends Application {
   }
 
   public void initialize() {
-    setupRequestView();
+    ServiceTicketDataController.setupRequestView(
+        background,
+        serviceLocationList,
+        requestAssignedList,
+        langReqID,
+        langAssignedEmp,
+        langLocationTextfield);
   }
 
   public void lookup(KeyEvent e) {

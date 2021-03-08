@@ -33,7 +33,7 @@ public class InternalTransportationController {
   //  String sDate, time, sName, sDestination, sPickupLocation, ID, employee;
   //  boolean bStrecherRadio = false;
   //  boolean bWheelerRadio = true;
-  // boolean bEmergency = false;
+  //  boolean bEmergency = false;
 
   public void submit(ActionEvent e) {
     String inDate, inTime;
@@ -119,7 +119,13 @@ public class InternalTransportationController {
   }
 
   public void initialize() {
-    setupRequestView();
+    ServiceTicketDataController.setupRequestView(
+        background,
+        serviceLocationList,
+        requestAssignedList,
+        requesterID,
+        requestAssigned,
+        internalLocation);
   }
 
   public void lookup(KeyEvent e) {

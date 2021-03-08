@@ -8,7 +8,6 @@ import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicket;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicketDataController;
 import edu.wpi.cs3733.c21.teamI.user.User;
 import java.io.IOException;
-import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -54,36 +53,6 @@ public class MaintenanceController {
     ViewManager.navigate(e);
   }
 
-  private void setupRequestView() {
-    serviceLocationList
-        .getSelectionModel()
-        .selectedItemProperty()
-        .addListener(
-            (ChangeListener<String>)
-                (ov, oldVal, newVal) -> {
-                  requestLocation.setText(newVal);
-                  serviceLocationList.setVisible(false);
-                });
-
-    requestAssignedList
-        .getSelectionModel()
-        .selectedItemProperty()
-        .addListener(
-            (ChangeListener<String>)
-                (ov, oldVal, newVal) -> {
-                  requestAssigned.setText(newVal);
-                  requestAssignedList.setVisible(false);
-                });
-
-    background.setOnMouseClicked(
-        t -> {
-          serviceLocationList.setVisible(false);
-          requestAssignedList.setVisible(false);
-        });
-
-    requestID.setText(ApplicationDataController.getInstance().getLoggedInUser().getName());
-  }
-
   public void clear() {
     mainDesc.clear();
     requestLocation.clear();
@@ -94,7 +63,13 @@ public class MaintenanceController {
   }
 
   public void initialize() {
-    setupRequestView();
+    ServiceTicketDataController.setupRequestView(
+        background,
+        serviceLocationList,
+        requestAssignedList,
+        requestID,
+        requestAssigned,
+        requestLocation);
   }
 
   public void lookup(KeyEvent e) {

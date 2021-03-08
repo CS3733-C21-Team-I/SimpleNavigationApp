@@ -5,10 +5,10 @@ import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
 import edu.wpi.cs3733.c21.teamI.database.NavDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.database.ServiceTicketDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.database.UserDatabaseManager;
+import edu.wpi.cs3733.c21.teamI.ticket.MedicineTicket;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicket;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicketDataController;
 import edu.wpi.cs3733.c21.teamI.user.User;
-import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
@@ -29,12 +29,10 @@ public class MedicineDeliveryController {
 
   @FXML
   private void submit() {
-    String patientName, floorPicked, roomPicked, datePicked, timePicked, cond, com, check;
-    patientName = patient_name.getText();
-    floorPicked = drug.getText();
-    roomPicked = dose.getText();
-    datePicked = date.getValue().toString();
-    timePicked = time.getValue().toString();
+    String datePicked, timePicked, cond, com, check;
+    datePicked = timePicked = "";
+    if (date.getValue() != null) datePicked = date.getValue().toString();
+    if (time.getValue() != null) timePicked = time.getValue().toString();
     com = comment.getText();
     if (checkNote.isSelected()) {
       check = "want notification";
@@ -47,12 +45,16 @@ public class MedicineDeliveryController {
       int AssignedID =
           UserDatabaseManager.getInstance().getUserForScreenname(assignedID.getText()).getUserId();
       ticket =
-          new ServiceTicket(
+          new MedicineTicket(
               RequestID,
-              ServiceTicket.TicketType.MEDICINE,
               NavDatabaseManager.getInstance().getMapIdFromLongName(locationText.getText()),
               comment.getText(),
-              false);
+              false,
+              patient_name.getText(),
+              drug.getText(),
+              dose.getText(),
+              datePicked,
+              timePicked);
 
       ticket.addAssignedUserID(AssignedID);
       int id = ServiceTicketDatabaseManager.getInstance().addTicket(ticket);
@@ -62,38 +64,9 @@ public class MedicineDeliveryController {
     }
   }
 
-  private void setupRequestView() {
-    serviceLocationList
-        .getSelectionModel()
-        .selectedItemProperty()
-        .addListener(
-            (ChangeListener<String>)
-                (ov, oldVal, newVal) -> {
-                  locationText.setText(newVal);
-                  serviceLocationList.setVisible(false);
-                });
-
-    requestAssignedList
-        .getSelectionModel()
-        .selectedItemProperty()
-        .addListener(
-            (ChangeListener<String>)
-                (ov, oldVal, newVal) -> {
-                  assignedID.setText(newVal);
-                  requestAssignedList.setVisible(false);
-                });
-
-    background.setOnMouseClicked(
-        t -> {
-          serviceLocationList.setVisible(false);
-          requestAssignedList.setVisible(false);
-        });
-
-    currentID.setText(ApplicationDataController.getInstance().getLoggedInUser().getName());
-  }
-
   public void initialize() {
-    setupRequestView();
+    ServiceTicketDataController.setupRequestView(
+        background, serviceLocationList, requestAssignedList, currentID, assignedID, locationText);
   }
 
   public void lookup(KeyEvent e) {

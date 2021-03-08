@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXCheckBox?>
+<?import com.jfoenix.controls.JFXHamburger?>
+<?import com.jfoenix.controls.JFXListView?>
+<?import com.jfoenix.controls.JFXTabPane?>
+<?import javafx.geometry.Insets?>
+<?import javafx.geometry.Rectangle2D?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<?import javafx.scene.shape.Circle?>
+<StackPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamI.view.mobile.MapPathfindingControllerMobile">
+   <children>
+       <AnchorPane prefHeight="88.0" prefWidth="352.0">
+           <children>
+               <ImageView fx:id="phone" fitHeight="736.0" fitWidth="374.0" pickOnBounds="true" preserveRatio="true">
+                   <image>
+                       <Image url="@phone.png" />
+                   </image>
+               </ImageView>
+               <Circle fill="#1a71bd00" onMouseClicked="#exit" radius="29.0" stroke="#ffffff00" strokeType="INSIDE" AnchorPane.bottomAnchor="29.0" AnchorPane.leftAnchor="148.0">
+                   <cursor>
+                       <Cursor fx:constant="HAND" />
+                   </cursor>
+               </Circle>
+           </children>
+       </AnchorPane>
+      <AnchorPane fx:id="screen" maxHeight="544.0" maxWidth="306.0" minHeight="544.0" minWidth="306.0" prefHeight="544.0" prefWidth="306.0" style="-fx-border-color: black;" StackPane.alignment="CENTER">
+         <children>
+            <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="544.0" prefWidth="306.0">
+               <children>
+                  <VBox alignment="CENTER" style="-fx-background-color: #012d5a;">
+                     <children>
+                        <VBox>
+                           <children>
+                              <HBox alignment="CENTER" VBox.vgrow="NEVER">
+                                 <children>
+                                              <ImageView fx:id="switchroute" fitHeight="46.0" fitWidth="36.0" onMouseClicked="#onSwitch" pickOnBounds="true" preserveRatio="true" styleClass=".styledLogo">
+                                                  <image>
+                                                      <Image url="@../fxmlResources/switch_icon.png" />
+                                                  </image>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                       <HBox.margin>
+                                          <Insets right="10.0" />
+                                       </HBox.margin>
+                                              </ImageView>
+                                            <VBox alignment="CENTER">
+                                                <children>
+                                          <HBox alignment="TOP_RIGHT" spacing="10.0">
+                                             <children>
+                                                          <TextField fx:id="start" maxWidth="1.7976931348623157E308" onKeyTyped="#lookup" prefHeight="10.0" promptText="Starting Point " style="-fx-background-color: ffffff;">
+                                                   <font>
+                                                      <Font size="14.0" />
+                                                   </font>
+                                                   <HBox.margin>
+                                                      <Insets right="5.0" />
+                                                   </HBox.margin>
+                                                          </TextField>
+                                                <JFXHamburger fx:id="ham" alignment="CENTER" stylesheets="@../fxmlResources/mobileTab.css">
+                                                   <HBox.margin>
+                                                      <Insets right="5.0" />
+                                                   </HBox.margin>
+                                                   <cursor>
+                                                      <Cursor fx:constant="HAND" />
+                                                   </cursor>
+                                                </JFXHamburger>
+                                             </children>
+                                             <VBox.margin>
+                                                <Insets bottom="10.0" />
+                                             </VBox.margin>
+                                          </HBox>
+                                          <HBox alignment="TOP_RIGHT" spacing="10.0">
+                                             <children>
+                                                          <TextField fx:id="destination" maxWidth="1.7976931348623157E308" onKeyTyped="#lookup" prefHeight="10.0" promptText="Destination " style="-fx-background-color: ffffff;">
+                                                   <font>
+                                                      <Font size="14.0" />
+                                                   </font>
+                                                </TextField>
+                                                        <JFXButton fx:id="go" buttonType="RAISED" onAction="#getDirections" style="-fx-background-color: #0067b1;" text="Go" textFill="WHITE">
+                                                            <font>
+                                                                <Font name="System Bold" size="14.0" />
+                                                            </font>
+                                                   <HBox.margin>
+                                                      <Insets />
+                                                   </HBox.margin>
+                                                   <cursor>
+                                                      <Cursor fx:constant="HAND" />
+                                                   </cursor>
+                                                        </JFXButton>
+                                             </children>
+                                          </HBox>
+                                                </children>
+                                       <HBox.margin>
+                                          <Insets />
+                                       </HBox.margin>
+                                            </VBox>
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets left="10.0" right="15.0" top="15.0" />
+                                 </VBox.margin>
+                              </HBox>
+                              <VBox fx:id="extraMenu" alignment="CENTER" spacing="10.0" visible="false">
+                                 <children>
+                                          <HBox alignment="CENTER" prefWidth="200.0">
+                                              <children>
+                                                  <JFXButton fx:id="clear" buttonType="RAISED" onAction="#onClear" style="-fx-background-color: #0067b1;" text="Clear" textFill="WHITE">
+                                                      <font>
+                                                          <Font name="System Bold" size="14.0" />
+                                                      </font>
+                                                      <HBox.margin>
+                                                          <Insets left="5.0" right="5.0" />
+                                                      </HBox.margin>
+                                                  </JFXButton>
+                                          <JFXCheckBox fx:id="accessible" alignment="CENTER" checkedColor="#ff9000" onAction="#toggleAccessible" prefHeight="30.0" prefWidth="197.0" style="-fx-background-color: #0067b1; -fx-background-radius: 2;" text="Wheelchair Accessible" textFill="WHITE" unCheckedColor="WHITE" HBox.hgrow="NEVER">
+                                             <padding>
+                                                <Insets bottom="5.0" left="5.0" top="5.0" />
+                                             </padding>
+                                             <HBox.margin>
+                                                <Insets left="5.0" />
+                                             </HBox.margin>
+                                             <font>
+                                                <Font name="System Bold" size="14.0" />
+                                             </font>
+                                          </JFXCheckBox>
+                                              </children>
+                                       <VBox.margin>
+                                          <Insets top="15.0" />
+                                       </VBox.margin>
+                                          </HBox>
+                                    <JFXButton buttonType="RAISED" onAction="#onClear" style="-fx-background-color: #0067b1;" text="Return to my car" textFill="WHITE">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font>
+                                    </JFXButton>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </VBox>
+                     </children>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                     <padding>
+                        <Insets bottom="15.0" />
+                     </padding>
+                  </VBox>
+                  <StackPane style="-fx-background-color: #0067b1;">
+                     <children>
+                                  <JFXTabPane maxHeight="-Infinity" maxWidth="306.0" prefWidth="306.0" style="-fx-background-color: #0067b1;" stylesheets="@../fxmlResources/mobileTab.css" tabMaxHeight="20.0" tabMaxWidth="80.0" tabMinHeight="20.0" tabMinWidth="80.0">
+                                      <tabs>
+                                          <Tab fx:id="campus" onSelectionChanged="#campusTab" text="Campus" />
+                                          <Tab fx:id="floor1" onSelectionChanged="#floor1Tab" text="Floor 1" />
+                                          <Tab fx:id="floor2" onSelectionChanged="#floor2Tab" text="Floor 2" />
+                                          <Tab fx:id="floor3" onSelectionChanged="#floor3Tab" text="Floor 3" />
+                                          <Tab fx:id="floor4" onSelectionChanged="#floor4Tab" text="Floor 4" />
+                                          <Tab fx:id="floor6" onSelectionChanged="#floor5Tab" text="Floor 5" />
+                                      </tabs>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                           <StackPane.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </StackPane.margin>
+                                  </JFXTabPane>
+                     </children>
+                  </StackPane>
+                  <StackPane fx:id="imageContainer" maxHeight="544.0" maxWidth="306.0" minHeight="300.0" minWidth="306.0" prefHeight="300.0" prefWidth="306.0" style="-fx-background-color: white;" VBox.vgrow="ALWAYS">
+                     <children>
+                                  <ImageView fx:id="mapImage" fitHeight="10.0" fitWidth="10.0" pickOnBounds="true" StackPane.alignment="CENTER">
+                           <viewport>
+                              <Rectangle2D />
+                           </viewport>
+                        </ImageView>
+                                  <AnchorPane fx:id="mapPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="0.0" prefWidth="0.0" StackPane.alignment="CENTER" />
+                     </children>
+                  </StackPane>
+               </children>
+            </VBox>
+            <StackPane maxHeight="50.0" minHeight="50.0" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #012d5a;" AnchorPane.bottomAnchor="-1.0" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="-1.0">
+               <children>
+                  <HBox alignment="CENTER" spacing="10.0">
+                     <children>
+                        <ImageView fitHeight="40.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../fxmlResources/white_left_arrow.png" />
+                           </image>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </ImageView>
+                        <Label fx:id="singleInstruction" alignment="CENTER" maxHeight="30.0" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" style="-fx-background-color: #F1F1F1;" textAlignment="CENTER">
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </padding>
+                        </Label>
+                        <ImageView fitHeight="40.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../fxmlResources/white_right_arrow.png" />
+                           </image>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </ImageView>
+                     </children>
+                  </HBox>
+               </children>
+            </StackPane>
+              <ListView fx:id="startList" layoutX="62.0" layoutY="48.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="112.0" prefWidth="180.0" visible="false" AnchorPane.leftAnchor="59.0" AnchorPane.topAnchor="47.0" />
+              <ListView fx:id="destList" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="112.0" prefWidth="225.0" visible="false" AnchorPane.leftAnchor="59.0" AnchorPane.topAnchor="85.0" />
+            <JFXButton buttonType="RAISED" maxWidth="150.0" minWidth="150.0" onAction="#toggleDirections" prefWidth="150.0" style="-fx-background-color: #0067b1;" text="See all directions" textFill="WHITE" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="78.0">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </JFXButton>
+            <StackPane fx:id="allDirections" layoutX="2.0" prefHeight="50.0" prefWidth="337.0" visible="false" AnchorPane.bottomAnchor="-1.0" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="-1.0">
+               <children>
+                  <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="608.0" prefWidth="304.0" spacing="10.0" style="-fx-background-color: #012d5a;" StackPane.alignment="CENTER">
+                     <children>
+                        <Label text="Directions" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="29.0" />
+                           </font>
+                        </Label>
+                              <JFXListView fx:id="directionsField" maxHeight="1.7976931348623157E308" VBox.vgrow="ALWAYS" />
+                        <JFXButton buttonType="RAISED" onAction="#toggleDirections" prefWidth="200.0" style="-fx-background-color: #0067b1;" text="Back to map" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin>
+                        </JFXButton>
+                     </children>
+                     <padding>
+                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                     </padding>
+                  </VBox>
+               </children>
+            </StackPane>
+         </children>
+      </AnchorPane>
+   </children>
+</StackPane>

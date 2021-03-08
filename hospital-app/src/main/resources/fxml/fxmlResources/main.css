@@ -18,6 +18,8 @@
     -fx-background-color: #012D5A;
 }
 
+.jfx-spinner .arc { -fx-stroke: linear-gradient(to top right, #0067b1 65%, #012D5A 35%); }
+
 .restroomButton {
     -fx-background-color: #3E9A2C;
     -fx-padding:  10px 10px;

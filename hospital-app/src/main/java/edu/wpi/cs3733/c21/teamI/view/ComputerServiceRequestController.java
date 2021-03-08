@@ -9,7 +9,6 @@ import edu.wpi.cs3733.c21.teamI.ticket.ComputerTicket;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicket;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicketDataController;
 import edu.wpi.cs3733.c21.teamI.user.User;
-import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -59,38 +58,9 @@ public class ComputerServiceRequestController {
     compServReqID.clear();
     compServAssID.clear();
     compServReqLoc.clear();
+    compType.valueProperty().set(null);
     compServReqDes.clear();
     compServReqUrgent.setSelected(false);
-  }
-
-  private void setupRequestView() {
-    serviceLocationList
-        .getSelectionModel()
-        .selectedItemProperty()
-        .addListener(
-            (ChangeListener<String>)
-                (ov, oldVal, newVal) -> {
-                  compServReqLoc.setText(newVal);
-                  serviceLocationList.setVisible(false);
-                });
-
-    requestAssignedList
-        .getSelectionModel()
-        .selectedItemProperty()
-        .addListener(
-            (ChangeListener<String>)
-                (ov, oldVal, newVal) -> {
-                  compServAssID.setText(newVal);
-                  requestAssignedList.setVisible(false);
-                });
-
-    background.setOnMouseClicked(
-        t -> {
-          serviceLocationList.setVisible(false);
-          requestAssignedList.setVisible(false);
-        });
-
-    compServReqID.setText(ApplicationDataController.getInstance().getLoggedInUser().getName());
   }
 
   public void initialize() {
@@ -98,7 +68,13 @@ public class ComputerServiceRequestController {
     ObservableList<String> requestTypeList =
         FXCollections.observableArrayList("Desktop", "Laptop", "Other");
     compType.setItems(requestTypeList);
-    setupRequestView();
+    ServiceTicketDataController.setupRequestView(
+        background,
+        serviceLocationList,
+        requestAssignedList,
+        compServReqID,
+        compServAssID,
+        compServReqLoc);
   }
 
   public void lookup(KeyEvent e) {

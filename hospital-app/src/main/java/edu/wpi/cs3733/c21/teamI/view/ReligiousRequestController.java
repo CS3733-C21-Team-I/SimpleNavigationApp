@@ -9,13 +9,13 @@ import edu.wpi.cs3733.c21.teamI.ticket.ReligiousTicket;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicket;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicketDataController;
 import edu.wpi.cs3733.c21.teamI.user.User;
-import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.AnchorPane;
 
 public class ReligiousRequestController {
   ServiceTicket ticket;
@@ -31,6 +31,7 @@ public class ReligiousRequestController {
   @FXML ListView serviceLocationList, requestAssignedList;
   @FXML private JFXButton clearButton;
   @FXML private JFXButton submitButton;
+  @FXML private AnchorPane background;
 
   @FXML
   public void initialize() {
@@ -44,7 +45,14 @@ public class ReligiousRequestController {
             "Memorial Service",
             "Other");
     typeOfRequest.setItems(requestTypeList);
-    setupRequestView();
+
+    ServiceTicketDataController.setupRequestView(
+        background,
+        serviceLocationList,
+        requestAssignedList,
+        requesterID,
+        assignedEmployeeID,
+        requestLocation);
   }
 
   public void lookup(KeyEvent e) {
@@ -118,28 +126,5 @@ public class ReligiousRequestController {
     assignedEmployeeID.clear();
     date.valueProperty().set(null);
     time.valueProperty().set(null);
-  }
-
-  private void setupRequestView() {
-    serviceLocationList
-        .getSelectionModel()
-        .selectedItemProperty()
-        .addListener(
-            (ChangeListener<String>)
-                (ov, oldVal, newVal) -> {
-                  requestLocation.setText(newVal);
-                  serviceLocationList.setVisible(false);
-                });
-
-    requestAssignedList
-        .getSelectionModel()
-        .selectedItemProperty()
-        .addListener(
-            (ChangeListener<String>)
-                (ov, oldVal, newVal) -> {
-                  assignedEmployeeID.setText(newVal);
-                  requestAssignedList.setVisible(false);
-                });
-    requesterID.setText(ApplicationDataController.getInstance().getLoggedInUser().getName());
   }
 }

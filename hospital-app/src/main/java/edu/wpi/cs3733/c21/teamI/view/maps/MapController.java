@@ -122,10 +122,10 @@ public abstract class MapController extends Application {
   protected void drawEdge(HospitalMapNode start, HospitalMapNode end, Color color) {
     Line line =
         LineBuilder.create()
-            .startX(clamp(transformX(start.getxCoord()), 0, mapPane.getPrefWidth()))
-            .startY(clamp(transformY(start.getyCoord()), 0, mapPane.getPrefHeight()))
-            .endX(clamp(transformX(end.getxCoord()), 0, mapPane.getPrefWidth()))
-            .endY(clamp(transformY(end.getyCoord()), 0, mapPane.getPrefHeight()))
+            .startX(transformX(start.getxCoord()))
+            .startY(transformY(start.getyCoord()))
+            .endX(transformX(end.getxCoord()))
+            .endY(transformY(end.getyCoord()))
             .stroke(color)
             .strokeLineCap(StrokeLineCap.ROUND)
             .strokeDashArray(28.0 / scale)

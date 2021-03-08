@@ -178,6 +178,30 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
         System.out.println("Error in generating computerTicket Table");
       }
 
+      try { // Creating the covidTicket table
+        stmt.execute(
+            "create table covidTicket(\n"
+                + "tixID integer NOT NULL,\n"
+                + "soreThroat boolean,\n"
+                + "breathing boolean,\n"
+                + "tasteSmellLoss boolean,\n"
+                + "fever boolean,\n"
+                + "congestion boolean,\n"
+                + "cough boolean,\n"
+                + "nausea boolean,\n"
+                + "diarrhea boolean,\n"
+                + "headache boolean,\n"
+                + "noneSymptoms boolean,\n"
+                + "contactCovidConfirmed boolean,\n"
+                + "contactCovidSymptoms boolean,\n"
+                + "noneContact boolean,\n"
+                + "covidTest boolean,\n"
+                + "FOREIGN KEY (tixID) REFERENCES SERVICETICKET(ticketID))");
+        // System.out.println("covidTicket table created.");
+      } catch (SQLException e) {
+        System.out.println("Error in generating covidTicket Table");
+      }
+
       try { // Creating the employeeParkingTicket table
         stmt.execute(
             "create table employeeParkingTicket(\n"
@@ -324,6 +348,15 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
       try {
         // Drop the religiousTicket table.
         stmt.execute("DROP TABLE computerTicket");
+        // System.out.println("religiousTicket table dropped.");
+      } catch (SQLException ex) {
+        // No need to report an error.
+        // The table simply did not exist.
+      }
+
+      try {
+        // Drop the religiousTicket table.
+        stmt.execute("DROP TABLE covidTicket");
         // System.out.println("religiousTicket table dropped.");
       } catch (SQLException ex) {
         // No need to report an error.
@@ -505,6 +538,9 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
         case COMPUTER:
           ourInstance.addComputer(id, (ComputerTicket) t);
           break;
+        case COVID:
+          ourInstance.addCovid(id, (CovidTicket) t);
+          break;
         case LANGUAGE:
           ourInstance.addLanguage(id, (LanguageTicket) t);
           break;
@@ -526,7 +562,6 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
         case SECURITY:
           ourInstance.addSecurity(id, (SecurityTicket) t);
           break;
-        case COVID:
         case EXTERNAL_TRANSPORTATION:
         case FLORAL:
         case SANITATION:
@@ -576,7 +611,7 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
       stmt.execute(
           "UPDATE employee SET employeeID= "
               + String.valueOf(employeeID)
-              + " WHERE TICKETID = "
+              + " WHERE TIXID = "
               + String.valueOf(id));
     } catch (SQLException e) {
       e.printStackTrace();
@@ -993,6 +1028,46 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
               + comp.getComputerType()
               + "', "
               + comp.isUrgency()
+              + ")");
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+  }
+
+  public void addCovid(int tixID, CovidTicket cov) {
+    try {
+      Statement stmt = databaseRef.getConnection().createStatement();
+      stmt.executeUpdate(
+          "INSERT INTO COVIDTICKET(tixID, SORETHROAT, BREATHING, TASTESMELLLOSS, FEVER, CONGESTION, "
+              + "COUGH, NAUSEA, DIARRHEA, HEADACHE, NONESYMPTOMS, CONTACTCOVIDCONFIRMED, CONTACTCOVIDSYMPTOMS, NONECONTACT, COVIDTEST)\n"
+              + "VALUES("
+              + tixID
+              + ", "
+              + cov.isSoreThroat()
+              + ", "
+              + cov.isBreathing()
+              + ", "
+              + cov.isTasteSmellLoss()
+              + ", "
+              + cov.isFever()
+              + ", "
+              + cov.isCongestion()
+              + ", "
+              + cov.isNausea()
+              + ", "
+              + cov.isDiarrhea()
+              + ", "
+              + cov.isHeadache()
+              + ", "
+              + cov.isNoneSymptoms()
+              + ", "
+              + cov.isContactCovidConfirmed()
+              + ", "
+              + cov.isContactCovidSymptoms()
+              + ", "
+              + cov.isNoneContact()
+              + ", "
+              + cov.isCovidTest()
               + ")");
     } catch (SQLException e) {
       e.printStackTrace();
