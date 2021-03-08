@@ -1,25 +1,70 @@
+Sun Mar 07 14:52:06 EST 2021 Thread[main,5,main] Cleanup action starting
+java.sql.SQLException: Database 'navDB' not found.
+	at org.apache.derby.impl.jdbc.SQLExceptionFactory.getSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.SQLExceptionFactory.getSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.Util.generateCsSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.Util.generateCsSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.EmbedConnection.newSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.EmbedConnection.handleDBNotFound(Unknown Source)
+	at org.apache.derby.impl.jdbc.EmbedConnection.<init>(Unknown Source)
+	at org.apache.derby.jdbc.InternalDriver$1.run(Unknown Source)
+	at org.apache.derby.jdbc.InternalDriver$1.run(Unknown Source)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at org.apache.derby.jdbc.InternalDriver.getNewEmbedConnection(Unknown Source)
+	at org.apache.derby.jdbc.InternalDriver.connect(Unknown Source)
+	at org.apache.derby.jdbc.InternalDriver.connect(Unknown Source)
+	at org.apache.derby.jdbc.AutoloadedDriver.connect(Unknown Source)
+	at java.sql.DriverManager.getConnection(DriverManager.java:664)
+	at java.sql.DriverManager.getConnection(DriverManager.java:270)
+	at edu.wpi.cs3733.c21.teamI.database.DatabaseRef.<init>(DatabaseRef.java:24)
+	at edu.wpi.cs3733.c21.teamI.database.DatabaseRef.getConnection(DatabaseRef.java:57)
+	at edu.wpi.cs3733.c21.teamI.database.DatabaseManager.<init>(DatabaseManager.java:13)
+	at edu.wpi.cs3733.c21.teamI.database.ServiceTicketDatabaseManager.<init>(ServiceTicketDatabaseManager.java:29)
+	at edu.wpi.cs3733.c21.teamI.database.ServiceTicketDatabaseManager.init(ServiceTicketDatabaseManager.java:19)
+	at edu.wpi.cs3733.c21.teamI.database.DatabaseManager.initDatabaseManagers(DatabaseManager.java:21)
+	at edu.wpi.cs3733.c21.teamI.Main.main(Main.java:20)
+Caused by: ERROR XJ004: Database 'navDB' not found.
+	at org.apache.derby.iapi.error.StandardException.newException(Unknown Source)
+	at org.apache.derby.impl.jdbc.SQLExceptionFactory.wrapArgsForTransportAcrossDRDA(Unknown Source)
+	... 23 more
+============= begin nested exception, level (1) ===========
+ERROR XJ004: Database 'navDB' not found.
+	at org.apache.derby.iapi.error.StandardException.newException(Unknown Source)
+	at org.apache.derby.impl.jdbc.SQLExceptionFactory.wrapArgsForTransportAcrossDRDA(Unknown Source)
+	at org.apache.derby.impl.jdbc.SQLExceptionFactory.getSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.SQLExceptionFactory.getSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.Util.generateCsSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.Util.generateCsSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.EmbedConnection.newSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.EmbedConnection.handleDBNotFound(Unknown Source)
+	at org.apache.derby.impl.jdbc.EmbedConnection.<init>(Unknown Source)
+	at org.apache.derby.jdbc.InternalDriver$1.run(Unknown Source)
+	at org.apache.derby.jdbc.InternalDriver$1.run(Unknown Source)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at org.apache.derby.jdbc.InternalDriver.getNewEmbedConnection(Unknown Source)
+	at org.apache.derby.jdbc.InternalDriver.connect(Unknown Source)
+	at org.apache.derby.jdbc.InternalDriver.connect(Unknown Source)
+	at org.apache.derby.jdbc.AutoloadedDriver.connect(Unknown Source)
+	at java.sql.DriverManager.getConnection(DriverManager.java:664)
+	at java.sql.DriverManager.getConnection(DriverManager.java:270)
+	at edu.wpi.cs3733.c21.teamI.database.DatabaseRef.<init>(DatabaseRef.java:24)
+	at edu.wpi.cs3733.c21.teamI.database.DatabaseRef.getConnection(DatabaseRef.java:57)
+	at edu.wpi.cs3733.c21.teamI.database.DatabaseManager.<init>(DatabaseManager.java:13)
+	at edu.wpi.cs3733.c21.teamI.database.ServiceTicketDatabaseManager.<init>(ServiceTicketDatabaseManager.java:29)
+	at edu.wpi.cs3733.c21.teamI.database.ServiceTicketDatabaseManager.init(ServiceTicketDatabaseManager.java:19)
+	at edu.wpi.cs3733.c21.teamI.database.DatabaseManager.initDatabaseManagers(DatabaseManager.java:21)
+	at edu.wpi.cs3733.c21.teamI.Main.main(Main.java:20)
+============= end nested exception, level (1) ===========
+Cleanup action completed
+Sun Mar 07 14:52:06 EST 2021 : Apache Derby Network Server - 10.14.2.0 - (1828579) started and ready to accept connections on port 1527
 ----------------------------------------------------------------
-Sun Mar 07 13:03:46 CST 2021:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-0178-0ddc-054b-00000e6c88b8 
-on database directory C:\Users\24607\IdeaProjects\3733\SimpleNavigationApp\navDB with class loader sun.misc.Launcher$AppClassLoader@73d16e93 
-Loaded from file:/C:/Users/24607/.gradle/caches/modules-2/files-2.1/org.apache.derby/derby/10.14.2.0/7efad40ef52fbb1f08142f07a83b42d29e47d8ce/derby-10.14.2.0.jar
+Sun Mar 07 14:52:07 EST 2021:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-0178-0e3f-351e-000006d5a950 
+on database directory C:\Users\Freud\SimpleNavigationApp\peripheralDB with class loader sun.misc.Launcher$AppClassLoader@73d16e93 
+Loaded from file:/C:/Users/Freud/.gradle/caches/modules-2/files-2.1/org.apache.derby/derby/10.14.2.0/7efad40ef52fbb1f08142f07a83b42d29e47d8ce/derby-10.14.2.0.jar
 java.vendor=Oracle Corporation
 java.runtime.version=1.8.0_281-b09
-user.dir=C:\Users\24607\IdeaProjects\3733\SimpleNavigationApp
-os.name=Windows 10
-os.arch=amd64
-os.version=10.0
-derby.system.home=null
-Database Class Loader started - derby.database.classpath=''
-Sun Mar 07 13:03:46 CST 2021 : Apache Derby Network Server - 10.14.2.0 - (1828579) started and ready to accept connections on port 1527
-----------------------------------------------------------------
-Sun Mar 07 13:03:46 CST 2021:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance 601a400f-0178-0ddc-054b-00000e6c88b8 
-on database directory C:\Users\24607\IdeaProjects\3733\SimpleNavigationApp\peripheralDB with class loader sun.misc.Launcher$AppClassLoader@73d16e93 
-Loaded from file:/C:/Users/24607/.gradle/caches/modules-2/files-2.1/org.apache.derby/derby/10.14.2.0/7efad40ef52fbb1f08142f07a83b42d29e47d8ce/derby-10.14.2.0.jar
-java.vendor=Oracle Corporation
-java.runtime.version=1.8.0_281-b09
-user.dir=C:\Users\24607\IdeaProjects\3733\SimpleNavigationApp
+user.dir=C:\Users\Freud\SimpleNavigationApp
 os.name=Windows 10
 os.arch=amd64
 os.version=10.0

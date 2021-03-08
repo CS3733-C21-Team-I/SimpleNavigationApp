@@ -5,10 +5,12 @@ import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
 import edu.wpi.cs3733.c21.teamI.database.NavDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.database.ServiceTicketDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.database.UserDatabaseManager;
+import edu.wpi.cs3733.c21.teamI.ticket.ComputerTicket;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicket;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicketDataController;
 import edu.wpi.cs3733.c21.teamI.user.User;
-import javafx.beans.value.ChangeListener;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.input.KeyEvent;
@@ -21,6 +23,7 @@ public class ComputerServiceRequestController {
   @FXML JFXTextField compServReqID;
   @FXML JFXTextField compServReqLoc;
   @FXML JFXTextField compServAssID;
+  @FXML JFXComboBox compType;
   @FXML ListView serviceLocationList, requestAssignedList;
   @FXML AnchorPane background;
 
@@ -32,16 +35,19 @@ public class ComputerServiceRequestController {
           UserDatabaseManager.getInstance()
               .getUserForScreenname(compServAssID.getText())
               .getUserId();
+      String requestType = "";
+      if (compType.getValue() != null) requestType = compType.getValue().toString();
       ticket =
-          new ServiceTicket(
+          new ComputerTicket(
               RequestID,
-              ServiceTicket.TicketType.COMPUTER,
               NavDatabaseManager.getInstance().getMapIdFromLongName(compServReqLoc.getText()),
               compServReqDes.getText(),
-              false);
+              false,
+              requestType,
+              compServReqUrgent.isSelected());
       ticket.addAssignedUserID(AssignedID);
-      ServiceTicketDatabaseManager.getInstance().addTicket(ticket);
-      ServiceTicketDatabaseManager.getInstance().addEmployeeForTicket(RequestID, AssignedID);
+      int id = ServiceTicketDatabaseManager.getInstance().addTicket(ticket);
+      ServiceTicketDatabaseManager.getInstance().addEmployeeForTicket(id, AssignedID);
     } catch (Exception o) {
       System.out.println("Error" + o);
     }
@@ -52,42 +58,23 @@ public class ComputerServiceRequestController {
     compServReqID.clear();
     compServAssID.clear();
     compServReqLoc.clear();
+    compType.valueProperty().set(null);
     compServReqDes.clear();
     compServReqUrgent.setSelected(false);
   }
 
-  private void setupRequestView() {
-    serviceLocationList
-        .getSelectionModel()
-        .selectedItemProperty()
-        .addListener(
-            (ChangeListener<String>)
-                (ov, oldVal, newVal) -> {
-                  compServReqLoc.setText(newVal);
-                  serviceLocationList.setVisible(false);
-                });
-
-    requestAssignedList
-        .getSelectionModel()
-        .selectedItemProperty()
-        .addListener(
-            (ChangeListener<String>)
-                (ov, oldVal, newVal) -> {
-                  compServAssID.setText(newVal);
-                  requestAssignedList.setVisible(false);
-                });
-
-    background.setOnMouseClicked(
-        t -> {
-          serviceLocationList.setVisible(false);
-          requestAssignedList.setVisible(false);
-        });
-
-    compServReqID.setText(ApplicationDataController.getInstance().getLoggedInUser().getName());
-  }
-
   public void initialize() {
-    setupRequestView();
+
+    ObservableList<String> requestTypeList =
+        FXCollections.observableArrayList("Desktop", "Laptop", "Other");
+    compType.setItems(requestTypeList);
+    ServiceTicketDataController.setupRequestView(
+        background,
+        serviceLocationList,
+        requestAssignedList,
+        compServReqID,
+        compServAssID,
+        compServReqLoc);
   }
 
   public void lookup(KeyEvent e) {

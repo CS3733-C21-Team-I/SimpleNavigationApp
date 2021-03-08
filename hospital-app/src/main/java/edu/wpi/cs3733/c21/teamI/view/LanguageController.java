@@ -8,11 +8,11 @@ import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
 import edu.wpi.cs3733.c21.teamI.database.NavDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.database.ServiceTicketDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.database.UserDatabaseManager;
+import edu.wpi.cs3733.c21.teamI.ticket.LanguageTicket;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicket;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicketDataController;
 import edu.wpi.cs3733.c21.teamI.user.User;
 import javafx.application.Application;
-import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
@@ -47,7 +47,7 @@ public class LanguageController extends Application {
     langTextfield.clear();
     langDetails.clear();
     langLocationTextfield.clear();
-    langTime.valueProperty().set(null);
+    langTime.setValue(null);
     langReqID.clear();
     langAssignedEmp.clear();
     langCheckbox.setSelected(false);
@@ -62,54 +62,32 @@ public class LanguageController extends Application {
               .getUserForScreenname(langAssignedEmp.getText())
               .getUserId();
       ticket =
-          new ServiceTicket(
+          new LanguageTicket(
               RequestID,
-              ServiceTicket.TicketType.LANGUAGE,
               NavDatabaseManager.getInstance()
                   .getMapIdFromLongName(langLocationTextfield.getText()),
               langDetails.getText(),
-              false);
+              false,
+              langTextfield.getText(),
+              langTime.getValue().toString(),
+              langCheckbox.isSelected());
       //      ticket.addAssignedUserID(AssignedID);
       ticket.addAssignedUserID(AssignedID);
-      ServiceTicketDatabaseManager.getInstance().addTicket(ticket);
-      ServiceTicketDatabaseManager.getInstance().addEmployeeForTicket(RequestID, AssignedID);
+      int id = ServiceTicketDatabaseManager.getInstance().addTicket(ticket);
+      ServiceTicketDatabaseManager.getInstance().addEmployeeForTicket(id, AssignedID);
     } catch (Exception o) {
       System.out.println("Error" + o);
     }
   }
 
-  private void setupRequestView() {
-    serviceLocationList
-        .getSelectionModel()
-        .selectedItemProperty()
-        .addListener(
-            (ChangeListener<String>)
-                (ov, oldVal, newVal) -> {
-                  langLocationTextfield.setText(newVal);
-                  serviceLocationList.setVisible(false);
-                });
-
-    requestAssignedList
-        .getSelectionModel()
-        .selectedItemProperty()
-        .addListener(
-            (ChangeListener<String>)
-                (ov, oldVal, newVal) -> {
-                  langAssignedEmp.setText(newVal);
-                  requestAssignedList.setVisible(false);
-                });
-
-    background.setOnMouseClicked(
-        t -> {
-          serviceLocationList.setVisible(false);
-          requestAssignedList.setVisible(false);
-        });
-
-    langReqID.setText(ApplicationDataController.getInstance().getLoggedInUser().getName());
-  }
-
   public void initialize() {
-    setupRequestView();
+    ServiceTicketDataController.setupRequestView(
+        background,
+        serviceLocationList,
+        requestAssignedList,
+        langReqID,
+        langAssignedEmp,
+        langLocationTextfield);
   }
 
   public void lookup(KeyEvent e) {

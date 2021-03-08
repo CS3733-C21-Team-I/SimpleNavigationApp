@@ -9,7 +9,6 @@ import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicket;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicketDataController;
 import edu.wpi.cs3733.c21.teamI.user.User;
 import java.io.IOException;
-import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -18,7 +17,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.AnchorPane;
 
 public class SecurityRequestController {
   ServiceTicket ticket;
@@ -26,7 +25,7 @@ public class SecurityRequestController {
   @FXML TextArea description;
   @FXML CheckBox emergency;
   @FXML ListView serviceLocationList, requestAssignedList;
-  @FXML VBox background;
+  @FXML AnchorPane background;
 
   @FXML JFXComboBox securityType;
 
@@ -46,8 +45,8 @@ public class SecurityRequestController {
               description.getText(),
               false);
       ticket.addAssignedUserID(AssignedID);
-      ServiceTicketDatabaseManager.getInstance().addTicket(ticket);
-      ServiceTicketDatabaseManager.getInstance().addEmployeeForTicket(RequestID, AssignedID);
+      int id = ServiceTicketDatabaseManager.getInstance().addTicket(ticket);
+      ServiceTicketDatabaseManager.getInstance().addEmployeeForTicket(id, AssignedID);
     } catch (Exception o) {
       System.out.println("Error" + o);
     }
@@ -57,34 +56,15 @@ public class SecurityRequestController {
     ViewManager.navigate(e);
   }
 
-  private void setupRequestView() {
-    serviceLocationList
-        .getSelectionModel()
-        .selectedItemProperty()
-        .addListener(
-            (ChangeListener<String>)
-                (ov, oldVal, newVal) -> {
-                  locationText.setText(newVal);
-                  serviceLocationList.setVisible(false);
-                });
+  public void initialize() {
+    ServiceTicketDataController.setupRequestView(
+        background,
+        serviceLocationList,
+        requestAssignedList,
+        requestID,
+        requestAssigned,
+        locationText);
 
-    requestAssignedList
-        .getSelectionModel()
-        .selectedItemProperty()
-        .addListener(
-            (ChangeListener<String>)
-                (ov, oldVal, newVal) -> {
-                  requestAssigned.setText(newVal);
-                  requestAssignedList.setVisible(false);
-                });
-
-    background.setOnMouseClicked(
-        t -> {
-          serviceLocationList.setVisible(false);
-          requestAssignedList.setVisible(false);
-        });
-
-    requestID.setText(ApplicationDataController.getInstance().getLoggedInUser().getName());
     securityType.getItems().addAll("Police Officer", "On-site Security Employee", "Other");
     securityType.getSelectionModel().select("2");
   }
@@ -96,12 +76,7 @@ public class SecurityRequestController {
     emergency.setSelected(false);
     serviceLocationList.setVisible(false);
     requestAssignedList.setVisible(false);
-
     securityType.getSelectionModel().select(2);
-  }
-
-  public void initialize() {
-    setupRequestView();
   }
 
   public void lookup(KeyEvent e) {

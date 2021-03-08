@@ -1,4 +1,4 @@
-package edu.wpi.cs3733.c21.teamI.view.maps;
+package edu.wpi.cs3733.c21.teamI.view.mobile;
 
 import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMapNode;
 import java.io.IOException;
@@ -23,6 +23,7 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
@@ -583,5 +584,11 @@ public abstract class MobileMapController extends Application {
     return new Point2D(
         viewport.getMinX() + xProportion * viewport.getWidth(),
         viewport.getMinY() + yProportion * viewport.getHeight());
+  }
+
+  @FXML
+  public void exit(MouseEvent e) {
+    Stage stage = (Stage) ((Circle) e.getSource()).getScene().getWindow();
+    stage.close();
   }
 }

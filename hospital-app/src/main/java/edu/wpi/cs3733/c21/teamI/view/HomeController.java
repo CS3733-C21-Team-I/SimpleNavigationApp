@@ -22,7 +22,9 @@ import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Duration;
 
 public class HomeController extends Application {
@@ -68,52 +70,36 @@ public class HomeController extends Application {
     Group root = new Group();
     root.getChildren()
         .add(FXMLLoader.load(getClass().getResource("/fxml/MobilePages/GoogleMaps.fxml")));
-    Scene mobile = new Scene(root, 306, 544);
+    Scene mobile = new Scene(root);
     Stage stage = new Stage();
     stage.setScene(mobile);
+    stage.initStyle(StageStyle.UNDECORATED);
+    final double[] xOffset = {0};
+    final double[] yOffset = {0};
+    final boolean[] dragAllowed = {true};
+    root.setOnMousePressed(
+        event -> {
+          dragAllowed[0] = root.lookup("#phone") == event.getPickResult().getIntersectedNode();
+          if (dragAllowed[0]) {
+            xOffset[0] = event.getSceneX();
+            yOffset[0] = event.getSceneY();
+          }
+        });
+    root.setOnMouseDragged(
+        event -> {
+          if (dragAllowed[0]) {
+            stage.setX(event.getScreenX() - xOffset[0]);
+            stage.setY(event.getScreenY() - yOffset[0]);
+          }
+        });
+    stage.initStyle(StageStyle.TRANSPARENT);
+    mobile.setFill(Color.TRANSPARENT);
     stage.show();
   }
 
-  //  public void navigate(ActionEvent e) throws IOException {
-  //    String id = ((JFXRippler) e.getSource()).getId();
-  //    if (id.equals("loginButton")) {
-  //      replacePane.getChildren().clear();
-  //      replacePane
-  //          .getChildren()
-  //          .add(FXMLLoader.load(ViewManager.class.getResource("/fxml/Profile.fxml")));
-  //    } else if (id.equals("COVIDButton")) {
-  //      replacePane.getChildren().clear();
-  //      replacePane
-  //          .getChildren()
-  //          .add(FXMLLoader.load(ViewManager.class.getResource("/fxml/Requests.fxml")));
-  //    } else if (id.equals("navigateButton")) {
-  //      replacePane.getChildren().clear();
-  //      replacePane
-  //          .getChildren()
-  //          .add(FXMLLoader.load(ViewManager.class.getResource("/fxml/Map.fxml")));
-  //    } else if (id.equals("giftsButton")) {
-  //      replacePane.getChildren().clear();
-  //      replacePane
-  //          .getChildren()
-  //          .add(FXMLLoader.load(ViewManager.class.getResource("/fxml/SanitationRequest.fxml")));
-  //    } else if (id.equals("logoutButton")) {
-  //      replacePane.getChildren().clear();
-  //      replacePane
-  //          .getChildren()
-  //          .add(FXMLLoader.load(ViewManager.class.getResource("/fxml/Profile.fxml")));
-  //    } else {
-  //      replacePane.getChildren().clear();
-  //      replacePane
-  //          .getChildren()
-  //          .add(FXMLLoader.load(ViewManager.class.getResource("/fxml/MaintenanceRequest.fxml")));
-  //    }
-  //  }
-
   @Override
   public void start(Stage primaryStage) throws Exception {
-    //    Parent root = FXMLLoader.load(getClass().getResource("/fxml/menuFiles/Menu.fxml"));
-    // Parent root = FXMLLoader.load(getClass().getResource("/fxml/MenuFiles/CovidForm.fxml"));
-    Parent root = FXMLLoader.load(getClass().getResource("/fxml/MobilePages/MCovidForm.fxml"));
+    Parent root = FXMLLoader.load(getClass().getResource("/fxml/menuFiles/Menu.fxml"));
     primaryStage.setTitle("Hospital App");
     Scene applicationScene = new Scene(root, 973, 800);
     ViewManager.setReplacePane(replacePane);
@@ -197,17 +183,5 @@ public class HomeController extends Application {
             }
           });
     }
-    //    if (ApplicationDataController.getInstance()
-    //        .getLoggedInUser()
-    //        .hasPermission(User.Permission.VIEW_TICKET)) {
-    //      serviceRequests.setMaxWidth(map.getMaxWidth());
-    //      serviceRequests.setVisible(true);
-    //      serviceRequests.setManaged(true);
-    //    } else {
-    //      serviceRequests.setMaxWidth(0);
-    //      serviceRequests.setVisible(false);
-    //      serviceRequests.setManaged(false);
-    //    }
-
   }
 }

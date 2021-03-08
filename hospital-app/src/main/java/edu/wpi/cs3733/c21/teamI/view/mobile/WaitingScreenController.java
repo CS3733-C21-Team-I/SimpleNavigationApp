@@ -1,4 +1,4 @@
-package edu.wpi.cs3733.c21.teamI.view;
+package edu.wpi.cs3733.c21.teamI.view.mobile;
 
 import java.io.IOException;
 import javafx.animation.KeyFrame;
@@ -6,7 +6,9 @@ import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -39,4 +41,10 @@ public class WaitingScreenController extends Application {
 
   @Override
   public void start(Stage primaryStage) throws Exception {}
+
+  @FXML
+  public void exit(MouseEvent e) {
+    Stage stage = (Stage) ((Circle) e.getSource()).getScene().getWindow();
+    stage.close();
+  }
 }

@@ -7,7 +7,6 @@ import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 
@@ -86,8 +85,6 @@ public class CovidFormController {
     if (symptoms == true) {
       isCovidRisk = true;
     }
-
-    goToWaitingScreen();
   }
 
   public void clear() {
@@ -107,21 +104,6 @@ public class CovidFormController {
   }
 
   public void cancel() {}
-
-  public void displayParkingSpot(int lotAssigned) {
-
-    parkingIndication.setText(
-        "Your parking spot is "
-            + String.valueOf(lotAssigned)
-            + ". Please take the following covid form before entering the hospital.");
-  }
-
-  public void goToWaitingScreen() throws IOException {
-    //    System.out.println(((JFXButton) actionEvent.getSource()).getScene());
-    root.getChildren().clear();
-    root.getChildren()
-        .add(FXMLLoader.load(getClass().getResource("/fxml/MobilePages/MWaitingScreen.fxml")));
-  }
 
   public void checkFinished() {
 

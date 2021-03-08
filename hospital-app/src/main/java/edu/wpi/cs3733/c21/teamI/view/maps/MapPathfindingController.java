@@ -42,7 +42,8 @@ public class MapPathfindingController extends MapController {
   @FXML ListView startList, destList, directionsField;
 
   private EuclidianDistCalc scorer = new EuclidianDistCalc();
-  private PathPlanningAlgorithm pathFinderAlgorithm = new PathFinder();
+  private AlgorithmSelectionStrategyPattern pathFinderAlgorithm =
+      new AlgorithmSelectionStrategyPattern(new A_Star<>());
 
   private List<HospitalMapNode> foundPath;
   private ArrayList<String> foundPathDescription;
@@ -56,12 +57,12 @@ public class MapPathfindingController extends MapController {
             .getLoggedInUser()
             .hasPermission(User.Permission.EDIT_MAP);
     if (!isAdmin) {
-      //      adminMapToggle.setVisible(isAdmin);
-      //      adminMapToggle.setMinHeight(0);
-      //      algorithmPick.setVisible(isAdmin);
-      //      algorithmPick.setMinHeight(0);
+      adminMapToggle.setVisible(isAdmin);
+      adminMapToggle.setMinHeight(0);
+      algorithmPick.setVisible(isAdmin);
+      algorithmPick.setMinHeight(0);
     }
-    //    algorithmPick.getItems().addAll("A*", "Depth First", "Breadth First");
+    algorithmPick.getItems().addAll("A*", "Depth First", "Breadth First", "Dijkstra");
     // ViewManager.setMapController(this);
     setupMapViewHandlers();
     currentMapID = "Faulkner Lot";
@@ -217,14 +218,18 @@ public class MapPathfindingController extends MapController {
     switch (algorithmPick.getValue().toString()) {
       case "Depth First":
         System.out.println("Making new Depth first...");
-        pathFinderAlgorithm = new DepthFirstSearch();
+        pathFinderAlgorithm.setPlanning(new DepthFirstSearch());
         break;
       case "Breadth First":
         System.out.println("Making new Breadth first...");
-        pathFinderAlgorithm = new BreadthFirstSearch();
+        pathFinderAlgorithm.setPlanning(new BreadthFirstSearch());
+        break;
+      case "Dijkstra":
+        System.out.println("Making new Dijkstra");
+        pathFinderAlgorithm.setPlanning(new Dijkstra());
         break;
       default:
-        pathFinderAlgorithm = new PathFinder();
+        pathFinderAlgorithm.setPlanning(new A_Star());
         break;
     }
   }
