@@ -453,6 +453,8 @@ public class NavDatabaseManager extends DatabaseManager {
                       + ((LocationNode) node).getLongName()
                       + "', TEAM_ASSIGNED = '"
                       + ((LocationNode) node).getTeamAssigned()
+                      + "', location_category = '"
+                      + ((LocationNode) node).getLocationCategory()
                       + "' WHERE NODE_ID = '"
                       + op.getTargetNode()
                       + "'");
