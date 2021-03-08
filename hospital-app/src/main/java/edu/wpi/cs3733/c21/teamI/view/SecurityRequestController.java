@@ -32,27 +32,24 @@ public class SecurityRequestController {
   @FXML JFXComboBox securityType;
 
   public void submit(ActionEvent e) {
-    try {
-      int RequestID = ApplicationDataController.getInstance().getLoggedInUser().getUserId();
-      int AssignedID =
-          UserDatabaseManager.getInstance()
-              .getUserForScreenname(requestAssigned.getText())
-              .getUserId();
-      // System.out.println(AssignedID);
-      ticket =
-          new SecurityTicket(
-              RequestID,
-              NavDatabaseManager.getInstance().getMapIdFromLongName(locationText.getText()),
-              description.getText(),
-              false,
-              (String) securityType.getSelectionModel().getSelectedItem(),
-              emergency.isSelected());
-      ticket.addAssignedUserID(AssignedID);
-      int id = ServiceTicketDatabaseManager.getInstance().addTicket(ticket);
-      ServiceTicketDatabaseManager.getInstance().addEmployeeForTicket(id, AssignedID);
-    } catch (Exception o) {
-      System.out.println("Error" + o);
-    }
+
+    int RequestID = ApplicationDataController.getInstance().getLoggedInUser().getUserId();
+    int AssignedID =
+        UserDatabaseManager.getInstance()
+            .getUserForScreenname(requestAssigned.getText())
+            .getUserId();
+    // System.out.println(AssignedID);
+    ticket =
+        new SecurityTicket(
+            RequestID,
+            NavDatabaseManager.getInstance().getMapIdFromLongName(locationText.getText()),
+            description.getText(),
+            false,
+            (String) securityType.getSelectionModel().getSelectedItem(),
+            emergency.isSelected());
+    ticket.addAssignedUserID(AssignedID);
+    int id = ServiceTicketDatabaseManager.getInstance().addTicket(ticket);
+    ServiceTicketDatabaseManager.getInstance().addEmployeeForTicket(id, AssignedID);
   }
 
   public void navigate(ActionEvent e) throws IOException {
