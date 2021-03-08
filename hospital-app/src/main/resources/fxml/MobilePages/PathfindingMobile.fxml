@@ -27,7 +27,7 @@
                <Image url="@phone.png" />
            </image>
        </ImageView>
-      <AnchorPane maxHeight="544.0" maxWidth="306.0" minHeight="544.0" minWidth="306.0" prefHeight="544.0" prefWidth="306.0" style="-fx-border-color: black;" StackPane.alignment="CENTER">
+      <AnchorPane fx:id="screen" maxHeight="544.0" maxWidth="306.0" minHeight="544.0" minWidth="306.0" prefHeight="544.0" prefWidth="306.0" style="-fx-border-color: black;" StackPane.alignment="CENTER">
          <children>
             <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="544.0" prefWidth="306.0">
                <children>

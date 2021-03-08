@@ -85,7 +85,7 @@ public class GoogleMapsController extends Application {
         PlacesApi.placeAutocomplete(context, currText, token).awaitIgnoreError();
 
     Gson gson = new GsonBuilder().setPrettyPrinting().create();
-    System.out.println(gson.toJson(result[0].description));
+    //    System.out.println(gson.toJson(result[0].description));
     List<String> suggestions = new ArrayList<>();
 
     for (int i = 0; i < result.length; i++) {

@@ -18,7 +18,7 @@
             <Image url="@phone.png" />
          </image>
       </ImageView>
-      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="544.0" prefWidth="306.0" style="-fx-border-color: black; -fx-background-color: #F1F1F1;">
+      <AnchorPane fx:id="screen" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="544.0" prefWidth="306.0" style="-fx-border-color: black; -fx-background-color: #F1F1F1;">
          <children>
             <ImageView fx:id="phone1" fitHeight="546.0" fitWidth="308.0" pickOnBounds="true" preserveRatio="true">
                <image>

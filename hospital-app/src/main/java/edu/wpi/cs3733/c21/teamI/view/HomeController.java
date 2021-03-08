@@ -76,15 +76,21 @@ public class HomeController extends Application {
     stage.initStyle(StageStyle.UNDECORATED);
     final double[] xOffset = {0};
     final double[] yOffset = {0};
+    final boolean[] dragAllowed = {true};
     root.setOnMousePressed(
         event -> {
-          xOffset[0] = event.getSceneX();
-          yOffset[0] = event.getSceneY();
+          dragAllowed[0] = root.lookup("#phone") == event.getPickResult().getIntersectedNode();
+          if (dragAllowed[0]) {
+            xOffset[0] = event.getSceneX();
+            yOffset[0] = event.getSceneY();
+          }
         });
     root.setOnMouseDragged(
         event -> {
-          stage.setX(event.getScreenX() - xOffset[0]);
-          stage.setY(event.getScreenY() - yOffset[0]);
+          if (dragAllowed[0]) {
+            stage.setX(event.getScreenX() - xOffset[0]);
+            stage.setY(event.getScreenY() - yOffset[0]);
+          }
         });
     stage.initStyle(StageStyle.TRANSPARENT);
     mobile.setFill(Color.TRANSPARENT);
