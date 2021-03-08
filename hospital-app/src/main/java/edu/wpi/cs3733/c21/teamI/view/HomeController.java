@@ -22,7 +22,9 @@ import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Duration;
 
 public class HomeController extends Application {
@@ -68,9 +70,28 @@ public class HomeController extends Application {
     Group root = new Group();
     root.getChildren()
         .add(FXMLLoader.load(getClass().getResource("/fxml/MobilePages/GoogleMaps.fxml")));
-    Scene mobile = new Scene(root, 306, 544);
+    Scene mobile = new Scene(root);
     Stage stage = new Stage();
     stage.setScene(mobile);
+    stage.initStyle(StageStyle.UNDECORATED);
+    final double[] xOffset = {0};
+    final double[] yOffset = {0};
+    root
+        .setOnMousePressed(
+            event -> {
+              System.out.println("start");
+              xOffset[0] = event.getSceneX();
+              yOffset[0] = event.getSceneY();
+            });
+    root
+        .setOnMouseDragged(
+            event -> {
+              System.out.println("drag");
+              stage.setX(event.getScreenX() - xOffset[0]);
+              stage.setY(event.getScreenY() - yOffset[0]);
+            });
+    stage.initStyle(StageStyle.TRANSPARENT);
+    mobile.setFill(Color.TRANSPARENT);
     stage.show();
   }
 
