@@ -44,7 +44,7 @@ public class InternalTransportationController {
               .getUserId();
       ticket =
           new InternalTransportationTicket(
-                  Integer.parseInt(requesterID.getText()),
+                  RequestID,
                   internalLocation.getText(),
               internalDetails.getText(),
                   false,
