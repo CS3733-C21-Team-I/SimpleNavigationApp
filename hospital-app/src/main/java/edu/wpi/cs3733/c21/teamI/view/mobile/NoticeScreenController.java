@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
@@ -16,19 +17,25 @@ public class NoticeScreenController {
   @FXML StackPane root;
 
   @FXML
+  public void initialize() {
+    changeCovidText(true);
+  }
+
+  @FXML
   public void goToPathfinding() throws IOException {
     root.getChildren().clear();
     root.getChildren()
         .add(FXMLLoader.load(getClass().getResource("/fxml/MobilePages/PathfindingMobile.fxml")));
   }
 
-  public void changeText(boolean covidRisk) {
+  public void changeCovidText(boolean covidRisk) {
     Label label2 = (Label) root.lookup("#label2");
     Label label3 = (Label) root.lookup("#label3");
     if (!covidRisk) {
-      label2.setText("");
+      label2.setText("You have not been designated as a potential COVID-19 risk.");
+      label2.setTextFill(Color.BLACK);
       label3.setText(
-          "You can enter the hospital now and navigate to your destination through the pathfinding function");
+          "You can enter the hospital now and navigate to your destination through the pathfinding interface.");
     }
   }
 
