@@ -136,7 +136,6 @@ public class ServiceRequestTableController implements Initializable {
             detailsCol,
             completeCol);
     if (treeView.getRoot() != null) {
-      System.out.println("Checking for extra columns");
       boolean allMatch =
           treeView.getRoot().getChildren().stream()
                   .map(c -> c.getValue().getTicketType())
@@ -154,7 +153,6 @@ public class ServiceRequestTableController implements Initializable {
     }
     treeView.setRoot(root);
     treeView.setShowRoot(false);
-    System.out.println(treeView.getRoot().getChildren());
   }
 
   @FXML
