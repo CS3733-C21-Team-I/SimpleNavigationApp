@@ -4,6 +4,7 @@
 <?import com.jfoenix.controls.JFXListView?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -28,14 +29,20 @@
                <padding>
                   <Insets left="10.0" right="10.0" />
                </padding></JFXTextField>
-            <JFXButton fx:id="submitButton" buttonType="RAISED" ellipsisString="" layoutX="252.0" layoutY="250.0" onAction="#submit" prefHeight="46.0" prefWidth="46.0" ripplerFill="WHITE" style="-fx-background-color: #0067b1; -fx-background-radius: 23;" text="GO" textFill="WHITE" textOverrun="CLIP" />
-            <JFXListView fx:id="autofillView" layoutX="14.0" layoutY="296.0" prefHeight="157.0" prefWidth="249.0" style="-fx-background-color: WHITE; -fx-background-radius: 20;">
+            <JFXButton fx:id="submitButton" buttonType="RAISED" ellipsisString="" layoutX="252.0" layoutY="250.0" onAction="#submit" prefHeight="46.0" prefWidth="46.0" ripplerFill="WHITE" style="-fx-background-color: #0067b1; -fx-background-radius: 23;" text="GO" textFill="WHITE" textOverrun="CLIP">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></JFXButton>
+            <JFXListView fx:id="autofillView" layoutX="14.0" layoutY="296.0" prefHeight="157.0" prefWidth="279.0" style="-fx-background-color: WHITE; -fx-background-radius: 20;">
                <padding>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </padding>
             </JFXListView>
             <WebView fx:id="webview" prefHeight="200.0" prefWidth="200.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-            <JFXButton buttonType="RAISED" layoutX="43.0" layoutY="485.0" onAction="#goToCovidForm" prefHeight="45.0" prefWidth="227.0" ripplerFill="WHITE" style="-fx-background-color: #012D5A; -fx-background-radius: 20;" text="I've Arrived At The Hospital" textFill="WHITE" />
+            <JFXButton buttonType="RAISED" layoutX="43.0" layoutY="485.0" onAction="#goToCovidForm" prefHeight="45.0" prefWidth="227.0" ripplerFill="WHITE" style="-fx-background-color: #012D5A; -fx-background-radius: 20;" text="I've Arrived At The Hospital" textFill="WHITE">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></JFXButton>
          </children>
       </AnchorPane>
    </children>
