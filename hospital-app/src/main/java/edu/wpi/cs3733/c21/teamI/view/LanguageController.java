@@ -56,6 +56,8 @@ public class LanguageController extends Application {
 
   @FXML
   void submit(ActionEvent event) {
+    String time = "";
+    if (langTime.getValue() != null) time = langTime.getValue().toString();
     try {
       int RequestID = ApplicationDataController.getInstance().getLoggedInUser().getUserId();
       int AssignedID =
@@ -70,7 +72,7 @@ public class LanguageController extends Application {
               langDetails.getText(),
               false,
               langTextfield.getText(),
-              langTime.getValue().toString(),
+              time,
               langCheckbox.isSelected());
       ticket.addAssignedUserID(AssignedID);
       int id = ServiceTicketDatabaseManager.getInstance().addTicket(ticket);

@@ -36,6 +36,12 @@ public class InternalTransportationController {
   // boolean bEmergency = false;
 
   public void submit(ActionEvent e) {
+    String inDate, inTime;
+    inDate = inTime = "";
+    if (internalDate.getValue() != null) inDate = internalDate.getValue().toString();
+    if (internalTime.getValue() != null) inTime = internalTime.getValue().toString();
+
+    System.out.println(inDate);
     try {
       int RequestID = ApplicationDataController.getInstance().getLoggedInUser().getUserId();
       int AssignedID =
@@ -44,17 +50,19 @@ public class InternalTransportationController {
               .getUserId();
       ticket =
           new InternalTransportationTicket(
-                  RequestID,
-                  internalLocation.getText(),
+              RequestID,
+              NavDatabaseManager.getInstance().getMapIdFromLongName(internalLocation.getText()),
               internalDetails.getText(),
-                  false,
-                  internalDate.valueProperty().toString(),
-                  internalTime.valueProperty().toString(),
-                  internalDestination.getText(),
-                  false,stretcherRadio.isSelected(),
-                  wheelchairRadio.isSelected());
+              false,
+              inDate,
+              inTime,
+              internalDestination.getText(),
+              false,
+              stretcherRadio.isSelected(),
+              wheelchairRadio.isSelected());
 
       ticket.addAssignedUserID(AssignedID);
+      System.out.println(ticket);
       int id = ServiceTicketDatabaseManager.getInstance().addTicket(ticket);
       ServiceTicketDatabaseManager.getInstance().addEmployeeForTicket(id, AssignedID);
     } catch (Exception o) {

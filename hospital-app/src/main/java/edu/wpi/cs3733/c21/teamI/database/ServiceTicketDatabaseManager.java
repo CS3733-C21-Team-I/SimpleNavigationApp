@@ -143,8 +143,8 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
             "create table giftTicket(\n"
                 + "giftID integer NOT NULL GENERATED ALWAYS AS IDENTITY,\n\n"
                 + "patientName varchar(25),\n"
-                + "deliveryDate varchar(25),\n"
-                + "deliveryTime varchar(25),\n"
+                + "deliveryDate varchar(50),\n"
+                + "deliveryTime varchar(50),\n"
                 + "giftType varchar(25),\n"
                 + "location varchar(45) NOT NULL,\n"
                 + "PRIMARY KEY(giftID),\n"
@@ -184,8 +184,8 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
                 + "tixID integer NOT NULL,\n"
                 + "licensePlate varchar(25),\n"
                 + "contact integer,\n"
-                + "startDate varchar(25),\n"
-                + "endDate varchar(25),\n"
+                + "startDate varchar(50),\n"
+                + "endDate varchar(50),\n"
                 + "disability boolean,\n"
                 + "FOREIGN KEY (tixID) REFERENCES SERVICETICKET(ticketID))");
         // System.out.println("employeeParkingTicket table created.");
@@ -197,8 +197,8 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
         stmt.execute(
             "create table externalTransportationTicket(\n"
                 + "tixID integer NOT NULL,\n"
-                + "pickUpDate varchar(25),\n"
-                + "pickUpTime varchar(25),\n"
+                + "pickUpDate varchar(50),\n"
+                + "pickUpTime varchar(50),\n"
                 + "destination varchar(25),\n"
                 + "FOREIGN KEY (tixID) REFERENCES SERVICETICKET(ticketID))");
         // System.out.println("externalTransportationTicket table created.");
@@ -211,8 +211,8 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
             "create table floralTicket(\n"
                 + "tixID integer NOT NULL,\n"
                 + "patientName varchar(25),\n"
-                + "deliveryDate varchar(25),\n"
-                + "deliveryTime varchar(25),\n"
+                + "deliveryDate varchar(50),\n"
+                + "deliveryTime varchar(50),\n"
                 + "FOREIGN KEY (tixID) REFERENCES SERVICETICKET(ticketID))");
         // System.out.println("floralTicket table created.");
       } catch (SQLException e) {
@@ -223,8 +223,8 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
         stmt.execute(
             "create table internalTransportationTicket(\n"
                 + "tixID integer NOT NULL,\n"
-                + "pickUpDate varchar(25),\n"
-                + "pickUpTime varchar(25),\n"
+                + "pickUpDate varchar(50),\n"
+                + "pickUpTime varchar(50),\n"
                 + "destination varchar(25),\n"
                 + "emergency boolean,\n"
                 + "stretcher boolean,\n"
@@ -240,7 +240,7 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
             "create table languageTicket(\n"
                 + "tixID integer NOT NULL,\n"
                 + "language varchar(25),\n"
-                + "meetingTime varchar(25),\n"
+                + "meetingTime varchar(50),\n"
                 + "legalDocs boolean,\n"
                 + "FOREIGN KEY (tixID) REFERENCES SERVICETICKET(ticketID))");
         // System.out.println("languageTicket table created.");
@@ -252,8 +252,8 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
         stmt.execute(
             "create table laundryTicket(\n"
                 + "tixID integer NOT NULL,\n"
-                + "pickUpDate varchar(25),\n"
-                + "pickUpTime varchar(25),\n"
+                + "pickUpDate varchar(50),\n"
+                + "pickUpTime varchar(50),\n"
                 + "dryClean boolean,\n"
                 + "FOREIGN KEY (tixID) REFERENCES SERVICETICKET(ticketID))");
         // System.out.println("laundryTicket table created.");
@@ -268,8 +268,8 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
                 + "patientName varchar(25),\n"
                 + "drugName varchar(25),\n"
                 + "dose varchar(25),\n"
-                + "date varchar(25),\n"
-                + "time varchar(25),\n"
+                + "date varchar(50),\n"
+                + "time varchar(50),\n"
                 + "FOREIGN KEY (tixID) REFERENCES SERVICETICKET(ticketID))");
         // System.out.println("medicineTicket table created.");
       } catch (SQLException e) {
@@ -283,8 +283,8 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
                 + "patientName varchar(25),\n"
                 + "religiousDenomination varchar(25),\n"
                 + "religiousType varchar(25),\n"
-                + "date varchar(25),\n"
-                + "time varchar(25),\n"
+                + "date varchar(50),\n"
+                + "time varchar(50),\n"
                 + "FOREIGN KEY (tixID) REFERENCES SERVICETICKET(ticketID))");
         // System.out.println("religiousTicket table created.");
       } catch (SQLException e) {
@@ -501,22 +501,31 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
       switch (t.getTicketType()) {
         case AUDIO_VISUAL:
           ourInstance.addAudioVisual(id, (AudioVisualTicket) t);
+          break;
         case COMPUTER:
           ourInstance.addComputer(id, (ComputerTicket) t);
-        case PARKING:
-          ourInstance.addEmployeeParking(id, (EmployeeParkingTicket) t);
-        case INTERNAL_TRANSPORTATION:
-          ourInstance.addInternalTransport(id, (InternalTransportationTicket) t);
+          break;
         case LANGUAGE:
           ourInstance.addLanguage(id, (LanguageTicket) t);
+          break;
+        case PARKING:
+          ourInstance.addEmployeeParking(id, (EmployeeParkingTicket) t);
+          break;
+        case INTERNAL_TRANSPORTATION:
+          ourInstance.addInternalTransport(id, (InternalTransportationTicket) t);
+          break;
         case LAUNDRY:
           ourInstance.addLaundry(id, (LaundryTicket) t);
+          break;
         case MEDICINE:
           ourInstance.addMedicine(id, (MedicineTicket) t);
+          break;
         case RELIGIOUS:
           ourInstance.addReligious(id, (ReligiousTicket) t);
+          break;
         case SECURITY:
           ourInstance.addSecurity(id, (SecurityTicket) t);
+          break;
         case COVID:
         case EXTERNAL_TRANSPORTATION:
         case FLORAL:

@@ -35,12 +35,10 @@ public class LaundryRequestController {
 
   @FXML
   private void submitForm(ActionEvent actionEvent) {
-     String pickupDate, pickupTime;
-     pickupDate = pickupTime = "";
-     if (laundryPickupDate.getValue() != null)
-       pickupDate = laundryPickupDate.getValue().toString();
-     if (laundryPickupTime.getValue() != null)
-       pickupTime = laundryPickupTime.getValue().toString();
+    String pickupDate, pickupTime;
+    pickupDate = pickupTime = "";
+    if (laundryPickupDate.getValue() != null) pickupDate = laundryPickupDate.getValue().toString();
+    if (laundryPickupTime.getValue() != null) pickupTime = laundryPickupTime.getValue().toString();
 
     try {
       int RequestID = ApplicationDataController.getInstance().getLoggedInUser().getUserId();
