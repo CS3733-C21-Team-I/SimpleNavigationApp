@@ -7,6 +7,7 @@ import com.google.maps.model.AutocompletePrediction;
 import com.google.maps.model.DirectionsResult;
 import com.google.maps.model.FindPlaceFromText;
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXTextField;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -19,7 +20,6 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.ListView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
@@ -27,7 +27,7 @@ import javafx.stage.Stage;
 public class GoogleMapsController extends Application {
   @FXML private JFXButton submitButton;
   @FXML private JFXTextField addressSearch;
-  @FXML private ListView autofillView;
+  @FXML private JFXListView autofillView;
   @FXML StackPane root;
   @FXML WebView webview;
 
