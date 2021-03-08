@@ -1,4 +1,4 @@
-package edu.wpi.cs3733.c21.teamI.view;
+package edu.wpi.cs3733.c21.teamI.ticket.view;
 
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXTextArea;
@@ -8,9 +8,9 @@ import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
 import edu.wpi.cs3733.c21.teamI.database.NavDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.database.ServiceTicketDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.database.UserDatabaseManager;
-import edu.wpi.cs3733.c21.teamI.ticket.LanguageTicket;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicket;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicketDataController;
+import edu.wpi.cs3733.c21.teamI.ticket.ticketTypes.LanguageTicket;
 import edu.wpi.cs3733.c21.teamI.user.User;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;

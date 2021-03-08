@@ -1,13 +1,12 @@
-package edu.wpi.cs3733.c21.teamI.view;
+package edu.wpi.cs3733.c21.teamI.ticket.view;
 
 import com.jfoenix.controls.*;
 import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
-import edu.wpi.cs3733.c21.teamI.database.NavDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.database.ServiceTicketDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.database.UserDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicket;
-import edu.wpi.cs3733.c21.teamI.ticket.MedicineTicket;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicketDataController;
+import edu.wpi.cs3733.c21.teamI.ticket.ticketTypes.MedicineTicket;
 import edu.wpi.cs3733.c21.teamI.user.User;
 import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
@@ -15,7 +14,6 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
-import javax.swing.*;
 
 public class MedicineDeliveryController {
   @FXML JFXTextField patient_name, currentID, assignedID, drug, dose, locationText;
@@ -30,7 +28,15 @@ public class MedicineDeliveryController {
 
   @FXML
   private void submit() {
-    String patientName, drugPicked, dosePicked, datePicked, timePicked, locationPicked, cond, com, check;
+    String patientName,
+        drugPicked,
+        dosePicked,
+        datePicked,
+        timePicked,
+        locationPicked,
+        cond,
+        com,
+        check;
     patientName = patient_name.getText();
 
     drugPicked = drug.getText();
@@ -52,12 +58,12 @@ public class MedicineDeliveryController {
       ticket =
           new MedicineTicket(
               RequestID,
-                  locationPicked,
-                  com,
-         false,
-                  patientName,
-                  drugPicked,
-                  dosePicked,
+              locationPicked,
+              com,
+              false,
+              patientName,
+              drugPicked,
+              dosePicked,
               datePicked,
               timePicked);
 

@@ -1,14 +1,15 @@
-package edu.wpi.cs3733.c21.teamI.view;
+package edu.wpi.cs3733.c21.teamI.ticket.view;
 
 import com.jfoenix.controls.*;
 import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
 import edu.wpi.cs3733.c21.teamI.database.NavDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.database.ServiceTicketDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.database.UserDatabaseManager;
-import edu.wpi.cs3733.c21.teamI.ticket.LaundryTicket;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicket;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicketDataController;
+import edu.wpi.cs3733.c21.teamI.ticket.ticketTypes.LaundryTicket;
 import edu.wpi.cs3733.c21.teamI.user.User;
+import edu.wpi.cs3733.c21.teamI.view.ViewManager;
 import java.io.IOException;
 import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;

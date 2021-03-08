@@ -1,4 +1,4 @@
-package edu.wpi.cs3733.c21.teamI.ticket;
+package edu.wpi.cs3733.c21.teamI.ticket.ticketTypes;
 
 public class GiftTicket {
   private String deliveryDate;

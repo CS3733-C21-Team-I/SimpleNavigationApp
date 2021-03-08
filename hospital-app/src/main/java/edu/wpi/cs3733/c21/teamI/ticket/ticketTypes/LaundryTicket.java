@@ -1,4 +1,6 @@
-package edu.wpi.cs3733.c21.teamI.ticket;
+package edu.wpi.cs3733.c21.teamI.ticket.ticketTypes;
+
+import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicket;
 
 public class LaundryTicket extends ServiceTicket {
   private String pickUpDate;
