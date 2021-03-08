@@ -62,6 +62,7 @@ public class InternalTransportationController {
               wheelchairRadio.isSelected());
 
       ticket.addAssignedUserID(AssignedID);
+      System.out.println(ticket);
       int id = ServiceTicketDatabaseManager.getInstance().addTicket(ticket);
       ServiceTicketDatabaseManager.getInstance().addEmployeeForTicket(id, AssignedID);
     } catch (Exception o) {

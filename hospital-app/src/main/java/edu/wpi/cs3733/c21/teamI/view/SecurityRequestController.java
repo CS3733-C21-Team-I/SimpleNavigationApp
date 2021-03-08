@@ -32,8 +32,6 @@ public class SecurityRequestController {
   @FXML JFXComboBox securityType;
 
   public void submit(ActionEvent e) {
-
-
     int RequestID = ApplicationDataController.getInstance().getLoggedInUser().getUserId();
     int AssignedID =
         UserDatabaseManager.getInstance()
@@ -51,7 +49,6 @@ public class SecurityRequestController {
     ticket.addAssignedUserID(AssignedID);
     int id = ServiceTicketDatabaseManager.getInstance().addTicket(ticket);
     ServiceTicketDatabaseManager.getInstance().addEmployeeForTicket(id, AssignedID);
-
   }
 
   public void navigate(ActionEvent e) throws IOException {

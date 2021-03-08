@@ -6,6 +6,7 @@ import com.jfoenix.controls.JFXTreeTableColumn;
 import com.jfoenix.controls.JFXTreeTableView;
 import java.util.ArrayList;
 import java.util.Arrays;
+
 import javafx.beans.property.SimpleStringProperty;
 
 public class UniqueColumnFactory {
@@ -73,6 +74,7 @@ public class UniqueColumnFactory {
                   : new SimpleStringProperty());
       columnList.addAll(Arrays.asList(col1, col2, col3));
     } else if (type == FLORAL) {
+
       JFXTreeTableColumn<ServiceTicket, String> col1 = makeColumn("Patient Name");
       col1.setCellValueFactory(
           param ->
@@ -95,6 +97,7 @@ public class UniqueColumnFactory {
                       ((FloralTicket) param.getValue().getValue()).getDeliveryTime())
                   : new SimpleStringProperty());
       columnList.addAll(Arrays.asList(col1, col2, col3));
+
     } else if (type == INTERNAL_TRANSPORTATION) {
       JFXTreeTableColumn<ServiceTicket, String> col2 = makeColumn("Pick Up Date");
       col2.setCellValueFactory(
@@ -274,7 +277,9 @@ public class UniqueColumnFactory {
     return columnList;
   }
 
+
   private static JFXTreeTableColumn<ServiceTicket, String> makeColumn(String name) {
+
     JFXTreeTableColumn<ServiceTicket, String> column = new JFXTreeTableColumn<>(name);
     column.setPrefWidth(150);
     column.setEditable(true);

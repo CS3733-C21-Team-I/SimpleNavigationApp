@@ -1020,7 +1020,6 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
               + ")");
     } catch (SQLException e) {
       e.printStackTrace();
-      System.out.println("Error here");
     }
   }
 
