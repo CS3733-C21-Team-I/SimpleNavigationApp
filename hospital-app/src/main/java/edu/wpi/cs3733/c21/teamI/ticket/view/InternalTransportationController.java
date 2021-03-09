@@ -33,7 +33,7 @@ public class InternalTransportationController {
   //  String sDate, time, sName, sDestination, sPickupLocation, ID, employee;
   //  boolean bStrecherRadio = false;
   //  boolean bWheelerRadio = true;
-  // boolean bEmergency = false;
+  //  boolean bEmergency = false;
 
   public void submit(ActionEvent e) {
     String inDate, inTime;

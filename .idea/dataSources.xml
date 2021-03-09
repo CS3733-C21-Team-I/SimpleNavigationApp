@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="navDB" uuid="cd4361b2-b079-4a4e-b774-f7f999736d46">
-      <driver-ref>derby.embedded</driver-ref>
+    <data-source source="LOCAL" name="navDB@localhost" uuid="9e2e63c6-40d5-41bb-91a7-9063212eb9f5">
+      <driver-ref>derby.remote</driver-ref>
       <synchronize>true</synchronize>
-      <jdbc-driver>org.apache.derby.jdbc.EmbeddedDriver</jdbc-driver>
-      <jdbc-url>jdbc:derby:hospital-app/navDB</jdbc-url>
+      <jdbc-driver>org.apache.derby.jdbc.ClientDriver</jdbc-driver>
+      <jdbc-url>jdbc:derby://localhost:1527/navDB</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>

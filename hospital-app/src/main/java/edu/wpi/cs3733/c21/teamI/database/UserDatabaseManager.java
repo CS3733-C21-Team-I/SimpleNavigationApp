@@ -237,7 +237,9 @@ public class UserDatabaseManager extends DatabaseManager {
               + " screenName varchar(30) NOT NULL ,"
               + "hashed_password blob(32),"
               + "salt blob(32),"
-              + "PRIMARY KEY (user_ID)"
+              + "covidRisk varchar(25),"
+              + "PRIMARY KEY (user_ID),"
+              + "CHECK (covidRisk in ('COVID_RISK', 'PENDING', 'NO_COVID_RISK'))"
               + ")");
     } catch (SQLException e) {
       System.out.println("Error generating User table");
@@ -320,24 +322,32 @@ public class UserDatabaseManager extends DatabaseManager {
       e.printStackTrace();
     }
 
-    //    try {
-    //      Statement stmt = databaseRef.getConnection().createStatement();
-    //      stmt.execute(
-    //          "CREATE TABLE HOSPITAL_EMPLOYEE"
-    //              + "("
-    //              + " employeeID    integer NOT NULL,"
-    //              + " firstName varchar(20) NOT NULL ,"
-    //              + " lastName  varchar(20) NOT NULL,"
-    //              + "FOREIGN KEY (employeeID) REFERENCES HOSPITAL_USERS(user_ID))");
-    //    } catch (SQLException e) {
-    //      System.out.println("Error generating User table");
-    //      e.printStackTrace();
-    //    }
-
+    try {
+      Statement stmt = databaseRef.getConnection().createStatement();
+      stmt.execute(
+          "CREATE TABLE USER_TO_NODE"
+              + "("
+              + "user_ID    integer NOT NULL,"
+              + "node_ID varchar(45) NOT NULL,"
+              + "PRIMARY KEY(user_ID,node_ID),"
+              + "FOREIGN KEY(user_ID) REFERENCES HOSPITAL_USERS(user_ID),"
+              + "FOREIGN KEY (node_ID) REFERENCES navNodes(node_ID))");
+    } catch (SQLException e) {
+      System.out.println("Error generating User table");
+      e.printStackTrace();
+    }
   }
 
   @Override
   void dropTables() {
+    try {
+      Statement stmt = databaseRef.getConnection().createStatement();
+      // Drop the Edges table.
+      stmt.execute("DROP TABLE USER_TO_NODE");
+    } catch (SQLException ex) {
+      // No need to report an error.
+      // The table simply did not exist.
+    }
 
     try {
       Statement stmt = databaseRef.getConnection().createStatement();
@@ -807,5 +817,58 @@ public class UserDatabaseManager extends DatabaseManager {
     if (insertedEmployee == -1) throw new IllegalStateException("Failed to insert employee");
 
     return insertedEmployee;
+  }
+
+  public void addUserForLocation(int userID, String mapID) {
+    try {
+      Statement stmt = databaseRef.getConnection().createStatement();
+      stmt.executeUpdate(
+          "INSERT INTO USER_TO_NODE(user_ID, node_ID)\n"
+              + "VALUES("
+              + userID
+              + ", '"
+              + mapID
+              + "')");
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+  }
+
+  public String getLocationForUser(int userID) {
+    try {
+      Statement stmt = databaseRef.getConnection().createStatement();
+      ResultSet rs =
+          stmt.executeQuery(
+              "SELECT * FROM USER_TO_NODE UN JOIN NAVNODES N ON UN.NODE_ID = N.NODE_ID WHERE USER_ID = "
+                  + String.valueOf(userID));
+      return rs.getString("long_Name");
+    } catch (SQLException e) {
+      e.printStackTrace();
+      return null;
+    }
+  }
+
+  public void addCovidRiskForUser(int userID, User.CovidRisk cov) {
+    try {
+      Statement stmt = databaseRef.getConnection().createStatement();
+      stmt.executeUpdate(
+          "UPDATE HOSPITAL_USERS SET covidRisk = '"
+              + cov.toString()
+              + "' WHERE user_id = "
+              + userID);
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+  }
+
+  public User.CovidRisk getCovidRiskForUser(int userID) {
+    try {
+      Statement stmt = databaseRef.getConnection().createStatement();
+      ResultSet rs = stmt.executeQuery("SELECT * FROM HOSPITAL_USERS WHERE user_id = " + userID);
+      return (User.CovidRisk.valueOf(rs.getString("covidRisk")));
+    } catch (SQLException e) {
+      e.printStackTrace();
+      return null;
+    }
   }
 }

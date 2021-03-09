@@ -78,7 +78,6 @@ public class SecurityRequestController {
     emergency.setSelected(false);
     serviceLocationList.setVisible(false);
     requestAssignedList.setVisible(false);
-
     securityType.getSelectionModel().select(2);
   }
 
