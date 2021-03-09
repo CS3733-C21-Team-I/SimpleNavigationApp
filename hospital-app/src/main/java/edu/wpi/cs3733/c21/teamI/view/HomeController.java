@@ -24,10 +24,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
@@ -47,6 +49,8 @@ public class HomeController extends Application {
   @FXML JFXDrawer drawer, notifDrawer;
 
   @FXML JFXHamburger ham1;
+
+  @FXML AnchorPane drawerPane;
 
   ProfileController profileController;
   VisitorMenuController visitorMenuController;
@@ -235,7 +239,7 @@ public class HomeController extends Application {
     Timeline timeline =
         new Timeline(
             new KeyFrame(
-                Duration.seconds(3),
+                Duration.seconds(11),
                 ev -> {
                   if (getNewNotification() != null) {}
                 }));
@@ -249,6 +253,25 @@ public class HomeController extends Application {
       initClock();
       update();
       initNotifUpdater();
+
+      drawerPane
+          .heightProperty()
+          .addListener(
+              (obs, oldVal, newVal) -> {
+                Rectangle clip = new Rectangle(drawerPane.getWidth(), drawerPane.getHeight());
+                clip.setLayoutX(0);
+                clip.setLayoutY(0);
+                drawerPane.setClip(clip);
+              });
+      drawerPane
+          .widthProperty()
+          .addListener(
+              (obs, oldVal, newVal) -> {
+                Rectangle clip = new Rectangle(drawerPane.getWidth(), drawerPane.getHeight());
+                clip.setLayoutX(0);
+                clip.setLayoutY(0);
+                drawerPane.setClip(clip);
+              });
 
       HamburgerSlideCloseTransition hamburgerTransition = new HamburgerSlideCloseTransition(ham1);
       hamburgerTransition.setRate(-1);

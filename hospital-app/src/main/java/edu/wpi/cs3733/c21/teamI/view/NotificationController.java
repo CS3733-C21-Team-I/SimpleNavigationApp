@@ -30,7 +30,7 @@ public class NotificationController implements Initializable {
     Timeline timeline =
         new Timeline(
             new KeyFrame(
-                Duration.seconds(1),
+                Duration.seconds(5),
                 ev -> {
                   //                  System.out.println("printing 2 secs latah");
                   notifs =
