@@ -237,7 +237,7 @@ public class UserDatabaseManager extends DatabaseManager {
               + " screenName varchar(30) NOT NULL ,"
               + "hashed_password blob(32),"
               + "salt blob(32),"
-              + "covidRisk varchar(25),"
+              + "covidRisk varchar(25) DEFAULT 'PENDING',"
               + "PRIMARY KEY (user_ID),"
               + "CHECK (covidRisk in ('COVID_RISK', 'PENDING', 'NO_COVID_RISK'))"
               + ")");
