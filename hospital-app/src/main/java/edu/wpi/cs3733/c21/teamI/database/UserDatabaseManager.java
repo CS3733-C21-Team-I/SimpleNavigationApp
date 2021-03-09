@@ -848,7 +848,7 @@ public class UserDatabaseManager extends DatabaseManager {
     }
   }
 
-  public void addCovidRiskForUser(int userID, User.CovidRisk cov) {
+  public void updateCovidRiskForUser(int userID, User.CovidRisk cov) {
     try {
       Statement stmt = databaseRef.getConnection().createStatement();
       stmt.executeUpdate(
@@ -865,7 +865,10 @@ public class UserDatabaseManager extends DatabaseManager {
     try {
       Statement stmt = databaseRef.getConnection().createStatement();
       ResultSet rs = stmt.executeQuery("SELECT * FROM HOSPITAL_USERS WHERE user_id = " + userID);
-      return (User.CovidRisk.valueOf(rs.getString("covidRisk")));
+      if (rs.next()) {
+        return (User.CovidRisk.valueOf(rs.getString("covidRisk")));
+      }
+      return null;
     } catch (SQLException e) {
       e.printStackTrace();
       return null;
