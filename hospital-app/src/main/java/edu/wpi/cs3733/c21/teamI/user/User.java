@@ -21,6 +21,8 @@ public class User {
 
   private int userId;
 
+  private CovidRisk covidR;
+
   public User(int userId, String name, Set<Role> userRoles, Set<Permission> userPermissions) {
     this.userRoles = userRoles;
     this.userPermissions = userPermissions;
@@ -76,5 +78,19 @@ public class User {
     RESPOND_TO_TRANSPORT,
     RESPOND_TO_RELIGIOUS,
     SUBMIT_COVD_TICKET
+  }
+
+  public enum CovidRisk {
+    COVID_RISK,
+    PENDING,
+    NO_COVID_RISK
+  }
+
+  public CovidRisk getCovidRisk() {
+    return covidR;
+  }
+
+  public void setCovidRisk(CovidRisk cov) {
+    this.covidR = cov;
   }
 }

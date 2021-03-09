@@ -237,7 +237,9 @@ public class UserDatabaseManager extends DatabaseManager {
               + " screenName varchar(30) NOT NULL ,"
               + "hashed_password blob(32),"
               + "salt blob(32),"
-              + "PRIMARY KEY (user_ID)"
+              + "covidRisk varchar(25),"
+              + "PRIMARY KEY (user_ID),"
+              + "CHECK (covidRisk in ('COVID_RISK', 'PENDING', 'NO_COVID_RISK'))"
               + ")");
     } catch (SQLException e) {
       System.out.println("Error generating User table");
@@ -840,6 +842,30 @@ public class UserDatabaseManager extends DatabaseManager {
               "SELECT * FROM USER_TO_NODE UN JOIN NAVNODES N ON UN.NODE_ID = N.NODE_ID WHERE USER_ID = "
                   + String.valueOf(userID));
       return rs.getString("long_Name");
+    } catch (SQLException e) {
+      e.printStackTrace();
+      return null;
+    }
+  }
+
+  public void addCovidRiskForUser(int userID, User.CovidRisk cov) {
+    try {
+      Statement stmt = databaseRef.getConnection().createStatement();
+      stmt.executeUpdate(
+          "UPDATE HOSPITAL_USERS SET covidRisk = '"
+              + cov.toString()
+              + "' WHERE user_id = "
+              + userID);
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+  }
+
+  public User.CovidRisk getCovidRiskForUser(int userID) {
+    try {
+      Statement stmt = databaseRef.getConnection().createStatement();
+      ResultSet rs = stmt.executeQuery("SELECT * FROM HOSPITAL_USERS WHERE user_id = " + userID);
+      return (User.CovidRisk.valueOf(rs.getString("covidRisk")));
     } catch (SQLException e) {
       e.printStackTrace();
       return null;
