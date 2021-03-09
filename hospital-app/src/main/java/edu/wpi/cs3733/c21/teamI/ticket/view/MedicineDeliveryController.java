@@ -28,7 +28,7 @@ public class MedicineDeliveryController {
   ServiceTicket ticket;
 
   @FXML
-  private void submit() {
+  public void submit() {
     String datePicked, timePicked, cond, com, check;
     datePicked = timePicked = "";
     if (date.getValue() != null) datePicked = date.getValue().toString();
