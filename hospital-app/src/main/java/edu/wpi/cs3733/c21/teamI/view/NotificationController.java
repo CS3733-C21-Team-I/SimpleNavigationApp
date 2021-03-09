@@ -3,7 +3,11 @@ package edu.wpi.cs3733.c21.teamI.view;
 import static javafx.animation.Animation.INDEFINITE;
 
 import com.jfoenix.controls.JFXDrawer;
+import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
+import edu.wpi.cs3733.c21.teamI.Notification.Notification;
+import edu.wpi.cs3733.c21.teamI.database.NotificationManager;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -20,21 +24,22 @@ public class NotificationController implements Initializable {
 
   public HomeController homeController;
   public JFXDrawer notifDrawer;
+  public List<Notification> notifs;
 
   public void initialize(URL url, ResourceBundle rb) {
     Timeline timeline =
         new Timeline(
             new KeyFrame(
-                Duration.seconds(2),
+                Duration.seconds(1),
                 ev -> {
-                  System.out.println("printing 2 secs latah");
-                  //                  Notification n =
-                  //                      NotificationManager.getInstance()
-                  //                          .getPendingNotifications(
-                  //
-                  // ApplicationDataController.getInstance().getLoggedInUser())
-                  //                          .get(0);
-                  //                  notifMessage.setText(n.getDetails());
+                  //                  System.out.println("printing 2 secs latah");
+                  notifs =
+                      NotificationManager.getInstance()
+                          .getPendingNotifications(
+                              ApplicationDataController.getInstance().getLoggedInUser());
+                  if (notifs.size() > 0) {
+                    notifMessage.setText(notifs.get(0).getDetails());
+                  }
                 }));
     timeline.setCycleCount(INDEFINITE);
     timeline.play();
@@ -42,6 +47,9 @@ public class NotificationController implements Initializable {
 
   public void closeNotif(javafx.scene.input.MouseEvent e) {
     notifDrawer = (JFXDrawer) ((Button) e.getSource()).getParent().getParent().getParent();
+    if (notifs.size() > 0) {
+      NotificationManager.getInstance().removeNotification(notifs.get(0).getNotificationID());
+    }
     notifDrawer.close();
   }
 

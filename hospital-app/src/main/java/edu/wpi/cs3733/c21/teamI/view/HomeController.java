@@ -1,5 +1,7 @@
 package edu.wpi.cs3733.c21.teamI.view;
 
+import static javafx.animation.Animation.INDEFINITE;
+
 import com.jfoenix.controls.JFXDrawer;
 import com.jfoenix.controls.JFXHamburger;
 import com.jfoenix.transitions.hamburger.HamburgerSlideCloseTransition;
@@ -11,7 +13,6 @@ import java.io.IOException;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
@@ -67,7 +68,7 @@ public class HomeController extends Application {
                   }
                 }),
             new KeyFrame(Duration.seconds(1)));
-    clock.setCycleCount(Animation.INDEFINITE);
+    clock.setCycleCount(INDEFINITE);
     clock.play();
   }
 
@@ -151,16 +152,25 @@ public class HomeController extends Application {
         hBox = hLoader.load();
         System.out.println("hloader = " + hLoader);
 
-        System.out.println(
-            "Before adding notif: hasNew= " + hasNewNotification() + "&&& lastNotif= " + lastNotif);
+        //        System.out.println(
+        //            "Before adding notif: hasNew= " + hasNewNotification() + "&&& lastNotif= " +
+        // lastNotif);
         NotificationManager.getInstance()
             .addNotification(
                 new Notification(
                     ApplicationDataController.getInstance().getLoggedInUser().getUserId(),
                     "Test Notif message",
                     "time stampe"));
-        System.out.println(
-            "After adding notif: hasNew= " + hasNewNotification() + "&&& lastNotif= " + lastNotif);
+
+        NotificationManager.getInstance()
+            .addNotification(
+                new Notification(
+                    ApplicationDataController.getInstance().getLoggedInUser().getUserId(),
+                    "Test Notif 2",
+                    "time 2 stampe"));
+        //        System.out.println(
+        //            "After adding notif: hasNew= " + hasNewNotification() + "&&& lastNotif= " +
+        // lastNotif);
 
         ((AdminMenuController) vLoader.getController()).setHomeController(this);
         ((NotificationController) hLoader.getController()).setHomeController(this);
@@ -192,11 +202,12 @@ public class HomeController extends Application {
     notifDrawer.setSidePane(hBox);
   }
 
-  public boolean hasNewNotification() {
+  public Notification getNewNotification() {
     List<Notification> notifs =
         NotificationManager.getInstance()
             .getPendingNotifications(ApplicationDataController.getInstance().getLoggedInUser());
     for (Notification n : notifs) {
+      System.out.println("in for loop im checking: " + n);
       if (n.isHasDisplayed()) {
         System.out.println("Notif " + n + " has been displayed so hasNew is deleting it");
         NotificationManager.getInstance().removeNotification(n.getNotificationID());
@@ -204,12 +215,12 @@ public class HomeController extends Application {
         lastNotif = n;
         System.out.println("in hasNew, i found and set lastNotif to: " + lastNotif);
         displayNotification(n);
-        return true;
+        return n;
       } else {
         System.out.println("notif.isHasDisplayed =" + n.isHasDisplayed());
       }
     }
-    return false;
+    return null;
   }
 
   public void displayNotification(Notification notification) {
@@ -220,11 +231,24 @@ public class HomeController extends Application {
     return replacePane;
   }
 
+  public void initNotifUpdater() {
+    Timeline timeline =
+        new Timeline(
+            new KeyFrame(
+                Duration.seconds(3),
+                ev -> {
+                  if (getNewNotification() != null) {}
+                }));
+    timeline.setCycleCount(INDEFINITE);
+    timeline.play();
+  }
+
   @FXML
   public void initialize() throws IOException {
     if (timeLabel != null) {
       initClock();
       update();
+      initNotifUpdater();
 
       HamburgerSlideCloseTransition hamburgerTransition = new HamburgerSlideCloseTransition(ham1);
       hamburgerTransition.setRate(-1);
@@ -236,10 +260,8 @@ public class HomeController extends Application {
 
             if (drawer.isOpened()) {
               drawer.close();
-              notifDrawer.close();
             } else {
               drawer.open();
-              notifDrawer.open();
             }
           });
     }
