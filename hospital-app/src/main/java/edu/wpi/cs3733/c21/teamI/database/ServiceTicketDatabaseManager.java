@@ -118,7 +118,7 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
                 + "    CONSTRAINT ticketID_PK PRIMARY KEY (ticketID),\n"
                 + "    CONSTRAINT ticket_ck CHECK (serviceticket.ticketType in "
                 + "('AUDIO_VISUAL', 'COMPUTER', 'LANGUAGE', 'PARKING', 'FLORAL', 'GIFT', 'INTERNAL_TRANSPORTATION',"
-                + "'EXTERNAL_TRANSPORTATION', 'LAUNDRY', 'MEDICINE', 'RELIGIOUS', 'SECURITY', 'SANITATION', 'MAINTENANCE')),\n"
+                + "'EXTERNAL_TRANSPORTATION', 'LAUNDRY', 'MEDICINE', 'RELIGIOUS', 'SECURITY', 'SANITATION', 'MAINTENANCE', 'COVID')),\n"
                 + "    CONSTRAINT location_FK FOREIGN KEY (location) REFERENCES navNodes(node_ID),"
                 + "  CONSTRAINT requestID_FK FOREIGN KEY (requestingUserID) REFERENCES HOSPITAL_USERS(user_ID))");
         // System.out.println("ServiceTicket table created.");

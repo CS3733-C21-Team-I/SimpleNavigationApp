@@ -146,11 +146,13 @@ public class MCovidFormController {
 
     // make this current user
     //    int RequestID = ApplicationDataController.getInstance().getLoggedInUser().getUserId();
+    String parkingID =
+        NavDatabaseManager.getInstance().getMapIdFromLongName(parkingInput.getText());
     int RequestID = 1;
     ServiceTicket ticket =
         new CovidTicket(
             RequestID,
-            NavDatabaseManager.getInstance().getMapIdFromLongName(parkingInput.getText()),
+            parkingID,
             "Determine if the patient has COVID.",
             false,
             soreThroatCheckbox.isSelected(),
@@ -175,7 +177,7 @@ public class MCovidFormController {
     ticket.addAssignedUserID(AssignedID);
     int id = ServiceTicketDatabaseManager.getInstance().addTicket(ticket);
     ServiceTicketDatabaseManager.getInstance().addEmployeeForTicket(id, AssignedID);
-
+    UserDatabaseManager.getInstance().addUserForLocation(RequestID, parkingID);
     goToWaitingScreen();
   }
 
