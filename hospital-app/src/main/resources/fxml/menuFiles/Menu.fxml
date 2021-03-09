@@ -25,7 +25,7 @@
                   <AnchorPane fx:id="drawerPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
                      <children>
                         <StackPane fx:id="replacePane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" nodeOrientation="LEFT_TO_RIGHT" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                        <JFXDrawer fx:id="notifDrawer" direction="TOP" prefHeight="20.0" style="-fx-background-color: green;" />
+                        <JFXDrawer fx:id="notifDrawer" defaultDrawerSize="120.0" direction="TOP" prefHeight="20.0" style="-fx-background-color: transparent;" />
                      </children>
                   </AnchorPane>
                   <JFXDrawer fx:id="drawer" alignment="TOP_RIGHT" centerShape="false" maxWidth="55.0" minWidth="55.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="600.0" prefWidth="55.0" />

@@ -4,10 +4,13 @@ import com.jfoenix.controls.JFXDrawer;
 import com.jfoenix.controls.JFXHamburger;
 import com.jfoenix.transitions.hamburger.HamburgerSlideCloseTransition;
 import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
+import edu.wpi.cs3733.c21.teamI.Notification.Notification;
+import edu.wpi.cs3733.c21.teamI.database.NotificationManager;
 import edu.wpi.cs3733.c21.teamI.user.User;
 import java.io.IOException;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -47,6 +50,7 @@ public class HomeController extends Application {
   ProfileController profileController;
   VisitorMenuController visitorMenuController;
   NotificationController notifController;
+  Notification lastNotif;
 
   @FXML
   public void initClock() {
@@ -147,6 +151,17 @@ public class HomeController extends Application {
         hBox = hLoader.load();
         System.out.println("hloader = " + hLoader);
 
+        System.out.println(
+            "Before adding notif: hasNew= " + hasNewNotification() + "&&& lastNotif= " + lastNotif);
+        NotificationManager.getInstance()
+            .addNotification(
+                new Notification(
+                    ApplicationDataController.getInstance().getLoggedInUser().getUserId(),
+                    "Test Notif message",
+                    "time stampe"));
+        System.out.println(
+            "After adding notif: hasNew= " + hasNewNotification() + "&&& lastNotif= " + lastNotif);
+
         ((AdminMenuController) vLoader.getController()).setHomeController(this);
         ((NotificationController) hLoader.getController()).setHomeController(this);
         titleLabel.setText("Admin Portal");
@@ -177,7 +192,29 @@ public class HomeController extends Application {
     notifDrawer.setSidePane(hBox);
   }
 
-  public void displayNotification() {}
+  public boolean hasNewNotification() {
+    List<Notification> notifs =
+        NotificationManager.getInstance()
+            .getPendingNotifications(ApplicationDataController.getInstance().getLoggedInUser());
+    for (Notification n : notifs) {
+      if (n.isHasDisplayed()) {
+        System.out.println("Notif " + n + " has been displayed so hasNew is deleting it");
+        NotificationManager.getInstance().removeNotification(n.getNotificationID());
+      } else if (!n.isHasDisplayed()) {
+        lastNotif = n;
+        System.out.println("in hasNew, i found and set lastNotif to: " + lastNotif);
+        displayNotification(n);
+        return true;
+      } else {
+        System.out.println("notif.isHasDisplayed =" + n.isHasDisplayed());
+      }
+    }
+    return false;
+  }
+
+  public void displayNotification(Notification notification) {
+    notifDrawer.open();
+  }
 
   public StackPane getReplacePane() {
     return replacePane;
