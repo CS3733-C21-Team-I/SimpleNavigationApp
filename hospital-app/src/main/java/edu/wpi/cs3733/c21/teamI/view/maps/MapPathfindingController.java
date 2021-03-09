@@ -9,8 +9,8 @@ import edu.wpi.cs3733.c21.teamI.hospitalMap.NodeRestrictions;
 import edu.wpi.cs3733.c21.teamI.pathfinding.*;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicketDataController;
 import edu.wpi.cs3733.c21.teamI.user.User;
+import edu.wpi.cs3733.c21.teamI.util.ImageLoader;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.beans.value.ChangeListener;
@@ -63,6 +63,9 @@ public class MapPathfindingController extends MapController {
     setupMapViewHandlers();
     currentMapID = "Faulkner Lot";
     campusTab(new ActionEvent());
+
+    // TODO: LINK THIS TO COVID RESULT FORM
+    reflectCovidStatus(true);
   }
 
   @FXML
@@ -76,20 +79,15 @@ public class MapPathfindingController extends MapController {
 
   // viewport stuff
   public void updateView() {
-    try {
-      Image background =
-          new Image(
-              (getClass().getResource("/fxml/mapImages/" + currentMapID.replace(" ", "") + ".png"))
-                  .toURI()
-                  .toString());
-      mapImage.setImage(background);
-      fullImgWidth = background.getWidth();
-      fullImgHeight = background.getHeight();
-      imgWidth = background.getWidth();
-      imgHeight = background.getHeight();
-    } catch (URISyntaxException e) {
-      e.printStackTrace();
-    }
+
+    Image background =
+        ImageLoader.loadImage("/fxml/mapImages/" + currentMapID.replace(" ", "") + ".png");
+    mapImage.setImage(background);
+    fullImgWidth = background.getWidth();
+    fullImgHeight = background.getHeight();
+    imgWidth = background.getWidth();
+    imgHeight = background.getHeight();
+
     update();
   }
 
@@ -250,10 +248,21 @@ public class MapPathfindingController extends MapController {
 
   @FXML
   public void toggleAccessible(ActionEvent e) {
-    if (scorer.nodeTypesToAvoid.size() > 0) {
-      scorer.nodeTypesToAvoid.clear();
+    if (scorer.nodeTypesToAvoid.contains(NodeRestrictions.WHEELCHAIR_INACCESSIBLE)) {
+      scorer.nodeTypesToAvoid.remove(NodeRestrictions.WHEELCHAIR_INACCESSIBLE);
     } else {
       scorer.nodeTypesToAvoid.add(NodeRestrictions.WHEELCHAIR_INACCESSIBLE);
+    }
+    System.out.print("NodeRestrictions:" + scorer.nodeTypesToAvoid);
+  }
+
+  public void reflectCovidStatus(boolean isHighCovidRisk) {
+    if (isHighCovidRisk) {
+      scorer.nodeTypesToAvoid.add(NodeRestrictions.NON_COVID_RISK_VISITORS);
+      scorer.nodeTypesToAvoid.remove(NodeRestrictions.COVID_RISK_VISITORS);
+    } else {
+      scorer.nodeTypesToAvoid.remove(NodeRestrictions.NON_COVID_RISK_VISITORS);
+      scorer.nodeTypesToAvoid.add(NodeRestrictions.COVID_RISK_VISITORS);
     }
     System.out.print("NodeRestrictions:" + scorer.nodeTypesToAvoid);
   }

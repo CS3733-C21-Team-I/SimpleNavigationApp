@@ -1,18 +1,22 @@
 package edu.wpi.cs3733.c21.teamI.ticket;
 
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
-import java.util.ArrayList;
 import java.util.List;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.ListProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleListProperty;
+import javafx.collections.FXCollections;
 
 public class ServiceTicket extends RecursiveTreeObject<ServiceTicket> {
 
   private int ticketID;
   private int requestingUserID;
-  private List<Integer> assignedUserID;
+  private ListProperty<Integer> assignedUserID;
   private TicketType ticketType;
   private String location;
   private String description;
-  private boolean completed;
+  private BooleanProperty completed;
   // private String requestType;
   // private boolean emergency;
 
@@ -26,8 +30,9 @@ public class ServiceTicket extends RecursiveTreeObject<ServiceTicket> {
     this.location = location;
     this.description = desc;
     // this.emergency = emergency;
-    this.completed = completed;
-    assignedUserID = new ArrayList<>();
+    this.completed = new SimpleBooleanProperty();
+    this.completed.set(completed);
+    assignedUserID = new SimpleListProperty<>(FXCollections.observableArrayList());
   }
 
   public enum TicketType {
@@ -88,11 +93,15 @@ public class ServiceTicket extends RecursiveTreeObject<ServiceTicket> {
   }
 
   public boolean isCompleted() {
+    return completed.getValue();
+  }
+
+  public BooleanProperty getCompleted() {
     return completed;
   }
 
   public void setCompleted(Boolean bool) {
-    this.completed = bool;
+    this.completed.set(bool);
   }
 
   public void setTicketID(int id) {
@@ -100,11 +109,15 @@ public class ServiceTicket extends RecursiveTreeObject<ServiceTicket> {
   }
 
   public void setAssignedUserID(List<Integer> employee) {
-    this.assignedUserID = employee;
+    this.assignedUserID.addAll(employee);
   }
 
   public void addAssignedUserID(int employee) {
-    assignedUserID.add(employee);
+    assignedUserID.add(new Integer(employee));
+  }
+
+  public ListProperty<Integer> assignedUserIDProperty() {
+    return assignedUserID;
   }
 
   //  public String getRequestType() {

@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.c21.teamI.database;
 
 import edu.wpi.cs3733.c21.teamI.ticket.*;
+import edu.wpi.cs3733.c21.teamI.ticket.ticketTypes.*;
 import edu.wpi.cs3733.c21.teamI.user.User;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,7 +12,7 @@ import java.util.List;
 
 public class ServiceTicketDatabaseManager extends DatabaseManager {
 
-  private static final String DB_URL = "jdbc:derby:navDB";
+  private static final String DB_URL = "jdbc:derby://localhost:1527/navDB";
   private static ServiceTicketDatabaseManager ourInstance;
   private List<ServiceTicket> serviceTixLs;
 
@@ -495,6 +496,7 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
 
       ResultSet rs = stmt.getGeneratedKeys();
       rs.next();
+
       int id = rs.getInt(1);
 
       // Add unique based on type
