@@ -65,7 +65,7 @@ public class MapPathfindingController extends MapController {
     campusTab(new ActionEvent());
 
     // TODO: LINK THIS TO COVID RESULT FORM
-    reflectCovidStatus(false);
+    reflectCovidStatus(true);
   }
 
   @FXML
