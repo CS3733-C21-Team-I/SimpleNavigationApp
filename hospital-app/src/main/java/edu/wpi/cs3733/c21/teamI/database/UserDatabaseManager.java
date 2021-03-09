@@ -819,7 +819,7 @@ public class UserDatabaseManager extends DatabaseManager {
     return insertedEmployee;
   }
 
-  public void addUserForLocation(int userID, String mapID) {
+  public void addUserForLocation(int userID, String nodeID) {
     try {
       Statement stmt = databaseRef.getConnection().createStatement();
       stmt.executeUpdate(
@@ -827,7 +827,7 @@ public class UserDatabaseManager extends DatabaseManager {
               + "VALUES("
               + userID
               + ", '"
-              + mapID
+              + nodeID
               + "')");
     } catch (SQLException e) {
       e.printStackTrace();
@@ -841,7 +841,10 @@ public class UserDatabaseManager extends DatabaseManager {
           stmt.executeQuery(
               "SELECT * FROM USER_TO_NODE UN JOIN NAVNODES N ON UN.NODE_ID = N.NODE_ID WHERE USER_ID = "
                   + String.valueOf(userID));
-      return rs.getString("long_Name");
+      if (rs.next()) {
+        return rs.getString("long_Name");
+      }
+      return null;
     } catch (SQLException e) {
       e.printStackTrace();
       return null;
