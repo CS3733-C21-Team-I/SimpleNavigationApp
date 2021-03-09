@@ -20,6 +20,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -39,12 +40,13 @@ public class HomeController extends Application {
 
   @FXML Label timeLabel;
 
-  @FXML JFXDrawer drawer;
+  @FXML JFXDrawer drawer, notifDrawer;
 
   @FXML JFXHamburger ham1;
 
   ProfileController profileController;
   VisitorMenuController visitorMenuController;
+  NotificationController notifController;
 
   @FXML
   public void initClock() {
@@ -128,7 +130,9 @@ public class HomeController extends Application {
 
   @FXML
   public void update() {
+    System.out.println("callingupdate");
     VBox box = null;
+    HBox hBox = null;
     try {
       if (ApplicationDataController.getInstance()
           .getLoggedInUser()
@@ -137,7 +141,14 @@ public class HomeController extends Application {
         FXMLLoader vLoader =
             new FXMLLoader(getClass().getResource("/fxml/menuFiles/AdminMenu.fxml"));
         box = vLoader.load();
+        System.out.println("vloader = " + vLoader);
+        FXMLLoader hLoader =
+            new FXMLLoader(getClass().getResource("/fxml/menuFiles/notificationContent.fxml"));
+        hBox = hLoader.load();
+        System.out.println("hloader = " + hLoader);
+
         ((AdminMenuController) vLoader.getController()).setHomeController(this);
+        ((NotificationController) hLoader.getController()).setHomeController(this);
         titleLabel.setText("Admin Portal");
         replacePane
             .getChildren()
@@ -146,7 +157,14 @@ public class HomeController extends Application {
         FXMLLoader vLoader =
             new FXMLLoader(getClass().getResource("/fxml/menuFiles/VisitorMenu.fxml"));
         box = vLoader.load();
+        System.out.println("vLoader controller= " + vLoader.getController());
+        FXMLLoader hLoader =
+            new FXMLLoader(getClass().getResource("/fxml/menuFiles/notificationContent.fxml"));
+        hBox = hLoader.load();
+        System.out.println("hLoader controller= " + hLoader.getController());
+
         ((VisitorMenuController) vLoader.getController()).setHomeController(this);
+        ((NotificationController) hLoader.getController()).setHomeController(this);
         titleLabel.setText("General Portal");
         replacePane.getChildren().add(FXMLLoader.load(getClass().getResource("/fxml/Home.fxml")));
       }
@@ -156,7 +174,10 @@ public class HomeController extends Application {
       e.printStackTrace();
     }
     drawer.setSidePane(box);
+    notifDrawer.setSidePane(hBox);
   }
+
+  public void displayNotification() {}
 
   public StackPane getReplacePane() {
     return replacePane;
@@ -178,8 +199,10 @@ public class HomeController extends Application {
 
             if (drawer.isOpened()) {
               drawer.close();
+              notifDrawer.close();
             } else {
               drawer.open();
+              notifDrawer.open();
             }
           });
     }
