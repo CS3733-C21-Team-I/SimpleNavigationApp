@@ -1,6 +1,9 @@
 package edu.wpi.cs3733.c21.teamI.view.mobile;
 
 import com.jfoenix.controls.JFXButton;
+import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
+import edu.wpi.cs3733.c21.teamI.database.UserDatabaseManager;
+import edu.wpi.cs3733.c21.teamI.user.User;
 import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,7 +21,11 @@ public class NoticeScreenController {
 
   @FXML
   public void initialize() {
-    changeCovidText(true);
+    changeCovidText(
+        UserDatabaseManager.getInstance()
+                .getCovidRiskForUser(
+                    ApplicationDataController.getInstance().getLoggedInUser().getUserId())
+            == User.CovidRisk.COVID_RISK);
   }
 
   @FXML
