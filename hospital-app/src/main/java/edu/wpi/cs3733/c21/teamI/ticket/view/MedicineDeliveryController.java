@@ -9,6 +9,7 @@ import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicket;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicketDataController;
 import edu.wpi.cs3733.c21.teamI.ticket.ticketTypes.MedicineTicket;
 import edu.wpi.cs3733.c21.teamI.user.User;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
@@ -27,8 +28,8 @@ public class MedicineDeliveryController {
   ServiceTicket ticket;
 
   @FXML
-  private void submit() {
-    String patientName, floorPicked, roomPicked, datePicked, timePicked, cond, com, check;
+  public void submit(ActionEvent e) {
+    String patientName, drugPicked, dosePicked, datePicked, timePicked, locationPicked, com, check;
     patientName = patient_name.getText();
     drugPicked = drug.getText();
     dosePicked = dose.getText();

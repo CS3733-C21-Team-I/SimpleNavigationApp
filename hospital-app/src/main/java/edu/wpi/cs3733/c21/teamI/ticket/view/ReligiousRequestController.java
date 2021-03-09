@@ -5,7 +5,6 @@ import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
 import edu.wpi.cs3733.c21.teamI.database.NavDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.database.ServiceTicketDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.database.UserDatabaseManager;
-import edu.wpi.cs3733.c21.teamI.ticket.ReligiousTicket;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicket;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicketDataController;
 import edu.wpi.cs3733.c21.teamI.ticket.ticketTypes.ReligiousTicket;
@@ -62,7 +61,7 @@ public class ReligiousRequestController {
 
   public void lookupUser(KeyEvent e) {
     ServiceTicketDataController.lookupUsernames(
-        e, User.Permission.RESPOND_TO_SECURITY, requestAssignedList, assignedEmployeeID);
+        e, User.Permission.RESPOND_TO_RELIGIOUS, requestAssignedList, assignedEmployeeID);
   }
 
   @FXML

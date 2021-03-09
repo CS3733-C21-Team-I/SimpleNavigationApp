@@ -52,7 +52,8 @@ public class User {
     IT_EMPLOYEE,
     TRANSLATOR,
     NURSE,
-    RELIGIOUS_CONSULT
+    RELIGIOUS_CONSULT,
+    TRANSPORTATION_EMPLOYEE
   }
 
   public enum Permission {
