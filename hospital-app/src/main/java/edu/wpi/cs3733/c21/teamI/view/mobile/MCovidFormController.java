@@ -175,6 +175,10 @@ public class MCovidFormController {
     ticket.addAssignedUserID(AssignedID);
     int id = ServiceTicketDatabaseManager.getInstance().addTicket(ticket);
     ServiceTicketDatabaseManager.getInstance().addEmployeeForTicket(id, AssignedID);
+    UserDatabaseManager.getInstance()
+        .addUserForLocation(
+            requestID,
+            NavDatabaseManager.getInstance().getMapIdFromLongName(parkingInput.getText()));
 
     goToWaitingScreen();
   }
