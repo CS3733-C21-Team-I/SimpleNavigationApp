@@ -28,6 +28,7 @@ public class User {
     this.userPermissions = userPermissions;
     this.name = name;
     this.userId = userId;
+    this.covidR = CovidRisk.PENDING;
   }
 
   /** @param permission */

@@ -40,12 +40,18 @@ public class VisitorMenuController extends Application {
     replacePane.getChildren().clear();
 
     if (id.equals("loginButton")) {
-      FXMLLoader profLoader =
-          new FXMLLoader(getClass().getClassLoader().getResource("/fxml/Profile.fxml"));
-      profLoader.setLocation(getClass().getResource("/fxml/Profile.fxml"));
-      replacePane.getChildren().add(profLoader.load());
-      ((ProfileController) profLoader.getController()).setVisitorMenuController(this);
-      ((ProfileController) profLoader.getController()).setHomeController(homeController);
+      FXMLLoader profLoader;
+      if (ApplicationDataController.getInstance().isLoggedIn()) {
+        profLoader = new FXMLLoader(getClass().getClassLoader().getResource("/fxml/Home.fxml"));
+        profLoader.setLocation(getClass().getResource("/fxml/Home.fxml"));
+        replacePane.getChildren().add(profLoader.load());
+      } else {
+        profLoader = new FXMLLoader(getClass().getClassLoader().getResource("/fxml/Profile.fxml"));
+        profLoader.setLocation(getClass().getResource("/fxml/Profile.fxml"));
+        replacePane.getChildren().add(profLoader.load());
+        ((ProfileController) profLoader.getController()).setVisitorMenuController(this);
+        ((ProfileController) profLoader.getController()).setHomeController(homeController);
+      }
     } else if (id.equals("COVIDButton")) {
       replacePane
           .getChildren()

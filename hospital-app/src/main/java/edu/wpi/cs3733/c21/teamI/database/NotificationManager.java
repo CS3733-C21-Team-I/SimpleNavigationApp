@@ -37,6 +37,7 @@ public class NotificationManager extends DatabaseManager {
               + "userID integer NOT NULL,\n"
               + "details varchar(450),\n"
               + "timestamp varchar(50),\n"
+              + "hasDisplayed boolean DEFAULT false,\n"
               + "PRIMARY KEY (notif_ID),\n"
               + "FOREIGN KEY (userID) REFERENCES HOSPITAL_USERS(user_ID))");
     } catch (SQLException e) {
@@ -54,10 +55,27 @@ public class NotificationManager extends DatabaseManager {
     }
   }
 
+  public Notification updateNotification(int notifID) {
+    try {
+      Statement stmt = databaseRef.getConnection().createStatement();
+      Notification nt = getNotificationForId(notifID);
+      nt.setHasDisplayed(true);
+      stmt.executeUpdate(
+          "UPDATE notification SET hasDisplayed = '"
+              + true
+              + "' WHERE NOTIF_ID = "
+              + String.valueOf(notifID));
+      return nt;
+    } catch (SQLException e) {
+      e.printStackTrace();
+      return null;
+    }
+  }
+
   public int addNotification(Notification nt) {
     try {
       String query =
-          "INSERT INTO notification(userID, details, time)\n"
+          "INSERT INTO notification(userID, details, timestamp)\n"
               + "VALUES ("
               + nt.getUserID()
               + ", '"

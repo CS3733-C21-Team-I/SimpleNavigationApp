@@ -56,6 +56,7 @@ public class UserDatabaseManager extends DatabaseManager {
     // TODO - implement UserDatabaseManager.getUserForId
 
     int userId;
+    User.CovidRisk risk;
 
     try {
       Statement statement = databaseRef.getConnection().createStatement();
@@ -68,6 +69,7 @@ public class UserDatabaseManager extends DatabaseManager {
         throw new IllegalArgumentException("Attempted to acess nonexistant user");
       }
       userId = rs.getInt("USER_ID");
+      risk = User.CovidRisk.valueOf(rs.getString("covidRisk"));
     } catch (SQLException e) {
       // TODO Error logging
       e.printStackTrace();
@@ -117,8 +119,9 @@ public class UserDatabaseManager extends DatabaseManager {
       // TODO ERROR Logging
       e.printStackTrace();
     }
-
-    return new User(userId, screenName, rolesSet, permissionSet);
+    User userOut = new User(userId, screenName, rolesSet, permissionSet);
+    userOut.setCovidRisk(risk);
+    return userOut;
   }
 
   public User getUserWithPassword(String screenName, String password) {
@@ -218,6 +221,23 @@ public class UserDatabaseManager extends DatabaseManager {
       return "ERROR";
     }
   }
+  //
+  //  public User getUSerForId(int id){
+  //    try {
+  //      Statement statement = databaseRef.getConnection().createStatement();
+  //      ResultSet rs =
+  //              statement.executeQuery("SELECT * FROM HOSPITAL_USERS WHERE USER_ID=" + id);
+  //      if (rs.next()) {
+  //        User user = new User(
+  //                rs
+  //        );
+  //      }
+  //      return rs.getString("SCREENNAME");
+  //    } catch (SQLException e) {
+  //      e.printStackTrace();
+  //      return null;
+  //    }
+  //  }
 
   /** @param roleId */
   public List<String> getUsersWithRole(int roleId) {
@@ -237,7 +257,7 @@ public class UserDatabaseManager extends DatabaseManager {
               + " screenName varchar(30) NOT NULL ,"
               + "hashed_password blob(32),"
               + "salt blob(32),"
-              + "covidRisk varchar(25),"
+              + "covidRisk varchar(25) DEFAULT 'PENDING',"
               + "PRIMARY KEY (user_ID),"
               + "CHECK (covidRisk in ('COVID_RISK', 'PENDING', 'NO_COVID_RISK'))"
               + ")");
@@ -819,7 +839,7 @@ public class UserDatabaseManager extends DatabaseManager {
     return insertedEmployee;
   }
 
-  public void addUserForLocation(int userID, String mapID) {
+  public void addUserForLocation(int userID, String nodeID) {
     try {
       Statement stmt = databaseRef.getConnection().createStatement();
       stmt.executeUpdate(
@@ -827,7 +847,7 @@ public class UserDatabaseManager extends DatabaseManager {
               + "VALUES("
               + userID
               + ", '"
-              + mapID
+              + nodeID
               + "')");
     } catch (SQLException e) {
       e.printStackTrace();
@@ -841,14 +861,17 @@ public class UserDatabaseManager extends DatabaseManager {
           stmt.executeQuery(
               "SELECT * FROM USER_TO_NODE UN JOIN NAVNODES N ON UN.NODE_ID = N.NODE_ID WHERE USER_ID = "
                   + String.valueOf(userID));
-      return rs.getString("long_Name");
+      if (rs.next()) {
+        return rs.getString("long_Name");
+      }
+      return null;
     } catch (SQLException e) {
       e.printStackTrace();
       return null;
     }
   }
 
-  public void addCovidRiskForUser(int userID, User.CovidRisk cov) {
+  public void updateCovidRiskForUser(int userID, User.CovidRisk cov) {
     try {
       Statement stmt = databaseRef.getConnection().createStatement();
       stmt.executeUpdate(
@@ -865,7 +888,10 @@ public class UserDatabaseManager extends DatabaseManager {
     try {
       Statement stmt = databaseRef.getConnection().createStatement();
       ResultSet rs = stmt.executeQuery("SELECT * FROM HOSPITAL_USERS WHERE user_id = " + userID);
-      return (User.CovidRisk.valueOf(rs.getString("covidRisk")));
+      if (rs.next()) {
+        return (User.CovidRisk.valueOf(rs.getString("covidRisk")));
+      }
+      return null;
     } catch (SQLException e) {
       e.printStackTrace();
       return null;

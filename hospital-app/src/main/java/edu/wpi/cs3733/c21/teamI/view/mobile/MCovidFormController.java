@@ -3,6 +3,7 @@ package edu.wpi.cs3733.c21.teamI.view.mobile;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXRadioButton;
+import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
 import edu.wpi.cs3733.c21.teamI.database.NavDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.database.ServiceTicketDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.database.UserDatabaseManager;
@@ -144,12 +145,11 @@ public class MCovidFormController {
       isCovidRisk = true;
     }
 
-    // make this current user
-    //    int RequestID = ApplicationDataController.getInstance().getLoggedInUser().getUserId();
-    int RequestID = 1;
+    int requestID = ApplicationDataController.getInstance().getLoggedInUser().getUserId();
+    System.out.println(requestID);
     ServiceTicket ticket =
         new CovidTicket(
-            RequestID,
+            requestID,
             NavDatabaseManager.getInstance().getMapIdFromLongName(parkingInput.getText()),
             "Determine if the patient has COVID.",
             false,
@@ -168,13 +168,17 @@ public class MCovidFormController {
             noneCheckbox2.isSelected(),
             covidYesRadioBtn.isSelected());
 
-    // Assign to random nurse in the future
+    // Assign to all nurses with COVID role in the future
     int AssignedID =
         UserDatabaseManager.getInstance().getUserForScreenname("Nurse Joy").getUserId();
 
     ticket.addAssignedUserID(AssignedID);
     int id = ServiceTicketDatabaseManager.getInstance().addTicket(ticket);
     ServiceTicketDatabaseManager.getInstance().addEmployeeForTicket(id, AssignedID);
+    UserDatabaseManager.getInstance()
+        .addUserForLocation(
+            requestID,
+            NavDatabaseManager.getInstance().getMapIdFromLongName(parkingInput.getText()));
 
     goToWaitingScreen();
   }

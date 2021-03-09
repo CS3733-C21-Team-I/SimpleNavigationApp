@@ -4,6 +4,8 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXHamburger;
 import com.jfoenix.transitions.hamburger.HamburgerSlideCloseTransition;
+import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
+import edu.wpi.cs3733.c21.teamI.database.UserDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.EuclidianDistCalc;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMapNode;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.MapDataEntity;
@@ -269,5 +271,10 @@ public class MapPathfindingControllerMobile extends MobileMapController {
     stage.close();
   }
 
-  public void fillCar(ActionEvent actionEvent) {}
+  public void fillCar(ActionEvent actionEvent) {
+    destination.setText(
+        UserDatabaseManager.getInstance()
+            .getLocationForUser(
+                ApplicationDataController.getInstance().getLoggedInUser().getUserId()));
+  }
 }
