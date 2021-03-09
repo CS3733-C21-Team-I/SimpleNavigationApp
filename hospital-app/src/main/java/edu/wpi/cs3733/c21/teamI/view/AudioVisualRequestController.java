@@ -3,7 +3,6 @@ package edu.wpi.cs3733.c21.teamI.view;
 import com.jfoenix.controls.*;
 import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
 import edu.wpi.cs3733.c21.teamI.database.NavDatabaseManager;
-import edu.wpi.cs3733.c21.teamI.database.ServiceTicketDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.database.UserDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.ticket.AudioVisualTicket;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicket;
@@ -47,8 +46,8 @@ public class AudioVisualRequestController {
               patientName.getText(),
               (String) typeRequested.getSelectionModel().getSelectedItem());
       ticket.addAssignedUserID(AssignedID);
-      int id = ServiceTicketDatabaseManager.getInstance().addTicket(ticket);
-      ServiceTicketDatabaseManager.getInstance().addEmployeeForTicket(id, AssignedID);
+      // int id = ServiceTicketDatabaseManager.getInstance().addTicket(ticket);
+      // ServiceTicketDatabaseManager.getInstance().addEmployeeForTicket(id, AssignedID);
     } catch (Exception o) {
       System.out.println("Error" + o);
     }
@@ -67,7 +66,7 @@ public class AudioVisualRequestController {
   public void initialize() {
     /*TODO common stuff*/
     typeRequested.setPromptText("Type of Media Requested");
-    ServiceTicketDataController.setupRequestView(
+    /*ServiceTicketDataController.setupRequestView(
         background,
         serviceLocationList,
         requestAssignedList,
@@ -75,7 +74,7 @@ public class AudioVisualRequestController {
         requestAssigned,
         roomNumber);
     typeRequested.getItems().addAll("Headphones", "Monitor", "Other");
-    typeRequested.getSelectionModel().select("2");
+    typeRequested.getSelectionModel().select("2");*/
   }
 
   public void lookup(KeyEvent e) {

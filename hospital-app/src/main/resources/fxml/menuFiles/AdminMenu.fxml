@@ -350,7 +350,7 @@
       </HBox>
       <HBox prefHeight="42.0" prefWidth="211.0" style="-fx-background-color: #012D5A;">
          <children>
-            <JFXRippler fx:id="parkingButton1" alignment="CENTER_RIGHT" maskType="RECT" onMouseClicked="#navigate" prefHeight="60.0" prefWidth="210.0" ripplerFill="#0067b1">
+            <JFXRippler fx:id="trackerButton" alignment="CENTER_RIGHT" maskType="RECT" onMouseClicked="#navigate" prefHeight="60.0" prefWidth="210.0" ripplerFill="#0067b1">
                <control>
                   <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
                      <children>

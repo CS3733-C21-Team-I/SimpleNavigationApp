@@ -70,6 +70,10 @@ public class AdminMenuController extends Application {
       replacePane
           .getChildren()
           .add(FXMLLoader.load(getClass().getResource("/fxml/menuFiles/feedbackView.fxml")));
+    } else if (id.equals("trackerButton")) {
+      replacePane
+          .getChildren()
+          .add(FXMLLoader.load(getClass().getResource("/fxml/menuFiles/COVIDTracker.fxml")));
     }
   }
 
