@@ -264,7 +264,7 @@ public class MapPathfindingControllerMobile extends MobileMapController {
   }
 
   @FXML
-  public void exit(ActionEvent e) {
+  public void exitButton(ActionEvent e) {
     Stage stage = (Stage) ((JFXButton) e.getSource()).getScene().getWindow();
     stage.close();
   }
