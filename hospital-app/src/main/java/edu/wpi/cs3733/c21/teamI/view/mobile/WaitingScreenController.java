@@ -24,6 +24,7 @@ public class WaitingScreenController extends Application {
     timer.schedule(new WaitForResults(), 0, 1000);
   }
 
+  @FXML
   public void returnReviewDescision() throws IOException {
     root.getChildren().clear();
     root.getChildren()

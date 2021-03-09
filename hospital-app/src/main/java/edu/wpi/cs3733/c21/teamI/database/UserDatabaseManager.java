@@ -56,6 +56,7 @@ public class UserDatabaseManager extends DatabaseManager {
     // TODO - implement UserDatabaseManager.getUserForId
 
     int userId;
+    User.CovidRisk risk;
 
     try {
       Statement statement = databaseRef.getConnection().createStatement();
@@ -68,6 +69,7 @@ public class UserDatabaseManager extends DatabaseManager {
         throw new IllegalArgumentException("Attempted to acess nonexistant user");
       }
       userId = rs.getInt("USER_ID");
+      risk = User.CovidRisk.valueOf(rs.getString("covidRisk"));
     } catch (SQLException e) {
       // TODO Error logging
       e.printStackTrace();
@@ -117,8 +119,9 @@ public class UserDatabaseManager extends DatabaseManager {
       // TODO ERROR Logging
       e.printStackTrace();
     }
-
-    return new User(userId, screenName, rolesSet, permissionSet);
+    User userOut = new User(userId, screenName, rolesSet, permissionSet);
+    userOut.setCovidRisk(risk);
+    return userOut;
   }
 
   public User getUserWithPassword(String screenName, String password) {
@@ -218,6 +221,23 @@ public class UserDatabaseManager extends DatabaseManager {
       return "ERROR";
     }
   }
+  //
+  //  public User getUSerForId(int id){
+  //    try {
+  //      Statement statement = databaseRef.getConnection().createStatement();
+  //      ResultSet rs =
+  //              statement.executeQuery("SELECT * FROM HOSPITAL_USERS WHERE USER_ID=" + id);
+  //      if (rs.next()) {
+  //        User user = new User(
+  //                rs
+  //        );
+  //      }
+  //      return rs.getString("SCREENNAME");
+  //    } catch (SQLException e) {
+  //      e.printStackTrace();
+  //      return null;
+  //    }
+  //  }
 
   /** @param roleId */
   public List<String> getUsersWithRole(int roleId) {
