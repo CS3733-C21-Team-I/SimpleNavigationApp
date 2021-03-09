@@ -6,10 +6,7 @@ import static edu.wpi.cs3733.c21.teamI.user.User.Role.*;
 
 import edu.wpi.cs3733.c21.teamI.user.Employee;
 import edu.wpi.cs3733.c21.teamI.user.User;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.*;
 
 public class UserDatabaseManager extends DatabaseManager {
@@ -482,11 +479,10 @@ public class UserDatabaseManager extends DatabaseManager {
     ourInstance.createNewRole(SANITATION_EMPLOYEE, "TODO", RESPOND_TO_SANITATION);
     ourInstance.createNewRole(MAINTENANCE_EMPLOYEE, "TODO", RESPOND_TO_MAINTENANCE);
     ourInstance.createNewRole(IT_EMPLOYEE, "TODO", RESPOND_TO_COMPUTER, RESPOND_TO_AV);
-    ourInstance.createNewRole(TRANSLATOR, "TODO", RESPOND_TO_TRANSLATOR);
+    ourInstance.createNewRole(TRANSLATOR, "TODO", RESPOND_TO_TRANSLATOR, RESPOND_TO_LANGUAGE);
     ourInstance.createNewRole(NURSE, "TODO", RESPOND_TO_MEDICINE_REQUEST, RESPOND_TO_TRANSPORT);
     ourInstance.createNewRole(RELIGIOUS_CONSULT, "TODO", RESPOND_TO_RELIGIOUS);
     ourInstance.createNewRole(VISITOR, "TODO", SUBMIT_COVD_TICKET);
-    ourInstance.createNewRole(TRANSLATOR, "TODO", RESPOND_TO_LANGUAGE);
     ourInstance.createNewRole(TRANSPORTATION_EMPLOYEE, "TODO", RESPOND_TO_INTERNAL);
 
     ourInstance.createNewUser("admin", "admin", ADMIN, EMPLOYEE);
@@ -742,7 +738,6 @@ public class UserDatabaseManager extends DatabaseManager {
         ResultSet rs = statement.getGeneratedKeys();
         rs.next();
         insertedUser = rs.getInt(1);
-
       } catch (SQLException e) {
         printSQLException(e);
       }
@@ -752,35 +747,19 @@ public class UserDatabaseManager extends DatabaseManager {
       throw new IllegalArgumentException("Illegal returnedkey for insering new user");
 
     try {
-      Statement stmt = databaseRef.getConnection().createStatement();
-      ResultSet dst;
       for (User.Role role : roles) {
-        System.out.println(role.toString());
-        dst =
-            stmt.executeQuery(
-                "SELECT * FROM HOSPITAL_ROLES WHERE ROLE_NAME = '" + role.toString() + "'");
-        while (dst.next()) {
-          stmt.executeUpdate(
-              "INSERT INTO USER_TO_ROLE(USER_ID, ROLE_ID) VALUES("
-                  + insertedUser
-                  + ", "
-                  + dst.getInt("role_ID")
-                  + ")");
-        }
-        //        String query =
-        //            "INSERT INTO USER_TO_ROLE(USER_ID, ROLE_ID) VALUES ("
-        //                + insertedUser
-        //                + ", (SELECT ROLE_ID FROM HOSPITAL_ROLES WHERE ROLE_NAME='"
-        //                + role.toString()
-        //                + "'))";
-
-        //        PreparedStatement statement = databaseRef.getConnection().prepareStatement(query);
-        //        statement.execute();
+        String query =
+            "INSERT INTO USER_TO_ROLE(USER_ID, ROLE_ID) VALUES ("
+                + insertedUser
+                + ", (SELECT ROLE_ID FROM HOSPITAL_ROLES WHERE ROLE_NAME='"
+                + role.toString()
+                + "'))";
+        PreparedStatement statement = databaseRef.getConnection().prepareStatement(query);
+        statement.execute();
       }
     } catch (SQLException e) {
       printSQLException(e);
     }
-
     return insertedUser;
   }
 
