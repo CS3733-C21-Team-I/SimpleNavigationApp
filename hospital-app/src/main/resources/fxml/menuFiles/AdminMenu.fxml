@@ -31,7 +31,7 @@
                               <Image url="@menuImages/baseline_login_white_18dp.png" />
                            </image>
                            <HBox.margin>
-                              <Insets right="18.0" />
+                              <Insets right="26.0" />
                            </HBox.margin>
                         </ImageView>
                      </children>
@@ -350,7 +350,7 @@
       </HBox>
       <HBox prefHeight="42.0" prefWidth="211.0" style="-fx-background-color: #012D5A;">
          <children>
-            <JFXRippler fx:id="parkingButton1" alignment="CENTER_RIGHT" maskType="RECT" onMouseClicked="#navigate" prefHeight="60.0" prefWidth="210.0" ripplerFill="#0067b1">
+            <JFXRippler fx:id="trackerButton" alignment="CENTER_RIGHT" maskType="RECT" onMouseClicked="#navigate" prefHeight="60.0" prefWidth="210.0" ripplerFill="#0067b1">
                <control>
                   <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
                      <children>
@@ -367,7 +367,7 @@
                               <Image url="@../fxmlResources/baseline_grading_white_18dp.png" />
                            </image>
                            <HBox.margin>
-                              <Insets right="16.0" />
+                              <Insets right="27.0" />
                            </HBox.margin>
                         </ImageView>
                      </children>
