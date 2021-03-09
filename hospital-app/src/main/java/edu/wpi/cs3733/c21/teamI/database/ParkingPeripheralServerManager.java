@@ -210,15 +210,15 @@ public class ParkingPeripheralServerManager extends DatabaseManager {
 
       statement.execute(
           "CREATE TABLE PARKING_SLIPS("
-              + "id integer NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),"
-              + "slot_reservation_id integer NOT NULL,"
+              + "id integer NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 10000, INCREMENT BY 1),"
+              + "slot_id integer NOT NULL,"
               + "entry_timestamp timestamp NOT NULL,"
               + "exit_timestamp timestamp,"
               + "base_cost integer NOT NULL,"
               + "penalty integer,"
               + "is_paid boolean,"
               + "PRIMARY KEY (id),"
-              + "FOREIGN KEY (slot_reservation_id) REFERENCES PARKING_SLOT_RESERVATIONS(id))");
+              + "FOREIGN KEY (slot_id) REFERENCES PARKING_SLOTS(id))");
 
     } catch (SQLException e) {
       e.printStackTrace();

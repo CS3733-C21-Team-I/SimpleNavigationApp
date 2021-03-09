@@ -124,7 +124,8 @@ public class UserDatabaseManager extends DatabaseManager {
     return new User(userId, screenName, rolesSet, permissionSet);
   }
 
-  public User getUserWithPassword(String screenName, String password) {
+  public User getUserWithPassword(String screenName, String password)
+      throws FailedToAuthenticateException {
     // TODO - implement UserDatabaseManager.getUserForId
 
     int userId;
@@ -143,8 +144,8 @@ public class UserDatabaseManager extends DatabaseManager {
       byte[] salt = rs.getBytes("SALT");
       byte[] hashed = rs.getBytes("hashed_password");
 
-      if (!Password.isExpectedPassword(password.toCharArray(), salt, hashed)) {
-        return null;
+      if (hashed != null && !Password.isExpectedPassword(password.toCharArray(), salt, hashed)) {
+        throw new FailedToAuthenticateException();
       }
 
     } catch (SQLException e) {
