@@ -63,6 +63,9 @@ public class MapPathfindingController extends MapController {
     setupMapViewHandlers();
     currentMapID = "Faulkner Lot";
     campusTab(new ActionEvent());
+
+    // TODO: LINK THIS TO COVID RESULT FORM
+    reflectCovidStatus(true);
   }
 
   @FXML
@@ -245,10 +248,21 @@ public class MapPathfindingController extends MapController {
 
   @FXML
   public void toggleAccessible(ActionEvent e) {
-    if (scorer.nodeTypesToAvoid.size() > 0) {
-      scorer.nodeTypesToAvoid.clear();
+    if (scorer.nodeTypesToAvoid.contains(NodeRestrictions.WHEELCHAIR_INACCESSIBLE)) {
+      scorer.nodeTypesToAvoid.remove(NodeRestrictions.WHEELCHAIR_INACCESSIBLE);
     } else {
       scorer.nodeTypesToAvoid.add(NodeRestrictions.WHEELCHAIR_INACCESSIBLE);
+    }
+    System.out.print("NodeRestrictions:" + scorer.nodeTypesToAvoid);
+  }
+
+  public void reflectCovidStatus(boolean isHighCovidRisk) {
+    if (isHighCovidRisk) {
+      scorer.nodeTypesToAvoid.add(NodeRestrictions.NON_COVID_RISK_VISITORS);
+      scorer.nodeTypesToAvoid.remove(NodeRestrictions.COVID_RISK_VISITORS);
+    } else {
+      scorer.nodeTypesToAvoid.remove(NodeRestrictions.NON_COVID_RISK_VISITORS);
+      scorer.nodeTypesToAvoid.add(NodeRestrictions.COVID_RISK_VISITORS);
     }
     System.out.print("NodeRestrictions:" + scorer.nodeTypesToAvoid);
   }
