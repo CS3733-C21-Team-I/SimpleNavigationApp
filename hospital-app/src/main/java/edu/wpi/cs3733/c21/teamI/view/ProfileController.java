@@ -2,12 +2,8 @@ package edu.wpi.cs3733.c21.teamI.view;
 
 import com.jfoenix.controls.JFXDrawer;
 import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
-import edu.wpi.cs3733.c21.teamI.database.ServiceTicketDatabaseManager;
-import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicket;
 import edu.wpi.cs3733.c21.teamI.user.User;
 import java.io.IOException;
-import java.util.List;
-import java.util.stream.Collectors;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -40,7 +36,7 @@ public class ProfileController extends Application {
 
   private void populateTicketsProfile() {
     loginVBox.setVisible(true);
-    serviceDisplay.setVisible(false);
+    //    serviceDisplay.setVisible(false);
   }
 
   @FXML
@@ -49,7 +45,7 @@ public class ProfileController extends Application {
     pass = password.getText();
     if (ApplicationDataController.getInstance().logInUser(uName, pass)) {
       loginVBox.setVisible(false);
-      serviceDisplay.setVisible(true);
+      //      serviceDisplay.setVisible(true);
       //      headerLabel.setText("You successfully logged in.");
       if (ApplicationDataController.getInstance()
           .getLoggedInUser()
@@ -63,29 +59,29 @@ public class ProfileController extends Application {
   }
 
   public void generateRequestList() {
-    List<ServiceTicket> requests =
-        ServiceTicketDatabaseManager.getInstance()
-            .getTicketsForRequestId(
-                ApplicationDataController.getInstance().getLoggedInUser().getUserId());
-    List<String> requestNames =
-        requests.stream()
-            .map(st -> st.getTicketType() + " (" + st.getDescription() + ")")
-            .collect(Collectors.toList());
-    requestContainer.getStylesheets().add("/fxml/fxmlResources/main.css");
-    for (int i = 0; i < requestNames.size(); i++) {
-      Button requestButton = new Button(requestNames.get(i));
-      int finalI = i;
-      requestButton.setOnAction(
-          event -> {
-            ViewManager.setServiceTicketToShow(requests.get(finalI));
-            ViewManager.navigateToActiveRequest(event);
-          });
-      requestButton.getStyleClass().add("requestButton");
-      requestButton.setMinHeight(50);
-      requestButton.setMaxWidth(requestContainer.getMaxWidth());
-      requestContainer.getChildren().add(requestButton);
-    }
-    requestScrollPane.setVisible(true);
+    //    List<ServiceTicket> requests =
+    //        ServiceTicketDatabaseManager.getInstance()
+    //            .getTicketsForRequestId(
+    //                ApplicationDataController.getInstance().getLoggedInUser().getUserId());
+    //    List<String> requestNames =
+    //        requests.stream()
+    //            .map(st -> st.getTicketType() + " (" + st.getDescription() + ")")
+    //            .collect(Collectors.toList());
+    //    requestContainer.getStylesheets().add("/fxml/fxmlResources/main.css");
+    //    for (int i = 0; i < requestNames.size(); i++) {
+    //      Button requestButton = new Button(requestNames.get(i));
+    //      int finalI = i;
+    //      requestButton.setOnAction(
+    //          event -> {
+    //            ViewManager.setServiceTicketToShow(requests.get(finalI));
+    //            ViewManager.navigateToActiveRequest(event);
+    //          });
+    //      requestButton.getStyleClass().add("requestButton");
+    //      requestButton.setMinHeight(50);
+    //      requestButton.setMaxWidth(requestContainer.getMaxWidth());
+    //      requestContainer.getChildren().add(requestButton);
+    //    }
+    //    requestScrollPane.setVisible(true);
   }
 
   public VisitorMenuController getVisitorMenuController() {

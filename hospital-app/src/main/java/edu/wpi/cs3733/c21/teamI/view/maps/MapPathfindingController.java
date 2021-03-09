@@ -10,8 +10,8 @@ import edu.wpi.cs3733.c21.teamI.hospitalMap.NodeRestrictions;
 import edu.wpi.cs3733.c21.teamI.pathfinding.*;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicketDataController;
 import edu.wpi.cs3733.c21.teamI.user.User;
+import edu.wpi.cs3733.c21.teamI.util.ImageLoader;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.beans.value.ChangeListener;
@@ -80,20 +80,15 @@ public class MapPathfindingController extends MapController {
 
   // viewport stuff
   public void updateView() {
-    try {
-      Image background =
-          new Image(
-              (getClass().getResource("/fxml/mapImages/" + currentMapID.replace(" ", "") + ".png"))
-                  .toURI()
-                  .toString());
-      mapImage.setImage(background);
-      fullImgWidth = background.getWidth();
-      fullImgHeight = background.getHeight();
-      imgWidth = background.getWidth();
-      imgHeight = background.getHeight();
-    } catch (URISyntaxException e) {
-      e.printStackTrace();
-    }
+
+    Image background =
+        ImageLoader.loadImage("/fxml/mapImages/" + currentMapID.replace(" ", "") + ".png");
+    mapImage.setImage(background);
+    fullImgWidth = background.getWidth();
+    fullImgHeight = background.getHeight();
+    imgWidth = background.getWidth();
+    imgHeight = background.getHeight();
+
     update();
   }
 
