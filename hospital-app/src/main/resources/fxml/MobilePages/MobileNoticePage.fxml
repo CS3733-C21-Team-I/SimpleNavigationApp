@@ -2,16 +2,17 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
-
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
-<?import javafx.scene.Cursor?>
+<?import javafx.scene.text.Font?>
+
 <StackPane fx:id="root" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamI.view.mobile.NoticeScreenController">
    <children>
       <AnchorPane prefHeight="88.0" prefWidth="352.0">
@@ -32,20 +33,21 @@
          <children>
             <AnchorPane layoutX="53.0" layoutY="132.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #e8e8e8;" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="30.0">
                <children>
-                  <VBox alignment="TOP_CENTER" layoutX="78.0" layoutY="56.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <VBox alignment="TOP_CENTER" layoutX="78.0" layoutY="56.0" maxHeight="1.7976931348623157E308" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0">
                      <children>
-                        <Label fx:id="label2" contentDisplay="CENTER" lineSpacing="1.0" text="YOU ARE DETERMINED TO HAVE A POTENTIAL COVID-19 RISK. " textAlignment="CENTER" textFill="RED" textOverrun="CLIP" wrapText="true">
+                        <Label fx:id="label2" contentDisplay="CENTER" lineSpacing="1.0" text="You have been determined to be a potential COVID-19 risk. " textAlignment="CENTER" textFill="RED" textOverrun="CLIP" wrapText="true" VBox.vgrow="NEVER">
                            <font>
-                              <Font size="20.0" />
+                              <Font name="System Bold" size="29.0" />
                            </font>
                            <padding>
                               <Insets left="15.0" right="15.0" />
                            </padding>
                            <VBox.margin>
-                              <Insets top="30.0" />
+                              <Insets />
                            </VBox.margin>
                         </Label>
-                        <Label fx:id="label3" contentDisplay="CENTER" lineSpacing="1.0" text="You must enter the hospital through the Emergency Entrance." textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
+                        <Region VBox.vgrow="ALWAYS" />
+                        <Label fx:id="label3" contentDisplay="CENTER" lineSpacing="1.0" text="You must enter the hospital through the Emergency Entrance." textAlignment="CENTER" textOverrun="CLIP" wrapText="true" VBox.vgrow="NEVER">
                            <font>
                               <Font size="20.0" />
                            </font>
@@ -56,13 +58,17 @@
                               <Insets left="15.0" right="15.0" />
                            </padding>
                         </Label>
+                        <Region VBox.vgrow="ALWAYS" />
+                        <JFXButton fx:id="okBtn" alignment="CENTER" buttonType="RAISED" onAction="#goToPathfinding" prefHeight="30.0" prefWidth="70.0" ripplerFill="BLACK" style="-fx-background-color: #0067b1;" text="OK" textFill="WHITE" VBox.vgrow="NEVER">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </JFXButton>
                      </children>
                   </VBox>
-                  <JFXButton fx:id="okBtn" alignment="CENTER" buttonType="RAISED" onAction="#goToPathfinding" prefHeight="30.0" prefWidth="70.0" ripplerFill="BLACK" style="-fx-background-color: #0067b1;" text="OK" textFill="WHITE" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="75.0" AnchorPane.rightAnchor="75.0">
-                     <font>
-                        <Font name="System Bold" size="15.0" />
-                     </font>
-                  </JFXButton>
                </children>
             </AnchorPane>
          </children>

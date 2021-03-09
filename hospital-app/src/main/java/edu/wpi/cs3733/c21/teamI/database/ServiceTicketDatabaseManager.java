@@ -529,7 +529,6 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
 
       ResultSet rs = stmt.getGeneratedKeys();
       rs.next();
-
       int id = rs.getInt(1);
 
       // Add unique based on type
@@ -664,6 +663,42 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
                 rs.getBoolean("completed"),
                 rs.getString("computerType"),
                 rs.getBoolean("urgency"));
+        tixID = rs.getInt("ticketID");
+        cur.setTicketID(tixID);
+        cur.setAssignedUserID(getEmployeesForId(tixID));
+        tix.add(cur);
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
+    // Covid
+    try {
+      Statement stmt = databaseRef.getConnection().createStatement();
+      ResultSet rs =
+          stmt.executeQuery(
+              "SELECT * FROM serviceticket st JOIN COVIDTICKET UQ on st.TICKETID = UQ.TIXID");
+      while (rs.next()) {
+        cur =
+            new CovidTicket(
+                rs.getInt("requestingUserID"),
+                rs.getString("location"),
+                rs.getString("description"),
+                rs.getBoolean("completed"),
+                rs.getBoolean("soreThroat"),
+                rs.getBoolean("breathing"),
+                rs.getBoolean("tasteSmellLoss"),
+                rs.getBoolean("fever"),
+                rs.getBoolean("congestion"),
+                rs.getBoolean("cough"),
+                rs.getBoolean("nausea"),
+                rs.getBoolean("diarrhea"),
+                rs.getBoolean("headache"),
+                rs.getBoolean("noneSymptoms"),
+                rs.getBoolean("contactCovidConfirmed"),
+                rs.getBoolean("contactCovidSymptoms"),
+                rs.getBoolean("noneContact"),
+                rs.getBoolean("covidTest"));
         tixID = rs.getInt("ticketID");
         cur.setTicketID(tixID);
         cur.setAssignedUserID(getEmployeesForId(tixID));

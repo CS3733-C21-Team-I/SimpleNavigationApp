@@ -9,12 +9,12 @@ import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicket;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicketDataController;
 import edu.wpi.cs3733.c21.teamI.ticket.ticketTypes.MedicineTicket;
 import edu.wpi.cs3733.c21.teamI.user.User;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
-import javax.swing.*;
 
 public class MedicineDeliveryController {
   @FXML JFXTextField patient_name, currentID, assignedID, drug, dose, locationText;
@@ -28,11 +28,14 @@ public class MedicineDeliveryController {
   ServiceTicket ticket;
 
   @FXML
-  public void submit() {
-    String datePicked, timePicked, cond, com, check;
-    datePicked = timePicked = "";
-    if (date.getValue() != null) datePicked = date.getValue().toString();
-    if (time.getValue() != null) timePicked = time.getValue().toString();
+  public void submit(ActionEvent e) {
+    String patientName, drugPicked, dosePicked, datePicked, timePicked, locationPicked, com, check;
+    patientName = patient_name.getText();
+    drugPicked = drug.getText();
+    dosePicked = dose.getText();
+    datePicked = date.getValue().toString();
+    timePicked = time.getValue().toString();
+    locationPicked = NavDatabaseManager.getInstance().getMapIdFromLongName(locationText.getText());
     com = comment.getText();
     if (checkNote.isSelected()) {
       check = "want notification";
@@ -47,12 +50,12 @@ public class MedicineDeliveryController {
       ticket =
           new MedicineTicket(
               RequestID,
-              NavDatabaseManager.getInstance().getMapIdFromLongName(locationText.getText()),
-              comment.getText(),
+              locationPicked,
+              com,
               false,
-              patient_name.getText(),
-              drug.getText(),
-              dose.getText(),
+              patientName,
+              drugPicked,
+              dosePicked,
               datePicked,
               timePicked);
 

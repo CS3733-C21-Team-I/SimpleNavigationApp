@@ -52,7 +52,8 @@ public class User {
     IT_EMPLOYEE,
     TRANSLATOR,
     NURSE,
-    RELIGIOUS_CONSULT
+    RELIGIOUS_CONSULT,
+    TRANSPORTATION_EMPLOYEE
   }
 
   public enum Permission {
@@ -73,6 +74,7 @@ public class User {
     RESPOND_TO_INTERNAL,
     RESPOND_TO_LANGUAGE,
     RESPOND_TO_TRANSPORT,
-    RESPOND_TO_RELIGIOUS
+    RESPOND_TO_RELIGIOUS,
+    SUBMIT_COVD_TICKET
   }
 }

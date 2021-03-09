@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.c21.teamI.view.maps;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.EuclidianDistCalc;
@@ -17,6 +18,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -29,10 +31,12 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javax.swing.*;
+import lombok.SneakyThrows;
 
 public class MapPathfindingController extends MapController {
   @FXML ImageView mapImage;
-  @FXML Button adminMapToggle;
+  @FXML Button adminMapToggle, aboutBtn;
   @FXML JFXComboBox algorithmPick;
   @FXML TextField start, destination;
   @FXML ListView startList, destList, directionsField;
@@ -251,6 +255,24 @@ public class MapPathfindingController extends MapController {
       scorer.nodeTypesToAvoid.add(NodeRestrictions.WHEELCHAIR_INACCESSIBLE);
     }
     System.out.print("NodeRestrictions:" + scorer.nodeTypesToAvoid);
+  }
+
+  @FXML
+  public void toAboutPage(ActionEvent e) throws IOException {
+    rootPane.getChildren().clear();
+    rootPane.getChildren().add(FXMLLoader.load(getClass().getResource("/fxml/AboutPage.fxml")));
+    JFXButton backBtn = (JFXButton) rootPane.lookup("#backBtn");
+    backBtn.setOnAction(
+        new EventHandler<ActionEvent>() {
+          @SneakyThrows
+          @Override
+          public void handle(ActionEvent event) {
+            rootPane.getChildren().clear();
+            rootPane
+                .getChildren()
+                .add(FXMLLoader.load(getClass().getResource("/fxml/Pathfinding.fxml")));
+          }
+        });
   }
 
   protected void displayDirections(ArrayList<String> directions) {

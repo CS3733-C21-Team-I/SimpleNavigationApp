@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTreeTableView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="697.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamI.view.COVIDTrackerController">
+   <children>
+      <HBox alignment="CENTER" layoutX="-33.0" layoutY="212.0" prefHeight="600.0" prefWidth="687.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <VBox alignment="CENTER" prefHeight="600.0" prefWidth="366.0" HBox.hgrow="ALWAYS">
+               <HBox.margin>
+                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+               </HBox.margin>
+               <children>
+                  <HBox alignment="CENTER">
+                     <children>
+                        <VBox>
+                           <children>
+                              <JFXTreeTableView prefHeight="400.0" prefWidth="269.0" />
+                              <HBox alignment="CENTER" prefHeight="56.0" prefWidth="314.0">
+                                 <children>
+                                    <JFXButton prefHeight="31.0" prefWidth="127.0" style="-fx-background-color: #e34b4b;" text="COVID Risk">
+                                       <HBox.margin>
+                                          <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                                       </HBox.margin>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </JFXButton>
+                                    <JFXButton prefHeight="31.0" prefWidth="150.0" style="-fx-background-color: #4ccf70;" text="Not a COVID Risk">
+                                       <HBox.margin>
+                                          <Insets bottom="20.0" right="20.0" top="20.0" />
+                                       </HBox.margin>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </JFXButton>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                        <Label prefWidth="293.0" style="-fx-border-color: #012D5A; -fx-border-width: 5;" text="COVID risk symptoms are shown in red in the table, while normal symptoms are shown in green. In your professional opinion, is this patient a COVID risk?" wrapText="true">
+                           <padding>
+                              <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                           </padding>
+                           <HBox.margin>
+                              <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>

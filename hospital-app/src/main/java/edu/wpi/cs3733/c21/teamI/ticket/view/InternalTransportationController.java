@@ -11,7 +11,6 @@ import edu.wpi.cs3733.c21.teamI.ticket.ticketTypes.InternalTransportationTicket;
 import edu.wpi.cs3733.c21.teamI.user.User;
 import edu.wpi.cs3733.c21.teamI.view.ViewManager;
 import java.io.IOException;
-import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
@@ -73,36 +72,6 @@ public class InternalTransportationController {
 
   public void navigate(ActionEvent e) throws IOException {
     ViewManager.navigate(e);
-  }
-
-  private void setupRequestView() {
-    serviceLocationList
-        .getSelectionModel()
-        .selectedItemProperty()
-        .addListener(
-            (ChangeListener<String>)
-                (ov, oldVal, newVal) -> {
-                  internalLocation.setText(newVal);
-                  serviceLocationList.setVisible(false);
-                });
-
-    requestAssignedList
-        .getSelectionModel()
-        .selectedItemProperty()
-        .addListener(
-            (ChangeListener<String>)
-                (ov, oldVal, newVal) -> {
-                  requestAssigned.setText(newVal);
-                  requestAssignedList.setVisible(false);
-                });
-
-    background.setOnMouseClicked(
-        t -> {
-          serviceLocationList.setVisible(false);
-          requestAssignedList.setVisible(false);
-        });
-
-    requesterID.setText(ApplicationDataController.getInstance().getLoggedInUser().getName());
   }
 
   public void clear() {

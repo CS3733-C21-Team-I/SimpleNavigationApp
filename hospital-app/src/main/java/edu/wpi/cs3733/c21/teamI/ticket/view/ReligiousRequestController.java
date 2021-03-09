@@ -61,7 +61,7 @@ public class ReligiousRequestController {
 
   public void lookupUser(KeyEvent e) {
     ServiceTicketDataController.lookupUsernames(
-        e, User.Permission.RESPOND_TO_SECURITY, requestAssignedList, assignedEmployeeID);
+        e, User.Permission.RESPOND_TO_RELIGIOUS, requestAssignedList, assignedEmployeeID);
   }
 
   @FXML

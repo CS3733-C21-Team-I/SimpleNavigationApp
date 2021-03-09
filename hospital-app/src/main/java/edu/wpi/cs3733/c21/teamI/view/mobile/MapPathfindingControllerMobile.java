@@ -56,8 +56,6 @@ public class MapPathfindingControllerMobile extends MobileMapController {
   public void initialize() throws IOException {
     System.out.println("Initializing pathfinding controller");
     extraMenu.managedProperty().bind(extraMenu.visibleProperty());
-    clear.managedProperty().bind(clear.visibleProperty());
-    accessible.managedProperty().bind(accessible.visibleProperty());
     allDirections.managedProperty().bind(allDirections.visibleProperty());
     HamburgerSlideCloseTransition hamburgerTransition = new HamburgerSlideCloseTransition(ham);
     hamburgerTransition.setRate(-1);
@@ -67,8 +65,6 @@ public class MapPathfindingControllerMobile extends MobileMapController {
           hamburgerTransition.setRate(hamburgerTransition.getRate() * -1);
           hamburgerTransition.play();
           extraMenu.setVisible(!extraMenu.isVisible());
-          clear.setVisible(!clear.isVisible());
-          accessible.setVisible(!accessible.isVisible());
         });
     setupMapViewHandlers();
     currentMapID = "Faulkner Lot";
@@ -266,4 +262,12 @@ public class MapPathfindingControllerMobile extends MobileMapController {
     Stage stage = (Stage) ((Circle) e.getSource()).getScene().getWindow();
     stage.close();
   }
+
+  @FXML
+  public void exitButton(ActionEvent e) {
+    Stage stage = (Stage) ((JFXButton) e.getSource()).getScene().getWindow();
+    stage.close();
+  }
+
+  public void fillCar(ActionEvent actionEvent) {}
 }
