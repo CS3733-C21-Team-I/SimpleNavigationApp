@@ -9,7 +9,6 @@ import edu.wpi.cs3733.c21.teamI.user.User;
 import java.sql.*;
 import java.util.HashMap;
 import java.util.Map;
-import org.apache.derby.drda.NetworkServerControl;
 
 public class ParkingPeripheralServerManager extends DatabaseManager {
 
@@ -18,12 +17,6 @@ public class ParkingPeripheralServerManager extends DatabaseManager {
   private static ParkingPeripheralServerManager ourInstance;
 
   public static void init(boolean regen) {
-    try {
-      NetworkServerControl control = new NetworkServerControl();
-      control.start(null);
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
     ourInstance = new ParkingPeripheralServerManager(regen);
   }
 
