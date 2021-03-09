@@ -29,7 +29,6 @@ public class WaitingScreenController extends Application {
             new KeyFrame(
                 Duration.seconds(1),
                 ev -> {
-                  System.out.println("Checking covid status");
                   User.CovidRisk risk =
                       UserDatabaseManager.getInstance()
                           .getUserForScreenname(
@@ -37,9 +36,8 @@ public class WaitingScreenController extends Application {
                                   .getLoggedInUser()
                                   .getScreenName())
                           .getCovidRisk();
-                  System.out.println(risk);
 
-                  if (risk == User.CovidRisk.PENDING) {
+                  if (risk != User.CovidRisk.PENDING) {
                     try {
                       returnReviewDescision();
                     } catch (IOException e) {
@@ -67,10 +65,4 @@ public class WaitingScreenController extends Application {
     Stage stage = (Stage) ((Circle) e.getSource()).getScene().getWindow();
     stage.close();
   }
-  //
-  //  private class WaitForResults extends TimerTask {
-  //    public void run() {
-  //
-  //    }
-  //  }
 }
