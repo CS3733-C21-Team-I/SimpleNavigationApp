@@ -4,6 +4,10 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXRadioButton;
 import edu.wpi.cs3733.c21.teamI.database.NavDatabaseManager;
+import edu.wpi.cs3733.c21.teamI.database.ServiceTicketDatabaseManager;
+import edu.wpi.cs3733.c21.teamI.database.UserDatabaseManager;
+import edu.wpi.cs3733.c21.teamI.ticket.CovidTicket;
+import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicket;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -139,6 +143,38 @@ public class MCovidFormController {
     if (symptoms == true) {
       isCovidRisk = true;
     }
+
+    // make this current user
+    //    int RequestID = ApplicationDataController.getInstance().getLoggedInUser().getUserId();
+    int RequestID = 1;
+    ServiceTicket ticket =
+        new CovidTicket(
+            RequestID,
+            NavDatabaseManager.getInstance().getMapIdFromLongName(parkingInput.getText()),
+            "Determine if the patient has COVID.",
+            false,
+            soreThroatCheckbox.isSelected(),
+            breathCheckbox.isSelected(),
+            tasteCheckbox.isSelected(),
+            feverCheckbox.isSelected(),
+            congestionCheckbox.isSelected(),
+            coughCheckbox.isSelected(),
+            nauseaCheckbox.isSelected(),
+            diarrheaCheckbox.isSelected(),
+            headacheCheckbox.isSelected(),
+            noneCheckbox.isSelected(),
+            confirmedCheckbox.isSelected(),
+            symptomCheckbox.isSelected(),
+            noneCheckbox2.isSelected(),
+            covidYesRadioBtn.isSelected());
+
+    // Assign to random nurse in the future
+    int AssignedID =
+        UserDatabaseManager.getInstance().getUserForScreenname("Nurse Joy").getUserId();
+
+    ticket.addAssignedUserID(AssignedID);
+    int id = ServiceTicketDatabaseManager.getInstance().addTicket(ticket);
+    ServiceTicketDatabaseManager.getInstance().addEmployeeForTicket(id, AssignedID);
 
     goToWaitingScreen();
   }

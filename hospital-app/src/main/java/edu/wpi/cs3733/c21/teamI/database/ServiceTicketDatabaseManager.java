@@ -1055,6 +1055,8 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
               + ", "
               + cov.isCongestion()
               + ", "
+              + cov.isCough()
+              + ", "
               + cov.isNausea()
               + ", "
               + cov.isDiarrhea()
