@@ -3,15 +3,13 @@ package edu.wpi.cs3733.c21.teamI.view.maps;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
-import edu.wpi.cs3733.c21.teamI.hospitalMap.EuclidianDistCalc;
-import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMapNode;
-import edu.wpi.cs3733.c21.teamI.hospitalMap.MapDataEntity;
-import edu.wpi.cs3733.c21.teamI.hospitalMap.NodeRestrictions;
+import edu.wpi.cs3733.c21.teamI.hospitalMap.*;
 import edu.wpi.cs3733.c21.teamI.pathfinding.*;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicketDataController;
 import edu.wpi.cs3733.c21.teamI.user.User;
 import edu.wpi.cs3733.c21.teamI.util.ImageLoader;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.beans.value.ChangeListener;
@@ -21,6 +19,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
@@ -29,14 +28,14 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
-import javax.swing.*;
 import lombok.SneakyThrows;
 
 public class MapPathfindingController extends MapController {
   @FXML ImageView mapImage;
-  @FXML Button adminMapToggle, aboutBtn;
+  @FXML Button adminMapToggle;
   @FXML JFXComboBox algorithmPick;
   @FXML TextField start, destination;
   @FXML ListView startList, destList, directionsField;
@@ -47,6 +46,8 @@ public class MapPathfindingController extends MapController {
 
   private List<HospitalMapNode> foundPath;
   private ArrayList<String> foundPathDescription;
+
+  public MapPathfindingController() throws URISyntaxException {}
 
   // setup stuff
   @FXML
@@ -94,11 +95,19 @@ public class MapPathfindingController extends MapController {
 
   protected void update() {
     mapPane.getChildren().clear();
+    drawLocationNodes();
     if (foundPathExists()) {
       ObservableList<String> items = FXCollections.observableArrayList(new ArrayList<String>());
       directionsField.setItems(items);
       drawCalculatedPath(getFoundPath());
     }
+    /*
+    try {
+      displayIcons();
+    } catch (IOException i) {
+      System.out.println("error displaying er icon");
+    }
+     */
   }
 
   // start & end dialogue boxes stuff
@@ -244,7 +253,7 @@ public class MapPathfindingController extends MapController {
     clearFoundPath();
     ObservableList<String> items = FXCollections.observableArrayList(new ArrayList<String>());
     directionsField.setItems(items);
-    clearMap();
+    update();
   }
 
   @FXML
@@ -281,7 +290,139 @@ public class MapPathfindingController extends MapController {
     directionsField.setItems(items);
   }
 
-  protected Circle setMouseActions(Circle circle, HospitalMapNode node) {
+  protected Node setMouseActions(Node circle, HospitalMapNode node) {
+    circle.setOnMouseClicked(
+        t -> {
+          circle.setStyle("-fx-cursor: hand");
+          setStartAndEndOnClick(((LocationNode) node).getLongName());
+        });
+    circle.setStyle("-fx-cursor: hand");
     return circle;
+  }
+
+  public void setStartAndEndOnClick(String nodeName) {
+    if (start.isFocused()) {
+      start.setText(nodeName);
+      destination.requestFocus();
+    } else if (destination.isFocused()) {
+      destination.setText(nodeName);
+      start.requestFocus();
+    } else if (start.getText().equals("")) {
+      start.setText(nodeName);
+    } else if (destination.getText().equals("")) {
+      destination.setText(nodeName);
+    }
+  }
+
+  public void drawLocationNodes() {
+    for (HospitalMapNode node : MapDataEntity.getNodesSet()) {
+      if (node instanceof LocationNode
+          && node.getMapID().equals(currentMapID)) { // draw all location nodes on this level
+
+        switch (((LocationNode) node).getLocationCategory()) { // switch case for special types
+          case ELEV:
+            displayIcon("/fxml/mapImages/mapIcons/elevator.png", node);
+            break;
+          case REST:
+            displayIcon("/fxml/mapImages/mapIcons/bathroom.png", node);
+            break;
+          case STAI:
+            displayIcon("/fxml/mapImages/mapIcons/stairs.png", node);
+            break;
+          case KIOS:
+            displayIcon("/fxml/mapImages/mapIcons/info.png", node);
+            break;
+          case FOOD:
+            displayIcon("/fxml/mapImages/mapIcons/dining.png", node);
+            break;
+          case PARK:
+            //  displayIcon("/fxml/mapImages/mapIcons/parking.png", node);
+            break;
+          default:
+            switch (((LocationNode) node).getLongName()) { // even specialer cases
+              case "Northern Parking Icon":
+              case "Western Parking Icon":
+                displayIcon("/fxml/mapImages/mapIcons/parking.png", node);
+                break;
+              case "Starbucks":
+                displayIcon("/fxml/mapImages/mapIcons/starbucks.png", node);
+                break;
+              case "Pharmacy":
+                displayIcon("/fxml/mapImages/mapIcons/pharmacy.png", node);
+                break;
+              case "Emergency Department":
+                displayIcon("/fxml/mapImages/mapIcons/emergencyRoom.png", node);
+                break;
+              case "Valet Parking Icon":
+                displayIcon("/fxml/mapImages/mapIcons/valet.png", node);
+                break;
+              default:
+                Circle circle =
+                    makeCircle(
+                        transformX(node.getxCoord()),
+                        transformY(node.getyCoord()),
+                        25 / scale,
+                        Color.valueOf("#00B5E2"));
+                circle = (Circle) setMouseActions(circle, node);
+                mapPane.getChildren().add(circle);
+                break;
+            }
+        }
+      }
+    }
+  }
+
+  public void displayIcon(String imagePath, HospitalMapNode node) {
+    double imgScale = 100 / scale;
+    try {
+      Image icon = new Image(getClass().getResource(imagePath).toURI().toString());
+      double x = transformX(Double.valueOf(node.getxCoord())) - imgScale / 2;
+      double y = transformY(Double.valueOf(node.getyCoord())) - imgScale / 2;
+      // displayImage(icon, x, y, imgScale);
+      ImageView imageView = new ImageView();
+      // Setting image to the image view
+      imageView.setImage(icon);
+      // Setting the image view parameters
+      imageView.setX(x);
+      imageView.setY(y);
+      imageView.setFitWidth(imgScale);
+      imageView.setPreserveRatio(true);
+      imageView = (ImageView) setMouseActions(imageView, node);
+      mapPane.getChildren().add(imageView);
+    } catch (URISyntaxException e) {
+      e.printStackTrace();
+    }
+  }
+
+  protected void drawStartPoint(List<HospitalMapNode> path) throws IOException {
+    double imgScale = 256 / scale;
+    Image startIcon = null;
+    try {
+      startIcon =
+          new Image(
+              (getClass().getResource("/fxml/fxmlResources/startIcon.png")).toURI().toString());
+    } catch (URISyntaxException e) {
+      e.printStackTrace();
+    }
+    double startIconX = transformX(path.get(0).getxCoord()) - imgScale / 2;
+    double startIconY = transformY(path.get(0).getyCoord()) - imgScale;
+    drawNode(path.get(0), blue);
+    displayImage(startIcon, startIconX, startIconY, imgScale);
+  }
+
+  protected void drawEndPoint(List<HospitalMapNode> path) throws IOException {
+    double imgScale = 256 / scale;
+    Image finishIcon = null;
+    try {
+      finishIcon =
+          new Image(
+              (getClass().getResource("/fxml/fxmlResources/finishIcon.png")).toURI().toString());
+    } catch (URISyntaxException e) {
+      e.printStackTrace();
+    }
+    double finishIconX = transformX(path.get(path.size() - 1).getxCoord()) - imgScale / 2;
+    double finishIconY = transformY(path.get(path.size() - 1).getyCoord()) - imgScale;
+    drawNode(path.get(path.size() - 1), red);
+    displayImage(finishIcon, finishIconX, finishIconY, imgScale);
   }
 }

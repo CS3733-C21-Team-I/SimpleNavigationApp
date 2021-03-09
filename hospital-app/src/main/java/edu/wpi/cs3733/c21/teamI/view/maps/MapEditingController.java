@@ -17,6 +17,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point2D;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -308,7 +309,7 @@ public class MapEditingController extends MapController {
     update();
   }
 
-  protected Circle setMouseActions(Circle circle, HospitalMapNode node) {
+  protected Node setMouseActions(Node circle, HospitalMapNode node) {
     circle.setOnMouseEntered(
         t -> {
           Circle newCircle =
