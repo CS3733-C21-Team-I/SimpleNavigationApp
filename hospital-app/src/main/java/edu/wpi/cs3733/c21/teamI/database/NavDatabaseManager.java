@@ -9,7 +9,7 @@ import java.util.*;
 
 public class NavDatabaseManager extends DatabaseManager {
 
-  private static final String DB_URL = "jdbc:derby:navDB";
+  private static final String DB_URL = "jdbc:derby://localhost:1527/navDB";
 
   private static NavDatabaseManager ourInstance;
 
@@ -453,6 +453,8 @@ public class NavDatabaseManager extends DatabaseManager {
                       + ((LocationNode) node).getLongName()
                       + "', TEAM_ASSIGNED = '"
                       + ((LocationNode) node).getTeamAssigned()
+                      + "', location_category = '"
+                      + ((LocationNode) node).getLocationCategory()
                       + "' WHERE NODE_ID = '"
                       + op.getTargetNode()
                       + "'");
@@ -557,10 +559,14 @@ public class NavDatabaseManager extends DatabaseManager {
           "INSERT INTO NODE_ATTRIBUTE (NODERESTRICTION) VALUES\n"
               + "                                                    ('PPE_REQUIRED'),\n"
               + "                                                    ('STAFF_ONLY'),\n"
-              + "                                                    ('WHEELCHAIR_INACCESSIBLE')");
+              + "                                                    ('WHEELCHAIR_INACCESSIBLE'),\n"
+              + "                                                    ('NON_COVID_RISK_VISITORS'),\n"
+              + "                                                    ('COVID_RISK_VISITORS')");
 
       stmt.addBatch(
           "INSERT INTO NODE_TO_ATTRIBUTE (NODE_ID, ATTRIBUTE_ID) VALUES\n"
+              + "('IEXIT00101', (SELECT ATTRIBUTE_ID FROM NODE_ATTRIBUTE WHERE NODERESTRICTION='NON_COVID_RISK_VISITORS')),"
+              + "('IEXIT00201', (SELECT ATTRIBUTE_ID FROM NODE_ATTRIBUTE WHERE NODERESTRICTION='COVID_RISK_VISITORS')),"
               + "('ISTAI00101', (SELECT ATTRIBUTE_ID FROM NODE_ATTRIBUTE WHERE NODERESTRICTION='WHEELCHAIR_INACCESSIBLE')),"
               + "('ISTAI00102', (SELECT ATTRIBUTE_ID FROM NODE_ATTRIBUTE WHERE NODERESTRICTION='WHEELCHAIR_INACCESSIBLE')),"
               + "('ISTAI00103', (SELECT ATTRIBUTE_ID FROM NODE_ATTRIBUTE WHERE NODERESTRICTION='WHEELCHAIR_INACCESSIBLE')),"
