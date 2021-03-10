@@ -6,8 +6,8 @@ import com.jfoenix.controls.JFXDrawer;
 import com.jfoenix.controls.JFXHamburger;
 import com.jfoenix.transitions.hamburger.HamburgerSlideCloseTransition;
 import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
-import edu.wpi.cs3733.c21.teamI.Notification.Notification;
 import edu.wpi.cs3733.c21.teamI.database.NotificationManager;
+import edu.wpi.cs3733.c21.teamI.notification.Notification;
 import edu.wpi.cs3733.c21.teamI.user.User;
 import java.io.IOException;
 import java.time.ZonedDateTime;
@@ -53,7 +53,6 @@ public class HomeController extends Application {
   @FXML AnchorPane drawerPane;
 
   @FXML Button mobileButton;
-
 
   ProfileController profileController;
   VisitorMenuController visitorMenuController;

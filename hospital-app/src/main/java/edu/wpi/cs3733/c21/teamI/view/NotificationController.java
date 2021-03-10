@@ -4,8 +4,8 @@ import static javafx.animation.Animation.INDEFINITE;
 
 import com.jfoenix.controls.JFXDrawer;
 import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
-import edu.wpi.cs3733.c21.teamI.Notification.Notification;
 import edu.wpi.cs3733.c21.teamI.database.NotificationManager;
+import edu.wpi.cs3733.c21.teamI.notification.Notification;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
