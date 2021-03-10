@@ -51,6 +51,7 @@ public class ProfileController extends Application {
           .hasPermission(User.Permission.VIEW_TICKET)) {
         homeController.update();
       }
+      homeController.update();
     } catch (FailedToAuthenticateException e) {
       headerLabel.setText("Error: Invalid login.");
       // TODO handle failure to login
