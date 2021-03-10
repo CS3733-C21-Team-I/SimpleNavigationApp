@@ -106,7 +106,8 @@ public class ServiceRequestTableController implements Initializable {
           for (Integer s : param.getValue().getValue().getAssignedUserID()) {
             listString.append(s).append(", ");
           }
-          return new SimpleStringProperty(listString.toString());
+          return new SimpleStringProperty(
+              listString.toString().substring(0, listString.toString().length() - 2));
         });
 
     JFXTreeTableColumn<ServiceTicket, String> locationCol = new JFXTreeTableColumn<>("Location");
@@ -188,13 +189,6 @@ public class ServiceRequestTableController implements Initializable {
     System.out.println(treeView.getRoot().getChildren().size());
 
     if (treeView.getRoot() != null) {
-      //      boolean allMatch =
-      //          treeView.getRoot().getChildren().stream()
-      //                  .filter(treeView.getPredicate())
-      //                  .map(c -> c.getValue().getTicketType())
-      //                  .distinct()
-      //                  .count()
-      //              == 1;
       boolean allMatch =
           filteredList.stream().map(ServiceTicket::getTicketType).distinct().count() == 1;
 
