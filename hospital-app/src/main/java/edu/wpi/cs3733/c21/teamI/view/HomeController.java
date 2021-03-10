@@ -52,6 +52,9 @@ public class HomeController extends Application {
 
   @FXML AnchorPane drawerPane;
 
+  @FXML Button mobileButton;
+
+
   ProfileController profileController;
   VisitorMenuController visitorMenuController;
   NotificationController notifController;
@@ -239,6 +242,9 @@ public class HomeController extends Application {
 
   @FXML
   public void initialize() throws IOException {
+    if (mobileButton != null) {
+      mobileButton.setVisible(ApplicationDataController.getInstance().isLoggedIn());
+    }
     if (timeLabel != null) {
       initClock();
       update();

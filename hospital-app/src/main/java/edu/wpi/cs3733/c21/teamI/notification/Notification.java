@@ -1,4 +1,4 @@
-package edu.wpi.cs3733.c21.teamI.Notification;
+package edu.wpi.cs3733.c21.teamI.notification;
 
 public class Notification {
   private int notificationID;
