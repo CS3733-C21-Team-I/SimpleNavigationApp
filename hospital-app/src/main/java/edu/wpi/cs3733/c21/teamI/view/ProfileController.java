@@ -10,6 +10,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -22,7 +23,7 @@ public class ProfileController extends Application {
   @FXML Label headerLabel;
   public String uName;
   public static String pass;
-  StackPane root;
+  @FXML StackPane root;
 
   VisitorMenuController visitorMenuController;
   HomeController homeController;
@@ -32,6 +33,7 @@ public class ProfileController extends Application {
   @FXML JFXDrawer drawer;
   @FXML Stage loginStage;
   @FXML Scene loginScene;
+  @FXML ImageView background;
 
   public void navigate(ActionEvent e) throws IOException {
     ViewManager.navigate(e);
@@ -77,6 +79,26 @@ public class ProfileController extends Application {
   @FXML
   public void initialize() throws IOException {
     loginVBox.setVisible(true);
+    System.out.println(root.heightProperty());
+    System.out.println(root.widthProperty());
+    System.out.println(background);
+    background.setPreserveRatio(false);
+    // background.fitHeightProperty().bind(root.heightProperty());
+    // background.fitWidthProperty().bind(root.widthProperty());
+    root.heightProperty()
+        .addListener(
+            (obs, oldVal, newVal) -> {
+              background.fitHeightProperty().bind(root.heightProperty());
+              System.out.println("Height changed");
+            });
+    root.widthProperty()
+        .addListener(
+            (obs, oldVal, newVal) -> {
+              background.fitWidthProperty().bind(root.widthProperty());
+              System.out.println("Width changed");
+            });
+    // background.setFitHeight(Screen.getPrimary().getVisualBounds().getHeight());
+    // background.setFitWidth(Screen.getPrimary().getVisualBounds().getWidth());
   }
 
   @Override
