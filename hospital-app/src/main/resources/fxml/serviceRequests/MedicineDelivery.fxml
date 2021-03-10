@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="background" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="322.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamI.view.MedicineDeliveryController">
+<AnchorPane fx:id="background" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="322.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamI.ticket.view.MedicineDeliveryController">
    <children>
       <JFXDatePicker fx:id="date" defaultColor="#0067b1" layoutX="72.0" layoutY="75.0" prefHeight="40.0" prefWidth="210.0" promptText="DD/MM/YYYY" showWeekNumbers="true" />
       <JFXTimePicker fx:id="time" defaultColor="#0067b1" layoutX="72.0" layoutY="128.0" prefHeight="40.0" prefWidth="210.0" promptText="Time" />

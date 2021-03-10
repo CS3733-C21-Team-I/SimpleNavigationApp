@@ -22,25 +22,23 @@ public class AdminMenuController extends Application {
   @FXML
   public void navigate(MouseEvent e) throws IOException {
     String id = ((JFXRippler) e.getSource()).getId();
-    replacePane =
-        (StackPane)
-            ((JFXRippler) e.getSource())
-                .getParent()
-                .getParent()
-                .getParent()
-                .getParent()
-                .getParent()
-                .getChildrenUnmodifiable()
-                .get(0);
+    replacePane = homeController.getReplacePane();
+    System.out.println(replacePane);
     replacePane.getChildren().clear();
 
     if (id.equals("loginButton")) {
-      FXMLLoader profLoader =
-          new FXMLLoader(getClass().getClassLoader().getResource("/fxml/Profile.fxml"));
-      profLoader.setLocation(getClass().getResource("/fxml/Profile.fxml"));
-      replacePane.getChildren().add(profLoader.load());
+      FXMLLoader profLoader;
+      if (ApplicationDataController.getInstance().isLoggedIn()) {
+        profLoader = new FXMLLoader(getClass().getClassLoader().getResource("/fxml/Home.fxml"));
+        profLoader.setLocation(getClass().getResource("/fxml/Home.fxml"));
+        replacePane.getChildren().add(profLoader.load());
+      } else {
+        profLoader = new FXMLLoader(getClass().getClassLoader().getResource("/fxml/Profile.fxml"));
+        profLoader.setLocation(getClass().getResource("/fxml/Profile.fxml"));
+        replacePane.getChildren().add(profLoader.load());
+        ((ProfileController) profLoader.getController()).setHomeController(homeController);
+      }
       //      ((ProfileController) profLoader.getController()).setVisitorMenuController(this);
-      ((ProfileController) profLoader.getController()).setHomeController(homeController);
     } else if (id.equals("COVIDButton")) {
       //      titleLabel.setText("Language Service Request");
       replacePane
@@ -78,6 +76,10 @@ public class AdminMenuController extends Application {
       replacePane
           .getChildren()
           .add(FXMLLoader.load(getClass().getResource("/fxml/menuFiles/feedbackView.fxml")));
+    } else if (id.equals("trackerButton")) {
+      replacePane
+          .getChildren()
+          .add(FXMLLoader.load(getClass().getResource("/fxml/menuFiles/COVIDTracker.fxml")));
     }
   }
 

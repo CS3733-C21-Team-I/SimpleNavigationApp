@@ -31,6 +31,7 @@ public abstract class DatabaseManager {
     ServiceTicketDatabaseManager.init(regen);
     UserDatabaseManager.init(regen);
     NavDatabaseManager.init(regen);
+    NotificationManager.init(regen);
   }
 
   public static void initPeripheralDatabaseManagers(boolean regen) {
@@ -39,11 +40,13 @@ public abstract class DatabaseManager {
 
   public static void regenTables() {
     ServiceTicketDatabaseManager.getInstance().dropTables();
+    NotificationManager.getInstance().dropTables();
     UserDatabaseManager.getInstance().dropTables();
     NavDatabaseManager.getInstance().dropTables();
 
     NavDatabaseManager.getInstance().createTables();
     UserDatabaseManager.getInstance().createTables();
+    NotificationManager.getInstance().createTables();
     ServiceTicketDatabaseManager.getInstance().createTables();
 
     Map<String, HospitalMap> maps =

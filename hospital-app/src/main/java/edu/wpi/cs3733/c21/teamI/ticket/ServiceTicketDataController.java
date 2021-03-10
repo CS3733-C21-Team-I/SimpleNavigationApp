@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.c21.teamI.ticket;
 
+import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
 import edu.wpi.cs3733.c21.teamI.database.NavDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.database.UserDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.user.User;
@@ -7,11 +8,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.AnchorPane;
 
 public class ServiceTicketDataController {
 
@@ -68,6 +71,42 @@ public class ServiceTicketDataController {
     ObservableList<String> items = FXCollections.observableArrayList(matches);
     listView.setItems(items);
     listView.setVisible(e.getSource() == target);
+  }
+
+  public static void setupRequestView(
+      AnchorPane background,
+      ListView serviceLocationList,
+      ListView requestAssignedList,
+      TextField requestID,
+      TextField assignedID,
+      TextField location) {
+    serviceLocationList
+        .getSelectionModel()
+        .selectedItemProperty()
+        .addListener(
+            (ChangeListener<String>)
+                (ov, oldVal, newVal) -> {
+                  location.setText(newVal);
+                  serviceLocationList.setVisible(false);
+                });
+
+    requestAssignedList
+        .getSelectionModel()
+        .selectedItemProperty()
+        .addListener(
+            (ChangeListener<String>)
+                (ov, oldVal, newVal) -> {
+                  assignedID.setText(newVal);
+                  requestAssignedList.setVisible(false);
+                });
+
+    background.setOnMouseClicked(
+        t -> {
+          serviceLocationList.setVisible(false);
+          requestAssignedList.setVisible(false);
+        });
+
+    requestID.setText(ApplicationDataController.getInstance().getLoggedInUser().getName());
   }
 
   public static void refreshMapNodes() {

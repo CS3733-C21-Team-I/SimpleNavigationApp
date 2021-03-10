@@ -2,13 +2,14 @@ package edu.wpi.cs3733.c21.teamI.ticket.view;
 
 import com.jfoenix.controls.*;
 import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
+import edu.wpi.cs3733.c21.teamI.database.NavDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.database.ServiceTicketDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.database.UserDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicket;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicketDataController;
 import edu.wpi.cs3733.c21.teamI.ticket.ticketTypes.MedicineTicket;
 import edu.wpi.cs3733.c21.teamI.user.User;
-import javafx.beans.value.ChangeListener;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
@@ -27,23 +28,14 @@ public class MedicineDeliveryController {
   ServiceTicket ticket;
 
   @FXML
-  private void submit() {
-    String patientName,
-        drugPicked,
-        dosePicked,
-        datePicked,
-        timePicked,
-        locationPicked,
-        cond,
-        com,
-        check;
+  public void submit(ActionEvent e) {
+    String patientName, drugPicked, dosePicked, datePicked, timePicked, locationPicked, com, check;
     patientName = patient_name.getText();
-
     drugPicked = drug.getText();
     dosePicked = dose.getText();
     datePicked = date.getValue().toString();
     timePicked = time.getValue().toString();
-    locationPicked = locationText.getText();
+    locationPicked = NavDatabaseManager.getInstance().getMapIdFromLongName(locationText.getText());
     com = comment.getText();
     if (checkNote.isSelected()) {
       check = "want notification";
@@ -75,38 +67,9 @@ public class MedicineDeliveryController {
     }
   }
 
-  private void setupRequestView() {
-    serviceLocationList
-        .getSelectionModel()
-        .selectedItemProperty()
-        .addListener(
-            (ChangeListener<String>)
-                (ov, oldVal, newVal) -> {
-                  locationText.setText(newVal);
-                  serviceLocationList.setVisible(false);
-                });
-
-    requestAssignedList
-        .getSelectionModel()
-        .selectedItemProperty()
-        .addListener(
-            (ChangeListener<String>)
-                (ov, oldVal, newVal) -> {
-                  assignedID.setText(newVal);
-                  requestAssignedList.setVisible(false);
-                });
-
-    background.setOnMouseClicked(
-        t -> {
-          serviceLocationList.setVisible(false);
-          requestAssignedList.setVisible(false);
-        });
-
-    currentID.setText(ApplicationDataController.getInstance().getLoggedInUser().getName());
-  }
-
   public void initialize() {
-    setupRequestView();
+    ServiceTicketDataController.setupRequestView(
+        background, serviceLocationList, requestAssignedList, currentID, assignedID, locationText);
   }
 
   public void lookup(KeyEvent e) {

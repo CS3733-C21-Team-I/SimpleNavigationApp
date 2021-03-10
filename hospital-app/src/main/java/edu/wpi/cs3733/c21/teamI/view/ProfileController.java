@@ -2,6 +2,7 @@ package edu.wpi.cs3733.c21.teamI.view;
 
 import com.jfoenix.controls.JFXDrawer;
 import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
+import edu.wpi.cs3733.c21.teamI.database.FailedToAuthenticateException;
 import edu.wpi.cs3733.c21.teamI.user.User;
 import java.io.IOException;
 import javafx.application.Application;
@@ -9,6 +10,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -20,6 +22,7 @@ public class ProfileController extends Application {
   @FXML Label headerLabel;
   public String uName;
   public static String pass;
+  StackPane root;
 
   VisitorMenuController visitorMenuController;
   HomeController homeController;
@@ -34,13 +37,8 @@ public class ProfileController extends Application {
     ViewManager.navigate(e);
   }
 
-  private void populateTicketsProfile() {
-    loginVBox.setVisible(true);
-    //    serviceDisplay.setVisible(false);
-  }
-
   @FXML
-  public void login() {
+  public void login() throws FailedToAuthenticateException {
     uName = username.getText();
     pass = password.getText();
     if (ApplicationDataController.getInstance().logInUser(uName, pass)) {
@@ -50,38 +48,11 @@ public class ProfileController extends Application {
       if (ApplicationDataController.getInstance()
           .getLoggedInUser()
           .hasPermission(User.Permission.VIEW_TICKET)) {
-        generateRequestList();
         homeController.update();
       }
     } else {
       //      headerLabel.setText("Error: Invalid login.");
     }
-  }
-
-  public void generateRequestList() {
-    //    List<ServiceTicket> requests =
-    //        ServiceTicketDatabaseManager.getInstance()
-    //            .getTicketsForRequestId(
-    //                ApplicationDataController.getInstance().getLoggedInUser().getUserId());
-    //    List<String> requestNames =
-    //        requests.stream()
-    //            .map(st -> st.getTicketType() + " (" + st.getDescription() + ")")
-    //            .collect(Collectors.toList());
-    //    requestContainer.getStylesheets().add("/fxml/fxmlResources/main.css");
-    //    for (int i = 0; i < requestNames.size(); i++) {
-    //      Button requestButton = new Button(requestNames.get(i));
-    //      int finalI = i;
-    //      requestButton.setOnAction(
-    //          event -> {
-    //            ViewManager.setServiceTicketToShow(requests.get(finalI));
-    //            ViewManager.navigateToActiveRequest(event);
-    //          });
-    //      requestButton.getStyleClass().add("requestButton");
-    //      requestButton.setMinHeight(50);
-    //      requestButton.setMaxWidth(requestContainer.getMaxWidth());
-    //      requestContainer.getChildren().add(requestButton);
-    //    }
-    //    requestScrollPane.setVisible(true);
   }
 
   public VisitorMenuController getVisitorMenuController() {
@@ -101,8 +72,8 @@ public class ProfileController extends Application {
   }
 
   @FXML
-  public void initialize() {
-    populateTicketsProfile();
+  public void initialize() throws IOException {
+    loginVBox.setVisible(true);
   }
 
   @Override
