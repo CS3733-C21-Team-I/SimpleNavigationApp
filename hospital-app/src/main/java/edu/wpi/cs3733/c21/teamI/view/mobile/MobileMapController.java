@@ -19,6 +19,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.Node;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -364,11 +365,11 @@ public abstract class MobileMapController extends Application {
     Circle circle =
         makeCircle(
             transformX(node.getxCoord()), transformY(node.getyCoord()), 12 / scale, Color.RED);
-    circle = setMouseActions(circle, node);
+    circle = (Circle) setMouseActions(circle, node);
     mapPane.getChildren().add(circle);
   }
 
-  protected abstract Circle setMouseActions(Circle circle, HospitalMapNode node);
+  protected abstract Node setMouseActions(Node circle, HospitalMapNode node);
 
   protected Circle makeCircle(double x, double y, double r, Color color) {
     Circle returnCircle = new Circle(x, y, r);
