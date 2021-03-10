@@ -10,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
@@ -22,8 +23,21 @@ public class AdminMenuController extends Application {
   @FXML
   public void navigate(MouseEvent e) throws IOException {
     String id = ((JFXRippler) e.getSource()).getId();
-    replacePane = homeController.getReplacePane();
-    System.out.println(replacePane);
+    ViewManager.setReplacePane(replacePane);
+    replacePane =
+        (StackPane)
+            (((AnchorPane)
+                    ((JFXRippler) e.getSource())
+                        .getParent()
+                        .getParent()
+                        .getParent()
+                        .getParent()
+                        .getParent()
+                        .getChildrenUnmodifiable()
+                        .get(0))
+                .getChildren()
+                .get(0));
+    System.out.println("replacePane in nav in adminmenctrl: " + replacePane);
     replacePane.getChildren().clear();
 
     if (id.equals("loginButton")) {
