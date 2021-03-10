@@ -12,9 +12,11 @@ import edu.wpi.cs3733.c21.teamI.user.User;
 import edu.wpi.cs3733.c21.teamI.view.ViewManager;
 import java.io.IOException;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
 public class InternalTransportationController {
@@ -70,6 +72,48 @@ public class InternalTransportationController {
     }
   }
 
+  //
+  public void checkFinished() {
+    if (internalDate.valueProperty().getValue() != null
+        && internalTime.valueProperty().getValue() != null
+        && internalDestination.getText() != null
+        && internalDestination.getText().trim().length() > 0
+        && checkEmployeeID(requestAssigned.getText())
+        && checkLocation(internalLocation.getText())
+        && (stretcherRadio.isSelected() || wheelchairRadio.isSelected())
+        && requesterID.getText() != null
+        && requesterID.getText().trim().length() > 0) {
+      submitBttn.setDisable(false);
+    } else {
+      submitBttn.setDisable(true);
+    }
+  }
+
+  public boolean checkEmployeeID(String employeeText) {
+    boolean check = false;
+    for (Object req : requestAssignedList.getItems()) {
+      check = check || employeeText.equals(req);
+    }
+    return check;
+  }
+
+  public boolean checkLocation(String loc) {
+    boolean check = false;
+    for (Object req : serviceLocationList.getItems()) {
+      check = check || loc.equals(req);
+    }
+    return check;
+  }
+
+  EventHandler<ActionEvent> eh =
+      new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent event) {
+          checkFinished();
+        }
+      };
+  //
+
   public void navigate(ActionEvent e) throws IOException {
     ViewManager.navigate(e);
   }
@@ -81,14 +125,17 @@ public class InternalTransportationController {
     requesterID.clear();
     stretcherRadio.setSelected(false);
     wheelchairRadio.setSelected(false);
+    internalDestination.clear();
     //    emergency.setSelected(false);
     internalDate.valueProperty().set(null);
     internalTime.valueProperty().set(null);
     serviceLocationList.setVisible(false);
     requestAssignedList.setVisible(false);
+    checkFinished();
   }
 
   public void initialize() {
+    submitBttn.setDisable(true);
     ServiceTicketDataController.setupRequestView(
         background,
         serviceLocationList,
@@ -96,7 +143,25 @@ public class InternalTransportationController {
         requesterID,
         requestAssigned,
         internalLocation);
+
+    internalDate.setOnAction(eh);
+    internalTime.setOnAction(eh);
+    requesterID.setOnAction(eh);
+    requestAssigned.setOnAction(eh);
+    internalLocation.setOnAction(eh);
+    internalDestination.setOnAction(eh);
+    stretcherRadio.setOnAction(eh);
+    wheelchairRadio.setOnAction(eh);
+    background.addEventHandler(MouseEvent.MOUSE_CLICKED, meh);
   }
+
+  EventHandler<MouseEvent> meh =
+      new EventHandler<MouseEvent>() {
+        @Override
+        public void handle(MouseEvent event) {
+          checkFinished();
+        }
+      };
 
   public void lookup(KeyEvent e) {
     ServiceTicketDataController.lookupNodes(e, serviceLocationList, internalLocation);
