@@ -93,6 +93,8 @@ public class SecurityRequestController {
   }
 
   public void initialize() {
+    securityType.getItems().addAll("Police Officer", "On-site Security Employee", "Other");
+    securityType.getSelectionModel().select("2");
     submitBtn.setDisable(true);
     ServiceTicketDataController.setupRequestView(
         background,
@@ -101,9 +103,6 @@ public class SecurityRequestController {
         requestID,
         requestAssigned,
         locationText);
-
-    securityType.getItems().addAll("Police Officer", "On-site Security Employee", "Other");
-    securityType.getSelectionModel().select("2");
 
     requestID.setOnAction(eh);
     securityType.setOnAction(eh);

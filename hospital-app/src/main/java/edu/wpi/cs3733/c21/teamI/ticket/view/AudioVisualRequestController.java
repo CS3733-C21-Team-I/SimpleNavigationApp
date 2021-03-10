@@ -12,7 +12,6 @@ import edu.wpi.cs3733.c21.teamI.user.User;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -29,8 +28,8 @@ public class AudioVisualRequestController {
   @FXML ListView serviceLocationList;
   @FXML ListView requestAssignedList;
   @FXML AnchorPane background;
-  Button clearBtn;
-  Button submitBtn;
+  @FXML JFXButton clearBtn;
+  @FXML JFXButton submitBtn;
 
   @FXML
   public void submit(ActionEvent e) {
