@@ -1,0 +1,15 @@
+.tab{
+    -fx-pref-width: 80;
+    -fx-pref-height: 20;
+}
+.tab-header-background{
+    -fx-background-color: #0067b1;
+}
+
+.jfx-tab-pane .tab-selected-line{
+    -fx-border-color: #f6bd38;
+}
+
+.jfx-hamburger StackPane {
+    -fx-background-color: #F1F1F1;
+}

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXListView?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.web.WebView?>
+
+<StackPane fx:id="root" alignment="BOTTOM_CENTER" maxHeight="1060.0" maxWidth="2000.0" prefHeight="1060.0" prefWidth="1380.0" style="-fx-background-color: BLACK;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamI.view.maps.GoogleMapsMainController">
+   <children>
+      <WebView fx:id="webview" minHeight="500.0" minWidth="500.0" prefHeight="1060.0" prefWidth="1380.0" visible="false" />
+      <VBox alignment="CENTER" maxHeight="700.0" maxWidth="600.0" minHeight="600.0" minWidth="600.0" prefHeight="1060.0" prefWidth="500.0">
+         <children>
+            <HBox prefHeight="84.0" prefWidth="668.0">
+               <children>
+                  <JFXTextField fx:id="addressSearch" focusColor="#ffffff00" onInputMethodTextChanged="#autoComplete" onKeyReleased="#autoComplete" prefHeight="80.0" prefWidth="500.0" promptText="Starting address" style="-fx-background-color: WHITE; -fx-border-color: #0067b1; -fx-border-radius: 40; -fx-border-width: 3; -fx-background-radius: 40; -jfx-unfocus-color: TRANSPARENT;">
+                     <padding>
+                        <Insets left="20.0" right="10.0" />
+                     </padding>
+                     <font>
+                        <Font size="25.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets right="15.0" />
+                     </HBox.margin>
+                  </JFXTextField>
+                  <JFXButton fx:id="submitButton" buttonType="RAISED" ellipsisString="" onAction="#submit" prefHeight="80.0" prefWidth="80.0" ripplerFill="WHITE" style="-fx-background-color: #0067b1; -fx-background-radius: 40;" text="GO" textFill="WHITE" textOverrun="CLIP">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <font>
+                        <Font size="25.0" />
+                     </font>
+                  </JFXButton>
+               </children>
+            </HBox>
+            <JFXListView fx:id="autofillView" prefHeight="216.0" prefWidth="500.0" style="-fx-background-color: WHITE; -fx-background-radius: 40;">
+               <padding>
+                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+               </padding>
+               <VBox.margin>
+                  <Insets bottom="100.0" right="100.0" />
+               </VBox.margin>
+            </JFXListView>
+            <JFXButton buttonType="RAISED" onAction="#switchWindow" prefHeight="80.0" prefWidth="370.0" ripplerFill="WHITE" style="-fx-background-color: #012D5A; -fx-background-radius: 40;" text="I've Arrived At The Hospital" textFill="WHITE">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <font>
+                  <Font size="25.0" />
+               </font>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </JFXButton>
+         </children>
+      </VBox>
+   </children>
+</StackPane>

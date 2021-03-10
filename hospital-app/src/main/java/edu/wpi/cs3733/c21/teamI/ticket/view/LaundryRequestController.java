@@ -11,11 +11,12 @@ import edu.wpi.cs3733.c21.teamI.ticket.ticketTypes.LaundryTicket;
 import edu.wpi.cs3733.c21.teamI.user.User;
 import edu.wpi.cs3733.c21.teamI.view.ViewManager;
 import java.io.IOException;
-import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
 public class LaundryRequestController {
@@ -69,39 +70,69 @@ public class LaundryRequestController {
     ViewManager.navigate(e);
   }
 
-  private void setupRequestView() {
-    serviceLocationList
-        .getSelectionModel()
-        .selectedItemProperty()
-        .addListener(
-            (ChangeListener<String>)
-                (ov, oldVal, newVal) -> {
-                  laundryPickupLocation.setText(newVal);
-                  serviceLocationList.setVisible(false);
-                });
+  public void checkFinished() {
+    if (laundryPickupDate.valueProperty().getValue() != null
+        && laundryPickupTime.valueProperty().getValue() != null
+        && laundryRequesterID.getText() != null
+        && laundryRequesterID.getText().trim().length() > 0
+        && checkEmployeeID(laundryAssigned.getText())
+        && checkLocation(laundryPickupLocation.getText())) {
+      laundrySubmit.setDisable(false);
+    } else {
+      laundrySubmit.setDisable(true);
+    }
+  }
 
-    requestAssignedList
-        .getSelectionModel()
-        .selectedItemProperty()
-        .addListener(
-            (ChangeListener<String>)
-                (ov, oldVal, newVal) -> {
-                  laundryAssigned.setText(newVal);
-                  requestAssignedList.setVisible(false);
-                });
+  public boolean checkEmployeeID(String employeeText) {
+    boolean check = false;
+    for (Object req : requestAssignedList.getItems()) {
+      check = check || employeeText.equals(req);
+    }
+    return check;
+  }
 
-    background.setOnMouseClicked(
-        t -> {
-          serviceLocationList.setVisible(false);
-          requestAssignedList.setVisible(false);
-        });
-
-    laundryRequesterID.setText(ApplicationDataController.getInstance().getLoggedInUser().getName());
+  public boolean checkLocation(String loc) {
+    boolean check = false;
+    for (Object req : serviceLocationList.getItems()) {
+      check = check || loc.equals(req);
+    }
+    return check;
   }
 
   public void initialize() {
-    setupRequestView();
+    laundrySubmit.setDisable(true);
+    ServiceTicketDataController.setupRequestView(
+        background,
+        serviceLocationList,
+        requestAssignedList,
+        laundryRequesterID,
+        laundryAssigned,
+        laundryPickupLocation);
+
+    laundryPickupDate.setOnAction(eh);
+    laundryPickupTime.setOnAction(eh);
+    laundryPickupLocation.setOnAction(eh);
+    laundryRequesterID.setOnAction(eh);
+    laundryAssigned.setOnAction(eh);
+    laundryCheckbox.setOnAction(eh);
+    background.addEventHandler(MouseEvent.MOUSE_CLICKED, meh);
   }
+
+  EventHandler<MouseEvent> meh =
+      new EventHandler<MouseEvent>() {
+        @Override
+        public void handle(MouseEvent event) {
+          checkFinished();
+        }
+      };
+
+  EventHandler<ActionEvent> eh =
+      new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent event) {
+          checkFinished();
+        }
+      };
 
   @FXML
   private void clearForm(ActionEvent actionEvent) {
@@ -112,6 +143,7 @@ public class LaundryRequestController {
     laundryRequesterID.clear();
     laundryAssigned.clear();
     laundryCheckbox.setSelected(false);
+    checkFinished();
   }
 
   public void lookup(KeyEvent e) {

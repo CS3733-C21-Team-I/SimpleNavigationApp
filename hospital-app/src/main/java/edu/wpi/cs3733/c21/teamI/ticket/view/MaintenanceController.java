@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.c21.teamI.ticket.view;
 
+import com.jfoenix.controls.JFXButton;
 import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
 import edu.wpi.cs3733.c21.teamI.database.NavDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.database.ServiceTicketDatabaseManager;
@@ -9,8 +10,8 @@ import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicketDataController;
 import edu.wpi.cs3733.c21.teamI.user.User;
 import edu.wpi.cs3733.c21.teamI.view.ViewManager;
 import java.io.IOException;
-import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.CheckBox;
@@ -18,6 +19,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
 public class MaintenanceController {
@@ -26,6 +28,7 @@ public class MaintenanceController {
   @FXML TextArea mainDesc;
   @FXML CheckBox mainEmerg;
   @FXML ListView serviceLocationList, requestAssignedList;
+  @FXML JFXButton mainSubmit;
   @FXML AnchorPane background;
 
   public void submit(ActionEvent e) {
@@ -55,36 +58,6 @@ public class MaintenanceController {
     ViewManager.navigate(e);
   }
 
-  private void setupRequestView() {
-    serviceLocationList
-        .getSelectionModel()
-        .selectedItemProperty()
-        .addListener(
-            (ChangeListener<String>)
-                (ov, oldVal, newVal) -> {
-                  requestLocation.setText(newVal);
-                  serviceLocationList.setVisible(false);
-                });
-
-    requestAssignedList
-        .getSelectionModel()
-        .selectedItemProperty()
-        .addListener(
-            (ChangeListener<String>)
-                (ov, oldVal, newVal) -> {
-                  requestAssigned.setText(newVal);
-                  requestAssignedList.setVisible(false);
-                });
-
-    background.setOnMouseClicked(
-        t -> {
-          serviceLocationList.setVisible(false);
-          requestAssignedList.setVisible(false);
-        });
-
-    requestID.setText(ApplicationDataController.getInstance().getLoggedInUser().getName());
-  }
-
   public void clear() {
     mainDesc.clear();
     requestLocation.clear();
@@ -92,11 +65,69 @@ public class MaintenanceController {
     mainEmerg.setSelected(false);
     serviceLocationList.setVisible(false);
     requestAssignedList.setVisible(false);
+    checkFinished();
   }
 
   public void initialize() {
-    setupRequestView();
+    mainSubmit.setDisable(true);
+
+    ServiceTicketDataController.setupRequestView(
+        background,
+        serviceLocationList,
+        requestAssignedList,
+        requestID,
+        requestAssigned,
+        requestLocation);
+
+    requestLocation.setOnAction(eh);
+    requestID.setOnAction(eh);
+    requestAssigned.setOnAction(eh);
+    mainEmerg.setOnAction(eh);
+    background.addEventHandler(MouseEvent.MOUSE_CLICKED, meh);
   }
+
+  public void checkFinished() {
+    if (requestID.getText() != null
+        && requestID.getText().trim().length() > 0
+        && checkEmployeeID(requestAssigned.getText())
+        && checkLocation(requestLocation.getText())) {
+      mainSubmit.setDisable(false);
+    } else {
+      mainSubmit.setDisable(true);
+    }
+  }
+
+  public boolean checkEmployeeID(String employeeText) {
+    boolean check = false;
+    for (Object req : requestAssignedList.getItems()) {
+      check = check || employeeText.equals(req);
+    }
+    return check;
+  }
+
+  public boolean checkLocation(String loc) {
+    boolean check = false;
+    for (Object req : serviceLocationList.getItems()) {
+      check = check || loc.equals(req);
+    }
+    return check;
+  }
+
+  EventHandler<MouseEvent> meh =
+      new EventHandler<MouseEvent>() {
+        @Override
+        public void handle(MouseEvent event) {
+          checkFinished();
+        }
+      };
+
+  EventHandler<ActionEvent> eh =
+      new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent event) {
+          checkFinished();
+        }
+      };
 
   public void lookup(KeyEvent e) {
     ServiceTicketDataController.lookupNodes(e, serviceLocationList, requestLocation);

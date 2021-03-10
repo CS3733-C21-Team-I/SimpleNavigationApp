@@ -9,13 +9,15 @@ import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicket;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicketDataController;
 import edu.wpi.cs3733.c21.teamI.ticket.ticketTypes.ReligiousTicket;
 import edu.wpi.cs3733.c21.teamI.user.User;
-import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 
 public class ReligiousRequestController {
   ServiceTicket ticket;
@@ -30,10 +32,13 @@ public class ReligiousRequestController {
   @FXML private JFXTimePicker time;
   @FXML ListView serviceLocationList, requestAssignedList;
   @FXML private JFXButton clearButton;
-  @FXML private JFXButton submitButton;
+  @FXML public JFXButton submitButton;
+  @FXML private AnchorPane background;
 
   @FXML
   public void initialize() {
+    submitButton.setDisable(true);
+
     ObservableList<String> requestTypeList =
         FXCollections.observableArrayList(
             "Request Chaplain",
@@ -44,7 +49,74 @@ public class ReligiousRequestController {
             "Memorial Service",
             "Other");
     typeOfRequest.setItems(requestTypeList);
-    setupRequestView();
+
+    ServiceTicketDataController.setupRequestView(
+        background,
+        serviceLocationList,
+        requestAssignedList,
+        requesterID,
+        assignedEmployeeID,
+        requestLocation);
+
+    requesterID.setOnAction(eh);
+    patientName.setOnAction(eh);
+    religiousDenomination.setOnAction(eh);
+    typeOfRequest.setOnAction(eh);
+    requestLocation.setOnAction(eh);
+    assignedEmployeeID.setOnAction(eh);
+    date.setOnAction(eh);
+    time.setOnAction(eh);
+    background.addEventHandler(MouseEvent.MOUSE_CLICKED, meh);
+  }
+
+  EventHandler<MouseEvent> meh =
+      new EventHandler<MouseEvent>() {
+        @Override
+        public void handle(MouseEvent event) {
+          checkFinished();
+        }
+      };
+
+  EventHandler<ActionEvent> eh =
+      new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent event) {
+          checkFinished();
+        }
+      };
+
+  public void checkFinished() {
+    if (date.valueProperty().getValue() != null
+        && time.valueProperty().getValue() != null
+        && typeOfRequest.valueProperty().getValue() != null
+        && requesterID.getText() != null
+        && requesterID.getText().trim().length() > 0
+        && patientName.getText() != null
+        && patientName.getText().trim().length() > 0
+        && religiousDenomination.getText() != null
+        && religiousDenomination.getText().trim().length() > 0
+        && checkEmployeeID(assignedEmployeeID.getText())
+        && checkLocation(requestLocation.getText())) {
+      submitButton.setDisable(false);
+    } else {
+      submitButton.setDisable(true);
+    }
+  }
+
+  public boolean checkEmployeeID(String employeeText) {
+    boolean check = false;
+    for (Object req : requestAssignedList.getItems()) {
+      check = check || employeeText.equals(req);
+    }
+    return check;
+  }
+
+  public boolean checkLocation(String loc) {
+    boolean check = false;
+    for (Object req : serviceLocationList.getItems()) {
+      check = check || loc.equals(req);
+    }
+    return check;
   }
 
   public void lookup(KeyEvent e) {
@@ -53,7 +125,7 @@ public class ReligiousRequestController {
 
   public void lookupUser(KeyEvent e) {
     ServiceTicketDataController.lookupUsernames(
-        e, User.Permission.RESPOND_TO_SECURITY, requestAssignedList, assignedEmployeeID);
+        e, User.Permission.RESPOND_TO_RELIGIOUS, requestAssignedList, assignedEmployeeID);
   }
 
   @FXML
@@ -118,28 +190,6 @@ public class ReligiousRequestController {
     assignedEmployeeID.clear();
     date.valueProperty().set(null);
     time.valueProperty().set(null);
-  }
-
-  private void setupRequestView() {
-    serviceLocationList
-        .getSelectionModel()
-        .selectedItemProperty()
-        .addListener(
-            (ChangeListener<String>)
-                (ov, oldVal, newVal) -> {
-                  requestLocation.setText(newVal);
-                  serviceLocationList.setVisible(false);
-                });
-
-    requestAssignedList
-        .getSelectionModel()
-        .selectedItemProperty()
-        .addListener(
-            (ChangeListener<String>)
-                (ov, oldVal, newVal) -> {
-                  assignedEmployeeID.setText(newVal);
-                  requestAssignedList.setVisible(false);
-                });
-    requesterID.setText(ApplicationDataController.getInstance().getLoggedInUser().getName());
+    checkFinished();
   }
 }

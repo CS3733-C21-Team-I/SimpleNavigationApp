@@ -18,6 +18,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.Node;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -119,13 +120,21 @@ public abstract class MapController extends Application {
     mapPane.getChildren().add(circle);
   }
 
+  // From Owen's branch
+  //  protected void drawNode(HospitalMapNode node, Color color) {
+  //    Circle circle =
+  //            makeCircle(transformX(node.getxCoord()), transformY(node.getyCoord()), 25 / scale,
+  // color);
+  //    mapPane.getChildren().add(circle);
+  //  }
+
   protected void drawEdge(HospitalMapNode start, HospitalMapNode end, Color color) {
     Line line =
         LineBuilder.create()
-            .startX(clamp(transformX(start.getxCoord()), 0, mapPane.getPrefWidth()))
-            .startY(clamp(transformY(start.getyCoord()), 0, mapPane.getPrefHeight()))
-            .endX(clamp(transformX(end.getxCoord()), 0, mapPane.getPrefWidth()))
-            .endY(clamp(transformY(end.getyCoord()), 0, mapPane.getPrefHeight()))
+            .startX(transformX(start.getxCoord()))
+            .startY(transformY(start.getyCoord()))
+            .endX(transformX(end.getxCoord()))
+            .endY(transformY(end.getyCoord()))
             .stroke(color)
             .strokeLineCap(StrokeLineCap.ROUND)
             .strokeDashArray(28.0 / scale)
@@ -381,11 +390,11 @@ public abstract class MapController extends Application {
           makeCircle(
               transformX(node.getxCoord()), transformY(node.getyCoord()), 12 / scale, Color.RED);
     }
-    circle = setMouseActions(circle, node);
+    circle = (Circle) setMouseActions(circle, node);
     mapPane.getChildren().add(circle);
   }
 
-  protected abstract Circle setMouseActions(Circle circle, HospitalMapNode node);
+  protected abstract Node setMouseActions(Node circle, HospitalMapNode node);
 
   protected Circle makeCircle(double x, double y, double r, Color color) {
     Circle returnCircle = new Circle(x, y, r);

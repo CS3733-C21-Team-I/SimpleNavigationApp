@@ -9,12 +9,13 @@ import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicket;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicketDataController;
 import edu.wpi.cs3733.c21.teamI.ticket.ticketTypes.AudioVisualTicket;
 import edu.wpi.cs3733.c21.teamI.user.User;
-import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
 public class AudioVisualRequestController {
@@ -55,38 +56,6 @@ public class AudioVisualRequestController {
     }
   }
 
-  private void setupRequestView() {
-    serviceLocationList
-        .getSelectionModel()
-        .selectedItemProperty()
-        .addListener(
-            (ChangeListener<String>)
-                (ov, oldVal, newVal) -> {
-                  roomNumber.setText(newVal);
-                  serviceLocationList.setVisible(false);
-                });
-
-    requestAssignedList
-        .getSelectionModel()
-        .selectedItemProperty()
-        .addListener(
-            (ChangeListener<String>)
-                (ov, oldVal, newVal) -> {
-                  requestAssigned.setText(newVal);
-                  requestAssignedList.setVisible(false);
-                });
-
-    background.setOnMouseClicked(
-        t -> {
-          serviceLocationList.setVisible(false);
-          requestAssignedList.setVisible(false);
-        });
-
-    requesterID.setText(ApplicationDataController.getInstance().getLoggedInUser().getName());
-    typeRequested.getItems().addAll("Headphones", "Monitor", "Other");
-    typeRequested.getSelectionModel().select("2");
-  }
-
   @FXML
   public void clear(javafx.event.ActionEvent Event) {
     patientName.clear();
@@ -95,13 +64,78 @@ public class AudioVisualRequestController {
     requestDetails.clear();
     requestAssigned.clear();
     requesterID.clear();
+    checkFinished();
+  }
+
+  public void checkFinished() {
+    if (typeRequested.valueProperty().getValue() != null
+        && patientName.getText() != null
+        && patientName.getText().trim().length() > 0
+        && roomNumber.getText() != null
+        && roomNumber.getText().trim().length() > 0
+        && requesterID.getText() != null
+        && requesterID.getText().trim().length() > 0
+        && checkLocation(roomNumber.getText())
+        && checkEmployeeID(requestAssigned.getText())) {
+      submitBtn.setDisable(false);
+    } else {
+      submitBtn.setDisable(true);
+    }
+  }
+
+  public boolean checkLocation(String loc) {
+    boolean check = false;
+    for (Object req : serviceLocationList.getItems()) {
+      check = check || loc.equals(req);
+    }
+    return check;
+  }
+
+  public boolean checkEmployeeID(String employeeText) {
+    boolean check = false;
+    for (Object req : requestAssignedList.getItems()) {
+      check = check || employeeText.equals(req);
+    }
+    return check;
   }
 
   public void initialize() {
     /*TODO common stuff*/
+    submitBtn.setDisable(true);
     typeRequested.setPromptText("Type of Media Requested");
-    setupRequestView();
+    ServiceTicketDataController.setupRequestView(
+        background,
+        serviceLocationList,
+        requestAssignedList,
+        requesterID,
+        requestAssigned,
+        roomNumber);
+    typeRequested.getItems().addAll("Headphones", "Monitor", "Other");
+    typeRequested.getSelectionModel().select("2");
+
+    patientName.setOnAction(eh);
+    roomNumber.setOnAction(eh);
+    typeRequested.setOnAction(eh);
+    requesterID.setOnAction(eh);
+    requestAssigned.setOnAction(eh);
+    background.addEventHandler(MouseEvent.MOUSE_CLICKED, meh);
   }
+
+  EventHandler<MouseEvent> meh =
+      new EventHandler<MouseEvent>() {
+        @Override
+        public void handle(MouseEvent event) {
+          checkFinished();
+        }
+      };
+
+  EventHandler<ActionEvent> eh =
+      new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent event) {
+          checkFinished();
+        }
+      };
 
   public void lookup(KeyEvent e) {
     ServiceTicketDataController.lookupNodes(e, serviceLocationList, roomNumber);

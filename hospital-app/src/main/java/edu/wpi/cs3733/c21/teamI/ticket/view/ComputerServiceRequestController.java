@@ -9,12 +9,14 @@ import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicket;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicketDataController;
 import edu.wpi.cs3733.c21.teamI.ticket.ticketTypes.ComputerTicket;
 import edu.wpi.cs3733.c21.teamI.user.User;
-import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
 public class ComputerServiceRequestController {
@@ -27,6 +29,7 @@ public class ComputerServiceRequestController {
   @FXML JFXComboBox compType;
   @FXML ListView serviceLocationList, requestAssignedList;
   @FXML AnchorPane background;
+  @FXML JFXButton compServReqSubmit;
 
   @FXML
   public void getComputerServiceRequest(javafx.event.ActionEvent Event) {
@@ -59,47 +62,76 @@ public class ComputerServiceRequestController {
     compServReqID.clear();
     compServAssID.clear();
     compServReqLoc.clear();
+    compType.valueProperty().set(null);
     compServReqDes.clear();
     compServReqUrgent.setSelected(false);
+    checkFinished();
   }
 
-  private void setupRequestView() {
-    serviceLocationList
-        .getSelectionModel()
-        .selectedItemProperty()
-        .addListener(
-            (ChangeListener<String>)
-                (ov, oldVal, newVal) -> {
-                  compServReqLoc.setText(newVal);
-                  serviceLocationList.setVisible(false);
-                });
+  public void checkFinished() {
+    if (compType.valueProperty().getValue() != null
+        && compServReqID.getText() != null
+        && compServReqID.getText().trim().length() > 0
+        && checkEmployeeID(compServAssID.getText())
+        && checkLocation(compServReqLoc.getText())) {
+      compServReqSubmit.setDisable(false);
+    } else {
+      compServReqSubmit.setDisable(true);
+    }
+  }
 
-    requestAssignedList
-        .getSelectionModel()
-        .selectedItemProperty()
-        .addListener(
-            (ChangeListener<String>)
-                (ov, oldVal, newVal) -> {
-                  compServAssID.setText(newVal);
-                  requestAssignedList.setVisible(false);
-                });
+  public boolean checkEmployeeID(String employeeText) {
+    boolean check = false;
+    for (Object req : requestAssignedList.getItems()) {
+      check = check || employeeText.equals(req);
+    }
+    return check;
+  }
 
-    background.setOnMouseClicked(
-        t -> {
-          serviceLocationList.setVisible(false);
-          requestAssignedList.setVisible(false);
-        });
-
-    compServReqID.setText(ApplicationDataController.getInstance().getLoggedInUser().getName());
+  public boolean checkLocation(String loc) {
+    boolean check = false;
+    for (Object req : serviceLocationList.getItems()) {
+      check = check || loc.equals(req);
+    }
+    return check;
   }
 
   public void initialize() {
-
+    compServReqSubmit.setDisable(true);
     ObservableList<String> requestTypeList =
         FXCollections.observableArrayList("Desktop", "Laptop", "Other");
     compType.setItems(requestTypeList);
-    setupRequestView();
+    ServiceTicketDataController.setupRequestView(
+        background,
+        serviceLocationList,
+        requestAssignedList,
+        compServReqID,
+        compServAssID,
+        compServReqLoc);
+
+    compServReqUrgent.setOnAction(eh);
+    compServReqID.setOnAction(eh);
+    compServReqLoc.setOnAction(eh);
+    compServAssID.setOnAction(eh);
+    compType.setOnAction(eh);
+    background.addEventHandler(MouseEvent.MOUSE_CLICKED, meh);
   }
+
+  EventHandler<MouseEvent> meh =
+      new EventHandler<MouseEvent>() {
+        @Override
+        public void handle(MouseEvent event) {
+          checkFinished();
+        }
+      };
+
+  EventHandler<ActionEvent> eh =
+      new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent event) {
+          checkFinished();
+        }
+      };
 
   public void lookup(KeyEvent e) {
     ServiceTicketDataController.lookupNodes(e, serviceLocationList, compServReqLoc);

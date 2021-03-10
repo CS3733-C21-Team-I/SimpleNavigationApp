@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.c21.teamI.ticket.view;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
 import edu.wpi.cs3733.c21.teamI.database.NavDatabaseManager;
@@ -11,15 +12,17 @@ import edu.wpi.cs3733.c21.teamI.ticket.ticketTypes.SecurityTicket;
 import edu.wpi.cs3733.c21.teamI.user.User;
 import edu.wpi.cs3733.c21.teamI.view.ViewManager;
 import java.io.IOException;
-import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.*;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.VBox;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 
 public class SecurityRequestController {
   ServiceTicket ticket;
@@ -27,65 +30,95 @@ public class SecurityRequestController {
   @FXML TextArea description;
   @FXML CheckBox emergency;
   @FXML ListView serviceLocationList, requestAssignedList;
-  @FXML VBox background;
+  @FXML AnchorPane background;
+  @FXML JFXButton submitBtn;
 
   @FXML JFXComboBox securityType;
 
   public void submit(ActionEvent e) {
-    int RequestID = ApplicationDataController.getInstance().getLoggedInUser().getUserId();
-    int AssignedID =
-        UserDatabaseManager.getInstance()
-            .getUserForScreenname(requestAssigned.getText())
-            .getUserId();
-    // System.out.println(AssignedID);
-    ticket =
-        new SecurityTicket(
-            RequestID,
-            NavDatabaseManager.getInstance().getMapIdFromLongName(locationText.getText()),
-            description.getText(),
-            false,
-            (String) securityType.getSelectionModel().getSelectedItem(),
-            emergency.isSelected());
-    ticket.addAssignedUserID(AssignedID);
-    int id = ServiceTicketDatabaseManager.getInstance().addTicket(ticket);
-    ServiceTicketDatabaseManager.getInstance().addEmployeeForTicket(id, AssignedID);
+    try {
+      int RequestID = ApplicationDataController.getInstance().getLoggedInUser().getUserId();
+      int AssignedID =
+          UserDatabaseManager.getInstance()
+              .getUserForScreenname(requestAssigned.getText())
+              .getUserId();
+      // System.out.println(AssignedID);
+      ticket =
+          new SecurityTicket(
+              RequestID,
+              NavDatabaseManager.getInstance().getMapIdFromLongName(locationText.getText()),
+              description.getText(),
+              false,
+              (String) securityType.getSelectionModel().getSelectedItem(),
+              emergency.isSelected());
+      ticket.addAssignedUserID(AssignedID);
+      int id = ServiceTicketDatabaseManager.getInstance().addTicket(ticket);
+      ServiceTicketDatabaseManager.getInstance().addEmployeeForTicket(id, AssignedID);
+    } catch (Exception o) {
+      System.out.println("Error" + o);
+    }
   }
+
+  public void checkFinished() {
+    if (securityType.valueProperty().getValue() != null
+        && requestID.getText() != null
+        && requestID.getText().trim().length() > 0
+        && requestAssigned.getText() != null
+        && requestAssigned.getText().trim().length() > 0
+        && checkLocation(locationText.getText())) {
+      submitBtn.setDisable(false);
+    } else {
+      submitBtn.setDisable(true);
+    }
+  }
+
+  public boolean checkLocation(String loc) {
+    boolean check = false;
+    for (Object req : serviceLocationList.getItems()) {
+      check = check || loc.equals(req);
+    }
+    return check;
+  }
+
+  EventHandler<ActionEvent> eh =
+      new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent event) {
+          checkFinished();
+        }
+      };
 
   public void navigate(ActionEvent e) throws IOException {
     ViewManager.navigate(e);
   }
 
-  private void setupRequestView() {
-    serviceLocationList
-        .getSelectionModel()
-        .selectedItemProperty()
-        .addListener(
-            (ChangeListener<String>)
-                (ov, oldVal, newVal) -> {
-                  locationText.setText(newVal);
-                  serviceLocationList.setVisible(false);
-                });
+  public void initialize() {
+    submitBtn.setDisable(true);
+    ServiceTicketDataController.setupRequestView(
+        background,
+        serviceLocationList,
+        requestAssignedList,
+        requestID,
+        requestAssigned,
+        locationText);
 
-    requestAssignedList
-        .getSelectionModel()
-        .selectedItemProperty()
-        .addListener(
-            (ChangeListener<String>)
-                (ov, oldVal, newVal) -> {
-                  requestAssigned.setText(newVal);
-                  requestAssignedList.setVisible(false);
-                });
-
-    background.setOnMouseClicked(
-        t -> {
-          serviceLocationList.setVisible(false);
-          requestAssignedList.setVisible(false);
-        });
-
-    requestID.setText(ApplicationDataController.getInstance().getLoggedInUser().getName());
     securityType.getItems().addAll("Police Officer", "On-site Security Employee", "Other");
     securityType.getSelectionModel().select("2");
+
+    requestID.setOnAction(eh);
+    securityType.setOnAction(eh);
+    requestAssigned.setOnAction(eh);
+    locationText.setOnAction(eh);
+    background.addEventHandler(MouseEvent.MOUSE_CLICKED, meh);
   }
+
+  EventHandler<MouseEvent> meh =
+      new EventHandler<MouseEvent>() {
+        @Override
+        public void handle(MouseEvent event) {
+          checkFinished();
+        }
+      };
 
   public void clear() {
     description.clear();
@@ -94,12 +127,8 @@ public class SecurityRequestController {
     emergency.setSelected(false);
     serviceLocationList.setVisible(false);
     requestAssignedList.setVisible(false);
-
     securityType.getSelectionModel().select(2);
-  }
-
-  public void initialize() {
-    setupRequestView();
+    checkFinished();
   }
 
   public void lookup(KeyEvent e) {

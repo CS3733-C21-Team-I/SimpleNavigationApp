@@ -14,9 +14,18 @@
     -fx-cursor: hand;
 }
 
+.circleButton {
+    -fx-background-color: #0067b1;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 10, 0, 0, 0);
+    -fx-cursor: hand;
+    -fx-background-radius: 50;
+}
+
 .jfx-hamburger StackPane {
     -fx-background-color: #012D5A;
 }
+
+.jfx-spinner .arc { -fx-stroke: linear-gradient(to top right, #0067b1 65%, #012D5A 35%); }
 
 .restroomButton {
     -fx-background-color: #3E9A2C;

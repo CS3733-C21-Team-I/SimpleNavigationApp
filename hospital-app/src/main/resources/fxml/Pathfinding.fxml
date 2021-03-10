@@ -200,6 +200,26 @@
                             </children>
                         </AnchorPane>
                         <JFXListView fx:id="directionsField" />
+                  <HBox alignment="CENTER">
+                     <children>
+                        <JFXButton fx:id="aboutBtn" buttonType="RAISED" onAction="#toAboutPage" style="-fx-background-color: #0067b1;" text="About" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets right="20.0" />
+                           </HBox.margin>
+                        </JFXButton>
+                        <JFXButton fx:id="googleMapsButton" buttonType="RAISED" onAction="#toGoogleMaps" style="-fx-background-color: #0067b1;" text="Google Maps" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </JFXButton>
+                     </children>
+                     <VBox.margin>
+                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                     </VBox.margin>
+                  </HBox>
                     </children>
                     <HBox.margin>
                         <Insets />
