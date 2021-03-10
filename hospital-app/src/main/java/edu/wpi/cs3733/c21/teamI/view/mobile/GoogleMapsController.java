@@ -122,7 +122,7 @@ public class GoogleMapsController extends Application {
         DirectionsApi.getDirections(context, origin, destination).awaitIgnoreError();
 
     Gson gson = new GsonBuilder().setPrettyPrinting().create();
-    System.out.println(gson.toJson(result));
+    //    System.out.println(gson.toJson(result));
   }
 
   private String formDirectionsUrl(String originID, String destinationID) {
@@ -131,7 +131,7 @@ public class GoogleMapsController extends Application {
     url += "&origin=start&origin_place_id=" + originID;
     url += "&destination=end&destination_place_id=" + destinationID;
 
-    System.out.println("URL:   " + url);
+    //    System.out.println("URL:   " + url);
     return url;
   }
 
@@ -145,12 +145,12 @@ public class GoogleMapsController extends Application {
 
     String id = result.candidates[0].placeId;
 
-    System.out.println(id);
+    //    System.out.println(id);
     return id;
   }
 
   public void goToCovidForm(ActionEvent actionEvent) throws IOException {
-    System.out.println(((JFXButton) actionEvent.getSource()).getScene());
+    //    System.out.println(((JFXButton) actionEvent.getSource()).getScene());
     root.getChildren().clear();
     root.getChildren()
         .add(FXMLLoader.load(getClass().getResource("/fxml/mobilePages/MCovidForm.fxml")));
