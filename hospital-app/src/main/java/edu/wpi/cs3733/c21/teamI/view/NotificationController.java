@@ -52,6 +52,7 @@ public class NotificationController implements Initializable {
   public void closeNotif(javafx.scene.input.MouseEvent e) {
     notifDrawer = (JFXDrawer) ((Button) e.getSource()).getParent().getParent().getParent();
     NotificationManager.getInstance().removeNotification(currentNotifID);
+    System.out.println("Just removed Notif " + currentNotifID + " from db");
     notifDrawer.close();
   }
 

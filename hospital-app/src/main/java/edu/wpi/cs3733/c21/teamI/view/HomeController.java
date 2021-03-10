@@ -156,27 +156,6 @@ public class HomeController extends Application {
         hBox = hLoader.load();
         System.out.println("hloader = " + hLoader);
 
-        NotificationManager.getInstance()
-            .addNotification(
-                new Notification(
-                    ApplicationDataController.getInstance().getLoggedInUser().getUserId(),
-                    "Test Notif message",
-                    "time stampe"));
-
-        NotificationManager.getInstance()
-            .addNotification(
-                new Notification(
-                    ApplicationDataController.getInstance().getLoggedInUser().getUserId(),
-                    "Test Notif 2",
-                    "time 2 stampe"));
-
-        NotificationManager.getInstance()
-            .addNotification(
-                new Notification(
-                    ApplicationDataController.getInstance().getLoggedInUser().getUserId(),
-                    "Test Notif 3",
-                    "time 3 stampe"));
-
         ((AdminMenuController) vLoader.getController()).setHomeController(this);
         ((NotificationController) hLoader.getController()).setHomeController(this);
         titleLabel.setText("Admin Portal");
@@ -240,7 +219,6 @@ public class HomeController extends Application {
         "Setting Notification " + notification.getNotificationID() + " to hasDisplayed");
     Notification o =
         NotificationManager.getInstance().updateNotification(notification.getNotificationID());
-    System.out.println("After setting to displayed to true: " + o.isHasDisplayed());
   }
 
   public StackPane getReplacePane() {
