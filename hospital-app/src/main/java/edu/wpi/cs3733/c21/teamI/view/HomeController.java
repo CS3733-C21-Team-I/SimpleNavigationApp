@@ -156,9 +156,6 @@ public class HomeController extends Application {
         hBox = hLoader.load();
         System.out.println("hloader = " + hLoader);
 
-        //        System.out.println(
-        //            "Before adding notif: hasNew= " + hasNewNotification() + "&&& lastNotif= " +
-        // lastNotif);
         NotificationManager.getInstance()
             .addNotification(
                 new Notification(
@@ -172,9 +169,13 @@ public class HomeController extends Application {
                     ApplicationDataController.getInstance().getLoggedInUser().getUserId(),
                     "Test Notif 2",
                     "time 2 stampe"));
-        //        System.out.println(
-        //            "After adding notif: hasNew= " + hasNewNotification() + "&&& lastNotif= " +
-        // lastNotif);
+
+        NotificationManager.getInstance()
+            .addNotification(
+                new Notification(
+                    ApplicationDataController.getInstance().getLoggedInUser().getUserId(),
+                    "Test Notif 3",
+                    "time 3 stampe"));
 
         ((AdminMenuController) vLoader.getController()).setHomeController(this);
         ((NotificationController) hLoader.getController()).setHomeController(this);
@@ -211,13 +212,19 @@ public class HomeController extends Application {
         NotificationManager.getInstance()
             .getPendingNotifications(ApplicationDataController.getInstance().getLoggedInUser());
     for (Notification n : notifs) {
-      System.out.println("in for loop im checking: " + n);
       if (n.isHasDisplayed()) {
-        System.out.println("Notif " + n + " has been displayed so hasNew is deleting it");
-        NotificationManager.getInstance().removeNotification(n.getNotificationID());
+        System.out.println(
+            "Notification "
+                + n.getNotificationID()
+                + " has been displayed so we are LEAVING the loop.");
+        return null;
       } else if (!n.isHasDisplayed()) {
         lastNotif = n;
-        System.out.println("in hasNew, i found and set lastNotif to: " + lastNotif);
+        System.out.println(
+            "in hasNew, i found and set lastNotif to: Notifcation "
+                + lastNotif.getNotificationID()
+                + " vs  n = "
+                + n.getNotificationID());
         displayNotification(n);
         return n;
       } else {
@@ -229,6 +236,11 @@ public class HomeController extends Application {
 
   public void displayNotification(Notification notification) {
     notifDrawer.open();
+    System.out.println(
+        "Setting Notification " + notification.getNotificationID() + " to hasDisplayed");
+    Notification o =
+        NotificationManager.getInstance().updateNotification(notification.getNotificationID());
+    System.out.println("After setting to displayed to true: " + o.isHasDisplayed());
   }
 
   public StackPane getReplacePane() {

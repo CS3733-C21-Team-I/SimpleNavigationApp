@@ -25,6 +25,7 @@ public class NotificationController implements Initializable {
   public HomeController homeController;
   public JFXDrawer notifDrawer;
   public List<Notification> notifs;
+  public int currentNotifID;
 
   public void initialize(URL url, ResourceBundle rb) {
     Timeline timeline =
@@ -37,8 +38,11 @@ public class NotificationController implements Initializable {
                       NotificationManager.getInstance()
                           .getPendingNotifications(
                               ApplicationDataController.getInstance().getLoggedInUser());
-                  if (notifs.size() > 0) {
-                    notifMessage.setText(notifs.get(0).getDetails());
+                  for (Notification n : notifs) {
+                    if (n.isHasDisplayed()) {
+                      notifMessage.setText(n.getDetails());
+                      currentNotifID = n.getNotificationID();
+                    }
                   }
                 }));
     timeline.setCycleCount(INDEFINITE);
@@ -47,9 +51,7 @@ public class NotificationController implements Initializable {
 
   public void closeNotif(javafx.scene.input.MouseEvent e) {
     notifDrawer = (JFXDrawer) ((Button) e.getSource()).getParent().getParent().getParent();
-    if (notifs.size() > 0) {
-      NotificationManager.getInstance().removeNotification(notifs.get(0).getNotificationID());
-    }
+    NotificationManager.getInstance().removeNotification(currentNotifID);
     notifDrawer.close();
   }
 
