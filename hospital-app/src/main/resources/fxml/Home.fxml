@@ -17,11 +17,16 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<StackPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamI.view.HomeController">
+<StackPane fx:id="homePane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamI.view.HomeController">
    <children>
-      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: #F1F1F1;">
+      <ImageView fx:id="background" fitHeight="422.0" fitWidth="593.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@fxmlResources/BWH45Francis.jpg" />
+         </image>
+      </ImageView>
+      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
          <children>
-            <Label text="Welcome to" VBox.vgrow="ALWAYS">
+            <Label alignment="CENTER" prefHeight="141.0" prefWidth="526.0" textFill="WHITE" VBox.vgrow="ALWAYS">
                <font>
                   <Font name="Zilla Slab" size="96.0" />
                </font>
@@ -29,12 +34,12 @@
                   <Insets top="20.0" />
                </VBox.margin>
             </Label>
-            <ImageView fitHeight="203.0" fitWidth="639.0" pickOnBounds="true" preserveRatio="true" VBox.vgrow="ALWAYS">
+            <ImageView fitHeight="203.0" fitWidth="639.0" pickOnBounds="true" preserveRatio="true" style="-fx-background-color: white;" VBox.vgrow="ALWAYS">
                <image>
-                  <Image url="@fxmlResources/Brigham-and-Womens.png" />
+                  <Image url="@fxmlResources/LOGOWhite.png" />
                </image>
                <VBox.margin>
-                  <Insets />
+                  <Insets bottom="50.0" />
                </VBox.margin>
             </ImageView>
             <StackPane>
@@ -147,6 +152,9 @@
                   <Cursor fx:constant="HAND" />
                </cursor></Button>
          </children>
+         <StackPane.margin>
+            <Insets />
+         </StackPane.margin>
       </AnchorPane>
    </children>
 </StackPane>

@@ -23,6 +23,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -53,6 +54,10 @@ public class HomeController extends Application {
   @FXML AnchorPane drawerPane;
 
   @FXML Button mobileButton;
+
+  @FXML ImageView background;
+
+  @FXML StackPane homePane;
 
   ProfileController profileController;
   VisitorMenuController visitorMenuController;
@@ -178,6 +183,25 @@ public class HomeController extends Application {
         ((NotificationController) hLoader.getController()).setHomeController(this);
         titleLabel.setText("General Portal");
         replacePane.getChildren().add(FXMLLoader.load(getClass().getResource("/fxml/Home.fxml")));
+        background =
+            (ImageView) ((StackPane) replacePane.getChildren().get(0)).getChildren().get(0);
+        background.setPreserveRatio(false);
+        // background.fitHeightProperty().bind(root.heightProperty());
+        // background.fitWidthProperty().bind(root.widthProperty());
+        replacePane
+            .heightProperty()
+            .addListener(
+                (obs, oldVal, newVal) -> {
+                  background.fitHeightProperty().bind(replacePane.heightProperty());
+                  System.out.println("Height changed");
+                });
+        replacePane
+            .widthProperty()
+            .addListener(
+                (obs, oldVal, newVal) -> {
+                  background.fitWidthProperty().bind(replacePane.widthProperty());
+                  System.out.println("Width changed");
+                });
       }
       //
       // replacePane.getChildren().add(FXMLLoader.load(getClass().getResource("/fxml/Home.fxml")));
@@ -241,6 +265,7 @@ public class HomeController extends Application {
 
   @FXML
   public void initialize() throws IOException {
+
     if (mobileButton != null) {
       mobileButton.setVisible(ApplicationDataController.getInstance().isLoggedIn());
     }

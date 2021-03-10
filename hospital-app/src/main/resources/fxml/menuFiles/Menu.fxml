@@ -2,6 +2,7 @@
 
 <?import com.jfoenix.controls.JFXDrawer?>
 <?import com.jfoenix.controls.JFXHamburger?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -28,7 +29,10 @@
                         <JFXDrawer fx:id="notifDrawer" defaultDrawerSize="120.0" direction="TOP" prefHeight="20.0" style="-fx-background-color: transparent;" />
                      </children>
                   </AnchorPane>
-                  <JFXDrawer fx:id="drawer" alignment="TOP_RIGHT" centerShape="false" maxWidth="55.0" minWidth="55.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="600.0" prefWidth="55.0" />
+                  <JFXDrawer fx:id="drawer" alignment="TOP_RIGHT" centerShape="false" maxWidth="55.0" minWidth="55.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="600.0" prefWidth="55.0" HBox.hgrow="NEVER">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin></JFXDrawer>
                </children>
             </HBox>
          </children>
