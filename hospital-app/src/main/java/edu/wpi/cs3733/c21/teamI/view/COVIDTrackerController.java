@@ -6,11 +6,11 @@ import edu.wpi.cs3733.c21.teamI.database.UserDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.ticket.CovidTicket;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicket;
 import edu.wpi.cs3733.c21.teamI.user.User;
-import java.util.stream.Collectors;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
 
 public class COVIDTrackerController {
 
@@ -19,6 +19,8 @@ public class COVIDTrackerController {
   @FXML private Button risk, notRisk;
   CovidTicket covidTicket;
   @FXML Label finish;
+  @FXML HBox form;
+  @FXML Label noForms;
 
   private void color(boolean test, Label label) {
     if (test) {
@@ -40,17 +42,13 @@ public class COVIDTrackerController {
                                 .contains(
                                     ApplicationDataController.getInstance()
                                         .getLoggedInUser()
-                                        .getUserId()))
+                                        .getUserId())
+                            && !t.getCompleted().getValue())
                 .findFirst()
                 .orElse(null);
-    System.out.println(ApplicationDataController.getInstance().getLoggedInUser().getUserId());
-    System.out.println(
-        ServiceTicketDatabaseManager.getInstance().getServiceTicketDB().stream()
-            .filter(t -> t.getTicketType() == ServiceTicket.TicketType.COVID)
-            .collect(Collectors.toList()));
-    if (covidTicket == null) {
-      System.out.println("User has no covid ticket assigned");
-    } else {
+    form.setVisible(covidTicket != null);
+    noForms.setVisible(covidTicket == null);
+    if (covidTicket != null) {
       color(covidTicket.isSoreThroat(), soreThroat);
       color(covidTicket.isBreathing(), breath);
       color(covidTicket.isTasteSmellLoss(), taste);
