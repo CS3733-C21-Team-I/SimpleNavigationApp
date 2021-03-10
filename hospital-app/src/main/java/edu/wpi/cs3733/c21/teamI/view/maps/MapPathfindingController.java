@@ -82,6 +82,15 @@ public class MapPathfindingController extends MapController {
         .add(FXMLLoader.load(getClass().getResource("/fxml/Pathediting.fxml")));
   }
 
+  @FXML
+  public void toGoogleMaps(ActionEvent e) throws IOException {
+    StackPane replacePane = (StackPane) rootPane.getParent();
+    replacePane.getChildren().clear();
+    replacePane
+        .getChildren()
+        .add(FXMLLoader.load(getClass().getResource("/fxml/GoogleMapsMain.fxml")));
+  }
+
   // viewport stuff
   public void updateView() {
 
