@@ -14,6 +14,7 @@ import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -21,7 +22,9 @@ import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Duration;
 
 public class HomeController extends Application {
@@ -62,40 +65,37 @@ public class HomeController extends Application {
     clock.play();
   }
 
-  //  public void navigate(ActionEvent e) throws IOException {
-  //    String id = ((JFXRippler) e.getSource()).getId();
-  //    if (id.equals("loginButton")) {
-  //      replacePane.getChildren().clear();
-  //      replacePane
-  //          .getChildren()
-  //          .add(FXMLLoader.load(ViewManager.class.getResource("/fxml/Profile.fxml")));
-  //    } else if (id.equals("COVIDButton")) {
-  //      replacePane.getChildren().clear();
-  //      replacePane
-  //          .getChildren()
-  //          .add(FXMLLoader.load(ViewManager.class.getResource("/fxml/Requests.fxml")));
-  //    } else if (id.equals("navigateButton")) {
-  //      replacePane.getChildren().clear();
-  //      replacePane
-  //          .getChildren()
-  //          .add(FXMLLoader.load(ViewManager.class.getResource("/fxml/Map.fxml")));
-  //    } else if (id.equals("giftsButton")) {
-  //      replacePane.getChildren().clear();
-  //      replacePane
-  //          .getChildren()
-  //          .add(FXMLLoader.load(ViewManager.class.getResource("/fxml/SanitationRequest.fxml")));
-  //    } else if (id.equals("logoutButton")) {
-  //      replacePane.getChildren().clear();
-  //      replacePane
-  //          .getChildren()
-  //          .add(FXMLLoader.load(ViewManager.class.getResource("/fxml/Profile.fxml")));
-  //    } else {
-  //      replacePane.getChildren().clear();
-  //      replacePane
-  //          .getChildren()
-  //          .add(FXMLLoader.load(ViewManager.class.getResource("/fxml/MaintenanceRequest.fxml")));
-  //    }
-  //  }
+  @FXML
+  public void goToMobile() throws IOException {
+    Group root = new Group();
+    root.getChildren()
+        .add(FXMLLoader.load(getClass().getResource("/fxml/mobilePages/GoogleMaps.fxml")));
+    Scene mobile = new Scene(root);
+    Stage stage = new Stage();
+    stage.setScene(mobile);
+    stage.initStyle(StageStyle.UNDECORATED);
+    final double[] xOffset = {0};
+    final double[] yOffset = {0};
+    final boolean[] dragAllowed = {true};
+    root.setOnMousePressed(
+        event -> {
+          dragAllowed[0] = root.lookup("#phone") == event.getPickResult().getIntersectedNode();
+          if (dragAllowed[0]) {
+            xOffset[0] = event.getSceneX();
+            yOffset[0] = event.getSceneY();
+          }
+        });
+    root.setOnMouseDragged(
+        event -> {
+          if (dragAllowed[0]) {
+            stage.setX(event.getScreenX() - xOffset[0]);
+            stage.setY(event.getScreenY() - yOffset[0]);
+          }
+        });
+    stage.initStyle(StageStyle.TRANSPARENT);
+    mobile.setFill(Color.TRANSPARENT);
+    stage.show();
+  }
 
   @Override
   public void start(Stage primaryStage) throws Exception {
@@ -164,34 +164,24 @@ public class HomeController extends Application {
 
   @FXML
   public void initialize() throws IOException {
-    initClock();
-    update();
+    if (timeLabel != null) {
+      initClock();
+      update();
 
-    HamburgerSlideCloseTransition hamburgerTransition = new HamburgerSlideCloseTransition(ham1);
-    hamburgerTransition.setRate(-1);
-    ham1.addEventHandler(
-        MouseEvent.MOUSE_CLICKED,
-        (e) -> {
-          hamburgerTransition.setRate(hamburgerTransition.getRate() * -1);
-          hamburgerTransition.play();
+      HamburgerSlideCloseTransition hamburgerTransition = new HamburgerSlideCloseTransition(ham1);
+      hamburgerTransition.setRate(-1);
+      ham1.addEventHandler(
+          MouseEvent.MOUSE_CLICKED,
+          (e) -> {
+            hamburgerTransition.setRate(hamburgerTransition.getRate() * -1);
+            hamburgerTransition.play();
 
-          if (drawer.isOpened()) {
-            drawer.close();
-          } else {
-            drawer.open();
-          }
-        });
-    //    if (ApplicationDataController.getInstance()
-    //        .getLoggedInUser()
-    //        .hasPermission(User.Permission.VIEW_TICKET)) {
-    //      serviceRequests.setMaxWidth(map.getMaxWidth());
-    //      serviceRequests.setVisible(true);
-    //      serviceRequests.setManaged(true);
-    //    } else {
-    //      serviceRequests.setMaxWidth(0);
-    //      serviceRequests.setVisible(false);
-    //      serviceRequests.setManaged(false);
-    //    }
-
+            if (drawer.isOpened()) {
+              drawer.close();
+            } else {
+              drawer.open();
+            }
+          });
+    }
   }
 }

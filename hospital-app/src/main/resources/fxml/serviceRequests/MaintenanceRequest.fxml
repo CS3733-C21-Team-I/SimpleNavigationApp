@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="background" minHeight="400.0" minWidth="369.0" prefHeight="400.0" prefWidth="369.0" styleClass=".root" stylesheets="@../fxmlResources/main.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamI.view.MaintenanceController">
+<AnchorPane fx:id="background" minHeight="400.0" minWidth="369.0" prefHeight="400.0" prefWidth="369.0" styleClass=".root" stylesheets="@../fxmlResources/main.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamI.ticket.view.MaintenanceController">
    <VBox alignment="TOP_CENTER" layoutX="185.0" layoutY="126.0" prefHeight="421.0" prefWidth="285.0" AnchorPane.bottomAnchor="147.0" AnchorPane.leftAnchor="42.0" AnchorPane.rightAnchor="42.0" AnchorPane.topAnchor="20.0">
       <JFXTextArea fx:id="mainDesc" focusColor="#012d5a" maxWidth="200.0" prefHeight="110.0" prefWidth="475.0" promptText="Request Details" unFocusColor="#012d5a">
          <font>
@@ -21,7 +21,7 @@
             <Insets bottom="20.0" />
          </VBox.margin>
       </JFXTextArea>
-      <JFXTextField fx:id="requestLocation" onKeyTyped="#lookup" focusColor="#012d5a" maxWidth="200.0" promptText="Request Location" unFocusColor="#012d5a">
+      <JFXTextField fx:id="requestLocation" focusColor="#012d5a" maxWidth="200.0" onKeyTyped="#lookup" promptText="Request Location" unFocusColor="#012d5a">
          <font>
             <Font size="16.0" />
          </font>
@@ -37,7 +37,7 @@
             <Insets bottom="20.0" />
          </VBox.margin>
       </JFXTextField>
-      <JFXTextField fx:id="requestAssigned" onKeyPressed="#lookupUser" focusColor="#012d5a" maxWidth="200.0" promptText="Employee Assigned" unFocusColor="#012d5a">
+      <JFXTextField fx:id="requestAssigned" focusColor="#012d5a" maxWidth="200.0" onKeyPressed="#lookupUser" promptText="Employee Assigned" unFocusColor="#012d5a">
          <font>
             <Font size="16.0" />
          </font>
@@ -66,6 +66,6 @@
          </JFXButton>
       </HBox>
    </VBox>
-   <ListView fx:id="serviceLocationList" prefHeight="114.0" prefWidth="613.0" visible="false" />
-   <ListView fx:id="requestAssignedList" layoutX="407.0" layoutY="388.0" prefHeight="200.0" prefWidth="200.0" visible="false" />
+   <ListView fx:id="serviceLocationList" layoutX="83.0" layoutY="123.0" prefHeight="114.0" prefWidth="200.0" visible="false" />
+   <ListView fx:id="requestAssignedList" layoutX="83.0" layoutY="240.0" prefHeight="169.0" prefWidth="200.0" visible="false" />
 </AnchorPane>

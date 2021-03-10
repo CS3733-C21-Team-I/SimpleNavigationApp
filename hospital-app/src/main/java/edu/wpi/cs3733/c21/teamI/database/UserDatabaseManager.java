@@ -6,10 +6,7 @@ import static edu.wpi.cs3733.c21.teamI.user.User.Role.*;
 
 import edu.wpi.cs3733.c21.teamI.user.Employee;
 import edu.wpi.cs3733.c21.teamI.user.User;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.*;
 
 public class UserDatabaseManager extends DatabaseManager {
@@ -59,6 +56,7 @@ public class UserDatabaseManager extends DatabaseManager {
     // TODO - implement UserDatabaseManager.getUserForId
 
     int userId;
+    User.CovidRisk risk;
 
     try {
       Statement statement = databaseRef.getConnection().createStatement();
@@ -71,6 +69,7 @@ public class UserDatabaseManager extends DatabaseManager {
         throw new IllegalArgumentException("Attempted to acess nonexistant user");
       }
       userId = rs.getInt("USER_ID");
+      risk = User.CovidRisk.valueOf(rs.getString("covidRisk"));
     } catch (SQLException e) {
       // TODO Error logging
       e.printStackTrace();
@@ -120,8 +119,9 @@ public class UserDatabaseManager extends DatabaseManager {
       // TODO ERROR Logging
       e.printStackTrace();
     }
-
-    return new User(userId, screenName, rolesSet, permissionSet);
+    User userOut = new User(userId, screenName, rolesSet, permissionSet);
+    userOut.setCovidRisk(risk);
+    return userOut;
   }
 
   public User getUserWithPassword(String screenName, String password)
@@ -222,6 +222,23 @@ public class UserDatabaseManager extends DatabaseManager {
       return "ERROR";
     }
   }
+  //
+  //  public User getUSerForId(int id){
+  //    try {
+  //      Statement statement = databaseRef.getConnection().createStatement();
+  //      ResultSet rs =
+  //              statement.executeQuery("SELECT * FROM HOSPITAL_USERS WHERE USER_ID=" + id);
+  //      if (rs.next()) {
+  //        User user = new User(
+  //                rs
+  //        );
+  //      }
+  //      return rs.getString("SCREENNAME");
+  //    } catch (SQLException e) {
+  //      e.printStackTrace();
+  //      return null;
+  //    }
+  //  }
 
   /** @param roleId */
   public List<String> getUsersWithRole(int roleId) {
@@ -241,7 +258,9 @@ public class UserDatabaseManager extends DatabaseManager {
               + " screenName varchar(30) NOT NULL ,"
               + "hashed_password blob(32),"
               + "salt blob(32),"
-              + "PRIMARY KEY (user_ID)"
+              + "covidRisk varchar(25) DEFAULT 'PENDING',"
+              + "PRIMARY KEY (user_ID),"
+              + "CHECK (covidRisk in ('COVID_RISK', 'PENDING', 'NO_COVID_RISK'))"
               + ")");
     } catch (SQLException e) {
       System.out.println("Error generating User table");
@@ -324,24 +343,32 @@ public class UserDatabaseManager extends DatabaseManager {
       e.printStackTrace();
     }
 
-    //    try {
-    //      Statement stmt = databaseRef.getConnection().createStatement();
-    //      stmt.execute(
-    //          "CREATE TABLE HOSPITAL_EMPLOYEE"
-    //              + "("
-    //              + " employeeID    integer NOT NULL,"
-    //              + " firstName varchar(20) NOT NULL ,"
-    //              + " lastName  varchar(20) NOT NULL,"
-    //              + "FOREIGN KEY (employeeID) REFERENCES HOSPITAL_USERS(user_ID))");
-    //    } catch (SQLException e) {
-    //      System.out.println("Error generating User table");
-    //      e.printStackTrace();
-    //    }
-
+    try {
+      Statement stmt = databaseRef.getConnection().createStatement();
+      stmt.execute(
+          "CREATE TABLE USER_TO_NODE"
+              + "("
+              + "user_ID    integer NOT NULL,"
+              + "node_ID varchar(45) NOT NULL,"
+              + "PRIMARY KEY(user_ID,node_ID),"
+              + "FOREIGN KEY(user_ID) REFERENCES HOSPITAL_USERS(user_ID),"
+              + "FOREIGN KEY (node_ID) REFERENCES navNodes(node_ID))");
+    } catch (SQLException e) {
+      System.out.println("Error generating User table");
+      e.printStackTrace();
+    }
   }
 
   @Override
   void dropTables() {
+    try {
+      Statement stmt = databaseRef.getConnection().createStatement();
+      // Drop the Edges table.
+      stmt.execute("DROP TABLE USER_TO_NODE");
+    } catch (SQLException ex) {
+      // No need to report an error.
+      // The table simply did not exist.
+    }
 
     try {
       Statement stmt = databaseRef.getConnection().createStatement();
@@ -486,8 +513,21 @@ public class UserDatabaseManager extends DatabaseManager {
     ourInstance.createNewRole(TRANSLATOR, "TODO", RESPOND_TO_TRANSLATOR);
     ourInstance.createNewRole(NURSE, "TODO", RESPOND_TO_MEDICINE_REQUEST, RESPOND_TO_TRANSPORT);
     ourInstance.createNewRole(RELIGIOUS_CONSULT, "TODO", RESPOND_TO_RELIGIOUS);
+    ourInstance.createNewRole(VISITOR, "TODO", SUBMIT_COVD_TICKET);
+    ourInstance.createNewRole(TRANSPORTATION_EMPLOYEE, "TODO", RESPOND_TO_INTERNAL);
 
     ourInstance.createNewUser("admin", "admin", ADMIN, EMPLOYEE);
+    ourInstance.createNewUser("visitor", "visitor", VISITOR);
+
+    ourInstance.createNewEmployee(
+        "Elvish Translator", "", "Huttese", "Dumbledolf", MALE, TRANSLATOR);
+    ourInstance.createNewEmployee(
+        "Parseltongue Translator", "", "Harry", "Malfoy", FEMALE, TRANSLATOR);
+
+    ourInstance.createNewEmployee(
+        "Kachow Transporter", "", "Lightning", "McQueen", MALE, TRANSPORTATION_EMPLOYEE);
+    ourInstance.createNewEmployee(
+        "Incredibly Fast", "", "Door", "Dash", FEMALE, TRANSPORTATION_EMPLOYEE);
 
     ourInstance.createNewEmployee("Security Manager", "", "David", "Dun", MALE, SECURITY_EMPLOYEE);
     ourInstance.createNewEmployee(
@@ -729,7 +769,6 @@ public class UserDatabaseManager extends DatabaseManager {
         ResultSet rs = statement.getGeneratedKeys();
         rs.next();
         insertedUser = rs.getInt(1);
-
       } catch (SQLException e) {
         printSQLException(e);
       }
@@ -746,14 +785,12 @@ public class UserDatabaseManager extends DatabaseManager {
                 + ", (SELECT ROLE_ID FROM HOSPITAL_ROLES WHERE ROLE_NAME='"
                 + role.toString()
                 + "'))";
-
         PreparedStatement statement = databaseRef.getConnection().prepareStatement(query);
         statement.execute();
       }
     } catch (SQLException e) {
       printSQLException(e);
     }
-
     return insertedUser;
   }
 
@@ -801,5 +838,64 @@ public class UserDatabaseManager extends DatabaseManager {
     if (insertedEmployee == -1) throw new IllegalStateException("Failed to insert employee");
 
     return insertedEmployee;
+  }
+
+  public void addUserForLocation(int userID, String nodeID) {
+    try {
+      Statement stmt = databaseRef.getConnection().createStatement();
+      stmt.executeUpdate(
+          "INSERT INTO USER_TO_NODE(user_ID, node_ID)\n"
+              + "VALUES("
+              + userID
+              + ", '"
+              + nodeID
+              + "')");
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+  }
+
+  public String getLocationForUser(int userID) {
+    try {
+      Statement stmt = databaseRef.getConnection().createStatement();
+      ResultSet rs =
+          stmt.executeQuery(
+              "SELECT * FROM USER_TO_NODE UN JOIN NAVNODES N ON UN.NODE_ID = N.NODE_ID WHERE USER_ID = "
+                  + String.valueOf(userID));
+      if (rs.next()) {
+        return rs.getString("long_Name");
+      }
+      return null;
+    } catch (SQLException e) {
+      e.printStackTrace();
+      return null;
+    }
+  }
+
+  public void updateCovidRiskForUser(int userID, User.CovidRisk cov) {
+    try {
+      Statement stmt = databaseRef.getConnection().createStatement();
+      stmt.executeUpdate(
+          "UPDATE HOSPITAL_USERS SET covidRisk = '"
+              + cov.toString()
+              + "' WHERE user_id = "
+              + userID);
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+  }
+
+  public User.CovidRisk getCovidRiskForUser(int userID) {
+    try {
+      Statement stmt = databaseRef.getConnection().createStatement();
+      ResultSet rs = stmt.executeQuery("SELECT * FROM HOSPITAL_USERS WHERE user_id = " + userID);
+      if (rs.next()) {
+        return (User.CovidRisk.valueOf(rs.getString("covidRisk")));
+      }
+      return null;
+    } catch (SQLException e) {
+      e.printStackTrace();
+      return null;
+    }
   }
 }

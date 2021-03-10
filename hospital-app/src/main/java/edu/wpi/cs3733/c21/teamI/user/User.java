@@ -21,11 +21,14 @@ public class User {
 
   private int userId;
 
+  private CovidRisk covidR;
+
   public User(int userId, String name, Set<Role> userRoles, Set<Permission> userPermissions) {
     this.userRoles = userRoles;
     this.userPermissions = userPermissions;
     this.name = name;
     this.userId = userId;
+    this.covidR = CovidRisk.PENDING;
   }
 
   /** @param permission */
@@ -52,7 +55,8 @@ public class User {
     IT_EMPLOYEE,
     TRANSLATOR,
     NURSE,
-    RELIGIOUS_CONSULT
+    RELIGIOUS_CONSULT,
+    TRANSPORTATION_EMPLOYEE
   }
 
   public enum Permission {
@@ -73,6 +77,21 @@ public class User {
     RESPOND_TO_INTERNAL,
     RESPOND_TO_LANGUAGE,
     RESPOND_TO_TRANSPORT,
-    RESPOND_TO_RELIGIOUS
+    RESPOND_TO_RELIGIOUS,
+    SUBMIT_COVD_TICKET
+  }
+
+  public enum CovidRisk {
+    COVID_RISK,
+    PENDING,
+    NO_COVID_RISK
+  }
+
+  public CovidRisk getCovidRisk() {
+    return covidR;
+  }
+
+  public void setCovidRisk(CovidRisk cov) {
+    this.covidR = cov;
   }
 }

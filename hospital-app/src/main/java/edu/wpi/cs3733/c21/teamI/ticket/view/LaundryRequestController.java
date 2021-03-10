@@ -11,7 +11,6 @@ import edu.wpi.cs3733.c21.teamI.ticket.ticketTypes.LaundryTicket;
 import edu.wpi.cs3733.c21.teamI.user.User;
 import edu.wpi.cs3733.c21.teamI.view.ViewManager;
 import java.io.IOException;
-import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
@@ -69,38 +68,14 @@ public class LaundryRequestController {
     ViewManager.navigate(e);
   }
 
-  private void setupRequestView() {
-    serviceLocationList
-        .getSelectionModel()
-        .selectedItemProperty()
-        .addListener(
-            (ChangeListener<String>)
-                (ov, oldVal, newVal) -> {
-                  laundryPickupLocation.setText(newVal);
-                  serviceLocationList.setVisible(false);
-                });
-
-    requestAssignedList
-        .getSelectionModel()
-        .selectedItemProperty()
-        .addListener(
-            (ChangeListener<String>)
-                (ov, oldVal, newVal) -> {
-                  laundryAssigned.setText(newVal);
-                  requestAssignedList.setVisible(false);
-                });
-
-    background.setOnMouseClicked(
-        t -> {
-          serviceLocationList.setVisible(false);
-          requestAssignedList.setVisible(false);
-        });
-
-    laundryRequesterID.setText(ApplicationDataController.getInstance().getLoggedInUser().getName());
-  }
-
   public void initialize() {
-    setupRequestView();
+    ServiceTicketDataController.setupRequestView(
+        background,
+        serviceLocationList,
+        requestAssignedList,
+        laundryRequesterID,
+        laundryAssigned,
+        laundryPickupLocation);
   }
 
   @FXML

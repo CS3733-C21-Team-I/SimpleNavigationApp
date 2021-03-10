@@ -606,4 +606,20 @@ public class NavDatabaseManager extends DatabaseManager {
       return null;
     }
   }
+
+  public List<String> getParkingLongNames() {
+    try {
+      Statement statement = databaseRef.getConnection().createStatement();
+      ResultSet resultSet =
+          statement.executeQuery("SELECT long_name FROM NAVNODES WHERE location_category='PARK'");
+      List<String> out = new ArrayList<>();
+      while (resultSet.next()) {
+        out.add(resultSet.getString("long_name"));
+      }
+      return out;
+    } catch (SQLException e) {
+      e.printStackTrace();
+      return null;
+    }
+  }
 }
