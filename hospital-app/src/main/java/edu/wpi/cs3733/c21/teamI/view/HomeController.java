@@ -289,6 +289,7 @@ public class HomeController extends Application {
               drawer.open();
             }
           });
+      drawer.open();
     }
   }
 }
