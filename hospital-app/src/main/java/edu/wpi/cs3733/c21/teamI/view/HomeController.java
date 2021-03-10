@@ -80,7 +80,7 @@ public class HomeController extends Application {
   public void goToMobile() throws IOException {
     Group root = new Group();
     root.getChildren()
-        .add(FXMLLoader.load(getClass().getResource("/fxml/MobilePages/GoogleMaps.fxml")));
+        .add(FXMLLoader.load(getClass().getResource("/fxml/mobilePages/GoogleMaps.fxml")));
     Scene mobile = new Scene(root);
     Stage stage = new Stage();
     stage.setScene(mobile);

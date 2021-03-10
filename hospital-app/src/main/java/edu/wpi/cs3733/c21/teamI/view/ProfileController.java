@@ -2,6 +2,7 @@ package edu.wpi.cs3733.c21.teamI.view;
 
 import com.jfoenix.controls.JFXDrawer;
 import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
+import edu.wpi.cs3733.c21.teamI.database.FailedToAuthenticateException;
 import edu.wpi.cs3733.c21.teamI.user.User;
 import java.io.IOException;
 import javafx.application.Application;
@@ -37,10 +38,11 @@ public class ProfileController extends Application {
   }
 
   @FXML
-  public void login() {
+  public void login() throws FailedToAuthenticateException {
     uName = username.getText();
     pass = password.getText();
-    if (ApplicationDataController.getInstance().logInUser(uName, pass)) {
+    try {
+      ApplicationDataController.getInstance().logInUser(uName, pass);
       loginVBox.setVisible(false);
       //      serviceDisplay.setVisible(true);
       //      headerLabel.setText("You successfully logged in.");
@@ -49,8 +51,9 @@ public class ProfileController extends Application {
           .hasPermission(User.Permission.VIEW_TICKET)) {
         homeController.update();
       }
-    } else {
-      //      headerLabel.setText("Error: Invalid login.");
+    } catch (FailedToAuthenticateException e) {
+      headerLabel.setText("Error: Invalid login.");
+      // TODO handle failure to login
     }
   }
 

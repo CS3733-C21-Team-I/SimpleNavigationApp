@@ -108,7 +108,7 @@ public class UserDatabaseManager extends DatabaseManager {
         ResultSet rs =
             statement.executeQuery(
                 "SELECT RP.RESOURCE_NAME FROM ROLE_TO_PERMISSION INNER JOIN RESOURCE_PERMISSIONS RP on ROLE_TO_PERMISSION.RESOURCE_ID = RP.RESOURCE_ID WHERE ROLE_ID=(SELECT ROLE_ID FROM HOSPITAL_ROLES WHERE ROLE_NAME='"
-                    + getDatabaseNameForRole(role)
+                    + role.toString()
                     + "')");
 
         while (rs.next()) {
@@ -124,7 +124,8 @@ public class UserDatabaseManager extends DatabaseManager {
     return userOut;
   }
 
-  public User getUserWithPassword(String screenName, String password) {
+  public User getUserWithPassword(String screenName, String password)
+      throws FailedToAuthenticateException {
     // TODO - implement UserDatabaseManager.getUserForId
 
     int userId;
@@ -143,8 +144,8 @@ public class UserDatabaseManager extends DatabaseManager {
       byte[] salt = rs.getBytes("SALT");
       byte[] hashed = rs.getBytes("hashed_password");
 
-      if (!Password.isExpectedPassword(password.toCharArray(), salt, hashed)) {
-        return null;
+      if (hashed != null && !Password.isExpectedPassword(password.toCharArray(), salt, hashed)) {
+        throw new FailedToAuthenticateException();
       }
 
     } catch (SQLException e) {
@@ -163,7 +164,7 @@ public class UserDatabaseManager extends DatabaseManager {
                   + userId);
 
       while (rs.next()) {
-        rolesSet.add(getRoleForDatabaseName(rs.getString("ROLE_NAME")));
+        rolesSet.add(User.Role.valueOf(rs.getString("ROLE_NAME")));
       }
 
       if (!rolesSet.contains(User.Role.BASE)) {
@@ -184,7 +185,7 @@ public class UserDatabaseManager extends DatabaseManager {
         ResultSet rs =
             statement.executeQuery(
                 "SELECT RP.RESOURCE_NAME FROM ROLE_TO_PERMISSION INNER JOIN RESOURCE_PERMISSIONS RP on ROLE_TO_PERMISSION.RESOURCE_ID = RP.RESOURCE_ID WHERE ROLE_ID=(SELECT ROLE_ID FROM HOSPITAL_ROLES WHERE ROLE_NAME='"
-                    + getDatabaseNameForRole(role)
+                    + role.toString()
                     + "')");
 
         while (rs.next()) {
@@ -425,53 +426,6 @@ public class UserDatabaseManager extends DatabaseManager {
     }
   }
 
-  /**
-   * A hack probably want to implement custom typing?
-   *
-   * @param role the role to lookup
-   * @return String coresponding to ROLE_NAME column in database
-   */
-  private String getDatabaseNameForRole(User.Role role) {
-    switch (role) {
-      case BASE:
-        return "BASE";
-      case ADMIN:
-        return "ADMIN";
-      case PATIENT:
-        return "PATIENT";
-      case VISITOR:
-        return "VISITOR";
-      case EMPLOYEE:
-        return "EMPLOYEE";
-      default:
-        return "ERROR";
-    }
-  }
-
-  /**
-   * A hack probably want to implement custom typing?
-   *
-   * @param name the role to lookup
-   * @return Role coresponding to ROLE_NAME column in database
-   */
-  private User.Role getRoleForDatabaseName(String name) {
-    switch (name) {
-      case "EMPLOYEE":
-        return EMPLOYEE;
-      case "ADMIN":
-        return ADMIN;
-      case "VISITOR":
-        return VISITOR;
-      case "PATIENT":
-        return PATIENT;
-      case "BASE":
-        return BASE;
-      default:
-        new Exception("ERROR value found in HospitalRoles").printStackTrace();
-        return null;
-    }
-  }
-
   public List<String> getUsernamesWithPermission(User.Permission permission) {
     try {
       List<String> returnValues = new ArrayList<>();
@@ -509,7 +463,7 @@ public class UserDatabaseManager extends DatabaseManager {
     ourInstance.createNewRole(SANITATION_EMPLOYEE, "TODO", RESPOND_TO_SANITATION);
     ourInstance.createNewRole(MAINTENANCE_EMPLOYEE, "TODO", RESPOND_TO_MAINTENANCE);
     ourInstance.createNewRole(IT_EMPLOYEE, "TODO", RESPOND_TO_COMPUTER, RESPOND_TO_AV);
-    ourInstance.createNewRole(TRANSLATOR, "TODO", RESPOND_TO_TRANSLATOR, RESPOND_TO_LANGUAGE);
+    ourInstance.createNewRole(TRANSLATOR, "TODO", RESPOND_TO_TRANSLATOR);
     ourInstance.createNewRole(NURSE, "TODO", RESPOND_TO_MEDICINE_REQUEST, RESPOND_TO_TRANSPORT);
     ourInstance.createNewRole(RELIGIOUS_CONSULT, "TODO", RESPOND_TO_RELIGIOUS);
     ourInstance.createNewRole(VISITOR, "TODO", SUBMIT_COVD_TICKET);
@@ -517,6 +471,7 @@ public class UserDatabaseManager extends DatabaseManager {
 
     ourInstance.createNewUser("admin", "admin", ADMIN, EMPLOYEE);
     ourInstance.createNewUser("visitor", "visitor", VISITOR);
+    ourInstance.createNewUser("staff", "staff", EMPLOYEE);
 
     ourInstance.createNewEmployee(
         "Elvish Translator", "", "Huttese", "Dumbledolf", MALE, TRANSLATOR);

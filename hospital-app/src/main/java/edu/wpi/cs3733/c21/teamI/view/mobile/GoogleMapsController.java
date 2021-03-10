@@ -153,7 +153,7 @@ public class GoogleMapsController extends Application {
     //    System.out.println(((JFXButton) actionEvent.getSource()).getScene());
     root.getChildren().clear();
     root.getChildren()
-        .add(FXMLLoader.load(getClass().getResource("/fxml/MobilePages/MCovidForm.fxml")));
+        .add(FXMLLoader.load(getClass().getResource("/fxml/mobilePages/MCovidForm.fxml")));
   }
 
   @Override
