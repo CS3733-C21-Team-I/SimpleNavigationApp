@@ -174,7 +174,7 @@ public class MCovidFormController {
     int AssignedID =
         UserDatabaseManager.getInstance().getUserForScreenname("Nurse Joy").getUserId();
     Notification notif =
-        new Notification(AssignedID, "You have a new COVID From to Evaluate.", "String timestamp");
+        new Notification(AssignedID, "You have a new COVID Form to Evaluate.", "String timestamp");
     NotificationManager.getInstance().addNotification(notif);
     //////////////////////////////////////////////////////////////////////
     ticket.addAssignedUserID(AssignedID);

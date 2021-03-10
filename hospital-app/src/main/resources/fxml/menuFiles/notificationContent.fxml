@@ -11,7 +11,7 @@
    <children>
       <Button fx:id="notifXBtn" mnemonicParsing="false" onMouseClicked="#closeNotif" style="-fx-background-color: #0067b1;" text="X" textFill="WHITE" />
       <VBox fx:id="whiteSpace" alignment="CENTER_RIGHT" minWidth="50.0" HBox.hgrow="ALWAYS" />
-      <Label fx:id="notifMessage" textFill="WHITE" HBox.hgrow="ALWAYS">
+      <Label fx:id="notifMessage" text="You have a new COVID Form to be Approved" textFill="WHITE" HBox.hgrow="ALWAYS">
          <font>
             <Font size="18.0" />
          </font>
