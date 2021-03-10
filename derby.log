@@ -1,0 +1,27 @@
+Tue Mar 09 21:24:04 EST 2021 : Apache Derby Network Server - 10.14.2.0 - (1828579) started and ready to accept connections on port 1527
+----------------------------------------------------------------
+Tue Mar 09 21:24:04 EST 2021:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-0178-19f2-c664-00000e8b15d0 
+on database directory C:\Users\Admin\IdeaProjects\SimpleNavigationApp\navDB with class loader sun.misc.Launcher$AppClassLoader@55f96302 
+Loaded from file:/C:/Users/Admin/IdeaProjects/SimpleNavigationApp/hospital-app/build/libs/hospital-app.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_231-b11
+user.dir=C:\Users\Admin\IdeaProjects\SimpleNavigationApp
+os.name=Windows 10
+os.arch=amd64
+os.version=10.0
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Tue Mar 09 21:24:13 EST 2021:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance 63da49f2-0178-19f2-c664-00000e8b15d0 
+on database directory C:\Users\Admin\IdeaProjects\SimpleNavigationApp\peripheralDB with class loader sun.misc.Launcher$AppClassLoader@55f96302 
+Loaded from file:/C:/Users/Admin/IdeaProjects/SimpleNavigationApp/hospital-app/build/libs/hospital-app.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_231-b11
+user.dir=C:\Users\Admin\IdeaProjects\SimpleNavigationApp
+os.name=Windows 10
+os.arch=amd64
+os.version=10.0
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''

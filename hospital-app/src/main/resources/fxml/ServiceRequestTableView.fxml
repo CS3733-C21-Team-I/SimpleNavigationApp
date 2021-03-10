@@ -11,6 +11,14 @@
 
 <VBox xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamI.view.ServiceRequestTableController">
    <children>
+      <Label text="Filter the table to one ticket type to see its unique attributes">
+         <font>
+            <Font name="System Italic" size="15.0" />
+         </font>
+         <VBox.margin>
+            <Insets bottom="10.0" />
+         </VBox.margin>
+      </Label>
       <HBox alignment="CENTER_LEFT" prefHeight="35.0" prefWidth="300.0">
          <children>
             <Label text="Filter:" textFill="#012d5a">
