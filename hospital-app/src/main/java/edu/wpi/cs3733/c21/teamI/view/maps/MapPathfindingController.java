@@ -348,9 +348,9 @@ public class MapPathfindingController extends MapController {
           case KIOS:
             displayIcon("/fxml/mapImages/mapIcons/info.png", node);
             break;
-          case FOOD:
-            displayIcon("/fxml/mapImages/mapIcons/dining.png", node);
-            break;
+            //          case FOOD:
+            //            displayIcon("/fxml/mapImages/mapIcons/dining.png", node);
+            //            break;
           case PARK:
             //  displayIcon("/fxml/mapImages/mapIcons/parking.png", node);
             break;
@@ -359,6 +359,10 @@ public class MapPathfindingController extends MapController {
               case "Northern Parking Icon":
               case "Western Parking Icon":
                 displayIcon("/fxml/mapImages/mapIcons/parking.png", node);
+                break;
+              case "Cafeteria":
+              case "Food Services":
+                displayIcon("/fxml/mapImages/mapIcons/dining.png", node);
                 break;
               case "Starbucks":
                 displayIcon("/fxml/mapImages/mapIcons/starbucks.png", node);
