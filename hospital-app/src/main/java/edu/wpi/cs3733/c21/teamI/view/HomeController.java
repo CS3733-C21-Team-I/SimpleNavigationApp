@@ -166,6 +166,7 @@ public class HomeController extends Application {
         ((AdminMenuController) vLoader.getController()).setHomeController(this);
         ((NotificationController) hLoader.getController()).setHomeController(this);
         titleLabel.setText("Admin Portal");
+        replacePane.getChildren().clear();
         replacePane
             .getChildren()
             .add(FXMLLoader.load(getClass().getResource("/fxml/ServiceRequestTableView.fxml")));
@@ -182,6 +183,7 @@ public class HomeController extends Application {
         ((VisitorMenuController) vLoader.getController()).setHomeController(this);
         ((NotificationController) hLoader.getController()).setHomeController(this);
         titleLabel.setText("General Portal");
+        replacePane.getChildren().clear();
         replacePane.getChildren().add(FXMLLoader.load(getClass().getResource("/fxml/Home.fxml")));
       }
     } catch (IOException e) {
