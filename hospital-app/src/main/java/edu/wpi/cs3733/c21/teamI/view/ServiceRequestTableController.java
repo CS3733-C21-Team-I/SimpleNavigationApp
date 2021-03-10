@@ -6,7 +6,6 @@ import edu.wpi.cs3733.c21.teamI.database.ServiceTicketDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.ticket.*;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 import javafx.beans.Observable;
 import javafx.beans.property.SimpleStringProperty;
@@ -104,13 +103,8 @@ public class ServiceRequestTableController implements Initializable {
     assignIDCol.setCellValueFactory(
         param -> {
           StringBuilder listString = new StringBuilder();
-          List<Integer> userIDs = param.getValue().getValue().getAssignedUserID();
-          for (Integer s : userIDs) {
-            if (userIDs.indexOf(s) < userIDs.size() - 1) {
-              listString.append(s).append(", ");
-            } else {
-              listString.append(s);
-            }
+          for (Integer s : param.getValue().getValue().getAssignedUserID()) {
+            listString.append(s).append(", ");
           }
           return new SimpleStringProperty(listString.toString());
         });

@@ -47,7 +47,7 @@ public class LanguageController extends Application {
     langTextfield.clear();
     langDetails.clear();
     langLocationTextfield.clear();
-    langTime.valueProperty().set(null);
+    langTime.setValue(null);
     langReqID.clear();
     langAssignedEmp.clear();
     langCheckbox.setSelected(false);

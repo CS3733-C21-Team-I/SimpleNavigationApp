@@ -124,7 +124,8 @@ public class UserDatabaseManager extends DatabaseManager {
     return userOut;
   }
 
-  public User getUserWithPassword(String screenName, String password) {
+  public User getUserWithPassword(String screenName, String password)
+      throws FailedToAuthenticateException {
     // TODO - implement UserDatabaseManager.getUserForId
 
     int userId;
@@ -143,8 +144,8 @@ public class UserDatabaseManager extends DatabaseManager {
       byte[] salt = rs.getBytes("SALT");
       byte[] hashed = rs.getBytes("hashed_password");
 
-      if (!Password.isExpectedPassword(password.toCharArray(), salt, hashed)) {
-        return null;
+      if (hashed != null && !Password.isExpectedPassword(password.toCharArray(), salt, hashed)) {
+        throw new FailedToAuthenticateException();
       }
 
     } catch (SQLException e) {
@@ -509,7 +510,7 @@ public class UserDatabaseManager extends DatabaseManager {
     ourInstance.createNewRole(SANITATION_EMPLOYEE, "TODO", RESPOND_TO_SANITATION);
     ourInstance.createNewRole(MAINTENANCE_EMPLOYEE, "TODO", RESPOND_TO_MAINTENANCE);
     ourInstance.createNewRole(IT_EMPLOYEE, "TODO", RESPOND_TO_COMPUTER, RESPOND_TO_AV);
-    ourInstance.createNewRole(TRANSLATOR, "TODO", RESPOND_TO_TRANSLATOR, RESPOND_TO_LANGUAGE);
+    ourInstance.createNewRole(TRANSLATOR, "TODO", RESPOND_TO_TRANSLATOR);
     ourInstance.createNewRole(NURSE, "TODO", RESPOND_TO_MEDICINE_REQUEST, RESPOND_TO_TRANSPORT);
     ourInstance.createNewRole(RELIGIOUS_CONSULT, "TODO", RESPOND_TO_RELIGIOUS);
     ourInstance.createNewRole(VISITOR, "TODO", SUBMIT_COVD_TICKET);
