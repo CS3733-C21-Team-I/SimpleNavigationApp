@@ -4,8 +4,10 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
 import edu.wpi.cs3733.c21.teamI.database.NavDatabaseManager;
+import edu.wpi.cs3733.c21.teamI.database.NotificationManager;
 import edu.wpi.cs3733.c21.teamI.database.ServiceTicketDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.database.UserDatabaseManager;
+import edu.wpi.cs3733.c21.teamI.notification.Notification;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicket;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicketDataController;
 import edu.wpi.cs3733.c21.teamI.ticket.ticketTypes.SecurityTicket;
@@ -54,6 +56,10 @@ public class SecurityRequestController {
       ticket.addAssignedUserID(AssignedID);
       int id = ServiceTicketDatabaseManager.getInstance().addTicket(ticket);
       ServiceTicketDatabaseManager.getInstance().addEmployeeForTicket(id, AssignedID);
+      Notification notif =
+          new Notification(
+              AssignedID, "You have a new Security Request Ticket.", "String timestamp");
+      NotificationManager.getInstance().addNotification(notif);
     } catch (Exception o) {
       System.out.println("Error" + o);
     }
