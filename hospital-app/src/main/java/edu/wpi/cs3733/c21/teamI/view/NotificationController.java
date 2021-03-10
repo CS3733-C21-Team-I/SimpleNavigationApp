@@ -31,19 +31,9 @@ public class NotificationController implements Initializable {
     Timeline timeline =
         new Timeline(
             new KeyFrame(
-                Duration.seconds(5),
+                Duration.seconds(4),
                 ev -> {
-                  //                  System.out.println("printing 2 secs latah");
-                  notifs =
-                      NotificationManager.getInstance()
-                          .getPendingNotifications(
-                              ApplicationDataController.getInstance().getLoggedInUser());
-                  for (Notification n : notifs) {
-                    if (n.isHasDisplayed()) {
-                      notifMessage.setText(n.getDetails());
-                      currentNotifID = n.getNotificationID();
-                    }
-                  }
+                  updateNotifText();
                 }));
     timeline.setCycleCount(INDEFINITE);
     timeline.play();
@@ -54,6 +44,18 @@ public class NotificationController implements Initializable {
     NotificationManager.getInstance().removeNotification(currentNotifID);
     System.out.println("Just removed Notif " + currentNotifID + " from db");
     notifDrawer.close();
+    notifMessage.setText("");
+    updateNotifText();
+  }
+
+  public void updateNotifText() {
+    notifs =
+        NotificationManager.getInstance()
+            .getPendingNotifications(ApplicationDataController.getInstance().getLoggedInUser());
+    if (notifs.size() > 0) {
+      notifMessage.setText(notifs.get(0).getDetails());
+      currentNotifID = notifs.get(0).getNotificationID();
+    }
   }
 
   public void setHomeController(HomeController homeController) {

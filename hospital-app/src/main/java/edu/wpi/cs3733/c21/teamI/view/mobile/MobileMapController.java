@@ -488,9 +488,8 @@ public abstract class MobileMapController extends Application {
       currentMapID = "Faulkner Lot";
       updateView();
       currentTab = campus;
-      resize();
       startZoomPan(mapPane);
-      update();
+      resize();
     }
   }
 
@@ -500,9 +499,8 @@ public abstract class MobileMapController extends Application {
       currentMapID = "Faulkner 1";
       updateView();
       currentTab = floor1;
-      resize();
       startZoomPan(mapPane);
-      update();
+      resize();
     }
   }
 
@@ -512,9 +510,8 @@ public abstract class MobileMapController extends Application {
       currentMapID = "Faulkner 2";
       updateView();
       currentTab = floor2;
-      resize();
       startZoomPan(mapPane);
-      update();
+      resize();
     }
   }
 
@@ -524,9 +521,8 @@ public abstract class MobileMapController extends Application {
       currentMapID = "Faulkner 3";
       updateView();
       currentTab = floor3;
-      resize();
       startZoomPan(mapPane);
-      update();
+      resize();
     }
   }
 
@@ -536,9 +532,8 @@ public abstract class MobileMapController extends Application {
       currentMapID = "Faulkner 4";
       updateView();
       currentTab = floor4;
-      resize();
       startZoomPan(mapPane);
-      update();
+      resize();
     }
   }
 
@@ -548,9 +543,8 @@ public abstract class MobileMapController extends Application {
       currentMapID = "Faulkner 5";
       updateView();
       currentTab = floor6;
-      resize();
       startZoomPan(mapPane);
-      update();
+      resize();
     }
   }
 
