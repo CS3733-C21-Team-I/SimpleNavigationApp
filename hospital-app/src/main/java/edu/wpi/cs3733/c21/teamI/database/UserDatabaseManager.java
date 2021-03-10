@@ -518,6 +518,7 @@ public class UserDatabaseManager extends DatabaseManager {
 
     ourInstance.createNewUser("admin", "admin", ADMIN, EMPLOYEE);
     ourInstance.createNewUser("visitor", "visitor", VISITOR);
+    ourInstance.createNewUser("staff", "staff", EMPLOYEE);
 
     ourInstance.createNewEmployee(
         "Elvish Translator", "", "Huttese", "Dumbledolf", MALE, TRANSLATOR);
