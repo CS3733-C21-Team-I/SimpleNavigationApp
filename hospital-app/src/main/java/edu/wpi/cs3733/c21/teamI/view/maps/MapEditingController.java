@@ -286,6 +286,7 @@ public class MapEditingController extends MapController {
     }
   }
 
+  //TODO: Mass undo/redo
   @FXML
   protected void straightenSelected(ActionEvent e) {
     int minX = selectedNode.stream().mapToInt(HospitalMapNode::getxCoord).min().getAsInt();
@@ -341,6 +342,7 @@ public class MapEditingController extends MapController {
               int currentX = (int) (mousePress.getX() / fullImgWidth * 100000);
               int currentY = (int) (mousePress.getY() / fullImgHeight * 100000);
 
+              //TODO: Mass undo/redo
               if (shift) {
                 int x = 0, y = 0;
                 for (HospitalMapNode n : this.selectedNode) {
