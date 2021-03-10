@@ -54,7 +54,7 @@ public class WaitingScreenController extends Application {
     timeline.stop();
     root.getChildren().clear();
     root.getChildren()
-        .add(FXMLLoader.load(getClass().getResource("/fxml/MobilePages/MobileNoticePage.fxml")));
+        .add(FXMLLoader.load(getClass().getResource("/fxml/mobilePages/MobileNoticePage.fxml")));
   }
 
   @Override

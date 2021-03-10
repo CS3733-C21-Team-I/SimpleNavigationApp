@@ -211,7 +211,7 @@ public class MCovidFormController {
   public void goToWaitingScreen() throws IOException {
     root.getChildren().clear();
     root.getChildren()
-        .add(FXMLLoader.load(getClass().getResource("/fxml/MobilePages/MWaitingScreen.fxml")));
+        .add(FXMLLoader.load(getClass().getResource("/fxml/mobilePages/MWaitingScreen.fxml")));
   }
 
   public void checkFinished() {

@@ -32,7 +32,7 @@ public class NoticeScreenController {
   public void goToPathfinding() throws IOException {
     root.getChildren().clear();
     root.getChildren()
-        .add(FXMLLoader.load(getClass().getResource("/fxml/MobilePages/PathfindingMobile.fxml")));
+        .add(FXMLLoader.load(getClass().getResource("/fxml/mobilePages/PathfindingMobile.fxml")));
   }
 
   public void changeCovidText(boolean covidRisk) {
