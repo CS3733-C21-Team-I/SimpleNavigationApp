@@ -12,6 +12,7 @@ public class ApplicationDataController {
   public static void init() {
     HashSet<User.Role> baseUserRoles = new HashSet<>();
     baseUserRoles.add(User.Role.BASE);
+    baseUserRoles.add(User.Role.VISITOR);
     HashSet<User.Permission> baseUserPermissions = new HashSet<>();
     User.baseUser = new User(-1, "Unknown User", baseUserRoles, baseUserPermissions);
     ourInstance = new ApplicationDataController();
