@@ -108,7 +108,7 @@ public class UserDatabaseManager extends DatabaseManager {
         ResultSet rs =
             statement.executeQuery(
                 "SELECT RP.RESOURCE_NAME FROM ROLE_TO_PERMISSION INNER JOIN RESOURCE_PERMISSIONS RP on ROLE_TO_PERMISSION.RESOURCE_ID = RP.RESOURCE_ID WHERE ROLE_ID=(SELECT ROLE_ID FROM HOSPITAL_ROLES WHERE ROLE_NAME='"
-                    + getDatabaseNameForRole(role)
+                    + role.toString()
                     + "')");
 
         while (rs.next()) {
@@ -164,7 +164,7 @@ public class UserDatabaseManager extends DatabaseManager {
                   + userId);
 
       while (rs.next()) {
-        rolesSet.add(getRoleForDatabaseName(rs.getString("ROLE_NAME")));
+        rolesSet.add(User.Role.valueOf(rs.getString("ROLE_NAME")));
       }
 
       if (!rolesSet.contains(User.Role.BASE)) {
@@ -185,7 +185,7 @@ public class UserDatabaseManager extends DatabaseManager {
         ResultSet rs =
             statement.executeQuery(
                 "SELECT RP.RESOURCE_NAME FROM ROLE_TO_PERMISSION INNER JOIN RESOURCE_PERMISSIONS RP on ROLE_TO_PERMISSION.RESOURCE_ID = RP.RESOURCE_ID WHERE ROLE_ID=(SELECT ROLE_ID FROM HOSPITAL_ROLES WHERE ROLE_NAME='"
-                    + getDatabaseNameForRole(role)
+                    + role.toString()
                     + "')");
 
         while (rs.next()) {
@@ -423,53 +423,6 @@ public class UserDatabaseManager extends DatabaseManager {
     } catch (SQLException ex) {
       // No need to report an error.
       // The table simply did not exist.
-    }
-  }
-
-  /**
-   * A hack probably want to implement custom typing?
-   *
-   * @param role the role to lookup
-   * @return String coresponding to ROLE_NAME column in database
-   */
-  private String getDatabaseNameForRole(User.Role role) {
-    switch (role) {
-      case BASE:
-        return "BASE";
-      case ADMIN:
-        return "ADMIN";
-      case PATIENT:
-        return "PATIENT";
-      case VISITOR:
-        return "VISITOR";
-      case EMPLOYEE:
-        return "EMPLOYEE";
-      default:
-        return "ERROR";
-    }
-  }
-
-  /**
-   * A hack probably want to implement custom typing?
-   *
-   * @param name the role to lookup
-   * @return Role coresponding to ROLE_NAME column in database
-   */
-  private User.Role getRoleForDatabaseName(String name) {
-    switch (name) {
-      case "EMPLOYEE":
-        return EMPLOYEE;
-      case "ADMIN":
-        return ADMIN;
-      case "VISITOR":
-        return VISITOR;
-      case "PATIENT":
-        return PATIENT;
-      case "BASE":
-        return BASE;
-      default:
-        new Exception("ERROR value found in HospitalRoles").printStackTrace();
-        return null;
     }
   }
 

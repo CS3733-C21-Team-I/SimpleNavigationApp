@@ -41,7 +41,8 @@ public class ProfileController extends Application {
   public void login() throws FailedToAuthenticateException {
     uName = username.getText();
     pass = password.getText();
-    if (ApplicationDataController.getInstance().logInUser(uName, pass)) {
+    try {
+      ApplicationDataController.getInstance().logInUser(uName, pass);
       loginVBox.setVisible(false);
       //      serviceDisplay.setVisible(true);
       //      headerLabel.setText("You successfully logged in.");
@@ -50,8 +51,9 @@ public class ProfileController extends Application {
           .hasPermission(User.Permission.VIEW_TICKET)) {
         homeController.update();
       }
-    } else {
-      //      headerLabel.setText("Error: Invalid login.");
+    } catch (FailedToAuthenticateException e) {
+      headerLabel.setText("Error: Invalid login.");
+      // TODO handle failure to login
     }
   }
 
