@@ -4,7 +4,9 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXRadioButton;
 import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
+import edu.wpi.cs3733.c21.teamI.Notification.Notification;
 import edu.wpi.cs3733.c21.teamI.database.NavDatabaseManager;
+import edu.wpi.cs3733.c21.teamI.database.NotificationManager;
 import edu.wpi.cs3733.c21.teamI.database.ServiceTicketDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.database.UserDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.ticket.CovidTicket;
@@ -168,10 +170,13 @@ public class MCovidFormController {
             noneCheckbox2.isSelected(),
             covidYesRadioBtn.isSelected());
 
-    // Assign to all nurses with COVID role in the future
+    // TODO Assign to all nurses with COVID role in the future ////////////
     int AssignedID =
         UserDatabaseManager.getInstance().getUserForScreenname("Nurse Joy").getUserId();
-
+    Notification notif =
+        new Notification(AssignedID, "You have a new COVID From to Evaluate.", "String timestamp");
+    NotificationManager.getInstance().addNotification(notif);
+    //////////////////////////////////////////////////////////////////////
     ticket.addAssignedUserID(AssignedID);
     int id = ServiceTicketDatabaseManager.getInstance().addTicket(ticket);
     ServiceTicketDatabaseManager.getInstance().addEmployeeForTicket(id, AssignedID);

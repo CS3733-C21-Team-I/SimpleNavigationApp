@@ -115,6 +115,7 @@ public class NotificationManager extends DatabaseManager {
         Notification notif =
             new Notification(
                 rs.getInt("userID"), rs.getString("details"), rs.getString("timestamp"));
+        notif.setHasDisplayed(rs.getBoolean("hasDisplayed"));
         return notif;
       } else return null;
     } catch (SQLException e) {
@@ -136,6 +137,7 @@ public class NotificationManager extends DatabaseManager {
             new Notification(
                 rs.getInt("userID"), rs.getString("details"), rs.getString("timestamp"));
         nt.setNotificationID(rs.getInt("notif_ID"));
+        nt.setHasDisplayed(rs.getBoolean("hasDisplayed"));
         notifs.add(nt);
       }
     } catch (SQLException e) {
