@@ -1,6 +1,6 @@
 package edu.wpi.cs3733.c21.teamI.database;
 
-import edu.wpi.cs3733.c21.teamI.Notification.Notification;
+import edu.wpi.cs3733.c21.teamI.notification.Notification;
 import edu.wpi.cs3733.c21.teamI.user.User;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

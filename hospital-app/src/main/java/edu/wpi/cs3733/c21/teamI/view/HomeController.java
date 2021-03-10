@@ -43,6 +43,8 @@ public class HomeController extends Application {
 
   @FXML JFXHamburger ham1;
 
+  @FXML Button mobileButton;
+
   ProfileController profileController;
   VisitorMenuController visitorMenuController;
 
@@ -164,6 +166,9 @@ public class HomeController extends Application {
 
   @FXML
   public void initialize() throws IOException {
+    if (mobileButton != null) {
+      mobileButton.setVisible(ApplicationDataController.getInstance().isLoggedIn());
+    }
     if (timeLabel != null) {
       initClock();
       update();
