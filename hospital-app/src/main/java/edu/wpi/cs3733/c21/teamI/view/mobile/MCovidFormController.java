@@ -174,7 +174,7 @@ public class MCovidFormController {
     int AssignedID =
         UserDatabaseManager.getInstance().getUserForScreenname("Nurse Joy").getUserId();
     Notification notif =
-        new Notification(AssignedID, "You have a new COVID Form to Evaluate.", "String timestamp");
+        new Notification(AssignedID, "You have a new COVID form to evaluate.", "String timestamp");
     NotificationManager.getInstance().addNotification(notif);
     //////////////////////////////////////////////////////////////////////
     ticket.addAssignedUserID(AssignedID);
@@ -222,7 +222,8 @@ public class MCovidFormController {
   public void checkFinished() {
     if (IsCheckboxGroupChecked(symptoms) | noneCheckbox.isSelected()
         && IsCheckboxGroupChecked(closeContactChecks) | noneCheckbox2.isSelected()
-        && covidYesRadioBtn.isSelected() | covidNoRadioBtn.isSelected()) {
+        && covidYesRadioBtn.isSelected() | covidNoRadioBtn.isSelected()
+        && !parkingInput.getText().equals("")) {
       submitBttn.setDisable(false);
     } else {
       submitBttn.setDisable(true);
