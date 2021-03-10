@@ -68,9 +68,6 @@ public class MapPathfindingController extends MapController {
     setupMapViewHandlers();
     currentMapID = "Faulkner Lot";
     campusTab(new ActionEvent());
-
-    // TODO: LINK THIS TO COVID RESULT FORM
-    reflectCovidStatus(true);
   }
 
   @FXML
@@ -226,18 +223,19 @@ public class MapPathfindingController extends MapController {
   private void switchAlgorithm() {
     switch (algorithmPick.getValue().toString()) {
       case "Depth First":
-        System.out.println("Making new Depth first...");
+        // System.out.println("Making new Depth first search");
         pathFinderAlgorithm.setPlanning(new DepthFirstSearch());
         break;
       case "Breadth First":
-        System.out.println("Making new Breadth first...");
+        // System.out.println("Making new Breadth first search");
         pathFinderAlgorithm.setPlanning(new BreadthFirstSearch());
         break;
       case "Dijkstra":
-        System.out.println("Making new Dijkstra");
+        // System.out.println("Making new Dijkstra");
         pathFinderAlgorithm.setPlanning(new Dijkstra());
         break;
       default:
+        // System.out.println("Making new A*");
         pathFinderAlgorithm.setPlanning(new A_Star());
         break;
     }
@@ -271,16 +269,16 @@ public class MapPathfindingController extends MapController {
     System.out.print("NodeRestrictions:" + scorer.nodeTypesToAvoid);
   }
 
-  public void reflectCovidStatus(boolean isHighCovidRisk) {
-    if (isHighCovidRisk) {
-      scorer.nodeTypesToAvoid.add(NodeRestrictions.NON_COVID_RISK_VISITORS);
-      scorer.nodeTypesToAvoid.remove(NodeRestrictions.COVID_RISK_VISITORS);
-    } else {
-      scorer.nodeTypesToAvoid.remove(NodeRestrictions.NON_COVID_RISK_VISITORS);
-      scorer.nodeTypesToAvoid.add(NodeRestrictions.COVID_RISK_VISITORS);
-    }
-    System.out.print("NodeRestrictions:" + scorer.nodeTypesToAvoid);
-  }
+  //  public void reflectCovidStatus(boolean isHighCovidRisk) {
+  //    if (isHighCovidRisk) {
+  //      scorer.nodeTypesToAvoid.add(NodeRestrictions.NON_COVID_RISK_VISITORS);
+  //      scorer.nodeTypesToAvoid.remove(NodeRestrictions.COVID_RISK_VISITORS);
+  //    } else {
+  //      scorer.nodeTypesToAvoid.remove(NodeRestrictions.NON_COVID_RISK_VISITORS);
+  //      scorer.nodeTypesToAvoid.add(NodeRestrictions.COVID_RISK_VISITORS);
+  //    }
+  //    System.out.print("NodeRestrictions:" + scorer.nodeTypesToAvoid);
+  //  }
 
   @FXML
   public void toAboutPage(ActionEvent e) throws IOException {

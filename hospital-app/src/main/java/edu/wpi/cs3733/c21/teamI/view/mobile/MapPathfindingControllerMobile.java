@@ -12,6 +12,7 @@ import edu.wpi.cs3733.c21.teamI.hospitalMap.MapDataEntity;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.NodeRestrictions;
 import edu.wpi.cs3733.c21.teamI.pathfinding.*;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicketDataController;
+import edu.wpi.cs3733.c21.teamI.user.User;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -71,6 +72,26 @@ public class MapPathfindingControllerMobile extends MobileMapController {
     setupMapViewHandlers();
     currentMapID = "Faulkner Lot";
     campusTab(new ActionEvent());
+
+    // Gets covid risk data from UserDatabaseManager and submits it to the scorer to consider
+    boolean isHighCovidRisk =
+        UserDatabaseManager.getInstance()
+                .getCovidRiskForUser(
+                    ApplicationDataController.getInstance().getLoggedInUser().getUserId())
+            == User.CovidRisk.COVID_RISK;
+
+    reflectCovidStatus(isHighCovidRisk);
+  }
+
+  public void reflectCovidStatus(boolean isHighCovidRisk) {
+    if (isHighCovidRisk) {
+      scorer.nodeTypesToAvoid.add(NodeRestrictions.NON_COVID_RISK_VISITORS);
+      scorer.nodeTypesToAvoid.remove(NodeRestrictions.COVID_RISK_VISITORS);
+    } else {
+      scorer.nodeTypesToAvoid.remove(NodeRestrictions.NON_COVID_RISK_VISITORS);
+      scorer.nodeTypesToAvoid.add(NodeRestrictions.COVID_RISK_VISITORS);
+    }
+    System.out.print("NodeRestrictions:" + scorer.nodeTypesToAvoid);
   }
 
   @FXML
