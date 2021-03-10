@@ -14,6 +14,20 @@
     -fx-cursor: hand;
 }
 
+#homePane, #profileRoot {
+    -fx-background-position: center center;
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: cover, auto;
+}
+
+#homePane {
+    -fx-background-image:  url("BWH45Francis.jpg");
+}
+
+#profileRoot {
+    -fx-background-image:  url("loginPage.JPG");
+}
+
 .circleButton {
     -fx-background-color: #0067b1;
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 10, 0, 0, 0);

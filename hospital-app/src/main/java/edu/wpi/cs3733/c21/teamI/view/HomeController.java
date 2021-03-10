@@ -183,28 +183,7 @@ public class HomeController extends Application {
         ((NotificationController) hLoader.getController()).setHomeController(this);
         titleLabel.setText("General Portal");
         replacePane.getChildren().add(FXMLLoader.load(getClass().getResource("/fxml/Home.fxml")));
-        background =
-            (ImageView) ((StackPane) replacePane.getChildren().get(0)).getChildren().get(0);
-        background.setPreserveRatio(false);
-        // background.fitHeightProperty().bind(root.heightProperty());
-        // background.fitWidthProperty().bind(root.widthProperty());
-        replacePane
-            .heightProperty()
-            .addListener(
-                (obs, oldVal, newVal) -> {
-                  background.fitHeightProperty().bind(replacePane.heightProperty());
-                  System.out.println("Height changed");
-                });
-        replacePane
-            .widthProperty()
-            .addListener(
-                (obs, oldVal, newVal) -> {
-                  background.fitWidthProperty().bind(replacePane.widthProperty());
-                  System.out.println("Width changed");
-                });
       }
-      //
-      // replacePane.getChildren().add(FXMLLoader.load(getClass().getResource("/fxml/Home.fxml")));
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -267,6 +246,7 @@ public class HomeController extends Application {
   public void initialize() throws IOException {
 
     if (mobileButton != null) {
+      mobileButton.managedProperty().bind(mobileButton.visibleProperty());
       mobileButton.setVisible(ApplicationDataController.getInstance().isLoggedIn());
     }
     if (timeLabel != null) {
