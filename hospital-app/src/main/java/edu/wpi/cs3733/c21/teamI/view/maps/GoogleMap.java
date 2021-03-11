@@ -155,5 +155,5 @@ public abstract class GoogleMap extends Application {
   public abstract void switchWindow(ActionEvent actionEvent) throws IOException;
 
   @Override
-  public void start(Stage primaryStage) throws Exception {}
+  public void start(Stage primaryStage) {}
 }

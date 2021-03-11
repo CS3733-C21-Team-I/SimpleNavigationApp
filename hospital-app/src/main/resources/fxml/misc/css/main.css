@@ -21,11 +21,11 @@
 }
 
 #homePane {
-    -fx-background-image:  url("BWH45Francis.jpg");
+    -fx-background-image:  url("../hospitalImages/BWH45Francis.jpg");
 }
 
 #profileRoot {
-    -fx-background-image:  url("loginPage.JPG");
+    -fx-background-image:  url("../hospitalImages/loginPage.JPG");
 }
 
 .circleButton {

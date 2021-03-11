@@ -48,7 +48,7 @@ public class BlockListItem extends JFXListCell<Block> {
     } else {
 
       if (mLLoader == null) {
-        mLLoader = new FXMLLoader(getClass().getResource("/fxml/BlockListItem.fxml"));
+        mLLoader = new FXMLLoader(getClass().getResource("/fxml/parking/BlockListItem.fxml"));
         mLLoader.setController(this);
         try {
           mLLoader.load();

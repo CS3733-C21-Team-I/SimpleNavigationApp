@@ -11,8 +11,6 @@ import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicket;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicketDataController;
 import edu.wpi.cs3733.c21.teamI.ticket.ticketTypes.InternalTransportationTicket;
 import edu.wpi.cs3733.c21.teamI.user.User;
-import edu.wpi.cs3733.c21.teamI.view.ViewManager;
-import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -82,19 +80,16 @@ public class InternalTransportationController {
 
   //
   public void checkFinished() {
-    if (internalDate.valueProperty().getValue() != null
-        && internalTime.valueProperty().getValue() != null
-        && internalDestination.getText() != null
-        && internalDestination.getText().trim().length() > 0
-        && checkEmployeeID(requestAssigned.getText())
-        && checkLocation(internalLocation.getText())
-        && (stretcherRadio.isSelected() || wheelchairRadio.isSelected())
-        && requesterID.getText() != null
-        && requesterID.getText().trim().length() > 0) {
-      submitBttn.setDisable(false);
-    } else {
-      submitBttn.setDisable(true);
-    }
+    submitBttn.setDisable(
+        internalDate.valueProperty().getValue() == null
+            || internalTime.valueProperty().getValue() == null
+            || internalDestination.getText() == null
+            || internalDestination.getText().trim().length() <= 0
+            || !checkEmployeeID(requestAssigned.getText())
+            || !checkLocation(internalLocation.getText())
+            || (!stretcherRadio.isSelected() && !wheelchairRadio.isSelected())
+            || requesterID.getText() == null
+            || requesterID.getText().trim().length() <= 0);
   }
 
   public boolean checkEmployeeID(String employeeText) {
@@ -120,11 +115,6 @@ public class InternalTransportationController {
           checkFinished();
         }
       };
-  //
-
-  public void navigate(ActionEvent e) throws IOException {
-    ViewManager.navigate(e);
-  }
 
   public void clear() {
     internalDetails.clear();

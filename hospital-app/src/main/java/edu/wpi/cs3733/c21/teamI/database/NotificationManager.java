@@ -61,10 +61,7 @@ public class NotificationManager extends DatabaseManager {
       Notification nt = getNotificationForId(notifID);
       nt.setHasDisplayed(true);
       stmt.executeUpdate(
-          "UPDATE notification SET hasDisplayed = '"
-              + true
-              + "' WHERE NOTIF_ID = "
-              + String.valueOf(notifID));
+          "UPDATE notification SET hasDisplayed = '" + true + "' WHERE NOTIF_ID = " + notifID);
       return nt;
     } catch (SQLException e) {
       e.printStackTrace();
@@ -100,7 +97,7 @@ public class NotificationManager extends DatabaseManager {
   public void removeNotification(int id) {
     try {
       Statement stmt = databaseRef.getConnection().createStatement();
-      stmt.execute("DELETE FROM notification WHERE NOTIF_ID = " + String.valueOf(id));
+      stmt.execute("DELETE FROM notification WHERE NOTIF_ID = " + id);
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -109,8 +106,7 @@ public class NotificationManager extends DatabaseManager {
   public Notification getNotificationForId(int id) {
     try {
       Statement stmt = databaseRef.getConnection().createStatement();
-      ResultSet rs =
-          stmt.executeQuery("SELECT * FROM notification WHERE NOTIF_ID = " + String.valueOf(id));
+      ResultSet rs = stmt.executeQuery("SELECT * FROM notification WHERE NOTIF_ID = " + id);
       if (rs.next()) {
         Notification notif =
             new Notification(
@@ -129,8 +125,7 @@ public class NotificationManager extends DatabaseManager {
     try {
       Statement stmt = databaseRef.getConnection().createStatement();
       ResultSet rs =
-          stmt.executeQuery(
-              "SELECT * FROM notification WHERE USERID = " + String.valueOf(user.getUserId()));
+          stmt.executeQuery("SELECT * FROM notification WHERE USERID = " + user.getUserId());
       Notification nt;
       while (rs.next()) {
         nt =

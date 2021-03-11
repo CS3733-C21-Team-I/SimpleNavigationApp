@@ -47,11 +47,11 @@ public class MapPathfindingController extends MapController {
   private List<HospitalMapNode> foundPath;
   private ArrayList<String> foundPathDescription;
 
-  public MapPathfindingController() throws URISyntaxException {}
+  public MapPathfindingController() {}
 
   // setup stuff
   @FXML
-  public void initialize() throws IOException {
+  public void initialize() {
     System.out.println("Initializing pathfinding controller");
     boolean isAdmin =
         ApplicationDataController.getInstance()
@@ -76,7 +76,7 @@ public class MapPathfindingController extends MapController {
     replacePane.getChildren().clear();
     replacePane
         .getChildren()
-        .add(FXMLLoader.load(getClass().getResource("/fxml/Pathediting.fxml")));
+        .add(FXMLLoader.load(getClass().getResource("/fxml/map/Pathediting.fxml")));
   }
 
   @FXML
@@ -85,14 +85,14 @@ public class MapPathfindingController extends MapController {
     replacePane.getChildren().clear();
     replacePane
         .getChildren()
-        .add(FXMLLoader.load(getClass().getResource("/fxml/GoogleMapsMain.fxml")));
+        .add(FXMLLoader.load(getClass().getResource("/fxml/map/GoogleMapsMain.fxml")));
   }
 
   // viewport stuff
   public void updateView() {
 
     Image background =
-        ImageLoader.loadImage("/fxml/mapImages/" + currentMapID.replace(" ", "") + ".png");
+        ImageLoader.loadImage("/fxml/map/mapImages/" + currentMapID.replace(" ", "") + ".png");
     mapImage.setImage(background);
     fullImgWidth = background.getWidth();
     fullImgHeight = background.getHeight();
@@ -184,7 +184,7 @@ public class MapPathfindingController extends MapController {
   }
 
   @FXML
-  public void getDirections(ActionEvent e) throws IOException {
+  public void getDirections(ActionEvent e) {
     String begin = start.getText();
     String end = destination.getText();
     if (begin.length() > 0 && end.length() > 0) {
@@ -293,7 +293,7 @@ public class MapPathfindingController extends MapController {
             rootPane.getChildren().clear();
             rootPane
                 .getChildren()
-                .add(FXMLLoader.load(getClass().getResource("/fxml/Pathfinding.fxml")));
+                .add(FXMLLoader.load(getClass().getResource("/fxml/map/Pathfinding.fxml")));
           }
         });
   }
@@ -335,16 +335,16 @@ public class MapPathfindingController extends MapController {
 
         switch (((LocationNode) node).getLocationCategory()) { // switch case for special types
           case ELEV:
-            displayIcon("/fxml/mapImages/mapIcons/elevator.png", node);
+            displayIcon("/fxml/map/mapImages/mapIcons/elevator.png", node);
             break;
           case REST:
-            displayIcon("/fxml/mapImages/mapIcons/bathroom.png", node);
+            displayIcon("/fxml/map/mapImages/mapIcons/bathroom.png", node);
             break;
           case STAI:
-            displayIcon("/fxml/mapImages/mapIcons/stairs.png", node);
+            displayIcon("/fxml/map/mapImages/mapIcons/stairs.png", node);
             break;
           case KIOS:
-            displayIcon("/fxml/mapImages/mapIcons/info.png", node);
+            displayIcon("/fxml/map/mapImages/mapIcons/info.png", node);
             break;
             //          case FOOD:
             //            displayIcon("/fxml/mapImages/mapIcons/dining.png", node);
@@ -356,23 +356,23 @@ public class MapPathfindingController extends MapController {
             switch (((LocationNode) node).getLongName()) { // even specialer cases
               case "Northern Parking Icon":
               case "Western Parking Icon":
-                displayIcon("/fxml/mapImages/mapIcons/parking.png", node);
+                displayIcon("/fxml/map/mapImages/mapIcons/parking.png", node);
                 break;
               case "Cafeteria":
               case "Food Services":
-                displayIcon("/fxml/mapImages/mapIcons/dining.png", node);
+                displayIcon("/fxml/map/mapImages/mapIcons/dining.png", node);
                 break;
               case "Starbucks":
-                displayIcon("/fxml/mapImages/mapIcons/starbucks.png", node);
+                displayIcon("/fxml/map/mapImages/mapIcons/starbucks.png", node);
                 break;
               case "Pharmacy":
-                displayIcon("/fxml/mapImages/mapIcons/pharmacy.png", node);
+                displayIcon("/fxml/map/mapImages/mapIcons/pharmacy.png", node);
                 break;
               case "Emergency Department":
-                displayIcon("/fxml/mapImages/mapIcons/emergencyRoom.png", node);
+                displayIcon("/fxml/map/mapImages/mapIcons/emergencyRoom.png", node);
                 break;
               case "Valet Parking Icon":
-                displayIcon("/fxml/mapImages/mapIcons/valet.png", node);
+                displayIcon("/fxml/map/mapImages/mapIcons/valet.png", node);
                 break;
               default:
                 Circle circle =
@@ -418,7 +418,9 @@ public class MapPathfindingController extends MapController {
     try {
       startIcon =
           new Image(
-              (getClass().getResource("/fxml/fxmlResources/startIcon.png")).toURI().toString());
+              (getClass().getResource("/fxml/map/mapImages/symbolIcons/startIcon.png"))
+                  .toURI()
+                  .toString());
     } catch (URISyntaxException e) {
       e.printStackTrace();
     }
@@ -434,7 +436,9 @@ public class MapPathfindingController extends MapController {
     try {
       finishIcon =
           new Image(
-              (getClass().getResource("/fxml/fxmlResources/finishIcon.png")).toURI().toString());
+              (getClass().getResource("/fxml/map/mapImages/symbolIcons/finishIcon.png"))
+                  .toURI()
+                  .toString());
     } catch (URISyntaxException e) {
       e.printStackTrace();
     }

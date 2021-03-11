@@ -10,11 +10,9 @@ import java.util.Arrays;
 import javafx.beans.property.SimpleStringProperty;
 
 public class UniqueColumnFactory {
-  private static JFXTreeTableView<ServiceTicket> table;
 
   public static ArrayList<JFXTreeTableColumn<ServiceTicket, String>> getColumns(
       JFXTreeTableView<ServiceTicket> treeView, ServiceTicket ticket) {
-    table = treeView;
     ArrayList<JFXTreeTableColumn<ServiceTicket, String>> columnList = new ArrayList();
     ServiceTicket.TicketType type = ticket.getTicketType();
     if (type == AUDIO_VISUAL) {

@@ -83,7 +83,7 @@ public class UserDatabaseManager extends DatabaseManager {
       ResultSet rs =
           statement.executeQuery(
               "SELECT HR.ROLE_NAME FROM USER_TO_ROLE INNER JOIN HOSPITAL_ROLES HR on HR.ROLE_ID = USER_TO_ROLE.ROLE_ID WHERE USER_ID="
-                  + String.valueOf(userId));
+                  + userId);
 
       while (rs.next()) {
         // rolesSet.add(getRoleForDatabaseName(rs.getString("ROLE_NAME")));
@@ -815,7 +815,7 @@ public class UserDatabaseManager extends DatabaseManager {
       ResultSet rs =
           stmt.executeQuery(
               "SELECT * FROM USER_TO_NODE UN JOIN NAVNODES N ON UN.NODE_ID = N.NODE_ID WHERE USER_ID = "
-                  + String.valueOf(userID));
+                  + userID);
       if (rs.next()) {
         return rs.getString("long_Name");
       }

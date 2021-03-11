@@ -11,15 +11,10 @@ import edu.wpi.cs3733.c21.teamI.notification.Notification;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicket;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicketDataController;
 import edu.wpi.cs3733.c21.teamI.user.User;
-import edu.wpi.cs3733.c21.teamI.view.ViewManager;
-import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -59,10 +54,6 @@ public class SanitationController {
     } catch (Exception o) {
       System.out.println("Error" + o);
     }
-  }
-
-  public void navigate(ActionEvent e) throws IOException {
-    ViewManager.navigate(e);
   }
 
   public void clear() {
@@ -109,14 +100,11 @@ public class SanitationController {
       };
 
   public void checkFinished() {
-    if (requesterID.getText() != null
-        && requesterID.getText().trim().length() > 0
-        && checkEmployeeID(requestAssigned.getText())
-        && checkLocation(sanitationLocation.getText())) {
-      compServReqSubmit.setDisable(false);
-    } else {
-      compServReqSubmit.setDisable(true);
-    }
+    compServReqSubmit.setDisable(
+        requesterID.getText() == null
+            || requesterID.getText().trim().length() <= 0
+            || !checkEmployeeID(requestAssigned.getText())
+            || !checkLocation(sanitationLocation.getText()));
   }
 
   public boolean checkEmployeeID(String employeeText) {

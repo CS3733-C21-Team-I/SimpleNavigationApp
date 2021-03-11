@@ -7,7 +7,6 @@ import javafx.beans.property.SimpleIntegerProperty;
 
 public class Block {
 
-  private int id;
   private String blockCode;
 
   private List<Floor> floors;
@@ -15,7 +14,6 @@ public class Block {
   private IntegerProperty unocupied = new SimpleIntegerProperty();
 
   public Block(int id, String blockCode) {
-    this.id = id;
     this.blockCode = blockCode;
     this.floors = new ArrayList<>();
     this.lot = null;

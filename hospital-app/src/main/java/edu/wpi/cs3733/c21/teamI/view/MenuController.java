@@ -1,48 +1,70 @@
 package edu.wpi.cs3733.c21.teamI.view;
 
-import com.jfoenix.controls.JFXDrawer;
-import com.jfoenix.controls.JFXHamburger;
-import com.jfoenix.transitions.hamburger.HamburgerSlideCloseTransition;
+import static edu.wpi.cs3733.c21.teamI.user.User.Permission.*;
+
+import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
+import edu.wpi.cs3733.c21.teamI.user.User;
 import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
+import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
+import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
-public class MenuController implements Initializable {
-  @FXML JFXHamburger ham1;
-  @FXML JFXDrawer drawer;
-  @FXML StackPane replacePane;
-  @FXML Label titleLabel;
+public class MenuController extends Application {
 
-  public void initialize(URL url, ResourceBundle rb) {
-    VBox box = null;
-    try {
-      box = FXMLLoader.load(getClass().getResource("/fxml/menuFiles/VisitorMenu.fxml"));
-      replacePane.getChildren().add(FXMLLoader.load(getClass().getResource("/fxml/Home.fxml")));
-    } catch (IOException e) {
-      e.printStackTrace();
+  @FXML VBox menu;
+
+  @FXML
+  public void navigate(MouseEvent e) throws IOException {
+    ViewManager.navigate(e);
+  }
+
+  @FXML
+  public void exit() {
+    Platform.exit();
+    System.exit(0);
+  }
+
+  @FXML
+  public void logout(MouseEvent event) throws IOException {
+    ApplicationDataController.getInstance().logOutUser();
+    navigate(event);
+    ViewManager.homeController.update();
+  }
+
+  @Override
+  public void start(Stage primaryStage) {}
+
+  @FXML
+  public void initialize() {
+    User user = ApplicationDataController.getInstance().getLoggedInUser();
+
+    for (Node menuItem : menu.getChildren()) {
+      menuItem.managedProperty().bind(menuItem.visibleProperty());
+      menuItem.setVisible(false);
     }
-    drawer.setSidePane(box);
+    menu.getChildren().get(0).setVisible(true);
+    menu.getChildren().get(2).setVisible(true);
+    menu.getChildren().get(10).setVisible(true);
+    menu.getChildren().get(11).setVisible(true);
 
-    HamburgerSlideCloseTransition hamburgerTransition = new HamburgerSlideCloseTransition(ham1);
-    hamburgerTransition.setRate(-1);
-    ham1.addEventHandler(
-        MouseEvent.MOUSE_CLICKED,
-        (e) -> {
-          hamburgerTransition.setRate(hamburgerTransition.getRate() * -1);
-          hamburgerTransition.play();
-
-          if (drawer.isOpened()) {
-            drawer.close();
-          } else {
-            drawer.open();
-          }
-        });
+    if (user.hasPermission(REQUEST_TICKET)) {
+      menu.getChildren().get(4).setVisible(true);
+    }
+    if (user.hasPermission(VIEW_TICKET)) {
+      menu.getChildren().get(5).setVisible(true);
+      menu.getChildren().get(6).setVisible(true);
+    }
+    if (user.userRoles.contains(User.Role.NURSE)) {
+      menu.getChildren().get(9).setVisible(true);
+    }
+    if (user.userRoles.contains(User.Role.ADMIN)) {
+      menu.getChildren().get(7).setVisible(true);
+      menu.getChildren().get(8).setVisible(true);
+      menu.getChildren().get(9).setVisible(true);
+    }
   }
 }

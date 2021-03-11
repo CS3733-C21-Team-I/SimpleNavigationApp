@@ -75,15 +75,12 @@ public class ComputerServiceRequestController {
   }
 
   public void checkFinished() {
-    if (compType.valueProperty().getValue() != null
-        && compServReqID.getText() != null
-        && compServReqID.getText().trim().length() > 0
-        && checkEmployeeID(compServAssID.getText())
-        && checkLocation(compServReqLoc.getText())) {
-      compServReqSubmit.setDisable(false);
-    } else {
-      compServReqSubmit.setDisable(true);
-    }
+    compServReqSubmit.setDisable(
+        compType.valueProperty().getValue() == null
+            || compServReqID.getText() == null
+            || compServReqID.getText().trim().length() <= 0
+            || !checkEmployeeID(compServAssID.getText())
+            || !checkLocation(compServReqLoc.getText()));
   }
 
   public boolean checkEmployeeID(String employeeText) {
