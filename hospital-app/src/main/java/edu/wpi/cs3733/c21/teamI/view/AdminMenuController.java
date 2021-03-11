@@ -1,24 +1,28 @@
 package edu.wpi.cs3733.c21.teamI.view;
 
+import static edu.wpi.cs3733.c21.teamI.user.User.Permission.*;
+
 import com.jfoenix.controls.JFXRippler;
 import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.MapDataEntity;
+import edu.wpi.cs3733.c21.teamI.user.User;
 import java.io.IOException;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Label;
+import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class AdminMenuController extends Application {
 
   StackPane replacePane = null;
-  Label titleLabel = null;
   public HomeController homeController;
+  @FXML VBox menu;
 
   @FXML
   public void navigate(MouseEvent e) throws IOException {
@@ -37,7 +41,6 @@ public class AdminMenuController extends Application {
                         .get(0))
                 .getChildren()
                 .get(0));
-    System.out.println("replacePane in nav in adminmenctrl: " + replacePane);
     replacePane.getChildren().clear();
 
     if (id.equals("loginButton")) {
@@ -110,10 +113,6 @@ public class AdminMenuController extends Application {
     homeController.update();
   }
 
-  public HomeController getHomeController() {
-    return homeController;
-  }
-
   public void setHomeController(HomeController homeController) {
     this.homeController = homeController;
   }
@@ -122,5 +121,32 @@ public class AdminMenuController extends Application {
   public void start(Stage primaryStage) throws Exception {}
 
   @FXML
-  public void initialize() throws IOException {}
+  public void initialize() throws IOException {
+    User user = ApplicationDataController.getInstance().getLoggedInUser();
+
+    for (Node menuItem : menu.getChildren()) {
+      menuItem.managedProperty().bind(menuItem.visibleProperty());
+      menuItem.setVisible(false);
+    }
+    menu.getChildren().get(0).setVisible(true);
+    menu.getChildren().get(2).setVisible(true);
+    menu.getChildren().get(10).setVisible(true);
+    menu.getChildren().get(11).setVisible(true);
+
+    if (user.hasPermission(REQUEST_TICKET)) {
+      menu.getChildren().get(4).setVisible(true);
+    }
+    if (user.hasPermission(VIEW_TICKET)) {
+      menu.getChildren().get(5).setVisible(true);
+      menu.getChildren().get(6).setVisible(true);
+    }
+    if (user.userRoles.contains(User.Role.NURSE)) {
+      menu.getChildren().get(9).setVisible(true);
+    }
+    if (user.userRoles.contains(User.Role.ADMIN)) {
+      menu.getChildren().get(7).setVisible(true);
+      menu.getChildren().get(8).setVisible(true);
+      menu.getChildren().get(9).setVisible(true);
+    }
+  }
 }

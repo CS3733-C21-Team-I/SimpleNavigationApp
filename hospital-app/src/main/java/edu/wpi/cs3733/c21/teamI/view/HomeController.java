@@ -23,7 +23,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -36,10 +35,6 @@ import javafx.stage.StageStyle;
 import javafx.util.Duration;
 
 public class HomeController extends Application {
-
-  @FXML Label dateTime;
-
-  @FXML Button serviceRequests, map;
 
   @FXML StackPane replacePane;
 
@@ -55,13 +50,8 @@ public class HomeController extends Application {
 
   @FXML Button mobileButton;
 
-  @FXML ImageView background;
-
   @FXML StackPane homePane;
 
-  ProfileController profileController;
-  VisitorMenuController visitorMenuController;
-  NotificationController notifController;
   Notification lastNotif;
 
   @FXML
@@ -128,42 +118,21 @@ public class HomeController extends Application {
     primaryStage.show();
   }
 
-  public ProfileController getProfileController() {
-    return profileController;
-  }
-
-  public void setProfileController(ProfileController profileController) {
-    this.profileController = profileController;
-  }
-
-  public VisitorMenuController getVisitorMenuController() {
-    return visitorMenuController;
-  }
-
-  public void setVisitorMenuController(VisitorMenuController visitorMenuController) {
-    this.visitorMenuController = visitorMenuController;
-  }
-
   @FXML
   public void update() {
-    System.out.println("callingupdate");
     VBox box = null;
     HBox hBox = null;
     try {
+      FXMLLoader vLoader = new FXMLLoader(getClass().getResource("/fxml/menuFiles/AdminMenu.fxml"));
+      box = vLoader.load();
+      ((AdminMenuController) vLoader.getController()).setHomeController(this);
       if (ApplicationDataController.getInstance()
           .getLoggedInUser()
           .hasPermission(User.Permission.REQUEST_TICKET)) {
-        System.out.println("I am an admin");
-        FXMLLoader vLoader =
-            new FXMLLoader(getClass().getResource("/fxml/menuFiles/AdminMenu.fxml"));
-        box = vLoader.load();
-        System.out.println("vloader = " + vLoader);
         FXMLLoader hLoader =
             new FXMLLoader(getClass().getResource("/fxml/menuFiles/notificationContent.fxml"));
         hBox = hLoader.load();
-        System.out.println("hloader = " + hLoader);
 
-        ((AdminMenuController) vLoader.getController()).setHomeController(this);
         ((NotificationController) hLoader.getController()).setHomeController(this);
         titleLabel.setText("Admin Portal");
         replacePane.getChildren().clear();
@@ -171,16 +140,14 @@ public class HomeController extends Application {
             .getChildren()
             .add(FXMLLoader.load(getClass().getResource("/fxml/ServiceRequestTableView.fxml")));
       } else {
-        FXMLLoader vLoader =
-            new FXMLLoader(getClass().getResource("/fxml/menuFiles/VisitorMenu.fxml"));
-        box = vLoader.load();
-        System.out.println("vLoader controller= " + vLoader.getController());
+        //        FXMLLoader vLoader =
+        //            new FXMLLoader(getClass().getResource("/fxml/menuFiles/VisitorMenu.fxml"));
+        //        box = vLoader.load();
         FXMLLoader hLoader =
             new FXMLLoader(getClass().getResource("/fxml/menuFiles/notificationContent.fxml"));
         hBox = hLoader.load();
-        System.out.println("hLoader controller= " + hLoader.getController());
 
-        ((VisitorMenuController) vLoader.getController()).setHomeController(this);
+        //        ((VisitorMenuController) vLoader.getController()).setHomeController(this);
         ((NotificationController) hLoader.getController()).setHomeController(this);
         titleLabel.setText("General Portal");
         replacePane.getChildren().clear();
@@ -226,10 +193,6 @@ public class HomeController extends Application {
         "Setting Notification " + notification.getNotificationID() + " to hasDisplayed");
     Notification o =
         NotificationManager.getInstance().updateNotification(notification.getNotificationID());
-  }
-
-  public StackPane getReplacePane() {
-    return replacePane;
   }
 
   public void initNotifUpdater() {

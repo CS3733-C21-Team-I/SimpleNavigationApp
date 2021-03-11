@@ -8,7 +8,6 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
@@ -17,7 +16,6 @@ import javafx.stage.Stage;
 public class VisitorMenuController extends Application {
 
   StackPane replacePane = null;
-  Label titleLabel = null;
   public HomeController homeController;
 
   @FXML
@@ -49,8 +47,6 @@ public class VisitorMenuController extends Application {
         profLoader = new FXMLLoader(getClass().getClassLoader().getResource("/fxml/Profile.fxml"));
         profLoader.setLocation(getClass().getResource("/fxml/Profile.fxml"));
         replacePane.getChildren().add(profLoader.load());
-        ((ProfileController) profLoader.getController()).setVisitorMenuController(this);
-        ((ProfileController) profLoader.getController()).setHomeController(homeController);
       }
     } else if (id.equals("COVIDButton")) {
       replacePane
@@ -87,10 +83,6 @@ public class VisitorMenuController extends Application {
     ApplicationDataController.getInstance().logOutUser();
     navigate(event);
     homeController.update();
-  }
-
-  public HomeController getHomeController() {
-    return homeController;
   }
 
   public void setHomeController(HomeController homeController) {

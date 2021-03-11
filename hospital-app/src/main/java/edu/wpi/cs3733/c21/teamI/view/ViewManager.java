@@ -1,35 +1,21 @@
 package edu.wpi.cs3733.c21.teamI.view;
 
-import edu.wpi.cs3733.c21.teamI.database.NavDatabaseManager;
-import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMapNode;
-import edu.wpi.cs3733.c21.teamI.hospitalMap.mapEditing.MapEditDataController;
-import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicket;
-import edu.wpi.cs3733.c21.teamI.view.maps.MapController;
 import java.io.IOException;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 public class ViewManager {
 
-  private static double scale = 3.05; // scales image to 1/scale
   private static Group root = null;
   private static Stage stage = null;
-  private static String selectedNode = null;
-  private static String selectedNodeMapID = "Faulkner 0";
-  private static final MapEditDataController dataCont = new MapEditDataController();
   private static StackPane replacePane = null;
-  private static ServiceTicket serviceTicketToShow;
-  private static MapController mapControl = null;
 
   public ViewManager() {}
 
   public static void navigate(ActionEvent e) throws IOException {
-    System.out.println("I'm in ViewManager");
     //        Group root = new Group();
     //        Scene scene = ((Button) e.getSource()).getScene();
     String id = ((Button) e.getSource()).getId();
@@ -61,55 +47,12 @@ public class ViewManager {
     //    scene.setRoot(root);
   }
 
-  public static void navigateToActiveRequest(ActionEvent e) {
-    Group root = new Group();
-    Scene scene = ((Button) e.getSource()).getScene();
-    try {
-      root.getChildren()
-          .add(FXMLLoader.load(ViewManager.class.getResource("/fxml/RequestDisplay.fxml")));
-    } catch (IOException ioException) {
-      ioException.printStackTrace();
-    }
-    scene.setRoot(root);
-  }
-
-  /**
-   * takes in a node object and assigns / de-assigns it to the selectedNode variable in MapState
-   *
-   * @param node the node to be assigned or de-assigned
-   */
-  public static boolean toggleNode(HospitalMapNode node) {
-    if (selectedNode == null) {
-      selectedNodeMapID = node.getMapID();
-      selectedNode = node.getID();
-      return true;
-    } else if (selectedNode.equals(node)) {
-      selectedNodeMapID = null;
-      selectedNode = null;
-      return false;
-    } else {
-      dataCont.addEdge(
-          node,
-          NavDatabaseManager.getInstance()
-              .loadMapsFromMemory()
-              .get(selectedNodeMapID)
-              .getNode(selectedNode));
-      selectedNodeMapID = null;
-      selectedNode = null;
-      return false;
-    }
-  }
-
   public static StackPane getReplacePane() {
     return replacePane;
   }
 
   public static void setReplacePane(StackPane replacePane) {
     ViewManager.replacePane = replacePane;
-  }
-
-  public static void setMapController(MapController mapController) {
-    mapControl = mapController;
   }
 
   public void setRoot(Group root) {
@@ -126,25 +69,5 @@ public class ViewManager {
 
   public static Group getRoot() {
     return root;
-  }
-
-  public static MapEditDataController getDataCont() {
-    return dataCont;
-  }
-
-  public static void setSelectedNode(HospitalMapNode node) {
-    if (node == null) {
-      selectedNode = null;
-    } else {
-      ViewManager.selectedNode = node.getID();
-    }
-  }
-
-  public static ServiceTicket getServiceTicketToShow() {
-    return serviceTicketToShow;
-  }
-
-  public static void setServiceTicketToShow(ServiceTicket serviceTicketToShow) {
-    ViewManager.serviceTicketToShow = serviceTicketToShow;
   }
 }
