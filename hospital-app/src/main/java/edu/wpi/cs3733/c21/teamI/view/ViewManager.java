@@ -1,9 +1,16 @@
 package edu.wpi.cs3733.c21.teamI.view;
 
+import com.jfoenix.controls.JFXRippler;
+import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
+import edu.wpi.cs3733.c21.teamI.hospitalMap.MapDataEntity;
 import java.io.IOException;
-import javafx.event.ActionEvent;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
-import javafx.scene.control.Button;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
@@ -12,40 +19,68 @@ public class ViewManager {
   private static Group root = null;
   private static Stage stage = null;
   private static StackPane replacePane = null;
+  static Map<String, String> navigationMap =
+      Stream.of(
+              new String[][] {
+                {"COVIDButton", "/fxml/menuFiles/CovidForm.fxml"},
+                {"giftsButton", "/fxml/serviceRequests/GiftRequest.fxml"},
+                {"requestButton", "/fxml/menuFiles/ServiceView.fxml"},
+                {"employeeButton", "/fxml/EmployeeTable.fxml"},
+                {"logoutButton", "/fxml/Profile.fxml"},
+                {"parkingButton", "/fxml/ActiveLots.fxml"},
+                {"ticketButton", "/fxml/ServiceRequestTableView.fxml"},
+                {"feedbackButton", "/fxml/menuFiles/feedbackView.fxml"},
+                {"trackerButton", "/fxml/menuFiles/COVIDTracker.fxml"},
+              })
+          .collect(Collectors.toMap(data -> data[0], data -> data[1]));
+
+  public static void navigate(MouseEvent e, HomeController homeController) throws IOException {
+    String id = ((JFXRippler) e.getSource()).getId();
+    StackPane replacePane =
+        (StackPane)
+            (((AnchorPane)
+                    ((JFXRippler) e.getSource())
+                        .getParent()
+                        .getParent()
+                        .getParent()
+                        .getParent()
+                        .getParent()
+                        .getChildrenUnmodifiable()
+                        .get(0))
+                .getChildren()
+                .get(0));
+    replacePane.getChildren().clear();
+
+    if (id.equals("loginButton")) {
+      FXMLLoader profLoader;
+      if (ApplicationDataController.getInstance().isLoggedIn()) {
+        profLoader =
+            new FXMLLoader(ViewManager.class.getClassLoader().getResource("/fxml/Home.fxml"));
+        profLoader.setLocation(ViewManager.class.getResource("/fxml/Home.fxml"));
+        replacePane.getChildren().add(profLoader.load());
+      } else {
+        profLoader =
+            new FXMLLoader(ViewManager.class.getClassLoader().getResource("/fxml/Profile.fxml"));
+        profLoader.setLocation(ViewManager.class.getResource("/fxml/Profile.fxml"));
+        replacePane.getChildren().add(profLoader.load());
+        ((ProfileController) profLoader.getController()).setHomeController(homeController);
+      }
+    } else if (id.equals("navigateButton")) {
+      replacePane
+          .getChildren()
+          .add(FXMLLoader.load(ViewManager.class.getResource("/fxml/Pathfinding.fxml")));
+      MapDataEntity.getNodesSet(true);
+    }
+    for (String button : navigationMap.keySet()) {
+      if (id.equals(button)) {
+        replacePane
+            .getChildren()
+            .add(FXMLLoader.load(ViewManager.class.getResource(navigationMap.get(button))));
+      }
+    }
+  }
 
   public ViewManager() {}
-
-  public static void navigate(ActionEvent e) throws IOException {
-    //        Group root = new Group();
-    //        Scene scene = ((Button) e.getSource()).getScene();
-    String id = ((Button) e.getSource()).getId();
-    //    if (id.equals("loginButton")) {
-    //
-    // root.getChildren().add(FXMLLoader.load(ViewManager.class.getResource("/fxml/Home.fxml")));
-    //    } else if (id.equals("COVIDButton")) {
-    //
-    // root.getChildren().add(FXMLLoader.load(ViewManager.class.getResource("/fxml/Requests.fxml")));
-    //    } else if (id.equals("")) {
-    //
-    // root.getChildren().add(FXMLLoader.load(ViewManager.class.getResource("/fxml/Map.fxml")));
-    //    } else if (id.equals("serviceRequests")) {
-    //
-    //
-    // root.getChildren().add(FXMLLoader.load(ViewManager.class.getResource("/fxml/Requests.fxml")));
-    //        } else if (id.equals("maintenance")) {
-    //          root.getChildren()
-    //
-    // .add(FXMLLoader.load(ViewManager.class.getResource("/fxml/MaintenanceRequest.fxml")));
-    //    } else if (id.equals("profile")) {
-    //
-    // root.getChildren().add(FXMLLoader.load(ViewManager.class.getResource("/fxml/Profile.fxml")));
-    //    } else {
-    //      root.getChildren()
-    //
-    // .add(FXMLLoader.load(ViewManager.class.getResource("/fxml/SanitationRequest.fxml")));
-    //    }
-    //    scene.setRoot(root);
-  }
 
   public static StackPane getReplacePane() {
     return replacePane;

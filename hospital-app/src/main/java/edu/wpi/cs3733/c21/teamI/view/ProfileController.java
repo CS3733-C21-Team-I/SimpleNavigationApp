@@ -5,7 +5,6 @@ import edu.wpi.cs3733.c21.teamI.database.FailedToAuthenticateException;
 import edu.wpi.cs3733.c21.teamI.user.User;
 import java.io.IOException;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
@@ -19,10 +18,6 @@ public class ProfileController extends Application {
   public static String pass;
 
   HomeController homeController;
-
-  public void navigate(ActionEvent e) throws IOException {
-    ViewManager.navigate(e);
-  }
 
   @FXML
   public void login() {

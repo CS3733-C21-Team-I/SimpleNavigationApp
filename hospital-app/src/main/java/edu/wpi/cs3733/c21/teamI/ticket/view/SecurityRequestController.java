@@ -12,8 +12,6 @@ import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicket;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicketDataController;
 import edu.wpi.cs3733.c21.teamI.ticket.ticketTypes.SecurityTicket;
 import edu.wpi.cs3733.c21.teamI.user.User;
-import edu.wpi.cs3733.c21.teamI.view.ViewManager;
-import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -93,10 +91,6 @@ public class SecurityRequestController {
           checkFinished();
         }
       };
-
-  public void navigate(ActionEvent e) throws IOException {
-    ViewManager.navigate(e);
-  }
 
   public void initialize() {
     securityType.getItems().addAll("Police Officer", "On-site Security Employee", "Other");

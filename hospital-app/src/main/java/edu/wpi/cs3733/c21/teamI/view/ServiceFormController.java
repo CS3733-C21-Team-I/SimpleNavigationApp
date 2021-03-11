@@ -7,7 +7,6 @@ import edu.wpi.cs3733.c21.teamI.database.UserDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicket;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicketDataController;
 import edu.wpi.cs3733.c21.teamI.user.User;
-import java.io.IOException;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
@@ -82,10 +81,6 @@ public class ServiceFormController extends Application {
       e.printStackTrace();
       System.out.println(" Error " + e);
     }
-  }
-
-  public void navigate(ActionEvent e) throws IOException {
-    ViewManager.navigate(e);
   }
 
   private void setupRequestView() {

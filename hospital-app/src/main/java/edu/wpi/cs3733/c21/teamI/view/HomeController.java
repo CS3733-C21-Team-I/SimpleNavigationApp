@@ -112,8 +112,8 @@ public class HomeController extends Application {
     Scene applicationScene = new Scene(root, 973, 800);
     ViewManager.setReplacePane(replacePane);
     primaryStage.setScene(applicationScene);
-    primaryStage.setMinHeight(800);
-    primaryStage.setMinWidth(1000);
+    //    primaryStage.setMinHeight(800);
+    //    primaryStage.setMinWidth(1000);
     primaryStage.setMaximized(true);
     primaryStage.show();
   }
@@ -126,25 +126,19 @@ public class HomeController extends Application {
       FXMLLoader vLoader = new FXMLLoader(getClass().getResource("/fxml/menuFiles/AdminMenu.fxml"));
       box = vLoader.load();
       ((AdminMenuController) vLoader.getController()).setHomeController(this);
+      FXMLLoader hLoader =
+          new FXMLLoader(getClass().getResource("/fxml/menuFiles/notificationContent.fxml"));
+      hBox = hLoader.load();
+      ((NotificationController) hLoader.getController()).setHomeController(this);
       if (ApplicationDataController.getInstance()
           .getLoggedInUser()
-          .hasPermission(User.Permission.REQUEST_TICKET)) {
-        FXMLLoader hLoader =
-            new FXMLLoader(getClass().getResource("/fxml/menuFiles/notificationContent.fxml"));
-        hBox = hLoader.load();
-
-        ((NotificationController) hLoader.getController()).setHomeController(this);
+          .hasPermission(User.Permission.VIEW_TICKET)) {
         titleLabel.setText("Admin Portal");
         replacePane.getChildren().clear();
         replacePane
             .getChildren()
             .add(FXMLLoader.load(getClass().getResource("/fxml/ServiceRequestTableView.fxml")));
       } else {
-        FXMLLoader hLoader =
-            new FXMLLoader(getClass().getResource("/fxml/menuFiles/notificationContent.fxml"));
-        hBox = hLoader.load();
-
-        ((NotificationController) hLoader.getController()).setHomeController(this);
         titleLabel.setText("General Portal");
         replacePane.getChildren().clear();
         replacePane.getChildren().add(FXMLLoader.load(getClass().getResource("/fxml/Home.fxml")));
