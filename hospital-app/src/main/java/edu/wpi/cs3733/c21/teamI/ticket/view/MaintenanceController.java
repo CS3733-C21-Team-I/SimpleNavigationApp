@@ -14,10 +14,6 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -87,14 +83,11 @@ public class MaintenanceController {
   }
 
   public void checkFinished() {
-    if (requestID.getText() != null
-        && requestID.getText().trim().length() > 0
-        && checkEmployeeID(requestAssigned.getText())
-        && checkLocation(requestLocation.getText())) {
-      mainSubmit.setDisable(false);
-    } else {
-      mainSubmit.setDisable(true);
-    }
+    mainSubmit.setDisable(
+        requestID.getText() == null
+            || requestID.getText().trim().length() <= 0
+            || !checkEmployeeID(requestAssigned.getText())
+            || !checkLocation(requestLocation.getText()));
   }
 
   public boolean checkEmployeeID(String employeeText) {

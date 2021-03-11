@@ -55,20 +55,16 @@ public class ServiceRequestTableController implements Initializable {
               System.out.println(newValue + ": " + newValue.length());
               treeView.setPredicate(
                   ServiceTicketTreeItem -> {
-                    Boolean flag =
+                    return (Boolean)
                         ServiceTicketTreeItem.getValue()
                             .getTicketType()
                             .toString()
                             .contains(newValue.toUpperCase());
-
-                    return flag;
                   });
               filteredList.setPredicate(
                   ServiceTicket -> {
-                    Boolean flag =
+                    return (Boolean)
                         ServiceTicket.getTicketType().toString().contains(newValue.toUpperCase());
-
-                    return flag;
                   });
               update();
             });

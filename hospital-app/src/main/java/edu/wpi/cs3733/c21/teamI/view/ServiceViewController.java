@@ -94,7 +94,7 @@ public class ServiceViewController extends Application {
   }
 
   @Override
-  public void start(Stage primaryStage) throws Exception {
+  public void start(Stage primaryStage) {
     System.out.println("service view loaded");
   }
 }

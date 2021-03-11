@@ -16,10 +16,6 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -64,16 +60,13 @@ public class SecurityRequestController {
   }
 
   public void checkFinished() {
-    if (securityType.valueProperty().getValue() != null
-        && requestID.getText() != null
-        && requestID.getText().trim().length() > 0
-        && requestAssigned.getText() != null
-        && requestAssigned.getText().trim().length() > 0
-        && checkLocation(locationText.getText())) {
-      submitBtn.setDisable(false);
-    } else {
-      submitBtn.setDisable(true);
-    }
+    submitBtn.setDisable(
+        securityType.valueProperty().getValue() == null
+            || requestID.getText() == null
+            || requestID.getText().trim().length() <= 0
+            || requestAssigned.getText() == null
+            || requestAssigned.getText().trim().length() <= 0
+            || !checkLocation(locationText.getText()));
   }
 
   public boolean checkLocation(String loc) {

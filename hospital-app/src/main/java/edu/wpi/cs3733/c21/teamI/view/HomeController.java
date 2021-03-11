@@ -198,7 +198,7 @@ public class HomeController extends Application {
   }
 
   @FXML
-  public void initialize() throws IOException {
+  public void initialize() {
 
     if (mobileButton != null) {
       mobileButton.managedProperty().bind(mobileButton.visibleProperty());

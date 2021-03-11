@@ -91,7 +91,7 @@ public class TextDirections {
 
   public static boolean worthDescription(HospitalMapNode node) {
     return node.getConnections().size() > 2;
-  };
+  }
 
   public static String describeFloorchangeStep(LocationNode curr, HospitalMapNode next) {
     String step = "";
@@ -124,11 +124,8 @@ public class TextDirections {
         return true;
       }
     }
-    if (instruction.equals("Continue straight.")
-        && directions.get(directions.size() - 1).equals("Continue straight.")) {
-      return true;
-    }
-    return false;
+    return instruction.equals("Continue straight.")
+        && directions.get(directions.size() - 1).equals("Continue straight.");
   }
 
   public static String compassDirection(HospitalMapNode start, HospitalMapNode facing) {
@@ -184,7 +181,6 @@ public class TextDirections {
     Double conversionRatio = 224.0; // 100% of Picture width is 224 meters according to Google Earth
 
     // System.out.println(percentageDiff);
-    int finalDistance = (int) ((percentageDiff * conversionRatio) / 100000);
-    return finalDistance;
+    return (int) ((percentageDiff * conversionRatio) / 100000);
   }
 }

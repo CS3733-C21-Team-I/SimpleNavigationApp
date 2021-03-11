@@ -80,19 +80,16 @@ public class InternalTransportationController {
 
   //
   public void checkFinished() {
-    if (internalDate.valueProperty().getValue() != null
-        && internalTime.valueProperty().getValue() != null
-        && internalDestination.getText() != null
-        && internalDestination.getText().trim().length() > 0
-        && checkEmployeeID(requestAssigned.getText())
-        && checkLocation(internalLocation.getText())
-        && (stretcherRadio.isSelected() || wheelchairRadio.isSelected())
-        && requesterID.getText() != null
-        && requesterID.getText().trim().length() > 0) {
-      submitBttn.setDisable(false);
-    } else {
-      submitBttn.setDisable(true);
-    }
+    submitBttn.setDisable(
+        internalDate.valueProperty().getValue() == null
+            || internalTime.valueProperty().getValue() == null
+            || internalDestination.getText() == null
+            || internalDestination.getText().trim().length() <= 0
+            || !checkEmployeeID(requestAssigned.getText())
+            || !checkLocation(internalLocation.getText())
+            || (!stretcherRadio.isSelected() && !wheelchairRadio.isSelected())
+            || requesterID.getText() == null
+            || requesterID.getText().trim().length() <= 0);
   }
 
   public boolean checkEmployeeID(String employeeText) {

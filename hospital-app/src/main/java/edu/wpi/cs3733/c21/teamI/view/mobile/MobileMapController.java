@@ -223,7 +223,7 @@ public abstract class MobileMapController extends Application {
     return null;
   }
 
-  protected void drawPath(List<HospitalMapNode> path) throws IOException {
+  protected void drawPath(List<HospitalMapNode> path) {
     HospitalMapNode currNode;
     HospitalMapNode nextNode;
     for (int i = 0; i < path.size() - 1; i++) {
@@ -242,7 +242,9 @@ public abstract class MobileMapController extends Application {
     try {
       startIcon =
           new Image(
-              (getClass().getResource("/fxml/map/mapImages/symbolIcons/startIcon.png")).toURI().toString());
+              (getClass().getResource("/fxml/map/mapImages/symbolIcons/startIcon.png"))
+                  .toURI()
+                  .toString());
     } catch (URISyntaxException e) {
       e.printStackTrace();
     }
@@ -307,7 +309,7 @@ public abstract class MobileMapController extends Application {
     mapPane.getChildren().add(arrow);
   }
 
-  protected void displayImage(Image image, double x, double y, double size) throws IOException {
+  protected void displayImage(Image image, double x, double y, double size) {
     // Creating the image view
     ImageView imageView = new ImageView();
     // Setting image to the image view
@@ -321,10 +323,10 @@ public abstract class MobileMapController extends Application {
   }
 
   @Override
-  public void start(Stage primaryStage) throws Exception {}
+  public void start(Stage primaryStage) {}
 
   @FXML
-  public abstract void initialize() throws IOException;
+  public abstract void initialize();
 
   protected void drawSelectedNode() {
     if (selectedInActiveMap()) {

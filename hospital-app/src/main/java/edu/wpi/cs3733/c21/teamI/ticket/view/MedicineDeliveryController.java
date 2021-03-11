@@ -76,22 +76,19 @@ public class MedicineDeliveryController {
   }
   //
   public void checkFinished() {
-    if (date.valueProperty().getValue() != null
-        && time.valueProperty().getValue() != null
-        && patient_name.getText() != null
-        && patient_name.getText().trim().length() > 0
-        && currentID.getText() != null
-        && currentID.getText().trim().length() > 0
-        && drug.getText() != null
-        && drug.getText().trim().length() > 0
-        && dose.getText() != null
-        && dose.getText().trim().length() > 0
-        && checkEmployeeID(assignedID.getText())
-        && checkLocation(locationText.getText())) {
-      submitBtn.setDisable(false);
-    } else {
-      submitBtn.setDisable(true);
-    }
+    submitBtn.setDisable(
+        date.valueProperty().getValue() == null
+            || time.valueProperty().getValue() == null
+            || patient_name.getText() == null
+            || patient_name.getText().trim().length() <= 0
+            || currentID.getText() == null
+            || currentID.getText().trim().length() <= 0
+            || drug.getText() == null
+            || drug.getText().trim().length() <= 0
+            || dose.getText() == null
+            || dose.getText().trim().length() <= 0
+            || !checkEmployeeID(assignedID.getText())
+            || !checkLocation(locationText.getText()));
   }
 
   public boolean checkEmployeeID(String employeeText) {

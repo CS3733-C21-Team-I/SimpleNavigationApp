@@ -8,7 +8,6 @@ import javafx.util.Callback;
 public class RoleTreeFactory implements Callback<JFXListView<User.Role>, JFXListCell<User.Role>> {
   @Override
   public JFXListCell<User.Role> call(JFXListView<User.Role> param) {
-    RoleTree roleTree = new RoleTree();
-    return roleTree;
+    return new RoleTree();
   }
 }

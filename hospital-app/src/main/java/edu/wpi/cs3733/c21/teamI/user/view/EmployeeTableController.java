@@ -15,11 +15,9 @@ import javafx.stage.Stage;
 public class EmployeeTableController extends Application {
   @FXML private JFXListView roleList;
 
-  private ObservableList<Role> roles;
-
   @FXML
   private void initialize() {
-    roles = FXCollections.observableArrayList(Role.values());
+    ObservableList<Role> roles = FXCollections.observableArrayList(Role.values());
 
     roleList.setItems(roles);
     roleList.setCellFactory(new RoleTreeFactory());

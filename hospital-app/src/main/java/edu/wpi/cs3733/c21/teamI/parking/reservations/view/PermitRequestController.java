@@ -7,7 +7,6 @@ import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
 import edu.wpi.cs3733.c21.teamI.database.ParkingPeripheralServerManager;
 import edu.wpi.cs3733.c21.teamI.parking.reservations.StaffPermit;
-import java.io.IOException;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -54,7 +53,7 @@ public class PermitRequestController {
     prefLotTextfield.setText("");
   }
 
-  public void navigate(javafx.event.ActionEvent e) throws IOException {
+  public void navigate(javafx.event.ActionEvent e) {
     //    ViewManager.navigate(e);
   }
 

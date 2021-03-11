@@ -2,7 +2,6 @@ package edu.wpi.cs3733.c21.teamI.view;
 
 import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
 import edu.wpi.cs3733.c21.teamI.database.FailedToAuthenticateException;
-import java.io.IOException;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -30,11 +29,11 @@ public class ProfileController extends Application {
   }
 
   @FXML
-  public void initialize() throws IOException {
+  public void initialize() {
     headerLabel.managedProperty().bind(headerLabel.visibleProperty());
     headerLabel.setVisible(false);
   }
 
   @Override
-  public void start(Stage primaryStage) throws Exception {}
+  public void start(Stage primaryStage) {}
 }

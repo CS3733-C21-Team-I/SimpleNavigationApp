@@ -71,16 +71,13 @@ public class LaundryRequestController {
   }
 
   public void checkFinished() {
-    if (laundryPickupDate.valueProperty().getValue() != null
-        && laundryPickupTime.valueProperty().getValue() != null
-        && laundryRequesterID.getText() != null
-        && laundryRequesterID.getText().trim().length() > 0
-        && checkEmployeeID(laundryAssigned.getText())
-        && checkLocation(laundryPickupLocation.getText())) {
-      laundrySubmit.setDisable(false);
-    } else {
-      laundrySubmit.setDisable(true);
-    }
+    laundrySubmit.setDisable(
+        laundryPickupDate.valueProperty().getValue() == null
+            || laundryPickupTime.valueProperty().getValue() == null
+            || laundryRequesterID.getText() == null
+            || laundryRequesterID.getText().trim().length() <= 0
+            || !checkEmployeeID(laundryAssigned.getText())
+            || !checkLocation(laundryPickupLocation.getText()));
   }
 
   public boolean checkEmployeeID(String employeeText) {

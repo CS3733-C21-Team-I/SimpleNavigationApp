@@ -87,9 +87,6 @@ public class NavDatabaseTests {
     testNodes.add(n2);
     testNodes.add(n3);
 
-    HospitalMap testMap =
-        new HospitalMap("TestMap1", "Test Map", "test building", 1, "testPath", testNodes);
-
-    return testMap;
+    return new HospitalMap("TestMap1", "Test Map", "test building", 1, "testPath", testNodes);
   }
 }

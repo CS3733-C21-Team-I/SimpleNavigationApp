@@ -55,7 +55,7 @@ public class MapPathfindingControllerMobile extends MobileMapController {
 
   // setup stuff
   @FXML
-  public void initialize() throws IOException {
+  public void initialize() {
     System.out.println("Initializing pathfinding controller");
     extraMenu.managedProperty().bind(extraMenu.visibleProperty());
     allDirections.managedProperty().bind(allDirections.visibleProperty());
@@ -112,7 +112,8 @@ public class MapPathfindingControllerMobile extends MobileMapController {
     try {
       Image background =
           new Image(
-              (getClass().getResource("/fxml/map/mapImages/" + currentMapID.replace(" ", "") + ".png"))
+              (getClass()
+                      .getResource("/fxml/map/mapImages/" + currentMapID.replace(" ", "") + ".png"))
                   .toURI()
                   .toString());
       mapImage.setImage(background);
@@ -208,7 +209,7 @@ public class MapPathfindingControllerMobile extends MobileMapController {
   }
 
   @FXML
-  public void getDirections(ActionEvent e) throws IOException {
+  public void getDirections(ActionEvent e) {
     String begin = start.getText();
     String end = destination.getText();
     if (begin.length() > 0 && end.length() > 0) {

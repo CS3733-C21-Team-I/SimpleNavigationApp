@@ -47,11 +47,11 @@ public class MapPathfindingController extends MapController {
   private List<HospitalMapNode> foundPath;
   private ArrayList<String> foundPathDescription;
 
-  public MapPathfindingController() throws URISyntaxException {}
+  public MapPathfindingController() {}
 
   // setup stuff
   @FXML
-  public void initialize() throws IOException {
+  public void initialize() {
     System.out.println("Initializing pathfinding controller");
     boolean isAdmin =
         ApplicationDataController.getInstance()
@@ -184,7 +184,7 @@ public class MapPathfindingController extends MapController {
   }
 
   @FXML
-  public void getDirections(ActionEvent e) throws IOException {
+  public void getDirections(ActionEvent e) {
     String begin = start.getText();
     String end = destination.getText();
     if (begin.length() > 0 && end.length() > 0) {
@@ -418,7 +418,9 @@ public class MapPathfindingController extends MapController {
     try {
       startIcon =
           new Image(
-              (getClass().getResource("/fxml/map/mapImages/symbolIcons/startIcon.png")).toURI().toString());
+              (getClass().getResource("/fxml/map/mapImages/symbolIcons/startIcon.png"))
+                  .toURI()
+                  .toString());
     } catch (URISyntaxException e) {
       e.printStackTrace();
     }

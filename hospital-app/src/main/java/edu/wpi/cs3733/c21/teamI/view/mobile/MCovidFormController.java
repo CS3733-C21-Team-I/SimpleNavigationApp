@@ -143,7 +143,7 @@ public class MCovidFormController {
       waitingForResult = true;
     }
 
-    if (symptoms == true) {
+    if (symptoms) {
       isCovidRisk = true;
     }
 
@@ -209,7 +209,7 @@ public class MCovidFormController {
   public void displayParkingSpot(int lotAssigned) {
     parkingIndication.setText(
         "Your parking spot is "
-            + String.valueOf(lotAssigned)
+            + lotAssigned
             + ". Please take the following covid form before entering the hospital.");
   }
 
@@ -220,14 +220,11 @@ public class MCovidFormController {
   }
 
   public void checkFinished() {
-    if (IsCheckboxGroupChecked(symptoms) | noneCheckbox.isSelected()
-        && IsCheckboxGroupChecked(closeContactChecks) | noneCheckbox2.isSelected()
-        && covidYesRadioBtn.isSelected() | covidNoRadioBtn.isSelected()
-        && !parkingInput.getText().equals("")) {
-      submitBttn.setDisable(false);
-    } else {
-      submitBttn.setDisable(true);
-    }
+    submitBttn.setDisable(
+        !(IsCheckboxGroupChecked(symptoms) | noneCheckbox.isSelected())
+            || !(IsCheckboxGroupChecked(closeContactChecks) | noneCheckbox2.isSelected())
+            || !(covidYesRadioBtn.isSelected() | covidNoRadioBtn.isSelected())
+            || parkingInput.getText().equals(""));
   }
 
   public boolean IsCheckboxGroupChecked(ArrayList<JFXCheckBox> checkboxElements) {

@@ -90,17 +90,14 @@ public class LanguageController extends Application {
   }
 
   public void checkFinished() {
-    if (langTime.valueProperty().getValue() != null
-        && langReqID.getText() != null
-        && langReqID.getText().trim().length() > 0
-        && langTextfield.getText() != null
-        && langTextfield.getText().trim().length() > 0
-        && checkEmployeeID(langAssignedEmp.getText())
-        && checkLocation(langLocationTextfield.getText())) {
-      langSubmit.setDisable(false);
-    } else {
-      langSubmit.setDisable(true);
-    }
+    langSubmit.setDisable(
+        langTime.valueProperty().getValue() == null
+            || langReqID.getText() == null
+            || langReqID.getText().trim().length() <= 0
+            || langTextfield.getText() == null
+            || langTextfield.getText().trim().length() <= 0
+            || !checkEmployeeID(langAssignedEmp.getText())
+            || !checkLocation(langLocationTextfield.getText()));
   }
 
   public boolean checkEmployeeID(String employeeText) {
@@ -165,5 +162,5 @@ public class LanguageController extends Application {
   }
 
   @Override
-  public void start(Stage primaryStage) throws Exception {}
+  public void start(Stage primaryStage) {}
 }

@@ -36,10 +36,10 @@ public class MenuController extends Application {
   }
 
   @Override
-  public void start(Stage primaryStage) throws Exception {}
+  public void start(Stage primaryStage) {}
 
   @FXML
-  public void initialize() throws IOException {
+  public void initialize() {
     User user = ApplicationDataController.getInstance().getLoggedInUser();
 
     for (Node menuItem : menu.getChildren()) {
