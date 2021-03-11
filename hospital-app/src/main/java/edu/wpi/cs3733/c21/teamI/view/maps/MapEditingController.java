@@ -82,7 +82,7 @@ public class MapEditingController extends MapController {
     try {
       Image background =
           new Image(
-              (getClass().getResource("/fxml/mapImages/" + currentMapID.replace(" ", "") + ".png"))
+              (getClass().getResource("/fxml/map/mapImages/" + currentMapID.replace(" ", "") + ".png"))
                   .toURI()
                   .toString());
       mapImage.setImage(background);
@@ -212,7 +212,7 @@ public class MapEditingController extends MapController {
   }
 
   protected void drawEdges(HospitalMapNode parent) {
-    Image xIconImg = new Image("/fxml/fxmlResources/map/redxicon.png");
+    Image xIconImg = new Image("/fxml/map/mapImages/symbolIcons/redxicon.png");
     for (HospitalMapNode child : parent.getConnections()) {
       HospitalMapNode startNode =
           dataCont.getActiveMap().getNodes().contains(parent) ? parent : child;

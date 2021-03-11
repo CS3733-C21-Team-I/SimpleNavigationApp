@@ -256,7 +256,7 @@ public abstract class MapController extends Application {
     try {
       startIcon =
           new Image(
-              (getClass().getResource("/fxml/fxmlResources/map/startIcon.png")).toURI().toString());
+              (getClass().getResource("/fxml/map/mapImages/symbolIcons/startIcon.png")).toURI().toString());
     } catch (URISyntaxException e) {
       e.printStackTrace();
     }
@@ -272,7 +272,7 @@ public abstract class MapController extends Application {
     try {
       finishIcon =
           new Image(
-              (getClass().getResource("/fxml/fxmlResources/map/finishIcon.png"))
+              (getClass().getResource("/fxml/map/mapImages/symbolIcons/finishIcon.png"))
                   .toURI()
                   .toString());
     } catch (URISyntaxException e) {

@@ -37,7 +37,7 @@
             </HBox>
          </children>
       </VBox>
-      <JFXHamburger fx:id="ham1" stylesheets="@fxmlResources/css/main.css" AnchorPane.leftAnchor="16.0" AnchorPane.topAnchor="120.0">
+      <JFXHamburger fx:id="ham1" stylesheets="@misc/css/main.css" AnchorPane.leftAnchor="16.0" AnchorPane.topAnchor="120.0">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></JFXHamburger>

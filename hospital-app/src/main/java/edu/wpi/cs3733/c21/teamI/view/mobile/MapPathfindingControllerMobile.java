@@ -112,7 +112,7 @@ public class MapPathfindingControllerMobile extends MobileMapController {
     try {
       Image background =
           new Image(
-              (getClass().getResource("/fxml/mapImages/" + currentMapID.replace(" ", "") + ".png"))
+              (getClass().getResource("/fxml/map/mapImages/" + currentMapID.replace(" ", "") + ".png"))
                   .toURI()
                   .toString());
       mapImage.setImage(background);
@@ -228,16 +228,16 @@ public class MapPathfindingControllerMobile extends MobileMapController {
 
         switch (((LocationNode) node).getLocationCategory()) { // switch case for special types
           case ELEV:
-            displayIcon("/fxml/mapImages/mapIcons/elevator.png", node);
+            displayIcon("/fxml/map/mapImages/mapIcons/elevator.png", node);
             break;
           case REST:
-            displayIcon("/fxml/mapImages/mapIcons/bathroom.png", node);
+            displayIcon("/fxml/map/mapImages/mapIcons/bathroom.png", node);
             break;
           case STAI:
-            displayIcon("/fxml/mapImages/mapIcons/stairs.png", node);
+            displayIcon("/fxml/map/mapImages/mapIcons/stairs.png", node);
             break;
           case KIOS:
-            displayIcon("/fxml/mapImages/mapIcons/info.png", node);
+            displayIcon("/fxml/map/mapImages/mapIcons/info.png", node);
             break;
             //          case FOOD:
             //            displayIcon("/fxml/mapImages/mapIcons/dining.png", node);
@@ -249,23 +249,23 @@ public class MapPathfindingControllerMobile extends MobileMapController {
             switch (((LocationNode) node).getLongName()) { // even specialer cases
               case "Northern Parking Icon":
               case "Western Parking Icon":
-                displayIcon("/fxml/mapImages/mapIcons/parking.png", node);
+                displayIcon("/fxml/map/mapImages/mapIcons/parking.png", node);
                 break;
               case "Cafeteria":
               case "Food Services":
-                displayIcon("/fxml/mapImages/mapIcons/dining.png", node);
+                displayIcon("/fxml/map/mapImages/mapIcons/dining.png", node);
                 break;
               case "Starbucks":
-                displayIcon("/fxml/mapImages/mapIcons/starbucks.png", node);
+                displayIcon("/fxml/map/mapImages/mapIcons/starbucks.png", node);
                 break;
               case "Pharmacy":
-                displayIcon("/fxml/mapImages/mapIcons/pharmacy.png", node);
+                displayIcon("/fxml/map/mapImages/mapIcons/pharmacy.png", node);
                 break;
               case "Emergency Department":
-                displayIcon("/fxml/mapImages/mapIcons/emergencyRoom.png", node);
+                displayIcon("/fxml/map/mapImages/mapIcons/emergencyRoom.png", node);
                 break;
               case "Valet Parking Icon":
-                displayIcon("/fxml/mapImages/mapIcons/valet.png", node);
+                displayIcon("/fxml/map/mapImages/mapIcons/valet.png", node);
                 break;
               default:
                 Circle circle =

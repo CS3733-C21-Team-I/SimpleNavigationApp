@@ -32,7 +32,7 @@
             <JFXTextField fx:id="input" focusColor="#012d5a" HBox.hgrow="ALWAYS" />
          </children>
       </HBox>
-      <JFXTreeTableView fx:id="treeView" editable="true" prefHeight="350.0" prefWidth="786.0" stylesheets="@../fxmlResources/css/ServiceRequestTable.css" />
+      <JFXTreeTableView fx:id="treeView" editable="true" prefHeight="350.0" prefWidth="786.0" stylesheets="@../misc/css/ServiceRequestTable.css" />
       <HBox prefHeight="46.0" prefWidth="786.0">
          <children>
             <JFXButton fx:id="markCompleteButton" onAction="#markComplete" style="-fx-background-color: #012d5a;" text="Mark as complete" textFill="WHITE">
