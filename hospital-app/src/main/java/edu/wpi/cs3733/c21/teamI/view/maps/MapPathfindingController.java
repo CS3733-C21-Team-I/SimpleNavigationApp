@@ -8,6 +8,7 @@ import edu.wpi.cs3733.c21.teamI.pathfinding.*;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicketDataController;
 import edu.wpi.cs3733.c21.teamI.user.User;
 import edu.wpi.cs3733.c21.teamI.util.ImageLoader;
+import edu.wpi.cs3733.c21.teamI.util.InputChecking;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -187,13 +188,22 @@ public class MapPathfindingController extends MapController {
   public void getDirections(ActionEvent e) throws IOException {
     String begin = start.getText();
     String end = destination.getText();
-    if (begin.length() > 0 && end.length() > 0) {
-      System.out.println(begin + " " + end);
+    if (InputChecking.validLocationName(begin)) {
+      if (InputChecking.validLocationName(end)) {
 
-      HospitalMapNode nodeA = MapDataEntity.getNodeByLongName(begin);
-      HospitalMapNode nodeB = MapDataEntity.getNodeByLongName(end);
-      getFoundPath(nodeA, nodeB);
-      update();
+        System.out.println(begin + " " + end);
+
+        HospitalMapNode nodeA = MapDataEntity.getNodeByLongName(begin);
+        HospitalMapNode nodeB = MapDataEntity.getNodeByLongName(end);
+        getFoundPath(nodeA, nodeB);
+        update();
+
+      } else {
+        System.out.println("Invalid destination entered");
+      }
+
+    } else {
+      System.out.println("Invalid starting point");
     }
   }
 
