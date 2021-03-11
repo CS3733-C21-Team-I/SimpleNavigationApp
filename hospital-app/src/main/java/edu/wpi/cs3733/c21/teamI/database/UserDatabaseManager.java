@@ -852,4 +852,19 @@ public class UserDatabaseManager extends DatabaseManager {
       return null;
     }
   }
+
+  public List<String> getCurrentUsernames() {
+    List<String> cur = new ArrayList<>();
+    try {
+      Statement stmt = databaseRef.getConnection().createStatement();
+      ResultSet rs = stmt.executeQuery("SELECT screenName FROM HOSPITAL_USERS");
+      while (rs.next()) {
+        cur.add(rs.getString("screenName"));
+      }
+      return cur;
+    } catch (SQLException e) {
+      e.printStackTrace();
+      return null;
+    }
+  }
 }
