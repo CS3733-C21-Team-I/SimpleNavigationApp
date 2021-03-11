@@ -76,7 +76,7 @@ public class MapPathfindingController extends MapController {
     replacePane.getChildren().clear();
     replacePane
         .getChildren()
-        .add(FXMLLoader.load(getClass().getResource("/fxml/Pathediting.fxml")));
+        .add(FXMLLoader.load(getClass().getResource("/fxml/map/Pathediting.fxml")));
   }
 
   @FXML
@@ -85,7 +85,7 @@ public class MapPathfindingController extends MapController {
     replacePane.getChildren().clear();
     replacePane
         .getChildren()
-        .add(FXMLLoader.load(getClass().getResource("/fxml/GoogleMapsMain.fxml")));
+        .add(FXMLLoader.load(getClass().getResource("/fxml/map/GoogleMapsMain.fxml")));
   }
 
   // viewport stuff
@@ -293,7 +293,7 @@ public class MapPathfindingController extends MapController {
             rootPane.getChildren().clear();
             rootPane
                 .getChildren()
-                .add(FXMLLoader.load(getClass().getResource("/fxml/Pathfinding.fxml")));
+                .add(FXMLLoader.load(getClass().getResource("/fxml/map/Pathfinding.fxml")));
           }
         });
   }
@@ -418,7 +418,7 @@ public class MapPathfindingController extends MapController {
     try {
       startIcon =
           new Image(
-              (getClass().getResource("/fxml/fxmlResources/startIcon.png")).toURI().toString());
+              (getClass().getResource("/fxml/fxmlResources/map/startIcon.png")).toURI().toString());
     } catch (URISyntaxException e) {
       e.printStackTrace();
     }
@@ -434,7 +434,9 @@ public class MapPathfindingController extends MapController {
     try {
       finishIcon =
           new Image(
-              (getClass().getResource("/fxml/fxmlResources/finishIcon.png")).toURI().toString());
+              (getClass().getResource("/fxml/fxmlResources/map/finishIcon.png"))
+                  .toURI()
+                  .toString());
     } catch (URISyntaxException e) {
       e.printStackTrace();
     }

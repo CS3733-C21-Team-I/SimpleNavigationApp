@@ -49,7 +49,7 @@
                                  <children>
                                               <ImageView fx:id="switchroute" fitHeight="46.0" fitWidth="36.0" onMouseClicked="#onSwitch" pickOnBounds="true" preserveRatio="true" styleClass=".styledLogo">
                                                   <image>
-                                                      <Image url="@../fxmlResources/switch_icon.png" />
+                                                      <Image url="@../fxmlResources/map/switch_icon.png" />
                                                   </image>
                                        <cursor>
                                           <Cursor fx:constant="HAND" />
@@ -70,7 +70,7 @@
                                                       <Insets right="5.0" />
                                                    </HBox.margin>
                                                           </TextField>
-                                                <JFXHamburger fx:id="ham" alignment="CENTER" stylesheets="@../fxmlResources/mobileTab.css">
+                                                <JFXHamburger fx:id="ham" alignment="CENTER" stylesheets="@../fxmlResources/css/mobileTab.css">
                                                    <HBox.margin>
                                                       <Insets right="5.0" />
                                                    </HBox.margin>
@@ -175,7 +175,7 @@
                   </VBox>
                   <StackPane style="-fx-background-color: #0067b1;">
                      <children>
-                                  <JFXTabPane maxHeight="-Infinity" maxWidth="306.0" prefWidth="306.0" style="-fx-background-color: #0067b1;" stylesheets="@../fxmlResources/mobileTab.css" tabMaxHeight="20.0" tabMaxWidth="80.0" tabMinHeight="20.0" tabMinWidth="80.0">
+                                  <JFXTabPane maxHeight="-Infinity" maxWidth="306.0" prefWidth="306.0" style="-fx-background-color: #0067b1;" stylesheets="@../fxmlResources/css/mobileTab.css" tabMaxHeight="20.0" tabMaxWidth="80.0" tabMinHeight="20.0" tabMinWidth="80.0">
                                       <tabs>
                                           <Tab fx:id="campus" onSelectionChanged="#campusTab" text="Campus" />
                                           <Tab fx:id="floor1" onSelectionChanged="#floor1Tab" text="Floor 1" />

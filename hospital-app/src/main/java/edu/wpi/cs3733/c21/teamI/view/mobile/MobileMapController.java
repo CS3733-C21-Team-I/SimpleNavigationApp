@@ -242,7 +242,7 @@ public abstract class MobileMapController extends Application {
     try {
       startIcon =
           new Image(
-              (getClass().getResource("/fxml/fxmlResources/startIcon.png")).toURI().toString());
+              (getClass().getResource("/fxml/fxmlResources/map/startIcon.png")).toURI().toString());
     } catch (URISyntaxException e) {
       e.printStackTrace();
     }
@@ -258,7 +258,9 @@ public abstract class MobileMapController extends Application {
     try {
       finishIcon =
           new Image(
-              (getClass().getResource("/fxml/fxmlResources/finishIcon.png")).toURI().toString());
+              (getClass().getResource("/fxml/fxmlResources/map/finishIcon.png"))
+                  .toURI()
+                  .toString());
     } catch (URISyntaxException e) {
       e.printStackTrace();
     }

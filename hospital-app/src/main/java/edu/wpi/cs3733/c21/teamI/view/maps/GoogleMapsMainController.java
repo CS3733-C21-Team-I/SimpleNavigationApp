@@ -31,6 +31,6 @@ public class GoogleMapsMainController extends GoogleMap {
     replacePane.getChildren().clear();
     replacePane
         .getChildren()
-        .add(FXMLLoader.load(getClass().getResource("/fxml/Pathfinding.fxml")));
+        .add(FXMLLoader.load(getClass().getResource("/fxml/map/Pathfinding.fxml")));
   }
 }

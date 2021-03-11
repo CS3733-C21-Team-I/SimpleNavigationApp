@@ -65,7 +65,7 @@
                      <children>
                         <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@fxmlResources/Margaret_pic.png" />
+                              <Image url="@fxmlResources/aboutPage/Margaret_pic.png" />
                            </image>
                            <VBox.margin>
                               <Insets left="22.0" right="22.0" />
@@ -90,7 +90,7 @@
                      <children>
                         <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@fxmlResources/Carley_pic.png" />
+                              <Image url="@fxmlResources/aboutPage/Carley_pic.png" />
                            </image>
                            <VBox.margin>
                               <Insets left="22.0" right="22.0" />
@@ -115,7 +115,7 @@
                      <children>
                         <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@fxmlResources/Bao_pic.png" />
+                              <Image url="@fxmlResources/aboutPage/Bao_pic.png" />
                            </image>
                            <VBox.margin>
                               <Insets left="22.0" right="22.0" />
@@ -140,7 +140,7 @@
                      <children>
                         <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@fxmlResources/James_pic.png" />
+                              <Image url="@fxmlResources/aboutPage/James_pic.png" />
                            </image>
                            <VBox.margin>
                               <Insets left="22.0" right="22.0" />
@@ -165,7 +165,7 @@
                      <children>
                         <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@fxmlResources/Isaac_pic.png" />
+                              <Image url="@fxmlResources/aboutPage/Isaac_pic.png" />
                            </image>
                            <VBox.margin>
                               <Insets left="22.0" right="22.0" />
@@ -190,7 +190,7 @@
                      <children>
                         <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@fxmlResources/Othniel_pic.png" />
+                              <Image url="@fxmlResources/aboutPage/Othniel_pic.png" />
                            </image>
                            <VBox.margin>
                               <Insets left="22.0" right="22.0" />
@@ -222,7 +222,7 @@
                      <children>
                         <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@fxmlResources/Chris_pic.png" />
+                              <Image url="@fxmlResources/aboutPage/Chris_pic.png" />
                            </image>
                            <VBox.margin>
                               <Insets left="22.0" right="22.0" />
@@ -247,7 +247,7 @@
                      <children>
                         <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@fxmlResources/Owen_pic.png" />
+                              <Image url="@fxmlResources/aboutPage/Owen_pic.png" />
                            </image>
                            <VBox.margin>
                               <Insets left="22.0" right="22.0" />
@@ -272,7 +272,7 @@
                      <children>
                         <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@fxmlResources/Freud_pic.png" />
+                              <Image url="@fxmlResources/aboutPage/Freud_pic.png" />
                            </image>
                            <VBox.margin>
                               <Insets left="22.0" right="22.0" />
@@ -297,7 +297,7 @@
                      <children>
                         <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@fxmlResources/Will_pic.png" />
+                              <Image url="@fxmlResources/aboutPage/Will_pic.png" />
                            </image>
                            <VBox.margin>
                               <Insets left="22.0" right="22.0" />
@@ -322,7 +322,7 @@
                      <children>
                         <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@fxmlResources/Norman_pic.png" />
+                              <Image url="@fxmlResources/aboutPage/Norman_pic.png" />
                            </image>
                            <VBox.margin>
                               <Insets left="22.0" right="22.0" />
@@ -349,7 +349,7 @@
                <children>
                   <ImageView fitHeight="61.0" fitWidth="292.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@fxmlResources/hospital_label.png" />
+                        <Image url="@fxmlResources/hospitalImages/hospital_label.png" />
                      </image>
                      <HBox.margin>
                         <Insets bottom="5.0" left="15.0" />
@@ -357,7 +357,7 @@
                   </ImageView>
                   <ImageView fitHeight="61.0" fitWidth="171.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@fxmlResources/WPI_label.png" />
+                        <Image url="@fxmlResources/aboutPage/WPI_label.png" />
                      </image>
                      <HBox.margin>
                         <Insets bottom="5.0" left="10.0" />

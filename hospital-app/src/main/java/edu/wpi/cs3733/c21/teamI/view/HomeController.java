@@ -107,7 +107,7 @@ public class HomeController extends Application {
 
   @Override
   public void start(Stage primaryStage) throws Exception {
-    Parent root = FXMLLoader.load(getClass().getResource("/fxml/menuFiles/PageFrame.fxml"));
+    Parent root = FXMLLoader.load(getClass().getResource("/fxml/PageFrame.fxml"));
     primaryStage.setTitle("Hospital App");
     Scene applicationScene = new Scene(root, 973, 800);
     primaryStage.setScene(applicationScene);
@@ -124,7 +124,7 @@ public class HomeController extends Application {
       box = vLoader.load();
       ViewManager.homeController = this;
       FXMLLoader hLoader =
-          new FXMLLoader(getClass().getResource("/fxml/menuFiles/notificationContent.fxml"));
+          new FXMLLoader(getClass().getResource("/fxml/menuFiles/NotificationContent.fxml"));
       hBox = hLoader.load();
       if (ApplicationDataController.getInstance()
           .getLoggedInUser()
@@ -133,11 +133,15 @@ public class HomeController extends Application {
         replacePane.getChildren().clear();
         replacePane
             .getChildren()
-            .add(FXMLLoader.load(getClass().getResource("/fxml/ServiceRequestTableView.fxml")));
+            .add(
+                FXMLLoader.load(
+                    getClass().getResource("/fxml/menuFiles/ServiceRequestTableView.fxml")));
       } else {
         titleLabel.setText("General Portal");
         replacePane.getChildren().clear();
-        replacePane.getChildren().add(FXMLLoader.load(getClass().getResource("/fxml/Home.fxml")));
+        replacePane
+            .getChildren()
+            .add(FXMLLoader.load(getClass().getResource("/fxml/menuFiles/Home.fxml")));
       }
     } catch (IOException e) {
       e.printStackTrace();

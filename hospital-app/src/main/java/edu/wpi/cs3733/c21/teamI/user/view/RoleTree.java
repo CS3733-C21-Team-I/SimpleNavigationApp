@@ -169,7 +169,7 @@ public class RoleTree extends JFXListCell<User.Role> {
 
       if (mLLoader == null) {
         System.out.println("Loading");
-        mLLoader = new FXMLLoader(getClass().getResource("/fxml/RoleTable.fxml"));
+        mLLoader = new FXMLLoader(getClass().getResource("/fxml/menuFiles/RoleTable.fxml"));
         mLLoader.setController(this);
 
         try {

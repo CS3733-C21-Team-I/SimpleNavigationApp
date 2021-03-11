@@ -41,7 +41,7 @@ public class LotPane extends JFXListCell<Lot> {
 
   void loadFXML() {
     try {
-      FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/LotPane.fxml"));
+      FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/parking/LotPane.fxml"));
 
       loader.load();
     } catch (IOException e) {
@@ -67,7 +67,7 @@ public class LotPane extends JFXListCell<Lot> {
 
       if (mLLoader == null) {
         System.out.println("Loading");
-        mLLoader = new FXMLLoader(getClass().getResource("/fxml/LotPane.fxml"));
+        mLLoader = new FXMLLoader(getClass().getResource("/fxml/parking/LotPane.fxml"));
         mLLoader.setController(this);
 
         try {

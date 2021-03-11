@@ -19,7 +19,7 @@
                         <Font size="18.0" />
                     </font>
                 </Label>
-                <Button fx:id="okBtn" mnemonicParsing="false" styleClass="styledButton" stylesheets="@fxmlResources/main.css" text="OK" />
+                <Button fx:id="okBtn" mnemonicParsing="false" styleClass="styledButton" stylesheets="@fxmlResources/css/main.css" text="OK" />
             </children>
         </VBox>
     </children>

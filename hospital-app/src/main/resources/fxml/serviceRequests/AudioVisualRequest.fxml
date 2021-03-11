@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane fx:id="background" minWidth="500.0" prefHeight="616.0" prefWidth="500.0" style="-fx-background-color: #F1F1F1;" styleClass=".root" stylesheets="@../fxmlResources/main.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamI.ticket.view.AudioVisualRequestController">
+<AnchorPane fx:id="background" minWidth="500.0" prefHeight="616.0" prefWidth="500.0" style="-fx-background-color: #F1F1F1;" styleClass=".root" stylesheets="@../fxmlResources/css/main.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamI.ticket.view.AudioVisualRequestController">
    <children>
       <VBox fillWidth="false" layoutX="267.0" layoutY="35.0" maxHeight="617.0" prefHeight="548.0" prefWidth="508.0" AnchorPane.bottomAnchor="48.0" AnchorPane.leftAnchor="42.0" AnchorPane.rightAnchor="42.0" AnchorPane.topAnchor="20.0">
          <children>

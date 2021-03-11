@@ -9,7 +9,6 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
@@ -28,7 +27,7 @@ public class EmployeeTableController extends Application {
 
   @Override
   public void start(Stage primaryStage) throws Exception {
-    AnchorPane root = FXMLLoader.load(getClass().getResource("/fxml/EmployeeTable.fxml"));
+    AnchorPane root = FXMLLoader.load(getClass().getResource("/fxml/menuFiles/EmployeeTable.fxml"));
     primaryStage.setTitle("Hospital App");
     Scene applicationScene = new Scene(root, 973, 800);
     primaryStage.setScene(applicationScene);

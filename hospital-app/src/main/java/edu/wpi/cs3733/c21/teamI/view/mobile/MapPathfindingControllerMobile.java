@@ -104,7 +104,7 @@ public class MapPathfindingControllerMobile extends MobileMapController {
     replacePane.getChildren().clear();
     replacePane
         .getChildren()
-        .add(FXMLLoader.load(getClass().getResource("/fxml/Pathediting.fxml")));
+        .add(FXMLLoader.load(getClass().getResource("/fxml/map/Pathediting.fxml")));
   }
 
   // viewport stuff

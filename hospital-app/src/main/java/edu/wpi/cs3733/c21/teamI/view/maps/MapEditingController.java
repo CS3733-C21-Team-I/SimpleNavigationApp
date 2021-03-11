@@ -55,7 +55,7 @@ public class MapEditingController extends MapController {
     replacePane.getChildren().clear();
     replacePane
         .getChildren()
-        .add(FXMLLoader.load(getClass().getResource("/fxml/Pathfinding.fxml")));
+        .add(FXMLLoader.load(getClass().getResource("/fxml/map/Pathfinding.fxml")));
   }
 
   // viewport stuff
@@ -212,7 +212,7 @@ public class MapEditingController extends MapController {
   }
 
   protected void drawEdges(HospitalMapNode parent) {
-    Image xIconImg = new Image("/fxml/fxmlResources/redxicon.png");
+    Image xIconImg = new Image("/fxml/fxmlResources/map/redxicon.png");
     for (HospitalMapNode child : parent.getConnections()) {
       HospitalMapNode startNode =
           dataCont.getActiveMap().getNodes().contains(parent) ? parent : child;

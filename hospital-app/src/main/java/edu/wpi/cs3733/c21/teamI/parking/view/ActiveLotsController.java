@@ -100,7 +100,7 @@ public class ActiveLotsController extends Application {
 
   @Override
   public void start(Stage primaryStage) throws Exception {
-    AnchorPane root = FXMLLoader.load(getClass().getResource("/fxml/ActiveLots.fxml"));
+    AnchorPane root = FXMLLoader.load(getClass().getResource("/fxml/parking/ActiveLots.fxml"));
     primaryStage.setTitle("Hospital App");
     Scene applicationScene = new Scene(root, 973, 800);
     primaryStage.setScene(applicationScene);

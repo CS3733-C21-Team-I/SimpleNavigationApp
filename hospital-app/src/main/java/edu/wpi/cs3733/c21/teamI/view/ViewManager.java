@@ -19,14 +19,14 @@ public class ViewManager {
                 {"COVIDButton", "/fxml/menuFiles/CovidForm.fxml"},
                 {"giftsButton", "/fxml/serviceRequests/GiftRequest.fxml"},
                 {"requestButton", "/fxml/menuFiles/ServiceView.fxml"},
-                {"employeeButton", "/fxml/EmployeeTable.fxml"},
-                {"logoutButton", "/fxml/Home.fxml"},
-                {"parkingButton", "/fxml/ActiveLots.fxml"},
-                {"ticketButton", "/fxml/ServiceRequestTableView.fxml"},
+                {"employeeButton", "/fxml/menuFiles/EmployeeTable.fxml"},
+                {"logoutButton", "/fxml/menuFiles/Home.fxml"},
+                {"parkingButton", "/fxml/parking/ActiveLots.fxml"},
+                {"ticketButton", "/fxml/menuFiles/ServiceRequestTableView.fxml"},
                 {"feedbackButton", "/fxml/menuFiles/feedbackView.fxml"},
                 {"trackerButton", "/fxml/menuFiles/COVIDTracker.fxml"},
-                {"navigateButton", "/fxml/Pathfinding.fxml"},
-                {"loginButton", "/fxml/Profile.fxml"}
+                {"navigateButton", "/fxml/map/Pathfinding.fxml"},
+                {"loginButton", "/fxml/menuFiles/Profile.fxml"}
               })
           .collect(Collectors.toMap(data -> data[0], data -> data[1]));
   protected static HomeController homeController;
