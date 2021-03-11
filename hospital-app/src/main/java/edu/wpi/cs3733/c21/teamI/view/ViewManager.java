@@ -3,14 +3,13 @@ package edu.wpi.cs3733.c21.teamI.view;
 import com.jfoenix.controls.JFXRippler;
 import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.MapDataEntity;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.StackPane;
-
 import java.io.IOException;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.StackPane;
 
 public class ViewManager {
 
@@ -51,8 +50,8 @@ public class ViewManager {
       }
       if (id.equals(button)) {
         replacePane
-                .getChildren()
-                .add(FXMLLoader.load(ViewManager.class.getResource(navigationMap.get(button))));
+            .getChildren()
+            .add(FXMLLoader.load(ViewManager.class.getResource(navigationMap.get(button))));
         break;
       }
       if (button.equals("navigateButton")) {

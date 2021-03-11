@@ -110,7 +110,6 @@ public class HomeController extends Application {
     Parent root = FXMLLoader.load(getClass().getResource("/fxml/menuFiles/PageFrame.fxml"));
     primaryStage.setTitle("Hospital App");
     Scene applicationScene = new Scene(root, 973, 800);
-    ViewManager.setReplacePane(replacePane);
     primaryStage.setScene(applicationScene);
     primaryStage.setMaximized(true);
     primaryStage.show();
