@@ -112,8 +112,6 @@ public class HomeController extends Application {
     Scene applicationScene = new Scene(root, 973, 800);
     ViewManager.setReplacePane(replacePane);
     primaryStage.setScene(applicationScene);
-    //    primaryStage.setMinHeight(800);
-    //    primaryStage.setMinWidth(1000);
     primaryStage.setMaximized(true);
     primaryStage.show();
   }
@@ -125,7 +123,7 @@ public class HomeController extends Application {
     try {
       FXMLLoader vLoader = new FXMLLoader(getClass().getResource("/fxml/menuFiles/AdminMenu.fxml"));
       box = vLoader.load();
-      ((AdminMenuController) vLoader.getController()).setHomeController(this);
+      ViewManager.homeController = this;
       FXMLLoader hLoader =
           new FXMLLoader(getClass().getResource("/fxml/menuFiles/notificationContent.fxml"));
       hBox = hLoader.load();

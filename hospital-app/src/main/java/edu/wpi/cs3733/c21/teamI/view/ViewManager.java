@@ -26,7 +26,7 @@ public class ViewManager {
                 {"giftsButton", "/fxml/serviceRequests/GiftRequest.fxml"},
                 {"requestButton", "/fxml/menuFiles/ServiceView.fxml"},
                 {"employeeButton", "/fxml/EmployeeTable.fxml"},
-                {"logoutButton", "/fxml/Profile.fxml"},
+                {"logoutButton", "/fxml/Home.fxml"},
                 {"parkingButton", "/fxml/ActiveLots.fxml"},
                 {"ticketButton", "/fxml/ServiceRequestTableView.fxml"},
                 {"feedbackButton", "/fxml/menuFiles/feedbackView.fxml"},
@@ -34,8 +34,9 @@ public class ViewManager {
                 {"navigateButton", "/fxml/Pathfinding.fxml"},
               })
           .collect(Collectors.toMap(data -> data[0], data -> data[1]));
+  protected static HomeController homeController;
 
-  public static void navigate(MouseEvent e, HomeController homeController) throws IOException {
+  public static void navigate(MouseEvent e) throws IOException {
     String id = ((JFXRippler) e.getSource()).getId();
     StackPane replacePane =
         (StackPane)
@@ -64,7 +65,6 @@ public class ViewManager {
             new FXMLLoader(ViewManager.class.getClassLoader().getResource("/fxml/Profile.fxml"));
         profLoader.setLocation(ViewManager.class.getResource("/fxml/Profile.fxml"));
         replacePane.getChildren().add(profLoader.load());
-        ((ProfileController) profLoader.getController()).setHomeController(homeController);
       }
     }
     for (String button : navigationMap.keySet()) {

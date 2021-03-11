@@ -17,8 +17,6 @@ public class ProfileController extends Application {
   public String uName;
   public static String pass;
 
-  HomeController homeController;
-
   @FXML
   public void login() {
     uName = username.getText();
@@ -28,17 +26,12 @@ public class ProfileController extends Application {
       if (ApplicationDataController.getInstance()
           .getLoggedInUser()
           .hasPermission(User.Permission.VIEW_TICKET)) {
-        homeController.update();
+        ViewManager.homeController.update();
       }
-      homeController.update();
     } catch (FailedToAuthenticateException e) {
       headerLabel.setVisible(true);
       headerLabel.setText("Error: Invalid login.");
     }
-  }
-
-  public void setHomeController(HomeController homeController) {
-    this.homeController = homeController;
   }
 
   @FXML

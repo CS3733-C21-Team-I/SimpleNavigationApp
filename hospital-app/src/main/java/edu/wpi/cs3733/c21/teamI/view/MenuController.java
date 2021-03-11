@@ -10,18 +10,16 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class AdminMenuController extends Application {
+public class MenuController extends Application {
 
-  public HomeController homeController;
   @FXML VBox menu;
 
   @FXML
   public void navigate(MouseEvent e) throws IOException {
-    ViewManager.navigate(e, homeController);
+    ViewManager.navigate(e);
   }
 
   @FXML
@@ -34,11 +32,7 @@ public class AdminMenuController extends Application {
   public void logout(MouseEvent event) throws IOException {
     ApplicationDataController.getInstance().logOutUser();
     navigate(event);
-    homeController.update();
-  }
-
-  public void setHomeController(HomeController homeController) {
-    this.homeController = homeController;
+    ViewManager.homeController.update();
   }
 
   @Override
