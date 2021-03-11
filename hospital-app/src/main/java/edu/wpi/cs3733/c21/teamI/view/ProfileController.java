@@ -39,7 +39,6 @@ public class ProfileController extends Application {
     } catch (FailedToAuthenticateException e) {
       headerLabel.setVisible(true);
       headerLabel.setText("Error: Invalid login.");
-      // TODO handle failure to login
     }
   }
 
