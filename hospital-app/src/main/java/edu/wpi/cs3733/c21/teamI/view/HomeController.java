@@ -242,4 +242,8 @@ public class HomeController extends Application {
       drawer.open();
     }
   }
+
+  public StackPane getReplacePane() {
+    return replacePane;
+  }
 }

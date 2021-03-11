@@ -10,7 +10,6 @@ import java.util.stream.Stream;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
@@ -32,46 +31,33 @@ public class ViewManager {
                 {"feedbackButton", "/fxml/menuFiles/feedbackView.fxml"},
                 {"trackerButton", "/fxml/menuFiles/COVIDTracker.fxml"},
                 {"navigateButton", "/fxml/Pathfinding.fxml"},
+                {"loginButton", "/fxml/Profile.fxml"}
               })
           .collect(Collectors.toMap(data -> data[0], data -> data[1]));
   protected static HomeController homeController;
 
   public static void navigate(MouseEvent e) throws IOException {
     String id = ((JFXRippler) e.getSource()).getId();
-    StackPane replacePane =
-        (StackPane)
-            (((AnchorPane)
-                    ((JFXRippler) e.getSource())
-                        .getParent()
-                        .getParent()
-                        .getParent()
-                        .getParent()
-                        .getParent()
-                        .getChildrenUnmodifiable()
-                        .get(0))
-                .getChildren()
-                .get(0));
+    StackPane replacePane = homeController.getReplacePane();
     replacePane.getChildren().clear();
-
-    if (id.equals("loginButton")) {
-      FXMLLoader profLoader;
-      if (ApplicationDataController.getInstance().isLoggedIn()) {
-        profLoader =
-            new FXMLLoader(ViewManager.class.getClassLoader().getResource("/fxml/Home.fxml"));
-        profLoader.setLocation(ViewManager.class.getResource("/fxml/Home.fxml"));
-        replacePane.getChildren().add(profLoader.load());
-      } else {
-        profLoader =
-            new FXMLLoader(ViewManager.class.getClassLoader().getResource("/fxml/Profile.fxml"));
-        profLoader.setLocation(ViewManager.class.getResource("/fxml/Profile.fxml"));
-        replacePane.getChildren().add(profLoader.load());
-      }
-    }
     for (String button : navigationMap.keySet()) {
-      if (id.equals(button)) {
+      if (id.equals("loginButton")) {
         replacePane
             .getChildren()
-            .add(FXMLLoader.load(ViewManager.class.getResource(navigationMap.get(button))));
+            .add(
+                FXMLLoader.load(
+                    ViewManager.class.getResource(
+                        navigationMap.get(
+                            ApplicationDataController.getInstance().isLoggedIn()
+                                ? "logoutButton"
+                                : "loginButton"))));
+        break;
+      }
+      if (id.equals(button)) {
+        replacePane
+                .getChildren()
+                .add(FXMLLoader.load(ViewManager.class.getResource(navigationMap.get(button))));
+        break;
       }
       if (button.equals("navigateButton")) {
         MapDataEntity.getNodesSet(true);
