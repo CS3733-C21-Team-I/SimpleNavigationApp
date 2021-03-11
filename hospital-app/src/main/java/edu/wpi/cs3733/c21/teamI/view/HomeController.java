@@ -140,14 +140,10 @@ public class HomeController extends Application {
             .getChildren()
             .add(FXMLLoader.load(getClass().getResource("/fxml/ServiceRequestTableView.fxml")));
       } else {
-        //        FXMLLoader vLoader =
-        //            new FXMLLoader(getClass().getResource("/fxml/menuFiles/VisitorMenu.fxml"));
-        //        box = vLoader.load();
         FXMLLoader hLoader =
             new FXMLLoader(getClass().getResource("/fxml/menuFiles/notificationContent.fxml"));
         hBox = hLoader.load();
 
-        //        ((VisitorMenuController) vLoader.getController()).setHomeController(this);
         ((NotificationController) hLoader.getController()).setHomeController(this);
         titleLabel.setText("General Portal");
         replacePane.getChildren().clear();

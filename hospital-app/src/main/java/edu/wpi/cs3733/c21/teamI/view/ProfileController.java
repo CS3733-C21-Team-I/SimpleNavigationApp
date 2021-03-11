@@ -18,7 +18,6 @@ public class ProfileController extends Application {
   public String uName;
   public static String pass;
 
-  VisitorMenuController visitorMenuController;
   HomeController homeController;
 
   public void navigate(ActionEvent e) throws IOException {
@@ -42,18 +41,6 @@ public class ProfileController extends Application {
       headerLabel.setText("Error: Invalid login.");
       // TODO handle failure to login
     }
-  }
-
-  public VisitorMenuController getVisitorMenuController() {
-    return visitorMenuController;
-  }
-
-  public void setVisitorMenuController(VisitorMenuController visitorMenuController) {
-    this.visitorMenuController = visitorMenuController;
-  }
-
-  public HomeController getHomeController() {
-    return homeController;
   }
 
   public void setHomeController(HomeController homeController) {

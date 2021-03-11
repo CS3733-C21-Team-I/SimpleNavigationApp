@@ -23,7 +23,7 @@ public class MenuController implements Initializable {
   public void initialize(URL url, ResourceBundle rb) {
     VBox box = null;
     try {
-      box = FXMLLoader.load(getClass().getResource("/fxml/menuFiles/VisitorMenu.fxml"));
+      box = FXMLLoader.load(getClass().getResource("/fxml/menuFiles/AdminMenu.fxml"));
       replacePane.getChildren().add(FXMLLoader.load(getClass().getResource("/fxml/Home.fxml")));
     } catch (IOException e) {
       e.printStackTrace();
