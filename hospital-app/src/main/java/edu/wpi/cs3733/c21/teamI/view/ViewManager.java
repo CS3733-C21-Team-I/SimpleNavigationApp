@@ -31,6 +31,7 @@ public class ViewManager {
                 {"ticketButton", "/fxml/ServiceRequestTableView.fxml"},
                 {"feedbackButton", "/fxml/menuFiles/feedbackView.fxml"},
                 {"trackerButton", "/fxml/menuFiles/COVIDTracker.fxml"},
+                {"navigateButton", "/fxml/Pathfinding.fxml"},
               })
           .collect(Collectors.toMap(data -> data[0], data -> data[1]));
 
@@ -65,17 +66,15 @@ public class ViewManager {
         replacePane.getChildren().add(profLoader.load());
         ((ProfileController) profLoader.getController()).setHomeController(homeController);
       }
-    } else if (id.equals("navigateButton")) {
-      replacePane
-          .getChildren()
-          .add(FXMLLoader.load(ViewManager.class.getResource("/fxml/Pathfinding.fxml")));
-      MapDataEntity.getNodesSet(true);
     }
     for (String button : navigationMap.keySet()) {
       if (id.equals(button)) {
         replacePane
             .getChildren()
             .add(FXMLLoader.load(ViewManager.class.getResource(navigationMap.get(button))));
+      }
+      if (button.equals("navigateButton")) {
+        MapDataEntity.getNodesSet(true);
       }
     }
   }

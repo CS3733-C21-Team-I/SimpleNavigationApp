@@ -16,7 +16,6 @@ import javafx.stage.Stage;
 
 public class AdminMenuController extends Application {
 
-  StackPane replacePane = null;
   public HomeController homeController;
   @FXML VBox menu;
 
