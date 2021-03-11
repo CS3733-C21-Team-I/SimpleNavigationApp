@@ -2,7 +2,6 @@ package edu.wpi.cs3733.c21.teamI.view;
 
 import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
 import edu.wpi.cs3733.c21.teamI.database.FailedToAuthenticateException;
-import edu.wpi.cs3733.c21.teamI.user.User;
 import java.io.IOException;
 import javafx.application.Application;
 import javafx.fxml.FXML;
@@ -23,11 +22,7 @@ public class ProfileController extends Application {
     pass = password.getText();
     try {
       ApplicationDataController.getInstance().logInUser(uName, pass);
-      if (ApplicationDataController.getInstance()
-          .getLoggedInUser()
-          .hasPermission(User.Permission.VIEW_TICKET)) {
-        ViewManager.homeController.update();
-      }
+      ViewManager.homeController.update();
     } catch (FailedToAuthenticateException e) {
       headerLabel.setVisible(true);
       headerLabel.setText("Error: Invalid login.");

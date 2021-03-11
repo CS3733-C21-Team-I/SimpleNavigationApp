@@ -107,7 +107,7 @@ public class HomeController extends Application {
 
   @Override
   public void start(Stage primaryStage) throws Exception {
-    Parent root = FXMLLoader.load(getClass().getResource("/fxml/menuFiles/Menu.fxml"));
+    Parent root = FXMLLoader.load(getClass().getResource("/fxml/menuFiles/PageFrame.fxml"));
     primaryStage.setTitle("Hospital App");
     Scene applicationScene = new Scene(root, 973, 800);
     ViewManager.setReplacePane(replacePane);
@@ -121,13 +121,12 @@ public class HomeController extends Application {
     VBox box = null;
     HBox hBox = null;
     try {
-      FXMLLoader vLoader = new FXMLLoader(getClass().getResource("/fxml/menuFiles/AdminMenu.fxml"));
+      FXMLLoader vLoader = new FXMLLoader(getClass().getResource("/fxml/menuFiles/Menu.fxml"));
       box = vLoader.load();
       ViewManager.homeController = this;
       FXMLLoader hLoader =
           new FXMLLoader(getClass().getResource("/fxml/menuFiles/notificationContent.fxml"));
       hBox = hLoader.load();
-      ((NotificationController) hLoader.getController()).setHomeController(this);
       if (ApplicationDataController.getInstance()
           .getLoggedInUser()
           .hasPermission(User.Permission.VIEW_TICKET)) {

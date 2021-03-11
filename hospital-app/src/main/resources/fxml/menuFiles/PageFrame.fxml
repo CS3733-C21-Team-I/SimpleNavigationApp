@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXDrawer?>
+<?import com.jfoenix.controls.JFXHamburger?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamI.view.HomeController">
+   <children>
+      <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label fx:id="titleLabel" alignment="CENTER" contentDisplay="CENTER" maxHeight="80.0" maxWidth="1.7976931348623157E308" minHeight="80.0" prefHeight="80.0" style="-fx-background-color: white;" text="Page Title" textAlignment="CENTER" textFill="#012d5a">
+               <font>
+                  <Font size="33.0" />
+               </font>
+            </Label>
+            <AnchorPane fx:id="orangeBar" maxHeight="20.0" minHeight="20.0" prefHeight="20.0" prefWidth="200.0" style="-fx-background-color: #F6BD38;" />
+            <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" nodeOrientation="RIGHT_TO_LEFT" VBox.vgrow="ALWAYS">
+               <children>
+                  <AnchorPane fx:id="drawerPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
+                     <children>
+                        <StackPane fx:id="replacePane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" nodeOrientation="LEFT_TO_RIGHT" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                        <JFXDrawer fx:id="notifDrawer" defaultDrawerSize="120.0" direction="TOP" prefHeight="20.0" style="-fx-background-color: transparent;" />
+                     </children>
+                  </AnchorPane>
+                  <JFXDrawer fx:id="drawer" alignment="TOP_RIGHT" centerShape="false" maxWidth="55.0" minWidth="55.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="600.0" prefWidth="55.0" HBox.hgrow="NEVER">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin></JFXDrawer>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+      <JFXHamburger fx:id="ham1" stylesheets="@../fxmlResources/main.css" AnchorPane.leftAnchor="16.0" AnchorPane.topAnchor="120.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></JFXHamburger>
+      <Label fx:id="timeLabel" alignment="CENTER_RIGHT" text="10:58 pm" textFill="#012d5a" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="30.0">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

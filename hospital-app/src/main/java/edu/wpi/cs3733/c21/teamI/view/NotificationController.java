@@ -22,7 +22,6 @@ public class NotificationController implements Initializable {
   @FXML Label notifMessage;
   @FXML Button notifXBtn;
 
-  public HomeController homeController;
   public JFXDrawer notifDrawer;
   public List<Notification> notifs;
   public int currentNotifID;
@@ -58,15 +57,7 @@ public class NotificationController implements Initializable {
     }
   }
 
-  public void setHomeController(HomeController homeController) {
-    this.homeController = homeController;
-  }
-
   public void setNotifMessage(String msg) {
     notifMessage.setText(msg);
-  }
-
-  public HomeController getHomeController() {
-    return homeController;
   }
 }
