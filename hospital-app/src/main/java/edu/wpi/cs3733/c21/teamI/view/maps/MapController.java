@@ -1,5 +1,9 @@
 package edu.wpi.cs3733.c21.teamI.view.maps;
 
+import static edu.wpi.cs3733.c21.teamI.hospitalMap.LocationCategory.*;
+
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXTabPane;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.*;
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -48,6 +52,7 @@ public abstract class MapController extends Application {
 
   @FXML StackPane imageContainer;
   @FXML VBox stackContainer;
+  @FXML JFXTabPane tabPane;
   @FXML Tab campus;
   @FXML Tab floor1;
   @FXML Tab floor2;
@@ -264,9 +269,57 @@ public abstract class MapController extends Application {
     }
     double startIconX = transformX(path.get(0).getxCoord()) - imgScale / 2;
     double startIconY = transformY(path.get(0).getyCoord()) - imgScale;
-    drawNode(path.get(0), blue);
+    // drawNode(path.get(0), blue);
     displayImage(startIcon, startIconX, startIconY, imgScale);
   }
+
+  protected void showButtonToNextMapOnPath(List<HospitalMapNode> path) {
+    double imgScale = 256 / scale;
+    if (!path.get(path.size() - 1).getMapID().equals(currentMapID)) {
+      for (int i = 0; i < path.size(); i++) {
+
+        if (path.get(i) != path.get(path.size() - 1)
+            && !path.get(i + 1).getMapID().equals(path.get(i).getMapID())) {
+          if (currentMapID.equals(path.get(i).getMapID())) {
+            String Id = path.get(i + 1).getMapID();
+            // System.out.println("reached here");
+            System.out.println(path.get(i).NodeAsList());
+            JFXButton bttn = new JFXButton("be an enormous Button");
+            bttn.setOnAction(
+                new EventHandler<ActionEvent>() {
+
+                  /** Implement what you want to be returned on click here */
+                  @Override
+                  public void handle(ActionEvent event) {
+                    switchOnClick(event, Id);
+                    System.out.println(Id);
+                  }
+                });
+            // bttn.setLayoutX(660);
+            bttn.setLayoutX(transformX(path.get(i).getxCoord()) - imgScale / 2);
+            double bttnYCoord = path.get(i).getyCoord(); // - 43.5 * 100 / scale;
+            // System.out.println();//transformY(bttnYCoord) - imgScale);
+            //      startIconY = transformY(finalNodeYCoord) - imgScale;
+            bttn.setLayoutY(transformY(bttnYCoord) - imgScale);
+            mapPane.getChildren().add(bttn);
+            // }
+
+            // e.getyCoord()
+          }
+          // if any of the node has connection to another floor and any theses nodes that are on the
+          // other floor is on the path
+          //       if( node.getConnections().contains().equals)
+          //      }
+          //      List<LocationCategory> iconLocations = Arrays.asList(ELEV, REST, STAI);
+          //      List <LocationNode>justLocationNodes= (List<LocationNode>) (List<?>)path;
+          //      List<HospitalMapNode> nodesBetweenFloors = justLocationNodes.stream().map(x ->
+          // x.getLocationCategory()).anyMatch())
+        }
+      }
+    }
+  }
+  //    int minX = selectedNode.stream().mapToInt(HospitalMapNode::getxCoord).min().getAsInt();
+  //    int minY = selectedNode.stream().mapToInt(HospitalMapNode::getyCoord).min().getAsInt();
 
   protected void drawEndPoint(List<HospitalMapNode> path) throws IOException {
     double imgScale = 256 / scale;
@@ -281,8 +334,9 @@ public abstract class MapController extends Application {
       e.printStackTrace();
     }
     double finishIconX = transformX(path.get(path.size() - 1).getxCoord()) - imgScale / 2;
-    double finishIconY = transformY(path.get(path.size() - 1).getyCoord()) - imgScale;
-    drawNode(path.get(path.size() - 1), red);
+    double finishIconY = transformY((path.get(path.size() - 1).getyCoord())) - imgScale;
+
+    // drawNode(path.get(path.size() - 1), red);
     displayImage(finishIcon, finishIconX, finishIconY, imgScale);
   }
 
@@ -508,71 +562,68 @@ public abstract class MapController extends Application {
   }
 
   public void campusTab(Event event) {
-    if (campus != currentTab && mapPane != null) {
-      System.out.println("Tab 1");
-      currentMapID = "Faulkner Lot";
-      updateView();
-      currentTab = campus;
-      startZoomPan(mapPane);
-      resize();
+    if (mapPane != null) {
+      loadMap("Faulkner Lot", campus);
     }
   }
 
   public void floor1Tab(Event event) {
-    if (floor1 != currentTab) {
-      System.out.println("Tab 2");
-      currentMapID = "Faulkner 1";
-      updateView();
-      currentTab = floor1;
-      startZoomPan(mapPane);
-      resize();
-    }
+    loadMap("Faulkner 1", floor1);
   }
 
   public void floor2Tab(Event event) {
-    if (floor2 != currentTab) {
-      System.out.println("Tab 3");
-      currentMapID = "Faulkner 2";
-      updateView();
-      currentTab = floor2;
-      startZoomPan(mapPane);
-      resize();
-    }
+    loadMap("Faulkner 2", floor2);
   }
 
   public void floor3Tab(Event event) {
-    if (floor3 != currentTab) {
-      System.out.println("Tab 4");
-      currentMapID = "Faulkner 3";
-      updateView();
-      currentTab = floor3;
-      startZoomPan(mapPane);
-      resize();
-    }
+    loadMap("Faulkner 3", floor3);
   }
 
   public void floor4Tab(Event event) {
-    if (floor4 != currentTab) {
-      System.out.println("Tab 5");
-      currentMapID = "Faulkner 4";
-      updateView();
-      currentTab = floor4;
-      startZoomPan(mapPane);
-      resize();
-    }
+    loadMap("Faulkner 4", floor4);
   }
 
   public void floor5Tab(Event event) {
-    if (floor6 != currentTab) {
-      System.out.println("Tab 6");
-      currentMapID = "Faulkner 5";
-      updateView();
-      currentTab = floor6;
-      startZoomPan(mapPane);
-      resize();
+    loadMap("Faulkner 5", floor6);
+  }
+  //  tabPane.getSelectionModel()
+  //  tabPane.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Tab>() {
+  //
+  //    @Override
+  //    public void changed(ObservableValue<? extends Tab> observable, Tab oldTab, Tab newTab) {
+  //      if(newTab == tabPresentation) {
+  //        comboBoxPresYear.setVisible(true);
+  //        lblPresYear.setVisible(true);}
+  //    }
+  //  });
+  public void switchOnClick(ActionEvent event, String mapID) {
+    if (mapID.equals("Faulkner Lot")) {
+      campusTab(event);
+    }
+    if (mapID.equals("Faulkner 1")) {
+      floor1Tab(event);
+    }
+    if (mapID.equals("Faulkner 2")) {
+      floor2Tab(event);
+    }
+    if (mapID.equals("Faulkner 3")) {
+      floor3Tab(event);
+    }
+    if (mapID.equals("Faulkner 4")) {
+      floor4Tab(event);
+    }
+    if (mapID.equals("Faulkner 5")) {
+      floor5Tab(event);
     }
   }
 
+  public void loadMap(String mapToLoad, Tab tab) {
+    if (currentTab != tab) currentMapID = mapToLoad;
+    updateView();
+    currentTab = tab;
+    startZoomPan(mapPane);
+    resize();
+  }
   // reset to the top left:
   protected void reset(ImageView imageView, double width, double height) {
     imageView.setViewport(new Rectangle2D(0, 0, width, height));
@@ -603,5 +654,12 @@ public abstract class MapController extends Application {
     return new Point2D(
         viewport.getMinX() + xProportion * viewport.getWidth(),
         viewport.getMinY() + yProportion * viewport.getHeight());
+  }
+
+  List<HospitalMapNode> retainCommonElements(
+      List<HospitalMapNode> path, List<HospitalMapNode> connections) {
+    List<HospitalMapNode> commonNodes = new ArrayList<HospitalMapNode>(connections);
+    commonNodes.retainAll(path);
+    return commonNodes;
   }
 }

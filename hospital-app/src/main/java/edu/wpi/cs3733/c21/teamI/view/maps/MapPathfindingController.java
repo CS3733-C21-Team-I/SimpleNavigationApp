@@ -106,12 +106,12 @@ public class MapPathfindingController extends MapController {
 
   protected void update() {
     mapPane.getChildren().clear();
-    drawLocationNodes();
+    // drawLocationNodes();
     if (foundPathExists()) {
       ObservableList<String> items = FXCollections.observableArrayList(new ArrayList<String>());
       directionsField.setItems(items);
       drawCalculatedPath(getFoundPath());
-      drawLocationNodes();
+      // drawLocationNodes();
     }
   }
 
@@ -216,6 +216,7 @@ public class MapPathfindingController extends MapController {
       } catch (IOException e) {
         e.printStackTrace();
       }
+      showButtonToNextMapOnPath(foundPath);
       displayDirections(getFoundPathDescription());
     }
   }
@@ -455,7 +456,9 @@ public class MapPathfindingController extends MapController {
 
     double finishIconX = transformX(path.get(path.size() - 1).getxCoord()) - imgScale / 2;
     double finishIconY = transformY((path.get(path.size() - 1).getyCoord())) - imgScale;
-    System.out.println("current destination ycoord: " + finishIconY);
+    // System.out.println("current destination ycoord: " + finishIconY);
+    // System.out.println("Ycoord: " + finishIconY);
+    System.out.println("Xcoord: " + finishIconX);
     drawNode(path.get(path.size() - 1), red);
     displayImage(finishIcon, finishIconX, finishIconY, imgScale);
   }
