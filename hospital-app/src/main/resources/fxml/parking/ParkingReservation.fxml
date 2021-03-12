@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXCheckBox?>
 <?import com.jfoenix.controls.JFXDatePicker?>
 <?import com.jfoenix.controls.JFXTextField?>
@@ -74,7 +75,7 @@
                   <Insets left="20.0" />
                </VBox.margin>
             </Label>
-            <JFXTextField focusColor="#0067b1">
+            <JFXTextField focusColor="#012d5a">
                <VBox.margin>
                   <Insets left="45.0" right="50.0" />
                </VBox.margin>
@@ -90,7 +91,7 @@
                   <Insets left="20.0" />
                </VBox.margin>
             </Label>
-            <JFXTextField focusColor="#0067b1">
+            <JFXTextField focusColor="#012d5a">
                <VBox.margin>
                   <Insets left="45.0" right="50.0" />
                </VBox.margin>
@@ -103,6 +104,29 @@
                   <Insets left="45.0" top="20.0" />
                </VBox.margin>
             </JFXCheckBox>
+            <HBox alignment="CENTER">
+               <children>
+                  <JFXButton alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" style="-fx-background-color: #0067b1;" stylesheets="@../misc/css/main.css" text="Book" textAlignment="CENTER" textFill="WHITE">
+                     <font>
+                        <Font name="Yu Gothic UI Semibold" size="20.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets right="15.0" />
+                     </HBox.margin>
+                  </JFXButton>
+                  <JFXButton alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" style="-fx-background-color: #0067b1;" stylesheets="@../misc/css/main.css" text="Clear" textAlignment="CENTER" textFill="WHITE">
+                     <font>
+                        <Font name="Yu Gothic UI Semibold" size="20.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="15.0" />
+                     </HBox.margin>
+                  </JFXButton>
+               </children>
+               <VBox.margin>
+                  <Insets bottom="20.0" top="40.0" />
+               </VBox.margin>
+            </HBox>
          </children>
       </VBox>
    </children>
