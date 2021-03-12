@@ -115,13 +115,13 @@
                      <children>
                         <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@misc/aboutPage/Bao_pic.png" />
+                              <Image url="@misc/aboutPage/Chris_pic.png" />
                            </image>
                            <VBox.margin>
                               <Insets left="22.0" right="22.0" />
                            </VBox.margin>
                         </ImageView>
-                        <Label alignment="CENTER" maxWidth="1.7976931348623157E308" text="Bao Huynh">
+                        <Label alignment="CENTER" maxWidth="1.7976931348623157E308" text="Christopher Lobo">
                            <font>
                               <Font name="Cambria Bold" size="20.0" />
                            </font>
@@ -140,13 +140,13 @@
                      <children>
                         <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@misc/aboutPage/James_pic.png" />
+                              <Image url="@misc/aboutPage/Bao_pic.png" />
                            </image>
                            <VBox.margin>
                               <Insets left="22.0" right="22.0" />
                            </VBox.margin>
                         </ImageView>
-                        <Label alignment="CENTER" maxWidth="1.7976931348623157E308" text="James Doherty">
+                        <Label alignment="CENTER" maxWidth="1.7976931348623157E308" text="Bao Huynh">
                            <font>
                               <Font name="Cambria Bold" size="20.0" />
                            </font>
@@ -154,7 +154,7 @@
                               <Insets top="5.0" />
                            </VBox.margin>
                         </Label>
-                        <Label alignment="CENTER" maxWidth="1.7976931348623157E308" text="Database Developer">
+                        <Label alignment="CENTER" maxWidth="1.7976931348623157E308" text="Assistant Lead Developer">
                            <font>
                               <Font name="Cambria" size="18.0" />
                            </font>
@@ -222,13 +222,13 @@
                      <children>
                         <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@misc/aboutPage/Chris_pic.png" />
+                              <Image url="@misc/aboutPage/James_pic.png" />
                            </image>
                            <VBox.margin>
                               <Insets left="22.0" right="22.0" />
                            </VBox.margin>
                         </ImageView>
-                        <Label alignment="CENTER" maxWidth="1.7976931348623157E308" text="Christopher Lobo">
+                        <Label alignment="CENTER" maxWidth="1.7976931348623157E308" text="James Doherty">
                            <font>
                               <Font name="Cambria Bold" size="20.0" />
                            </font>
@@ -236,7 +236,7 @@
                               <Insets top="5.0" />
                            </VBox.margin>
                         </Label>
-                        <Label alignment="CENTER" maxWidth="1.7976931348623157E308" text="UI &amp; Product Owner">
+                        <Label alignment="CENTER" maxWidth="1.7976931348623157E308" text="Database Developer">
                            <font>
                               <Font name="Cambria" size="18.0" />
                            </font>
@@ -352,7 +352,7 @@
                         <Image url="@misc/hospitalImages/hospital_label.png" />
                      </image>
                      <HBox.margin>
-                        <Insets bottom="5.0" left="15.0" />
+                        <Insets bottom="15.0" left="15.0" />
                      </HBox.margin>
                   </ImageView>
                   <ImageView fitHeight="61.0" fitWidth="171.0" pickOnBounds="true" preserveRatio="true">
@@ -360,9 +360,17 @@
                         <Image url="@misc/aboutPage/WPI_label.png" />
                      </image>
                      <HBox.margin>
-                        <Insets bottom="5.0" left="10.0" />
+                        <Insets bottom="15.0" left="10.0" />
                      </HBox.margin>
                   </ImageView>
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="61.0" prefWidth="641.0" text="CREDIT: Google Map API">
+                     <font>
+                        <Font name="Sitka Heading" size="36.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets bottom="15.0" />
+                     </HBox.margin>
+                  </Label>
                </children>
                <VBox.margin>
                   <Insets top="25.0" />
