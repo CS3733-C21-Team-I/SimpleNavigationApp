@@ -1,5 +1,7 @@
 package edu.wpi.cs3733.c21.teamI.view.maps;
 
+import static edu.wpi.cs3733.c21.teamI.hospitalMap.LocationCategory.*;
+
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
@@ -11,6 +13,7 @@ import edu.wpi.cs3733.c21.teamI.util.ImageLoader;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
@@ -200,6 +203,7 @@ public class MapPathfindingController extends MapController {
   @FXML
   public void drawCalculatedPath(List<HospitalMapNode> foundPath) {
     clearMap();
+    drawLocationNodes();
     if (foundPath.size() >= 2) {
       HospitalMapNode nodeA = foundPath.get(0);
       HospitalMapNode nodeB = foundPath.get(foundPath.toArray().length - 1);
@@ -403,7 +407,7 @@ public class MapPathfindingController extends MapController {
       // Setting the image view parameters
       imageView.setX(x);
       imageView.setY(y);
-      imageView.setFitWidth(imgScale);
+      imageView.setFitHeight(imgScale);
       imageView.setPreserveRatio(true);
       imageView = (ImageView) setMouseActions(imageView, node);
       mapPane.getChildren().add(imageView);
@@ -425,7 +429,15 @@ public class MapPathfindingController extends MapController {
       e.printStackTrace();
     }
     double startIconX = transformX(path.get(0).getxCoord()) - imgScale / 2;
-    double startIconY = transformY(path.get(0).getyCoord()) - imgScale;
+    double startIconY;
+    if (path.get(path.size() - 1) instanceof LocationNode
+        && hasAnIcon((LocationNode) path.get(0))) {
+      double finalNodeYCoord = path.get(0).getyCoord() - 43.5 * 100 / scale;
+      startIconY = transformY(finalNodeYCoord) - imgScale;
+    } else {
+      startIconY = transformY((path.get(path.size() - 1).getyCoord())) - imgScale;
+    }
+
     drawNode(path.get(0), blue);
     displayImage(startIcon, startIconX, startIconY, imgScale);
   }
@@ -442,9 +454,36 @@ public class MapPathfindingController extends MapController {
     } catch (URISyntaxException e) {
       e.printStackTrace();
     }
+    // double iconRadius = transformY(96);
+
     double finishIconX = transformX(path.get(path.size() - 1).getxCoord()) - imgScale / 2;
-    double finishIconY = transformY(path.get(path.size() - 1).getyCoord()) - imgScale;
+    double finishIconY;
+    if (path.get(path.size() - 1) instanceof LocationNode
+        && hasAnIcon((LocationNode) path.get(path.size() - 1))) {
+      double finalNodeYCoord = path.get(path.size() - 1).getyCoord() - 43.5 * 100 / scale;
+      finishIconY = transformY(finalNodeYCoord) - imgScale;
+    } else {
+      finishIconY = transformY((path.get(path.size() - 1).getyCoord())) - imgScale;
+    }
+    // (path.get(path.size() - 1).getyCoord()) -
+    System.out.println("current destination ycoord: " + finishIconY);
     drawNode(path.get(path.size() - 1), red);
     displayImage(finishIcon, finishIconX, finishIconY, imgScale);
+  }
+
+  public boolean hasAnIcon(LocationNode node) {
+    List<String> iconLocationNames =
+        Arrays.asList(
+            "Northern Parking Icon",
+            "Western Parking Icon",
+            "Pharmacy",
+            "Emergency Department",
+            "Valet Parking Icon");
+    List<LocationCategory> iconLocations = Arrays.asList(ELEV, REST, STAI, KIOS, FOOD);
+    if (iconLocationNames.stream().anyMatch(s -> s.equals((node).getLongName()))
+        || iconLocations.stream().anyMatch(s -> s.equals(node.getLocationCategory()))) {
+      return true;
+    }
+    return false;
   }
 }
