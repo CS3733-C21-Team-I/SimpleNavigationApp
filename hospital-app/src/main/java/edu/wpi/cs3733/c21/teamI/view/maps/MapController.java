@@ -125,14 +125,6 @@ public abstract class MapController extends Application {
     mapPane.getChildren().add(circle);
   }
 
-  // From Owen's branch
-  //  protected void drawNode(HospitalMapNode node, Color color) {
-  //    Circle circle =
-  //            makeCircle(transformX(node.getxCoord()), transformY(node.getyCoord()), 25 / scale,
-  // color);
-  //    mapPane.getChildren().add(circle);
-  //  }
-
   protected void drawEdge(HospitalMapNode start, HospitalMapNode end, Color color) {
     Line line =
         LineBuilder.create()
