@@ -47,7 +47,7 @@
                            </VBox.margin>
                         </Label>
                         <Region VBox.vgrow="ALWAYS" />
-                        <Label fx:id="label3" contentDisplay="CENTER" lineSpacing="1.0" text="You must enter the hospital through the Emergency Entrance and see a nurse immediately." textAlignment="CENTER" textOverrun="CLIP" wrapText="true" VBox.vgrow="NEVER">
+                        <Label fx:id="label3" contentDisplay="CENTER" lineSpacing="1.0" text="You must see a nurse immediately upon entering the hospital through the Emergency Entrance." textAlignment="CENTER" textOverrun="CLIP" wrapText="true" VBox.vgrow="NEVER">
                            <font>
                               <Font size="20.0" />
                            </font>
