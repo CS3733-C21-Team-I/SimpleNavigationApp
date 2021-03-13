@@ -34,7 +34,7 @@
                         </Label>
                         <HBox>
                            <children>
-                              <JFXDatePicker fx:id="entryDate" defaultColor="#012d5a" overLay="true" prefHeight="35.0" prefWidth="233.0" promptText="MM/DD/YYYY">
+                              <JFXDatePicker fx:id="entryDate" defaultColor="#012d5a" prefHeight="35.0" prefWidth="233.0" promptText="MM/DD/YYYY">
                                  <HBox.margin>
                                     <Insets left="45.0" right="40.0" />
                                  </HBox.margin>
@@ -58,7 +58,7 @@
                         </Label>
                         <HBox>
                            <children>
-                              <JFXDatePicker fx:id="exitDate" defaultColor="#012d5a" overLay="true" prefHeight="35.0" prefWidth="233.0" promptText="MM/DD/YYYY">
+                              <JFXDatePicker fx:id="exitDate" defaultColor="#012d5a" prefHeight="35.0" prefWidth="233.0" promptText="MM/DD/YYYY">
                                  <HBox.margin>
                                     <Insets left="45.0" right="40.0" />
                                  </HBox.margin>

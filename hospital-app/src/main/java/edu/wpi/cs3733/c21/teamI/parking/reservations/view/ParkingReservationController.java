@@ -65,9 +65,13 @@ public class ParkingReservationController {
     Timestamp startTimestamp = Timestamp.valueOf(entryDate.getValue().atTime(entryTime.getValue()));
     Timestamp exitTimestamp = Timestamp.valueOf(exitDate.getValue().atTime(exitTime.getValue()));
 
-    ParkingCustomer customer = ParkingPeripheralServerManager.getInstance().createNewCustomer(plateNum.getText(), false, contNum.getText());
+    ParkingCustomer customer =
+        ParkingPeripheralServerManager.getInstance()
+            .createNewCustomer(plateNum.getText(), false, contNum.getText());
 
-    ParkingReservation reservation = ParkingPeripheralServerManager.getInstance().createNewReservation(customer, startTimestamp, exitTimestamp);
+    ParkingReservation reservation =
+        ParkingPeripheralServerManager.getInstance()
+            .createNewReservation(customer, startTimestamp, exitTimestamp);
 
     redrawTicket(reservation);
   }
