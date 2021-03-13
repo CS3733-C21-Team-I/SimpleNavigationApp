@@ -387,15 +387,20 @@ public class MapPathfindingController extends MapController {
                 break;
             }
         }
-      }else if (node instanceof ParkingNode && node.getMapID().equals(currentMapID)){
+      } else if (node instanceof ParkingNode && node.getMapID().equals(currentMapID)) {
         Color parkingColor;
-        if (((ParkingNode) node).isEmpty()){
+        double dimensions = 25 / scale;
+        if (((ParkingNode) node).isEmpty()) {
           parkingColor = Color.GREEN;
-        }else{
+        } else {
           parkingColor = Color.RED;
         }
-        Rectangle park = new Rectangle(transformX(node.getxCoord()),
-                transformY(node.getyCoord()), 25/scale, 50/scale);
+        Rectangle park =
+            new Rectangle(
+                transformX(node.getxCoord()) - dimensions / 2,
+                transformY(node.getyCoord()) - dimensions / 2,
+                dimensions,
+                2 * dimensions);
         park.setFill(parkingColor);
         mapPane.getChildren().add(park);
       }
