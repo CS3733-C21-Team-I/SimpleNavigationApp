@@ -103,7 +103,7 @@ public class MapPathfindingController extends MapController {
     update();
   }
 
-  protected void update() {
+  public void update() {
     mapPane.getChildren().clear();
     drawLocationNodes();
     if (foundPathExists()) {
@@ -390,7 +390,7 @@ public class MapPathfindingController extends MapController {
       } else if (node instanceof ParkingNode && node.getMapID().equals(currentMapID)) {
         Color parkingColor;
         double dimensions = 25 / scale;
-        if (((ParkingNode) node).isEmpty()) {
+        if (!((ParkingNode) node).isOccupied()) {
           parkingColor = Color.GREEN;
         } else {
           parkingColor = Color.RED;
