@@ -49,7 +49,7 @@ public abstract class DatabaseManager {
     NotificationManager.getInstance().createTables();
     ServiceTicketDatabaseManager.getInstance().createTables();
 
-// database potential path change
+    // database potential path change
     Map<String, HospitalMap> maps =
         HospitalMapCSVBuilder.loadCSV(
             System.getProperty("user.dir") + "/MapINodes.csv",
