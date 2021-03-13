@@ -172,8 +172,6 @@ public class MapPathfindingController extends MapController {
     System.out.println(nodeB);
     this.foundPath = pathFinderAlgorithm.findPath(nodeA, nodeB, scorer);
     this.foundPathDescription = TextDirections.getDirections(scorer, foundPath);
-    System.out.println(foundPath);
-    System.out.println(foundPathDescription);
     return foundPath;
   }
 
