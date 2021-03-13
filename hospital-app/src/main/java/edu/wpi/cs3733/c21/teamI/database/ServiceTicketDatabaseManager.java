@@ -36,8 +36,7 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
   public ServiceTicket getTicketForId(int id) {
     try {
       Statement stmt = databaseRef.getConnection().createStatement();
-      ResultSet rs =
-          stmt.executeQuery("SELECT * FROM serviceticket WHERE ticketID=" + String.valueOf(id));
+      ResultSet rs = stmt.executeQuery("SELECT * FROM serviceticket WHERE ticketID=" + id);
       ServiceTicket ticket;
       if (rs.next()) {
         ticket =
@@ -61,7 +60,7 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
     List<Integer> emps = new ArrayList<>();
     try {
       Statement stmt = databaseRef.getConnection().createStatement();
-      ResultSet rs = stmt.executeQuery("SELECT * FROM employee WHERE tixID=" + String.valueOf(id));
+      ResultSet rs = stmt.executeQuery("SELECT * FROM employee WHERE tixID=" + id);
       while (rs.next()) {
         emps.add(rs.getInt("employeeID"));
       }
@@ -77,8 +76,7 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
     try {
       Statement stmt = databaseRef.getConnection().createStatement();
       ResultSet rs =
-          stmt.executeQuery(
-              "SELECT * FROM serviceticket WHERE REQUESTINGUSERID=" + String.valueOf(requestID));
+          stmt.executeQuery("SELECT * FROM serviceticket WHERE REQUESTINGUSERID=" + requestID);
       int tixID = 0;
       ServiceTicket ticket;
       while (rs.next()) {
@@ -479,8 +477,7 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
   public void closeTicket(int id) {
     try {
       Statement stmt = databaseRef.getConnection().createStatement();
-      ResultSet rs =
-          stmt.executeQuery("DELETE FROM serviceticket WHERE ticketID = " + String.valueOf(id));
+      ResultSet rs = stmt.executeQuery("DELETE FROM serviceticket WHERE ticketID = " + id);
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -493,10 +490,7 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
       ServiceTicket cur = getTicketForId(id);
       cur.setCompleted(true);
       stmt.execute(
-          "UPDATE serviceticket SET completed='"
-              + true
-              + "' WHERE ticketID="
-              + String.valueOf(cur.getTicketId()));
+          "UPDATE serviceticket SET completed='" + true + "' WHERE ticketID=" + cur.getTicketId());
       return cur;
     } catch (SQLException e) {
       e.printStackTrace();
@@ -584,9 +578,9 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
       stmt.executeUpdate(
           "INSERT INTO employee(employeeID, tixID)\n"
               + "VALUES("
-              + String.valueOf(employeeID)
+              + employeeID
               + ", "
-              + String.valueOf(tixID)
+              + tixID
               + ")");
     } catch (SQLException e) {
       e.printStackTrace();
@@ -597,10 +591,7 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
     try {
       Statement stmt = databaseRef.getConnection().createStatement();
       stmt.executeUpdate(
-          "DELETE FROM employee WHERE employeeID = "
-              + String.valueOf(employeeID)
-              + " AND tixID = "
-              + String.valueOf(ticketID));
+          "DELETE FROM employee WHERE employeeID = " + employeeID + " AND tixID = " + ticketID);
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -609,11 +600,7 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
   public void modifyEmployee(int id, int employeeID) {
     try {
       Statement stmt = databaseRef.getConnection().createStatement();
-      stmt.execute(
-          "UPDATE employee SET employeeID= "
-              + String.valueOf(employeeID)
-              + " WHERE TIXID = "
-              + String.valueOf(id));
+      stmt.execute("UPDATE employee SET employeeID= " + employeeID + " WHERE TIXID = " + id);
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -924,8 +911,7 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
     try {
       Statement stmt = databaseRef.getConnection().createStatement();
       ResultSet rs =
-          stmt.executeQuery(
-              "SELECT * FROM serviceticket WHERE requestingUserID = " + String.valueOf(id));
+          stmt.executeQuery("SELECT * FROM serviceticket WHERE requestingUserID = " + id);
       ServiceTicket cur;
       int tixID = 0;
       while (rs.next()) {
@@ -1020,7 +1006,7 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
   public void removeGift(int id) {
     try {
       Statement stmt = databaseRef.getConnection().createStatement();
-      stmt.executeUpdate("DELETE FROM GIFTTICKET WHERE GIFTID = " + String.valueOf(id));
+      stmt.executeUpdate("DELETE FROM GIFTTICKET WHERE GIFTID = " + id);
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -1030,8 +1016,7 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
   public void removeUniqueTicket(int id, String ticketType) {
     try {
       Statement stmt = databaseRef.getConnection().createStatement();
-      stmt.executeUpdate(
-          "DELETE FROM " + ticketType.toUpperCase() + "TICKET WHERE TIXID = " + String.valueOf(id));
+      stmt.executeUpdate("DELETE FROM " + ticketType.toUpperCase() + "TICKET WHERE TIXID = " + id);
     } catch (SQLException e) {
       e.printStackTrace();
     }

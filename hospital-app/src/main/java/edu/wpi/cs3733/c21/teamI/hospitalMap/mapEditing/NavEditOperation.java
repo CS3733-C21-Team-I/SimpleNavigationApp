@@ -9,7 +9,7 @@ public class NavEditOperation {
     EDIT_NODE,
     DELETE_NODE,
     ADD_EDGE,
-    DELETE_EDGE;
+    DELETE_EDGE
   }
 
   private OperationType opType;

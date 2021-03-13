@@ -23,7 +23,7 @@ public class WaitingScreenController extends Application {
   Timeline timeline;
 
   @FXML
-  public void initialize() throws InterruptedException, IOException {
+  public void initialize() {
     this.timeline =
         new Timeline(
             new KeyFrame(
@@ -58,7 +58,7 @@ public class WaitingScreenController extends Application {
   }
 
   @Override
-  public void start(Stage primaryStage) throws Exception {}
+  public void start(Stage primaryStage) {}
 
   @FXML
   public void exit(MouseEvent e) {

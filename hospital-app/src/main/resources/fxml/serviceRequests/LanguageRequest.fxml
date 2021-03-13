@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane fx:id="background" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-color: #F1F1F1;" styleClass=".root" stylesheets="@../fxmlResources/main.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamI.ticket.view.LanguageController">
+<AnchorPane fx:id="background" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-color: #F1F1F1;" styleClass=".root" stylesheets="@../misc/css/main.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamI.ticket.view.LanguageController">
    <children>
       <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -20,7 +20,7 @@
                   <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                </VBox.margin>
             </JFXTextField>
-            <JFXTextField fx:id="langLocationTextfield" onKeyTyped="#lookup" focusColor="#0067b1" promptText="Location" unFocusColor="#012d5a">
+            <JFXTextField fx:id="langLocationTextfield" focusColor="#0067b1" onKeyTyped="#lookup" promptText="Location" unFocusColor="#012d5a">
                <VBox.margin>
                   <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                </VBox.margin>
@@ -35,7 +35,7 @@
                   <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                </VBox.margin>
             </JFXTextField>
-            <JFXTextField fx:id="langAssignedEmp" onKeyPressed="#lookupUser" focusColor="#0067b1" promptText="Assigned Employee" unFocusColor="#012d5a">
+            <JFXTextField fx:id="langAssignedEmp" focusColor="#0067b1" onKeyPressed="#lookupUser" promptText="Assigned Employee" unFocusColor="#012d5a">
                <VBox.margin>
                   <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                </VBox.margin>
@@ -52,12 +52,12 @@
             </JFXCheckBox>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <JFXButton fx:id="langClear" onAction="#clear" style="-fx-background-color: #0067b1;" styleClass="styledButton" stylesheets="@../fxmlResources/main.css" text="Clear" textFill="WHITE">
+                  <JFXButton fx:id="langClear" onAction="#clear" style="-fx-background-color: #0067b1;" styleClass="styledButton" stylesheets="@../misc/css/main.css" text="Clear" textFill="WHITE">
                      <HBox.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </HBox.margin>
                   </JFXButton>
-                  <JFXButton fx:id="langSubmit" onAction="#submit" style="-fx-background-color: #0067b1;" styleClass="styledButton" stylesheets="@../fxmlResources/main.css" text="Submit" textFill="WHITE">
+                  <JFXButton fx:id="langSubmit" onAction="#submit" style="-fx-background-color: #0067b1;" styleClass="styledButton" stylesheets="@../misc/css/main.css" text="Submit" textFill="WHITE">
                      <HBox.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </HBox.margin>
@@ -70,6 +70,6 @@
          </padding>
       </VBox>
       <ListView fx:id="serviceLocationList" layoutX="59.0" layoutY="166.0" prefHeight="93.0" prefWidth="196.0" visible="false" />
-      <ListView fx:id="requestAssignedList" layoutX="55.0" layoutY="384.0" prefHeight="111.0" prefWidth="204.0" visible="false" />
+      <ListView fx:id="requestAssignedList" layoutX="60.0" layoutY="407.0" prefHeight="111.0" prefWidth="204.0" visible="false" />
    </children>
 </AnchorPane>

@@ -43,7 +43,7 @@ public class FloorListItem extends JFXListCell<Floor> {
     } else {
 
       if (mLLoader == null) {
-        mLLoader = new FXMLLoader(getClass().getResource("/fxml/FloorListItem.fxml"));
+        mLLoader = new FXMLLoader(getClass().getResource("/fxml/parking/FloorListItem.fxml"));
         mLLoader.setController(this);
 
         try {

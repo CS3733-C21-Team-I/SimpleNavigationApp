@@ -31,6 +31,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.Rectangle;
 import lombok.SneakyThrows;
 
 public class MapPathfindingController extends MapController {
@@ -47,11 +48,11 @@ public class MapPathfindingController extends MapController {
   private List<HospitalMapNode> foundPath;
   private ArrayList<String> foundPathDescription;
 
-  public MapPathfindingController() throws URISyntaxException {}
+  public MapPathfindingController() {}
 
   // setup stuff
   @FXML
-  public void initialize() throws IOException {
+  public void initialize() {
     System.out.println("Initializing pathfinding controller");
     boolean isAdmin =
         ApplicationDataController.getInstance()
@@ -68,9 +69,6 @@ public class MapPathfindingController extends MapController {
     setupMapViewHandlers();
     currentMapID = "Faulkner Lot";
     campusTab(new ActionEvent());
-
-    // TODO: LINK THIS TO COVID RESULT FORM
-    reflectCovidStatus(true);
   }
 
   @FXML
@@ -79,7 +77,7 @@ public class MapPathfindingController extends MapController {
     replacePane.getChildren().clear();
     replacePane
         .getChildren()
-        .add(FXMLLoader.load(getClass().getResource("/fxml/Pathediting.fxml")));
+        .add(FXMLLoader.load(getClass().getResource("/fxml/map/Pathediting.fxml")));
   }
 
   @FXML
@@ -88,14 +86,14 @@ public class MapPathfindingController extends MapController {
     replacePane.getChildren().clear();
     replacePane
         .getChildren()
-        .add(FXMLLoader.load(getClass().getResource("/fxml/GoogleMapsMain.fxml")));
+        .add(FXMLLoader.load(getClass().getResource("/fxml/map/GoogleMapsMain.fxml")));
   }
 
   // viewport stuff
   public void updateView() {
 
     Image background =
-        ImageLoader.loadImage("/fxml/mapImages/" + currentMapID.replace(" ", "") + ".png");
+        ImageLoader.loadImage("/fxml/map/mapImages/" + currentMapID.replace(" ", "") + ".png");
     mapImage.setImage(background);
     fullImgWidth = background.getWidth();
     fullImgHeight = background.getHeight();
@@ -187,7 +185,7 @@ public class MapPathfindingController extends MapController {
   }
 
   @FXML
-  public void getDirections(ActionEvent e) throws IOException {
+  public void getDirections(ActionEvent e) {
     String begin = start.getText();
     String end = destination.getText();
     if (begin.length() > 0 && end.length() > 0) {
@@ -196,7 +194,7 @@ public class MapPathfindingController extends MapController {
       HospitalMapNode nodeA = MapDataEntity.getNodeByLongName(begin);
       HospitalMapNode nodeB = MapDataEntity.getNodeByLongName(end);
       getFoundPath(nodeA, nodeB);
-      updateView();
+      update();
     }
   }
 
@@ -226,18 +224,19 @@ public class MapPathfindingController extends MapController {
   private void switchAlgorithm() {
     switch (algorithmPick.getValue().toString()) {
       case "Depth First":
-        System.out.println("Making new Depth first...");
+        // System.out.println("Making new Depth first search");
         pathFinderAlgorithm.setPlanning(new DepthFirstSearch());
         break;
       case "Breadth First":
-        System.out.println("Making new Breadth first...");
+        // System.out.println("Making new Breadth first search");
         pathFinderAlgorithm.setPlanning(new BreadthFirstSearch());
         break;
       case "Dijkstra":
-        System.out.println("Making new Dijkstra");
+        // System.out.println("Making new Dijkstra");
         pathFinderAlgorithm.setPlanning(new Dijkstra());
         break;
       default:
+        // System.out.println("Making new A*");
         pathFinderAlgorithm.setPlanning(new A_Star());
         break;
     }
@@ -271,16 +270,16 @@ public class MapPathfindingController extends MapController {
     System.out.print("NodeRestrictions:" + scorer.nodeTypesToAvoid);
   }
 
-  public void reflectCovidStatus(boolean isHighCovidRisk) {
-    if (isHighCovidRisk) {
-      scorer.nodeTypesToAvoid.add(NodeRestrictions.NON_COVID_RISK_VISITORS);
-      scorer.nodeTypesToAvoid.remove(NodeRestrictions.COVID_RISK_VISITORS);
-    } else {
-      scorer.nodeTypesToAvoid.remove(NodeRestrictions.NON_COVID_RISK_VISITORS);
-      scorer.nodeTypesToAvoid.add(NodeRestrictions.COVID_RISK_VISITORS);
-    }
-    System.out.print("NodeRestrictions:" + scorer.nodeTypesToAvoid);
-  }
+  //  public void reflectCovidStatus(boolean isHighCovidRisk) {
+  //    if (isHighCovidRisk) {
+  //      scorer.nodeTypesToAvoid.add(NodeRestrictions.NON_COVID_RISK_VISITORS);
+  //      scorer.nodeTypesToAvoid.remove(NodeRestrictions.COVID_RISK_VISITORS);
+  //    } else {
+  //      scorer.nodeTypesToAvoid.remove(NodeRestrictions.NON_COVID_RISK_VISITORS);
+  //      scorer.nodeTypesToAvoid.add(NodeRestrictions.COVID_RISK_VISITORS);
+  //    }
+  //    System.out.print("NodeRestrictions:" + scorer.nodeTypesToAvoid);
+  //  }
 
   @FXML
   public void toAboutPage(ActionEvent e) throws IOException {
@@ -295,7 +294,7 @@ public class MapPathfindingController extends MapController {
             rootPane.getChildren().clear();
             rootPane
                 .getChildren()
-                .add(FXMLLoader.load(getClass().getResource("/fxml/Pathfinding.fxml")));
+                .add(FXMLLoader.load(getClass().getResource("/fxml/map/Pathfinding.fxml")));
           }
         });
   }
@@ -337,20 +336,20 @@ public class MapPathfindingController extends MapController {
 
         switch (((LocationNode) node).getLocationCategory()) { // switch case for special types
           case ELEV:
-            displayIcon("/fxml/mapImages/mapIcons/elevator.png", node);
+            displayIcon("/fxml/map/mapImages/mapIcons/elevator.png", node);
             break;
           case REST:
-            displayIcon("/fxml/mapImages/mapIcons/bathroom.png", node);
+            displayIcon("/fxml/map/mapImages/mapIcons/bathroom.png", node);
             break;
           case STAI:
-            displayIcon("/fxml/mapImages/mapIcons/stairs.png", node);
+            displayIcon("/fxml/map/mapImages/mapIcons/stairs.png", node);
             break;
           case KIOS:
-            displayIcon("/fxml/mapImages/mapIcons/info.png", node);
+            displayIcon("/fxml/map/mapImages/mapIcons/info.png", node);
             break;
-          case FOOD:
-            displayIcon("/fxml/mapImages/mapIcons/dining.png", node);
-            break;
+            //          case FOOD:
+            //            displayIcon("/fxml/mapImages/mapIcons/dining.png", node);
+            //            break;
           case PARK:
             //  displayIcon("/fxml/mapImages/mapIcons/parking.png", node);
             break;
@@ -358,19 +357,23 @@ public class MapPathfindingController extends MapController {
             switch (((LocationNode) node).getLongName()) { // even specialer cases
               case "Northern Parking Icon":
               case "Western Parking Icon":
-                displayIcon("/fxml/mapImages/mapIcons/parking.png", node);
+                displayIcon("/fxml/map/mapImages/mapIcons/parking.png", node);
+                break;
+              case "Cafeteria":
+              case "Food Services":
+                displayIcon("/fxml/map/mapImages/mapIcons/dining.png", node);
                 break;
               case "Starbucks":
-                displayIcon("/fxml/mapImages/mapIcons/starbucks.png", node);
+                displayIcon("/fxml/map/mapImages/mapIcons/starbucks.png", node);
                 break;
               case "Pharmacy":
-                displayIcon("/fxml/mapImages/mapIcons/pharmacy.png", node);
+                displayIcon("/fxml/map/mapImages/mapIcons/pharmacy.png", node);
                 break;
               case "Emergency Department":
-                displayIcon("/fxml/mapImages/mapIcons/emergencyRoom.png", node);
+                displayIcon("/fxml/map/mapImages/mapIcons/emergencyRoom.png", node);
                 break;
               case "Valet Parking Icon":
-                displayIcon("/fxml/mapImages/mapIcons/valet.png", node);
+                displayIcon("/fxml/map/mapImages/mapIcons/valet.png", node);
                 break;
               default:
                 Circle circle =
@@ -384,6 +387,22 @@ public class MapPathfindingController extends MapController {
                 break;
             }
         }
+      } else if (node instanceof ParkingNode && node.getMapID().equals(currentMapID)) {
+        Color parkingColor;
+        double dimensions = 25 / scale;
+        if (((ParkingNode) node).isEmpty()){
+          parkingColor = Color.GREEN;
+        } else {
+          parkingColor = Color.RED;
+        }
+        Rectangle park =
+            new Rectangle(
+                transformX(node.getxCoord()) - dimensions / 2,
+                transformY(node.getyCoord()) - dimensions / 2,
+                dimensions,
+                2 * dimensions);
+        park.setFill(parkingColor);
+        mapPane.getChildren().add(park);
       }
     }
   }
@@ -416,7 +435,9 @@ public class MapPathfindingController extends MapController {
     try {
       startIcon =
           new Image(
-              (getClass().getResource("/fxml/fxmlResources/startIcon.png")).toURI().toString());
+              (getClass().getResource("/fxml/map/mapImages/symbolIcons/startIcon.png"))
+                  .toURI()
+                  .toString());
     } catch (URISyntaxException e) {
       e.printStackTrace();
     }
@@ -432,7 +453,9 @@ public class MapPathfindingController extends MapController {
     try {
       finishIcon =
           new Image(
-              (getClass().getResource("/fxml/fxmlResources/finishIcon.png")).toURI().toString());
+              (getClass().getResource("/fxml/map/mapImages/symbolIcons/finishIcon.png"))
+                  .toURI()
+                  .toString());
     } catch (URISyntaxException e) {
       e.printStackTrace();
     }

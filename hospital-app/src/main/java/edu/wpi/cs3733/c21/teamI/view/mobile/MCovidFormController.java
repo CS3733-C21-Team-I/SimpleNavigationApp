@@ -5,8 +5,10 @@ import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXRadioButton;
 import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
 import edu.wpi.cs3733.c21.teamI.database.NavDatabaseManager;
+import edu.wpi.cs3733.c21.teamI.database.NotificationManager;
 import edu.wpi.cs3733.c21.teamI.database.ServiceTicketDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.database.UserDatabaseManager;
+import edu.wpi.cs3733.c21.teamI.notification.Notification;
 import edu.wpi.cs3733.c21.teamI.ticket.CovidTicket;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicket;
 import java.io.IOException;
@@ -141,7 +143,7 @@ public class MCovidFormController {
       waitingForResult = true;
     }
 
-    if (symptoms == true) {
+    if (symptoms) {
       isCovidRisk = true;
     }
 
@@ -168,10 +170,13 @@ public class MCovidFormController {
             noneCheckbox2.isSelected(),
             covidYesRadioBtn.isSelected());
 
-    // Assign to all nurses with COVID role in the future
+    // TODO Assign to all nurses with COVID role in the future ////////////
     int AssignedID =
         UserDatabaseManager.getInstance().getUserForScreenname("Nurse Joy").getUserId();
-
+    Notification notif =
+        new Notification(AssignedID, "You have a new COVID form to evaluate.", "String timestamp");
+    NotificationManager.getInstance().addNotification(notif);
+    //////////////////////////////////////////////////////////////////////
     ticket.addAssignedUserID(AssignedID);
     int id = ServiceTicketDatabaseManager.getInstance().addTicket(ticket);
     ServiceTicketDatabaseManager.getInstance().addEmployeeForTicket(id, AssignedID);
@@ -204,7 +209,7 @@ public class MCovidFormController {
   public void displayParkingSpot(int lotAssigned) {
     parkingIndication.setText(
         "Your parking spot is "
-            + String.valueOf(lotAssigned)
+            + lotAssigned
             + ". Please take the following covid form before entering the hospital.");
   }
 
@@ -215,13 +220,11 @@ public class MCovidFormController {
   }
 
   public void checkFinished() {
-    if (IsCheckboxGroupChecked(symptoms) | noneCheckbox.isSelected()
-        && IsCheckboxGroupChecked(closeContactChecks) | noneCheckbox2.isSelected()
-        && covidYesRadioBtn.isSelected() | covidNoRadioBtn.isSelected()) {
-      submitBttn.setDisable(false);
-    } else {
-      submitBttn.setDisable(true);
-    }
+    submitBttn.setDisable(
+        !(IsCheckboxGroupChecked(symptoms) | noneCheckbox.isSelected())
+            || !(IsCheckboxGroupChecked(closeContactChecks) | noneCheckbox2.isSelected())
+            || !(covidYesRadioBtn.isSelected() | covidNoRadioBtn.isSelected())
+            || parkingInput.getText().equals(""));
   }
 
   public boolean IsCheckboxGroupChecked(ArrayList<JFXCheckBox> checkboxElements) {

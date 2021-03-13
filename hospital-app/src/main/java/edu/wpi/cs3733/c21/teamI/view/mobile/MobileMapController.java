@@ -19,6 +19,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.Node;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -222,7 +223,7 @@ public abstract class MobileMapController extends Application {
     return null;
   }
 
-  protected void drawPath(List<HospitalMapNode> path) throws IOException {
+  protected void drawPath(List<HospitalMapNode> path) {
     HospitalMapNode currNode;
     HospitalMapNode nextNode;
     for (int i = 0; i < path.size() - 1; i++) {
@@ -241,7 +242,9 @@ public abstract class MobileMapController extends Application {
     try {
       startIcon =
           new Image(
-              (getClass().getResource("/fxml/fxmlResources/startIcon.png")).toURI().toString());
+              (getClass().getResource("/fxml/map/mapImages/symbolIcons/startIcon.png"))
+                  .toURI()
+                  .toString());
     } catch (URISyntaxException e) {
       e.printStackTrace();
     }
@@ -257,7 +260,9 @@ public abstract class MobileMapController extends Application {
     try {
       finishIcon =
           new Image(
-              (getClass().getResource("/fxml/fxmlResources/finishIcon.png")).toURI().toString());
+              (getClass().getResource("/fxml/map/mapImages/symbolIcons/finishIcon.png"))
+                  .toURI()
+                  .toString());
     } catch (URISyntaxException e) {
       e.printStackTrace();
     }
@@ -304,7 +309,7 @@ public abstract class MobileMapController extends Application {
     mapPane.getChildren().add(arrow);
   }
 
-  protected void displayImage(Image image, double x, double y, double size) throws IOException {
+  protected void displayImage(Image image, double x, double y, double size) {
     // Creating the image view
     ImageView imageView = new ImageView();
     // Setting image to the image view
@@ -318,10 +323,10 @@ public abstract class MobileMapController extends Application {
   }
 
   @Override
-  public void start(Stage primaryStage) throws Exception {}
+  public void start(Stage primaryStage) {}
 
   @FXML
-  public abstract void initialize() throws IOException;
+  public abstract void initialize();
 
   protected void drawSelectedNode() {
     if (selectedInActiveMap()) {
@@ -364,11 +369,11 @@ public abstract class MobileMapController extends Application {
     Circle circle =
         makeCircle(
             transformX(node.getxCoord()), transformY(node.getyCoord()), 12 / scale, Color.RED);
-    circle = setMouseActions(circle, node);
+    circle = (Circle) setMouseActions(circle, node);
     mapPane.getChildren().add(circle);
   }
 
-  protected abstract Circle setMouseActions(Circle circle, HospitalMapNode node);
+  protected abstract Node setMouseActions(Node circle, HospitalMapNode node);
 
   protected Circle makeCircle(double x, double y, double r, Color color) {
     Circle returnCircle = new Circle(x, y, r);
@@ -488,9 +493,8 @@ public abstract class MobileMapController extends Application {
       currentMapID = "Faulkner Lot";
       updateView();
       currentTab = campus;
-      resize();
       startZoomPan(mapPane);
-      update();
+      resize();
     }
   }
 
@@ -500,9 +504,8 @@ public abstract class MobileMapController extends Application {
       currentMapID = "Faulkner 1";
       updateView();
       currentTab = floor1;
-      resize();
       startZoomPan(mapPane);
-      update();
+      resize();
     }
   }
 
@@ -512,9 +515,8 @@ public abstract class MobileMapController extends Application {
       currentMapID = "Faulkner 2";
       updateView();
       currentTab = floor2;
-      resize();
       startZoomPan(mapPane);
-      update();
+      resize();
     }
   }
 
@@ -524,9 +526,8 @@ public abstract class MobileMapController extends Application {
       currentMapID = "Faulkner 3";
       updateView();
       currentTab = floor3;
-      resize();
       startZoomPan(mapPane);
-      update();
+      resize();
     }
   }
 
@@ -536,9 +537,8 @@ public abstract class MobileMapController extends Application {
       currentMapID = "Faulkner 4";
       updateView();
       currentTab = floor4;
-      resize();
       startZoomPan(mapPane);
-      update();
+      resize();
     }
   }
 
@@ -548,9 +548,8 @@ public abstract class MobileMapController extends Application {
       currentMapID = "Faulkner 5";
       updateView();
       currentTab = floor6;
-      resize();
       startZoomPan(mapPane);
-      update();
+      resize();
     }
   }
 

@@ -328,17 +328,15 @@ public class ParkingPeripheralServerManager extends DatabaseManager {
         return null;
       }
 
-      StaffPermit permit =
-          new StaffPermit(
-              rs.getInt("SLOT_ID"),
-              user,
-              rs.getDate("assignment_date"),
-              new ParkingCustomer(
-                  rs.getString("vehicle_licence"),
-                  rs.getBoolean("is_staff"),
-                  rs.getString("contact_number"),
-                  rs.getDate("registration_date")));
-      return permit;
+      return new StaffPermit(
+          rs.getInt("SLOT_ID"),
+          user,
+          rs.getDate("assignment_date"),
+          new ParkingCustomer(
+              rs.getString("vehicle_licence"),
+              rs.getBoolean("is_staff"),
+              rs.getString("contact_number"),
+              rs.getDate("registration_date")));
     } catch (SQLException e) {
       e.printStackTrace();
       return null;

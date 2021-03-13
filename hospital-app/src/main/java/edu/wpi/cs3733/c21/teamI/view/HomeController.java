@@ -1,14 +1,18 @@
 package edu.wpi.cs3733.c21.teamI.view;
 
+import static javafx.animation.Animation.INDEFINITE;
+
 import com.jfoenix.controls.JFXDrawer;
 import com.jfoenix.controls.JFXHamburger;
 import com.jfoenix.transitions.hamburger.HamburgerSlideCloseTransition;
 import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
+import edu.wpi.cs3733.c21.teamI.database.NotificationManager;
+import edu.wpi.cs3733.c21.teamI.notification.Notification;
 import edu.wpi.cs3733.c21.teamI.user.User;
 import java.io.IOException;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import javafx.animation.Animation;
+import java.util.List;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
@@ -20,18 +24,17 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
 
 public class HomeController extends Application {
-
-  @FXML Label dateTime;
-
-  @FXML Button serviceRequests, map;
 
   @FXML StackPane replacePane;
 
@@ -39,12 +42,17 @@ public class HomeController extends Application {
 
   @FXML Label timeLabel;
 
-  @FXML JFXDrawer drawer;
+  @FXML JFXDrawer drawer, notifDrawer;
 
   @FXML JFXHamburger ham1;
 
-  ProfileController profileController;
-  VisitorMenuController visitorMenuController;
+  @FXML AnchorPane drawerPane;
+
+  @FXML Button mobileButton;
+
+  @FXML StackPane homePane;
+
+  Notification lastNotif;
 
   @FXML
   public void initClock() {
@@ -61,7 +69,7 @@ public class HomeController extends Application {
                   }
                 }),
             new KeyFrame(Duration.seconds(1)));
-    clock.setCycleCount(Animation.INDEFINITE);
+    clock.setCycleCount(INDEFINITE);
     clock.play();
   }
 
@@ -99,74 +107,126 @@ public class HomeController extends Application {
 
   @Override
   public void start(Stage primaryStage) throws Exception {
-    Parent root = FXMLLoader.load(getClass().getResource("/fxml/menuFiles/Menu.fxml"));
+    Parent root = FXMLLoader.load(getClass().getResource("/fxml/PageFrame.fxml"));
     primaryStage.setTitle("Hospital App");
     Scene applicationScene = new Scene(root, 973, 800);
-    ViewManager.setReplacePane(replacePane);
     primaryStage.setScene(applicationScene);
-    primaryStage.setMinHeight(800);
-    primaryStage.setMinWidth(1000);
     primaryStage.setMaximized(true);
     primaryStage.show();
-  }
-
-  public ProfileController getProfileController() {
-    return profileController;
-  }
-
-  public void setProfileController(ProfileController profileController) {
-    this.profileController = profileController;
-  }
-
-  public VisitorMenuController getVisitorMenuController() {
-    return visitorMenuController;
-  }
-
-  public void setVisitorMenuController(VisitorMenuController visitorMenuController) {
-    this.visitorMenuController = visitorMenuController;
   }
 
   @FXML
   public void update() {
     VBox box = null;
+    HBox hBox = null;
     try {
+      FXMLLoader vLoader = new FXMLLoader(getClass().getResource("/fxml/menuFiles/Menu.fxml"));
+      box = vLoader.load();
+      ViewManager.homeController = this;
+      FXMLLoader hLoader =
+          new FXMLLoader(getClass().getResource("/fxml/menuFiles/NotificationContent.fxml"));
+      hBox = hLoader.load();
       if (ApplicationDataController.getInstance()
           .getLoggedInUser()
-          .hasPermission(User.Permission.REQUEST_TICKET)) {
-        System.out.println("I am an admin");
-        FXMLLoader vLoader =
-            new FXMLLoader(getClass().getResource("/fxml/menuFiles/AdminMenu.fxml"));
-        box = vLoader.load();
-        ((AdminMenuController) vLoader.getController()).setHomeController(this);
+          .hasPermission(User.Permission.VIEW_TICKET)) {
         titleLabel.setText("Admin Portal");
+        replacePane.getChildren().clear();
         replacePane
             .getChildren()
-            .add(FXMLLoader.load(getClass().getResource("/fxml/ServiceRequestTableView.fxml")));
+            .add(
+                FXMLLoader.load(
+                    getClass().getResource("/fxml/menuFiles/ServiceRequestTableView.fxml")));
       } else {
-        FXMLLoader vLoader =
-            new FXMLLoader(getClass().getResource("/fxml/menuFiles/VisitorMenu.fxml"));
-        box = vLoader.load();
-        ((VisitorMenuController) vLoader.getController()).setHomeController(this);
         titleLabel.setText("General Portal");
-        replacePane.getChildren().add(FXMLLoader.load(getClass().getResource("/fxml/Home.fxml")));
+        replacePane.getChildren().clear();
+        replacePane
+            .getChildren()
+            .add(FXMLLoader.load(getClass().getResource("/fxml/menuFiles/Home.fxml")));
       }
-      //
-      // replacePane.getChildren().add(FXMLLoader.load(getClass().getResource("/fxml/Home.fxml")));
     } catch (IOException e) {
       e.printStackTrace();
     }
     drawer.setSidePane(box);
+    notifDrawer.setSidePane(hBox);
   }
 
-  public StackPane getReplacePane() {
-    return replacePane;
+  public Notification getNewNotification() {
+    List<Notification> notifs =
+        NotificationManager.getInstance()
+            .getPendingNotifications(ApplicationDataController.getInstance().getLoggedInUser());
+    for (Notification n : notifs) {
+      if (n.isHasDisplayed()) {
+        System.out.println(
+            "Notification "
+                + n.getNotificationID()
+                + " has been displayed so we are LEAVING the loop.");
+        return null;
+      } else if (!n.isHasDisplayed()) {
+        lastNotif = n;
+        System.out.println(
+            "in hasNew, i found and set lastNotif to: Notifcation "
+                + lastNotif.getNotificationID()
+                + " vs  n = "
+                + n.getNotificationID());
+        displayNotification(n);
+        return n;
+      } else {
+        System.out.println("notif.isHasDisplayed =" + n.isHasDisplayed());
+      }
+    }
+    return null;
+  }
+
+  public void displayNotification(Notification notification) {
+    notifDrawer.open();
+    System.out.println(
+        "Setting Notification " + notification.getNotificationID() + " to hasDisplayed");
+    Notification o =
+        NotificationManager.getInstance().updateNotification(notification.getNotificationID());
+  }
+
+  public void initNotifUpdater() {
+    Timeline timeline =
+        new Timeline(
+            new KeyFrame(
+                Duration.seconds(11),
+                ev -> {
+                  if (getNewNotification() != null) {}
+                }));
+    timeline.setCycleCount(INDEFINITE);
+    timeline.play();
   }
 
   @FXML
-  public void initialize() throws IOException {
+  public void initialize() {
+
+    if (mobileButton != null) {
+      mobileButton.managedProperty().bind(mobileButton.visibleProperty());
+      mobileButton.setVisible(ApplicationDataController.getInstance().isLoggedIn());
+    }
     if (timeLabel != null) {
       initClock();
       update();
+      initNotifUpdater();
+
+      drawerPane
+          .heightProperty()
+          .addListener(
+              (obs, oldVal, newVal) -> {
+                Rectangle clip = new Rectangle(drawerPane.getWidth(), drawerPane.getHeight());
+                clip.setLayoutX(0);
+                clip.setLayoutY(0);
+                drawerPane.setClip(clip);
+              });
+      drawerPane
+          .widthProperty()
+          .addListener(
+              (obs, oldVal, newVal) -> {
+                Rectangle clip = new Rectangle(drawerPane.getWidth(), drawerPane.getHeight());
+                clip.setLayoutX(0);
+                clip.setLayoutY(0);
+                drawerPane.setClip(clip);
+              });
 
       HamburgerSlideCloseTransition hamburgerTransition = new HamburgerSlideCloseTransition(ham1);
       hamburgerTransition.setRate(-1);
@@ -182,6 +242,11 @@ public class HomeController extends Application {
               drawer.open();
             }
           });
+      drawer.open();
     }
+  }
+
+  public StackPane getReplacePane() {
+    return replacePane;
   }
 }

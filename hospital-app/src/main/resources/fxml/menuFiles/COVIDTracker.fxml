@@ -4,14 +4,16 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="892.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamI.view.COVIDTrackerController">
+
+<StackPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="600.0" prefWidth="892.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamI.view.COVIDTrackerController">
    <children>
-      <HBox alignment="CENTER" layoutX="-33.0" layoutY="212.0" prefHeight="600.0" prefWidth="687.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <Label fx:id="noForms" text="You have no assigned covid forms." />
+      <HBox fx:id="form" alignment="CENTER" prefHeight="600.0" prefWidth="687.0">
          <children>
             <VBox alignment="CENTER" prefHeight="600.0" prefWidth="366.0" HBox.hgrow="ALWAYS">
                <HBox.margin>
@@ -90,4 +92,4 @@
          </children>
       </HBox>
    </children>
-</AnchorPane>
+</StackPane>
