@@ -4,6 +4,7 @@ import edu.wpi.cs3733.c21.teamI.parking.Block;
 import edu.wpi.cs3733.c21.teamI.parking.Floor;
 import edu.wpi.cs3733.c21.teamI.parking.Lot;
 import edu.wpi.cs3733.c21.teamI.parking.reservations.ParkingCustomer;
+import edu.wpi.cs3733.c21.teamI.parking.reservations.ParkingSlip;
 import edu.wpi.cs3733.c21.teamI.parking.reservations.StaffPermit;
 import edu.wpi.cs3733.c21.teamI.user.User;
 import java.sql.*;
@@ -218,7 +219,7 @@ public class ParkingPeripheralServerManager extends DatabaseManager {
               + "penalty integer,"
               + "is_paid boolean,"
               + "PRIMARY KEY (id),"
-              + "FOREIGN KEY (slot_id) REFERENCES PARKING_SLOTS(id))");
+              + "FOREIGN KEY (reservation_id) REFERENCES PARKING_SLOT_RESERVATIONS(id))");
 
     } catch (SQLException e) {
       e.printStackTrace();
@@ -455,62 +456,89 @@ public class ParkingPeripheralServerManager extends DatabaseManager {
     }
   }
 
-    public ParkingSlip createNewSlip(Timestamp startTime, Timestamp endTime, int cost) {
-        int slotId = -1;
-        String slotCode = null;
+  public ParkingSlip createNewSlip(Timestamp startTime, Timestamp endTime, int cost) {
+    int slotId = -1;
+    String slotCode = null;
 
-        try {
-            String slotQuery =
-                    "SELECT * FROM PARKING_SLOTS ps LEFT JOIN (SELECT P.ID, P.SLOT_ID FROM PARKING_SLIPS P WHERE NOT (((P.ENTRY_TIMESTAMP>=? AND P.ENTRY_TIMESTAMP>=?) OR (P.EXIT_TIMESTAMP<=? AND P.EXIT_TIMESTAMP<=?)))) as Pslip on ps.ID = Pslip.SLOT_ID WHERE Pslip.ID IS NULL AND ps.IS_OCCUPIED=false";
-            PreparedStatement statement = databaseRef.getConnection().prepareStatement(slotQuery);
+    try {
+      String slotQuery =
+          "SELECT * FROM PARKING_SLOTS ps LEFT JOIN (SELECT P.ID, P.SLOT_ID FROM PARKING_SLIPS P WHERE NOT (((P.ENTRY_TIMESTAMP>=? AND P.ENTRY_TIMESTAMP>=?) OR (P.EXIT_TIMESTAMP<=? AND P.EXIT_TIMESTAMP<=?)))) as Pslip on ps.ID = Pslip.SLOT_ID WHERE Pslip.ID IS NULL AND ps.IS_OCCUPIED=false";
+      PreparedStatement statement = databaseRef.getConnection().prepareStatement(slotQuery);
 
-            statement.setTimestamp(1, startTime);
-            statement.setTimestamp(2, endTime);
-            statement.setTimestamp(3, startTime);
-            statement.setTimestamp(4, endTime);
+      statement.setTimestamp(1, startTime);
+      statement.setTimestamp(2, endTime);
+      statement.setTimestamp(3, startTime);
+      statement.setTimestamp(4, endTime);
 
-            ResultSet rs = statement.executeQuery();
+      ResultSet rs = statement.executeQuery();
 
-            if (rs.next()) {
-                slotId = rs.getInt("ID");
-                slotCode = rs.getString("CODE") + rs.getString("SLOT_NUMBER");
-            }
+      if (rs.next()) {
+        slotId = rs.getInt("ID");
+        slotCode = rs.getString("CODE") + rs.getString("SLOT_NUMBER");
+      }
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        if (slotId == -1 || slotCode == null)
-            throw new IllegalStateException("Failed to find empty slot when printing ticket");
-
-        System.out.println(slotId + ": " + slotCode);
-
-        int createdSlip = -1;
-
-        try {
-            String query =
-                    "INSERT INTO PARKING_SLIPS (SLOT_ID, ENTRY_TIMESTAMP, EXIT_TIMESTAMP, BASE_COST, IS_PAID) VALUES (?, ?, ?, ?, ?)";
-            PreparedStatement preparedStatement =
-                    databaseRef.getConnection().prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-
-            preparedStatement.setInt(1, slotId);
-            preparedStatement.setTimestamp(2, startTime);
-            preparedStatement.setTimestamp(3, endTime);
-            preparedStatement.setInt(4, cost);
-            preparedStatement.setBoolean(5, false);
-
-            preparedStatement.execute();
-
-            ResultSet rs = preparedStatement.getGeneratedKeys();
-            rs.next();
-            createdSlip = rs.getInt(1);
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        if (createdSlip == -1) throw new IllegalStateException("Failed to add parking slip to DB");
-
-        return new ParkingSlip(createdSlip, slotId, slotCode, startTime, endTime, cost / 100.0);
+    } catch (SQLException e) {
+      e.printStackTrace();
     }
+
+    if (slotId == -1 || slotCode == null)
+      throw new IllegalStateException("Failed to find empty slot when printing ticket");
+
+    System.out.println(slotId + ": " + slotCode);
+
+    int createdSlip = -1;
+
+    try {
+      String query =
+          "INSERT INTO PARKING_SLIPS (SLOT_ID, ENTRY_TIMESTAMP, EXIT_TIMESTAMP, BASE_COST, IS_PAID) VALUES (?, ?, ?, ?, ?)";
+      PreparedStatement preparedStatement =
+          databaseRef.getConnection().prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+
+      preparedStatement.setInt(1, slotId);
+      preparedStatement.setTimestamp(2, startTime);
+      preparedStatement.setTimestamp(3, endTime);
+      preparedStatement.setInt(4, cost);
+      preparedStatement.setBoolean(5, false);
+
+      preparedStatement.execute();
+
+      ResultSet rs = preparedStatement.getGeneratedKeys();
+      rs.next();
+      createdSlip = rs.getInt(1);
+
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
+    if (createdSlip == -1) throw new IllegalStateException("Failed to add parking slip to DB");
+
+    return new ParkingSlip(createdSlip, slotId, slotCode, startTime, endTime, cost / 100.0);
+  }
+
+  public void updateSlipPenalty(int id, double penalty) {
+    try {
+      int p = (int) (penalty * 100.0);
+
+      String query = "UPDATE PARKING_SLIPS SET PENALTY = ? WHERE ID = ?";
+      PreparedStatement statement = databaseRef.getConnection().prepareStatement(query);
+      statement.setInt(1, p);
+      statement.setInt(2, id);
+      statement.execute();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+  }
+
+  public void slipPaid(int id) {
+    try {
+
+      String query = "UPDATE PARKING_SLIPS SET EXIT_TIMESTAMP = ? IS_PAID = true WHERE ID = ?";
+      PreparedStatement statement = databaseRef.getConnection().prepareStatement(query);
+      statement.setTimestamp(1, new Timestamp(System.currentTimeMillis()));
+      statement.setInt(2, id);
+      statement.execute();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+  }
 }
