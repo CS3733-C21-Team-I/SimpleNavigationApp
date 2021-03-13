@@ -1,5 +1,7 @@
 package edu.wpi.cs3733.c21.teamI.view.maps;
 
+import static edu.wpi.cs3733.c21.teamI.hospitalMap.LocationCategory.*;
+
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
@@ -53,7 +55,7 @@ public class MapPathfindingController extends MapController {
   // setup stuff
   @FXML
   public void initialize() {
-    System.out.println("Initializing pathfinding controller");
+    // System.out.println("Initializing pathfinding controller");
     boolean isAdmin =
         ApplicationDataController.getInstance()
             .getLoggedInUser()
@@ -102,6 +104,8 @@ public class MapPathfindingController extends MapController {
 
     update();
   }
+
+  public void updateTostartNode() {}
 
   protected void update() {
     mapPane.getChildren().clear();
@@ -194,6 +198,7 @@ public class MapPathfindingController extends MapController {
       HospitalMapNode nodeA = MapDataEntity.getNodeByLongName(begin);
       HospitalMapNode nodeB = MapDataEntity.getNodeByLongName(end);
       getFoundPath(nodeA, nodeB);
+      goToStartTab(foundPath.get(0).getMapID());
       update();
     }
   }
@@ -214,6 +219,9 @@ public class MapPathfindingController extends MapController {
       } catch (IOException e) {
         e.printStackTrace();
       }
+      //
+      drawLocationNodes();
+      showButtonToNextMapOnPath(foundPath);
       displayDirections(getFoundPathDescription());
     }
   }
@@ -267,7 +275,7 @@ public class MapPathfindingController extends MapController {
     } else {
       scorer.nodeTypesToAvoid.add(NodeRestrictions.WHEELCHAIR_INACCESSIBLE);
     }
-    System.out.print("NodeRestrictions:" + scorer.nodeTypesToAvoid);
+    //  System.out.print("NodeRestrictions:" + scorer.nodeTypesToAvoid);
   }
 
   //  public void reflectCovidStatus(boolean isHighCovidRisk) {
@@ -347,9 +355,6 @@ public class MapPathfindingController extends MapController {
           case KIOS:
             displayIcon("/fxml/map/mapImages/mapIcons/info.png", node);
             break;
-            //          case FOOD:
-            //            displayIcon("/fxml/mapImages/mapIcons/dining.png", node);
-            //            break;
           case PARK:
             //  displayIcon("/fxml/mapImages/mapIcons/parking.png", node);
             break;
@@ -420,7 +425,7 @@ public class MapPathfindingController extends MapController {
       // Setting the image view parameters
       imageView.setX(x);
       imageView.setY(y);
-      imageView.setFitWidth(imgScale);
+      imageView.setFitHeight(imgScale);
       imageView.setPreserveRatio(true);
       imageView = (ImageView) setMouseActions(imageView, node);
       mapPane.getChildren().add(imageView);
@@ -442,7 +447,16 @@ public class MapPathfindingController extends MapController {
       e.printStackTrace();
     }
     double startIconX = transformX(path.get(0).getxCoord()) - imgScale / 2;
-    double startIconY = transformY(path.get(0).getyCoord()) - imgScale;
+    double startIconY = transformY((path.get(0).getyCoord())) - imgScale;
+    ;
+    //    if (path.get(path.size() - 1) instanceof LocationNode
+    //        && hasAnIcon((LocationNode) path.get(0))) {
+    //      double finalNodeYCoord = path.get(0).getyCoord() - 43.5 * 100 / scale;
+    //      startIconY = transformY(finalNodeYCoord) - imgScale;
+    //    } else {
+    //      startIconY = transformY((path.get(path.size() - 1).getyCoord())) - imgScale;
+    //    }
+
     drawNode(path.get(0), blue);
     displayImage(startIcon, startIconX, startIconY, imgScale);
   }
@@ -459,9 +473,30 @@ public class MapPathfindingController extends MapController {
     } catch (URISyntaxException e) {
       e.printStackTrace();
     }
+    // double iconRadius = transformY(96);
+
     double finishIconX = transformX(path.get(path.size() - 1).getxCoord()) - imgScale / 2;
-    double finishIconY = transformY(path.get(path.size() - 1).getyCoord()) - imgScale;
+    double finishIconY = transformY((path.get(path.size() - 1).getyCoord())) - imgScale;
+    // System.out.println("current destination ycoord: " + finishIconY);
+    // System.out.println("Ycoord: " + finishIconY);
+    // System.out.println("Xcoord: " + finishIconX);
     drawNode(path.get(path.size() - 1), red);
     displayImage(finishIcon, finishIconX, finishIconY, imgScale);
   }
+
+  //  public boolean hasAnIcon(LocationNode node) {
+  //    List<String> iconLocationNames =
+  //        Arrays.asList(
+  //            "Northern Parking Icon",
+  //            "Western Parking Icon",
+  //            "Pharmacy",
+  //            "Emergency Department",
+  //            "Valet Parking Icon");
+  //    List<LocationCategory> iconLocations = Arrays.asList(ELEV, REST, STAI, KIOS, FOOD);
+  //    if (iconLocationNames.stream().anyMatch(s -> s.equals((node).getLongName()))
+  //        || iconLocations.stream().anyMatch(s -> s.equals(node.getLocationCategory()))) {
+  //      return true;
+  //    }
+  //    return false;
+  //  }
 }
