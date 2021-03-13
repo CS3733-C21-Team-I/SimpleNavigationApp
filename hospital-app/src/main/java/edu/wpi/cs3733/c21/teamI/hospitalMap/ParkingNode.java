@@ -2,23 +2,19 @@ package edu.wpi.cs3733.c21.teamI.hospitalMap;
 
 import java.util.List;
 
-public class ParkingNode extends HospitalMapNode {
-  private String parkingID;
+public class ParkingNode extends LocationNode {
 
   public ParkingNode(
       String id,
       String mapID,
       int xCoord,
       int yCoord,
+      String shortName,
       String longName,
+      LocationCategory category,
+      String teamAssigned,
       List<HospitalMapNode> connections) {
-    super(id, mapID, xCoord, yCoord, connections);
-    this.parkingID = longName;
-  }
-
-  @Override
-  public String toString() {
-    return "ParkingNode: " + parkingID;
+    super(id, mapID, xCoord, yCoord, shortName, longName, category, teamAssigned, connections);
   }
 
   public boolean isEmpty() {

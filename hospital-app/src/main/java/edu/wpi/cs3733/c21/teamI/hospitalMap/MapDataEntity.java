@@ -40,7 +40,8 @@ public class MapDataEntity {
     Set<HospitalMapNode> nodesLookup = getNodesSet(false);
     for (HospitalMapNode node : nodesLookup) {
       if (node.getClass() == LocationNode.class
-          && ((LocationNode) node).getLongName().equals(longName)) {
+          || node.getClass() == ParkingNode.class
+              && ((LocationNode) node).getLongName().equals(longName)) {
         return (LocationNode) node;
       }
     }
