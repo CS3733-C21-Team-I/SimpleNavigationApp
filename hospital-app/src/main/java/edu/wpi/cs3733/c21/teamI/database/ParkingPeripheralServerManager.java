@@ -313,17 +313,47 @@ public class ParkingPeripheralServerManager extends DatabaseManager {
               + "(106, 'D', false, 5)");
       statement.executeBatch();
 
+      List<Integer> northParkingSlotIds = new ArrayList();
       Lot eastSurfLot = createParkingLot("Eastern Surface Lot", false, true);
       addBlocksToLot(
           eastSurfLot, new Block("ESA"), new Block("ESB"), new Block("ESC"), new Block("ESD"));
       for (Block b : eastSurfLot.getBlocks()) {
         addFloorsToBlock(b, new Floor(1, false, true, false));
-        addSlotsToFloor(b.getFloors().get(0), b.getBlockCode().charAt(2), 100, 20);
+        northParkingSlotIds.addAll(
+            addSlotsToFloor(b.getFloors().get(0), b.getBlockCode().charAt(2), 100, 20));
+      }
+
+      Lot eastLot = createParkingLot("Eastern Garage", false, false);
+      addBlocksToLot(eastSurfLot, new Block("MSP"));
+      for (int i = 1; i < 3; i++) {
+        Floor f =
+            addFloorsToBlock(eastLot.getBlocks().get(0), new Floor(i, i != 3, true, false)).get(0);
+        addSlotsToFloor(f, 'E', i * 100, (i != 3) ? 46 : 47);
+      }
+
+      Lot westSurfLot = createParkingLot("Western Surface Lot", false, false);
+      addBlocksToLot(westSurfLot, new Block("WSA"), new Block("WSB"), new Block("WSC"));
+      for (Block b : westSurfLot.getBlocks()) {
+        addFloorsToBlock(b, new Floor(1, false, true, false));
+        addSlotsToFloor(b.getFloors().get(0), b.getBlockCode().charAt(2), 100, 43);
+      }
+
+      Lot westLot = createParkingLot("West Garage", false, false);
+      addBlocksToLot(eastSurfLot, new Block("MSP"));
+      for (int i = 1; i < 5; i++) {
+        Floor f =
+            addFloorsToBlock(eastLot.getBlocks().get(0), new Floor(i, i != 5, true, false)).get(0);
+        addSlotsToFloor(f, 'W', i * 1000, 116);
       }
 
     } catch (Exception e) {
       e.printStackTrace();
     }
+
+    Lot westAdminLot = createParkingLot("West Admin Lot", true, false);
+    addBlocksToLot(westAdminLot, new Block("WAL"));
+    addFloorsToBlock(westAdminLot.getBlocks().get(0), new Floor(1, false, true, true));
+    addSlotsToFloor(westAdminLot.getBlocks().get(0).getFloors().get(0), 'H', 100, 29);
   }
 
   public Lot createParkingLot(String name, boolean reentry, boolean vallet) {
