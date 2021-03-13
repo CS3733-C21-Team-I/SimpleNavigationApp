@@ -1,9 +1,11 @@
 package edu.wpi.cs3733.c21.teamI.parking.reservations.view;
 
 import com.jfoenix.controls.*;
+import edu.wpi.cs3733.c21.teamI.parking.reservations.ParkingReservation;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 
 public class ParkingReservationController {
   @FXML JFXButton clearBtn, bookBtn;
@@ -11,6 +13,8 @@ public class ParkingReservationController {
   @FXML JFXTimePicker entryTime, exitTime;
   @FXML JFXTextField contNum, plateNum;
   @FXML JFXCheckBox handiCheck;
+  @FXML
+  private Label parkingSlot, start, end, price, barCode, ticketID;
 
   @FXML
   public void onClear() {
@@ -44,6 +48,18 @@ public class ParkingReservationController {
     contNum.setOnAction(eh);
     plateNum.setOnAction(eh);
     handiCheck.setOnAction(eh);
+  }
+
+  public void redrawTicket(ParkingReservation res) {
+//    parkingSlot.setText(res.parkingSlot);
+//    start.setText();
+//    end.setText();
+//    price.setText();
+//    ticketID.setText();
+  }
+
+  public void submit() {
+    System.out.println("Reservation submitted");
   }
 
   EventHandler<javafx.event.ActionEvent> eh =

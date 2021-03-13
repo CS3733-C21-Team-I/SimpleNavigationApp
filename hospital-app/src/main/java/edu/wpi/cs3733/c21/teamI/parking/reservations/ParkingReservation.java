@@ -3,6 +3,9 @@ package edu.wpi.cs3733.c21.teamI.parking.reservations;
 import java.sql.Date;
 import java.sql.Timestamp;
 
+import javafx.fxml.FXML;
+import javafx.scene.control.Label;
+
 public class ParkingReservation {
   private int id;
   private ParkingCustomer customer;
