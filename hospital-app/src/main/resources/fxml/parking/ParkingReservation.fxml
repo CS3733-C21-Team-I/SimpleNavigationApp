@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<StackPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: ffffff;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<StackPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: ffffff;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamI.parking.reservations.view.ParkingReservationController">
    <children>
       <VBox>
          <children>
@@ -29,12 +29,12 @@
             </Label>
             <HBox>
                <children>
-                  <JFXDatePicker defaultColor="#012d5a" overLay="true" prefHeight="35.0" prefWidth="233.0" promptText="MM/DD/YYYY">
+                  <JFXDatePicker fx:id="entryDate" defaultColor="#012d5a" overLay="true" prefHeight="35.0" prefWidth="233.0" promptText="MM/DD/YYYY">
                      <HBox.margin>
                         <Insets left="45.0" right="40.0" />
                      </HBox.margin>
                   </JFXDatePicker>
-                  <JFXTimePicker defaultColor="#012d5a" prefHeight="35.0" promptText="00:00 PM" />
+                  <JFXTimePicker fx:id="entryTime" defaultColor="#012d5a" prefHeight="35.0" promptText="00:00 PM" />
                </children>
                <VBox.margin>
                   <Insets bottom="10.0" right="15.0" />
@@ -53,12 +53,12 @@
             </Label>
             <HBox>
                <children>
-                  <JFXDatePicker defaultColor="#012d5a" overLay="true" prefHeight="35.0" prefWidth="233.0" promptText="MM/DD/YYYY">
+                  <JFXDatePicker fx:id="exitDate" defaultColor="#012d5a" overLay="true" prefHeight="35.0" prefWidth="233.0" promptText="MM/DD/YYYY">
                      <HBox.margin>
                         <Insets left="45.0" right="40.0" />
                      </HBox.margin>
                   </JFXDatePicker>
-                  <JFXTimePicker defaultColor="#012d5a" prefHeight="35.0" promptText="00:00 PM" />
+                  <JFXTimePicker fx:id="exitTime" defaultColor="#012d5a" prefHeight="35.0" promptText="00:00 PM" />
                </children>
                <VBox.margin>
                   <Insets bottom="10.0" right="15.0" />
@@ -75,7 +75,7 @@
                   <Insets left="20.0" />
                </VBox.margin>
             </Label>
-            <JFXTextField focusColor="#012d5a">
+            <JFXTextField fx:id="plateNum" focusColor="#012d5a">
                <VBox.margin>
                   <Insets left="45.0" right="50.0" />
                </VBox.margin>
@@ -91,12 +91,12 @@
                   <Insets left="20.0" />
                </VBox.margin>
             </Label>
-            <JFXTextField focusColor="#012d5a">
+            <JFXTextField fx:id="contNum" focusColor="#012d5a">
                <VBox.margin>
                   <Insets left="45.0" right="50.0" />
                </VBox.margin>
             </JFXTextField>
-            <JFXCheckBox checkedColor="#0067b1" text="Handicapped Parking">
+            <JFXCheckBox fx:id="handiCheck" checkedColor="#0067b1" text="Handicapped Parking">
                <font>
                   <Font name="Yu Gothic UI Semibold" size="22.0" />
                </font>
@@ -106,7 +106,7 @@
             </JFXCheckBox>
             <HBox alignment="CENTER">
                <children>
-                  <JFXButton alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" style="-fx-background-color: #0067b1;" stylesheets="@../misc/css/main.css" text="Book" textAlignment="CENTER" textFill="WHITE">
+                  <JFXButton fx:id="bookBtn" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" style="-fx-background-color: #0067b1;" stylesheets="@../misc/css/main.css" text="Book" textAlignment="CENTER" textFill="WHITE">
                      <font>
                         <Font name="Yu Gothic UI Semibold" size="20.0" />
                      </font>
@@ -114,7 +114,7 @@
                         <Insets right="15.0" />
                      </HBox.margin>
                   </JFXButton>
-                  <JFXButton alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" style="-fx-background-color: #0067b1;" stylesheets="@../misc/css/main.css" text="Clear" textAlignment="CENTER" textFill="WHITE">
+                  <JFXButton fx:id="clearBtn" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" onAction="#onClear" style="-fx-background-color: #0067b1;" stylesheets="@../misc/css/main.css" text="Clear" textAlignment="CENTER" textFill="WHITE">
                      <font>
                         <Font name="Yu Gothic UI Semibold" size="20.0" />
                      </font>
