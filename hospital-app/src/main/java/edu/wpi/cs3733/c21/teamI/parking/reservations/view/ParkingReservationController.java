@@ -1,11 +1,17 @@
 package edu.wpi.cs3733.c21.teamI.parking.reservations.view;
 
 import com.jfoenix.controls.*;
+import edu.wpi.cs3733.c21.teamI.database.ParkingPeripheralServerManager;
+import edu.wpi.cs3733.c21.teamI.parking.reservations.ParkingCustomer;
 import edu.wpi.cs3733.c21.teamI.parking.reservations.ParkingReservation;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 public class ParkingReservationController {
   @FXML JFXButton clearBtn, bookBtn;
@@ -60,6 +66,14 @@ public class ParkingReservationController {
 
   public void submit() {
     System.out.println("Reservation submitted");
+    Timestamp startTimestamp = Timestamp.valueOf(entryDate.getValue().atTime(entryTime.getValue()));
+    Timestamp exitTimestamp = Timestamp.valueOf(exitDate.getValue().atTime(exitTime.getValue()));
+
+    ParkingCustomer customer = ParkingPeripheralServerManager.getInstance().createNewCustomer(plateNum.getText(), false, contNum.getText());
+
+    ParkingReservation reservation = ParkingPeripheralServerManager.getInstance().createNewReservation(customer, startTimestamp, exitTimestamp);
+
+    redrawTicket(reservation);
   }
 
   EventHandler<javafx.event.ActionEvent> eh =

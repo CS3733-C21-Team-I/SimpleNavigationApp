@@ -7,12 +7,8 @@ import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
 import edu.wpi.cs3733.c21.teamI.database.ParkingPeripheralServerManager;
 import edu.wpi.cs3733.c21.teamI.parking.reservations.StaffPermit;
-
 import java.sql.Timestamp;
-import java.time.Instant;
 import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.Date;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -43,7 +39,9 @@ public class PermitRequestController {
         .requestStaffPermit(
             ApplicationDataController.getInstance().getLoggedInUser(),
             licensePlateTextfield.getText(),
-            contactNumTextfield.getText(), start, end);
+            contactNumTextfield.getText(),
+            start,
+            end);
 
     refreshCurrentPermit();
   }
