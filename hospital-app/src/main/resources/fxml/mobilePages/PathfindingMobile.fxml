@@ -21,7 +21,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<StackPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamI.view.mobile.MapPathfindingControllerMobile">
+<StackPane fx:id="root" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamI.view.mobile.MapPathfindingControllerMobile">
    <children>
        <AnchorPane prefHeight="88.0" prefWidth="352.0">
            <children>
@@ -161,6 +161,11 @@
                                           </JFXButton>
                                        </children>
                                     </HBox>
+                                    <JFXButton buttonType="RAISED" onAction="#goToTicketScreen" style="-fx-background-color: #0067b1;" text="Pay a Parking Ticket" textFill="WHITE">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font>
+                                    </JFXButton>
                                  </children>
                               </VBox>
                            </children>
@@ -193,7 +198,7 @@
                                   </JFXTabPane>
                      </children>
                   </StackPane>
-                  <StackPane fx:id="imageContainer" maxHeight="544.0" maxWidth="306.0" minHeight="300.0" minWidth="306.0" prefHeight="300.0" prefWidth="306.0" style="-fx-background-color: white;" VBox.vgrow="ALWAYS">
+                  <StackPane fx:id="imageContainer" maxHeight="544.0" maxWidth="306.0" minHeight="288.0" minWidth="306.0" prefHeight="288.0" prefWidth="306.0" style="-fx-background-color: white;" VBox.vgrow="ALWAYS">
                      <children>
                                   <ImageView fx:id="mapImage" fitHeight="10.0" fitWidth="10.0" pickOnBounds="true" StackPane.alignment="CENTER">
                            <viewport>

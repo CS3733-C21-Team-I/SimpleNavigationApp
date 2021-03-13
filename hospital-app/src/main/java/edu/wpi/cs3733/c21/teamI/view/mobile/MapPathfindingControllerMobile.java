@@ -45,6 +45,7 @@ public class MapPathfindingControllerMobile extends MobileMapController {
   @FXML StackPane allDirections;
   @FXML JFXHamburger ham;
   @FXML Label singleInstruction;
+  @FXML StackPane root;
 
   private EuclidianDistCalc scorer = new EuclidianDistCalc();
   private AlgorithmSelectionStrategyPattern pathFinderAlgorithm =
@@ -105,6 +106,12 @@ public class MapPathfindingControllerMobile extends MobileMapController {
     replacePane
         .getChildren()
         .add(FXMLLoader.load(getClass().getResource("/fxml/map/Pathediting.fxml")));
+  }
+
+  public void goToTicketScreen(ActionEvent e) throws IOException {
+    root.getChildren().clear();
+    root.getChildren()
+        .add(FXMLLoader.load(getClass().getResource("/fxml/mobilePages/PayParkingTicket.fxml")));
   }
 
   // viewport stuff
