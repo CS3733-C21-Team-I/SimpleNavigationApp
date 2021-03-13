@@ -3,6 +3,7 @@ package edu.wpi.cs3733.c21.teamI.parking.view;
 import com.jfoenix.controls.JFXListView;
 import edu.wpi.cs3733.c21.teamI.database.ParkingPeripheralServerManager;
 import edu.wpi.cs3733.c21.teamI.parking.Lot;
+import java.io.IOException;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
@@ -16,6 +17,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Orientation;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.Duration;
@@ -96,6 +98,15 @@ public class ActiveLotsController extends Application {
                 }));
     fiveSecondsWonder.setCycleCount(Timeline.INDEFINITE);
     fiveSecondsWonder.play();
+  }
+
+  public void launchKiosk(ActionEvent e) throws IOException {
+    StackPane root = FXMLLoader.load(getClass().getResource("/fxml/parking/TicketKiosk.fxml"));
+    Scene scene = new Scene(root);
+    Stage stage = new Stage();
+    stage.setScene(scene);
+    stage.setTitle("Parking Ticket Kiosk");
+    stage.show();
   }
 
   @Override
