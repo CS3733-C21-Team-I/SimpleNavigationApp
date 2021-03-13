@@ -330,7 +330,7 @@
                               <Image url="@menuImages/parkingAdmin.png" />
                            </image>
                            <HBox.margin>
-                              <Insets right="18.0" />
+                              <Insets right="16.0" />
                            </HBox.margin>
                         </ImageView>
                      </children>

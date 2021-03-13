@@ -48,12 +48,15 @@ public class MapPathfindingController extends MapController {
   private List<HospitalMapNode> foundPath;
   private ArrayList<String> foundPathDescription;
 
+  public static MapPathfindingController lastInitialized = null;
+
   public MapPathfindingController() {}
 
   // setup stuff
   @FXML
   public void initialize() {
     System.out.println("Initializing pathfinding controller");
+    lastInitialized = this;
     boolean isAdmin =
         ApplicationDataController.getInstance()
             .getLoggedInUser()
@@ -103,7 +106,7 @@ public class MapPathfindingController extends MapController {
     update();
   }
 
-  protected void update() {
+  public void update() {
     mapPane.getChildren().clear();
     drawLocationNodes();
     if (foundPathExists()) {
@@ -168,8 +171,6 @@ public class MapPathfindingController extends MapController {
   }
 
   public List<HospitalMapNode> getFoundPath(HospitalMapNode nodeA, HospitalMapNode nodeB) {
-    System.out.println(nodeA);
-    System.out.println(nodeB);
     this.foundPath = pathFinderAlgorithm.findPath(nodeA, nodeB, scorer);
     this.foundPathDescription = TextDirections.getDirections(scorer, foundPath);
     return foundPath;
@@ -307,14 +308,14 @@ public class MapPathfindingController extends MapController {
     directionsField.setItems(items);
   }
 
-  protected Node setMouseActions(Node fxobject, HospitalMapNode node) {
-    fxobject.setOnMouseClicked(
+  protected Node setMouseActions(Node circle, HospitalMapNode node) {
+    circle.setOnMouseClicked(
         t -> {
-          fxobject.setStyle("-fx-cursor: hand");
+          circle.setStyle("-fx-cursor: hand");
           setStartAndEndOnClick(((LocationNode) node).getLongName());
         });
-    fxobject.setStyle("-fx-cursor: hand");
-    return fxobject;
+    circle.setStyle("-fx-cursor: hand");
+    return circle;
   }
 
   public void setStartAndEndOnClick(String nodeName) {

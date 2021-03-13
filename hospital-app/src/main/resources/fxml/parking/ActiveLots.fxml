@@ -10,32 +10,31 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <StackPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamI.parking.view.ActiveLotsController">
    <children>
-      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity">
+      <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity">
           <children>
-            <VBox alignment="CENTER">
+            <StackPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                    <Label text="Active Lots">
-                        <font>
-                            <Font size="22.0" />
-                        </font>
-                     <padding>
-                        <Insets bottom="20.0" />
-                     </padding>
-                    </Label>
-                    <JFXListView fx:id="lotView" prefHeight="700.0" prefWidth="305.0">
-                     <VBox.margin>
-                        <Insets bottom="60.0" left="60.0" right="60.0" />
-                     </VBox.margin>
-                  </JFXListView>
+                  <VBox alignment="CENTER">
+                     <children>
+                          <Label text="Active Lots">
+                              <font>
+                                  <Font size="22.0" />
+                              </font>
+                           <padding>
+                              <Insets bottom="20.0" />
+                           </padding>
+                          </Label>
+                          <JFXListView fx:id="lotView" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="700.0" prefWidth="600.0">
+                           <VBox.margin>
+                              <Insets bottom="60.0" left="60.0" right="60.0" />
+                           </VBox.margin>
+                        </JFXListView>
+                     </children>
+                  </VBox>
                </children>
-            </VBox>
-          </children>
-      </AnchorPane>
-      <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
-         <children>
+            </StackPane>
             <JFXButton buttonType="RAISED" onAction="#launchKiosk" style="-fx-background-color: #0067b1;" text="Launch Parking Ticket Kiosk" textFill="WHITE" AnchorPane.bottomAnchor="40.0" AnchorPane.rightAnchor="40.0">
                <cursor>
                   <Cursor fx:constant="HAND" />
@@ -44,7 +43,7 @@
                   <Font name="System Bold" size="18.0" />
                </font>
             </JFXButton>
-         </children>
+          </children>
       </AnchorPane>
    </children>
 </StackPane>
