@@ -519,6 +519,30 @@ public class ParkingPeripheralServerManager extends DatabaseManager {
     return new ParkingSlip(createdSlip, reservation, startTime, durationMin, cost/100.0);
   }
 
+  public ParkingCustomer createNewCustomer(String vehicleLicence, boolean isStaff, String contactNumber) {
+    try {
+      String query = "INSERT INTO PARKING_CUSTOMERS (VEHICLE_LICENCE, IS_STAFF, CONTACT_NUMBER, REGISTRATION_DATE) VALUES (?, ?, ?, ?)";
+      PreparedStatement statement = databaseRef.getConnection().prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+
+      Date regDate = new Date(System.currentTimeMillis());
+
+      statement.setString(1, vehicleLicence);
+      statement.setBoolean(2, isStaff);
+      statement.setString(3, contactNumber);
+      statement.setDate(4, regDate);
+
+      statement.execute();
+      ResultSet rs = statement.getGeneratedKeys();
+      rs.next();
+      int customerId = rs.getInt(1);
+      return new ParkingCustomer(customerId, vehicleLicence, isStaff, contactNumber, regDate);
+
+    } catch (SQLException e ) {
+      printSQLException(e);
+      throw new IllegalStateException("Error thrown inserting new Customer");
+    }
+  }
+
   public ParkingReservation createNewReservation(ParkingCustomer customer, Timestamp startTime, Timestamp endTime) {
     int slotId = -1;
     String slotCode = null;
@@ -566,6 +590,7 @@ public class ParkingPeripheralServerManager extends DatabaseManager {
 
       statement.execute();
       ResultSet rs = statement.getGeneratedKeys();
+      rs.next();
       createdReservation = rs.getInt(1);
     } catch (SQLException e ){
       printSQLException(e);
