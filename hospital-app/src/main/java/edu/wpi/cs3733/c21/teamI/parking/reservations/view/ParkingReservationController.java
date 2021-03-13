@@ -4,14 +4,11 @@ import com.jfoenix.controls.*;
 import edu.wpi.cs3733.c21.teamI.database.ParkingPeripheralServerManager;
 import edu.wpi.cs3733.c21.teamI.parking.reservations.ParkingCustomer;
 import edu.wpi.cs3733.c21.teamI.parking.reservations.ParkingReservation;
+import java.sql.Timestamp;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-
-import java.sql.Time;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
 
 public class ParkingReservationController {
   @FXML JFXButton clearBtn, bookBtn;
@@ -19,8 +16,7 @@ public class ParkingReservationController {
   @FXML JFXTimePicker entryTime, exitTime;
   @FXML JFXTextField contNum, plateNum;
   @FXML JFXCheckBox handiCheck;
-  @FXML
-  private Label parkingSlot, start, end, price, barCode, ticketID;
+  @FXML private Label parkingSlot, start, end, price, barCode, ticketID;
 
   @FXML
   public void onClear() {
@@ -60,7 +56,7 @@ public class ParkingReservationController {
     parkingSlot.setText(res.getSlotCode());
     start.setText(String.valueOf(res.getStartTimestamp()));
     end.setText(String.valueOf(res.getEndTimestamp()));
-//    price.setText(res.);
+    //    price.setText(res.);
     ticketID.setText(String.valueOf(res.getId()));
   }
 
@@ -69,9 +65,13 @@ public class ParkingReservationController {
     Timestamp startTimestamp = Timestamp.valueOf(entryDate.getValue().atTime(entryTime.getValue()));
     Timestamp exitTimestamp = Timestamp.valueOf(exitDate.getValue().atTime(exitTime.getValue()));
 
-    ParkingCustomer customer = ParkingPeripheralServerManager.getInstance().createNewCustomer(plateNum.getText(), false, contNum.getText());
+    ParkingCustomer customer =
+        ParkingPeripheralServerManager.getInstance()
+            .createNewCustomer(plateNum.getText(), false, contNum.getText());
 
-    ParkingReservation reservation = ParkingPeripheralServerManager.getInstance().createNewReservation(customer, startTimestamp, exitTimestamp);
+    ParkingReservation reservation =
+        ParkingPeripheralServerManager.getInstance()
+            .createNewReservation(customer, startTimestamp, exitTimestamp);
 
     redrawTicket(reservation);
   }
