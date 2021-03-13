@@ -5,6 +5,7 @@ import edu.wpi.cs3733.c21.teamI.database.ParkingPeripheralServerManager;
 import edu.wpi.cs3733.c21.teamI.parking.reservations.ParkingCustomer;
 import edu.wpi.cs3733.c21.teamI.parking.reservations.ParkingReservation;
 import java.sql.Timestamp;
+import java.time.format.DateTimeFormatter;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -17,6 +18,9 @@ public class ParkingReservationController {
   @FXML JFXTextField contNum, plateNum;
   @FXML JFXCheckBox handiCheck;
   @FXML private Label parkingSlot, start, end, price, barCode, ticketID;
+
+  private static final DateTimeFormatter resTimeFormat =
+      DateTimeFormatter.ofPattern("MM/dd/yyyy hh:mm a");
 
   @FXML
   public void onClear() {
@@ -54,8 +58,8 @@ public class ParkingReservationController {
 
   public void redrawTicket(ParkingReservation res) {
     parkingSlot.setText(res.getSlotCode());
-    start.setText(String.valueOf(res.getStartTimestamp()));
-    end.setText(String.valueOf(res.getEndTimestamp()));
+    start.setText(res.getStartTimestamp().toLocalDateTime().format(resTimeFormat));
+    end.setText(res.getEndTimestamp().toLocalDateTime().format(resTimeFormat));
     //    price.setText(res.);
     ticketID.setText(String.valueOf(res.getId()));
   }
@@ -74,6 +78,7 @@ public class ParkingReservationController {
             .createNewReservation(customer, startTimestamp, exitTimestamp);
 
     redrawTicket(reservation);
+    onClear();
   }
 
   EventHandler<javafx.event.ActionEvent> eh =
