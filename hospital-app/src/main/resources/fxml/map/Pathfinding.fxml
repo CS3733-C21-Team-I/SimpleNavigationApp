@@ -27,7 +27,7 @@
             <children>
                 <VBox fx:id="stackContainer" alignment="TOP_RIGHT" nodeOrientation="LEFT_TO_RIGHT" HBox.hgrow="ALWAYS">
                     <children>
-                        <JFXTabPane maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="50.0" stylesheets="@../misc/css/tab.css" tabMaxHeight="50.0" tabMaxWidth="0.0" tabMinHeight="50.0">
+                        <JFXTabPane fx:id="tabPane" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="50.0" stylesheets="@../misc/css/tab.css" tabMaxHeight="50.0" tabMaxWidth="0.0" tabMinHeight="50.0">
                             <tabs>
                                 <Tab fx:id="campus" onSelectionChanged="#campusTab" text="Campus" />
                                 <Tab fx:id="floor1" onSelectionChanged="#floor1Tab" text="Floor 1" />

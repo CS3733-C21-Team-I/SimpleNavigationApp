@@ -47,7 +47,9 @@ public class MenuController extends Application {
       menuItem.setVisible(false);
     }
     menu.getChildren().get(0).setVisible(true);
+    menu.getChildren().get(1).setVisible(true);
     menu.getChildren().get(2).setVisible(true);
+    menu.getChildren().get(7).setVisible(true);
     menu.getChildren().get(10).setVisible(true);
     menu.getChildren().get(11).setVisible(true);
 
@@ -56,13 +58,12 @@ public class MenuController extends Application {
     }
     if (user.hasPermission(VIEW_TICKET)) {
       menu.getChildren().get(5).setVisible(true);
-      menu.getChildren().get(6).setVisible(true);
     }
     if (user.userRoles.contains(User.Role.NURSE)) {
       menu.getChildren().get(9).setVisible(true);
     }
     if (user.userRoles.contains(User.Role.ADMIN)) {
-      menu.getChildren().get(7).setVisible(true);
+      menu.getChildren().get(6).setVisible(true);
       menu.getChildren().get(8).setVisible(true);
       menu.getChildren().get(9).setVisible(true);
     }

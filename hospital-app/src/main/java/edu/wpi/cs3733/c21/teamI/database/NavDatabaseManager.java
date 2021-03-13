@@ -64,17 +64,22 @@ public class NavDatabaseManager extends DatabaseManager {
                   String longName = nodeResults.getString("LONG_NAME");
                   String teamAssigned = nodeResults.getString("TEAM_ASSIGNED");
                   String locationCategory = nodeResults.getString("location_category");
-                  node =
-                      new LocationNode(
-                          nodeId,
-                          mapId,
-                          xCoord,
-                          yCoord,
-                          shortName,
-                          longName,
-                          LocationCategory.valueOf(locationCategory),
-                          teamAssigned,
-                          new ArrayList<>());
+                  if (locationCategory.equals("PARK")) {
+                    node =
+                        new ParkingNode(nodeId, mapId, xCoord, yCoord, longName, new ArrayList<>());
+                  } else {
+                    node =
+                        new LocationNode(
+                            nodeId,
+                            mapId,
+                            xCoord,
+                            yCoord,
+                            shortName,
+                            longName,
+                            LocationCategory.valueOf(locationCategory),
+                            teamAssigned,
+                            new ArrayList<>());
+                  }
                   break;
                 default:
                   throw new IllegalStateException(
