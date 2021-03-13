@@ -168,8 +168,12 @@ public class MapPathfindingController extends MapController {
   }
 
   public List<HospitalMapNode> getFoundPath(HospitalMapNode nodeA, HospitalMapNode nodeB) {
+    System.out.println(nodeA);
+    System.out.println(nodeB);
     this.foundPath = pathFinderAlgorithm.findPath(nodeA, nodeB, scorer);
     this.foundPathDescription = TextDirections.getDirections(scorer, foundPath);
+    System.out.println(foundPath);
+    System.out.println(foundPathDescription);
     return foundPath;
   }
 

@@ -39,9 +39,7 @@ public class MapDataEntity {
   public static HospitalMapNode getNodeByLongName(String longName) {
     Set<HospitalMapNode> nodesLookup = getNodesSet(false);
     for (HospitalMapNode node : nodesLookup) {
-      if (node.getClass() == LocationNode.class
-          || node.getClass() == ParkingNode.class
-              && ((LocationNode) node).getLongName().equals(longName)) {
+      if (node instanceof LocationNode && ((LocationNode) node).getLongName().equals(longName)) {
         return (LocationNode) node;
       }
     }
