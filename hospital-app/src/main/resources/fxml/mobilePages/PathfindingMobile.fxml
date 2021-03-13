@@ -124,6 +124,9 @@
                                                       <HBox.margin>
                                                           <Insets left="5.0" right="5.0" />
                                                       </HBox.margin>
+                                             <cursor>
+                                                <Cursor fx:constant="HAND" />
+                                             </cursor>
                                                   </JFXButton>
                                           <JFXCheckBox fx:id="accessible" alignment="CENTER" checkedColor="#ff9000" onAction="#toggleAccessible" prefHeight="30.0" prefWidth="197.0" style="-fx-background-color: #0067b1; -fx-background-radius: 2;" text="Wheelchair Accessible" textFill="WHITE" unCheckedColor="WHITE" HBox.hgrow="NEVER">
                                              <padding>
@@ -135,6 +138,9 @@
                                              <font>
                                                 <Font name="System Bold" size="14.0" />
                                              </font>
+                                             <cursor>
+                                                <Cursor fx:constant="HAND" />
+                                             </cursor>
                                           </JFXCheckBox>
                                               </children>
                                        <VBox.margin>
@@ -150,6 +156,9 @@
                                              <HBox.margin>
                                                 <Insets right="5.0" />
                                              </HBox.margin>
+                                             <cursor>
+                                                <Cursor fx:constant="HAND" />
+                                             </cursor>
                                           </JFXButton>
                                           <JFXButton fx:id="clear1" buttonType="RAISED" onAction="#exitButton" style="-fx-background-color: #0067b1;" text="Return to Desktop" textFill="WHITE">
                                              <font>
@@ -158,6 +167,9 @@
                                              <HBox.margin>
                                                 <Insets left="5.0" right="5.0" />
                                              </HBox.margin>
+                                             <cursor>
+                                                <Cursor fx:constant="HAND" />
+                                             </cursor>
                                           </JFXButton>
                                        </children>
                                     </HBox>
@@ -165,8 +177,14 @@
                                        <font>
                                           <Font name="System Bold" size="14.0" />
                                        </font>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
                                     </JFXButton>
                                  </children>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
                               </VBox>
                            </children>
                         </VBox>
