@@ -274,7 +274,7 @@ public class MapPathfindingController extends MapController {
     } else {
       scorer.nodeTypesToAvoid.add(NodeRestrictions.WHEELCHAIR_INACCESSIBLE);
     }
-    System.out.print("NodeRestrictions:" + scorer.nodeTypesToAvoid);
+    //  System.out.print("NodeRestrictions:" + scorer.nodeTypesToAvoid);
   }
 
   //  public void reflectCovidStatus(boolean isHighCovidRisk) {
@@ -462,7 +462,7 @@ public class MapPathfindingController extends MapController {
     double finishIconY = transformY((path.get(path.size() - 1).getyCoord())) - imgScale;
     // System.out.println("current destination ycoord: " + finishIconY);
     // System.out.println("Ycoord: " + finishIconY);
-    System.out.println("Xcoord: " + finishIconX);
+    // System.out.println("Xcoord: " + finishIconX);
     drawNode(path.get(path.size() - 1), red);
     displayImage(finishIcon, finishIconX, finishIconY, imgScale);
   }

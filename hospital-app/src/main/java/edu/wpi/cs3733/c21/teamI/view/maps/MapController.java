@@ -265,162 +265,91 @@ public abstract class MapController extends Application {
     displayImage(startIcon, startIconX, startIconY, imgScale);
   }
 
+  public void pathfindingButton(String imagePath, String nextMapID, int xCoord, int yCoord) {
+
+    Image Icon = null;
+    try {
+
+      Icon = new Image((getClass().getResource(imagePath)).toURI().toString());
+    } catch (URISyntaxException e) {
+      e.printStackTrace();
+    }
+    ImageView imageView = new ImageView(Icon);
+
+    double imageViewScale = 80 / scale;
+    double imgScale = 236 / scale;
+
+    imageView.setFitHeight(imageViewScale);
+    imageView.setPreserveRatio(true);
+    JFXButton bttn = new JFXButton("", imageView);
+    bttn.setStyle("-fx-cursor: hand;");
+    bttn.setOnAction(
+        new EventHandler<ActionEvent>() {
+
+          /** Implement what you want to be returned on click here */
+          @Override
+          public void handle(ActionEvent event) {
+            switchOnClick(event, nextMapID);
+            // System.out.println(Id);
+          }
+        });
+
+    bttn.setLayoutX(transformX(xCoord) - imgScale / 2);
+    bttn.setLayoutY(transformY(yCoord) - imgScale / 2);
+    mapPane.getChildren().add(bttn);
+  }
+
   protected void showButtonToNextMapOnPath(List<HospitalMapNode> path) {
-    double imgScale = 256 / scale;
     if (!path.get(path.size() - 1).getMapID().equals(currentMapID)) {
       for (int i = 0; i < path.size(); i++) {
 
         if (path.get(i) != path.get(path.size() - 1)
             && !path.get(i + 1).getMapID().equals(path.get(i).getMapID())
-            && currentMapID.equals(
-                path.get(i).getMapID())) {
+            && currentMapID.equals(path.get(i).getMapID())) {
           String Id = path.get(i + 1).getMapID();
           if (!Id.equals("Faulkner Lot")
               && !path.get(i).getMapID().equals(("Faulkner Lot"))
               && Integer.parseInt(Id.substring(Id.length() - 1))
                   < Integer.parseInt(
-                      path.get(i).getMapID().substring(path.get(i).getMapID().length() - 1))) {
-
-            Image Down = null;
-            try {
-
-              Down =
-                  new Image(
-                      (getClass().getResource("/fxml/map/mapImages/mapIcons/downArr.png"))
-                          .toURI()
-                          .toString());
-            } catch (URISyntaxException e) {
-              e.printStackTrace();
-            }
-            ImageView imageView = new ImageView(Down);
-
-            double imageScale = 100 / scale;
-            imageView.setFitHeight(imageScale);
-            imageView.setPreserveRatio(true);
-            JFXButton bttn = new JFXButton("", imageView);
-            bttn.setStyle("-fx-cursor: hand;");
-            bttn.setOnAction(
-                new EventHandler<ActionEvent>() {
-
-                  /** Implement what you want to be returned on click here */
-                  @Override
-                  public void handle(ActionEvent event) {
-                    switchOnClick(event, Id);
-                    // System.out.println(Id);
-                  }
-                });
-
-            bttn.setLayoutX(transformX(path.get(i).getxCoord()) - imgScale / 2);
-            double bttnYCoord = path.get(i).getyCoord();
-            bttn.setLayoutY(transformY(bttnYCoord) - imgScale / 2);
-            mapPane.getChildren().add(bttn);
+                      path.get(i)
+                          .getMapID()
+                          .substring(
+                              path.get(i).getMapID().length()
+                                  - 1))) { // "/fxml/map/mapImages/mapIcons/downArr.png"
+            pathfindingButton(
+                "/fxml/map/mapImages/mapIcons/downArr.png",
+                Id,
+                path.get(i).getxCoord(),
+                path.get(i).getyCoord());
           }
           if (!Id.equals("Faulkner Lot")
               && !path.get(i).getMapID().equals(("Faulkner Lot"))
               && Integer.parseInt(Id.substring(Id.length() - 1))
                   > Integer.parseInt(
-                      path.get(i).getMapID().substring(path.get(i).getMapID().length() - 1))) {
-            Image Up = null;
-            try {
-              Up =
-                  new Image(
-                      (getClass().getResource("/fxml/map/mapImages/mapIcons/upArr.png"))
-                          .toURI()
-                          .toString());
-            } catch (URISyntaxException e) {
-              e.printStackTrace();
-            }
-            ImageView imageView = new ImageView(Up);
-
-            double imageScale = 100 / scale;
-            imageView.setFitHeight(imageScale);
-            imageView.setPreserveRatio(true);
-            JFXButton bttn = new JFXButton("", imageView);
-            bttn.setStyle("-fx-cursor: hand;");
-            bttn.setOnAction(
-                new EventHandler<ActionEvent>() {
-
-                  /** Implement what you want to be returned on click here */
-                  @Override
-                  public void handle(ActionEvent event) {
-                    switchOnClick(event, Id);
-                    System.out.println(Id);
-                  }
-                });
-
-            bttn.setLayoutX(transformX(path.get(i).getxCoord()) - imgScale / 2);
-            double bttnYCoord = path.get(i).getyCoord();
-            bttn.setLayoutY(transformY(bttnYCoord) - imgScale / 2);
-            mapPane.getChildren().add(bttn);
+                      path.get(i)
+                          .getMapID()
+                          .substring(
+                              path.get(i).getMapID().length()
+                                  - 1))) { // "/fxml/map/mapImages/mapIcons/upArr.png"
+            pathfindingButton(
+                "/fxml/map/mapImages/mapIcons/upArr.png",
+                Id,
+                path.get(i).getxCoord(),
+                path.get(i).getyCoord());
           }
           if (path.get(i).getMapID().equals(("Faulkner Lot"))) {
-            Image Down = null;
-            try {
-
-              Down =
-                  new Image(
-                      (getClass().getResource("/fxml/map/mapImages/mapIcons/mapDown.png"))
-                          .toURI()
-                          .toString());
-            } catch (URISyntaxException e) {
-              e.printStackTrace();
-            }
-            ImageView imageView = new ImageView(Down);
-
-            double imageScale = 100 / scale;
-            imageView.setFitHeight(imageScale);
-            imageView.setPreserveRatio(true);
-            JFXButton bttn = new JFXButton("", imageView);
-            bttn.setStyle("-fx-cursor: hand;");
-            bttn.setOnAction(
-                new EventHandler<ActionEvent>() {
-
-                  /** Implement what you want to be returned on click here */
-                  @Override
-                  public void handle(ActionEvent event) {
-                    switchOnClick(event, Id);
-                    System.out.println(Id);
-                  }
-                });
-
-            bttn.setLayoutX(transformX(path.get(i).getxCoord()) - imgScale / 2);
-            double bttnYCoord = path.get(i).getyCoord();
-            bttn.setLayoutY(transformY(bttnYCoord) - imgScale / 2);
-            mapPane.getChildren().add(bttn);
+            pathfindingButton(
+                "/fxml/map/mapImages/mapIcons/mapDown.png",
+                Id,
+                path.get(i).getxCoord(),
+                path.get(i).getyCoord());
           }
           if (Id.equals(("Faulkner Lot"))) {
-            Image Up = null;
-            try {
-              Up =
-                  new Image(
-                      (getClass().getResource("/fxml/map/mapImages/mapIcons/mapUp.png"))
-                          .toURI()
-                          .toString());
-            } catch (URISyntaxException e) {
-              e.printStackTrace();
-            }
-            ImageView imageView = new ImageView(Up);
-
-            double imageScale = 100 / scale;
-            imageView.setFitHeight(imageScale);
-            imageView.setPreserveRatio(true);
-            JFXButton bttn = new JFXButton("", imageView);
-            bttn.setStyle("-fx-cursor: hand;");
-            bttn.setOnAction(
-                new EventHandler<ActionEvent>() {
-
-                  /** Implement what you want to be returned on click here */
-                  @Override
-                  public void handle(ActionEvent event) {
-                    switchOnClick(event, Id);
-                    System.out.println(Id);
-                  }
-                });
-
-            bttn.setLayoutX(transformX(path.get(i).getxCoord()) - imgScale / 2);
-            double bttnYCoord = path.get(i).getyCoord();
-            bttn.setLayoutY(transformY(bttnYCoord) - imgScale / 2);
-            mapPane.getChildren().add(bttn);
+            pathfindingButton(
+                "/fxml/map/mapImages/mapIcons/mapUp.png",
+                Id,
+                path.get(i).getxCoord(),
+                path.get(i).getyCoord());
           }
         }
       }
@@ -804,12 +733,5 @@ public abstract class MapController extends Application {
     return new Point2D(
         viewport.getMinX() + xProportion * viewport.getWidth(),
         viewport.getMinY() + yProportion * viewport.getHeight());
-  }
-
-  List<HospitalMapNode> retainCommonElements(
-      List<HospitalMapNode> path, List<HospitalMapNode> connections) {
-    List<HospitalMapNode> commonNodes = new ArrayList<HospitalMapNode>(connections);
-    commonNodes.retainAll(path);
-    return commonNodes;
   }
 }
