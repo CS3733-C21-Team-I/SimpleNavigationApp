@@ -366,7 +366,9 @@ public class ParkingPeripheralServerManager extends DatabaseManager {
   }
 
   public void requestStaffPermit(
-      User user, String vehicleLicence, String contactNumber, Date assignmentDate) {
+      User user, String vehicleLicence, String contactNumber, Timestamp start, Timestamp end) {
+
+    Date assignmentDate = new Date(System.currentTimeMillis());
 
     if (!user.hasPermission(User.Permission.REQUEST_PARKING_PERMIT))
       throw new IllegalArgumentException(
@@ -438,16 +440,19 @@ public class ParkingPeripheralServerManager extends DatabaseManager {
     int reservationId = -1;
     try {
       String query =
-          "INSERT INTO PARKING_SLOT_RESERVATIONS (CUSTOMER_ID, SLOT_ID) VALUES "
+          "INSERT INTO PARKING_SLOT_RESERVATIONS (CUSTOMER_ID, SLOT_ID, START_TIMESTAMP, RES_EDN_TIMESTAMP) VALUES "
               + "("
               + customerId
               + ", "
               + openSlotId
-              + ")";
+              + ", ?, ?)";
       PreparedStatement statement =
           databaseRef
               .getConnection()
               .prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
+      statement.setTimestamp(1, start);
+      statement.setTimestamp(2, end);
+
       statement.execute();
 
       ResultSet rs = statement.getGeneratedKeys();
