@@ -47,4 +47,32 @@ public class ParkingReservation {
 		this.endTimestamp = endTimestamp;
 		this.bookingDate = bookingDate;
 	}
+
+	public int getId() {
+		return id;
+	}
+
+	public ParkingCustomer getCustomer() {
+		return customer;
+	}
+
+	public int getSlotId() {
+		return slotId;
+	}
+
+	public String getSlotCode() {
+		return slotCode;
+	}
+
+	public Timestamp getStartTimestamp() {
+		return startTimestamp;
+	}
+
+	public Timestamp getEndTimestamp() {
+		return endTimestamp;
+	}
+
+	public Date getBookingDate() {
+		return bookingDate;
+	}
 }

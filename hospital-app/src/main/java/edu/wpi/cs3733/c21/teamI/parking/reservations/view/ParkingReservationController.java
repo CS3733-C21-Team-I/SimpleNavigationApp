@@ -51,11 +51,11 @@ public class ParkingReservationController {
   }
 
   public void redrawTicket(ParkingReservation res) {
-//    parkingSlot.setText(res.parkingSlot);
-//    start.setText();
-//    end.setText();
-//    price.setText();
-//    ticketID.setText();
+    parkingSlot.setText(res.getSlotCode());
+    start.setText(String.valueOf(res.getStartTimestamp()));
+    end.setText(String.valueOf(res.getEndTimestamp()));
+//    price.setText(res.);
+    ticketID.setText(String.valueOf(res.getId()));
   }
 
   public void submit() {
