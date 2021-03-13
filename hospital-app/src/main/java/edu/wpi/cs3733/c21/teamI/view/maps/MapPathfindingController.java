@@ -54,7 +54,7 @@ public class MapPathfindingController extends MapController {
   // setup stuff
   @FXML
   public void initialize() {
-    System.out.println("Initializing pathfinding controller");
+    // System.out.println("Initializing pathfinding controller");
     boolean isAdmin =
         ApplicationDataController.getInstance()
             .getLoggedInUser()
@@ -104,14 +104,15 @@ public class MapPathfindingController extends MapController {
     update();
   }
 
+  public void updateTostartNode() {}
+
   protected void update() {
     mapPane.getChildren().clear();
-    // drawLocationNodes();
+    drawLocationNodes();
     if (foundPathExists()) {
       ObservableList<String> items = FXCollections.observableArrayList(new ArrayList<String>());
       directionsField.setItems(items);
       drawCalculatedPath(getFoundPath());
-      // drawLocationNodes();
     }
   }
 
@@ -196,6 +197,7 @@ public class MapPathfindingController extends MapController {
       HospitalMapNode nodeA = MapDataEntity.getNodeByLongName(begin);
       HospitalMapNode nodeB = MapDataEntity.getNodeByLongName(end);
       getFoundPath(nodeA, nodeB);
+      goToStartTab(foundPath.get(0).getMapID());
       update();
     }
   }
@@ -216,6 +218,8 @@ public class MapPathfindingController extends MapController {
       } catch (IOException e) {
         e.printStackTrace();
       }
+      //
+      drawLocationNodes();
       showButtonToNextMapOnPath(foundPath);
       displayDirections(getFoundPathDescription());
     }

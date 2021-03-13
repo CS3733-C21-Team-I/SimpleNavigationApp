@@ -271,12 +271,72 @@ public abstract class MapController extends Application {
       for (int i = 0; i < path.size(); i++) {
 
         if (path.get(i) != path.get(path.size() - 1)
-            && !path.get(i + 1).getMapID().equals(path.get(i).getMapID())) {
-          if (currentMapID.equals(path.get(i).getMapID())) {
-            String Id = path.get(i + 1).getMapID();
-            // System.out.println("reached here");
-            System.out.println(path.get(i).NodeAsList());
-            JFXButton bttn = new JFXButton("be an enormous Button");
+            && !path.get(i + 1).getMapID().equals(path.get(i).getMapID())
+            && currentMapID.equals(
+                path.get(i).getMapID())) {
+          String Id = path.get(i + 1).getMapID();
+          if (!Id.equals("Faulkner Lot")
+              && !path.get(i).getMapID().equals(("Faulkner Lot"))
+              && Integer.parseInt(Id.substring(Id.length() - 1))
+                  < Integer.parseInt(
+                      path.get(i).getMapID().substring(path.get(i).getMapID().length() - 1))) {
+
+            Image Down = null;
+            try {
+
+              Down =
+                  new Image(
+                      (getClass().getResource("/fxml/map/mapImages/mapIcons/downArr.png"))
+                          .toURI()
+                          .toString());
+            } catch (URISyntaxException e) {
+              e.printStackTrace();
+            }
+            ImageView imageView = new ImageView(Down);
+
+            double imageScale = 100 / scale;
+            imageView.setFitHeight(imageScale);
+            imageView.setPreserveRatio(true);
+            JFXButton bttn = new JFXButton("", imageView);
+            bttn.setStyle("-fx-cursor: hand;");
+            bttn.setOnAction(
+                new EventHandler<ActionEvent>() {
+
+                  /** Implement what you want to be returned on click here */
+                  @Override
+                  public void handle(ActionEvent event) {
+                    switchOnClick(event, Id);
+                    // System.out.println(Id);
+                  }
+                });
+
+            bttn.setLayoutX(transformX(path.get(i).getxCoord()) - imgScale / 2);
+            double bttnYCoord = path.get(i).getyCoord();
+            bttn.setLayoutY(transformY(bttnYCoord) - imgScale / 2);
+            mapPane.getChildren().add(bttn);
+          }
+          if (!Id.equals("Faulkner Lot")
+              && !path.get(i).getMapID().equals(("Faulkner Lot"))
+              && Integer.parseInt(Id.substring(Id.length() - 1))
+                  > Integer.parseInt(
+                      path.get(i).getMapID().substring(path.get(i).getMapID().length() - 1))) {
+            Image Up = null;
+            try {
+              Up =
+                  new Image(
+                      (getClass().getResource("/fxml/map/mapImages/mapIcons/upArr.png"))
+                          .toURI()
+                          .toString());
+            } catch (URISyntaxException e) {
+              e.printStackTrace();
+            }
+            ImageView imageView = new ImageView(Up);
+
+            double imageScale = 100 / scale;
+            imageView.setFitHeight(imageScale);
+            imageView.setPreserveRatio(true);
+            JFXButton bttn = new JFXButton("", imageView);
+            bttn.setStyle("-fx-cursor: hand;");
             bttn.setOnAction(
                 new EventHandler<ActionEvent>() {
 
@@ -287,31 +347,85 @@ public abstract class MapController extends Application {
                     System.out.println(Id);
                   }
                 });
-            // bttn.setLayoutX(660);
-            bttn.setLayoutX(transformX(path.get(i).getxCoord()) - imgScale / 2);
-            double bttnYCoord = path.get(i).getyCoord(); // - 43.5 * 100 / scale;
-            // System.out.println();//transformY(bttnYCoord) - imgScale);
-            //      startIconY = transformY(finalNodeYCoord) - imgScale;
-            bttn.setLayoutY(transformY(bttnYCoord) - imgScale);
-            mapPane.getChildren().add(bttn);
-            // }
 
-            // e.getyCoord()
+            bttn.setLayoutX(transformX(path.get(i).getxCoord()) - imgScale / 2);
+            double bttnYCoord = path.get(i).getyCoord();
+            bttn.setLayoutY(transformY(bttnYCoord) - imgScale / 2);
+            mapPane.getChildren().add(bttn);
           }
-          // if any of the node has connection to another floor and any theses nodes that are on the
-          // other floor is on the path
-          //       if( node.getConnections().contains().equals)
-          //      }
-          //      List<LocationCategory> iconLocations = Arrays.asList(ELEV, REST, STAI);
-          //      List <LocationNode>justLocationNodes= (List<LocationNode>) (List<?>)path;
-          //      List<HospitalMapNode> nodesBetweenFloors = justLocationNodes.stream().map(x ->
-          // x.getLocationCategory()).anyMatch())
+          if (path.get(i).getMapID().equals(("Faulkner Lot"))) {
+            Image Down = null;
+            try {
+
+              Down =
+                  new Image(
+                      (getClass().getResource("/fxml/map/mapImages/mapIcons/mapDown.png"))
+                          .toURI()
+                          .toString());
+            } catch (URISyntaxException e) {
+              e.printStackTrace();
+            }
+            ImageView imageView = new ImageView(Down);
+
+            double imageScale = 100 / scale;
+            imageView.setFitHeight(imageScale);
+            imageView.setPreserveRatio(true);
+            JFXButton bttn = new JFXButton("", imageView);
+            bttn.setStyle("-fx-cursor: hand;");
+            bttn.setOnAction(
+                new EventHandler<ActionEvent>() {
+
+                  /** Implement what you want to be returned on click here */
+                  @Override
+                  public void handle(ActionEvent event) {
+                    switchOnClick(event, Id);
+                    System.out.println(Id);
+                  }
+                });
+
+            bttn.setLayoutX(transformX(path.get(i).getxCoord()) - imgScale / 2);
+            double bttnYCoord = path.get(i).getyCoord();
+            bttn.setLayoutY(transformY(bttnYCoord) - imgScale / 2);
+            mapPane.getChildren().add(bttn);
+          }
+          if (Id.equals(("Faulkner Lot"))) {
+            Image Up = null;
+            try {
+              Up =
+                  new Image(
+                      (getClass().getResource("/fxml/map/mapImages/mapIcons/mapUp.png"))
+                          .toURI()
+                          .toString());
+            } catch (URISyntaxException e) {
+              e.printStackTrace();
+            }
+            ImageView imageView = new ImageView(Up);
+
+            double imageScale = 100 / scale;
+            imageView.setFitHeight(imageScale);
+            imageView.setPreserveRatio(true);
+            JFXButton bttn = new JFXButton("", imageView);
+            bttn.setStyle("-fx-cursor: hand;");
+            bttn.setOnAction(
+                new EventHandler<ActionEvent>() {
+
+                  /** Implement what you want to be returned on click here */
+                  @Override
+                  public void handle(ActionEvent event) {
+                    switchOnClick(event, Id);
+                    System.out.println(Id);
+                  }
+                });
+
+            bttn.setLayoutX(transformX(path.get(i).getxCoord()) - imgScale / 2);
+            double bttnYCoord = path.get(i).getyCoord();
+            bttn.setLayoutY(transformY(bttnYCoord) - imgScale / 2);
+            mapPane.getChildren().add(bttn);
+          }
         }
       }
     }
   }
-  //    int minX = selectedNode.stream().mapToInt(HospitalMapNode::getxCoord).min().getAsInt();
-  //    int minY = selectedNode.stream().mapToInt(HospitalMapNode::getyCoord).min().getAsInt();
 
   protected void drawEndPoint(List<HospitalMapNode> path) throws IOException {
     double imgScale = 256 / scale;
@@ -553,7 +667,34 @@ public abstract class MapController extends Application {
     }
   }
 
+  public void goToStartTab(String startingNodeMapId) {
+    if (startingNodeMapId.equals("Faulkner Lot")) {
+      campusTab();
+    }
+    if (startingNodeMapId.equals("Faulkner 1")) {
+      floor1Tab();
+    }
+    if (startingNodeMapId.equals("Faulkner 2")) {
+      floor2Tab();
+    }
+    if (startingNodeMapId.equals("Faulkner 3")) {
+      floor3Tab();
+    }
+    if (startingNodeMapId.equals("Faulkner 4")) {
+      floor4Tab();
+    }
+    if (startingNodeMapId.equals("Faulkner 5")) {
+      floor5Tab();
+    }
+  }
+
   public void campusTab(Event event) {
+    if (mapPane != null) {
+      loadMap("Faulkner Lot", campus);
+    }
+  }
+
+  public void campusTab() {
     if (mapPane != null) {
       loadMap("Faulkner Lot", campus);
     }
@@ -561,6 +702,14 @@ public abstract class MapController extends Application {
 
   public void floor1Tab(Event event) {
     loadMap("Faulkner 1", floor1);
+  }
+
+  public void floor1Tab() {
+    loadMap("Faulkner 1", floor1);
+  }
+
+  public void floor2Tab() {
+    loadMap("Faulkner 2", floor2);
   }
 
   public void floor2Tab(Event event) {
@@ -571,41 +720,49 @@ public abstract class MapController extends Application {
     loadMap("Faulkner 3", floor3);
   }
 
+  public void floor3Tab() {
+    loadMap("Faulkner 3", floor3);
+  }
+
   public void floor4Tab(Event event) {
+    loadMap("Faulkner 4", floor4);
+  }
+
+  public void floor4Tab() {
     loadMap("Faulkner 4", floor4);
   }
 
   public void floor5Tab(Event event) {
     loadMap("Faulkner 5", floor6);
   }
-  //  tabPane.getSelectionModel()
-  //  tabPane.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Tab>() {
-  //
-  //    @Override
-  //    public void changed(ObservableValue<? extends Tab> observable, Tab oldTab, Tab newTab) {
-  //      if(newTab == tabPresentation) {
-  //        comboBoxPresYear.setVisible(true);
-  //        lblPresYear.setVisible(true);}
-  //    }
-  //  });
+
+  public void floor5Tab() {
+    loadMap("Faulkner 5", floor6);
+  }
+
   public void switchOnClick(ActionEvent event, String mapID) {
     if (mapID.equals("Faulkner Lot")) {
       campusTab(event);
     }
     if (mapID.equals("Faulkner 1")) {
       floor1Tab(event);
+      tabPane.getSelectionModel().select(floor1);
     }
     if (mapID.equals("Faulkner 2")) {
       floor2Tab(event);
+      tabPane.getSelectionModel().select(floor2);
     }
     if (mapID.equals("Faulkner 3")) {
       floor3Tab(event);
+      tabPane.getSelectionModel().select(floor3);
     }
     if (mapID.equals("Faulkner 4")) {
       floor4Tab(event);
+      tabPane.getSelectionModel().select(floor4);
     }
     if (mapID.equals("Faulkner 5")) {
       floor5Tab(event);
+      tabPane.getSelectionModel().select(floor6);
     }
   }
 
@@ -613,6 +770,7 @@ public abstract class MapController extends Application {
     if (currentTab != tab) currentMapID = mapToLoad;
     updateView();
     currentTab = tab;
+
     startZoomPan(mapPane);
     resize();
   }
