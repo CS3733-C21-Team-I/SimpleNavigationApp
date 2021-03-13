@@ -7,29 +7,29 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
 public class ParkingReservation {
-  private int id;
-  private ParkingCustomer customer;
-  private int slotId;
-  private String slotCode;
-  private Timestamp startTimestamp;
-  private Timestamp endTimestamp;
-  private Date bookingDate;
+	private int id;
+	private ParkingCustomer customer;
+	private int slotId;
+	private String slotCode;
+	private Timestamp startTimestamp;
+	private Timestamp endTimestamp;
+	private Date bookingDate;
 
-  public ParkingReservation(
-      int id,
-      int slotId,
-      String slotCode,
-      Timestamp startTimestamp,
-      Timestamp endTimestamp,
-      Date bookingDate) {
-    this.id = id;
-    this.slotId = slotId;
-    this.customer = null;
-    this.slotCode = slotCode;
-    this.startTimestamp = startTimestamp;
-    this.endTimestamp = endTimestamp;
-    this.bookingDate = bookingDate;
-  }
+	public ParkingReservation(
+			int id,
+			int slotId,
+			String slotCode,
+			Timestamp startTimestamp,
+			Timestamp endTimestamp,
+			Date bookingDate) {
+		this.id = id;
+		this.slotId = slotId;
+		this.customer = null;
+		this.slotCode = slotCode;
+		this.startTimestamp = startTimestamp;
+		this.endTimestamp = endTimestamp;
+		this.bookingDate = bookingDate;
+	}
 
   public ParkingReservation(
       int id,
@@ -47,4 +47,32 @@ public class ParkingReservation {
     this.endTimestamp = endTimestamp;
     this.bookingDate = bookingDate;
   }
+
+	public int getId() {
+		return id;
+	}
+
+	public ParkingCustomer getCustomer() {
+		return customer;
+	}
+
+	public int getSlotId() {
+		return slotId;
+	}
+
+	public String getSlotCode() {
+		return slotCode;
+	}
+
+	public Timestamp getStartTimestamp() {
+		return startTimestamp;
+	}
+
+	public Timestamp getEndTimestamp() {
+		return endTimestamp;
+	}
+
+	public Date getBookingDate() {
+		return bookingDate;
+	}
 }
