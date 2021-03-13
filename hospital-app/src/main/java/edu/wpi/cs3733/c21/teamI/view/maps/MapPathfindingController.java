@@ -198,7 +198,7 @@ public class MapPathfindingController extends MapController {
       HospitalMapNode nodeA = MapDataEntity.getNodeByLongName(begin);
       HospitalMapNode nodeB = MapDataEntity.getNodeByLongName(end);
       getFoundPath(nodeA, nodeB);
-      goToStartTab(foundPath.get(0).getMapID());
+      goToStartTab(e, foundPath.get(0).getMapID());
       update();
     }
   }

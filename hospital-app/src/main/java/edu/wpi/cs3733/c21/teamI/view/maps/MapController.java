@@ -596,24 +596,24 @@ public abstract class MapController extends Application {
     }
   }
 
-  public void goToStartTab(String startingNodeMapId) {
+  public void goToStartTab(ActionEvent e, String startingNodeMapId) {
     if (startingNodeMapId.equals("Faulkner Lot")) {
-      campusTab();
+      switchOnClick(e, startingNodeMapId);
     }
     if (startingNodeMapId.equals("Faulkner 1")) {
-      floor1Tab();
+      switchOnClick(e, startingNodeMapId);
     }
     if (startingNodeMapId.equals("Faulkner 2")) {
-      floor2Tab();
+      switchOnClick(e, startingNodeMapId);
     }
     if (startingNodeMapId.equals("Faulkner 3")) {
-      floor3Tab();
+      switchOnClick(e, startingNodeMapId);
     }
     if (startingNodeMapId.equals("Faulkner 4")) {
-      floor4Tab();
+      switchOnClick(e, startingNodeMapId);
     }
     if (startingNodeMapId.equals("Faulkner 5")) {
-      floor5Tab();
+      switchOnClick(e, startingNodeMapId);
     }
   }
 
@@ -623,23 +623,12 @@ public abstract class MapController extends Application {
     }
   }
 
-  public void campusTab() {
-    if (mapPane != null) {
-      loadMap("Faulkner Lot", campus);
-    }
-  }
+
 
   public void floor1Tab(Event event) {
     loadMap("Faulkner 1", floor1);
   }
 
-  public void floor1Tab() {
-    loadMap("Faulkner 1", floor1);
-  }
-
-  public void floor2Tab() {
-    loadMap("Faulkner 2", floor2);
-  }
 
   public void floor2Tab(Event event) {
     loadMap("Faulkner 2", floor2);
@@ -649,29 +638,21 @@ public abstract class MapController extends Application {
     loadMap("Faulkner 3", floor3);
   }
 
-  public void floor3Tab() {
-    loadMap("Faulkner 3", floor3);
-  }
 
   public void floor4Tab(Event event) {
     loadMap("Faulkner 4", floor4);
   }
 
-  public void floor4Tab() {
-    loadMap("Faulkner 4", floor4);
-  }
 
   public void floor5Tab(Event event) {
     loadMap("Faulkner 5", floor6);
   }
 
-  public void floor5Tab() {
-    loadMap("Faulkner 5", floor6);
-  }
 
   public void switchOnClick(ActionEvent event, String mapID) {
     if (mapID.equals("Faulkner Lot")) {
       campusTab(event);
+      tabPane.getSelectionModel().select(campus);
     }
     if (mapID.equals("Faulkner 1")) {
       floor1Tab(event);
