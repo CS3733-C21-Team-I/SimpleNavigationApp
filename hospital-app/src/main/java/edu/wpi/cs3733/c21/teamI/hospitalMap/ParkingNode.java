@@ -3,7 +3,7 @@ package edu.wpi.cs3733.c21.teamI.hospitalMap;
 import edu.wpi.cs3733.c21.teamI.parking.ParkingNodeController;
 import java.util.List;
 
-public class ParkingNode extends HospitalMapNode {
+public class ParkingNode extends LocationNode {
   private int parkingID;
   private boolean isOccupied;
 
@@ -12,9 +12,10 @@ public class ParkingNode extends HospitalMapNode {
       String mapID,
       int xCoord,
       int yCoord,
+      String shortName,
       String longName,
       List<HospitalMapNode> connections) {
-    super(id, mapID, xCoord, yCoord, connections);
+    super(id, mapID, xCoord, yCoord, shortName, longName, LocationCategory.PARK, "I", connections);
 
     ParkingNodeController.getInstance().registerNode(this);
   }

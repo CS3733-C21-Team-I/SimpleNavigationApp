@@ -66,7 +66,7 @@ public class NavDatabaseManager extends DatabaseManager {
                   String locationCategory = nodeResults.getString("location_category");
                   if (locationCategory.equals("PARK")) {
                     node =
-                        new ParkingNode(nodeId, mapId, xCoord, yCoord, longName, new ArrayList<>());
+                        new ParkingNode(nodeId, mapId, xCoord, yCoord, shortName, longName, new ArrayList<>());
                   } else {
                     node =
                         new LocationNode(
