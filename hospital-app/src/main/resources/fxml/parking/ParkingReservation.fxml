@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXCheckBox?>
+<?import com.jfoenix.controls.JFXDatePicker?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import com.jfoenix.controls.JFXTimePicker?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<StackPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: ffffff;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamI.parking.reservations.view.ParkingReservationController">
+   <children>
+      <VBox>
+         <children>
+            <Label alignment="TOP_LEFT" maxWidth="1.7976931348623157E308" text="Entry date &amp; time">
+               <font>
+                  <Font name="Yu Gothic UI Semibold" size="22.0" />
+               </font>
+               <padding>
+                  <Insets bottom="10.0" left="25.0" top="15.0" />
+               </padding>
+               <VBox.margin>
+                  <Insets left="20.0" />
+               </VBox.margin>
+            </Label>
+            <HBox>
+               <children>
+                  <JFXDatePicker fx:id="entryDate" defaultColor="#012d5a" overLay="true" prefHeight="35.0" prefWidth="233.0" promptText="MM/DD/YYYY">
+                     <HBox.margin>
+                        <Insets left="45.0" right="40.0" />
+                     </HBox.margin>
+                  </JFXDatePicker>
+                  <JFXTimePicker fx:id="entryTime" defaultColor="#012d5a" prefHeight="35.0" promptText="00:00 PM" />
+               </children>
+               <VBox.margin>
+                  <Insets bottom="10.0" right="15.0" />
+               </VBox.margin>
+            </HBox>
+            <Label alignment="TOP_LEFT" maxWidth="1.7976931348623157E308" text="Exit date &amp; time">
+               <font>
+                  <Font name="Yu Gothic UI Semibold" size="22.0" />
+               </font>
+               <padding>
+                  <Insets bottom="10.0" left="25.0" top="15.0" />
+               </padding>
+               <VBox.margin>
+                  <Insets left="20.0" />
+               </VBox.margin>
+            </Label>
+            <HBox>
+               <children>
+                  <JFXDatePicker fx:id="exitDate" defaultColor="#012d5a" overLay="true" prefHeight="35.0" prefWidth="233.0" promptText="MM/DD/YYYY">
+                     <HBox.margin>
+                        <Insets left="45.0" right="40.0" />
+                     </HBox.margin>
+                  </JFXDatePicker>
+                  <JFXTimePicker fx:id="exitTime" defaultColor="#012d5a" prefHeight="35.0" promptText="00:00 PM" />
+               </children>
+               <VBox.margin>
+                  <Insets bottom="10.0" right="15.0" />
+               </VBox.margin>
+            </HBox>
+            <Label alignment="TOP_LEFT" maxWidth="1.7976931348623157E308" text="Vehicle Registration Plate Number ">
+               <font>
+                  <Font name="Yu Gothic UI Semibold" size="22.0" />
+               </font>
+               <padding>
+                  <Insets bottom="10.0" left="25.0" top="15.0" />
+               </padding>
+               <VBox.margin>
+                  <Insets left="20.0" />
+               </VBox.margin>
+            </Label>
+            <JFXTextField fx:id="plateNum" focusColor="#012d5a">
+               <VBox.margin>
+                  <Insets left="45.0" right="50.0" />
+               </VBox.margin>
+            </JFXTextField>
+            <Label alignment="TOP_LEFT" maxWidth="1.7976931348623157E308" text="Contact Number ">
+               <font>
+                  <Font name="Yu Gothic UI Semibold" size="22.0" />
+               </font>
+               <padding>
+                  <Insets bottom="10.0" left="25.0" top="15.0" />
+               </padding>
+               <VBox.margin>
+                  <Insets left="20.0" />
+               </VBox.margin>
+            </Label>
+            <JFXTextField fx:id="contNum" focusColor="#012d5a">
+               <VBox.margin>
+                  <Insets left="45.0" right="50.0" />
+               </VBox.margin>
+            </JFXTextField>
+            <JFXCheckBox fx:id="handiCheck" checkedColor="#0067b1" text="Handicapped Parking">
+               <font>
+                  <Font name="Yu Gothic UI Semibold" size="22.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="45.0" top="20.0" />
+               </VBox.margin>
+            </JFXCheckBox>
+            <HBox alignment="CENTER">
+               <children>
+                  <JFXButton fx:id="bookBtn" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" style="-fx-background-color: #0067b1;" stylesheets="@../misc/css/main.css" text="Book" textAlignment="CENTER" textFill="WHITE">
+                     <font>
+                        <Font name="Yu Gothic UI Semibold" size="20.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets right="15.0" />
+                     </HBox.margin>
+                  </JFXButton>
+                  <JFXButton fx:id="clearBtn" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" onAction="#onClear" style="-fx-background-color: #0067b1;" stylesheets="@../misc/css/main.css" text="Clear" textAlignment="CENTER" textFill="WHITE">
+                     <font>
+                        <Font name="Yu Gothic UI Semibold" size="20.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="15.0" />
+                     </HBox.margin>
+                  </JFXButton>
+               </children>
+               <VBox.margin>
+                  <Insets bottom="20.0" top="40.0" />
+               </VBox.margin>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</StackPane>
