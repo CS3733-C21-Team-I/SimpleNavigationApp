@@ -12,7 +12,6 @@ import edu.wpi.cs3733.c21.teamI.user.User;
 import java.io.IOException;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
@@ -51,8 +50,6 @@ public class HomeController extends Application {
   @FXML Button mobileButton;
 
   @FXML StackPane homePane;
-
-  Notification lastNotif;
 
   @FXML
   public void initClock() {
@@ -123,12 +120,31 @@ public class HomeController extends Application {
       FXMLLoader vLoader = new FXMLLoader(getClass().getResource("/fxml/menuFiles/Menu.fxml"));
       box = vLoader.load();
       ViewManager.homeController = this;
+      System.out.println("loading notification fxml");
       FXMLLoader hLoader =
           new FXMLLoader(getClass().getResource("/fxml/menuFiles/NotificationContent.fxml"));
       hBox = hLoader.load();
       if (ApplicationDataController.getInstance()
           .getLoggedInUser()
           .hasPermission(User.Permission.VIEW_TICKET)) {
+        Notification notif =
+            new Notification(
+                ApplicationDataController.getInstance().getLoggedInUser().getUserId(),
+                "test notif 1",
+                "String timestamp");
+        NotificationManager.getInstance().addNotification(notif);
+        notif =
+            new Notification(
+                ApplicationDataController.getInstance().getLoggedInUser().getUserId(),
+                "test notif 2",
+                "String timestamp");
+        NotificationManager.getInstance().addNotification(notif);
+        notif =
+            new Notification(
+                ApplicationDataController.getInstance().getLoggedInUser().getUserId(),
+                "test notif 3",
+                "String timestamp");
+        NotificationManager.getInstance().addNotification(notif);
         titleLabel.setText("Admin Portal");
         replacePane.getChildren().clear();
         replacePane
@@ -150,51 +166,14 @@ public class HomeController extends Application {
     notifDrawer.setSidePane(hBox);
   }
 
-  public Notification getNewNotification() {
-    List<Notification> notifs =
-        NotificationManager.getInstance()
-            .getPendingNotifications(ApplicationDataController.getInstance().getLoggedInUser());
-    for (Notification n : notifs) {
-      if (n.isHasDisplayed()) {
-        System.out.println(
-            "Notification "
-                + n.getNotificationID()
-                + " has been displayed so we are LEAVING the loop.");
-        return null;
-      } else if (!n.isHasDisplayed()) {
-        lastNotif = n;
-        System.out.println(
-            "in hasNew, i found and set lastNotif to: Notifcation "
-                + lastNotif.getNotificationID()
-                + " vs  n = "
-                + n.getNotificationID());
-        displayNotification(n);
-        return n;
-      } else {
-        System.out.println("notif.isHasDisplayed =" + n.isHasDisplayed());
-      }
-    }
-    return null;
-  }
-
-  public void displayNotification(Notification notification) {
+  @FXML
+  public void displayNotification(Notification notification, String msg) {
     notifDrawer.open();
+    ((Label) notifDrawer.lookup("#notifMessage")).setText(msg);
     System.out.println(
         "Setting Notification " + notification.getNotificationID() + " to hasDisplayed");
     Notification o =
         NotificationManager.getInstance().updateNotification(notification.getNotificationID());
-  }
-
-  public void initNotifUpdater() {
-    Timeline timeline =
-        new Timeline(
-            new KeyFrame(
-                Duration.seconds(11),
-                ev -> {
-                  if (getNewNotification() != null) {}
-                }));
-    timeline.setCycleCount(INDEFINITE);
-    timeline.play();
   }
 
   @FXML
@@ -207,8 +186,6 @@ public class HomeController extends Application {
     if (timeLabel != null) {
       initClock();
       update();
-      initNotifUpdater();
-
       drawerPane
           .heightProperty()
           .addListener(
@@ -227,6 +204,10 @@ public class HomeController extends Application {
                 clip.setLayoutY(0);
                 drawerPane.setClip(clip);
               });
+      notifDrawer.setOnDragDetected(
+          e -> {
+            notifDrawer.open();
+          });
 
       HamburgerSlideCloseTransition hamburgerTransition = new HamburgerSlideCloseTransition(ham1);
       hamburgerTransition.setRate(-1);
@@ -235,12 +216,7 @@ public class HomeController extends Application {
           (e) -> {
             hamburgerTransition.setRate(hamburgerTransition.getRate() * -1);
             hamburgerTransition.play();
-
-            if (drawer.isOpened()) {
-              drawer.close();
-            } else {
-              drawer.open();
-            }
+            drawer.toggle();
           });
       drawer.open();
     }
@@ -248,5 +224,9 @@ public class HomeController extends Application {
 
   public StackPane getReplacePane() {
     return replacePane;
+  }
+
+  public void closeNotif() {
+    notifDrawer.close();
   }
 }
