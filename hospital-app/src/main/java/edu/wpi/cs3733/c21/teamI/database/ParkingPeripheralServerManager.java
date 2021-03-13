@@ -454,4 +454,63 @@ public class ParkingPeripheralServerManager extends DatabaseManager {
       e.printStackTrace();
     }
   }
+
+    public ParkingSlip createNewSlip(Timestamp startTime, Timestamp endTime, int cost) {
+        int slotId = -1;
+        String slotCode = null;
+
+        try {
+            String slotQuery =
+                    "SELECT * FROM PARKING_SLOTS ps LEFT JOIN (SELECT P.ID, P.SLOT_ID FROM PARKING_SLIPS P WHERE NOT (((P.ENTRY_TIMESTAMP>=? AND P.ENTRY_TIMESTAMP>=?) OR (P.EXIT_TIMESTAMP<=? AND P.EXIT_TIMESTAMP<=?)))) as Pslip on ps.ID = Pslip.SLOT_ID WHERE Pslip.ID IS NULL AND ps.IS_OCCUPIED=false";
+            PreparedStatement statement = databaseRef.getConnection().prepareStatement(slotQuery);
+
+            statement.setTimestamp(1, startTime);
+            statement.setTimestamp(2, endTime);
+            statement.setTimestamp(3, startTime);
+            statement.setTimestamp(4, endTime);
+
+            ResultSet rs = statement.executeQuery();
+
+            if (rs.next()) {
+                slotId = rs.getInt("ID");
+                slotCode = rs.getString("CODE") + rs.getString("SLOT_NUMBER");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        if (slotId == -1 || slotCode == null)
+            throw new IllegalStateException("Failed to find empty slot when printing ticket");
+
+        System.out.println(slotId + ": " + slotCode);
+
+        int createdSlip = -1;
+
+        try {
+            String query =
+                    "INSERT INTO PARKING_SLIPS (SLOT_ID, ENTRY_TIMESTAMP, EXIT_TIMESTAMP, BASE_COST, IS_PAID) VALUES (?, ?, ?, ?, ?)";
+            PreparedStatement preparedStatement =
+                    databaseRef.getConnection().prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+
+            preparedStatement.setInt(1, slotId);
+            preparedStatement.setTimestamp(2, startTime);
+            preparedStatement.setTimestamp(3, endTime);
+            preparedStatement.setInt(4, cost);
+            preparedStatement.setBoolean(5, false);
+
+            preparedStatement.execute();
+
+            ResultSet rs = preparedStatement.getGeneratedKeys();
+            rs.next();
+            createdSlip = rs.getInt(1);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        if (createdSlip == -1) throw new IllegalStateException("Failed to add parking slip to DB");
+
+        return new ParkingSlip(createdSlip, slotId, slotCode, startTime, endTime, cost / 100.0);
+    }
 }
