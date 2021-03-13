@@ -25,7 +25,7 @@
                         <Insets bottom="20.0" />
                      </padding>
                     </Label>
-                    <JFXListView fx:id="lotView" prefHeight="700.0" prefWidth="305.0">
+                    <JFXListView fx:id="lotView" prefHeight="700.0" prefWidth="805.0">
                      <VBox.margin>
                         <Insets bottom="60.0" left="60.0" right="60.0" />
                      </VBox.margin>

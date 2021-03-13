@@ -1,9 +1,11 @@
 package edu.wpi.cs3733.c21.teamI.hospitalMap;
 
+import edu.wpi.cs3733.c21.teamI.parking.ParkingNodeController;
 import java.util.List;
 
 public class ParkingNode extends HospitalMapNode {
-  private String parkingID;
+  private int parkingID;
+  private boolean isOccupied;
 
   public ParkingNode(
       String id,
@@ -13,7 +15,8 @@ public class ParkingNode extends HospitalMapNode {
       String longName,
       List<HospitalMapNode> connections) {
     super(id, mapID, xCoord, yCoord, connections);
-    this.parkingID = longName;
+
+    ParkingNodeController.getInstance().registerNode(this);
   }
 
   @Override
@@ -21,8 +24,20 @@ public class ParkingNode extends HospitalMapNode {
     return "ParkingNode: " + parkingID;
   }
 
-  public boolean isEmpty() {
-    // TODO update from database when this is called
+  public boolean isOccupied() {
+    System.out.println("isOccupied called");
     return true;
+  }
+
+  public void setOccupied(boolean occupied) {
+    isOccupied = occupied;
+  }
+
+  public int getParkingID() {
+    return parkingID;
+  }
+
+  public void setParkingID(int parkingID) {
+    this.parkingID = parkingID;
   }
 }

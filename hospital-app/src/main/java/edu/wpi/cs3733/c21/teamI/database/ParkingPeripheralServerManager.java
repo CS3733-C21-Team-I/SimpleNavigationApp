@@ -9,8 +9,8 @@ import edu.wpi.cs3733.c21.teamI.parking.reservations.ParkingSlip;
 import edu.wpi.cs3733.c21.teamI.parking.reservations.StaffPermit;
 import edu.wpi.cs3733.c21.teamI.user.User;
 import java.sql.*;
-import java.util.HashMap;
-import java.util.Map;
+import java.sql.Date;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 public class ParkingPeripheralServerManager extends DatabaseManager {
@@ -190,7 +190,7 @@ public class ParkingPeripheralServerManager extends DatabaseManager {
 
       statement.execute(
           "CREATE TABLE PARKING_SLOT_RESERVATIONS("
-              + "id integer NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),"
+              + "id integer NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 10000, INCREMENT BY 1),"
               + "customer_id integer,"
               + "slot_id integer NOT NULL,"
               + "start_timestamp timestamp,"
@@ -312,9 +312,160 @@ public class ParkingPeripheralServerManager extends DatabaseManager {
               + "(105, 'D', false, 5),\n"
               + "(106, 'D', false, 5)");
       statement.executeBatch();
+
+      Lot eastSurfLot = createParkingLot("Eastern Surface Lot", false, true);
+      addBlocksToLot(
+          eastSurfLot, new Block("ESA"), new Block("ESB"), new Block("ESC"), new Block("ESD"));
+      for (Block b : eastSurfLot.getBlocks()) {
+        addFloorsToBlock(b, new Floor(1, false, true, false));
+        addSlotsToFloor(b.getFloors().get(0), b.getBlockCode().charAt(2), 100, 20);
+      }
+
     } catch (Exception e) {
       e.printStackTrace();
     }
+  }
+
+  public Lot createParkingLot(String name, boolean reentry, boolean vallet) {
+    try {
+      String query =
+          "INSERT INTO PARKING_LOTS (NUMBER_OF_BLOCKS, NAME, IS_REENTRY_ALLOWED, IS_VALLET_AVAILABLE, IS_LOT_FULL) VALUES "
+              + "(0, ?, ?, ?, false)";
+      PreparedStatement statement =
+          databaseRef.getConnection().prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+      statement.setString(1, name);
+      statement.setBoolean(2, reentry);
+      statement.setBoolean(3, vallet);
+
+      statement.execute();
+      ResultSet rs = statement.getGeneratedKeys();
+      rs.next();
+      int lotId = rs.getInt(1);
+      return new Lot(lotId, name, reentry, vallet);
+    } catch (SQLException e) {
+      printSQLException(e);
+      throw new IllegalStateException("Exception creating Lot");
+    }
+  }
+
+  public List<Block> addBlocksToLot(Lot lot, Block... blocks) {
+    List<Block> out = new ArrayList<>();
+    for (Block block : blocks) {
+      try {
+        String query =
+            "INSERT INTO PARKING_BLOCKS (PARKING_LOT_ID, BLOCK_CODE, NUMBER_OF_FLOORS, IS_BLOCK_FULL) VALUES "
+                + "(?, ?, 0, false)";
+        PreparedStatement statement =
+            databaseRef.getConnection().prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+        statement.setInt(1, lot.getId());
+        statement.setString(2, block.getBlockCode());
+
+        statement.execute();
+        ResultSet rs = statement.getGeneratedKeys();
+        rs.next();
+        block.setId(rs.getInt(1));
+        lot.addBlock(block);
+        out.add(block);
+      } catch (SQLException e) {
+        e.printStackTrace();
+        throw new IllegalStateException("Exception adding blocks to lot");
+      }
+    }
+
+    try {
+      String query = "UPDATE PARKING_LOTS SET NUMBER_OF_BLOCKS = ? WHERE ID = ?";
+      PreparedStatement statement = databaseRef.getConnection().prepareStatement(query);
+      statement.setInt(1, out.size());
+      statement.setInt(2, lot.getId());
+
+      statement.execute();
+    } catch (SQLException e) {
+      e.printStackTrace();
+      throw new IllegalStateException("Exception updating lot");
+    }
+    return out;
+  }
+
+  public List<Floor> addFloorsToBlock(Block block, Floor... floors) {
+    List<Floor> out = new ArrayList<>();
+    for (Floor floor : floors) {
+      try {
+        String query =
+            "INSERT INTO PARKING_FLOORS (BLOCK_ID, FLOOR_NUMBER, MAX_HEIGHT_IN_INCH, NUMBER_SLOTS, IS_COVERED, IS_ACCESSIBLE, IS_FLOOR_FULL, IS_RESERVED_STAFF) VALUES "
+                + "(?, ?, ?, 0, ?, ?, false, ?)";
+        PreparedStatement statement =
+            databaseRef.getConnection().prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+        statement.setInt(1, block.getId());
+        statement.setInt(2, floor.getFloorNum());
+        statement.setInt(3, 72);
+        statement.setBoolean(4, floor.isCovered());
+        statement.setBoolean(5, floor.isDisabledAcessable());
+        statement.setBoolean(6, floor.isStaffOnly());
+
+        statement.execute();
+        ResultSet rs = statement.getGeneratedKeys();
+        rs.next();
+        floor.setId(rs.getInt(1));
+        block.addFloor(floor);
+        out.add(floor);
+      } catch (SQLException e) {
+        e.printStackTrace();
+        throw new IllegalStateException("Exception adding blocks to lot");
+      }
+    }
+
+    try {
+      String query = "UPDATE PARKING_BLOCKS SET NUMBER_OF_FLOORS = ? WHERE ID = ?";
+      PreparedStatement statement = databaseRef.getConnection().prepareStatement(query);
+      statement.setInt(1, out.size());
+      statement.setInt(2, block.getId());
+
+      statement.execute();
+    } catch (SQLException e) {
+      e.printStackTrace();
+      throw new IllegalStateException("Exception updating block");
+    }
+    return out;
+  }
+
+  public List<Integer> addSlotsToFloor(Floor f, char code, int startAt, int numSlots) {
+    List<Integer> out = new ArrayList<>();
+    for (int slotNum = startAt; slotNum < startAt + numSlots; slotNum++) {
+      try {
+        String query =
+            "INSERT INTO PARKING_SLOTS (SLOT_NUMBER, CODE, IS_OCCUPIED, FLOOR_ID) VALUES "
+                + "(?, ?, false, ?)";
+        PreparedStatement statement =
+            databaseRef.getConnection().prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+        statement.setInt(1, slotNum);
+        statement.setString(2, code + "");
+        statement.setInt(3, f.getId());
+
+        statement.execute();
+
+        ResultSet rs = statement.getGeneratedKeys();
+        rs.next();
+        out.add(rs.getInt(1));
+        f.getSlotCodes().put("" + code + slotNum, rs.getInt(1));
+      } catch (SQLException e) {
+        printSQLException(e);
+        throw new IllegalStateException("Exception when adding slots to floor");
+      }
+    }
+
+    try {
+      String query = "UPDATE PARKING_FLOORS SET NUMBER_SLOTS = ? WHERE ID = ?";
+      PreparedStatement statement = databaseRef.getConnection().prepareStatement(query);
+      statement.setInt(1, out.size());
+      statement.setInt(2, f.getId());
+
+      statement.execute();
+    } catch (SQLException e) {
+      e.printStackTrace();
+      throw new IllegalStateException("Exception updating floor");
+    }
+
+    return out;
   }
 
   public StaffPermit getStaffPermitForUser(User user) {
@@ -644,5 +795,21 @@ public class ParkingPeripheralServerManager extends DatabaseManager {
     } catch (SQLException e) {
       e.printStackTrace();
     }
+  }
+
+  public List<Integer> getOccupiedSlots() {
+    List<Integer> out = new ArrayList<>();
+    try {
+      String query = "SELECT ID FROM PARKING_SLOTS WHERE IS_OCCUPIED = true";
+      PreparedStatement statement = databaseRef.getConnection().prepareStatement(query);
+      ResultSet rs = statement.executeQuery();
+
+      while (rs.next()) {
+        out.add(rs.getInt("ID"));
+      }
+    } catch (SQLException e) {
+      printSQLException(e);
+    }
+    return out;
   }
 }
