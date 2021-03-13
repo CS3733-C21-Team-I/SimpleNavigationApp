@@ -4,7 +4,6 @@ import edu.wpi.cs3733.c21.teamI.parking.ParkingNodeController;
 import java.util.List;
 
 public class ParkingNode extends LocationNode {
-public class ParkingNode extends LocationNode {
   private int parkingID;
   private boolean isOccupied;
 
@@ -18,7 +17,6 @@ public class ParkingNode extends LocationNode {
       LocationCategory category,
       String teamAssigned,
       List<HospitalMapNode> connections) {
-    super(id, mapID, xCoord, yCoord, shortName, longName, category, teamAssigned, connections);
     super(id, mapID, xCoord, yCoord, shortName, longName, LocationCategory.PARK, "I", connections);
 
     ParkingNodeController.getInstance().registerNode(this);

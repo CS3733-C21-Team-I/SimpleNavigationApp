@@ -341,7 +341,7 @@ public class MapPathfindingController extends MapController {
         if (node instanceof ParkingNode) {
           Color parkingColor;
           double dimensions = 25 / scale;
-          if (((ParkingNode) node).isEmpty()) {
+          if (((ParkingNode) node).isOccupied()) {
             parkingColor = Color.GREEN;
           } else {
             parkingColor = Color.RED;
