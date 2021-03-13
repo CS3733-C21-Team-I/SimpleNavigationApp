@@ -33,6 +33,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.Rectangle;
 import lombok.SneakyThrows;
 
 public class MapPathfindingController extends MapController {
@@ -391,6 +392,22 @@ public class MapPathfindingController extends MapController {
                 break;
             }
         }
+      } else if (node instanceof ParkingNode && node.getMapID().equals(currentMapID)) {
+        Color parkingColor;
+        double dimensions = 25 / scale;
+        if (((ParkingNode) node).isEmpty()) {
+          parkingColor = Color.GREEN;
+        } else {
+          parkingColor = Color.RED;
+        }
+        Rectangle park =
+            new Rectangle(
+                transformX(node.getxCoord()) - dimensions / 2,
+                transformY(node.getyCoord()) - dimensions / 2,
+                dimensions,
+                2 * dimensions);
+        park.setFill(parkingColor);
+        mapPane.getChildren().add(park);
       }
     }
   }

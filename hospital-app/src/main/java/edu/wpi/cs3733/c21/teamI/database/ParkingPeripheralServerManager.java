@@ -188,10 +188,10 @@ public class ParkingPeripheralServerManager extends DatabaseManager {
       statement.execute(
           "CREATE TABLE PARKING_SLOT_RESERVATIONS("
               + "id integer NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),"
-              + "customer_id integer NOT NULL,"
+              + "customer_id integer,"
               + "slot_id integer NOT NULL,"
               + "start_timestamp timestamp,"
-              + "duration_in_minutes integer,"
+              + "res_edn_timestamp timestamp,"
               + "booking_date date,"
               + "PRIMARY KEY (id),"
               + "FOREIGN KEY (customer_id) REFERENCES PARKING_CUSTOMERS(id),"
@@ -211,7 +211,7 @@ public class ParkingPeripheralServerManager extends DatabaseManager {
       statement.execute(
           "CREATE TABLE PARKING_SLIPS("
               + "id integer NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 10000, INCREMENT BY 1),"
-              + "slot_id integer NOT NULL,"
+              + "reservation_id integer NOT NULL,"
               + "entry_timestamp timestamp NOT NULL,"
               + "exit_timestamp timestamp,"
               + "base_cost integer NOT NULL,"
