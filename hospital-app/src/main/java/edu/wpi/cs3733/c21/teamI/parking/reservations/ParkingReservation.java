@@ -47,4 +47,12 @@ public class ParkingReservation {
     this.endTimestamp = endTimestamp;
     this.bookingDate = bookingDate;
   }
+
+  public void redrawTicket(ParkingReservation res) {
+
+  }
+
+  public void submit() {
+    System.out.println("Reservation submitted");
+  }
 }
