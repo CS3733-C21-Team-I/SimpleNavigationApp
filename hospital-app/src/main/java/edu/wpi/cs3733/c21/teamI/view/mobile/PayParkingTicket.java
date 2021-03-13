@@ -2,8 +2,6 @@ package edu.wpi.cs3733.c21.teamI.view.mobile;
 
 import com.jfoenix.controls.JFXButton;
 import java.io.IOException;
-
-import edu.wpi.cs3733.c21.teamI.parking.reservations.ParkingSlip;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -70,26 +68,28 @@ public class PayParkingTicket {
   @FXML
   public void lookupParking() {
     String matchString = parkingIDInput.getText();
-     //java.util.List<String> ticketIDs = ParkingSlip.getId();
+    // java.util.List<String> ticketIDs = ParkingSlip.getId();
 
     System.out.println(matchString);
     //      //  for (String ticketID : ticketIDs) {
     //            if (ticketID.equals(matchString)) {
     //                System.out.println("Ticket number" + matchString + "is valid.");
-                        parkingInfo.setVisible(true);
-                        paymentInfo.setVisible(true);
-                        update();
+    parkingInfo.setVisible(true);
+    paymentInfo.setVisible(true);
+    update();
     //            }
     //            else System.out.println("Ticket number" + matchString + "is not valid.");
     //        }
   }
+
   public void update() {
-//    locationLabel.setText("Western Parking" );//need location from ticket
-//    startTimeLabel.setText("Start Time: " + slipID.getEntryTimestamp());
-//    endTimeLabel.setText("End Time: " + slipID.g);
-//    priceLabel.setText("Price: " + slipID.getBaseCost());
-//    ticketIDLabel.setText(String.valueOf(slipID.getId()));
+    //    locationLabel.setText("Western Parking" );//need location from ticket
+    //    startTimeLabel.setText("Start Time: " + slipID.getEntryTimestamp());
+    //    endTimeLabel.setText("End Time: " + slipID.g);
+    //    priceLabel.setText("Price: " + slipID.getBaseCost());
+    //    ticketIDLabel.setText(String.valueOf(slipID.getId()));
   }
+
   public void submit() throws IOException {}
 
   public void clear() {}
