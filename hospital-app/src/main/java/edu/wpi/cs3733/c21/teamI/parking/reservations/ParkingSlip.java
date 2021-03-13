@@ -1,9 +1,10 @@
-package edu.wpi.cs3733.c21.teamI.parking;
+package edu.wpi.cs3733.c21.teamI.parking.reservations;
 
 import edu.wpi.cs3733.c21.teamI.database.ParkingPeripheralServerManager;
 import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 public class ParkingSlip {
 
@@ -24,37 +25,32 @@ public class ParkingSlip {
   }
 
   private int id;
-  private int parkingCode;
-  private String parkingSlot;
+  private ParkingReservation reservation;
   private Timestamp entryTimestamp;
-  private Timestamp endTimestamp;
+  private int durationMin;
   private double baseCost;
   private double penalty;
 
   public ParkingSlip(
       int id,
-      int parkingCode,
-      String parkingSlot,
+      ParkingReservation reservation,
       Timestamp entryTimestamp,
-      Timestamp endTimestamp,
+      int durationMin,
       double baseCost) {
     this.id = id;
-    this.parkingCode = parkingCode;
-    this.parkingSlot = parkingSlot;
+    this.reservation = reservation;
     this.entryTimestamp = entryTimestamp;
-    this.endTimestamp = endTimestamp;
+    this.durationMin = durationMin;
     this.baseCost = baseCost;
     this.penalty = PENALTY_UNCALCULATED;
   }
 
   public void calculatePenalty(Timestamp currentTime) {
-    int minOver = (int) ((currentTime.getTime() - endTimestamp.getTime()) / 1000L / 60L);
-    System.out.println(minOver);
-    System.out.println(currentTime.getTime() + " - " + endTimestamp.getTime());
+    int minOver = (int) ((currentTime.getTime() - (entryTimestamp.getTime() + TimeUnit.MINUTES.toMillis(durationMin))) / 1000L / 60L);
     if (minOver <= 0) penalty = 0;
     else {
       penalty = ((minOver / 5) + 1) * OVERCHARGE_PER_5_MIN;
-      ParkingPeripheralServerManager.getInstance().updatePenalty(id, penalty);
+      ParkingPeripheralServerManager.getInstance().updateSlipPenalty(id, penalty);
     }
   }
 
@@ -62,20 +58,16 @@ public class ParkingSlip {
     return id;
   }
 
-  public int getParkingCode() {
-    return parkingCode;
-  }
-
-  public String getParkingSlot() {
-    return parkingSlot;
+  public ParkingReservation getReservation() {
+    return reservation;
   }
 
   public Timestamp getEntryTimestamp() {
     return entryTimestamp;
   }
 
-  public Timestamp getEndTimestamp() {
-    return endTimestamp;
+  public int getDurationMin() {
+    return durationMin;
   }
 
   public double getBaseCost() {
