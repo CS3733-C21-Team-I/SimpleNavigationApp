@@ -333,11 +333,7 @@ public class ParkingPeripheralServerManager extends DatabaseManager {
 
       ParkingCustomer customer = getParkingCustomerForId(rs.getInt("customer_id"));
 
-      return new StaffPermit(
-          rs.getInt("SLOT_ID"),
-          user,
-          rs.getDate("assignment_date"),
-          customer);
+      return new StaffPermit(rs.getInt("SLOT_ID"), user, rs.getDate("assignment_date"), customer);
     } catch (SQLException e) {
       e.printStackTrace();
       return null;
@@ -353,16 +349,16 @@ public class ParkingPeripheralServerManager extends DatabaseManager {
       if (!rs.next())
         throw new IllegalArgumentException("No Entry in Parking Customers for Id: " + id);
 
-      return new ParkingCustomer(rs.getInt("ID"),
-              rs.getString("vehicle_licence"),
-              rs.getBoolean("is_staff"),
-              rs.getString("contact_number"),
-              rs.getDate("registration_date"));
+      return new ParkingCustomer(
+          rs.getInt("ID"),
+          rs.getString("vehicle_licence"),
+          rs.getBoolean("is_staff"),
+          rs.getString("contact_number"),
+          rs.getDate("registration_date"));
     } catch (SQLException e) {
       printSQLException(e);
       throw new IllegalStateException("Failure on loading parking customer from database");
     }
-
   }
 
   public void requestStaffPermit(
@@ -484,6 +480,7 @@ public class ParkingPeripheralServerManager extends DatabaseManager {
 
   /**
    * Creates a new Slip
+   *
    * @param startTime when the reserved slip should start will also be the entry time
    * @param durationMin length of slip in minutes
    * @param cost cost of ticket in cents
@@ -493,8 +490,11 @@ public class ParkingPeripheralServerManager extends DatabaseManager {
     int slotId = -1;
     String slotCode = null;
 
-    ParkingReservation reservation = createNewReservation(null, startTime, new Timestamp(startTime.getTime() + TimeUnit.MINUTES.toMillis((durationMin))));
-
+    ParkingReservation reservation =
+        createNewReservation(
+            null,
+            startTime,
+            new Timestamp(startTime.getTime() + TimeUnit.MINUTES.toMillis((durationMin))));
 
     int createdSlip = -1;
 
@@ -521,13 +521,16 @@ public class ParkingPeripheralServerManager extends DatabaseManager {
 
     if (createdSlip == -1) throw new IllegalStateException("Failed to add parking slip to DB");
 
-    return new ParkingSlip(createdSlip, reservation, startTime, durationMin, cost/100.0);
+    return new ParkingSlip(createdSlip, reservation, startTime, durationMin, cost / 100.0);
   }
 
-  public ParkingCustomer createNewCustomer(String vehicleLicence, boolean isStaff, String contactNumber) {
+  public ParkingCustomer createNewCustomer(
+      String vehicleLicence, boolean isStaff, String contactNumber) {
     try {
-      String query = "INSERT INTO PARKING_CUSTOMERS (VEHICLE_LICENCE, IS_STAFF, CONTACT_NUMBER, REGISTRATION_DATE) VALUES (?, ?, ?, ?)";
-      PreparedStatement statement = databaseRef.getConnection().prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+      String query =
+          "INSERT INTO PARKING_CUSTOMERS (VEHICLE_LICENCE, IS_STAFF, CONTACT_NUMBER, REGISTRATION_DATE) VALUES (?, ?, ?, ?)";
+      PreparedStatement statement =
+          databaseRef.getConnection().prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 
       Date regDate = new Date(System.currentTimeMillis());
 
@@ -542,19 +545,20 @@ public class ParkingPeripheralServerManager extends DatabaseManager {
       int customerId = rs.getInt(1);
       return new ParkingCustomer(customerId, vehicleLicence, isStaff, contactNumber, regDate);
 
-    } catch (SQLException e ) {
+    } catch (SQLException e) {
       printSQLException(e);
       throw new IllegalStateException("Error thrown inserting new Customer");
     }
   }
 
-  public ParkingReservation createNewReservation(ParkingCustomer customer, Timestamp startTime, Timestamp endTime) {
+  public ParkingReservation createNewReservation(
+      ParkingCustomer customer, Timestamp startTime, Timestamp endTime) {
     int slotId = -1;
     String slotCode = null;
 
     try {
       String slotQuery =
-              "SELECT * FROM PARKING_SLOTS ps LEFT JOIN (SELECT P.ID, P.SLOT_ID FROM PARKING_SLOT_RESERVATIONS P WHERE NOT (((P.START_TIMESTAMP>=? AND P.RES_EDN_TIMESTAMP>=?) OR (P.START_TIMESTAMP<=? AND P.RES_EDN_TIMESTAMP<=?)))) as Pres on ps.ID = Pres.SLOT_ID WHERE Pres.ID IS NULL AND ps.IS_OCCUPIED=false";
+          "SELECT * FROM PARKING_SLOTS ps LEFT JOIN (SELECT P.ID, P.SLOT_ID FROM PARKING_SLOT_RESERVATIONS P WHERE NOT (((P.START_TIMESTAMP>=? AND P.RES_EDN_TIMESTAMP>=?) OR (P.START_TIMESTAMP<=? AND P.RES_EDN_TIMESTAMP<=?)))) as Pres on ps.ID = Pres.SLOT_ID WHERE Pres.ID IS NULL AND ps.IS_OCCUPIED=false";
       PreparedStatement statement = databaseRef.getConnection().prepareStatement(slotQuery);
 
       statement.setTimestamp(1, startTime);
@@ -583,30 +587,36 @@ public class ParkingPeripheralServerManager extends DatabaseManager {
     Date bookingDate = new Date(System.currentTimeMillis());
 
     try {
-      String query = "INSERT INTO PARKING_SLOT_RESERVATIONS (SLOT_ID, START_TIMESTAMP, RES_EDN_TIMESTAMP, BOOKING_DATE" + ((customer == null)? "" : ", CUSTOMER_ID") + ") VALUES " +
-              "(?, ?, ?, ?" + ((customer == null)? "" : ", ?") + ")";
-      PreparedStatement statement = databaseRef.getConnection().prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+      String query =
+          "INSERT INTO PARKING_SLOT_RESERVATIONS (SLOT_ID, START_TIMESTAMP, RES_EDN_TIMESTAMP, BOOKING_DATE"
+              + ((customer == null) ? "" : ", CUSTOMER_ID")
+              + ") VALUES "
+              + "(?, ?, ?, ?"
+              + ((customer == null) ? "" : ", ?")
+              + ")";
+      PreparedStatement statement =
+          databaseRef.getConnection().prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
       statement.setInt(1, slotId);
       statement.setTimestamp(2, startTime);
       statement.setTimestamp(3, endTime);
       statement.setDate(4, bookingDate);
-      if (customer != null)
-        statement.setInt(5, customer.getId());
+      if (customer != null) statement.setInt(5, customer.getId());
 
       statement.execute();
       ResultSet rs = statement.getGeneratedKeys();
       rs.next();
       createdReservation = rs.getInt(1);
-    } catch (SQLException e ){
+    } catch (SQLException e) {
       printSQLException(e);
       throw new IllegalStateException("Exception thrown when attemtping to create new Reservation");
     }
 
-
     if (customer == null)
-      return new ParkingReservation(createdReservation, slotId, slotCode, startTime, endTime, bookingDate);
-      else
-        return new ParkingReservation(createdReservation, customer, slotId, slotCode, startTime, endTime, bookingDate);
+      return new ParkingReservation(
+          createdReservation, slotId, slotCode, startTime, endTime, bookingDate);
+    else
+      return new ParkingReservation(
+          createdReservation, customer, slotId, slotCode, startTime, endTime, bookingDate);
   }
 
   public void updateSlipPenalty(int id, double penalty) {

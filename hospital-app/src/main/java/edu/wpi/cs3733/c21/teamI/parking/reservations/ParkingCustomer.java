@@ -10,8 +10,8 @@ public class ParkingCustomer {
   String contactNumber;
   Date registrationDate;
 
-  public ParkingCustomer(int id,
-      String vehicleLicence, boolean isStaff, String contactNumber, Date registrationDate) {
+  public ParkingCustomer(
+      int id, String vehicleLicence, boolean isStaff, String contactNumber, Date registrationDate) {
     this.id = id;
     this.vehicleLicence = vehicleLicence;
     this.isStaff = isStaff;

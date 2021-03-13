@@ -46,7 +46,12 @@ public class ParkingSlip {
   }
 
   public void calculatePenalty(Timestamp currentTime) {
-    int minOver = (int) ((currentTime.getTime() - (entryTimestamp.getTime() + TimeUnit.MINUTES.toMillis(durationMin))) / 1000L / 60L);
+    int minOver =
+        (int)
+            ((currentTime.getTime()
+                    - (entryTimestamp.getTime() + TimeUnit.MINUTES.toMillis(durationMin)))
+                / 1000L
+                / 60L);
     if (minOver <= 0) penalty = 0;
     else {
       penalty = ((minOver / 5) + 1) * OVERCHARGE_PER_5_MIN;
