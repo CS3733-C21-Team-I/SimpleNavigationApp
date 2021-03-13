@@ -413,14 +413,6 @@ public class MapPathfindingController extends MapController {
               }
           }
         }
-        Rectangle park =
-            new Rectangle(
-                transformX(node.getxCoord()) - dimensions / 2,
-                transformY(node.getyCoord()) - dimensions / 2,
-                dimensions,
-                2 * dimensions);
-        park.setFill(parkingColor);
-        mapPane.getChildren().add(park);
       }
     }
   }
