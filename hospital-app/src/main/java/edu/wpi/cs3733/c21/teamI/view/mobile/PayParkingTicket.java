@@ -3,7 +3,9 @@ package edu.wpi.cs3733.c21.teamI.view.mobile;
 import com.jfoenix.controls.JFXButton;
 import java.awt.*;
 import java.io.IOException;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -22,9 +24,14 @@ public class PayParkingTicket {
   @FXML TextField parkingIDInput;
 
   public void initialize() {
-
     completeTransaction.setDisable(true);
     setUpParkingDropdown();
+  }
+
+  public void goToPathfinding(ActionEvent e) throws IOException {
+    root.getChildren().clear();
+    root.getChildren()
+        .add(FXMLLoader.load(getClass().getResource("/fxml/mobilePages/PathfindingMobile.fxml")));
   }
 
   private void setUpParkingDropdown() {

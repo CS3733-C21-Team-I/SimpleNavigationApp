@@ -26,7 +26,8 @@ public class ViewManager {
                 {"feedbackButton", "/fxml/menuFiles/feedbackView.fxml"},
                 {"trackerButton", "/fxml/menuFiles/COVIDTracker.fxml"},
                 {"navigateButton", "/fxml/map/Pathfinding.fxml"},
-                {"loginButton", "/fxml/menuFiles/Profile.fxml"}
+                {"loginButton", "/fxml/menuFiles/Profile.fxml"},
+                {"reservationButton", "/fxml/parking/ParkingReservation.fxml"}
               })
           .collect(Collectors.toMap(data -> data[0], data -> data[1]));
   protected static HomeController homeController;

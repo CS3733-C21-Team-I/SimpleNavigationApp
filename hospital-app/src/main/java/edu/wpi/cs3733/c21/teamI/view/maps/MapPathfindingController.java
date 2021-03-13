@@ -390,7 +390,7 @@ public class MapPathfindingController extends MapController {
       } else if (node instanceof ParkingNode && node.getMapID().equals(currentMapID)) {
         Color parkingColor;
         double dimensions = 25 / scale;
-        if (((ParkingNode) node).isEmpty()) {
+        if (((ParkingNode) node).isEmpty()){
           parkingColor = Color.GREEN;
         } else {
           parkingColor = Color.RED;
