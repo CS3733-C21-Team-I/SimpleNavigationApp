@@ -54,7 +54,7 @@
                                                         <Font name="System Bold" size="15.0" />
                                                     </font>
                                                 </Label>
-                                    <JFXTextField fx:id="parkingIDInput" focusColor="#0067b1" maxWidth="200.0" prefWidth="200.0" promptText="Parking Ticket ID" unFocusColor="#012d5a">
+                                    <JFXTextField fx:id="parkingIDInput" onAction="#checkFinishedForTicketID" focusColor="#0067b1" maxWidth="200.0" prefWidth="200.0" promptText="Parking Ticket ID" unFocusColor="#012d5a">
                                        <VBox.margin>
                                           <Insets bottom="20.0" top="10.0" />
                                        </VBox.margin>
@@ -64,7 +64,7 @@
                                                         <Insets bottom="20.0" />
                                                     </VBox.margin>
                                                 </JFXButton>
-                                                <VBox alignment="CENTER" style="-fx-border-color: black;">
+                                                <VBox fx:id="parkingInfo" alignment="CENTER" style="-fx-border-color: black;">
                                                     <VBox.margin>
                                                         <Insets left="20.0" right="20.0" />
                                                     </VBox.margin>
@@ -74,36 +74,13 @@
                                                               <Insets bottom="10.0" left="20.0" right="20.0" />
                                                           </VBox.margin>
                                                       </Label>
-                                                        <Label text="Western Parking ">
-                                                            <VBox.margin>
-                                                                <Insets />
-                                                            </VBox.margin>
-                                                        </Label>
-                                                        <Label text="Start time: 5:00 pm">
-                                                            <VBox.margin>
-                                                                <Insets />
-                                                            </VBox.margin>
-                                                        </Label>
-                                                        <Label text="End time: 7:00pm">
-                                                            <VBox.margin>
-                                                                <Insets />
-                                                            </VBox.margin>
-                                                        </Label>
-                                                        <Label text="Price: $3.00">
-                                                            <VBox.margin>
-                                                                <Insets />
-                                                            </VBox.margin>
-                                                        </Label>
-                                                        <Label text="|||||||||||||">
-                                                            <VBox.margin>
-                                                                <Insets />
-                                                            </VBox.margin>
-                                                        </Label>
-                                                        <Label text="1000111">
-                                                            <VBox.margin>
-                                                                <Insets />
-                                                            </VBox.margin>
-                                                        </Label>
+                                                        <Label fx:id="locationLabel" text="Western Parking "/>
+                                                        <Label fx:id="startTimeLabel" text="Start time: 5:00 pm"/>
+                                                        <Label fx:id="endTimeLabel" text="End time: 7:00pm"/>
+                                                        <Label fx:id="priceLabel" text="Price: $3.00"/>
+                                                        <Label   text="|||||||||||||"/>
+                                                        <Label fx:id="ticketIDLabel" text="1000111"/>
+
                                                     </children>
                                                     <opaqueInsets>
                                                         <Insets />
@@ -120,37 +97,41 @@
                                                         <Insets top="20.0" />
                                                     </VBox.margin>
                                                 </Label>
-                                                <JFXTextField alignment="TOP_LEFT" focusColor="#0067b1" maxWidth="200.0" prefWidth="200.0" promptText="First Name" unFocusColor="#012d5a">
-                                                    <VBox.margin>
-                                                        <Insets top="20.0" />
-                                                    </VBox.margin>
-                                                </JFXTextField>
-                                                <JFXTextField focusColor="#0067b1" maxWidth="200.0" prefWidth="200.0" promptText="Last Name" unFocusColor="#012d5a">
-                                                    <VBox.margin>
-                                                        <Insets top="20.0" />
-                                                    </VBox.margin>
-                                                </JFXTextField>
-                                                <JFXTextField focusColor="#0067b1" maxWidth="200.0" prefWidth="200.0" promptText="Card Number" unFocusColor="#012d5a">
-                                                    <VBox.margin>
-                                                        <Insets top="20.0" />
-                                                    </VBox.margin>
-                                                </JFXTextField>
-                                                <JFXTextField focusColor="#0067b1" maxWidth="200.0" prefWidth="200.0" promptText="CVV  MM/DD" unFocusColor="#012d5a">
-                                                    <VBox.margin>
-                                                        <Insets top="20.0" />
-                                                    </VBox.margin>
-                                                </JFXTextField>
-                                                <JFXTextField focusColor="#0067b1" maxWidth="200.0" prefWidth="200.0" promptText="Card Exp. Date" unFocusColor="#012d5a">
-                                                    <VBox.margin>
-                                                        <Insets top="20.0" />
-                                                    </VBox.margin>
-                                                </JFXTextField>
-                                                <JFXTextField focusColor="#0067b1" maxWidth="200.0" prefWidth="200.0" promptText="Zip Code" unFocusColor="#012d5a">
-                                                    <VBox.margin>
-                                                        <Insets top="20.0" />
-                                                    </VBox.margin>
-                                                </JFXTextField>
-                                                <JFXButton fx:id="completeTransaction" onAction="#submit" prefWidth="200.0" style="-fx-background-color: #0067b1; -fx-font-weight: bold;" styleClass="styledButton" stylesheets="@../misc/css/main.css" text="Submit Payment">
+                                    <VBox fx:id="paymentInfo" prefHeight="200.0" prefWidth="100.0">
+                                       <children>
+                                                      <JFXTextField fx:id="firstName" onAction="#checkFinishedForTransaction" focusColor="#0067b1" maxWidth="200.0" prefWidth="200.0" promptText="First Name" unFocusColor="#012d5a">
+                                                          <VBox.margin>
+                                                              <Insets left="20.0" top="20.0" />
+                                                          </VBox.margin>
+                                                      </JFXTextField>
+                                                      <JFXTextField fx:id="lastName" onAction="#checkFinishedForTransaction" focusColor="#0067b1" maxWidth="200.0" prefWidth="200.0" promptText="Last Name" unFocusColor="#012d5a">
+                                                          <VBox.margin>
+                                                              <Insets left="20.0" top="20.0" />
+                                                          </VBox.margin>
+                                                      </JFXTextField>
+                                                      <JFXTextField fx:id="cardNum" onAction="#checkFinishedForTransaction" focusColor="#0067b1" maxWidth="200.0" prefWidth="200.0" promptText="Card Number" unFocusColor="#012d5a">
+                                                          <VBox.margin>
+                                                              <Insets left="20.0" top="20.0" />
+                                                          </VBox.margin>
+                                                      </JFXTextField>
+                                                      <JFXTextField fx:id="cvv" onAction="#checkFinishedForTransaction" focusColor="#0067b1" maxWidth="200.0" prefWidth="200.0" promptText="CVV  MM/DD" unFocusColor="#012d5a">
+                                                          <VBox.margin>
+                                                              <Insets left="20.0" top="20.0" />
+                                                          </VBox.margin>
+                                                      </JFXTextField>
+                                                      <JFXTextField fx:id="cardExpDate" onAction="#checkFinishedForTransaction" focusColor="#0067b1" maxWidth="200.0" prefWidth="200.0" promptText="Card Exp. Date" unFocusColor="#012d5a">
+                                                          <VBox.margin>
+                                                              <Insets left="20.0" top="20.0" />
+                                                          </VBox.margin>
+                                                      </JFXTextField>
+                                                      <JFXTextField fx:id="zipCode" onAction="#checkFinishedForTransaction" focusColor="#0067b1" maxWidth="200.0" prefWidth="200.0" promptText="Zip Code" unFocusColor="#012d5a">
+                                                          <VBox.margin>
+                                                              <Insets left="20.0" top="20.0" />
+                                                          </VBox.margin>
+                                                      </JFXTextField>
+                                       </children>
+                                    </VBox>
+                                                <JFXButton fx:id="submitPayment" onAction="#submit" prefWidth="200.0" style="-fx-background-color: #0067b1; -fx-font-weight: bold;" styleClass="styledButton" stylesheets="@../misc/css/main.css" text="Submit Payment">
                                                     <VBox.margin>
                                                         <Insets bottom="20.0" top="20.0" />
                                                     </VBox.margin>
