@@ -47,6 +47,7 @@ public class MenuController extends Application {
       menuItem.setVisible(false);
     }
     menu.getChildren().get(0).setVisible(true);
+    menu.getChildren().get(1).setVisible(true);
     menu.getChildren().get(2).setVisible(true);
     menu.getChildren().get(10).setVisible(true);
     menu.getChildren().get(11).setVisible(true);
