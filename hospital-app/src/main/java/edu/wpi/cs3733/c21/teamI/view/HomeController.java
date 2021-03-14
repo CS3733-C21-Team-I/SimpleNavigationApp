@@ -13,21 +13,18 @@ import java.io.IOException;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
+import javafx.animation.*;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
@@ -51,6 +48,10 @@ public class HomeController extends Application {
   @FXML Button mobileButton;
 
   @FXML StackPane homePane;
+
+  @FXML VBox page;
+
+  @FXML StackPane sidePane, test;
 
   Notification lastNotif;
 
@@ -117,11 +118,17 @@ public class HomeController extends Application {
 
   @FXML
   public void update() {
-    VBox box = null;
+    //    HBox box = new HBox();
     HBox hBox = null;
     try {
       FXMLLoader vLoader = new FXMLLoader(getClass().getResource("/fxml/menuFiles/Menu.fxml"));
-      box = vLoader.load();
+      //      box.getChildren().add(vLoader.load());
+      //      box.getChildren().add(drawerPane);
+      System.out.println(sidePane);
+      sidePane.getChildren().clear();
+      sidePane.getChildren().add(vLoader.load());
+      sidePane.setAlignment(Pos.CENTER);
+      //      sidePane.setMinWidth(55);
       ViewManager.homeController = this;
       FXMLLoader hLoader =
           new FXMLLoader(getClass().getResource("/fxml/menuFiles/NotificationContent.fxml"));
@@ -146,7 +153,22 @@ public class HomeController extends Application {
     } catch (IOException e) {
       e.printStackTrace();
     }
-    drawer.setSidePane(box);
+
+    //    box.minWidthProperty().bind(page.widthProperty());
+    //    box.setAlignment(Pos.CENTER_LEFT);
+    //    box.setStyle("-fx-background-color: red");
+    //    HBox.setHgrow(box, Priority.ALWAYS);
+    //    box.translateXProperty()
+    //        .addListener(
+    //            e -> {
+    //              System.out.println(box.translateXProperty().doubleValue());
+    //              HBox.setMargin(box, new Insets(0, box.translateXProperty().doubleValue(), 0,
+    // 0));
+    //            });
+    //    drawer.setMiniDrawerSize(0);
+    //    drawer.setSidePane(box);
+    // replacePane.setPrefWidth(page.getWidth());
+    //    replacePane.setMinWidth(1200);
     notifDrawer.setSidePane(hBox);
   }
 
@@ -228,21 +250,58 @@ public class HomeController extends Application {
                 drawerPane.setClip(clip);
               });
 
+      final TranslateTransition translateLeftAnchor =
+          new TranslateTransition(Duration.millis(500), sidePane);
+
       HamburgerSlideCloseTransition hamburgerTransition = new HamburgerSlideCloseTransition(ham1);
       hamburgerTransition.setRate(-1);
       ham1.addEventHandler(
           MouseEvent.MOUSE_CLICKED,
           (e) -> {
+            HBox.setHgrow(drawerPane, Priority.NEVER);
+            KeyValue widthValue;
+            drawerPane.setPrefWidth(drawerPane.getWidth());
             hamburgerTransition.setRate(hamburgerTransition.getRate() * -1);
             hamburgerTransition.play();
 
-            if (drawer.isOpened()) {
-              drawer.close();
+            if (hamburgerTransition.getRate() == -1) {
+              widthValue =
+                  new KeyValue(drawerPane.prefWidthProperty(), drawerPane.getWidth() + 130);
+              KeyFrame frame = new KeyFrame(Duration.seconds(0.5), widthValue);
+              Timeline timeline = new Timeline(frame);
+              timeline.setOnFinished(
+                  p -> {
+                    HBox.setHgrow(drawerPane, Priority.ALWAYS);
+                  });
+              timeline.play();
             } else {
-              drawer.open();
+              widthValue =
+                  new KeyValue(drawerPane.prefWidthProperty(), drawerPane.getWidth() - 130);
+              KeyFrame frame = new KeyFrame(Duration.seconds(0.5), widthValue);
+              Timeline timeline = new Timeline(frame);
+              timeline.setOnFinished(p -> {});
+
+              timeline.play();
             }
+            translateLeftAnchor.play();
+            //            scaleTransition.play();
+
+            //            if (drawer.isOpened()) {
+            //              drawer.close();
+            //            } else {
+            //              drawer.open();
+            //            }
           });
-      drawer.open();
+      //      sidePane
+      //          .translateXProperty()
+      //          .addListener(
+      //              e -> {
+      //                System.out.println(sidePane.translateXProperty().doubleValue());
+      //                VBox.setMargin(
+      //                    sidePane.lookup("#menu"),
+      //                    new Insets(0, sidePane.translateXProperty().doubleValue(), 0, 0));
+      //              });
+      //      drawer.open();
     }
   }
 

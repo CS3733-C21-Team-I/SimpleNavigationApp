@@ -623,12 +623,9 @@ public abstract class MapController extends Application {
     }
   }
 
-
-
   public void floor1Tab(Event event) {
     loadMap("Faulkner 1", floor1);
   }
-
 
   public void floor2Tab(Event event) {
     loadMap("Faulkner 2", floor2);
@@ -638,16 +635,13 @@ public abstract class MapController extends Application {
     loadMap("Faulkner 3", floor3);
   }
 
-
   public void floor4Tab(Event event) {
     loadMap("Faulkner 4", floor4);
   }
 
-
   public void floor5Tab(Event event) {
     loadMap("Faulkner 5", floor6);
   }
-
 
   public void switchOnClick(ActionEvent event, String mapID) {
     if (mapID.equals("Faulkner Lot")) {
