@@ -79,7 +79,7 @@ public class TextDirections {
         return directions;
     }
 
-    public List<DirectionStep> getDirectionSteps() {
+    public static List<DirectionStep> getDirectionSteps() {
         return directionSteps;
     }
 

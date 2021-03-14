@@ -619,4 +619,19 @@ public abstract class MapController extends Application {
 
     System.out.println("mapImage  " + mapImage + "Viewport  " + mapImage.getViewport());
   }
+
+
+  public void zoomToFitNodes(HospitalMapNode a, HospitalMapNode b, double padding) {
+    if (!b.equals(null)){
+      double centerX = 0;
+      double centerY = 0;
+
+      double width = Math.abs(a.getxCoord() - b.getxCoord()) + padding*2;
+      double height = Math.abs(a.getyCoord() - b.getyCoord()) + padding*2;
+      double x = centerX - width/2;
+      double y = centerY - height/2;
+
+      zoomToPoint(x, y, width, height, padding);
+    }
+  }
 }
