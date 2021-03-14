@@ -166,6 +166,8 @@ public class MapPathfindingController extends MapController {
   public List<HospitalMapNode> getFoundPath(HospitalMapNode nodeA, HospitalMapNode nodeB) {
     this.foundPath = pathFinderAlgorithm.findPath(nodeA, nodeB, scorer);
     this.foundPathDescription = TextDirections.getDirections(scorer, foundPath);
+
+    //zoomToPoint();
     return foundPath;
   }
 
