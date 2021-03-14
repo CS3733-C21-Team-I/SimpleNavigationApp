@@ -8,6 +8,8 @@ import javafx.scene.Parent;
 import javafx.scene.image.Image;
 
 public class DirectionStep {
+  private final double width;
+  private final double height;
   private HospitalMapNode pointA;
   private HospitalMapNode pointB;
   public String stepDetails;
@@ -23,14 +25,24 @@ public class DirectionStep {
     stepDetails = textDirection;
     centerX = calcCenterPointX(a, b);
     centerY = calcCenterPointY(a, b);
+    width = calcWidth(a, b);
+    height = calcHeight(a, b);
   }
 
-  private double calcCenterPointX(HospitalMapNode a, HospitalMapNode b) {
+  protected static double calcCenterPointX(HospitalMapNode a, HospitalMapNode b) {
     return a.getxCoord() + -1 * (a.getxCoord() - b.getxCoord() / 2);
   }
 
-  private double calcCenterPointY(HospitalMapNode a, HospitalMapNode b) {
+  protected static double calcCenterPointY(HospitalMapNode a, HospitalMapNode b) {
     return a.getyCoord() + -1 * (a.getyCoord() - b.getyCoord() / 2);
+  }
+
+  protected static double calcWidth(HospitalMapNode a, HospitalMapNode b) {
+    return Math.abs(a.getxCoord() - b.getxCoord());
+  }
+
+  protected static double calcHeight(HospitalMapNode a, HospitalMapNode b) {
+    return Math.abs(a.getyCoord() - b.getyCoord());
   }
 
   public double getCenterX() {
@@ -42,11 +54,18 @@ public class DirectionStep {
   }
 
   public double getWidth() {
-    return Math.abs(pointA.getxCoord() - pointB.getxCoord());
+    return width;
   }
 
   public double getHeight() {
-    return Math.abs(pointA.getyCoord() - pointB.getyCoord());
+    return height;
   }
 
+  public HospitalMapNode getPointA() {
+    return pointA;
+  }
+
+  public HospitalMapNode getPointB() {
+    return pointB;
+  }
 }
