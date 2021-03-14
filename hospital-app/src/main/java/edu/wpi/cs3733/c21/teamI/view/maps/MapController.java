@@ -477,7 +477,7 @@ public abstract class MapController extends Application {
     yOffset = mapImage.getViewport().getMinY();
     update();
 
-    System.out.println("mapImage" + mapImage + "Viewport  " + mapImage.getViewport());
+    System.out.println("mapImage  " + mapImage + "  Viewport  " + mapImage.getViewport());
   }
 
   protected void resize() {
@@ -617,6 +617,6 @@ public abstract class MapController extends Application {
     yOffset = mapImage.getViewport().getMinY();
     update();
 
-    System.out.println("mapImage" + mapImage + "Viewport  " + mapImage.getViewport());
+    System.out.println("mapImage  " + mapImage + "Viewport  " + mapImage.getViewport());
   }
 }

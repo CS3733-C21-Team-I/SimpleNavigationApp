@@ -10,24 +10,17 @@ import javafx.scene.image.Image;
 public class DirectionStep {
   private HospitalMapNode pointA;
   private HospitalMapNode pointB;
-  private String stepDetails;
+  public String stepDetails;
   private Image icon;
-  public DirectionStep prevStep;
-  public DirectionStep nextStep;
+  // public DirectionStep prevStep;
+  // public DirectionStep nextStep;
   private double centerX;
   private double centerY;
 
-  public DirectionStep(
-      HospitalMapNode a,
-      HospitalMapNode b,
-      String textDirection,
-      DirectionStep prev,
-      DirectionStep next) {
+  public DirectionStep(HospitalMapNode a, HospitalMapNode b, String textDirection) {
     pointA = a;
     pointB = b;
     stepDetails = textDirection;
-    prevStep = prev;
-    nextStep = next;
     centerX = calcCenterPointX(a, b);
     centerY = calcCenterPointY(a, b);
 

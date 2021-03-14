@@ -13,13 +13,15 @@ public class TextDirections {
       EuclidianDistCalc calc, List<HospitalMapNode> path) {
     ArrayList<String> directions = new ArrayList<>();
 
+    List<DirectionStep> directionSteps = new ArrayList<>();
+
     if (path.size() < 2) {
       directions.add("No path was found.");
       return directions;
     }
 
     DirectionStep pathOverview =
-        new DirectionStep(path.get(0), path.get(path.size() - 1), "chicken", null, null);
+        new DirectionStep(path.get(0), path.get(path.size() - 1), "Path Overview");
 
     // describe start location
     String startDirection = "Begin ";
@@ -29,6 +31,7 @@ public class TextDirections {
     }
     startDirection += "facing " + compassDirection(first, path.get(1)) + ".";
     directions.add(startDirection);
+    directionSteps.add(new DirectionStep(first, path.get(1), startDirection));
 
     for (int i = 1; i < (path.size() - 1); i++) {
 
@@ -41,6 +44,9 @@ public class TextDirections {
           step = "Proceed to floor " + path.get(i + 1).getMapID() + ".";
         }
         directions.add(step);
+        if (i < path.size() - 2) {
+          directionSteps.add(new DirectionStep(path.get(i), path.get(i + 1), step));
+        }
 
       } else {
         step = describeStep(calc, path.get(i - 1), path.get(i), path.get(i + 1));
@@ -51,6 +57,9 @@ public class TextDirections {
 
         if (!isRepeat(path, directions, i, step) && worthDescription(path.get(i))) {
           directions.add(step);
+          if (i < path.size() - 2) {
+            directionSteps.add(new DirectionStep(path.get(i), path.get(i + 1), step));
+          }
         }
       }
     }
@@ -58,8 +67,14 @@ public class TextDirections {
     // describe end location
     HospitalMapNode last = path.get(path.size() - 1);
     if (last instanceof LocationNode) {
-      directions.add("Continue until you reach " + ((LocationNode) last).getLongName() + ".");
+      String detail = "Continue until you reach " + ((LocationNode) last).getLongName() + ".";
+      directions.add(detail);
+      directionSteps.add(new DirectionStep(last, null, detail));
     }
+
+    //    for (DirectionStep d : directionSteps) {
+    //      System.out.println(d.stepDetails);
+    //    }
 
     return directions;
   }

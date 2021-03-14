@@ -50,7 +50,6 @@ public class MapPathfindingController extends MapController {
   // setup stuff
   @FXML
   public void initialize() {
-    System.out.println("Initializing pathfinding controller");
     boolean isAdmin =
         ApplicationDataController.getInstance()
             .getLoggedInUser()
