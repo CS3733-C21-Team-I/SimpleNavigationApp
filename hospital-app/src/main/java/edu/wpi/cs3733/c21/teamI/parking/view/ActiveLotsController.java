@@ -44,6 +44,8 @@ public class ActiveLotsController extends Application {
     lots.addAll(ParkingPeripheralServerManager.getInstance().loadLots().values());
     lotView.setItems(lots);
     lotView.setCellFactory(new LotPaneFactory());
+
+    System.out.println("This many lots: " + lots.size());
     lotView.setOrientation(Orientation.HORIZONTAL);
 
     for (Lot lot : lots) {

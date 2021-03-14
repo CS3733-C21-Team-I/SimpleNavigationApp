@@ -9,11 +9,20 @@ public class Block {
 
   private String blockCode;
 
+  private int id;
   private List<Floor> floors;
   private Lot lot;
   private IntegerProperty unocupied = new SimpleIntegerProperty();
 
   public Block(int id, String blockCode) {
+    this.id = id;
+    this.blockCode = blockCode;
+    this.floors = new ArrayList<>();
+    this.lot = null;
+  }
+
+  public Block(String blockCode) {
+    this.id = -1;
     this.blockCode = blockCode;
     this.floors = new ArrayList<>();
     this.lot = null;
@@ -57,5 +66,13 @@ public class Block {
       count += floor.getSlotCodes().size();
     }
     return count;
+  }
+
+  public int getId() {
+    return id;
+  }
+
+  public void setId(int id) {
+    this.id = id;
   }
 }

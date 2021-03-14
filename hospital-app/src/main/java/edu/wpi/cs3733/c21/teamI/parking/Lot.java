@@ -7,12 +7,15 @@ import javafx.beans.property.SimpleIntegerProperty;
 
 public class Lot {
 
+  private int id;
+
   private String name;
   private IntegerProperty unocupied = new SimpleIntegerProperty();
 
   private List<Block> blocks;
 
   public Lot(int id, String name, boolean isReentyAllowed, boolean isValetAvailable) {
+    this.id = id;
     this.name = name;
     this.blocks = new ArrayList<>();
   }
@@ -52,5 +55,9 @@ public class Lot {
 
   public List<Block> getBlocks() {
     return blocks;
+  }
+
+  public int getId() {
+    return id;
   }
 }

@@ -290,8 +290,8 @@ BadSol21,38836,20720,0,Faulkner,PARK,LOC,Northern Parking 7,,I,Faulkner Lot
 BadSol22,37062,21332,0,Faulkner,PARK,LOC,Northern Parking 6,,I,Faulkner Lot
 BadSol23,35337,22054,0,Faulkner,PARK,LOC,Northern Parking 5,,I,Faulkner Lot
 BadSol5,40594,57431,0,Faulkner,Temp,POS,,,,Faulkner Lot
-BadSol7,57689,46304,0,Faulkner,HALL,LOC,Valet Parking Icon,VALPAR,I,Faulkner Lot
-BadSol6,15379,63050,0,Faulkner,HALL,LOC,Western Parking Icon,WPARKI,I,Faulkner Lot
+ParkIconValet,57689,46304,0,Faulkner,HALL,LOC,Valet Parking Icon,VALPAR,I,Faulkner Lot
+ParkIconFaulkW,15379,63050,0,Faulkner,HALL,LOC,Western Parking Icon,WPARKI,I,Faulkner Lot
 BadSol9,31995,23565,0,Faulkner,PARK,LOC,Northern Parking 3,,I,Faulkner Lot
 BadSol8,33614,22765,0,Faulkner,PARK,LOC,Northern Parking 4,,I,Faulkner Lot
 IEXIT00201,38745,63275,0,Faulkner,EXIT,LOC,Emergency Entrance,EENTR,I,Faulkner Lot
@@ -299,7 +299,7 @@ IPARK02401,18808,55307,0,Faulkner,PARK,LOC,Western Parking 12,WPARK012,I,Faulkne
 IPARK00101,62424,19877,0,Faulkner,PARK,LOC,Northern Parking 18,,I,Faulkner Lot
 IPARK02001,12316,73837,0,Faulkner,PARK,LOC,Western Parking 8,WPARK008,I,Faulkner Lot
 BadSol3,12593,51367,0,Faulkner,PARK,LOC,Western Parking 19,,I,Faulkner Lot
-BadSol2,53069,22253,0,Faulkner,HALL,LOC,Northern Parking Icon,NPARKI,I,Faulkner Lot
+ParkIconFaulkN,53069,22253,0,Faulkner,HALL,LOC,Northern Parking Icon,NPARKI,I,Faulkner Lot
 IWALK01301,52142,34509,0,Faulkner,Temp,POS,,,,Faulkner Lot
 IWALK00101,16916,47945,0,Faulkner,Temp,POS,,,,Faulkner Lot
 BadSol50,82728,37681,0,Faulkner,PARK,LOC,Northern Parking 47,,I,Faulkner Lot
