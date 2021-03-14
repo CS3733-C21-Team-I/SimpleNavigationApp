@@ -23,8 +23,6 @@ public class DirectionStep {
     stepDetails = textDirection;
     centerX = calcCenterPointX(a, b);
     centerY = calcCenterPointY(a, b);
-
-    zoom(a, b);
   }
 
   private double calcCenterPointX(HospitalMapNode a, HospitalMapNode b) {
@@ -35,23 +33,20 @@ public class DirectionStep {
     return a.getyCoord() + -1 * (a.getyCoord() - b.getyCoord() / 2);
   }
 
-  private void zoom(HospitalMapNode a, HospitalMapNode b) {
-    // loading scene fxml
-    try {
-      FXMLLoader loader =
-          new FXMLLoader(getClass().getClassLoader().getResource("fxml/map/Pathfinding.fxml"));
-      Parent root = loader.load();
-      // getting controller object
-      MapPathfindingController controller = loader.getController();
-
-      double width = Math.abs(a.getxCoord() - b.getxCoord());
-      double height = Math.abs(a.getyCoord() - b.getyCoord());
-      controller.zoomToPoint(centerX, centerY, width, height, 0);
-
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-
-    // MapPathfindingController.getInstance().zoomToPoint(centerX, centerY, width, height, 0);
+  public double getCenterX() {
+    return this.centerX;
   }
+
+  public double getCenterY() {
+    return this.centerY;
+  }
+
+  public double getWidth() {
+    return Math.abs(pointA.getxCoord() - pointB.getxCoord());
+  }
+
+  public double getHeight() {
+    return Math.abs(pointA.getyCoord() - pointB.getyCoord());
+  }
+
 }
