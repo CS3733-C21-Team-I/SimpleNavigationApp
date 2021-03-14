@@ -28,7 +28,7 @@
                         <Insets left="-130.0" />
                      </HBox.margin>
                   </StackPane>
-                  <AnchorPane fx:id="drawerPane" HBox.hgrow="NEVER">
+                  <AnchorPane fx:id="drawerPane" HBox.hgrow="ALWAYS">
                      <children>
                         <StackPane fx:id="replacePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                         <JFXDrawer fx:id="notifDrawer" defaultDrawerSize="120.0" direction="TOP" prefHeight="20.0" style="-fx-background-color: transparent;" />
