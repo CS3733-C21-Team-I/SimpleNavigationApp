@@ -89,6 +89,7 @@ public class ServiceTicketDataController {
           serviceLocationList.setItems(items);
           serviceLocationList.setVisible(true);
         });
+
     serviceLocationList
         .getSelectionModel()
         .selectedItemProperty()
