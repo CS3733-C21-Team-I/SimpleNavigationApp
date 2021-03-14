@@ -23,12 +23,13 @@
             <AnchorPane fx:id="orangeBar" maxHeight="20.0" minHeight="20.0" prefHeight="20.0" prefWidth="200.0" style="-fx-background-color: #F6BD38;" />
             <HBox alignment="CENTER_RIGHT" VBox.vgrow="ALWAYS">
                <children>
-                  <StackPane fx:id="sidePane" maxHeight="1.7976931348623157E308" style="-fx-background-color: white;">
+                  <StackPane fx:id="spacer" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="130.0" />
+                  <StackPane fx:id="sidePane" maxHeight="1.7976931348623157E308" style="-fx-background-color: white; -fx-view-order: 0;">
                      <HBox.margin>
                         <Insets left="-130.0" />
                      </HBox.margin>
                   </StackPane>
-                  <AnchorPane fx:id="drawerPane" HBox.hgrow="ALWAYS">
+                  <AnchorPane fx:id="drawerPane" style="-fx-view-order: 2;" HBox.hgrow="ALWAYS">
                      <children>
                         <StackPane fx:id="replacePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                         <JFXDrawer fx:id="notifDrawer" defaultDrawerSize="120.0" direction="TOP" prefHeight="20.0" style="-fx-background-color: transparent;" />

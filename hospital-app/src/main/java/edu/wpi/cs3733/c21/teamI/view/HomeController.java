@@ -17,7 +17,6 @@ import javafx.animation.*;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Parent;
@@ -52,7 +51,7 @@ public class HomeController extends Application {
 
   @FXML VBox page;
 
-  @FXML StackPane sidePane, test;
+  @FXML StackPane sidePane, spacer;
 
   Notification lastNotif;
 
@@ -233,6 +232,9 @@ public class HomeController extends Application {
 
       final TranslateTransition translateLeftAnchor =
           new TranslateTransition(Duration.millis(500), sidePane);
+      spacer.setVisible(false);
+      spacer.setManaged(false);
+      //      StackPane.setMargin(drawerPane, new Insets(0, 0, 0, 0));
 
       HamburgerSlideCloseTransition hamburgerTransition = new HamburgerSlideCloseTransition(ham1);
       hamburgerTransition.setRate(-1);
@@ -244,6 +246,8 @@ public class HomeController extends Application {
             drawerPane.setPrefWidth(drawerPane.getWidth());
             hamburgerTransition.setRate(hamburgerTransition.getRate() * -1);
             hamburgerTransition.play();
+            spacer.setVisible(false);
+            spacer.setManaged(false);
 
             if (hamburgerTransition.getRate() == -1) {
               widthValue =
@@ -262,7 +266,10 @@ public class HomeController extends Application {
               Timeline timeline = new Timeline(frame);
               timeline.setOnFinished(
                   p -> {
-//                    HBox.setHgrow(drawerPane, Priority.ALWAYS);
+                    spacer.setVisible(true);
+                    spacer.setManaged(true);
+                    HBox.setHgrow(drawerPane, Priority.ALWAYS);
+                    //                    StackPane.setMargin(drawerPane, new Insets(0, 0, 0, 400));
                   });
 
               timeline.play();
