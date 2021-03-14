@@ -50,6 +50,7 @@ public class ServiceTicketDataController {
   }
 
   public static void lookupNodes(KeyEvent e, ListView listView, TextField target) {
+
     String matchString =
         (((TextField) e.getSource()).getText()
                 + (!e.getCharacter().equals(Character.toString((char) 8)) ? e.getCharacter() : ""))
@@ -80,6 +81,14 @@ public class ServiceTicketDataController {
       TextField requestID,
       TextField assignedID,
       TextField location) {
+
+    List<String> locations = NavDatabaseManager.getInstance().getLocationNodeLongNames();
+    location.setOnMouseClicked(
+        t -> {
+          ObservableList<String> items = FXCollections.observableArrayList(locations);
+          serviceLocationList.setItems(items);
+          serviceLocationList.setVisible(true);
+        });
     serviceLocationList
         .getSelectionModel()
         .selectedItemProperty()
