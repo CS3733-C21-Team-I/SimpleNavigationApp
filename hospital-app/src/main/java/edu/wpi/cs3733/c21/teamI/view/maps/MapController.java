@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.c21.teamI.view.maps;
 
 import edu.wpi.cs3733.c21.teamI.hospitalMap.*;
+import edu.wpi.cs3733.c21.teamI.pathfinding.DirectionStep;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -600,36 +601,42 @@ public abstract class MapController extends Application {
   }
 
   public void zoomToPoint(double x, double y, double width, double height, double padding) {
-    width = transformX(width) + 2 * padding;
-    height = transformY(height) + 2 * padding;
+    System.out.println("incoming width: " + width + "  height:  " + height);
+    //    imgWidth = fullImgWidth;
+    //    imgHeight = fullImgHeight;
+    //    width = transformX(width) + 2 * padding;
+    //    height = transformY(height) + 2 * padding;
+    //    System.out.println("outgoing width: " + width + "  height:  " + height);
+    //    imgWidth = width;
+    //    imgHeight = height;
+    width = 500;
+    height = 300;
     x = transformX(x);
     y = transformY(y);
-    double newMinX = clamp(x - width / 2, 0, fullImgWidth);
-    double newMinY = clamp(y - height / 2, 0, fullImgHeight);
 
-    mapImage.setViewport(
-        new Rectangle2D(
-            932.0045789303656, 420.6524648208848, 748.1906358149346, 449.03525235096646));
-    //    mapImage.setViewport(new Rectangle2D(x, y, width, height));
+    System.out.println("transformX " + x + " Y " + y);
+    double newMinX = x - width / 2;
+    double newMinY = y - height / 2;
+
+    mapImage.setViewport(new Rectangle2D(newMinX, newMinY, width, height));
     imgWidth = mapImage.getViewport().getWidth();
     imgHeight = mapImage.getViewport().getHeight();
     xOffset = mapImage.getViewport().getMinX();
     yOffset = mapImage.getViewport().getMinY();
     update();
 
-    System.out.println("mapImage  " + mapImage + "Viewport  " + mapImage.getViewport());
+    System.out.println("mapImage  " + mapImage + " Viewport  " + mapImage.getViewport());
   }
 
-
   public void zoomToFitNodes(HospitalMapNode a, HospitalMapNode b, double padding) {
-    if (!b.equals(null)){
-      double centerX = 0;
-      double centerY = 0;
+    if (!b.equals(null)) {
+      double centerX = DirectionStep.calcCenterPointX(a, b);
+      double centerY = DirectionStep.calcCenterPointY(a, b);
 
-      double width = Math.abs(a.getxCoord() - b.getxCoord()) + padding*2;
-      double height = Math.abs(a.getyCoord() - b.getyCoord()) + padding*2;
-      double x = centerX - width/2;
-      double y = centerY - height/2;
+      double width = DirectionStep.calcWidth(a, b);
+      double height = DirectionStep.calcHeight(a, b);
+      double x = centerX - width / 2;
+      double y = centerY - height / 2;
 
       zoomToPoint(x, y, width, height, padding);
     }

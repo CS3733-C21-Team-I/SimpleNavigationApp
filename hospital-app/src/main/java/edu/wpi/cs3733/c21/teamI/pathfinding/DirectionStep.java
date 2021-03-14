@@ -1,10 +1,6 @@
 package edu.wpi.cs3733.c21.teamI.pathfinding;
 
 import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMapNode;
-import edu.wpi.cs3733.c21.teamI.view.maps.MapPathfindingController;
-import java.io.IOException;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.image.Image;
 
 public class DirectionStep {
@@ -29,19 +25,19 @@ public class DirectionStep {
     height = calcHeight(a, b);
   }
 
-  protected static double calcCenterPointX(HospitalMapNode a, HospitalMapNode b) {
+  public static double calcCenterPointX(HospitalMapNode a, HospitalMapNode b) {
     return a.getxCoord() + -1 * (a.getxCoord() - b.getxCoord() / 2);
   }
 
-  protected static double calcCenterPointY(HospitalMapNode a, HospitalMapNode b) {
+  public static double calcCenterPointY(HospitalMapNode a, HospitalMapNode b) {
     return a.getyCoord() + -1 * (a.getyCoord() - b.getyCoord() / 2);
   }
 
-  protected static double calcWidth(HospitalMapNode a, HospitalMapNode b) {
+  public static double calcWidth(HospitalMapNode a, HospitalMapNode b) {
     return Math.abs(a.getxCoord() - b.getxCoord());
   }
 
-  protected static double calcHeight(HospitalMapNode a, HospitalMapNode b) {
+  public static double calcHeight(HospitalMapNode a, HospitalMapNode b) {
     return Math.abs(a.getyCoord() - b.getyCoord());
   }
 

@@ -167,14 +167,14 @@ public class MapPathfindingController extends MapController {
     this.foundPath = pathFinderAlgorithm.findPath(nodeA, nodeB, scorer);
     this.foundPathDescription = TextDirections.getDirections(scorer, foundPath);
 
-    //Zooms to fit entire path
+    // Zooms to fit entire path
     zoomToFitNodes(foundPath.get(0), lastNodeOnSameFloor(foundPath), 0);
     return foundPath;
   }
 
-  private HospitalMapNode lastNodeOnSameFloor(List<HospitalMapNode> path){
-    for (int i = path.size()-1; i > 1; i--){
-      if (path.get(i).getMapID().equals(path.get(0).getMapID())){
+  private HospitalMapNode lastNodeOnSameFloor(List<HospitalMapNode> path) {
+    for (int i = path.size() - 1; i > 1; i--) {
+      if (path.get(i).getMapID().equals(path.get(0).getMapID())) {
         return path.get(i);
       }
     }
