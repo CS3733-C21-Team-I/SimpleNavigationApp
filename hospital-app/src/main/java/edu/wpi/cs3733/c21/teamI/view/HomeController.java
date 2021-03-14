@@ -127,24 +127,6 @@ public class HomeController extends Application {
       if (ApplicationDataController.getInstance()
           .getLoggedInUser()
           .hasPermission(User.Permission.VIEW_TICKET)) {
-        Notification notif =
-            new Notification(
-                ApplicationDataController.getInstance().getLoggedInUser().getUserId(),
-                "test notif 1",
-                "String timestamp");
-        NotificationManager.getInstance().addNotification(notif);
-        notif =
-            new Notification(
-                ApplicationDataController.getInstance().getLoggedInUser().getUserId(),
-                "test notif 2",
-                "String timestamp");
-        NotificationManager.getInstance().addNotification(notif);
-        notif =
-            new Notification(
-                ApplicationDataController.getInstance().getLoggedInUser().getUserId(),
-                "test notif 3",
-                "String timestamp");
-        NotificationManager.getInstance().addNotification(notif);
         titleLabel.setText("Admin Portal");
         replacePane.getChildren().clear();
         replacePane
