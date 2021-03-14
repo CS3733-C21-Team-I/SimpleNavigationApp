@@ -36,9 +36,10 @@
     -fx-background-color : #949494;
 }
 
-.tree-table-view .column-header:last-visible {
-    -fx-border-width: 0 2 0 1;
-}
+/*this appears to be wrong*/
+/*.tree-table-view .column-header:last-visible {*/
+/*    -fx-border-width: 0 2 0 1;*/
+/*}*/
 
 .tree-table-view .column-header-background{
     -fx-border-width : 0 0.0 1 0;
@@ -72,6 +73,7 @@
     -fx-shape: "M 0 -3.5 L 4 0 L 0 3.5 z";
 }
 .tree-table-row-cell .jfx-text-field{
-    -fx-focus-color: rgba(240,40,40);
+    /*this was rgba*/
+    -fx-focus-color: rgb(240,40,40);
 }
 

@@ -73,19 +73,16 @@ public class AudioVisualRequestController {
   }
 
   public void checkFinished() {
-    if (typeRequested.valueProperty().getValue() != null
-        && patientName.getText() != null
-        && patientName.getText().trim().length() > 0
-        && roomNumber.getText() != null
-        && roomNumber.getText().trim().length() > 0
-        && requesterID.getText() != null
-        && requesterID.getText().trim().length() > 0
-        && checkLocation(roomNumber.getText())
-        && checkEmployeeID(requestAssigned.getText())) {
-      submitBtn.setDisable(false);
-    } else {
-      submitBtn.setDisable(true);
-    }
+    submitBtn.setDisable(
+        typeRequested.valueProperty().getValue() == null
+            || patientName.getText() == null
+            || patientName.getText().trim().length() <= 0
+            || roomNumber.getText() == null
+            || roomNumber.getText().trim().length() <= 0
+            || requesterID.getText() == null
+            || requesterID.getText().trim().length() <= 0
+            || !checkLocation(roomNumber.getText())
+            || !checkEmployeeID(requestAssigned.getText()));
   }
 
   public boolean checkLocation(String loc) {

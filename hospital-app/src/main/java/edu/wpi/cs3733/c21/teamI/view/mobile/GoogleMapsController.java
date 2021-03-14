@@ -77,11 +77,7 @@ public class GoogleMapsController extends Application {
   public void autoComplete() {
     String currText = addressSearch.getText();
 
-    if (currText.length() <= 0) {
-      autofillView.setVisible(false);
-    } else {
-      autofillView.setVisible(true);
-    }
+    autofillView.setVisible(currText.length() > 0);
 
     AutocompletePrediction[] result =
         PlacesApi.placeAutocomplete(context, currText, token).awaitIgnoreError();
@@ -143,10 +139,8 @@ public class GoogleMapsController extends Application {
 
     Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-    String id = result.candidates[0].placeId;
-
     //    System.out.println(id);
-    return id;
+    return result.candidates[0].placeId;
   }
 
   public void goToCovidForm(ActionEvent actionEvent) throws IOException {
@@ -157,5 +151,5 @@ public class GoogleMapsController extends Application {
   }
 
   @Override
-  public void start(Stage primaryStage) throws Exception {}
+  public void start(Stage primaryStage) {}
 }

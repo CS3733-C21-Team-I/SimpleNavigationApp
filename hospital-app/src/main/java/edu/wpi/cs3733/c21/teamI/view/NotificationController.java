@@ -15,58 +15,88 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
 public class NotificationController implements Initializable {
 
   @FXML Label notifMessage;
   @FXML Button notifXBtn;
+  @FXML HBox topElem;
+  @FXML VBox whiteSpace;
 
-  public HomeController homeController;
   public JFXDrawer notifDrawer;
   public List<Notification> notifs;
-  public int currentNotifID;
 
   public void initialize(URL url, ResourceBundle rb) {
-    Timeline timeline =
-        new Timeline(
-            new KeyFrame(
-                Duration.seconds(4),
-                ev -> {
-                  updateNotifText();
-                }));
-    timeline.setCycleCount(INDEFINITE);
-    timeline.play();
-  }
+    boolean firstInit = ViewManager.getFirstNotif();
+    if (firstInit) {
+      topElem.setOnMouseClicked(
+          e -> {
+            System.out.println("topelem clicked");
+          });
+      whiteSpace.setOnMouseClicked(
+          e -> {
+            System.out.println("whitespace clicked");
+          });
+      notifXBtn.setOnMouseClicked(
+          e -> {
+            System.out.println("button clicked");
+          });
+      notifMessage.setOnMouseClicked(
+          e -> {
+            System.out.println("msg clicked");
+          });
 
-  public void closeNotif(javafx.scene.input.MouseEvent e) {
-    notifDrawer = (JFXDrawer) ((Button) e.getSource()).getParent().getParent().getParent();
-    NotificationManager.getInstance().removeNotification(currentNotifID);
-    System.out.println("Just removed Notif " + currentNotifID + " from db");
-    notifDrawer.close();
-    notifMessage.setText("");
-    updateNotifText();
-  }
-
-  public void updateNotifText() {
-    notifs =
-        NotificationManager.getInstance()
-            .getPendingNotifications(ApplicationDataController.getInstance().getLoggedInUser());
-    if (notifs.size() > 0) {
-      notifMessage.setText(notifs.get(0).getDetails());
-      currentNotifID = notifs.get(0).getNotificationID();
+      Timeline timeline =
+          new Timeline(
+              new KeyFrame(
+                  Duration.seconds(4),
+                  ev -> {
+                    getNewNotification();
+                  }));
+      timeline.setCycleCount(INDEFINITE);
+      timeline.play();
+      ViewManager.updateFirstNotifInit();
+    } else {
+      System.out.println("firstInit was false");
     }
   }
 
-  public void setHomeController(HomeController homeController) {
-    this.homeController = homeController;
+  @FXML
+  public void closeNotif() {
+    List<Notification> notifs =
+        NotificationManager.getInstance()
+            .getPendingNotifications(ApplicationDataController.getInstance().getLoggedInUser());
+    if (!notifs.isEmpty()) {
+      NotificationManager.getInstance().removeNotification(notifs.get(0).getNotificationID());
+      ViewManager.homeController.closeNotif();
+    } else {
+      System.out.println("tried removing nonexistent notif");
+    }
   }
 
-  public void setNotifMessage(String msg) {
-    notifMessage.setText(msg);
+  public Notification getNewNotification() {
+    List<Notification> notifs =
+        NotificationManager.getInstance()
+            .getPendingNotifications(ApplicationDataController.getInstance().getLoggedInUser());
+    for (Notification n : notifs) {
+      if (n.isHasDisplayed()) {
+        return n;
+      } else if (!n.isHasDisplayed()) {
+        showNotif(n);
+        return n;
+      } else {
+        return null;
+      }
+    }
+    return null;
   }
 
-  public HomeController getHomeController() {
-    return homeController;
+  @FXML
+  public void showNotif(Notification n) {
+    notifMessage.setText(n.getDetails());
+    ViewManager.homeController.displayNotification(n, n.getDetails());
   }
 }

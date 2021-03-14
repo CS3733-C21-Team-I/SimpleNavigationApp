@@ -12,16 +12,10 @@ import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicket;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicketDataController;
 import edu.wpi.cs3733.c21.teamI.ticket.ticketTypes.SecurityTicket;
 import edu.wpi.cs3733.c21.teamI.user.User;
-import edu.wpi.cs3733.c21.teamI.view.ViewManager;
-import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -66,16 +60,13 @@ public class SecurityRequestController {
   }
 
   public void checkFinished() {
-    if (securityType.valueProperty().getValue() != null
-        && requestID.getText() != null
-        && requestID.getText().trim().length() > 0
-        && requestAssigned.getText() != null
-        && requestAssigned.getText().trim().length() > 0
-        && checkLocation(locationText.getText())) {
-      submitBtn.setDisable(false);
-    } else {
-      submitBtn.setDisable(true);
-    }
+    submitBtn.setDisable(
+        securityType.valueProperty().getValue() == null
+            || requestID.getText() == null
+            || requestID.getText().trim().length() <= 0
+            || requestAssigned.getText() == null
+            || requestAssigned.getText().trim().length() <= 0
+            || !checkLocation(locationText.getText()));
   }
 
   public boolean checkLocation(String loc) {
@@ -93,10 +84,6 @@ public class SecurityRequestController {
           checkFinished();
         }
       };
-
-  public void navigate(ActionEvent e) throws IOException {
-    ViewManager.navigate(e);
-  }
 
   public void initialize() {
     securityType.getItems().addAll("Police Officer", "On-site Security Employee", "Other");

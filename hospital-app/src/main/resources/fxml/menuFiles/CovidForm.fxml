@@ -13,7 +13,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="600.0" prefWidth="473.0" style="-fx-background-color: #F1F1F1;" styleClass="root" stylesheets="@../fxmlResources/main.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamI.view.CovidFormController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="600.0" prefWidth="473.0" style="-fx-background-color: #F1F1F1;" styleClass="root" stylesheets="@../misc/css/main.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamI.view.CovidFormController">
    <children>
       <VBox prefHeight="200.0" prefWidth="100.0">
          <children>
@@ -25,7 +25,7 @@
                   <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                </VBox.margin>
             </Text>
-            <JFXCheckBox fx:id="soreThroatCheckbox" checkedColor="#0067b1" onAction="#checkFinished" style="-fx-font-family: 'Open Sans', sans-serif;" styleClass="styledLabel" stylesheets="@../fxmlResources/main.css" text="Sore throat" unCheckedColor="#012d5a">
+            <JFXCheckBox fx:id="soreThroatCheckbox" checkedColor="#0067b1" onAction="#checkFinished" style="-fx-font-family: 'Open Sans', sans-serif;" styleClass="styledLabel" stylesheets="@../misc/css/main.css" text="Sore throat" unCheckedColor="#012d5a">
                <padding>
                   <Insets bottom="10.0" />
                </padding>
@@ -165,17 +165,17 @@
                   </Label>
                   <HBox alignment="CENTER" prefHeight="107.0" prefWidth="211.0">
                      <children>
-                        <JFXButton onAction="#cancel" style="-fx-background-color: #0067b1;" styleClass="styledButton" stylesheets="@../fxmlResources/main.css" text="Cancel">
+                        <JFXButton onAction="#cancel" style="-fx-background-color: #0067b1;" styleClass="styledButton" stylesheets="@../misc/css/main.css" text="Cancel">
                            <HBox.margin>
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </HBox.margin>
                         </JFXButton>
-                        <JFXButton fx:id="submitBttn" onAction="#submit" style="-fx-background-color: #0067b1;" styleClass="styledButton" stylesheets="@../fxmlResources/main.css" text="Submit">
+                        <JFXButton fx:id="submitBttn" onAction="#submit" style="-fx-background-color: #0067b1;" styleClass="styledButton" stylesheets="@../misc/css/main.css" text="Submit">
                            <HBox.margin>
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </HBox.margin>
                         </JFXButton>
-                        <JFXButton onAction="#clear" style="-fx-background-color: #0067b1;" styleClass="styledButton" stylesheets="@../fxmlResources/main.css" text="Clear">
+                        <JFXButton onAction="#clear" style="-fx-background-color: #0067b1;" styleClass="styledButton" stylesheets="@../misc/css/main.css" text="Clear">
                            <HBox.margin>
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </HBox.margin>

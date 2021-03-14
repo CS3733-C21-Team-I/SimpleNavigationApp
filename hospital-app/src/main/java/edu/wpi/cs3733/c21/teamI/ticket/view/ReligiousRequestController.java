@@ -88,21 +88,18 @@ public class ReligiousRequestController {
       };
 
   public void checkFinished() {
-    if (date.valueProperty().getValue() != null
-        && time.valueProperty().getValue() != null
-        && typeOfRequest.valueProperty().getValue() != null
-        && requesterID.getText() != null
-        && requesterID.getText().trim().length() > 0
-        && patientName.getText() != null
-        && patientName.getText().trim().length() > 0
-        && religiousDenomination.getText() != null
-        && religiousDenomination.getText().trim().length() > 0
-        && checkEmployeeID(assignedEmployeeID.getText())
-        && checkLocation(requestLocation.getText())) {
-      submitButton.setDisable(false);
-    } else {
-      submitButton.setDisable(true);
-    }
+    submitButton.setDisable(
+        date.valueProperty().getValue() == null
+            || time.valueProperty().getValue() == null
+            || typeOfRequest.valueProperty().getValue() == null
+            || requesterID.getText() == null
+            || requesterID.getText().trim().length() <= 0
+            || patientName.getText() == null
+            || patientName.getText().trim().length() <= 0
+            || religiousDenomination.getText() == null
+            || religiousDenomination.getText().trim().length() <= 0
+            || !checkEmployeeID(assignedEmployeeID.getText())
+            || !checkLocation(requestLocation.getText()));
   }
 
   public boolean checkEmployeeID(String employeeText) {

@@ -11,8 +11,6 @@ import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicket;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicketDataController;
 import edu.wpi.cs3733.c21.teamI.ticket.ticketTypes.LaundryTicket;
 import edu.wpi.cs3733.c21.teamI.user.User;
-import edu.wpi.cs3733.c21.teamI.view.ViewManager;
-import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -72,21 +70,14 @@ public class LaundryRequestController {
     }
   }
 
-  public void navigate(ActionEvent e) throws IOException {
-    ViewManager.navigate(e);
-  }
-
   public void checkFinished() {
-    if (laundryPickupDate.valueProperty().getValue() != null
-        && laundryPickupTime.valueProperty().getValue() != null
-        && laundryRequesterID.getText() != null
-        && laundryRequesterID.getText().trim().length() > 0
-        && checkEmployeeID(laundryAssigned.getText())
-        && checkLocation(laundryPickupLocation.getText())) {
-      laundrySubmit.setDisable(false);
-    } else {
-      laundrySubmit.setDisable(true);
-    }
+    laundrySubmit.setDisable(
+        laundryPickupDate.valueProperty().getValue() == null
+            || laundryPickupTime.valueProperty().getValue() == null
+            || laundryRequesterID.getText() == null
+            || laundryRequesterID.getText().trim().length() <= 0
+            || !checkEmployeeID(laundryAssigned.getText())
+            || !checkLocation(laundryPickupLocation.getText()));
   }
 
   public boolean checkEmployeeID(String employeeText) {

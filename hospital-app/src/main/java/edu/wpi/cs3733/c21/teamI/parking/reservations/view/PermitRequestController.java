@@ -7,12 +7,8 @@ import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
 import edu.wpi.cs3733.c21.teamI.database.ParkingPeripheralServerManager;
 import edu.wpi.cs3733.c21.teamI.parking.reservations.StaffPermit;
-import edu.wpi.cs3733.c21.teamI.view.ViewManager;
-import java.io.IOException;
-import java.time.Instant;
+import java.sql.Timestamp;
 import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.Date;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -35,15 +31,17 @@ public class PermitRequestController {
   @FXML private JFXCheckBox disabilityStickerCheckbox;
 
   public void submit(ActionEvent e) {
-    LocalDate localDate = empParkStartDate.getValue();
-    Instant instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
-    Date date = Date.from(instant);
+
+    Timestamp start = Timestamp.valueOf(empParkStartDate.getValue().atStartOfDay());
+    Timestamp end = Timestamp.valueOf(empParkEndDate.getValue().atTime(23, 59));
+
     ParkingPeripheralServerManager.getInstance()
         .requestStaffPermit(
             ApplicationDataController.getInstance().getLoggedInUser(),
             licensePlateTextfield.getText(),
             contactNumTextfield.getText(),
-            new java.sql.Date(date.getTime()));
+            start,
+            end);
 
     refreshCurrentPermit();
   }
@@ -55,8 +53,8 @@ public class PermitRequestController {
     prefLotTextfield.setText("");
   }
 
-  public void navigate(javafx.event.ActionEvent e) throws IOException {
-    ViewManager.navigate(e);
+  public void navigate(javafx.event.ActionEvent e) {
+    //    ViewManager.navigate(e);
   }
 
   public void initialize() {

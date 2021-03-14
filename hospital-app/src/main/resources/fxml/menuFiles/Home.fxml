@@ -17,7 +17,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<StackPane fx:id="homePane" stylesheets="@fxmlResources/main.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamI.view.HomeController">
+<StackPane fx:id="homePane" stylesheets="@../misc/css/main.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamI.view.HomeController">
    <children>
       <StackPane>
          <children>
@@ -27,7 +27,7 @@
                      <children>
                         <ImageView fitHeight="150.0" fitWidth="534.0" pickOnBounds="true" preserveRatio="true" style="-fx-background-color: white;">
                            <image>
-                              <Image url="@fxmlResources/bwh-logo.jpg" />
+                              <Image url="@../misc/hospitalImages/bwh-logo.jpg" />
                            </image>
                         </ImageView>
                         <VBox fillWidth="false">
@@ -120,11 +120,11 @@
                                  </Accordion>
                            </children>
                         </VBox>
-                        <Button fx:id="mobileButton" mnemonicParsing="false" onAction="#goToMobile" prefHeight="56.0" prefWidth="321.0" style="-fx-background-color: #012D5A;" styleClass="circleButton" stylesheets="@fxmlResources/main.css">
+                        <Button fx:id="mobileButton" mnemonicParsing="false" onAction="#goToMobile" prefHeight="56.0" prefWidth="321.0" style="-fx-background-color: #012D5A;" styleClass="circleButton" stylesheets="@../misc/css/main.css">
                            <graphic>
                               <ImageView pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@fxmlResources/phone.png" />
+                                    <Image url="@menuImages/phone.png" />
                                  </image>
                               </ImageView>
                            </graphic>
