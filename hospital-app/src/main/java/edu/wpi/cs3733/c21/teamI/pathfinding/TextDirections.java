@@ -18,6 +18,9 @@ public class TextDirections {
       return directions;
     }
 
+    DirectionStep pathOverview =
+        new DirectionStep(path.get(0), path.get(path.size() - 1), "chicken", null, null);
+
     // describe start location
     String startDirection = "Begin ";
     HospitalMapNode first = path.get(0);

@@ -47,8 +47,6 @@ public class MapPathfindingController extends MapController {
   private List<HospitalMapNode> foundPath;
   private ArrayList<String> foundPathDescription;
 
-  public MapPathfindingController() {}
-
   // setup stuff
   @FXML
   public void initialize() {

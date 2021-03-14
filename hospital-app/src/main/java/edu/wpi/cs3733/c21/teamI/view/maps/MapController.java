@@ -476,6 +476,8 @@ public abstract class MapController extends Application {
     xOffset = mapImage.getViewport().getMinX();
     yOffset = mapImage.getViewport().getMinY();
     update();
+
+    System.out.println("mapImage" + mapImage + "Viewport  " + mapImage.getViewport());
   }
 
   protected void resize() {
@@ -595,5 +597,26 @@ public abstract class MapController extends Application {
     return new Point2D(
         viewport.getMinX() + xProportion * viewport.getWidth(),
         viewport.getMinY() + yProportion * viewport.getHeight());
+  }
+
+  public void zoomToPoint(double x, double y, double width, double height, double padding) {
+    width = transformX(width) + 2 * padding;
+    height = transformY(height) + 2 * padding;
+    x = transformX(x);
+    y = transformY(y);
+    double newMinX = clamp(x - width / 2, 0, fullImgWidth);
+    double newMinY = clamp(y - height / 2, 0, fullImgHeight);
+
+    mapImage.setViewport(
+        new Rectangle2D(
+            932.0045789303656, 420.6524648208848, 748.1906358149346, 449.03525235096646));
+    //    mapImage.setViewport(new Rectangle2D(x, y, width, height));
+    imgWidth = mapImage.getViewport().getWidth();
+    imgHeight = mapImage.getViewport().getHeight();
+    xOffset = mapImage.getViewport().getMinX();
+    yOffset = mapImage.getViewport().getMinY();
+    update();
+
+    System.out.println("mapImage" + mapImage + "Viewport  " + mapImage.getViewport());
   }
 }
