@@ -168,7 +168,10 @@ public class MapPathfindingController extends MapController {
     this.foundPathDescription = TextDirections.getDirections(scorer, foundPath);
 
     // Zooms to fit entire path
-    zoomToFitNodes(foundPath.get(0), lastNodeOnSameFloor(foundPath), 0);
+    if (foundPath.size() >= 2) {
+      goToTab(foundPath.get(0).getMapID());
+      zoomToFitNodes(foundPath.get(0), lastNodeOnSameFloor(foundPath), 500);
+    }
     return foundPath;
   }
 

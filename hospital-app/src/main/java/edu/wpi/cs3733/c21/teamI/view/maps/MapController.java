@@ -502,7 +502,27 @@ public abstract class MapController extends Application {
     }
   }
 
+  public void goToTab(String floorID) {
+    if (floorID.equals("Faulkner Lot")) {
+      goToCampus();
+    } else if (floorID.equals("Faulkner 1")) {
+      goToFloor1();
+    } else if (floorID.equals("Faulkner 2")) {
+      goToFloor2();
+    } else if (floorID.equals("Faulkner 3")) {
+      goToFloor3();
+    } else if (floorID.equals("Faulkner 4")) {
+      goToFloor4();
+    } else if (floorID.equals("Faulkner 5")) {
+      goToFloor5();
+    }
+  }
+
   public void campusTab(Event event) {
+    goToCampus();
+  }
+
+  private void goToCampus() {
     if (campus != currentTab && mapPane != null) {
       System.out.println("Tab 1");
       currentMapID = "Faulkner Lot";
@@ -514,6 +534,10 @@ public abstract class MapController extends Application {
   }
 
   public void floor1Tab(Event event) {
+    goToFloor1();
+  }
+
+  private void goToFloor1() {
     if (floor1 != currentTab) {
       System.out.println("Tab 2");
       currentMapID = "Faulkner 1";
@@ -525,6 +549,10 @@ public abstract class MapController extends Application {
   }
 
   public void floor2Tab(Event event) {
+    goToFloor2();
+  }
+
+  private void goToFloor2() {
     if (floor2 != currentTab) {
       System.out.println("Tab 3");
       currentMapID = "Faulkner 2";
@@ -536,6 +564,10 @@ public abstract class MapController extends Application {
   }
 
   public void floor3Tab(Event event) {
+    goToFloor3();
+  }
+
+  private void goToFloor3() {
     if (floor3 != currentTab) {
       System.out.println("Tab 4");
       currentMapID = "Faulkner 3";
@@ -547,6 +579,10 @@ public abstract class MapController extends Application {
   }
 
   public void floor4Tab(Event event) {
+    goToFloor4();
+  }
+
+  private void goToFloor4() {
     if (floor4 != currentTab) {
       System.out.println("Tab 5");
       currentMapID = "Faulkner 4";
@@ -558,6 +594,10 @@ public abstract class MapController extends Application {
   }
 
   public void floor5Tab(Event event) {
+    goToFloor5();
+  }
+
+  private void goToFloor5() {
     if (floor6 != currentTab) {
       System.out.println("Tab 6");
       currentMapID = "Faulkner 5";
@@ -654,6 +694,41 @@ public abstract class MapController extends Application {
     double y = centerY - height / 2;
     System.out.println("Big picture " + fullImgWidth + " " + fullImgHeight);
 
-    zoomToPoint(centerX, centerY, width, height, padding);
+    // zoomToPoint(centerX, centerY, width, height, padding);
+    double delta = (200 - imgWidth) * ((imgWidth - width - padding * 2) / imgWidth);
+    updateScale(centerX, centerY, delta);
+  }
+
+  private void updateScale(double centerX, double centerY, double delta) {
+    Rectangle2D viewport = mapImage.getViewport();
+    double scale =
+        clamp(
+            Math.pow(1.001, delta),
+            // don't scale so we're zoomed in to fewer than MIN_PIXELS in any direction:
+            Math.min(MIN_PIXELS / viewport.getWidth(), MIN_PIXELS / viewport.getHeight()),
+            // don't scale so that we're bigger than image dimensions:
+            Math.max(imgWidth / viewport.getWidth(), imgHeight / viewport.getHeight()));
+    Point2D zoomCenter = imageViewToImage(mapImage, new Point2D(centerX, centerY));
+    System.out.println("SCALE: " + scale);
+    double newWidth = viewport.getWidth() * scale;
+    double newHeight = viewport.getHeight() * scale;
+    double newMinX =
+        clamp(
+            zoomCenter.getX() - (zoomCenter.getX() - viewport.getMinX()) * scale,
+            0,
+            imgWidth - newWidth);
+    double newMinY =
+        clamp(
+            zoomCenter.getY() - (zoomCenter.getY() - viewport.getMinY()) * scale,
+            0,
+            imgHeight - newHeight);
+    mapImage.setViewport(new Rectangle2D(newMinX, newMinY, newWidth, newHeight));
+    imgWidth = mapImage.getViewport().getWidth();
+    imgHeight = mapImage.getViewport().getHeight();
+    xOffset = mapImage.getViewport().getMinX();
+    yOffset = mapImage.getViewport().getMinY();
+    update();
+
+    System.out.println("Viewport:  " + mapImage.getViewport());
   }
 }
