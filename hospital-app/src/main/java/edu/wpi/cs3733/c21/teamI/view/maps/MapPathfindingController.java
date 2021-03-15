@@ -124,6 +124,8 @@ public class MapPathfindingController extends MapController {
     for (DirectionStep step : directionSteps) {
       JFXButton button = new JFXButton(step.stepDetails);
       button.setMaxWidth(directionsField.getWidth());
+      button.setRipplerFill(Color.valueOf("#0067b1"));
+      button.setStyle("-fx-alignment: LEFT;");
       directionsField.getChildren().add(button);
     }
   }
