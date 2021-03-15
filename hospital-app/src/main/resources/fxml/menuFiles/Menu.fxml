@@ -10,7 +10,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <VBox fx:id="menu" alignment="TOP_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamI.view.MenuController">
    <children>
       <HBox minHeight="0.0" prefWidth="211.0" style="-fx-background-color: #012D5A;">
@@ -32,7 +31,7 @@
                               <Image url="@menuImages/baseline_login_white_18dp.png" />
                            </image>
                            <HBox.margin>
-                              <Insets right="26.0" />
+                              <Insets right="21.0" />
                            </HBox.margin>
                         </ImageView>
                      </children>
@@ -47,7 +46,7 @@
             </JFXRippler>
          </children>
          <VBox.margin>
-            <Insets bottom="10.0" right="-10.0" />
+            <Insets bottom="10.0" />
          </VBox.margin>
       </HBox>
       <HBox minHeight="0.0" prefWidth="211.0" style="-fx-background-color: #012D5A;">
@@ -69,7 +68,7 @@
                               <Image url="@menuImages/outline_health_and_safety_white_18dp.png" />
                            </image>
                            <HBox.margin>
-                              <Insets right="12.0" />
+                              <Insets right="7.0" />
                            </HBox.margin>
                         </ImageView>
                      </children>
@@ -84,7 +83,7 @@
             </JFXRippler>
          </children>
          <VBox.margin>
-            <Insets bottom="10.0" right="-10.0" />
+            <Insets bottom="10.0" />
          </VBox.margin>
       </HBox>
       <HBox minHeight="0.0" prefWidth="211.0" style="-fx-background-color: #012D5A;">
@@ -106,7 +105,7 @@
                               <Image url="@menuImages/outline_map_white_18dp.png" />
                            </image>
                            <HBox.margin>
-                              <Insets right="12.0" />
+                              <Insets right="7.0" />
                            </HBox.margin>
                         </ImageView>
                      </children>
@@ -121,7 +120,7 @@
             </JFXRippler>
          </children>
          <VBox.margin>
-            <Insets bottom="10.0" right="-10.0" />
+            <Insets bottom="10.0" />
          </VBox.margin>
       </HBox>
       <HBox minHeight="0.0" prefWidth="211.0" style="-fx-background-color: #012D5A;">
@@ -143,7 +142,7 @@
                               <Image url="@menuImages/gift-32.png" />
                            </image>
                            <HBox.margin>
-                              <Insets right="16.0" />
+                              <Insets right="11.0" />
                            </HBox.margin>
                         </ImageView>
                      </children>
@@ -158,7 +157,7 @@
             </JFXRippler>
          </children>
          <VBox.margin>
-            <Insets bottom="10.0" right="-10.0" />
+            <Insets bottom="10.0" />
          </VBox.margin>
       </HBox>
       <HBox minHeight="0.0" prefWidth="211.0" style="-fx-background-color: #012D5A;">
@@ -180,7 +179,7 @@
                               <Image url="@menuImages/outline_build_white_18dp.png" />
                            </image>
                            <HBox.margin>
-                              <Insets right="24.0" />
+                              <Insets right="19.0" />
                            </HBox.margin>
                         </ImageView>
                      </children>
@@ -198,7 +197,7 @@
             </JFXRippler>
          </children>
          <VBox.margin>
-            <Insets bottom="10.0" right="-10.0" />
+            <Insets bottom="10.0" />
          </VBox.margin>
       </HBox>
       <HBox minHeight="0.0" prefWidth="211.0" style="-fx-background-color: #012D5A;">
@@ -220,7 +219,7 @@
                               <Image url="@menuImages/baseline_pending_actions_white_18dp.png" />
                            </image>
                            <HBox.margin>
-                              <Insets right="16.0" />
+                              <Insets right="11.0" />
                            </HBox.margin>
                         </ImageView>
                      </children>
@@ -235,7 +234,7 @@
             </JFXRippler>
          </children>
          <VBox.margin>
-            <Insets bottom="10.0" right="-10.0" />
+            <Insets bottom="10.0" />
          </VBox.margin>
       </HBox>
       <HBox minHeight="0.0" prefWidth="211.0" style="-fx-background-color: #012D5A;">
@@ -257,7 +256,7 @@
                               <Image url="@menuImages/baseline_groups_white_18dp.png" />
                            </image>
                            <HBox.margin>
-                              <Insets right="16.0" />
+                              <Insets right="11.0" />
                            </HBox.margin>
                         </ImageView>
                      </children>
@@ -272,7 +271,7 @@
             </JFXRippler>
          </children>
          <VBox.margin>
-            <Insets bottom="10.0" right="-10.0" />
+            <Insets bottom="10.0" />
          </VBox.margin>
       </HBox>
       <HBox minHeight="0.0" prefWidth="211.0" style="-fx-background-color: #012D5A;">
@@ -294,7 +293,7 @@
                               <Image url="@menuImages/car.png" />
                            </image>
                            <HBox.margin>
-                              <Insets right="16.0" />
+                              <Insets right="11.0" />
                            </HBox.margin>
                         </ImageView>
                      </children>
@@ -309,7 +308,7 @@
             </JFXRippler>
          </children>
          <VBox.margin>
-            <Insets bottom="10.0" right="-10.0" />
+            <Insets bottom="10.0" />
          </VBox.margin>
       </HBox>
       <HBox minHeight="0.0" prefWidth="211.0" style="-fx-background-color: #012D5A;">
@@ -331,7 +330,7 @@
                               <Image url="@menuImages/parkingAdmin.png" />
                            </image>
                            <HBox.margin>
-                              <Insets right="16.0" />
+                              <Insets right="11.0" />
                            </HBox.margin>
                         </ImageView>
                      </children>
@@ -346,7 +345,7 @@
             </JFXRippler>
          </children>
          <VBox.margin>
-            <Insets bottom="10.0" right="-10.0" />
+            <Insets bottom="10.0" />
          </VBox.margin>
       </HBox>
       <HBox minHeight="0.0" prefWidth="211.0" style="-fx-background-color: #012D5A;">
@@ -368,7 +367,7 @@
                               <Image url="@menuImages/baseline_grading_white_18dp.png" />
                            </image>
                            <HBox.margin>
-                              <Insets right="27.0" />
+                              <Insets right="22.0" />
                            </HBox.margin>
                         </ImageView>
                      </children>
@@ -383,7 +382,7 @@
             </JFXRippler>
          </children>
          <VBox.margin>
-            <Insets bottom="10.0" right="-10.0" />
+            <Insets bottom="10.0" />
          </VBox.margin>
       </HBox>
       <HBox minHeight="0.0" prefWidth="201.0" style="-fx-background-color: #012D5A;">
@@ -405,7 +404,7 @@
                               <Image url="@menuImages/baseline_logout_white_18dp.png" />
                            </image>
                            <HBox.margin>
-                              <Insets right="14.0" />
+                              <Insets right="9.0" />
                            </HBox.margin>
                         </ImageView>
                      </children>
@@ -420,7 +419,7 @@
             </JFXRippler>
          </children>
          <VBox.margin>
-            <Insets bottom="10.0" right="-10.0" />
+            <Insets bottom="10.0" />
          </VBox.margin>
       </HBox>
       <HBox minHeight="0.0" prefWidth="201.0" style="-fx-background-color: #012D5A;">
@@ -442,7 +441,7 @@
                               <Image url="@menuImages/baseline_close_white_18dp.png" />
                            </image>
                            <HBox.margin>
-                              <Insets right="12.0" />
+                              <Insets right="7.0" />
                            </HBox.margin>
                         </ImageView>
                      </children>
@@ -457,7 +456,7 @@
             </JFXRippler>
          </children>
          <VBox.margin>
-            <Insets bottom="10.0" right="-10.0" />
+            <Insets bottom="10.0" />
          </VBox.margin>
       </HBox>
    </children>

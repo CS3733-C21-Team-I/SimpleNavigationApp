@@ -60,14 +60,11 @@ public class MapPathfindingController extends MapController {
         ApplicationDataController.getInstance()
             .getLoggedInUser()
             .hasPermission(User.Permission.EDIT_MAP);
-    if (!isAdmin) {
-      adminMapToggle.setVisible(isAdmin);
-      adminMapToggle.setMinHeight(0);
-      algorithmPick.setVisible(isAdmin);
-      algorithmPick.setMinHeight(0);
-    }
+    adminMapToggle.setVisible(isAdmin);
+    adminMapToggle.setManaged(isAdmin);
+    algorithmPick.setVisible(isAdmin);
+    algorithmPick.setManaged(isAdmin);
     algorithmPick.getItems().addAll("A*", "Depth First", "Breadth First", "Dijkstra");
-    // ViewManager.setMapController(this);
     setupMapViewHandlers();
     currentMapID = "Faulkner Lot";
     campusTab(new ActionEvent());
