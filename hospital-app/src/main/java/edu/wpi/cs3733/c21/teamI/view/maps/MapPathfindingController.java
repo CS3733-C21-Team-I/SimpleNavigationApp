@@ -8,10 +8,14 @@ import edu.wpi.cs3733.c21.teamI.pathfinding.*;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicketDataController;
 import edu.wpi.cs3733.c21.teamI.user.User;
 import edu.wpi.cs3733.c21.teamI.util.ImageLoader;
+import edu.wpi.cs3733.c21.teamI.util.InputChecking;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -23,6 +27,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
@@ -31,6 +36,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.Rectangle;
 import lombok.SneakyThrows;
 
 public class MapPathfindingController extends MapController {
@@ -47,21 +53,24 @@ public class MapPathfindingController extends MapController {
   private List<HospitalMapNode> foundPath;
   private ArrayList<String> foundPathDescription;
 
+  public static MapPathfindingController lastInitialized = null;
+
+  public MapPathfindingController() {}
+
   // setup stuff
   @FXML
   public void initialize() {
+    System.out.println("Initializing pathfinding controller");
+    lastInitialized = this;
     boolean isAdmin =
         ApplicationDataController.getInstance()
             .getLoggedInUser()
             .hasPermission(User.Permission.EDIT_MAP);
-    if (!isAdmin) {
-      adminMapToggle.setVisible(isAdmin);
-      adminMapToggle.setMinHeight(0);
-      algorithmPick.setVisible(isAdmin);
-      algorithmPick.setMinHeight(0);
-    }
+    adminMapToggle.setVisible(isAdmin);
+    adminMapToggle.setManaged(isAdmin);
+    algorithmPick.setVisible(isAdmin);
+    algorithmPick.setManaged(isAdmin);
     algorithmPick.getItems().addAll("A*", "Depth First", "Breadth First", "Dijkstra");
-    // ViewManager.setMapController(this);
     setupMapViewHandlers();
     currentMapID = "Faulkner Lot";
     campusTab(new ActionEvent());
@@ -200,13 +209,21 @@ public class MapPathfindingController extends MapController {
   public void getDirections(ActionEvent e) {
     String begin = start.getText();
     String end = destination.getText();
-    if (begin.length() > 0 && end.length() > 0) {
-      System.out.println(begin + " " + end);
+    if (InputChecking.validLocationName(begin)) {
+      if (InputChecking.validLocationName(end)) {
+        System.out.println(begin + " " + end);
 
-      HospitalMapNode nodeA = MapDataEntity.getNodeByLongName(begin);
-      HospitalMapNode nodeB = MapDataEntity.getNodeByLongName(end);
-      getFoundPath(nodeA, nodeB);
-      update();
+        HospitalMapNode nodeA = MapDataEntity.getNodeByLongName(begin);
+        HospitalMapNode nodeB = MapDataEntity.getNodeByLongName(end);
+        getFoundPath(nodeA, nodeB);
+        if (foundPathExists()) goToStartTab(e, foundPath.get(0).getMapID());
+        update();
+      } else {
+        System.out.println("Invalid destination entered");
+      }
+
+    } else {
+      System.out.println("Invalid starting point");
     }
   }
 
@@ -226,6 +243,9 @@ public class MapPathfindingController extends MapController {
       } catch (IOException e) {
         e.printStackTrace();
       }
+      //
+      drawLocationNodes();
+      showButtonToNextMapOnPath(foundPath);
       displayDirections(getFoundPathDescription());
     }
   }
@@ -322,12 +342,31 @@ public class MapPathfindingController extends MapController {
         t -> {
           circle.setStyle("-fx-cursor: hand");
           setStartAndEndOnClick(((LocationNode) node).getLongName());
+          iconAnimation(circle);
         });
     circle.setStyle("-fx-cursor: hand");
     return circle;
   }
 
+  public void iconAnimation(Node circle) {
+    Timeline bouncer = new Timeline();
+    bouncer
+        .getKeyFrames()
+        .addAll(
+            new KeyFrame(
+                new javafx.util.Duration(0), new KeyValue(circle.translateYProperty(), 0.0)),
+            new KeyFrame(
+                new javafx.util.Duration(100), new KeyValue(circle.translateYProperty(), -20.0)),
+            new KeyFrame(
+                new javafx.util.Duration(600), new KeyValue(circle.translateYProperty(), 0)));
+    bouncer.play();
+  }
+
+  boolean fillStart = true;
+  boolean fillDestination = false;
+
   public void setStartAndEndOnClick(String nodeName) {
+
     if (start.isFocused()) {
       start.setText(nodeName);
       destination.requestFocus();
@@ -338,6 +377,14 @@ public class MapPathfindingController extends MapController {
       start.setText(nodeName);
     } else if (destination.getText().equals("")) {
       destination.setText(nodeName);
+    } else if (fillStart) {
+      start.setText(nodeName);
+      fillStart = false;
+      fillDestination = true;
+    } else if (fillDestination) {
+      destination.setText(nodeName);
+      fillDestination = false;
+      fillStart = true;
     }
   }
 
@@ -346,61 +393,118 @@ public class MapPathfindingController extends MapController {
       if (node instanceof LocationNode
           && node.getMapID().equals(currentMapID)) { // draw all location nodes on this level
 
-        switch (((LocationNode) node).getLocationCategory()) { // switch case for special types
-          case ELEV:
-            displayIcon("/fxml/map/mapImages/mapIcons/elevator.png", node);
-            break;
-          case REST:
-            displayIcon("/fxml/map/mapImages/mapIcons/bathroom.png", node);
-            break;
-          case STAI:
-            displayIcon("/fxml/map/mapImages/mapIcons/stairs.png", node);
-            break;
-          case KIOS:
-            displayIcon("/fxml/map/mapImages/mapIcons/info.png", node);
-            break;
-            //          case FOOD:
-            //            displayIcon("/fxml/mapImages/mapIcons/dining.png", node);
-            //            break;
-          case PARK:
-            //  displayIcon("/fxml/mapImages/mapIcons/parking.png", node);
-            break;
-          default:
-            switch (((LocationNode) node).getLongName()) { // even specialer cases
-              case "Northern Parking Icon":
-              case "Western Parking Icon":
-                displayIcon("/fxml/map/mapImages/mapIcons/parking.png", node);
-                break;
-              case "Cafeteria":
-              case "Food Services":
-                displayIcon("/fxml/map/mapImages/mapIcons/dining.png", node);
-                break;
-              case "Starbucks":
-                displayIcon("/fxml/map/mapImages/mapIcons/starbucks.png", node);
-                break;
-              case "Pharmacy":
-                displayIcon("/fxml/map/mapImages/mapIcons/pharmacy.png", node);
-                break;
-              case "Emergency Department":
-                displayIcon("/fxml/map/mapImages/mapIcons/emergencyRoom.png", node);
-                break;
-              case "Valet Parking Icon":
-                displayIcon("/fxml/map/mapImages/mapIcons/valet.png", node);
-                break;
-              default:
-                Circle circle =
-                    makeCircle(
-                        transformX(node.getxCoord()),
-                        transformY(node.getyCoord()),
-                        25 / scale,
-                        Color.valueOf("#00B5E2"));
-                circle = (Circle) setMouseActions(circle, node);
-                mapPane.getChildren().add(circle);
-                break;
-            }
+        // draw parking spaces
+        if (node instanceof ParkingNode) {
+          Color parkingColor;
+          double dimensions = 25 / scale;
+          String describe = "";
+          if (((ParkingNode) node).isOccupied()) {
+            parkingColor = Color.GREEN;
+            describe = "available";
+          } else {
+            parkingColor = Color.RED;
+            describe = "full";
+          }
+          Rectangle park =
+              new Rectangle(
+                  transformX(node.getxCoord()) - dimensions / 2,
+                  transformY(node.getyCoord()) - dimensions / 2,
+                  dimensions,
+                  2 * dimensions);
+          park = (Rectangle) setMouseActions(park, node);
+          park.setFill(parkingColor);
+          Tooltip t = new Tooltip(((LocationNode) node).getLongName() + " (" + describe + ")");
+          bindTooltip(park, t);
+          mapPane.getChildren().add(park);
+        } else {
+          switch (((LocationNode) node).getLocationCategory()) { // switch case for special types
+            case ELEV:
+              displayIcon("/fxml/map/mapImages/mapIcons/elevator.png", node);
+              break;
+            case REST:
+              displayIcon("/fxml/map/mapImages/mapIcons/bathroom.png", node);
+              break;
+            case STAI:
+              displayIcon("/fxml/map/mapImages/mapIcons/stairs.png", node);
+              break;
+            case KIOS:
+              displayIcon("/fxml/map/mapImages/mapIcons/info.png", node);
+              break;
+              //          case FOOD:
+              //            displayIcon("/fxml/mapImages/mapIcons/dining.png", node);
+              //            break;
+            case PARK:
+              //  displayIcon("/fxml/mapImages/mapIcons/parking.png", node);
+              break;
+            default:
+              switch (((LocationNode) node).getLongName()) { // even specialer cases
+                case "Northern Parking Icon":
+                case "Western Parking Icon":
+                  displayIcon("/fxml/map/mapImages/mapIcons/parking.png", node);
+                  break;
+                case "Cafeteria":
+                case "Food Services":
+                  displayIcon("/fxml/map/mapImages/mapIcons/dining.png", node);
+                  break;
+                case "Starbucks":
+                  displayIcon("/fxml/map/mapImages/mapIcons/starbucks.png", node);
+                  break;
+                case "Pharmacy":
+                  displayIcon("/fxml/map/mapImages/mapIcons/pharmacy.png", node);
+                  break;
+                case "Emergency Department":
+                  displayIcon("/fxml/map/mapImages/mapIcons/emergencyRoom.png", node);
+                  break;
+                case "Valet Parking Icon":
+                  displayIcon("/fxml/map/mapImages/mapIcons/valet.png", node);
+                  break;
+                default:
+                  Circle circle =
+                      makeCircle(
+                          transformX(node.getxCoord()),
+                          transformY(node.getyCoord()),
+                          25 / scale,
+                          Color.valueOf("#00B5E2"));
+                  circle = (Circle) setMouseActions(circle, node);
+                  Tooltip t = new Tooltip(((LocationNode) node).getLongName());
+                  bindTooltip(circle, t);
+                  mapPane.getChildren().add(circle);
+                  break;
+              }
+          }
         }
       }
     }
+  }
+
+  public static void bindTooltip(final Node node, final Tooltip tooltip) {
+    node.setOnMouseMoved(
+        new EventHandler<MouseEvent>() {
+          @Override
+          public void handle(MouseEvent event) {
+            // +15 moves the tooltip 15 pixels below the mouse cursor to avoid flicker
+            tooltip.show(node, event.getScreenX(), event.getScreenY() + 15);
+          }
+        });
+
+    node.setOnMouseExited(
+        new EventHandler<MouseEvent>() {
+          @Override
+          public void handle(MouseEvent event) {
+            tooltip.hide();
+            node.setScaleX(1.0);
+            node.setScaleY(1.0);
+          }
+        });
+    node.setOnMouseEntered(
+        new EventHandler<MouseEvent>() {
+          @Override
+          public void handle(MouseEvent event) {
+
+            node.setScaleX(1.2);
+            node.setScaleY(1.2);
+          }
+        });
   }
 
   public void displayIcon(String imagePath, HospitalMapNode node) {
@@ -411,15 +515,30 @@ public class MapPathfindingController extends MapController {
       double y = transformY(Double.valueOf(node.getyCoord())) - imgScale / 2;
       // displayImage(icon, x, y, imgScale);
       ImageView imageView = new ImageView();
+      // /        ImageView bouncingImageView = new ImageView();
       // Setting image to the image view
       imageView.setImage(icon);
+
       // Setting the image view parameters
       imageView.setX(x);
       imageView.setY(y);
-      imageView.setFitWidth(imgScale);
+      // bouncingImageView.setX(x);
+      // bouncingImageView.setY(y);
+
+      // imageView.setEffect(new Reflection());
+
+      imageView.setFitHeight(imgScale);
+      // bouncingImageView.setFitHeight(imgScale);
       imageView.setPreserveRatio(true);
+      // bouncingImageView.setPreserveRatio(true);
       imageView = (ImageView) setMouseActions(imageView, node);
+      Tooltip t = new Tooltip(((LocationNode) node).getLongName());
+      bindTooltip(imageView, t);
+      // final ImageView newImageView = imageView;
+
       mapPane.getChildren().add(imageView);
+      // mapPane.getChildren().add(bouncingImageView);
+
     } catch (URISyntaxException e) {
       e.printStackTrace();
     }

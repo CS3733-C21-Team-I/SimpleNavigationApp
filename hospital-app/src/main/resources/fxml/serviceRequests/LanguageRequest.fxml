@@ -13,7 +13,7 @@
 
 <AnchorPane fx:id="background" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-color: #F1F1F1;" styleClass=".root" stylesheets="@../misc/css/main.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamI.ticket.view.LanguageController">
    <children>
-      <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: #FFFFFF;" styleClass=".root" stylesheets="@../misc/css/main.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <JFXTextField fx:id="langTextfield" focusColor="#0067b1" promptText="Language" unFocusColor="#012d5a">
                <VBox.margin>
@@ -69,7 +69,7 @@
             <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
          </padding>
       </VBox>
-      <ListView fx:id="serviceLocationList" layoutX="59.0" layoutY="166.0" prefHeight="93.0" prefWidth="196.0" visible="false" />
-      <ListView fx:id="requestAssignedList" layoutX="60.0" layoutY="407.0" prefHeight="111.0" prefWidth="204.0" visible="false" />
+      <ListView fx:id="serviceLocationList" layoutX="59.0" layoutY="162.0" prefHeight="97.0" prefWidth="196.0" visible="false" />
+      <ListView fx:id="requestAssignedList" layoutX="60.0" layoutY="377.0" prefHeight="141.0" prefWidth="204.0" visible="false" />
    </children>
 </AnchorPane>

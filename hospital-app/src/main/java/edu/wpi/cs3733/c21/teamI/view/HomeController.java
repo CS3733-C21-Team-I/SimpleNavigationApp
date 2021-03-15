@@ -12,22 +12,20 @@ import edu.wpi.cs3733.c21.teamI.user.User;
 import java.io.IOException;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
+import javafx.animation.*;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
@@ -51,6 +49,10 @@ public class HomeController extends Application {
   @FXML Button mobileButton;
 
   @FXML StackPane homePane;
+
+  @FXML VBox page;
+
+  @FXML StackPane sidePane, spacer;
 
   Notification lastNotif;
 
@@ -117,11 +119,12 @@ public class HomeController extends Application {
 
   @FXML
   public void update() {
-    VBox box = null;
     HBox hBox = null;
     try {
       FXMLLoader vLoader = new FXMLLoader(getClass().getResource("/fxml/menuFiles/Menu.fxml"));
-      box = vLoader.load();
+      sidePane.getChildren().clear();
+      sidePane.getChildren().add(vLoader.load());
+      sidePane.setAlignment(Pos.CENTER);
       ViewManager.homeController = this;
       FXMLLoader hLoader =
           new FXMLLoader(getClass().getResource("/fxml/menuFiles/NotificationContent.fxml"));
@@ -146,55 +149,17 @@ public class HomeController extends Application {
     } catch (IOException e) {
       e.printStackTrace();
     }
-    drawer.setSidePane(box);
     notifDrawer.setSidePane(hBox);
   }
 
-  public Notification getNewNotification() {
-    List<Notification> notifs =
-        NotificationManager.getInstance()
-            .getPendingNotifications(ApplicationDataController.getInstance().getLoggedInUser());
-    for (Notification n : notifs) {
-      if (n.isHasDisplayed()) {
-        System.out.println(
-            "Notification "
-                + n.getNotificationID()
-                + " has been displayed so we are LEAVING the loop.");
-        return null;
-      } else if (!n.isHasDisplayed()) {
-        lastNotif = n;
-        System.out.println(
-            "in hasNew, i found and set lastNotif to: Notifcation "
-                + lastNotif.getNotificationID()
-                + " vs  n = "
-                + n.getNotificationID());
-        displayNotification(n);
-        return n;
-      } else {
-        System.out.println("notif.isHasDisplayed =" + n.isHasDisplayed());
-      }
-    }
-    return null;
-  }
-
-  public void displayNotification(Notification notification) {
+  @FXML
+  public void displayNotification(Notification notification, String msg) {
     notifDrawer.open();
+    ((Label) notifDrawer.lookup("#notifMessage")).setText(msg);
     System.out.println(
         "Setting Notification " + notification.getNotificationID() + " to hasDisplayed");
     Notification o =
         NotificationManager.getInstance().updateNotification(notification.getNotificationID());
-  }
-
-  public void initNotifUpdater() {
-    Timeline timeline =
-        new Timeline(
-            new KeyFrame(
-                Duration.seconds(11),
-                ev -> {
-                  if (getNewNotification() != null) {}
-                }));
-    timeline.setCycleCount(INDEFINITE);
-    timeline.play();
   }
 
   @FXML
@@ -207,8 +172,6 @@ public class HomeController extends Application {
     if (timeLabel != null) {
       initClock();
       update();
-      initNotifUpdater();
-
       drawerPane
           .heightProperty()
           .addListener(
@@ -227,26 +190,64 @@ public class HomeController extends Application {
                 clip.setLayoutY(0);
                 drawerPane.setClip(clip);
               });
+      notifDrawer.setOnDragDetected(
+          e -> {
+            notifDrawer.open();
+          });
+
+      final TranslateTransition translateLeftAnchor =
+          new TranslateTransition(Duration.millis(500), sidePane);
+      spacer.setVisible(false);
+      spacer.setManaged(false);
 
       HamburgerSlideCloseTransition hamburgerTransition = new HamburgerSlideCloseTransition(ham1);
       hamburgerTransition.setRate(-1);
       ham1.addEventHandler(
           MouseEvent.MOUSE_CLICKED,
           (e) -> {
+            HBox.setHgrow(drawerPane, Priority.NEVER);
+            KeyValue widthValue;
+            drawerPane.setPrefWidth(drawerPane.getWidth());
             hamburgerTransition.setRate(hamburgerTransition.getRate() * -1);
             hamburgerTransition.play();
+            spacer.setVisible(false);
+            spacer.setManaged(false);
 
-            if (drawer.isOpened()) {
-              drawer.close();
+            if (hamburgerTransition.getRate() == -1) {
+              widthValue =
+                  new KeyValue(drawerPane.prefWidthProperty(), drawerPane.getWidth() + 130);
+              KeyFrame frame = new KeyFrame(Duration.seconds(0.5), widthValue);
+              Timeline timeline = new Timeline(frame);
+              timeline.setOnFinished(
+                  p -> {
+                    HBox.setHgrow(drawerPane, Priority.ALWAYS);
+                  });
+              timeline.play();
             } else {
-              drawer.open();
+              widthValue =
+                  new KeyValue(drawerPane.prefWidthProperty(), drawerPane.getWidth() - 130);
+              KeyFrame frame = new KeyFrame(Duration.seconds(0.5), widthValue);
+              Timeline timeline = new Timeline(frame);
+              timeline.setOnFinished(
+                  p -> {
+                    spacer.setVisible(true);
+                    spacer.setManaged(true);
+                    HBox.setHgrow(drawerPane, Priority.ALWAYS);
+                    //                    StackPane.setMargin(drawerPane, new Insets(0, 0, 0, 400));
+                  });
+
+              timeline.play();
             }
+            translateLeftAnchor.play();
           });
-      drawer.open();
     }
   }
 
   public StackPane getReplacePane() {
     return replacePane;
+  }
+
+  public void closeNotif() {
+    notifDrawer.close();
   }
 }

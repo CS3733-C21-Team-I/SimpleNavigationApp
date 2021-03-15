@@ -27,7 +27,7 @@
             <children>
                 <VBox fx:id="stackContainer" alignment="TOP_RIGHT" nodeOrientation="LEFT_TO_RIGHT" HBox.hgrow="ALWAYS">
                     <children>
-                        <JFXTabPane maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="50.0" stylesheets="@../misc/css/tab.css" tabMaxHeight="50.0" tabMaxWidth="0.0" tabMinHeight="50.0">
+                        <JFXTabPane fx:id="tabPane" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minWidth="0.0" prefHeight="50.0" prefWidth="0.0" stylesheets="@../misc/css/tab.css" tabMaxHeight="50.0" tabMaxWidth="0.0" tabMinHeight="50.0">
                             <tabs>
                                 <Tab fx:id="campus" onSelectionChanged="#campusTab" text="Campus" />
                                 <Tab fx:id="floor1" onSelectionChanged="#floor1Tab" text="Floor 1" />
@@ -37,7 +37,7 @@
                                 <Tab fx:id="floor6" onSelectionChanged="#floor5Tab" text="Floor 5" />
                             </tabs>
                         </JFXTabPane>
-                        <StackPane fx:id="imageContainer" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="589.0" style="-fx-background-color: white;" VBox.vgrow="ALWAYS">
+                        <StackPane fx:id="imageContainer" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="0.0" prefWidth="0.0" style="-fx-background-color: white;" VBox.vgrow="ALWAYS">
                             <children>
                                 <ImageView fx:id="mapImage" fitHeight="10.0" fitWidth="10.0" pickOnBounds="true" StackPane.alignment="CENTER">
                                     <viewport>
@@ -144,7 +144,7 @@
                                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                             </VBox.margin>
                         </HBox>
-                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                        <HBox alignment="CENTER">
                             <children>
                                 <JFXButton fx:id="go" buttonType="RAISED" onAction="#getDirections" prefHeight="40.0" prefWidth="90.0" style="-fx-background-color: #0067b1;" text="Go" textFill="WHITE">
                                     <font>
@@ -164,7 +164,7 @@
                                 </JFXButton>
                             </children>
                             <VBox.margin>
-                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                <Insets bottom="10.0" left="10.0" right="10.0" />
                             </VBox.margin>
                         </HBox>
                         <JFXCheckBox checkedColor="#ff9000" onAction="#toggleAccessible" style="-fx-background-color: #0067b1;" text="Wheelchair Accessible" textFill="WHITE" unCheckedColor="WHITE">
@@ -175,31 +175,15 @@
                                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                             </padding>
                         </JFXCheckBox>
-                        <JFXButton fx:id="wheelchair" buttonType="RAISED" prefHeight="40.0" prefWidth="273.0" style="-fx-background-color: #0067b1;" text="Accessible Only" textFill="WHITE" visible="false">
-                            <font>
-                                <Font name="System Bold" size="18.0" />
-                            </font>
-                            <VBox.margin>
-                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                            </VBox.margin>
-                            <graphic>
-                                <ImageView fitHeight="55.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" styleClass=".styledLogo">
-                                    <image>
-                                        <Image url="@mapImages/symbolIcons/switch_icon.png" />
-                                    </image>
-                                </ImageView>
-                            </graphic>
-                        </JFXButton>
-                        <AnchorPane prefHeight="87.0" prefWidth="220.0">
-                            <children>
-                                <Label text="Route Details:" textFill="WHITE">
-                                    <font>
-                                        <Font name="System Bold" size="13.0" />
-                                    </font>
-                                </Label>
-                            </children>
-                        </AnchorPane>
-                        <JFXListView fx:id="directionsField" />
+                          <Label text="Route Details:" textFill="WHITE">
+                              <font>
+                                  <Font name="System Bold" size="19.0" />
+                              </font>
+                     <VBox.margin>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </VBox.margin>
+                          </Label>
+                        <JFXListView fx:id="directionsField" minWidth="0.0" prefHeight="185.0" prefWidth="290.0" VBox.vgrow="ALWAYS" />
                         <HBox alignment="CENTER">
                             <children>
                                 <JFXButton fx:id="aboutBtn" buttonType="RAISED" onAction="#toAboutPage" style="-fx-background-color: #0067b1;" text="About" textFill="WHITE">
@@ -217,7 +201,7 @@
                                 </JFXButton>
                             </children>
                             <VBox.margin>
-                                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                                <Insets left="20.0" right="20.0" top="20.0" />
                             </VBox.margin>
                         </HBox>
                     </children>

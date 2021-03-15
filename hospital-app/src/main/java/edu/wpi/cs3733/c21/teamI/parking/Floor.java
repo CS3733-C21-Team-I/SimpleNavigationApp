@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.c21.teamI.parking;
 
 import edu.wpi.cs3733.c21.teamI.database.ParkingPeripheralServerManager;
+import java.util.HashMap;
 import java.util.Map;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -31,6 +32,14 @@ public class Floor {
     this.isDisabledAcessable = isDisabledAcessable;
     this.isStaffOnly = isStaffOnly;
     this.block = null;
+  }
+
+  public Floor(int floorNum, boolean isCovered, boolean isDisabledAcessable, boolean isStaffOnly) {
+    this.floorNum = floorNum;
+    this.isCovered = isCovered;
+    this.isDisabledAcessable = isDisabledAcessable;
+    this.isStaffOnly = isStaffOnly;
+    this.slotCodes = new HashMap<>();
   }
 
   public void refreshUnocupied() {
@@ -72,5 +81,9 @@ public class Floor {
 
   public boolean isStaffOnly() {
     return isStaffOnly;
+  }
+
+  public void setId(int id) {
+    this.id = id;
   }
 }

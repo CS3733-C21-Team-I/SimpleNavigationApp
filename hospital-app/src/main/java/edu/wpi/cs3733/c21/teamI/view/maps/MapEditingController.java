@@ -316,15 +316,23 @@ public class MapEditingController extends MapController {
         t -> {
           if (t.getButton() == MouseButton.PRIMARY) {
             if (!isDrag) {
-              if (t.isShiftDown() && node.getMapID().equals(selectedNode.get(0).getMapID())) {
+              if (selectedNode.size() == 0 && t.isShiftDown()
+                  || t.isShiftDown()
+                      && node.getMapID().equals(selectedNode.get(0).getMapID())) { //
+                System.out.println("gotHere");
+                System.out.println(
+                    node.NodeAsList()); // t.isShiftDown() && selectedNode.size() == 0
                 shift = true;
+                // selectedNode.add(node);
                 if (selectedNode.contains(node)) {
                   selectedNode.remove(node);
                 } else {
                   selectedNode.add(node);
                 }
                 nodeMenu.setVisible(selectedNode.size() == 1);
-              } else {
+              }
+              //
+              else {
                 shift = false;
                 toggleNode(node);
               }

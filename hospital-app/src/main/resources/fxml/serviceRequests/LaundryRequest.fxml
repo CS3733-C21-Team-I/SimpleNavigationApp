@@ -20,7 +20,7 @@
       <JFXTextField fx:id="laundryAssigned" focusColor="#012d5a" layoutX="86.0" layoutY="338.0" onKeyPressed="#lookupUser" promptText="Assigned Employee" unFocusColor="#012d5a" />
       <JFXButton fx:id="laundrySubmit" layoutX="432.0" layoutY="383.0" onAction="#submitForm" style="-fx-background-color: #0067b1;" styleClass="styledButton" stylesheets="@../misc/css/main.css" text="Submit" textFill="WHITE" />
       <JFXTextField fx:id="laundryPickupLocation" focusColor="#012d5a" layoutX="86.0" layoutY="229.0" onKeyTyped="#lookup" promptText="Pickup Location" unFocusColor="#012d5a" />
-      <ListView fx:id="serviceLocationList" layoutX="86.0" layoutY="256.0" prefHeight="102.0" prefWidth="145.0" visible="false" />
-      <ListView fx:id="requestAssignedList" layoutX="83.0" layoutY="373.0" prefHeight="91.0" prefWidth="154.0" visible="false" />
+      <ListView fx:id="serviceLocationList" layoutX="86.0" layoutY="256.0" prefHeight="102.0" prefWidth="145.0" visible="false" AnchorPane.bottomAnchor="110.0" AnchorPane.leftAnchor="86.0" AnchorPane.rightAnchor="281.0" AnchorPane.topAnchor="262.0" />
+      <ListView fx:id="requestAssignedList" layoutX="83.0" layoutY="373.0" prefHeight="91.0" prefWidth="154.0" visible="false" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="86.0" AnchorPane.rightAnchor="281.0" AnchorPane.topAnchor="371.0" />
    </children>
 </AnchorPane>

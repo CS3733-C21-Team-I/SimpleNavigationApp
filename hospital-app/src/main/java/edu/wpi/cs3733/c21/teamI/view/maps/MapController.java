@@ -1,5 +1,9 @@
 package edu.wpi.cs3733.c21.teamI.view.maps;
 
+import static edu.wpi.cs3733.c21.teamI.hospitalMap.LocationCategory.*;
+
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXTabPane;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.*;
 import edu.wpi.cs3733.c21.teamI.pathfinding.DirectionStep;
 import java.io.IOException;
@@ -49,6 +53,7 @@ public abstract class MapController extends Application {
 
   @FXML StackPane imageContainer;
   @FXML VBox stackContainer;
+  @FXML JFXTabPane tabPane;
   @FXML Tab campus;
   @FXML Tab floor1;
   @FXML Tab floor2;
@@ -96,8 +101,6 @@ public abstract class MapController extends Application {
   public abstract void toggleEditMap(ActionEvent e) throws IOException;
 
   protected double transformX(double x) {
-    System.out.println(
-        fullImgWidth + " " + imgWidth + " " + xOffset + " " + mapPane.getPrefWidth());
     return x * (fullImgWidth / imgWidth) * mapPane.getPrefWidth() / 100000
         - xOffset * mapPane.getPrefWidth() / imgWidth;
   }
@@ -259,8 +262,99 @@ public abstract class MapController extends Application {
     }
     double startIconX = transformX(path.get(0).getxCoord()) - imgScale / 2;
     double startIconY = transformY(path.get(0).getyCoord()) - imgScale;
-    drawNode(path.get(0), blue);
+    // drawNode(path.get(0), blue);
     displayImage(startIcon, startIconX, startIconY, imgScale);
+  }
+
+  public void pathfindingButton(String imagePath, String nextMapID, int xCoord, int yCoord) {
+
+    Image Icon = null;
+    try {
+
+      Icon = new Image((getClass().getResource(imagePath)).toURI().toString());
+    } catch (URISyntaxException e) {
+      e.printStackTrace();
+    }
+    ImageView imageView = new ImageView(Icon);
+
+    double imageViewScale = 80 / scale;
+    double imgScale = 236 / scale;
+
+    imageView.setFitHeight(imageViewScale);
+    imageView.setPreserveRatio(true);
+    JFXButton bttn = new JFXButton("", imageView);
+    bttn.setStyle("-fx-cursor: hand;");
+    bttn.setOnAction(
+        new EventHandler<ActionEvent>() {
+
+          /** Implement what you want to be returned on click here */
+          @Override
+          public void handle(ActionEvent event) {
+            switchOnClick(event, nextMapID);
+            // System.out.println(Id);
+          }
+        });
+
+    bttn.setLayoutX(transformX(xCoord) - imgScale / 2);
+    bttn.setLayoutY(transformY(yCoord) - imgScale / 2);
+    mapPane.getChildren().add(bttn);
+  }
+
+  protected void showButtonToNextMapOnPath(List<HospitalMapNode> path) {
+    if (!path.get(path.size() - 1).getMapID().equals(currentMapID)) {
+      for (int i = 0; i < path.size(); i++) {
+
+        if (path.get(i) != path.get(path.size() - 1)
+            && !path.get(i + 1).getMapID().equals(path.get(i).getMapID())
+            && currentMapID.equals(path.get(i).getMapID())) {
+          String Id = path.get(i + 1).getMapID();
+          if (!Id.equals("Faulkner Lot")
+              && !path.get(i).getMapID().equals(("Faulkner Lot"))
+              && Integer.parseInt(Id.substring(Id.length() - 1))
+                  < Integer.parseInt(
+                      path.get(i)
+                          .getMapID()
+                          .substring(
+                              path.get(i).getMapID().length()
+                                  - 1))) { // "/fxml/map/mapImages/mapIcons/downArr.png"
+            pathfindingButton(
+                "/fxml/map/mapImages/mapIcons/downArr.png",
+                Id,
+                path.get(i).getxCoord(),
+                path.get(i).getyCoord());
+          }
+          if (!Id.equals("Faulkner Lot")
+              && !path.get(i).getMapID().equals(("Faulkner Lot"))
+              && Integer.parseInt(Id.substring(Id.length() - 1))
+                  > Integer.parseInt(
+                      path.get(i)
+                          .getMapID()
+                          .substring(
+                              path.get(i).getMapID().length()
+                                  - 1))) { // "/fxml/map/mapImages/mapIcons/upArr.png"
+            pathfindingButton(
+                "/fxml/map/mapImages/mapIcons/upArr.png",
+                Id,
+                path.get(i).getxCoord(),
+                path.get(i).getyCoord());
+          }
+          if (path.get(i).getMapID().equals(("Faulkner Lot"))) {
+            pathfindingButton(
+                "/fxml/map/mapImages/mapIcons/mapDown.png",
+                Id,
+                path.get(i).getxCoord(),
+                path.get(i).getyCoord());
+          }
+          if (Id.equals(("Faulkner Lot"))) {
+            pathfindingButton(
+                "/fxml/map/mapImages/mapIcons/mapUp.png",
+                Id,
+                path.get(i).getxCoord(),
+                path.get(i).getyCoord());
+          }
+        }
+      }
+    }
   }
 
   protected void drawEndPoint(List<HospitalMapNode> path) throws IOException {
@@ -276,8 +370,9 @@ public abstract class MapController extends Application {
       e.printStackTrace();
     }
     double finishIconX = transformX(path.get(path.size() - 1).getxCoord()) - imgScale / 2;
-    double finishIconY = transformY(path.get(path.size() - 1).getyCoord()) - imgScale;
-    drawNode(path.get(path.size() - 1), red);
+    double finishIconY = transformY((path.get(path.size() - 1).getyCoord())) - imgScale;
+
+    // drawNode(path.get(path.size() - 1), red);
     displayImage(finishIcon, finishIconX, finishIconY, imgScale);
   }
 
@@ -457,7 +552,7 @@ public abstract class MapController extends Application {
   }
 
   private void updateScale(ScrollEvent e, double width, double height) {
-    double delta = e.getDeltaY();
+    double delta = -e.getDeltaY();
     Rectangle2D viewport = mapImage.getViewport();
     double scale =
         clamp(

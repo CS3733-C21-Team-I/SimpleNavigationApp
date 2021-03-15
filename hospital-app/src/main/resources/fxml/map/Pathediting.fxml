@@ -23,7 +23,7 @@
             <children>
                 <VBox fx:id="stackContainer" alignment="TOP_RIGHT" nodeOrientation="LEFT_TO_RIGHT" HBox.hgrow="ALWAYS">
                     <children>
-                        <JFXTabPane maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="50.0" stylesheets="@../misc/css/tab.css" tabMaxHeight="50.0" tabMaxWidth="0.0" tabMinHeight="50.0">
+                        <JFXTabPane maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minWidth="0.0" prefHeight="50.0" prefWidth="0.0" stylesheets="@../misc/css/tab.css" tabMaxHeight="50.0" tabMaxWidth="0.0" tabMinHeight="50.0">
                             <tabs>
                                 <Tab fx:id="campus" onSelectionChanged="#campusTab" text="Campus" />
                                 <Tab fx:id="floor1" onSelectionChanged="#floor1Tab" text="Floor 1" />
@@ -33,7 +33,7 @@
                                 <Tab fx:id="floor6" onSelectionChanged="#floor5Tab" text="Floor 5" />
                             </tabs>
                         </JFXTabPane>
-                        <StackPane fx:id="imageContainer" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="589.0" style="-fx-background-color: white;" VBox.vgrow="ALWAYS">
+                        <StackPane fx:id="imageContainer" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="0.0" prefWidth="0.0" style="-fx-background-color: white;" VBox.vgrow="ALWAYS">
                             <children>
                                 <ImageView fx:id="mapImage" fitHeight="10.0" fitWidth="10.0" pickOnBounds="true" StackPane.alignment="CENTER">
                                     <viewport>

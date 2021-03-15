@@ -438,7 +438,7 @@ public abstract class MobileMapController extends Application {
   }
 
   private void updateScale(ScrollEvent e, double width, double height) {
-    double delta = e.getDeltaY();
+    double delta = -e.getDeltaY();
     Rectangle2D viewport = mapImage.getViewport();
     double scale =
         clamp(
