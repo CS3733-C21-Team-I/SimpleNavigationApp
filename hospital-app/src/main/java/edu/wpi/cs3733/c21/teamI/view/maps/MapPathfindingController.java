@@ -13,6 +13,9 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -197,11 +200,11 @@ public class MapPathfindingController extends MapController {
       if (InputChecking.validLocationName(end)) {
         System.out.println(begin + " " + end);
 
-      HospitalMapNode nodeA = MapDataEntity.getNodeByLongName(begin);
-      HospitalMapNode nodeB = MapDataEntity.getNodeByLongName(end);
-      getFoundPath(nodeA, nodeB);
-      if (foundPathExists()) goToStartTab(e, foundPath.get(0).getMapID());
-      update();
+        HospitalMapNode nodeA = MapDataEntity.getNodeByLongName(begin);
+        HospitalMapNode nodeB = MapDataEntity.getNodeByLongName(end);
+        getFoundPath(nodeA, nodeB);
+        if (foundPathExists()) goToStartTab(e, foundPath.get(0).getMapID());
+        update();
       } else {
         System.out.println("Invalid destination entered");
       }
@@ -326,12 +329,31 @@ public class MapPathfindingController extends MapController {
         t -> {
           circle.setStyle("-fx-cursor: hand");
           setStartAndEndOnClick(((LocationNode) node).getLongName());
+          iconAnimation(circle);
         });
     circle.setStyle("-fx-cursor: hand");
     return circle;
   }
 
+  public void iconAnimation(Node circle) {
+    Timeline bouncer = new Timeline();
+    bouncer
+        .getKeyFrames()
+        .addAll(
+            new KeyFrame(
+                new javafx.util.Duration(0), new KeyValue(circle.translateYProperty(), 0.0)),
+            new KeyFrame(
+                new javafx.util.Duration(100), new KeyValue(circle.translateYProperty(), -20.0)),
+            new KeyFrame(
+                new javafx.util.Duration(600), new KeyValue(circle.translateYProperty(), 0)));
+    bouncer.play();
+  }
+
+  boolean fillStart = true;
+  boolean fillDestination = false;
+
   public void setStartAndEndOnClick(String nodeName) {
+
     if (start.isFocused()) {
       start.setText(nodeName);
       destination.requestFocus();
@@ -342,6 +364,14 @@ public class MapPathfindingController extends MapController {
       start.setText(nodeName);
     } else if (destination.getText().equals("")) {
       destination.setText(nodeName);
+    } else if (fillStart) {
+      start.setText(nodeName);
+      fillStart = false;
+      fillDestination = true;
+    } else if (fillDestination) {
+      destination.setText(nodeName);
+      fillDestination = false;
+      fillStart = true;
     }
   }
 
@@ -443,11 +473,23 @@ public class MapPathfindingController extends MapController {
             tooltip.show(node, event.getScreenX(), event.getScreenY() + 15);
           }
         });
+
     node.setOnMouseExited(
         new EventHandler<MouseEvent>() {
           @Override
           public void handle(MouseEvent event) {
             tooltip.hide();
+            node.setScaleX(1.0);
+            node.setScaleY(1.0);
+          }
+        });
+    node.setOnMouseEntered(
+        new EventHandler<MouseEvent>() {
+          @Override
+          public void handle(MouseEvent event) {
+
+            node.setScaleX(1.2);
+            node.setScaleY(1.2);
           }
         });
   }
@@ -460,17 +502,30 @@ public class MapPathfindingController extends MapController {
       double y = transformY(Double.valueOf(node.getyCoord())) - imgScale / 2;
       // displayImage(icon, x, y, imgScale);
       ImageView imageView = new ImageView();
+      // /        ImageView bouncingImageView = new ImageView();
       // Setting image to the image view
       imageView.setImage(icon);
+
       // Setting the image view parameters
       imageView.setX(x);
       imageView.setY(y);
+      // bouncingImageView.setX(x);
+      // bouncingImageView.setY(y);
+
+      // imageView.setEffect(new Reflection());
+
       imageView.setFitHeight(imgScale);
+      // bouncingImageView.setFitHeight(imgScale);
       imageView.setPreserveRatio(true);
+      // bouncingImageView.setPreserveRatio(true);
       imageView = (ImageView) setMouseActions(imageView, node);
       Tooltip t = new Tooltip(((LocationNode) node).getLongName());
       bindTooltip(imageView, t);
+      // final ImageView newImageView = imageView;
+
       mapPane.getChildren().add(imageView);
+      // mapPane.getChildren().add(bouncingImageView);
+
     } catch (URISyntaxException e) {
       e.printStackTrace();
     }
