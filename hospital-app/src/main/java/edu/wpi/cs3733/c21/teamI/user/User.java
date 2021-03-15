@@ -7,26 +7,12 @@ import javafx.beans.property.SimpleStringProperty;
 public class User extends RecursiveTreeObject<User> {
 
   public static User baseUser;
-
   public Set<Role> userRoles;
-
   private Set<Permission> userPermissions;
   private String name;
-
-  public String getScreenName() {
-    return name;
-  }
-
-  public int getUserId() {
-    return userId;
-  }
-
   private int userId;
-
   private CovidRisk covidR;
-
   private EntryApproval entryApproval;
-
 
   public User(int userId, String name, Set<Role> userRoles, Set<Permission> userPermissions) {
     this.userRoles = userRoles;
@@ -35,16 +21,6 @@ public class User extends RecursiveTreeObject<User> {
     this.userId = userId;
     this.covidR = CovidRisk.PENDING;
     this.entryApproval = EntryApproval.OFFSITE;
-  }
-
-  /** @param permission */
-  public boolean hasPermission(User.Permission permission) {
-    // TODO - implement User.hasPermission
-    return userPermissions.contains(permission);
-  }
-
-  public String getName() {
-    return name;
   }
 
   public enum Role {
@@ -99,10 +75,6 @@ public class User extends RecursiveTreeObject<User> {
     NO_COVID_RISK
   }
 
-  public CovidRisk getCovidRisk() {
-    return covidR;
-  }
-
   public SimpleStringProperty getRiskString() {
     switch (covidR) {
       case COVID_RISK:
@@ -136,4 +108,25 @@ public class User extends RecursiveTreeObject<User> {
   public void setCovidRisk(CovidRisk cov) {
     this.covidR = cov;
   }
+
+  public CovidRisk getCovidRisk() {
+    return covidR;
+  }
+
+  public String getScreenName() {
+    return name;
+  }
+
+  public String getName() {return name;}
+
+  public int getUserId() {
+    return userId;
+  }
+
+  /** @param permission */
+  public boolean hasPermission(User.Permission permission) {
+    // TODO - implement User.hasPermission
+    return userPermissions.contains(permission);
+  }
 }
+

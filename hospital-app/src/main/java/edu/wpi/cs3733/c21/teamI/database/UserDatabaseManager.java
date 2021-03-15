@@ -57,6 +57,7 @@ public class UserDatabaseManager extends DatabaseManager {
 
     int userId;
     User.CovidRisk risk;
+    User.EntryApproval entryApproval;
 
     try {
       Statement statement = databaseRef.getConnection().createStatement();
@@ -70,6 +71,7 @@ public class UserDatabaseManager extends DatabaseManager {
       }
       userId = rs.getInt("USER_ID");
       risk = User.CovidRisk.valueOf(rs.getString("covidRisk"));
+      entryApproval = User.EntryApproval.valueOf(rs.getString("entryApproval"));
     } catch (SQLException e) {
       // TODO Error logging
       e.printStackTrace();
@@ -121,6 +123,7 @@ public class UserDatabaseManager extends DatabaseManager {
     }
     User userOut = new User(userId, screenName, rolesSet, permissionSet);
     userOut.setCovidRisk(risk);
+    userOut.setEntryApproval(entryApproval);
     return userOut;
   }
 
@@ -259,8 +262,10 @@ public class UserDatabaseManager extends DatabaseManager {
               + "hashed_password blob(32),"
               + "salt blob(32),"
               + "covidRisk varchar(25) DEFAULT 'PENDING',"
+              + "entryApproval varchar(25) DEFAULT 'OFFSITE',"
               + "PRIMARY KEY (user_ID),"
-              + "CHECK (covidRisk in ('COVID_RISK', 'PENDING', 'NO_COVID_RISK'))"
+              + "CHECK (covidRisk in ('COVID_RISK', 'PENDING', 'NO_COVID_RISK')),"
+              + "CHECK (entryApproval in ('APPROVED', 'REJECTED', 'OFFSITE'))"
               + ")");
     } catch (SQLException e) {
       System.out.println("Error generating User table");
@@ -848,6 +853,20 @@ public class UserDatabaseManager extends DatabaseManager {
       ResultSet rs = stmt.executeQuery("SELECT * FROM HOSPITAL_USERS WHERE user_id = " + userID);
       if (rs.next()) {
         return (User.CovidRisk.valueOf(rs.getString("covidRisk")));
+      }
+      return null;
+    } catch (SQLException e) {
+      e.printStackTrace();
+      return null;
+    }
+  }
+
+  public User.EntryApproval getEntryApprovalForUser(int userID) {
+    try {
+      Statement stmt = databaseRef.getConnection().createStatement();
+      ResultSet rs = stmt.executeQuery("SELECT * FROM HOSPITAL_USERS WHERE user_id = " + userID);
+      if (rs.next()) {
+        return (User.EntryApproval.valueOf(rs.getString("entryApproval")));
       }
       return null;
     } catch (SQLException e) {
