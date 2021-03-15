@@ -353,58 +353,79 @@ public class MapPathfindingController extends MapController {
       } else if (node instanceof LocationNode
           && node.getMapID().equals(currentMapID)) { // draw all location nodes on this level
 
-        switch (((LocationNode) node).getLocationCategory()) { // switch case for special types
-          case ELEV:
-            displayIcon("/fxml/map/mapImages/mapIcons/elevator.png", node);
-            break;
-          case REST:
-            displayIcon("/fxml/map/mapImages/mapIcons/bathroom.png", node);
-            break;
-          case STAI:
-            displayIcon("/fxml/map/mapImages/mapIcons/stairs.png", node);
-            break;
-          case KIOS:
-            displayIcon("/fxml/map/mapImages/mapIcons/info.png", node);
-            break;
-            //          case FOOD:
-            //            displayIcon("/fxml/mapImages/mapIcons/dining.png", node);
-            //            break;
-          case PARK:
-            //  displayIcon("/fxml/mapImages/mapIcons/parking.png", node);
-            break;
-          default:
-            switch (((LocationNode) node).getLongName()) { // even specialer cases
-              case "Northern Parking Icon":
-              case "Western Parking Icon":
-                displayIcon("/fxml/map/mapImages/mapIcons/parking.png", node);
-                break;
-              case "Cafeteria":
-              case "Food Services":
-                displayIcon("/fxml/map/mapImages/mapIcons/dining.png", node);
-                break;
-              case "Starbucks":
-                displayIcon("/fxml/map/mapImages/mapIcons/starbucks.png", node);
-                break;
-              case "Pharmacy":
-                displayIcon("/fxml/map/mapImages/mapIcons/pharmacy.png", node);
-                break;
-              case "Emergency Department":
-                displayIcon("/fxml/map/mapImages/mapIcons/emergencyRoom.png", node);
-                break;
-              case "Valet Parking Icon":
-                displayIcon("/fxml/map/mapImages/mapIcons/valet.png", node);
-                break;
-              default:
-                Circle circle =
-                    makeCircle(
-                        transformX(node.getxCoord()),
-                        transformY(node.getyCoord()),
-                        25 / scale,
-                        Color.valueOf("#00B5E2"));
-                circle = (Circle) setMouseActions(circle, node);
-                mapPane.getChildren().add(circle);
-                break;
-            }
+        // draw parking spaces
+        if (node instanceof ParkingNode) {
+          Color parkingColor;
+          double dimensions = 25 / scale;
+          if (((ParkingNode) node).isOccupied()) {
+            parkingColor = Color.GREEN;
+          } else {
+            parkingColor = Color.RED;
+          }
+          Rectangle park =
+              new Rectangle(
+                  transformX(node.getxCoord()) - dimensions / 2,
+                  transformY(node.getyCoord()) - dimensions / 2,
+                  dimensions,
+                  2 * dimensions);
+          park = (Rectangle) setMouseActions(park, node);
+          park.setFill(parkingColor);
+          mapPane.getChildren().add(park);
+        } else {
+          switch (((LocationNode) node).getLocationCategory()) { // switch case for special types
+            case ELEV:
+              displayIcon("/fxml/map/mapImages/mapIcons/elevator.png", node);
+              break;
+            case REST:
+              displayIcon("/fxml/map/mapImages/mapIcons/bathroom.png", node);
+              break;
+            case STAI:
+              displayIcon("/fxml/map/mapImages/mapIcons/stairs.png", node);
+              break;
+            case KIOS:
+              displayIcon("/fxml/map/mapImages/mapIcons/info.png", node);
+              break;
+              //          case FOOD:
+              //            displayIcon("/fxml/mapImages/mapIcons/dining.png", node);
+              //            break;
+            case PARK:
+              //  displayIcon("/fxml/mapImages/mapIcons/parking.png", node);
+              break;
+            default:
+              switch (((LocationNode) node).getLongName()) { // even specialer cases
+                case "Northern Parking Icon":
+                case "Western Parking Icon":
+                  displayIcon("/fxml/map/mapImages/mapIcons/parking.png", node);
+                  break;
+                case "Cafeteria":
+                case "Food Services":
+                  displayIcon("/fxml/map/mapImages/mapIcons/dining.png", node);
+                  break;
+                case "Starbucks":
+                  displayIcon("/fxml/map/mapImages/mapIcons/starbucks.png", node);
+                  break;
+                case "Pharmacy":
+                  displayIcon("/fxml/map/mapImages/mapIcons/pharmacy.png", node);
+                  break;
+                case "Emergency Department":
+                  displayIcon("/fxml/map/mapImages/mapIcons/emergencyRoom.png", node);
+                  break;
+                case "Valet Parking Icon":
+                  displayIcon("/fxml/map/mapImages/mapIcons/valet.png", node);
+                  break;
+                default:
+                  Circle circle =
+                      makeCircle(
+                          transformX(node.getxCoord()),
+                          transformY(node.getyCoord()),
+                          25 / scale,
+                          Color.valueOf("#00B5E2"));
+                  circle = (Circle) setMouseActions(circle, node);
+                  mapPane.getChildren().add(circle);
+                  break;
+              }
+          }
+
         }
       }
     }

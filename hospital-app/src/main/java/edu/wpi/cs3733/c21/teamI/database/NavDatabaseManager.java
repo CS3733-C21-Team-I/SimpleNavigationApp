@@ -67,7 +67,15 @@ public class NavDatabaseManager extends DatabaseManager {
                   if (locationCategory.equals("PARK")) {
                     node =
                         new ParkingNode(
-                            nodeId, mapId, xCoord, yCoord, shortName, longName, new ArrayList<>());
+                            nodeId,
+                            mapId,
+                            xCoord,
+                            yCoord,
+                            shortName,
+                            longName,
+                            LocationCategory.valueOf(locationCategory),
+                            teamAssigned,
+                            new ArrayList<>());
                   } else {
                     node =
                         new LocationNode(

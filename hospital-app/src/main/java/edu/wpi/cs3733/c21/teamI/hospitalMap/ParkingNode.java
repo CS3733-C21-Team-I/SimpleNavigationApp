@@ -14,6 +14,8 @@ public class ParkingNode extends LocationNode {
       int yCoord,
       String shortName,
       String longName,
+      LocationCategory category,
+      String teamAssigned,
       List<HospitalMapNode> connections) {
     super(id, mapID, xCoord, yCoord, shortName, longName, LocationCategory.PARK, "I", connections);
 
