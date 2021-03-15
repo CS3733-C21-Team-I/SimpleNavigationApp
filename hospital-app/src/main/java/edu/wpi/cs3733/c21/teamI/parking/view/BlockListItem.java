@@ -84,7 +84,7 @@ public class BlockListItem extends JFXListCell<Block> {
         floors = FXCollections.observableArrayList(extractor);
         floors.setAll(item.getFloors());
         floorList.setItems(floors);
-        floorList.prefHeightProperty().setValue(45 + (floors.size() - 1) * 30);
+        floorList.prefHeightProperty().setValue(30 + (floors.size() - 1) * 30);
         pane.prefHeightProperty().setValue(105 + (floors.size() - 1) * 30);
       }
 
@@ -103,5 +103,6 @@ public class BlockListItem extends JFXListCell<Block> {
     floors = FXCollections.emptyObservableList();
 
     setPadding(new Insets(0, 0, 0, 0));
+    floorList.setPrefWidth(500);
   }
 }

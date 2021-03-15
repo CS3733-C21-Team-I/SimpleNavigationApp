@@ -16,6 +16,6 @@
             </font>
         </Label>
         <Label fx:id="occupancyLabel" text="Slots: 100/150" />
-        <JFXListView fx:id="blockList" prefWidth="280.0" prefHeight="580.0"/>
+        <JFXListView fx:id="blockList"/>
     </VBox>
 </JFXListCell>
