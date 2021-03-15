@@ -183,7 +183,7 @@
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </VBox.margin>
                           </Label>
-                  <ScrollPane fitToWidth="true" prefHeight="200.0" prefWidth="200.0">
+                  <ScrollPane fitToWidth="true">
                      <content>
                         <VBox fx:id="directionsField" maxWidth="1.7976931348623157E308" />
                      </content>
