@@ -691,31 +691,33 @@ public abstract class MapController extends Application {
   }
 
   public void zoomToFitNodes(HospitalMapNode a, HospitalMapNode b, double padding) {
-    double centerX = DirectionStep.calcCenterPointX(a, b);
-    double centerY = DirectionStep.calcCenterPointY(a, b);
+    double centerX = transformX(DirectionStep.calcCenterPointX(a, b));
+    double centerY = transformY(DirectionStep.calcCenterPointY(a, b));
 
     double width = transformX(DirectionStep.calcWidth(a, b));
-    double height = transformY(DirectionStep.calcHeight(a, b));
-    double x = centerX - width / 2;
-    double y = centerY - height / 2;
+    // double height = transformY(DirectionStep.calcHeight(a, b));
+    //    double x = centerX - width / 2;
+    //    double y = centerY - height / 2;
 
-    if (height > width) {
-      width = height * imgWidth / imgHeight;
-    } else {
-      height = width * imgHeight / imgWidth;
-    }
+    //    if (height > width) {
+    //      width = height * imgWidth / imgHeight;
+    //    } else {
+    //      height = width * imgHeight / imgWidth;
+    //    }
 
-    mapImage.setViewport(new Rectangle2D(0, 0, width, height));
-    imgWidth = mapImage.getViewport().getWidth();
-    imgHeight = mapImage.getViewport().getHeight();
-    xOffset = mapImage.getViewport().getMinX();
-    yOffset = mapImage.getViewport().getMinY();
+    //    mapImage.setViewport(new Rectangle2D(0, 0, width, height));
+    //    imgWidth = mapImage.getViewport().getWidth();
+    //    imgHeight = mapImage.getViewport().getHeight();
+    //    xOffset = mapImage.getViewport().getMinX();
+    //    yOffset = mapImage.getViewport().getMinY();
 
-    System.out.println("Big picture " + fullImgWidth + " " + fullImgHeight);
+    // System.out.println("Big picture " + fullImgWidth + " " + fullImgHeight);
 
     // zoomToPoint(centerX, centerY, width, height, padding);
-    double delta = (200 - imgWidth) * ((imgWidth - width - padding * 2) / imgWidth);
-    updateScale(centerX, centerY, delta);
+    double delta = (200 - fullImgWidth) * ((fullImgWidth - width - padding * 2) / fullImgWidth);
+    double fartherX = fullImgWidth / 2 + (centerX - (fullImgWidth / 2)) * 1.15;
+    double fartherY = fullImgHeight / 2 + (centerY - (fullImgHeight / 2)) * 1.15;
+    updateScale(fartherX, fartherY, delta);
   }
 
   private void updateScale(double centerX, double centerY, double delta) {
@@ -726,7 +728,7 @@ public abstract class MapController extends Application {
             // don't scale so we're zoomed in to fewer than MIN_PIXELS in any direction:
             Math.min(MIN_PIXELS / viewport.getWidth(), MIN_PIXELS / viewport.getHeight()),
             // don't scale so that we're bigger than image dimensions:
-            Math.max(imgWidth / viewport.getWidth(), imgHeight / viewport.getHeight()));
+            Math.max(fullImgWidth / viewport.getWidth(), fullImgHeight / viewport.getHeight()));
     Point2D zoomCenter = imageViewToImage(mapImage, new Point2D(centerX, centerY));
     System.out.println("SCALE: " + scale);
     double newWidth = viewport.getWidth() * scale;
@@ -735,12 +737,12 @@ public abstract class MapController extends Application {
         clamp(
             zoomCenter.getX() - (zoomCenter.getX() - viewport.getMinX()) * scale,
             0,
-            imgWidth - newWidth);
+            fullImgWidth - newWidth);
     double newMinY =
         clamp(
             zoomCenter.getY() - (zoomCenter.getY() - viewport.getMinY()) * scale,
             0,
-            imgHeight - newHeight);
+            fullImgHeight - newHeight);
     mapImage.setViewport(new Rectangle2D(newMinX, newMinY, newWidth, newHeight));
     imgWidth = mapImage.getViewport().getWidth();
     imgHeight = mapImage.getViewport().getHeight();

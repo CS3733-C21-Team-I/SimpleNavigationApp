@@ -170,7 +170,7 @@ public class MapPathfindingController extends MapController {
     // Zooms to fit entire path
     if (foundPath.size() >= 2) {
       goToTab(foundPath.get(0).getMapID());
-      zoomToFitNodes(foundPath.get(0), lastNodeOnSameFloor(foundPath), 500);
+      zoomToFitNodes(foundPath.get(0), lastNodeOnSameFloor(foundPath), 600);
     }
     return foundPath;
   }
