@@ -33,6 +33,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
@@ -44,7 +45,8 @@ public class MapPathfindingController extends MapController {
   @FXML Button adminMapToggle;
   @FXML JFXComboBox algorithmPick;
   @FXML TextField start, destination;
-  @FXML ListView startList, destList, directionsField;
+  @FXML ListView startList, destList;
+  @FXML VBox directionsField;
 
   private EuclidianDistCalc scorer = new EuclidianDistCalc();
   private AlgorithmSelectionStrategyPattern pathFinderAlgorithm =
@@ -113,8 +115,14 @@ public class MapPathfindingController extends MapController {
     drawLocationNodes();
     if (foundPathExists()) {
       ObservableList<String> items = FXCollections.observableArrayList(new ArrayList<String>());
-      directionsField.setItems(items);
+      populateDirections(new ArrayList<DirectionStep>());
       drawCalculatedPath(getFoundPath());
+    }
+  }
+
+  private void populateDirections(List<DirectionStep> directionSteps) {
+    for (DirectionStep step : directionSteps) {
+      directionsField.getChildren().add(new JFXButton(step.stepDetails));
     }
   }
 
@@ -247,7 +255,8 @@ public class MapPathfindingController extends MapController {
       }
 
       showButtonToNextMapOnPath(foundPath);
-      displayDirections(getFoundPathDescription());
+      populateDirections(TextDirections.getDirectionSteps());
+      //      displayDirections(getFoundPathDescription());
     }
   }
 
@@ -289,7 +298,7 @@ public class MapPathfindingController extends MapController {
     destination.setText("");
     clearFoundPath();
     ObservableList<String> items = FXCollections.observableArrayList(new ArrayList<String>());
-    directionsField.setItems(items);
+    populateDirections(new ArrayList<>());
     update();
   }
 
@@ -335,7 +344,8 @@ public class MapPathfindingController extends MapController {
   protected void displayDirections(ArrayList<String> directions) {
     ObservableList<String> items = FXCollections.observableArrayList(directions);
     // System.out.println(items);
-    directionsField.setItems(items);
+
+    //    directionsField.setItems(items);
   }
 
   protected Node setMouseActions(Node circle, HospitalMapNode node) {
