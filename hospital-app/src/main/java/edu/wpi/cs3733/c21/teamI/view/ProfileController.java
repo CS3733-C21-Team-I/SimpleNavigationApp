@@ -16,6 +16,11 @@ public class ProfileController extends Application {
   public static String pass;
 
   @FXML
+  public void enter() {
+    login();
+  }
+
+  @FXML
   public void login() {
     uName = username.getText();
     pass = password.getText();
