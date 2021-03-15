@@ -5,6 +5,7 @@ import static edu.wpi.cs3733.c21.teamI.hospitalMap.LocationCategory.*;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTabPane;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.*;
+import edu.wpi.cs3733.c21.teamI.pathfinding.DirectionStep;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -289,7 +290,7 @@ public abstract class MapController extends Application {
           /** Implement what you want to be returned on click here */
           @Override
           public void handle(ActionEvent event) {
-            switchOnClick(event, nextMapID);
+            goToTab(nextMapID);
             // System.out.println(Id);
           }
         });
@@ -568,11 +569,14 @@ public abstract class MapController extends Application {
     double newMinY =
         clamp(mouse.getY() - (mouse.getY() - viewport.getMinY()) * scale, 0, height - newHeight);
     mapImage.setViewport(new Rectangle2D(newMinX, newMinY, newWidth, newHeight));
+    System.out.println(mapImage.getViewport());
     imgWidth = mapImage.getViewport().getWidth();
     imgHeight = mapImage.getViewport().getHeight();
     xOffset = mapImage.getViewport().getMinX();
     yOffset = mapImage.getViewport().getMinY();
     update();
+
+    System.out.println("mapImage  " + mapImage + "  Viewport  " + mapImage.getViewport());
   }
 
   protected void resize() {
@@ -596,88 +600,112 @@ public abstract class MapController extends Application {
     }
   }
 
-  public void goToStartTab(ActionEvent e, String startingNodeMapId) {
-    if (startingNodeMapId.equals("Faulkner Lot")) {
-      switchOnClick(e, startingNodeMapId);
-    }
-    if (startingNodeMapId.equals("Faulkner 1")) {
-      switchOnClick(e, startingNodeMapId);
-    }
-    if (startingNodeMapId.equals("Faulkner 2")) {
-      switchOnClick(e, startingNodeMapId);
-    }
-    if (startingNodeMapId.equals("Faulkner 3")) {
-      switchOnClick(e, startingNodeMapId);
-    }
-    if (startingNodeMapId.equals("Faulkner 4")) {
-      switchOnClick(e, startingNodeMapId);
-    }
-    if (startingNodeMapId.equals("Faulkner 5")) {
-      switchOnClick(e, startingNodeMapId);
+  public void goToTab(String floorID) {
+    if (floorID.equals("Faulkner Lot")) {
+      goToCampus();
+    } else if (floorID.equals("Faulkner 1")) {
+      goToFloor1();
+    } else if (floorID.equals("Faulkner 2")) {
+      goToFloor2();
+    } else if (floorID.equals("Faulkner 3")) {
+      goToFloor3();
+    } else if (floorID.equals("Faulkner 4")) {
+      goToFloor4();
+    } else if (floorID.equals("Faulkner 5")) {
+      goToFloor5();
     }
   }
 
   public void campusTab(Event event) {
-    if (mapPane != null) {
-      loadMap("Faulkner Lot", campus);
+    goToCampus();
+  }
+
+  private void goToCampus() {
+    if (campus != currentTab && mapPane != null) {
+      System.out.println("Tab 1");
+      currentMapID = "Faulkner Lot";
+      updateView();
+      currentTab = campus;
+      startZoomPan(mapPane);
+      resize();
     }
   }
 
   public void floor1Tab(Event event) {
-    loadMap("Faulkner 1", floor1);
+    goToFloor1();
+  }
+
+  private void goToFloor1() {
+    if (floor1 != currentTab) {
+      System.out.println("Tab 2");
+      currentMapID = "Faulkner 1";
+      updateView();
+      currentTab = floor1;
+      startZoomPan(mapPane);
+      resize();
+    }
   }
 
   public void floor2Tab(Event event) {
-    loadMap("Faulkner 2", floor2);
+    goToFloor2();
+  }
+
+  private void goToFloor2() {
+    if (floor2 != currentTab) {
+      System.out.println("Tab 3");
+      currentMapID = "Faulkner 2";
+      updateView();
+      currentTab = floor2;
+      startZoomPan(mapPane);
+      resize();
+    }
   }
 
   public void floor3Tab(Event event) {
-    loadMap("Faulkner 3", floor3);
+    goToFloor3();
+  }
+
+  private void goToFloor3() {
+    if (floor3 != currentTab) {
+      System.out.println("Tab 4");
+      currentMapID = "Faulkner 3";
+      updateView();
+      currentTab = floor3;
+      startZoomPan(mapPane);
+      resize();
+    }
   }
 
   public void floor4Tab(Event event) {
-    loadMap("Faulkner 4", floor4);
+    goToFloor4();
+  }
+
+  private void goToFloor4() {
+    if (floor4 != currentTab) {
+      System.out.println("Tab 5");
+      currentMapID = "Faulkner 4";
+      updateView();
+      currentTab = floor4;
+      startZoomPan(mapPane);
+      resize();
+    }
   }
 
   public void floor5Tab(Event event) {
-    loadMap("Faulkner 5", floor6);
+    goToFloor5();
   }
 
-  public void switchOnClick(ActionEvent event, String mapID) {
-    if (mapID.equals("Faulkner Lot")) {
-      campusTab(event);
-      tabPane.getSelectionModel().select(campus);
-    }
-    if (mapID.equals("Faulkner 1")) {
-      floor1Tab(event);
-      tabPane.getSelectionModel().select(floor1);
-    }
-    if (mapID.equals("Faulkner 2")) {
-      floor2Tab(event);
-      tabPane.getSelectionModel().select(floor2);
-    }
-    if (mapID.equals("Faulkner 3")) {
-      floor3Tab(event);
-      tabPane.getSelectionModel().select(floor3);
-    }
-    if (mapID.equals("Faulkner 4")) {
-      floor4Tab(event);
-      tabPane.getSelectionModel().select(floor4);
-    }
-    if (mapID.equals("Faulkner 5")) {
-      floor5Tab(event);
-      tabPane.getSelectionModel().select(floor6);
+  private void goToFloor5() {
+    if (floor6 != currentTab) {
+      System.out.println("Tab 6");
+      currentMapID = "Faulkner 5";
+      updateView();
+      currentTab = floor6;
+      startZoomPan(mapPane);
+      resize();
     }
   }
 
-  public void loadMap(String mapToLoad, Tab tab) {
-    if (currentTab != tab) currentMapID = mapToLoad;
-    updateView();
-    currentTab = tab;
-
-    startZoomPan(mapPane);
-    resize();
-  }
   // reset to the top left:
   protected void reset(ImageView imageView, double width, double height) {
     imageView.setViewport(new Rectangle2D(0, 0, width, height));
@@ -694,6 +722,7 @@ public abstract class MapController extends Application {
     double minX = clamp(viewport.getMinX() - delta.getX(), 0, maxX);
     double minY = clamp(viewport.getMinY() - delta.getY(), 0, maxY);
     imageView.setViewport(new Rectangle2D(minX, minY, viewport.getWidth(), viewport.getHeight()));
+    System.out.println(imageView.getViewport());
   }
 
   protected double clamp(double value, double min, double max) {
@@ -708,5 +737,114 @@ public abstract class MapController extends Application {
     return new Point2D(
         viewport.getMinX() + xProportion * viewport.getWidth(),
         viewport.getMinY() + yProportion * viewport.getHeight());
+  }
+
+  public void zoomToPoint(double x, double y, double width, double height, double padding) {
+    System.out.println("incoming width: " + width + "  height:  " + height + " " + x + " " + y);
+    //    imgWidth = fullImgWidth;
+    //    imgHeight = fullImgHeight;
+    //    width = transformX(width) + 2 * padding;
+    //    height = transformY(height) + 2 * padding;
+    //    System.out.println("outgoing width: " + width + "  height:  " + height);
+    //    imgWidth = width;
+    //    imgHeight = height;
+    //    width = imgWidth / 2;
+    double newMinX;
+    double newMinY;
+    //    if (height > width) {
+    //      width = height * imgWidth / imgHeight;
+    //    } else {
+    //      height = width * imgHeight / imgWidth;
+    //    }
+
+    update();
+    System.out.println(width + " " + height);
+    newMinX = transformX(x) / (mapPane.getPrefWidth() / imgWidth) - width / 2; // - width / 2
+    newMinY = transformY(y) / (mapPane.getPrefHeight() / imgHeight) - height / 2; // - height / 2
+    System.out.println(newMinX + ", " + newMinY);
+
+    //    newMinX = x - width * 0.75;
+    //    newMinY = y - height * 0.75;
+
+    //    return x * (fullImgWidth / imgWidth) * mapPane.getPrefWidth() / 100000
+    //        - xOffset * mapPane.getPrefWidth() / imgWidth;
+    //    x = transformX(x);
+    //    y = transformY(y);
+
+    System.out.println("transformX " + x + " Y " + y);
+    //    double newMinX = x + width / 2;
+    //    double newMinY = y + height / 2;
+
+    mapImage.setViewport(new Rectangle2D(newMinX, newMinY, width, height));
+    imgWidth = mapImage.getViewport().getWidth();
+    imgHeight = mapImage.getViewport().getHeight();
+    xOffset = mapImage.getViewport().getMinX();
+    yOffset = mapImage.getViewport().getMinY();
+    update();
+
+    System.out.println("mapImage  " + mapImage + " Viewport  " + mapImage.getViewport());
+  }
+
+  public void zoomToFitNodes(HospitalMapNode a, HospitalMapNode b, double padding) {
+    double centerX = transformX(DirectionStep.calcCenterPointX(a, b));
+    double centerY = transformY(DirectionStep.calcCenterPointY(a, b));
+
+    double width = transformX(DirectionStep.calcWidth(a, b));
+    // double height = transformY(DirectionStep.calcHeight(a, b));
+    //    double x = centerX - width / 2;
+    //    double y = centerY - height / 2;
+
+    //    if (height > width) {
+    //      width = height * imgWidth / imgHeight;
+    //    } else {
+    //      height = width * imgHeight / imgWidth;
+    //    }
+
+    //    mapImage.setViewport(new Rectangle2D(0, 0, width, height));
+    //    imgWidth = mapImage.getViewport().getWidth();
+    //    imgHeight = mapImage.getViewport().getHeight();
+    //    xOffset = mapImage.getViewport().getMinX();
+    //    yOffset = mapImage.getViewport().getMinY();
+
+    // System.out.println("Big picture " + fullImgWidth + " " + fullImgHeight);
+
+    // zoomToPoint(centerX, centerY, width, height, padding);
+    double delta = (200 - fullImgWidth) * ((fullImgWidth - width - padding * 2) / fullImgWidth);
+    double fartherX = fullImgWidth / 2 + (centerX - (fullImgWidth / 2)) * 1.15;
+    double fartherY = fullImgHeight / 2 + (centerY - (fullImgHeight / 2)) * 1.15;
+    updateScale(fartherX, fartherY, delta);
+  }
+
+  private void updateScale(double centerX, double centerY, double delta) {
+    Rectangle2D viewport = mapImage.getViewport();
+    double scale =
+        clamp(
+            Math.pow(1.001, delta),
+            // don't scale so we're zoomed in to fewer than MIN_PIXELS in any direction:
+            Math.min(MIN_PIXELS / viewport.getWidth(), MIN_PIXELS / viewport.getHeight()),
+            // don't scale so that we're bigger than image dimensions:
+            Math.max(fullImgWidth / viewport.getWidth(), fullImgHeight / viewport.getHeight()));
+    Point2D zoomCenter = imageViewToImage(mapImage, new Point2D(centerX, centerY));
+    System.out.println("SCALE: " + scale);
+    double newWidth = viewport.getWidth() * scale;
+    double newHeight = viewport.getHeight() * scale;
+    double newMinX =
+        clamp(
+            zoomCenter.getX() - (zoomCenter.getX() - viewport.getMinX()) * scale,
+            0,
+            fullImgWidth - newWidth);
+    double newMinY =
+        clamp(
+            zoomCenter.getY() - (zoomCenter.getY() - viewport.getMinY()) * scale,
+            0,
+            fullImgHeight - newHeight);
+    mapImage.setViewport(new Rectangle2D(newMinX, newMinY, newWidth, newHeight));
+    imgWidth = mapImage.getViewport().getWidth();
+    imgHeight = mapImage.getViewport().getHeight();
+    xOffset = mapImage.getViewport().getMinX();
+    yOffset = mapImage.getViewport().getMinY();
+    update();
+
+    System.out.println("Viewport:  " + mapImage.getViewport());
   }
 }

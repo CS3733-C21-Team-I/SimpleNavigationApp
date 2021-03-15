@@ -175,7 +175,23 @@ public class MapPathfindingController extends MapController {
   public List<HospitalMapNode> getFoundPath(HospitalMapNode nodeA, HospitalMapNode nodeB) {
     this.foundPath = pathFinderAlgorithm.findPath(nodeA, nodeB, scorer);
     this.foundPathDescription = TextDirections.getDirections(scorer, foundPath);
+
+    // Zooms to fit entire path
+    if (foundPath.size() >= 2) {
+      goToTab(foundPath.get(0).getMapID());
+      zoomToFitNodes(foundPath.get(0), lastNodeOnSameFloor(foundPath), 600);
+    }
     return foundPath;
+  }
+
+  private HospitalMapNode lastNodeOnSameFloor(List<HospitalMapNode> path) {
+    for (int i = path.size() - 1; i > 1; i--) {
+      if (path.get(i).getMapID().equals(path.get(0).getMapID())) {
+        System.out.println("Last Node on Floor: " + path.get(i).getID());
+        return path.get(i);
+      }
+    }
+    return null;
   }
 
   public ArrayList<String> getFoundPathDescription(List<HospitalMapNode> path) {
@@ -200,7 +216,7 @@ public class MapPathfindingController extends MapController {
         HospitalMapNode nodeA = MapDataEntity.getNodeByLongName(begin);
         HospitalMapNode nodeB = MapDataEntity.getNodeByLongName(end);
         getFoundPath(nodeA, nodeB);
-        if (foundPathExists()) goToStartTab(e, foundPath.get(0).getMapID());
+        if (foundPathExists()) goToTab(foundPath.get(0).getMapID());
         update();
       } else {
         System.out.println("Invalid destination entered");
@@ -227,7 +243,7 @@ public class MapPathfindingController extends MapController {
       } catch (IOException e) {
         e.printStackTrace();
       }
-      //
+
       drawLocationNodes();
       showButtonToNextMapOnPath(foundPath);
       displayDirections(getFoundPathDescription());
