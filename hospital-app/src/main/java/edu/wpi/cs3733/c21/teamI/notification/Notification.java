@@ -41,4 +41,9 @@ public class Notification {
   public void setHasDisplayed(boolean hasDisplayed) {
     this.hasDisplayed = hasDisplayed;
   }
+
+  @Override
+  public String toString() {
+    return "[" + this.userID + ", " + this.details + ", " + this.timestamp + "]";
+  }
 }

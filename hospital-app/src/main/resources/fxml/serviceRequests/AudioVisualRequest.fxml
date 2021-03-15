@@ -13,7 +13,7 @@
 
 <AnchorPane fx:id="background" minWidth="500.0" prefHeight="616.0" prefWidth="500.0" style="-fx-background-color: #F1F1F1;" styleClass=".root" stylesheets="@../misc/css/main.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamI.ticket.view.AudioVisualRequestController">
    <children>
-      <VBox fillWidth="false" layoutX="267.0" layoutY="35.0" maxHeight="617.0" prefHeight="548.0" prefWidth="508.0" AnchorPane.bottomAnchor="48.0" AnchorPane.leftAnchor="42.0" AnchorPane.rightAnchor="42.0" AnchorPane.topAnchor="20.0">
+      <VBox fillWidth="false" layoutX="42.0" layoutY="18.0" maxHeight="580.0" maxWidth="441.0" minHeight="580.0" minWidth="441.0" prefHeight="580.0" prefWidth="441.0" style="-fx-background-color: #FFFFF;" stylesheets="@../misc/css/main.css">
          <children>
             <JFXTextField fx:id="patientName" focusColor="#0067b1" maxWidth="300.0" promptText="Patient Name" unFocusColor="#012d5a">
                <VBox.margin>
@@ -58,7 +58,7 @@
             </HBox>
          </children>
       </VBox>
-      <ListView fx:id="serviceLocationList" layoutX="40.0" layoutY="115.0" prefHeight="138.0" prefWidth="178.0" visible="false" />
-      <ListView fx:id="requestAssignedList" layoutX="42.0" layoutY="452.0" prefHeight="145.0" prefWidth="178.0" visible="false" />
+      <ListView fx:id="serviceLocationList" layoutX="40.0" layoutY="101.0" prefHeight="133.0" prefWidth="187.0" visible="false" AnchorPane.topAnchor="101.0" />
+      <ListView fx:id="requestAssignedList" layoutX="42.0" layoutY="467.0" prefHeight="139.0" prefWidth="178.0" visible="false" AnchorPane.topAnchor="468.0" />
    </children>
 </AnchorPane>

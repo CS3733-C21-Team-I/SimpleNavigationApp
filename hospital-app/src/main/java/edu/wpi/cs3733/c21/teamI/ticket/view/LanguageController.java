@@ -11,7 +11,6 @@ import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicket;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicketDataController;
 import edu.wpi.cs3733.c21.teamI.ticket.ticketTypes.LanguageTicket;
 import edu.wpi.cs3733.c21.teamI.user.User;
-import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -19,9 +18,8 @@ import javafx.scene.control.ListView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
 
-public class LanguageController extends Application {
+public class LanguageController {
 
   ServiceTicket ticket;
   @FXML private JFXTextField langTextfield;
@@ -160,7 +158,4 @@ public class LanguageController extends Application {
     ServiceTicketDataController.lookupUsernames(
         e, User.Permission.RESPOND_TO_LANGUAGE, requestAssignedList, langAssignedEmp);
   }
-
-  @Override
-  public void start(Stage primaryStage) {}
 }

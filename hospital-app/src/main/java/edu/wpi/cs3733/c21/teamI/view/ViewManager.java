@@ -31,6 +31,15 @@ public class ViewManager {
               })
           .collect(Collectors.toMap(data -> data[0], data -> data[1]));
   protected static HomeController homeController;
+  protected static boolean firstNotifInit = true;
+
+  public static boolean getFirstNotif() {
+    return firstNotifInit;
+  }
+
+  public static void updateFirstNotifInit() {
+    firstNotifInit = false;
+  }
 
   public static void navigate(MouseEvent e) throws IOException {
     String id = ((JFXRippler) e.getSource()).getId();
@@ -59,5 +68,7 @@ public class ViewManager {
         MapDataEntity.getNodesSet(true);
       }
     }
+    System.out.println(
+        "Replace width and height: " + replacePane.getWidth() + " " + replacePane.getHeight());
   }
 }
