@@ -861,6 +861,19 @@ public class UserDatabaseManager extends DatabaseManager {
     }
   }
 
+  public void updateEntryApprovalForUser(int userID, User.EntryApproval ent) {
+    try {
+      Statement stmt = databaseRef.getConnection().createStatement();
+      stmt.executeUpdate(
+              "UPDATE HOSPITAL_USERS SET entryApproval = '"
+                      + ent.toString()
+                      + "' WHERE user_id = "
+                      + userID);
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+  }
+
   public User.EntryApproval getEntryApprovalForUser(int userID) {
     try {
       Statement stmt = databaseRef.getConnection().createStatement();
