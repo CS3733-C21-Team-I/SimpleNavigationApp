@@ -114,8 +114,7 @@ public class MapPathfindingController extends MapController {
     mapPane.getChildren().clear();
     drawLocationNodes();
     if (foundPathExists()) {
-      ObservableList<String> items = FXCollections.observableArrayList(new ArrayList<String>());
-      populateDirections(new ArrayList<DirectionStep>());
+      populateDirections(new ArrayList<>());
       drawCalculatedPath(getFoundPath());
     }
   }
@@ -125,7 +124,7 @@ public class MapPathfindingController extends MapController {
       JFXButton button = new JFXButton(step.stepDetails);
       button.setMaxWidth(directionsField.getWidth());
       button.setRipplerFill(Color.valueOf("#0067b1"));
-      button.setStyle("-fx-alignment: LEFT;");
+      button.setStyle("-fx-alignment: LEFT; -fx-cursor:hand;");
       directionsField.getChildren().add(button);
     }
   }
