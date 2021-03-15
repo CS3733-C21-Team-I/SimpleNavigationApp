@@ -12,21 +12,20 @@ import edu.wpi.cs3733.c21.teamI.user.User;
 import java.io.IOException;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import javafx.animation.*;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
@@ -50,6 +49,12 @@ public class HomeController extends Application {
   @FXML Button mobileButton;
 
   @FXML StackPane homePane;
+
+  @FXML VBox page;
+
+  @FXML StackPane sidePane, spacer;
+
+  Notification lastNotif;
 
   @FXML
   public void initClock() {
@@ -114,13 +119,13 @@ public class HomeController extends Application {
 
   @FXML
   public void update() {
-    VBox box = null;
     HBox hBox = null;
     try {
       FXMLLoader vLoader = new FXMLLoader(getClass().getResource("/fxml/menuFiles/Menu.fxml"));
-      box = vLoader.load();
+      sidePane.getChildren().clear();
+      sidePane.getChildren().add(vLoader.load());
+      sidePane.setAlignment(Pos.CENTER);
       ViewManager.homeController = this;
-      System.out.println("loading notification fxml");
       FXMLLoader hLoader =
           new FXMLLoader(getClass().getResource("/fxml/menuFiles/NotificationContent.fxml"));
       hBox = hLoader.load();
@@ -144,7 +149,6 @@ public class HomeController extends Application {
     } catch (IOException e) {
       e.printStackTrace();
     }
-    drawer.setSidePane(box);
     notifDrawer.setSidePane(hBox);
   }
 
@@ -191,16 +195,51 @@ public class HomeController extends Application {
             notifDrawer.open();
           });
 
+      final TranslateTransition translateLeftAnchor =
+          new TranslateTransition(Duration.millis(500), sidePane);
+      spacer.setVisible(false);
+      spacer.setManaged(false);
+
       HamburgerSlideCloseTransition hamburgerTransition = new HamburgerSlideCloseTransition(ham1);
       hamburgerTransition.setRate(-1);
       ham1.addEventHandler(
           MouseEvent.MOUSE_CLICKED,
           (e) -> {
+            HBox.setHgrow(drawerPane, Priority.NEVER);
+            KeyValue widthValue;
+            drawerPane.setPrefWidth(drawerPane.getWidth());
             hamburgerTransition.setRate(hamburgerTransition.getRate() * -1);
             hamburgerTransition.play();
-            drawer.toggle();
+            spacer.setVisible(false);
+            spacer.setManaged(false);
+
+            if (hamburgerTransition.getRate() == -1) {
+              widthValue =
+                  new KeyValue(drawerPane.prefWidthProperty(), drawerPane.getWidth() + 130);
+              KeyFrame frame = new KeyFrame(Duration.seconds(0.5), widthValue);
+              Timeline timeline = new Timeline(frame);
+              timeline.setOnFinished(
+                  p -> {
+                    HBox.setHgrow(drawerPane, Priority.ALWAYS);
+                  });
+              timeline.play();
+            } else {
+              widthValue =
+                  new KeyValue(drawerPane.prefWidthProperty(), drawerPane.getWidth() - 130);
+              KeyFrame frame = new KeyFrame(Duration.seconds(0.5), widthValue);
+              Timeline timeline = new Timeline(frame);
+              timeline.setOnFinished(
+                  p -> {
+                    spacer.setVisible(true);
+                    spacer.setManaged(true);
+                    HBox.setHgrow(drawerPane, Priority.ALWAYS);
+                    //                    StackPane.setMargin(drawerPane, new Insets(0, 0, 0, 400));
+                  });
+
+              timeline.play();
+            }
+            translateLeftAnchor.play();
           });
-      drawer.open();
     }
   }
 

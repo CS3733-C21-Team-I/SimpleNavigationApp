@@ -68,5 +68,7 @@ public class ViewManager {
         MapDataEntity.getNodesSet(true);
       }
     }
+    System.out.println(
+        "Replace width and height: " + replacePane.getWidth() + " " + replacePane.getHeight());
   }
 }

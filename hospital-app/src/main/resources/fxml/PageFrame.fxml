@@ -13,7 +13,7 @@
 
 <AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamI.view.HomeController">
    <children>
-      <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox fx:id="page" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <Label fx:id="titleLabel" alignment="CENTER" contentDisplay="CENTER" maxHeight="80.0" maxWidth="1.7976931348623157E308" minHeight="80.0" prefHeight="80.0" style="-fx-background-color: white;" text="Page Title" textAlignment="CENTER" textFill="#012d5a">
                <font>
@@ -21,23 +21,28 @@
                </font>
             </Label>
             <AnchorPane fx:id="orangeBar" maxHeight="20.0" minHeight="20.0" prefHeight="20.0" prefWidth="200.0" style="-fx-background-color: #F6BD38;" />
-            <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" nodeOrientation="RIGHT_TO_LEFT" VBox.vgrow="ALWAYS">
+            <HBox alignment="CENTER_RIGHT" VBox.vgrow="ALWAYS">
                <children>
-                  <AnchorPane fx:id="drawerPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
+                  <StackPane fx:id="spacer" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="130.0" />
+                  <StackPane fx:id="sidePane" style="-fx-background-color: white;" HBox.hgrow="NEVER">
+                     <HBox.margin>
+                        <Insets left="-130.0" />
+                     </HBox.margin>
+                  </StackPane>
+                  <AnchorPane fx:id="drawerPane" HBox.hgrow="ALWAYS">
                      <children>
-                        <StackPane fx:id="replacePane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" nodeOrientation="LEFT_TO_RIGHT" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                        <JFXDrawer fx:id="notifDrawer" defaultDrawerSize="120.0" direction="TOP" prefHeight="20.0" style="-fx-background-color: transparent;" />
+                        <StackPane fx:id="replacePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                        <JFXDrawer fx:id="notifDrawer" defaultDrawerSize="120.0" direction="TOP" prefHeight="20.0" style="-fx-background-color: transparent;" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                      </children>
-                  </AnchorPane>
-                  <JFXDrawer fx:id="drawer" alignment="TOP_RIGHT" centerShape="false" maxWidth="55.0" minWidth="55.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="600.0" prefWidth="55.0" HBox.hgrow="NEVER">
                      <HBox.margin>
                         <Insets />
-                     </HBox.margin></JFXDrawer>
+                     </HBox.margin>
+                  </AnchorPane>
                </children>
             </HBox>
          </children>
       </VBox>
-      <JFXHamburger fx:id="ham1" stylesheets="@misc/css/main.css" AnchorPane.leftAnchor="16.0" AnchorPane.topAnchor="120.0">
+      <JFXHamburger fx:id="ham1" stylesheets="@misc/css/main.css" AnchorPane.leftAnchor="24.0" AnchorPane.topAnchor="120.0">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></JFXHamburger>
