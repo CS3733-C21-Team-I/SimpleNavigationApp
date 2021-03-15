@@ -610,19 +610,31 @@ public abstract class MapController extends Application {
     //    imgWidth = width;
     //    imgHeight = height;
     //    width = imgWidth / 2;
+    double newMinX;
+    double newMinY;
     if (height > width) {
       width = height * imgWidth / imgHeight;
+      y = x * imgHeight / imgWidth;
     } else {
       height = width * imgHeight / imgWidth;
+      x = y * imgWidth / imgHeight;
     }
+
+    System.out.println(width + " " + height);
+    newMinX = x + width / 2;
+    newMinY = y + height / 2;
+
+    //    newMinX = x - width * 0.75;
+    //    newMinY = y - height * 0.75;
+
     //    return x * (fullImgWidth / imgWidth) * mapPane.getPrefWidth() / 100000
     //        - xOffset * mapPane.getPrefWidth() / imgWidth;
     //    x = transformX(x);
     //    y = transformY(y);
 
     System.out.println("transformX " + x + " Y " + y);
-    double newMinX = x - width / 2;
-    double newMinY = y - height / 2;
+    //    double newMinX = x + width / 2;
+    //    double newMinY = y + height / 2;
 
     mapImage.setViewport(new Rectangle2D(newMinX, newMinY, width, height));
     imgWidth = mapImage.getViewport().getWidth();
@@ -638,8 +650,8 @@ public abstract class MapController extends Application {
     double centerX = transformX(DirectionStep.calcCenterPointX(a, b));
     double centerY = transformY(DirectionStep.calcCenterPointY(a, b));
 
-    double width = transformX(DirectionStep.calcWidth(a, b)) * 2;
-    double height = transformY(DirectionStep.calcHeight(a, b)) * 2;
+    double width = transformX(DirectionStep.calcWidth(a, b) * 2);
+    double height = transformY(DirectionStep.calcHeight(a, b) * 2);
     double x = centerX - width / 2;
     double y = centerY - height / 2;
     System.out.println("Big picture " + fullImgWidth + " " + fullImgHeight);

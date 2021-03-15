@@ -26,11 +26,11 @@ public class DirectionStep {
   }
 
   public static double calcCenterPointX(HospitalMapNode a, HospitalMapNode b) {
-    return (a.getxCoord() + b.getxCoord()) / 2;
+    return (a.getxCoord() + b.getxCoord()) / 2.0;
   }
 
   public static double calcCenterPointY(HospitalMapNode a, HospitalMapNode b) {
-    return (a.getyCoord() + b.getyCoord()) / 2;
+    return (a.getyCoord() + b.getyCoord()) / 2.0;
   }
 
   public static double calcWidth(HospitalMapNode a, HospitalMapNode b) {
