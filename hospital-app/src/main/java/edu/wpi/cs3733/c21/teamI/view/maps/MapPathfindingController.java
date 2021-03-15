@@ -122,6 +122,7 @@ public class MapPathfindingController extends MapController {
   }
 
   private void populateDirections(List<DirectionStep> directionSteps) {
+    directionsField.getChildren().clear();
     for (DirectionStep step : directionSteps) {
       JFXButton button = new JFXButton(step.stepDetails);
       button.setMaxWidth(directionsField.getWidth());
