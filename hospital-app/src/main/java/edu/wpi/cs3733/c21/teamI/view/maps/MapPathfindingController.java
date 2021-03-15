@@ -329,24 +329,31 @@ public class MapPathfindingController extends MapController {
         t -> {
           circle.setStyle("-fx-cursor: hand");
           setStartAndEndOnClick(((LocationNode) node).getLongName());
-          Timeline bouncer = new Timeline();
-          bouncer
-              .getKeyFrames()
-              .addAll(
-                  new KeyFrame(
-                      new javafx.util.Duration(0), new KeyValue(circle.translateYProperty(), 0.0)),
-                  new KeyFrame(
-                      new javafx.util.Duration(100),
-                      new KeyValue(circle.translateYProperty(), -20.0)),
-                  new KeyFrame(
-                      new javafx.util.Duration(600), new KeyValue(circle.translateYProperty(), 0)));
-          bouncer.play();
+          iconAnimation(circle);
         });
     circle.setStyle("-fx-cursor: hand");
     return circle;
   }
 
+  public void iconAnimation(Node circle) {
+    Timeline bouncer = new Timeline();
+    bouncer
+        .getKeyFrames()
+        .addAll(
+            new KeyFrame(
+                new javafx.util.Duration(0), new KeyValue(circle.translateYProperty(), 0.0)),
+            new KeyFrame(
+                new javafx.util.Duration(100), new KeyValue(circle.translateYProperty(), -20.0)),
+            new KeyFrame(
+                new javafx.util.Duration(600), new KeyValue(circle.translateYProperty(), 0)));
+    bouncer.play();
+  }
+
+  boolean fillStart = true;
+  boolean fillDestination = false;
+
   public void setStartAndEndOnClick(String nodeName) {
+
     if (start.isFocused()) {
       start.setText(nodeName);
       destination.requestFocus();
@@ -357,6 +364,14 @@ public class MapPathfindingController extends MapController {
       start.setText(nodeName);
     } else if (destination.getText().equals("")) {
       destination.setText(nodeName);
+    } else if (fillStart) {
+      start.setText(nodeName);
+      fillStart = false;
+      fillDestination = true;
+    } else if (fillDestination) {
+      destination.setText(nodeName);
+      fillDestination = false;
+      fillStart = true;
     }
   }
 
@@ -478,8 +493,6 @@ public class MapPathfindingController extends MapController {
           }
         });
   }
-
-
 
   public void displayIcon(String imagePath, HospitalMapNode node) {
     double imgScale = 100 / scale;
