@@ -238,13 +238,14 @@ public class MapPathfindingController extends MapController {
           .removeIf(n -> (n.getClass() == Line.class) || (n.getClass() == Circle.class));
       try {
         drawPath(foundPath);
+        drawLocationNodes();
         if (nodeA.getMapID().equals(currentMapID)) drawStartPoint(foundPath);
         if (nodeB.getMapID().equals(currentMapID)) drawEndPoint(foundPath);
       } catch (IOException e) {
+        drawLocationNodes();
         e.printStackTrace();
       }
 
-      drawLocationNodes();
       showButtonToNextMapOnPath(foundPath);
       displayDirections(getFoundPathDescription());
     }
@@ -558,7 +559,7 @@ public class MapPathfindingController extends MapController {
     }
     double startIconX = transformX(path.get(0).getxCoord()) - imgScale / 2;
     double startIconY = transformY(path.get(0).getyCoord()) - imgScale;
-    drawNode(path.get(0), blue);
+    // drawNode(path.get(0), blue);
     displayImage(startIcon, startIconX, startIconY, imgScale);
   }
 
@@ -576,7 +577,7 @@ public class MapPathfindingController extends MapController {
     }
     double finishIconX = transformX(path.get(path.size() - 1).getxCoord()) - imgScale / 2;
     double finishIconY = transformY(path.get(path.size() - 1).getyCoord()) - imgScale;
-    drawNode(path.get(path.size() - 1), red);
+    // drawNode(path.get(path.size() - 1), red);
     displayImage(finishIcon, finishIconX, finishIconY, imgScale);
   }
 }
