@@ -16,6 +16,8 @@ import java.util.List;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -124,7 +126,14 @@ public class MapPathfindingController extends MapController {
       JFXButton button = new JFXButton(step.stepDetails);
       button.setMaxWidth(directionsField.getWidth());
       button.setRipplerFill(Color.valueOf("#0067b1"));
-      button.setStyle("-fx-alignment: LEFT; -fx-cursor:hand;");
+      String styleString = "-fx-alignment: LEFT; -fx-cursor:hand; ";
+      button
+          .styleProperty()
+          .bind(
+              Bindings.when(button.hoverProperty())
+                  .then(new SimpleStringProperty(styleString + "-fx-background-color: #cdeaff"))
+                  .otherwise(
+                      new SimpleStringProperty(styleString + "-fx-background-color: white")));
       directionsField.getChildren().add(button);
     }
   }
