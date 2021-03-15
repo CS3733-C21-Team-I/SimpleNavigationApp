@@ -614,15 +614,13 @@ public abstract class MapController extends Application {
     double newMinY;
     if (height > width) {
       width = height * imgWidth / imgHeight;
-      y = x * imgHeight / imgWidth;
     } else {
       height = width * imgHeight / imgWidth;
-      x = y * imgWidth / imgHeight;
     }
 
     System.out.println(width + " " + height);
-    newMinX = x + width / 2;
-    newMinY = y + height / 2;
+    newMinX = x + width; // - width / 2
+    newMinY = y + height; // - height / 2
 
     //    newMinX = x - width * 0.75;
     //    newMinY = y - height * 0.75;
@@ -632,9 +630,9 @@ public abstract class MapController extends Application {
     //    x = transformX(x);
     //    y = transformY(y);
 
-    System.out.println("transformX " + x + " Y " + y);
-    //    double newMinX = x + width / 2;
-    //    double newMinY = y + height / 2;
+    // System.out.println("transformX " + x + " Y " + y);
+    // double newMinX = x + width / 2;
+    // double newMinY = y + height / 2;
 
     mapImage.setViewport(new Rectangle2D(newMinX, newMinY, width, height));
     imgWidth = mapImage.getViewport().getWidth();

@@ -175,6 +175,7 @@ public class MapPathfindingController extends MapController {
   private HospitalMapNode lastNodeOnSameFloor(List<HospitalMapNode> path) {
     for (int i = path.size() - 1; i > 1; i--) {
       if (path.get(i).getMapID().equals(path.get(0).getMapID())) {
+        System.out.println("Last Node on Floor: " + path.get(i).getID());
         return path.get(i);
       }
     }
