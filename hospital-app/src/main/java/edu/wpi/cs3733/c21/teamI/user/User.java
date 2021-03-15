@@ -25,12 +25,16 @@ public class User extends RecursiveTreeObject<User> {
 
   private CovidRisk covidR;
 
+  private EntryApproval entryApproval;
+
+
   public User(int userId, String name, Set<Role> userRoles, Set<Permission> userPermissions) {
     this.userRoles = userRoles;
     this.userPermissions = userPermissions;
     this.name = name;
     this.userId = userId;
     this.covidR = CovidRisk.PENDING;
+    this.entryApproval = EntryApproval.OFFSITE;
   }
 
   /** @param permission */
@@ -108,6 +112,25 @@ public class User extends RecursiveTreeObject<User> {
       default:
         return new SimpleStringProperty("PENDING");
     }
+  }
+
+  public SimpleStringProperty getApprovalString(){
+    switch(entryApproval){
+      case APPROVED:
+        return new SimpleStringProperty("APPROVED");
+      case REJECTED:
+        return new SimpleStringProperty("REJECTED");
+      default:
+        return new SimpleStringProperty("PENDING");
+    }
+  }
+
+  public EntryApproval getEntryApproval() {
+    return entryApproval;
+  }
+
+  public void setEntryApproval(EntryApproval entryApproval) {
+    this.entryApproval = entryApproval;
   }
 
   public void setCovidRisk(CovidRisk cov) {
