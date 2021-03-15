@@ -96,6 +96,8 @@ public abstract class MapController extends Application {
   public abstract void toggleEditMap(ActionEvent e) throws IOException;
 
   protected double transformX(double x) {
+    System.out.println(
+        fullImgWidth + " " + imgWidth + " " + xOffset + " " + mapPane.getPrefWidth());
     return x * (fullImgWidth / imgWidth) * mapPane.getPrefWidth() / 100000
         - xOffset * mapPane.getPrefWidth() / imgWidth;
   }
@@ -472,6 +474,7 @@ public abstract class MapController extends Application {
     double newMinY =
         clamp(mouse.getY() - (mouse.getY() - viewport.getMinY()) * scale, 0, height - newHeight);
     mapImage.setViewport(new Rectangle2D(newMinX, newMinY, newWidth, newHeight));
+    System.out.println(mapImage.getViewport());
     imgWidth = mapImage.getViewport().getWidth();
     imgHeight = mapImage.getViewport().getHeight();
     xOffset = mapImage.getViewport().getMinX();
@@ -584,6 +587,7 @@ public abstract class MapController extends Application {
     double minX = clamp(viewport.getMinX() - delta.getX(), 0, maxX);
     double minY = clamp(viewport.getMinY() - delta.getY(), 0, maxY);
     imageView.setViewport(new Rectangle2D(minX, minY, viewport.getWidth(), viewport.getHeight()));
+    System.out.println(imageView.getViewport());
   }
 
   protected double clamp(double value, double min, double max) {
@@ -612,15 +616,17 @@ public abstract class MapController extends Application {
     //    width = imgWidth / 2;
     double newMinX;
     double newMinY;
-    if (height > width) {
-      width = height * imgWidth / imgHeight;
-    } else {
-      height = width * imgHeight / imgWidth;
-    }
+    //    if (height > width) {
+    //      width = height * imgWidth / imgHeight;
+    //    } else {
+    //      height = width * imgHeight / imgWidth;
+    //    }
 
+    update();
     System.out.println(width + " " + height);
-    newMinX = x + width; // - width / 2
-    newMinY = y + height; // - height / 2
+    newMinX = transformX(x) / (mapPane.getPrefWidth() / imgWidth) - width / 2; // - width / 2
+    newMinY = transformY(y) / (mapPane.getPrefHeight() / imgHeight) - height / 2; // - height / 2
+    System.out.println(newMinX + ", " + newMinY);
 
     //    newMinX = x - width * 0.75;
     //    newMinY = y - height * 0.75;
@@ -630,9 +636,9 @@ public abstract class MapController extends Application {
     //    x = transformX(x);
     //    y = transformY(y);
 
-    // System.out.println("transformX " + x + " Y " + y);
-    // double newMinX = x + width / 2;
-    // double newMinY = y + height / 2;
+    System.out.println("transformX " + x + " Y " + y);
+    //    double newMinX = x + width / 2;
+    //    double newMinY = y + height / 2;
 
     mapImage.setViewport(new Rectangle2D(newMinX, newMinY, width, height));
     imgWidth = mapImage.getViewport().getWidth();
@@ -645,13 +651,26 @@ public abstract class MapController extends Application {
   }
 
   public void zoomToFitNodes(HospitalMapNode a, HospitalMapNode b, double padding) {
-    double centerX = transformX(DirectionStep.calcCenterPointX(a, b));
-    double centerY = transformY(DirectionStep.calcCenterPointY(a, b));
+    double centerX = DirectionStep.calcCenterPointX(a, b);
+    double centerY = DirectionStep.calcCenterPointY(a, b);
 
-    double width = transformX(DirectionStep.calcWidth(a, b) * 2);
-    double height = transformY(DirectionStep.calcHeight(a, b) * 2);
+    double width = transformX(DirectionStep.calcWidth(a, b));
+    double height = transformY(DirectionStep.calcHeight(a, b));
     double x = centerX - width / 2;
     double y = centerY - height / 2;
+
+    if (height > width) {
+      width = height * imgWidth / imgHeight;
+    } else {
+      height = width * imgHeight / imgWidth;
+    }
+
+    mapImage.setViewport(new Rectangle2D(0, 0, width, height));
+    imgWidth = mapImage.getViewport().getWidth();
+    imgHeight = mapImage.getViewport().getHeight();
+    xOffset = mapImage.getViewport().getMinX();
+    yOffset = mapImage.getViewport().getMinY();
+
     System.out.println("Big picture " + fullImgWidth + " " + fullImgHeight);
 
     zoomToPoint(centerX, centerY, width, height, padding);
