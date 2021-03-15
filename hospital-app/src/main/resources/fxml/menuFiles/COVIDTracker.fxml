@@ -105,11 +105,6 @@
       </JFXTreeTableView>
       <HBox maxWidth="800.0" prefHeight="46.0" prefWidth="200.0">
          <children>
-            <JFXButton fx:id="arrivedBtn" onAction="#markArrived" style="-fx-background-color: #012d5a;" text="Mark as Arrived" textFill="WHITE">
-               <HBox.margin>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </HBox.margin>
-            </JFXButton>
             <JFXButton fx:id="clearedBtn" onAction="#markCleared" style="-fx-background-color: #012d5a;" text="Cleared" textFill="WHITE">
                <HBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

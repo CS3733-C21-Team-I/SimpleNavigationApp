@@ -41,10 +41,10 @@ public class User extends RecursiveTreeObject<User> {
     TRANSPORTATION_EMPLOYEE
   }
 
-  public enum EntryApproval{
+  public enum EntryApproval {
     APPROVED,
     REJECTED,
-    OFFSITE //not yet arrived
+    OFFSITE // not yet arrived
   }
 
   public enum Permission {
@@ -86,8 +86,8 @@ public class User extends RecursiveTreeObject<User> {
     }
   }
 
-  public SimpleStringProperty getApprovalString(){
-    switch(entryApproval){
+  public SimpleStringProperty getApprovalString() {
+    switch (entryApproval) {
       case APPROVED:
         return new SimpleStringProperty("APPROVED");
       case REJECTED:
@@ -117,7 +117,9 @@ public class User extends RecursiveTreeObject<User> {
     return name;
   }
 
-  public String getName() {return name;}
+  public String getName() {
+    return name;
+  }
 
   public int getUserId() {
     return userId;
@@ -129,4 +131,3 @@ public class User extends RecursiveTreeObject<User> {
     return userPermissions.contains(permission);
   }
 }
-

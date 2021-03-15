@@ -28,7 +28,7 @@ public class COVIDTrackerController {
 
   @FXML private Label soreThroat, breath, taste, fever, congestion, cough, nausea;
   @FXML private Label diarrhea, headache, positiveContact, sympContact, testResult;
-  @FXML private Button risk, notRisk, arrivedBtn, markDenied, markCleared;
+  @FXML private Button risk, notRisk, deniedBtn, clearedBtn;
   CovidTicket covidTicket;
   @FXML Label finish;
   @FXML HBox form;
@@ -78,28 +78,24 @@ public class COVIDTrackerController {
       color(covidTicket.isCovidTest(), testResult);
     }
 
-    form.setVisible(true); // TODO remove this line
-
     Callback<User, javafx.beans.Observable[]> extractor =
         new Callback<User, javafx.beans.Observable[]>() {
           @Override
           public javafx.beans.Observable[] call(User u) {
-            return new Observable[] {u.getRiskString()};
+            return new Observable[] {u.getRiskString(), u.getApprovalString()};
           }
         };
 
     ArrayList<JFXTreeTableColumn> columns = new ArrayList();
     JFXTreeTableColumn<User, String> nameCol = new JFXTreeTableColumn<>("Name");
-    nameCol.setPrefWidth(200);
-    nameCol.setEditable(true);
+    nameCol.setPrefWidth(197);
     nameCol.setCellValueFactory(
         param -> {
-          return new SimpleStringProperty(param.getValue().getValue().getName());
+          return new SimpleStringProperty(" " + param.getValue().getValue().getName());
         });
 
     JFXTreeTableColumn<User, String> riskCol = new JFXTreeTableColumn<>("COVID Status");
-    riskCol.setPrefWidth(200);
-    riskCol.setEditable(true);
+    riskCol.setPrefWidth(197);
     riskCol.setCellValueFactory(
         param -> {
           switch (param.getValue().getValue().getCovidRisk()) {
@@ -113,8 +109,7 @@ public class COVIDTrackerController {
         });
 
     JFXTreeTableColumn<User, String> entranceCol = new JFXTreeTableColumn<>("Permitted Entrance");
-    entranceCol.setPrefWidth(200);
-    entranceCol.setEditable(true);
+    entranceCol.setPrefWidth(197);
     entranceCol.setCellValueFactory(
         param -> {
           switch (param.getValue().getValue().getCovidRisk()) {
@@ -126,8 +121,13 @@ public class COVIDTrackerController {
               return new SimpleStringProperty("Undetermined");
           }
         });
-    JFXTreeTableColumn<User, String> arrivedCol = new JFXTreeTableColumn<>("Arrived");
-    arrivedCol.setPrefWidth(200);
+
+    JFXTreeTableColumn<User, String> entryCol = new JFXTreeTableColumn<>("Nurse Approved Entry");
+    entryCol.setPrefWidth(197);
+    entryCol.setCellValueFactory(
+        param -> {
+          return param.getValue().getValue().getApprovalString();
+        });
 
     userList = FXCollections.observableArrayList(extractor);
     updateTable();
@@ -139,7 +139,7 @@ public class COVIDTrackerController {
     treeView.setShowRoot(false);
 
     // add cols to table
-    treeView.getColumns().setAll(nameCol, riskCol, entranceCol, arrivedCol);
+    treeView.getColumns().setAll(nameCol, riskCol, entranceCol, entryCol);
   }
 
   public void submit(ActionEvent actionEvent) {
@@ -157,16 +157,11 @@ public class COVIDTrackerController {
     finish.setVisible(true);
   }
 
-  public void markArrived() {
-    // TODO System.out.println("this is selected: " +
-    // treeView.getSelectionModel().getSelectedItem().getValue().----setArrived function?---);
-  }
-
   public void markDenied() {
     User user = treeView.getSelectionModel().getSelectedItem().getValue();
     if (user != null) {
       int id = user.getUserId();
-      UserDatabaseManager.getInstance().updateCovidRiskForUser(id, User.CovidRisk.COVID_RISK);
+      UserDatabaseManager.getInstance().updateEntryApprovalForUser(id, User.EntryApproval.REJECTED);
       updateTable();
     } else {
       System.out.println("no user selected");
@@ -177,7 +172,7 @@ public class COVIDTrackerController {
     User user = treeView.getSelectionModel().getSelectedItem().getValue();
     if (user != null) {
       int id = user.getUserId();
-      UserDatabaseManager.getInstance().updateCovidRiskForUser(id, User.CovidRisk.NO_COVID_RISK);
+      UserDatabaseManager.getInstance().updateEntryApprovalForUser(id, User.EntryApproval.APPROVED);
       updateTable();
     } else {
       System.out.println("no user selected");
