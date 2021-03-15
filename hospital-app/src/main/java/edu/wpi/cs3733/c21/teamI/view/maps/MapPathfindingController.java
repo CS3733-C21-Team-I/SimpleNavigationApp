@@ -216,7 +216,7 @@ public class MapPathfindingController extends MapController {
         HospitalMapNode nodeA = MapDataEntity.getNodeByLongName(begin);
         HospitalMapNode nodeB = MapDataEntity.getNodeByLongName(end);
         getFoundPath(nodeA, nodeB);
-        if (foundPathExists()) goToStartTab(e, foundPath.get(0).getMapID());
+        if (foundPathExists()) goToTab(foundPath.get(0).getMapID());
         update();
       } else {
         System.out.println("Invalid destination entered");
@@ -243,7 +243,7 @@ public class MapPathfindingController extends MapController {
       } catch (IOException e) {
         e.printStackTrace();
       }
-      //
+
       drawLocationNodes();
       showButtonToNextMapOnPath(foundPath);
       displayDirections(getFoundPathDescription());

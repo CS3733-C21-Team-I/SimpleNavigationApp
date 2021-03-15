@@ -290,7 +290,7 @@ public abstract class MapController extends Application {
           /** Implement what you want to be returned on click here */
           @Override
           public void handle(ActionEvent event) {
-            switchOnClick(event, nextMapID);
+            goToTab(nextMapID);
             // System.out.println(Id);
           }
         });
