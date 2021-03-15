@@ -61,6 +61,12 @@ public class User extends RecursiveTreeObject<User> {
     TRANSPORTATION_EMPLOYEE
   }
 
+  public enum EntryApproval{
+    APPROVED,
+    REJECTED,
+    OFFSITE //not yet arrived
+  }
+
   public enum Permission {
     EDIT_MAP,
     VIEW_TICKET,
