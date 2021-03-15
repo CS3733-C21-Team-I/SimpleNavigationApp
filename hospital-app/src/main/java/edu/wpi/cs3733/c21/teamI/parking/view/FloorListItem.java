@@ -70,6 +70,11 @@ public class FloorListItem extends JFXListCell<Floor> {
       coveredLabel.setVisible(item.isCovered());
       staffOnlyLabel.setVisible(item.isStaffOnly());
 
+      gridPane.setStyle(
+          "    -fx-border-radius: 10px;\n"
+              + "    -fx-border-width: 2px;\n"
+              + "    -fx-border-color: black;\n");
+
       setGraphic(gridPane);
       setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
     }

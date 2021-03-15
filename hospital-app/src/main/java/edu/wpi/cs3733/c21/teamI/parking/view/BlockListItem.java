@@ -70,7 +70,7 @@ public class BlockListItem extends JFXListCell<Block> {
       else
         setBackground(
             new Background(
-                new BackgroundFill(Color.web("#CCFFCC"), CornerRadii.EMPTY, Insets.EMPTY)));
+                new BackgroundFill(Color.web("#012D5A"), CornerRadii.EMPTY, Insets.EMPTY)));
 
       if (floors.isEmpty()) {
         Callback<Floor, Observable[]> extractor =
@@ -87,6 +87,11 @@ public class BlockListItem extends JFXListCell<Block> {
         floorList.prefHeightProperty().setValue(45 + (floors.size() - 1) * 30);
         pane.prefHeightProperty().setValue(105 + (floors.size() - 1) * 30);
       }
+
+      pane.setStyle(
+          "    -fx-border-radius: 10px;\n"
+              + "    -fx-border-width: 2px;\n"
+              + "    -fx-border-color: black;");
 
       setGraphic(pane);
       setContentDisplay(ContentDisplay.GRAPHIC_ONLY);

@@ -26,7 +26,7 @@
                               <Insets bottom="20.0" />
                            </padding>
                           </Label>
-                          <JFXListView fx:id="lotView" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="700.0" prefWidth="600.0">
+                          <JFXListView fx:id="lotView" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="700.0" prefWidth="600.0" style="-fx-background-color: #012D5A;">
                            <VBox.margin>
                               <Insets bottom="60.0" left="60.0" right="60.0" />
                            </VBox.margin>
