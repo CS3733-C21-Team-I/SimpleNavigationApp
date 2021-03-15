@@ -1,8 +1,10 @@
 package edu.wpi.cs3733.c21.teamI.user;
 
+import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import java.util.Set;
+import javafx.beans.property.SimpleStringProperty;
 
-public class User {
+public class User extends RecursiveTreeObject<User> {
 
   public static User baseUser;
 
@@ -89,6 +91,17 @@ public class User {
 
   public CovidRisk getCovidRisk() {
     return covidR;
+  }
+
+  public SimpleStringProperty getRiskString() {
+    switch (covidR) {
+      case COVID_RISK:
+        return new SimpleStringProperty("RISK");
+      case NO_COVID_RISK:
+        return new SimpleStringProperty("CLEARED");
+      default:
+        return new SimpleStringProperty("PENDING");
+    }
   }
 
   public void setCovidRisk(CovidRisk cov) {
