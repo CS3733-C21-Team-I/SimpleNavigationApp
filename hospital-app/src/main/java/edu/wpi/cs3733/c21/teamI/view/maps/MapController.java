@@ -601,7 +601,7 @@ public abstract class MapController extends Application {
   }
 
   public void zoomToPoint(double x, double y, double width, double height, double padding) {
-    System.out.println("incoming width: " + width + "  height:  " + height);
+    System.out.println("incoming width: " + width + "  height:  " + height + " " + x + " " + y);
     //    imgWidth = fullImgWidth;
     //    imgHeight = fullImgHeight;
     //    width = transformX(width) + 2 * padding;
@@ -609,10 +609,16 @@ public abstract class MapController extends Application {
     //    System.out.println("outgoing width: " + width + "  height:  " + height);
     //    imgWidth = width;
     //    imgHeight = height;
-    width = 500;
-    height = 300;
-    x = transformX(x);
-    y = transformY(y);
+    //    width = imgWidth / 2;
+    if (height > width) {
+      width = height * imgWidth / imgHeight;
+    } else {
+      height = width * imgHeight / imgWidth;
+    }
+    //    return x * (fullImgWidth / imgWidth) * mapPane.getPrefWidth() / 100000
+    //        - xOffset * mapPane.getPrefWidth() / imgWidth;
+    //    x = transformX(x);
+    //    y = transformY(y);
 
     System.out.println("transformX " + x + " Y " + y);
     double newMinX = x - width / 2;
@@ -629,16 +635,15 @@ public abstract class MapController extends Application {
   }
 
   public void zoomToFitNodes(HospitalMapNode a, HospitalMapNode b, double padding) {
-    if (!b.equals(null)) {
-      double centerX = DirectionStep.calcCenterPointX(a, b);
-      double centerY = DirectionStep.calcCenterPointY(a, b);
+    double centerX = transformX(DirectionStep.calcCenterPointX(a, b));
+    double centerY = transformY(DirectionStep.calcCenterPointY(a, b));
 
-      double width = DirectionStep.calcWidth(a, b);
-      double height = DirectionStep.calcHeight(a, b);
-      double x = centerX - width / 2;
-      double y = centerY - height / 2;
+    double width = transformX(DirectionStep.calcWidth(a, b)) * 2;
+    double height = transformY(DirectionStep.calcHeight(a, b)) * 2;
+    double x = centerX - width / 2;
+    double y = centerY - height / 2;
+    System.out.println("Big picture " + fullImgWidth + " " + fullImgHeight);
 
-      zoomToPoint(x, y, width, height, padding);
-    }
+    zoomToPoint(centerX, centerY, width, height, padding);
   }
 }
