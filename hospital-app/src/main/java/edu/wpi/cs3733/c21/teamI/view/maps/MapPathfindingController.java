@@ -25,6 +25,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
@@ -135,6 +136,12 @@ public class MapPathfindingController extends MapController {
                   .then(new SimpleStringProperty(styleString + "-fx-background-color: #cdeaff"))
                   .otherwise(
                       new SimpleStringProperty(styleString + "-fx-background-color: white")));
+      Image icon = new Image("/fxml/map/mapImages/symbolIcons/redxicon.png");
+      ImageView imgView = new ImageView(icon);
+      imgView.setFitHeight(10);
+      imgView.setFitWidth(10);
+      button.setGraphic(imgView);
+      button.setPadding(new Insets(10, 10, 10, 10));
       directionsField.getChildren().add(button);
     }
   }
