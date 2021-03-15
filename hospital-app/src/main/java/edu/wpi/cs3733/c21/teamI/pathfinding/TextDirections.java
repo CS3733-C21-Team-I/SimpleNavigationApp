@@ -8,12 +8,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TextDirections {
-  private static List<DirectionStep> directionSteps = new ArrayList<>();
+  private static List<DirectionStep> directionSteps;
   private static StepType currStepType;
 
   public static ArrayList<String> getDirections(
       EuclidianDistCalc calc, List<HospitalMapNode> path) {
     ArrayList<String> directions = new ArrayList<>();
+    directionSteps = new ArrayList<>();
 
     if (path.size() < 2) {
       directions.add("No path was found.");

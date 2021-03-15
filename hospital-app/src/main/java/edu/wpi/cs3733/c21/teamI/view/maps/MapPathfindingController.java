@@ -117,18 +117,20 @@ public class MapPathfindingController extends MapController {
     mapPane.getChildren().clear();
     drawLocationNodes();
     if (foundPathExists()) {
-      populateDirections(new ArrayList<>());
+      // populateDirections(new ArrayList<>());
       drawCalculatedPath(getFoundPath());
     }
   }
 
   private void populateDirections(List<DirectionStep> directionSteps) {
+    System.out.println("Before:  " + directionsField.getChildren());
     directionsField.getChildren().clear();
+    System.out.println("After:  " + directionsField.getChildren());
     for (DirectionStep step : directionSteps) {
       JFXButton button = new JFXButton(step.stepDetails);
       button.setMaxWidth(directionsField.getWidth());
       button.setRipplerFill(Color.valueOf("#0067b1"));
-      String styleString = "-fx-alignment: LEFT; -fx-cursor:hand; ";
+      String styleString = "-fx-alignment: center-left; -fx-cursor:hand; ";
       button
           .styleProperty()
           .bind(
@@ -318,7 +320,8 @@ public class MapPathfindingController extends MapController {
     destination.setText("");
     clearFoundPath();
     ObservableList<String> items = FXCollections.observableArrayList(new ArrayList<String>());
-    populateDirections(new ArrayList<>());
+    // populateDirections(new ArrayList<>());
+    directionsField.getChildren().clear();
     update();
   }
 
