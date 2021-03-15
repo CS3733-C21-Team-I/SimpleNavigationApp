@@ -136,10 +136,10 @@ public class MapPathfindingController extends MapController {
                   .then(new SimpleStringProperty(styleString + "-fx-background-color: #cdeaff"))
                   .otherwise(
                       new SimpleStringProperty(styleString + "-fx-background-color: white")));
-      Image icon = new Image("/fxml/map/mapImages/symbolIcons/redxicon.png");
+      Image icon = new Image(step.getIconPath());
       ImageView imgView = new ImageView(icon);
-      imgView.setFitHeight(10);
-      imgView.setFitWidth(10);
+      imgView.setFitHeight(20);
+      imgView.setFitWidth(20);
       button.setGraphic(imgView);
       button.setPadding(new Insets(10, 10, 10, 10));
       directionsField.getChildren().add(button);
