@@ -18,6 +18,7 @@ public class ParkingNode extends LocationNode {
     super(id, mapID, xCoord, yCoord, shortName, longName, LocationCategory.PARK, "I", connections);
 
     ParkingNodeController.getInstance().registerNode(this);
+    this.isOccupied = false;
   }
 
   @Override
@@ -26,8 +27,7 @@ public class ParkingNode extends LocationNode {
   }
 
   public boolean isOccupied() {
-    System.out.println("isOccupied called");
-    return true;
+    return isOccupied;
   }
 
   public void setOccupied(boolean occupied) {
