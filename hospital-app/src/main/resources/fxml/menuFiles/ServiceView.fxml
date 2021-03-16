@@ -2,6 +2,7 @@
 
 <?import com.jfoenix.controls.JFXRippler?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.image.Image?>
@@ -11,6 +12,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
@@ -18,19 +20,11 @@
    <children>
       <HBox prefHeight="194.0" prefWidth="186.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+            <VBox HBox.hgrow="ALWAYS">
                <children>
-                  <Label text="Service Request Systems" VBox.vgrow="ALWAYS">
-                     <font>
-                        <Font size="32.0" />
-                     </font>
-                     <padding>
-                        <Insets bottom="20.0" left="20.0" right="10.0" top="10.0" />
-                     </padding>
-                  </Label>
-                  <ScrollPane prefHeight="200.0" prefWidth="200.0" style="-fx-border-color: none;" VBox.vgrow="ALWAYS">
+                  <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: translate;" VBox.vgrow="ALWAYS">
                     <content>
-                      <AnchorPane fx:id="replaceRequest" minHeight="0.0" minWidth="0.0" />
+                        <StackPane fx:id="replaceRequest" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
                     </content>
                      <VBox.margin>
                         <Insets bottom="20.0" left="20.0" right="20.0" />
@@ -38,7 +32,7 @@
                   </ScrollPane>
                </children>
             </VBox>
-            <ScrollPane minHeight="300.0" prefHeight="600.0" prefWidth="270.0" HBox.hgrow="NEVER">
+            <ScrollPane minHeight="300.0" prefHeight="560.0" prefWidth="281.0" style="-fx-background-color: transparent;" HBox.hgrow="NEVER">
                <content>
                   <AnchorPane maxWidth="1.7976931348623157E308" prefHeight="800.0" prefWidth="260.0">
                      <children>
@@ -150,6 +144,9 @@
                                        </children>
                                     </JFXRippler>
                                  </children>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
                               </HBox>
                               <HBox prefHeight="41.0" prefWidth="250.0" style="-fx-background-color: #012D5A;" GridPane.rowIndex="2">
                                  <children>
@@ -175,6 +172,9 @@
                                        </children>
                                     </JFXRippler>
                                  </children>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
                               </HBox>
                               <HBox prefHeight="41.0" prefWidth="250.0" style="-fx-background-color: #012D5A;" GridPane.rowIndex="4">
                                  <children>
@@ -200,6 +200,9 @@
                                        </children>
                                     </JFXRippler>
                                  </children>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
                               </HBox>
                               <HBox prefHeight="41.0" prefWidth="250.0" style="-fx-background-color: #012D5A;" GridPane.rowIndex="6">
                                  <children>
@@ -225,6 +228,9 @@
                                        </children>
                                     </JFXRippler>
                                  </children>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
                               </HBox>
                               <HBox prefHeight="41.0" prefWidth="250.0" style="-fx-background-color: #012D5A;" GridPane.rowIndex="8">
                                  <children>
@@ -250,6 +256,9 @@
                                        </children>
                                     </JFXRippler>
                                  </children>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
                               </HBox>
                               <HBox prefHeight="41.0" prefWidth="250.0" style="-fx-background-color: #012D5A;" GridPane.rowIndex="10">
                                  <children>
@@ -275,6 +284,9 @@
                                        </children>
                                     </JFXRippler>
                                  </children>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
                               </HBox>
                               <HBox prefHeight="41.0" prefWidth="250.0" style="-fx-background-color: #012D5A;" GridPane.rowIndex="12">
                                  <children>
@@ -300,6 +312,9 @@
                                        </children>
                                     </JFXRippler>
                                  </children>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
                               </HBox>
                               <HBox prefHeight="41.0" prefWidth="250.0" style="-fx-background-color: #012D5A;" GridPane.rowIndex="14">
                                  <children>
@@ -325,6 +340,9 @@
                                        </children>
                                     </JFXRippler>
                                  </children>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
                               </HBox>
                               <HBox prefHeight="41.0" prefWidth="250.0" style="-fx-background-color: #012D5A;" GridPane.rowIndex="16">
                                  <children>
@@ -350,6 +368,9 @@
                                        </children>
                                     </JFXRippler>
                                  </children>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
                               </HBox>
                               <HBox prefHeight="41.0" prefWidth="250.0" style="-fx-background-color: #012D5A;" GridPane.rowIndex="18">
                                  <children>
@@ -375,6 +396,9 @@
                                        </children>
                                     </JFXRippler>
                                  </children>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
                               </HBox>
                               <HBox prefHeight="42.0" prefWidth="250.0" style="-fx-background-color: #012D5A;" GridPane.rowIndex="20">
                                  <children>
@@ -400,15 +424,18 @@
                                        </children>
                                     </JFXRippler>
                                  </children>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
                               </HBox>
                            </children>
-                           <padding>
-                              <Insets top="20.0" />
-                           </padding>
                         </GridPane>
                      </children>
                   </AnchorPane>
                </content>
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
             </ScrollPane>
          </children>
       </HBox>
