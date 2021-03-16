@@ -11,15 +11,14 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.web.WebView?>
 
-<StackPane fx:id="root" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: BLACK;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamI.view.maps.GoogleMapsMainController">
+<StackPane fx:id="root" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: null;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamI.view.maps.GoogleMapsMainController">
    <children>
       <WebView fx:id="webview" minHeight="-1.0" minWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" visible="false" StackPane.alignment="CENTER" />
-      <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" StackPane.alignment="BOTTOM_CENTER">
+      <VBox alignment="CENTER" maxHeight="688.0" maxWidth="600.0" minHeight="400.0" minWidth="600.0" pickOnBounds="false" prefHeight="688.0" prefWidth="600.0" style="-fx-background-color: null;" StackPane.alignment="CENTER">
          <children>
-            <VBox VBox.vgrow="ALWAYS" />
             <HBox alignment="CENTER">
                <children>
-                  <JFXTextField fx:id="addressSearch" focusColor="#ffffff00" onInputMethodTextChanged="#autoComplete" onKeyReleased="#autoComplete" prefHeight="80.0" prefWidth="500.0" promptText="Starting address" style="-fx-background-color: WHITE; -fx-border-color: #0067b1; -fx-border-radius: 40; -fx-border-width: 3; -fx-background-radius: 40; -jfx-unfocus-color: TRANSPARENT;">
+                  <JFXTextField fx:id="addressSearch" focusColor="#ffffff00" maxHeight="80.0" maxWidth="500.0" minHeight="80.0" minWidth="500.0" onInputMethodTextChanged="#autoComplete" onKeyReleased="#autoComplete" prefHeight="80.0" prefWidth="500.0" promptText="Starting address" style="-fx-background-color: WHITE; -fx-border-color: #0067b1; -fx-border-radius: 40; -fx-border-width: 3; -fx-background-radius: 40; -jfx-unfocus-color: TRANSPARENT;">
                      <padding>
                         <Insets left="20.0" right="10.0" />
                      </padding>
@@ -30,7 +29,7 @@
                         <Insets right="15.0" />
                      </HBox.margin>
                   </JFXTextField>
-                  <JFXButton fx:id="submitButton" buttonType="RAISED" ellipsisString="" onAction="#submit" prefHeight="80.0" prefWidth="80.0" ripplerFill="WHITE" style="-fx-background-color: #0067b1; -fx-background-radius: 40;" text="GO" textFill="WHITE" textOverrun="CLIP">
+                  <JFXButton fx:id="submitButton" buttonType="RAISED" ellipsisString="" maxHeight="80.0" maxWidth="80.0" minHeight="80.0" minWidth="80.0" onAction="#submit" prefHeight="80.0" prefWidth="80.0" ripplerFill="WHITE" style="-fx-background-color: #0067b1; -fx-background-radius: 40;" text="GO" textFill="WHITE" textOverrun="CLIP">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
@@ -40,10 +39,10 @@
                   </JFXButton>
                </children>
                <VBox.margin>
-                  <Insets top="200.0" />
+                  <Insets top="250.0" />
                </VBox.margin>
             </HBox>
-            <JFXListView fx:id="autofillView" maxHeight="200.0" maxWidth="500.0" prefHeight="200.0" prefWidth="600.0" style="-fx-background-color: WHITE; -fx-background-radius: 40;">
+            <JFXListView fx:id="autofillView" maxHeight="200.0" maxWidth="500.0" minHeight="200.0" minWidth="500.0" prefHeight="200.0" prefWidth="600.0" style="-fx-background-color: WHITE; -fx-background-radius: 40;">
                <padding>
                   <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                </padding>
@@ -51,8 +50,7 @@
                   <Insets bottom="10.0" right="100.0" />
                </VBox.margin>
             </JFXListView>
-            <VBox VBox.vgrow="ALWAYS" />
-            <JFXButton buttonType="RAISED" onAction="#switchWindow" prefHeight="80.0" prefWidth="370.0" ripplerFill="WHITE" style="-fx-background-color: #012D5A; -fx-background-radius: 40;" text="I've Arrived At The Hospital" textFill="WHITE">
+            <JFXButton buttonType="RAISED" maxHeight="80.0" maxWidth="370.0" minHeight="80.0" minWidth="370.0" onAction="#switchWindow" prefHeight="80.0" prefWidth="370.0" ripplerFill="WHITE" style="-fx-background-color: #012D5A; -fx-background-radius: 40;" text="I've Arrived At The Hospital" textFill="WHITE">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
@@ -60,7 +58,7 @@
                   <Font size="25.0" />
                </font>
                <VBox.margin>
-                  <Insets bottom="100.0" />
+                  <Insets bottom="20.0" />
                </VBox.margin>
             </JFXButton>
          </children>
