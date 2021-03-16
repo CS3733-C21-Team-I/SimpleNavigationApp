@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXRippler;
 import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.MapDataEntity;
 import java.io.IOException;
+import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -56,12 +57,21 @@ public class ViewManager {
                             ApplicationDataController.getInstance().isLoggedIn()
                                 ? "logoutButton"
                                 : "loginButton"))));
+        homeController.setTitleLabel("Login Page");
         break;
       }
       if (id.equals(button)) {
         replacePane
             .getChildren()
             .add(FXMLLoader.load(ViewManager.class.getResource(navigationMap.get(button))));
+        String label =
+            button.substring(0, 1).toUpperCase(Locale.ROOT)
+                + button.substring(1, button.length() - 6)
+                + " Page";
+        homeController.setTitleLabel(label);
+        if (id.equals("navigateButton")) {
+          homeController.setTitleLabel("Navigation Page");
+        }
         break;
       }
       if (button.equals("navigateButton")) {

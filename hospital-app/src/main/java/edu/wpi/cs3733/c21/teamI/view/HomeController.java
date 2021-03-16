@@ -250,4 +250,8 @@ public class HomeController extends Application {
   public void closeNotif() {
     notifDrawer.close();
   }
+
+  public void setTitleLabel(String labelName) {
+    titleLabel.setText(labelName);
+  }
 }
