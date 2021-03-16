@@ -139,6 +139,19 @@ public class HomeController extends Application {
             .add(
                 FXMLLoader.load(
                     getClass().getResource("/fxml/menuFiles/ServiceRequestTableView.fxml")));
+        Notification n =
+            new Notification(
+                ApplicationDataController.getInstance().getLoggedInUser().getUserId(),
+                "notification 1 has to have really freaking long text so i can see ho bad this is",
+                "useless");
+        NotificationManager.getInstance().addNotification(n);
+
+        n =
+            new Notification(
+                ApplicationDataController.getInstance().getLoggedInUser().getUserId(),
+                "notification 2 has to ALSO 2222222222222222222222222222222222222222222",
+                "useless but 2nd");
+        NotificationManager.getInstance().addNotification(n);
       } else {
         titleLabel.setText("General Portal");
         replacePane.getChildren().clear();
@@ -155,6 +168,7 @@ public class HomeController extends Application {
   @FXML
   public void displayNotification(Notification notification, String msg) {
     notifDrawer.open();
+    notifDrawer.toFront();
     ((Label) notifDrawer.lookup("#notifMessage")).setText(msg);
     System.out.println(
         "Setting Notification " + notification.getNotificationID() + " to hasDisplayed");
@@ -249,5 +263,6 @@ public class HomeController extends Application {
 
   public void closeNotif() {
     notifDrawer.close();
+    notifDrawer.toBack();
   }
 }
