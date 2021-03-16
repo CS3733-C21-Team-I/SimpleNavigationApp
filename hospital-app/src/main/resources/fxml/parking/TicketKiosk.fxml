@@ -231,7 +231,7 @@
                      </HBox.margin>
                   </VBox>
                   <HBox maxWidth="30.0" HBox.hgrow="ALWAYS" />
-                  <StackPane HBox.hgrow="NEVER">
+                  <StackPane fx:id="ticketPane" HBox.hgrow="NEVER">
                      <HBox.margin>
                         <Insets left="40.0" />
                      </HBox.margin>

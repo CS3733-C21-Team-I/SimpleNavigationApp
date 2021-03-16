@@ -3,6 +3,7 @@ package edu.wpi.cs3733.c21.teamI.view.maps;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
+import edu.wpi.cs3733.c21.teamI.database.NavDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.*;
 import edu.wpi.cs3733.c21.teamI.pathfinding.*;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicketDataController;
@@ -48,6 +49,7 @@ public class MapPathfindingController extends MapController {
   @FXML TextField start, destination;
   @FXML ListView startList, destList;
   @FXML VBox directionsField;
+  @FXML VBox viewDisplay;
 
   private ArrayList<StepType> floorChangeTypes =
       new ArrayList<>(Arrays.asList(StepType.ELEVATOR, StepType.STAIR, StepType.EXIT));
@@ -116,7 +118,7 @@ public class MapPathfindingController extends MapController {
     update();
   }
 
-  protected void update() {
+  public void update() {
     mapPane.getChildren().clear();
     drawLocationNodes();
     if (foundPathExists()) {
@@ -186,6 +188,21 @@ public class MapPathfindingController extends MapController {
   }
 
   protected void setupMapViewHandlers() {
+    List<String> locations = NavDatabaseManager.getInstance().getLocationNodeLongNames();
+
+    start.setOnMouseClicked(
+        (MouseEvent e) -> {
+          ObservableList<String> items = FXCollections.observableArrayList(locations);
+          startList.setItems(items);
+          startList.setVisible(true);
+        });
+    destination.setOnMouseClicked(
+        (MouseEvent e) -> {
+          ObservableList<String> items = FXCollections.observableArrayList(locations);
+          destList.setItems(items);
+          destList.setVisible(true);
+        });
+
     startList
         .getSelectionModel()
         .selectedItemProperty()
@@ -210,6 +227,11 @@ public class MapPathfindingController extends MapController {
             startList.setVisible(false);
             destList.setVisible(false);
           }
+        });
+    viewDisplay.setOnMouseClicked(
+        (MouseEvent e) -> {
+          startList.setVisible(false);
+          destList.setVisible(false);
         });
   }
 
@@ -402,9 +424,6 @@ public class MapPathfindingController extends MapController {
 
   protected void displayDirections(ArrayList<String> directions) {
     ObservableList<String> items = FXCollections.observableArrayList(directions);
-    // System.out.println(items);
-
-    //    directionsField.setItems(items);
   }
 
   protected Node setMouseActions(Node circle, HospitalMapNode node) {
@@ -469,7 +488,7 @@ public class MapPathfindingController extends MapController {
           Color fillColor;
           double dimensions = 25 / scale;
           String describe = "";
-          if (System.currentTimeMillis() % 2 == 0) { // ((ParkingNode) node).isOccupied()
+          if (((ParkingNode) node).isOccupied()) {
             strokeColor = Color.GREEN;
             fillColor = Color.WHITE;
             describe = "available";

@@ -1,24 +1,21 @@
 package edu.wpi.cs3733.c21.teamI.view;
 
-import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXRippler;
 import java.io.IOException;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 public class ServiceViewController extends Application {
 
-  @FXML AnchorPane replaceRequest;
-  @FXML JFXButton medicineButton;
-  //    Label titleLabel = null;
-  //    public HomeController homeController;
+  @FXML StackPane replaceRequest;
 
   @FXML
-  public void navigate(ActionEvent e) throws IOException {
-    String id = ((JFXButton) e.getSource()).getId();
+  public void navigate(MouseEvent e) throws IOException {
+    String id = ((JFXRippler) e.getSource()).getId();
     replaceRequest.getChildren().clear();
     if (id.equals("medicineButton")) {
       System.out.println("Medicine Button Clicked");

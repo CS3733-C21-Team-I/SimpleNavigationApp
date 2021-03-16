@@ -2,6 +2,7 @@ package edu.wpi.cs3733.c21.teamI.parking;
 
 import edu.wpi.cs3733.c21.teamI.database.ParkingPeripheralServerManager;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.ParkingNode;
+import edu.wpi.cs3733.c21.teamI.view.maps.MapPathfindingController;
 import java.util.*;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -43,7 +44,7 @@ public class ParkingNodeController {
                     // ParkingPeripheralServerManager.getInstance().loadLots().values());
                     //                    lotView.setItems(lots);
                     pollDB();
-                    System.out.println("this is called every 5 seconds on UI thread");
+                    System.out.println("Polling DB for parking Nodes");
                   }
                 }));
     fiveSecondsWonder.setCycleCount(Timeline.INDEFINITE);
@@ -52,19 +53,32 @@ public class ParkingNodeController {
 
   public void registerNode(ParkingNode node) {
     // TODO get linked slotId from DB
-    int slotId = -1;
+    System.out.println("Registering parking Node");
+    int slotId = ParkingPeripheralServerManager.getInstance().getLinkedSlotId(node.getID());
 
-    node.setParkingID(slotId);
-    linkedNodes.put(slotId, node);
+    System.out.println(slotId);
+    if (slotId != -1) {
+      node.setParkingID(slotId);
+      linkedNodes.put(slotId, node);
+    }
   }
 
   public void pollDB() {
-    // TODO get list of occupied nodes from DB
-    Collection<Integer> occupied = ParkingPeripheralServerManager.getInstance().getOccupiedSlots();
 
+    Collection<Integer> occupied = ParkingPeripheralServerManager.getInstance().getOccupiedSlots();
+    System.out.println(occupied);
     for (Integer i : linkedNodes.keySet()) {
-      if (occupied.contains(i)) linkedNodes.get(i).setOccupied(true);
-      else linkedNodes.get(i).setOccupied(false);
+      // System.out.println("Updating slotId: " + i);
+      if (occupied.contains(i)) {
+        // System.out.println("Setting " + linkedNodes.get(i).getShortName() + " to occupied");
+        linkedNodes.get(i).setOccupied(true);
+      } else {
+        // System.out.println("Setting " + linkedNodes.get(i).getShortName() + " to unoccupied");
+        linkedNodes.get(i).setOccupied(false);
+      }
     }
+
+    if (MapPathfindingController.lastInitialized != null)
+      MapPathfindingController.lastInitialized.update();
   }
 }

@@ -24,6 +24,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -155,6 +156,7 @@ public class HomeController extends Application {
   @FXML
   public void displayNotification(Notification notification, String msg) {
     notifDrawer.open();
+    notifDrawer.toFront();
     ((Label) notifDrawer.lookup("#notifMessage")).setText(msg);
     System.out.println(
         "Setting Notification " + notification.getNotificationID() + " to hasDisplayed");
@@ -164,7 +166,6 @@ public class HomeController extends Application {
 
   @FXML
   public void initialize() {
-
     if (mobileButton != null) {
       mobileButton.managedProperty().bind(mobileButton.visibleProperty());
       mobileButton.setVisible(ApplicationDataController.getInstance().isLoggedIn());
@@ -240,6 +241,27 @@ public class HomeController extends Application {
             }
             translateLeftAnchor.play();
           });
+      MouseEvent fakeLeftClick =
+          new MouseEvent(
+              MouseEvent.MOUSE_CLICKED,
+              1,
+              2,
+              3,
+              4,
+              MouseButton.PRIMARY,
+              5,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              null);
+      ham1.fireEvent(fakeLeftClick);
     }
   }
 
@@ -249,5 +271,6 @@ public class HomeController extends Application {
 
   public void closeNotif() {
     notifDrawer.close();
+    notifDrawer.toBack();
   }
 }
