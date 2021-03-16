@@ -89,7 +89,7 @@ public class HospitalMapCSVBuilder {
     Set<EdgePair> edgePairSet = new HashSet<>();
 
     nodesString.append(
-        "nodeId,xcoord,ycoord,floor,building,nodetype,type,longname,shortname,teamassigned,mapId,,,OldY\n");
+        "nodeId,xcoord,ycoord,floor,building,nodetype,type,longname,shortname,teamassigned,mapId,\n");
 
     for (HospitalMap map : maps) {
       String mapId = map.getId();
@@ -130,6 +130,7 @@ public class HospitalMapCSVBuilder {
       }
     }
 
+    edgesString.append("id,nodeA,nodeB\n");
     for (EdgePair edgePair : edgePairSet) {
       edgesString.append(edgePair.fromId + "_" + edgePair.toId + ",");
       edgesString.append(edgePair.fromId + ",");

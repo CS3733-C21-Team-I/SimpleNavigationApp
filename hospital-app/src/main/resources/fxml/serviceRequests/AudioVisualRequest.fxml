@@ -11,54 +11,65 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane fx:id="background" minWidth="500.0" prefHeight="616.0" prefWidth="500.0" style="-fx-background-color: #F1F1F1;" styleClass=".root" stylesheets="@../misc/css/main.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamI.ticket.view.AudioVisualRequestController">
-   <children>
-      <VBox fillWidth="false" layoutX="42.0" layoutY="18.0" maxHeight="580.0" maxWidth="441.0" minHeight="580.0" minWidth="441.0" prefHeight="580.0" prefWidth="441.0" style="-fx-background-color: #FFFFF;" stylesheets="@../misc/css/main.css">
-         <children>
-            <JFXTextField fx:id="patientName" focusColor="#0067b1" maxWidth="300.0" promptText="Patient Name" unFocusColor="#012d5a">
-               <VBox.margin>
-                  <Insets bottom="20.0" />
-               </VBox.margin>
-            </JFXTextField>
-            <JFXTextField fx:id="roomNumber" focusColor="#0067b1" maxWidth="300.0" onKeyTyped="#lookup" promptText="Room Number" unFocusColor="#012d5a">
-               <VBox.margin>
-                  <Insets bottom="20.0" />
-               </VBox.margin>
-            </JFXTextField>
-            <JFXComboBox fx:id="typeRequested" focusColor="#012d5a" promptText="Type of Media" unFocusColor="#012d5a">
-               <VBox.margin>
-                  <Insets bottom="20.0" />
-               </VBox.margin>
-            </JFXComboBox>
-            <Label minHeight="50.0" minWidth="400.0" prefHeight="99.0" prefWidth="403.0" text="Please be aware that not every request can be filled. If your requested media is unavailable, a staff member will contact you." wrapText="true">
-               <VBox.margin>
-                  <Insets bottom="20.0" />
-               </VBox.margin>
-            </Label>
-            <JFXTextArea fx:id="requestDetails" focusColor="#012d5a" minHeight="100.0" minWidth="400.0" prefHeight="130.0" prefWidth="400.0" promptText="Please describe (title, year, author)." style="-fx-background-color: #F0F8FF;" unFocusColor="#012d5a">
-               <VBox.margin>
-                  <Insets bottom="20.0" />
-               </VBox.margin>
-            </JFXTextArea>
-            <JFXTextField fx:id="requestAssigned" focusColor="#0067b1" maxWidth="300.0" onKeyPressed="#lookupUser" promptText="Employee Assigned ID" unFocusColor="#012d5a">
-               <VBox.margin>
-                  <Insets bottom="20.0" />
-               </VBox.margin>
-            </JFXTextField>
-            <JFXTextField fx:id="requesterID" focusColor="#0067b1" maxWidth="300.0" promptText="Requester ID" unFocusColor="#012d5a" />
-            <HBox alignment="CENTER" prefHeight="82.0" prefWidth="573.0">
-               <children>
-                  <JFXButton fx:id="clearBtn" buttonType="RAISED" onAction="#clear" prefHeight="42.0" prefWidth="90.0" style="-fx-background-color: #0067b1;" text="Clear" textAlignment="CENTER" textFill="WHITE">
-                     <HBox.margin>
-                        <Insets right="20.0" />
-                     </HBox.margin>
-                  </JFXButton>
-                  <JFXButton fx:id="submitBtn" buttonType="RAISED" onAction="#submit" prefHeight="42.0" prefWidth="90.0" style="-fx-background-color: #0067b1;" text="Submit" textAlignment="CENTER" textFill="WHITE" />
-               </children>
-            </HBox>
-         </children>
-      </VBox>
-      <ListView fx:id="serviceLocationList" layoutX="40.0" layoutY="101.0" prefHeight="133.0" prefWidth="187.0" visible="false" AnchorPane.topAnchor="101.0" />
-      <ListView fx:id="requestAssignedList" layoutX="42.0" layoutY="467.0" prefHeight="139.0" prefWidth="178.0" visible="false" AnchorPane.topAnchor="468.0" />
-   </children>
+<AnchorPane fx:id="background" minWidth="500.0" prefHeight="616.0" prefWidth="500.0"
+            style="-fx-background-color: #F1F1F1;" styleClass=".root" stylesheets="@../misc/css/main.css"
+            xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="edu.wpi.cs3733.c21.teamI.ticket.view.AudioVisualRequestController">
+   <VBox fillWidth="false" layoutX="42.0" layoutY="18.0" maxHeight="580.0" maxWidth="441.0" minHeight="580.0"
+         minWidth="441.0" prefHeight="580.0" prefWidth="441.0" style="-fx-background-color: #FFFFF;"
+         stylesheets="@../misc/css/main.css">
+      <JFXTextField fx:id="patientName" focusColor="#0067b1" maxWidth="300.0" promptText="Patient Name"
+                    unFocusColor="#012d5a">
+         <VBox.margin>
+            <Insets bottom="20.0"/>
+         </VBox.margin>
+      </JFXTextField>
+      <JFXTextField fx:id="roomNumber" focusColor="#0067b1" maxWidth="300.0" onKeyTyped="#lookup"
+                    promptText="Room Number" unFocusColor="#012d5a">
+         <VBox.margin>
+            <Insets bottom="20.0"/>
+         </VBox.margin>
+      </JFXTextField>
+      <JFXComboBox fx:id="typeRequested" focusColor="#012d5a" promptText="Type of Media" unFocusColor="#012d5a">
+         <VBox.margin>
+            <Insets bottom="20.0"/>
+         </VBox.margin>
+      </JFXComboBox>
+      <Label minHeight="50.0" minWidth="400.0" prefHeight="99.0" prefWidth="403.0"
+             text="Please be aware that not every request can be filled. If your requested media is unavailable, a staff member will contact you."
+             wrapText="true">
+         <VBox.margin>
+            <Insets bottom="20.0"/>
+         </VBox.margin>
+      </Label>
+      <JFXTextArea fx:id="requestDetails" focusColor="#012d5a" minHeight="100.0" minWidth="400.0" prefHeight="130.0"
+                   prefWidth="400.0" promptText="Please describe (title, year, author)."
+                   style="-fx-background-color: #F0F8FF;" unFocusColor="#012d5a">
+         <VBox.margin>
+            <Insets bottom="20.0"/>
+         </VBox.margin>
+      </JFXTextArea>
+      <JFXTextField fx:id="requestAssigned" focusColor="#0067b1" maxWidth="300.0" onKeyPressed="#lookupUser"
+                    promptText="Employee Assigned ID" unFocusColor="#012d5a">
+         <VBox.margin>
+            <Insets bottom="20.0"/>
+         </VBox.margin>
+      </JFXTextField>
+      <JFXTextField fx:id="requesterID" focusColor="#0067b1" maxWidth="300.0" promptText="Requester ID"
+                    unFocusColor="#012d5a"/>
+      <HBox alignment="CENTER" prefHeight="82.0" prefWidth="573.0">
+         <JFXButton fx:id="clearBtn" buttonType="RAISED" onAction="#clear" prefHeight="42.0" prefWidth="90.0"
+                    style="-fx-background-color: #0067b1;" text="Clear" textAlignment="CENTER" textFill="WHITE">
+            <HBox.margin>
+               <Insets right="20.0"/>
+            </HBox.margin>
+         </JFXButton>
+         <JFXButton fx:id="submitBtn" buttonType="RAISED" onAction="#submit" prefHeight="42.0" prefWidth="90.0"
+                    style="-fx-background-color: #0067b1;" text="Submit" textAlignment="CENTER" textFill="WHITE"/>
+      </HBox>
+   </VBox>
+   <ListView fx:id="serviceLocationList" layoutX="40.0" layoutY="101.0" prefHeight="133.0" prefWidth="187.0"
+             visible="false" AnchorPane.topAnchor="101.0"/>
+   <ListView fx:id="requestAssignedList" layoutX="42.0" layoutY="467.0" prefHeight="139.0" prefWidth="178.0"
+             visible="false" AnchorPane.topAnchor="468.0"/>
 </AnchorPane>

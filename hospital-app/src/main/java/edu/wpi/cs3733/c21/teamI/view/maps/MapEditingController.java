@@ -7,6 +7,7 @@ import edu.wpi.cs3733.c21.teamI.util.ImageLoader;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import javafx.event.ActionEvent;
@@ -123,13 +124,10 @@ public class MapEditingController extends MapController {
     }
   }
 
-  // drawing new nodes stuff
-
-  // TODO NOT THIS ANYTHING BUT THIS
   protected static AtomicInteger idGen = new AtomicInteger();
 
   protected String randomGenerate() {
-    return "BadSol" + idGen.incrementAndGet();
+    return "BadSol" + (int) (new Date().getTime() / 1000);
   }
 
   protected void setAddNodeHandler() {
