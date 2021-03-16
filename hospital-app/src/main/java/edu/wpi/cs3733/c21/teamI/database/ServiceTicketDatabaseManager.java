@@ -36,8 +36,9 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
   public ServiceTicket getTicketForId(int id) {
     try {
       String query = "SELECT * FROM serviceticket WHERE ticketID = ?";
-      Statement stmt = databaseRef.getConnection().createStatement();
-      ResultSet rs = stmt.executeQuery("SELECT * FROM serviceticket WHERE ticketID=" + id);
+      PreparedStatement stmt = databaseRef.getConnection().prepareStatement(query);
+      stmt.setInt(1, id);
+      ResultSet rs = stmt.executeQuery();
       ServiceTicket ticket;
       if (rs.next()) {
         ticket =
@@ -60,8 +61,10 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
   public List<Integer> getEmployeesForId(int id) {
     List<Integer> emps = new ArrayList<>();
     try {
-      Statement stmt = databaseRef.getConnection().createStatement();
-      ResultSet rs = stmt.executeQuery("SELECT * FROM employee WHERE tixID=" + id);
+      String query = "SELECT * FROM employee WHERE tixID = ?";
+      PreparedStatement stmt = databaseRef.getConnection().prepareStatement(query);
+      stmt.setInt(1, id);
+      ResultSet rs = stmt.executeQuery();
       while (rs.next()) {
         emps.add(rs.getInt("employeeID"));
       }
@@ -75,9 +78,10 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
   public List<ServiceTicket> getTicketsForRequestId(int requestID) {
     List<ServiceTicket> results = new ArrayList<>();
     try {
-      Statement stmt = databaseRef.getConnection().createStatement();
-      ResultSet rs =
-          stmt.executeQuery("SELECT * FROM serviceticket WHERE REQUESTINGUSERID=" + requestID);
+      String query = "SELECT * FROM serviceticket WHERE REQUESTINGUSERID = ?";
+      PreparedStatement stmt = databaseRef.getConnection().prepareStatement(query);
+      stmt.setInt(1, requestID);
+      ResultSet rs = stmt.executeQuery();
       int tixID = 0;
       ServiceTicket ticket;
       while (rs.next()) {
@@ -477,8 +481,10 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
 
   public void closeTicket(int id) {
     try {
-      Statement stmt = databaseRef.getConnection().createStatement();
-      ResultSet rs = stmt.executeQuery("DELETE FROM serviceticket WHERE ticketID = " + id);
+      String query = "DELETE FROM serviceticket WHERE ticketID = ?";
+      PreparedStatement stmt = databaseRef.getConnection().prepareStatement(query);
+      stmt.setInt(1, id);
+      ResultSet rs = stmt.executeQuery();
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -507,19 +513,14 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
     try {
       String query =
           "INSERT INTO serviceticket(requestingUserID, ticketType, location, description, completed)\n"
-              + "VALUES ("
-              + t.getRequestingUserID()
-              + ", '"
-              + t.getTicketType().toString()
-              + "', '"
-              + t.getLocation()
-              + "', '"
-              + t.getDescription()
-              + "', "
-              + t.isCompleted()
-              + ")";
+              + "VALUES (?, ?, ?, ?, ?)";
       PreparedStatement stmt =
           databaseRef.getConnection().prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+      stmt.setInt(1, t.getRequestingUserID());
+      stmt.setString(2, t.getTicketType().toString());
+      stmt.setString(3, t.getLocation());
+      stmt.setString(4, t.getDescription());
+      stmt.setBoolean(5, t.isCompleted());
       stmt.execute();
 
       ResultSet rs = stmt.getGeneratedKeys();
@@ -575,33 +576,35 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
 
   public void addEmployee(int tixID, int employeeID) {
     try {
-      Statement stmt = databaseRef.getConnection().createStatement();
-      stmt.executeUpdate(
-          "INSERT INTO employee(employeeID, tixID)\n"
-              + "VALUES("
-              + employeeID
-              + ", "
-              + tixID
-              + ")");
+      String query = "INSERT INTO employee(employeeID, tixID) VALUES(?, ?)";
+      PreparedStatement stmt = databaseRef.getConnection().prepareStatement(query);
+      stmt.setInt(1, employeeID);
+      stmt.setInt(2, tixID);
+      stmt.execute();
     } catch (SQLException e) {
       e.printStackTrace();
     }
   }
 
-  public void removeEmployee(int ticketID, int employeeID) {
+  public void removeEmployee(int tixID, int employeeID) {
     try {
-      Statement stmt = databaseRef.getConnection().createStatement();
-      stmt.executeUpdate(
-          "DELETE FROM employee WHERE employeeID = " + employeeID + " AND tixID = " + ticketID);
+      String query = "DELETE FROM employee WHERE employeeID = ? AND tixID = ?";
+      PreparedStatement stmt = databaseRef.getConnection().prepareStatement(query);
+      stmt.setInt(1, employeeID);
+      stmt.setInt(2, tixID);
+      stmt.execute();
     } catch (SQLException e) {
       e.printStackTrace();
     }
   }
 
-  public void modifyEmployee(int id, int employeeID) {
+  public void modifyEmployee(int tixID, int employeeID) {
     try {
-      Statement stmt = databaseRef.getConnection().createStatement();
-      stmt.execute("UPDATE employee SET employeeID= " + employeeID + " WHERE TIXID = " + id);
+      String query = "UPDATE employee SET employeeID = ? WHERE TIXID = ?";
+      PreparedStatement stmt = databaseRef.getConnection().prepareStatement(query);
+      stmt.setInt(1, employeeID);
+      stmt.setInt(2, tixID);
+      stmt.execute();
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -631,7 +634,7 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
         cur.setTicketID(tixID);
         cur.setAssignedUserID(getEmployeesForId(tixID));
         tix.add(cur);
-      }
+   
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -935,44 +938,47 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
   }
 
   public static void populateExampleData() {
-    //    int empRequestID =
-    // UserDatabaseManager.getInstance().getUserForScreenname("admin").getUserId();
-    //        int empAssignID =
-    //
-    //
-    // UserDatabaseManager.getInstance().getUserForScreenname("TestServiceEmployee").getUserId();
-    //
-    //    ServiceTicket ticket1 =
-    //        new AudioVisualTicket(empRequestID, "ICONF00103", "info", false, "ZOLO", "HEADPHONE");
-    //    ticket1.setTicketID(11);
-    //        ServiceTicket ticket2 =
-    //            new ServiceTicket(
-    //                empRequestID, ServiceTicket.TicketType.LAUNDRY, "ICONF00104", "more info",
-    // true);
-    //        ticket2.setTicketID(21);
+    /*
+       int empRequestID =
+    UserDatabaseManager.getInstance().getUserForScreenname("admin").getUserId();
+           int empAssignID =
 
-    //    ourInstance.addTicket(ticket1);
-    //    ourInstance.addTicket(ticket2);
-    //
 
-    //    try {
-    //      Statement stmt = ourInstance.databaseRef.getConnection().createStatement();
-    //      ResultSet rs =
-    //          stmt.executeQuery(
-    //              "SELECT * FROM SERVICETICKET WHERE REQUESTINGUSERID=" +
-    // String.valueOf(empRequestID));
-    //      int tixID = 0;
-    //      if (rs.next()) {
-    //        tixID = rs.getInt("ticketID");
-    //        stmt.executeUpdate(
+    UserDatabaseManager.getInstance().getUserForScreenname("TestServiceEmployee").getUserId();
 
-    //            "INSERT INTO employee(employeeID, tixID) VALUES(" + empAssignID + "," + tixID +
-    // ")");
+       ServiceTicket ticket1 =
+           new AudioVisualTicket(empRequestID, "ICONF00103", "info", false, "ZOLO", "HEADPHONE");
+       ticket1.setTicketID(11);
+           ServiceTicket ticket2 =
+               new ServiceTicket(
+                   empRequestID, ServiceTicket.TicketType.LAUNDRY, "ICONF00104", "more info",
+    true);
+           ticket2.setTicketID(21);
 
-    //      }
-    //    } catch (SQLException e) {
-    //      e.printStackTrace();
-    //    }
+       ourInstance.addTicket(ticket1);
+       ourInstance.addTicket(ticket2);
+
+
+       try {
+         Statement stmt = ourInstance.databaseRef.getConnection().createStatement();
+         ResultSet rs =
+             stmt.executeQuery(
+                 "SELECT * FROM SERVICETICKET WHERE REQUESTINGUSERID=" +
+    String.valueOf(empRequestID));
+         int tixID = 0;
+         if (rs.next()) {
+           tixID = rs.getInt("ticketID");
+           stmt.executeUpdate(
+
+               "INSERT INTO employee(employeeID, tixID) VALUES(" + empAssignID + "," + tixID +
+    ")");
+
+         }
+       } catch (SQLException e) {
+         e.printStackTrace();
+       }
+
+    */
   }
 
   public void addEmployeeForTicket(int tixId, int assignID) {
@@ -1006,8 +1012,10 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
 
   public void removeGift(int id) {
     try {
-      Statement stmt = databaseRef.getConnection().createStatement();
-      stmt.executeUpdate("DELETE FROM GIFTTICKET WHERE GIFTID = " + id);
+      String query = "DELETE FROM GIFTTICKET WHERE GIFTID = ?";
+      PreparedStatement stmt = databaseRef.getConnection().prepareStatement(query);
+      stmt.setInt(1, id);
+      stmt.execute();
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -1016,8 +1024,10 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
   // Use to remove ANY ticket type that extends ServiceTicket
   public void removeUniqueTicket(int id, String ticketType) {
     try {
-      Statement stmt = databaseRef.getConnection().createStatement();
-      stmt.executeUpdate("DELETE FROM " + ticketType.toUpperCase() + "TICKET WHERE TIXID = " + id);
+      String query = "DELETE FROM " + ticketType.toUpperCase() + "TICKET WHERE TIXID = ?";
+      PreparedStatement stmt = databaseRef.getConnection().prepareStatement(query);
+      stmt.setInt(1, id);
+      stmt.execute();
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -1025,16 +1035,13 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
 
   public void addAudioVisual(int tixID, AudioVisualTicket av) {
     try {
-      Statement stmt = databaseRef.getConnection().createStatement();
-      stmt.executeUpdate(
-          "INSERT INTO AUDIOVISUALTICKET(tixID, PATIENTNAME, MEDIATYPE)\n"
-              + "VALUES("
-              + tixID
-              + ", '"
-              + av.getPatientName()
-              + "', '"
-              + av.getMediaType()
-              + "')");
+      String query =
+          "INSERT INTO AUDIOVISUALTICKET(tixID, PATIENTNAME, MEDIATYPE) VALUES (?, ?, ?)";
+      PreparedStatement stmt = databaseRef.getConnection().prepareStatement(query);
+      stmt.setInt(1, tixID);
+      stmt.setString(2, av.getPatientName());
+      stmt.setString(3, av.getMediaType());
+      stmt.execute();
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -1042,16 +1049,12 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
 
   public void addComputer(int tixID, ComputerTicket comp) {
     try {
-      Statement stmt = databaseRef.getConnection().createStatement();
-      stmt.executeUpdate(
-          "INSERT INTO COMPUTERTICKET(tixID, COMPUTERTYPE, URGENCY)\n"
-              + "VALUES("
-              + tixID
-              + ", '"
-              + comp.getComputerType()
-              + "', "
-              + comp.isUrgency()
-              + ")");
+      String query = "INSERT INTO COMPUTERTICKET(tixID, COMPUTERTYPE, URGENCY) VALUES (?, ?, ?)";
+      PreparedStatement stmt = databaseRef.getConnection().prepareStatement(query);
+      stmt.setInt(1, tixID);
+      stmt.setString(2, comp.getComputerType());
+      stmt.setBoolean(3, comp.isUrgency());
+      stmt.execute();
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -1059,41 +1062,26 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
 
   public void addCovid(int tixID, CovidTicket cov) {
     try {
-      Statement stmt = databaseRef.getConnection().createStatement();
-      stmt.executeUpdate(
-          "INSERT INTO COVIDTICKET(tixID, SORETHROAT, BREATHING, TASTESMELLLOSS, FEVER, CONGESTION, "
-              + "COUGH, NAUSEA, DIARRHEA, HEADACHE, NONESYMPTOMS, CONTACTCOVIDCONFIRMED, CONTACTCOVIDSYMPTOMS, NONECONTACT, COVIDTEST)\n"
-              + "VALUES("
-              + tixID
-              + ", "
-              + cov.isSoreThroat()
-              + ", "
-              + cov.isBreathing()
-              + ", "
-              + cov.isTasteSmellLoss()
-              + ", "
-              + cov.isFever()
-              + ", "
-              + cov.isCongestion()
-              + ", "
-              + cov.isCough()
-              + ", "
-              + cov.isNausea()
-              + ", "
-              + cov.isDiarrhea()
-              + ", "
-              + cov.isHeadache()
-              + ", "
-              + cov.isNoneSymptoms()
-              + ", "
-              + cov.isContactCovidConfirmed()
-              + ", "
-              + cov.isContactCovidSymptoms()
-              + ", "
-              + cov.isNoneContact()
-              + ", "
-              + cov.isCovidTest()
-              + ")");
+      String query =
+          "INSERT INTO COVIDTICKET(tixID, SORETHROAT, BREATHING, TASTESMELLLOSS, FEVER, CONGESTION, COUGH, NAUSEA, DIARRHEA, HEADACHE, NONESYMPTOMS, CONTACTCOVIDCONFIRMED, CONTACTCOVIDSYMPTOMS, NONECONTACT, COVIDTEST) "
+              + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+      PreparedStatement stmt = databaseRef.getConnection().prepareStatement(query);
+      stmt.setInt(1, tixID);
+      stmt.setBoolean(2, cov.isSoreThroat());
+      stmt.setBoolean(3, cov.isBreathing());
+      stmt.setBoolean(4, cov.isTasteSmellLoss());
+      stmt.setBoolean(5, cov.isFever());
+      stmt.setBoolean(6, cov.isCongestion());
+      stmt.setBoolean(7, cov.isCough());
+      stmt.setBoolean(8, cov.isNausea());
+      stmt.setBoolean(9, cov.isDiarrhea());
+      stmt.setBoolean(10, cov.isHeadache());
+      stmt.setBoolean(11, cov.isNoneSymptoms());
+      stmt.setBoolean(12, cov.isContactCovidConfirmed());
+      stmt.setBoolean(13, cov.isContactCovidSymptoms());
+      stmt.setBoolean(14, cov.isNoneContact());
+      stmt.setBoolean(15, cov.isCovidTest());
+      stmt.execute();
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -1101,22 +1089,16 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
 
   public void addEmployeeParking(int tixID, EmployeeParkingTicket emp) {
     try {
-      Statement stmt = databaseRef.getConnection().createStatement();
-      stmt.executeUpdate(
-          "INSERT INTO EMPLOYEEPARKINGTICKET(tixID, LICENSEPLATE, CONTACT, STARTDATE, ENDDATE, DISABILITY)\n"
-              + "VALUES("
-              + tixID
-              + ", '"
-              + emp.getLicensePlate()
-              + "', "
-              + emp.getContact()
-              + ", '"
-              + emp.getStartDate()
-              + "', '"
-              + emp.getEndDate()
-              + "', "
-              + emp.isDisability()
-              + ")");
+      String query =
+          "INSERT INTO EMPLOYEEPARKINGTICKET(tixID, LICENSEPLATE, CONTACT, STARTDATE, ENDDATE, DISABILITY) VALUES (?, ?, ?, ?, ?, ?)";
+      PreparedStatement stmt = databaseRef.getConnection().prepareStatement(query);
+      stmt.setInt(1, tixID);
+      stmt.setString(2, emp.getLicensePlate());
+      stmt.setInt(3, emp.getContact());
+      stmt.setString(4, emp.getStartDate());
+      stmt.setString(5, emp.getEndDate());
+      stmt.setBoolean(6, emp.isDisability());
+      stmt.execute();
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -1124,24 +1106,17 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
 
   public void addInternalTransport(int tixID, InternalTransportationTicket inT) {
     try {
-      Statement stmt = databaseRef.getConnection().createStatement();
-      stmt.executeUpdate(
-          "INSERT INTO INTERNALTRANSPORTATIONTICKET(tixID, PICKUPDATE, PICKUPTIME, DESTINATION, EMERGENCY, STRETCHER, WHEELCHAIR)\n"
-              + "VALUES("
-              + tixID
-              + ", '"
-              + inT.getPickUpDate()
-              + "', '"
-              + inT.getPickUpTime()
-              + "', '"
-              + inT.getDestination()
-              + "', "
-              + inT.isEmergency()
-              + ", "
-              + inT.isStretcher()
-              + ", "
-              + inT.isWheelchair()
-              + ")");
+      String query =
+          "INSERT INTO INTERNALTRANSPORTATIONTICKET(tixID, PICKUPDATE, PICKUPTIME, DESTINATION, EMERGENCY, STRETCHER, WHEELCHAIR) VALUES (?, ?, ?, ?, ?, ?, ?)";
+      PreparedStatement stmt = databaseRef.getConnection().prepareStatement(query);
+      stmt.setInt(1, tixID);
+      stmt.setString(2, inT.getPickUpDate());
+      stmt.setString(3, inT.getPickUpTime());
+      stmt.setString(4, inT.getDestination());
+      stmt.setBoolean(5, inT.isEmergency());
+      stmt.setBoolean(6, inT.isStretcher());
+      stmt.setBoolean(7, inT.isWheelchair());
+      stmt.execute();
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -1149,18 +1124,14 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
 
   public void addLanguage(int tixID, LanguageTicket lang) {
     try {
-      Statement stmt = databaseRef.getConnection().createStatement();
-      stmt.executeUpdate(
-          "INSERT INTO LANGUAGETICKET(tixID, LANGUAGE, MEETINGTIME, LEGALDOCS)\n"
-              + "VALUES("
-              + tixID
-              + ", '"
-              + lang.getLanguage()
-              + "', '"
-              + lang.getMeetingTime()
-              + "', "
-              + lang.isLegalDocs()
-              + ")");
+      String query =
+          "INSERT INTO LANGUAGETICKET(tixID, LANGUAGE, MEETINGTIME, LEGALDOCS) VALUES (?, ?, ?, ?)";
+      PreparedStatement stmt = databaseRef.getConnection().prepareStatement(query);
+      stmt.setInt(1, tixID);
+      stmt.setString(2, lang.getLanguage());
+      stmt.setString(3, lang.getMeetingTime());
+      stmt.setBoolean(4, lang.isLegalDocs());
+      stmt.execute();
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -1168,18 +1139,14 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
 
   public void addLaundry(int tixID, LaundryTicket lau) {
     try {
-      Statement stmt = databaseRef.getConnection().createStatement();
-      stmt.executeUpdate(
-          "INSERT INTO LAUNDRYTICKET(tixID, PICKUPDATE, PICKUPTIME, DRYCLEAN)\n"
-              + "VALUES("
-              + tixID
-              + ", '"
-              + lau.getPickUpDate()
-              + "', '"
-              + lau.getPickUpTime()
-              + "', "
-              + lau.isDryClean()
-              + ")");
+      String query =
+          "INSERT INTO LAUNDRYTICKET(tixID, PICKUPDATE, PICKUPTIME, DRYCLEAN) VALUES (?, ?, ?, ?)";
+      PreparedStatement stmt = databaseRef.getConnection().prepareStatement(query);
+      stmt.setInt(1, tixID);
+      stmt.setString(2, lau.getPickUpDate());
+      stmt.setString(3, lau.getPickUpTime());
+      stmt.setBoolean(4, lau.isDryClean());
+      stmt.execute();
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -1187,22 +1154,16 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
 
   public void addMedicine(int tixID, MedicineTicket med) {
     try {
-      Statement stmt = databaseRef.getConnection().createStatement();
-      stmt.executeUpdate(
-          "INSERT INTO MEDICINETICKET(tixID, PATIENTNAME, DRUGNAME, DOSE, DATE, TIME)\n"
-              + "VALUES("
-              + tixID
-              + ", '"
-              + med.getPatientName()
-              + "', '"
-              + med.getDrugName()
-              + "', '"
-              + med.getDose()
-              + "', '"
-              + med.getDate()
-              + "', '"
-              + med.getTime()
-              + "')");
+      String query =
+          "INSERT INTO MEDICINETICKET(tixID, PATIENTNAME, DRUGNAME, DOSE, DATE, TIME) VALUES (?, ?, ?, ?, ?, ?)";
+      PreparedStatement stmt = databaseRef.getConnection().prepareStatement(query);
+      stmt.setInt(1, tixID);
+      stmt.setString(2, med.getPatientName());
+      stmt.setString(3, med.getDrugName());
+      stmt.setString(4, med.getDose());
+      stmt.setString(5, med.getDate());
+      stmt.setString(6, med.getTime());
+      stmt.execute();
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -1210,22 +1171,16 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
 
   public void addReligious(int tixID, ReligiousTicket reg) {
     try {
-      Statement stmt = databaseRef.getConnection().createStatement();
-      stmt.executeUpdate(
-          "INSERT INTO RELIGIOUSTICKET(tixID, PATIENTNAME, RELIGIOUSDENOMINATION, RELIGIOUSTYPE, DATE, TIME)\n"
-              + "VALUES("
-              + tixID
-              + ", '"
-              + reg.getPatientName()
-              + "', '"
-              + reg.getReligiousDenomination()
-              + "', '"
-              + reg.getReligiousType()
-              + "', '"
-              + reg.getDate()
-              + "', '"
-              + reg.getTime()
-              + "')");
+      String query =
+          "INSERT INTO RELIGIOUSTICKET(tixID, PATIENTNAME, RELIGIOUSDENOMINATION, RELIGIOUSTYPE, DATE, TIME) VALUES (?, ?, ?, ?, ?, ?)";
+      PreparedStatement stmt = databaseRef.getConnection().prepareStatement(query);
+      stmt.setInt(1, tixID);
+      stmt.setString(2, reg.getPatientName());
+      stmt.setString(3, reg.getReligiousDenomination());
+      stmt.setString(4, reg.getReligiousType());
+      stmt.setString(5, reg.getDate());
+      stmt.setString(6, reg.getTime());
+      stmt.execute();
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -1233,16 +1188,12 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
 
   public void addSecurity(int tixID, SecurityTicket sec) {
     try {
-      Statement stmt = databaseRef.getConnection().createStatement();
-      stmt.executeUpdate(
-          "INSERT INTO SECURITYTICKET(tixID, SECURITYTYPE, EMERGENCY)\n"
-              + "VALUES("
-              + tixID
-              + ", '"
-              + sec.getSecurityType()
-              + "', "
-              + sec.isEmergency()
-              + ")");
+      String query = "INSERT INTO SECURITYTICKET(tixID, SECURITYTYPE, EMERGENCY) VALUES (?, ?, ?)";
+      PreparedStatement stmt = databaseRef.getConnection().prepareStatement(query);
+      stmt.setInt(1, tixID);
+      stmt.setString(2, sec.getSecurityType());
+      stmt.setBoolean(3, sec.isEmergency());
+      stmt.execute();
     } catch (SQLException e) {
       e.printStackTrace();
     }
