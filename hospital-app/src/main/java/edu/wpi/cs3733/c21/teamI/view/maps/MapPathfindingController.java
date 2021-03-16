@@ -116,17 +116,15 @@ public class MapPathfindingController extends MapController {
     mapPane.getChildren().clear();
     drawLocationNodes();
     if (foundPathExists()) {
-      // populateDirections(new ArrayList<>());
       drawCalculatedPath(getFoundPath());
     }
   }
 
   private void populateDirections(List<DirectionStep> directionSteps) {
-    System.out.println("Before:  " + directionsField.getChildren());
     directionsField.getChildren().clear();
-    System.out.println("After:  " + directionsField.getChildren());
     for (DirectionStep step : directionSteps) {
       JFXButton button = new JFXButton(step.stepDetails);
+      button.wrapTextProperty().set(true);
       button.setMaxWidth(directionsField.getWidth());
       button.setRipplerFill(Color.valueOf("#0067b1"));
       String styleString = "-fx-alignment: center-left; -fx-cursor:hand; ";
@@ -143,8 +141,19 @@ public class MapPathfindingController extends MapController {
       imgView.setFitWidth(20);
       button.setGraphic(imgView);
       button.setPadding(new Insets(10, 10, 10, 10));
+      button.setOnAction((event) -> zoomToStep(step, 50));
       directionsField.getChildren().add(button);
     }
+  }
+
+  @FXML
+  private EventHandler<ActionEvent> zoomToStep(DirectionStep step, double padding) {
+    // System.out.println("A: " + step.getPointA() + " B: " + step.getPointB());
+    if (!step.getPointA().getMapID().equals(currentMapID)) {
+      goToTab(step.getPointA().getMapID());
+    }
+    zoomToFitNodes(step.getPointA(), step.getPointB(), padding);
+    return null;
   }
 
   // start & end dialogue boxes stuff
@@ -319,7 +328,6 @@ public class MapPathfindingController extends MapController {
     destination.setText("");
     clearFoundPath();
     ObservableList<String> items = FXCollections.observableArrayList(new ArrayList<String>());
-    // populateDirections(new ArrayList<>());
     directionsField.getChildren().clear();
     update();
   }
