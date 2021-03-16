@@ -24,6 +24,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -240,6 +241,27 @@ public class HomeController extends Application {
             }
             translateLeftAnchor.play();
           });
+      MouseEvent fakeLeftClick =
+          new MouseEvent(
+              MouseEvent.MOUSE_CLICKED,
+              1,
+              2,
+              3,
+              4,
+              MouseButton.PRIMARY,
+              5,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              null);
+      ham1.fireEvent(fakeLeftClick);
     }
   }
 
