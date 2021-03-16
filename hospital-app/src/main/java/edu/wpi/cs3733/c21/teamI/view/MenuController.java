@@ -11,6 +11,8 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -20,6 +22,8 @@ public class MenuController extends Application {
 
   @FXML VBox menu;
   @FXML JFXRippler loginButton;
+  Image loginIcon = new Image("/fxml/menuFiles/menuImages/baseline_login_white_18dp.png");
+  Image homeIcon = new Image("/fxml/menuFiles/menuImages/homeIcon.png");
 
   @FXML
   public void navigate(MouseEvent e) throws IOException {
@@ -74,10 +78,15 @@ public class MenuController extends Application {
       menu.getChildren().get(10).setVisible(true);
       Node nodeOut = loginButton.getChildren().get(0);
 
+      HBox h = (HBox) nodeOut;
+      System.out.println("hbox children: " + h.getChildren());
+
+      boolean btnChanged = false;
       for (Node nodeIn : ((HBox) nodeOut).getChildren()) {
-        if ((Label) nodeIn instanceof Label) {
+        if (nodeIn.getClass().equals(Label.class)) {
           ((Label) nodeIn).setText("Home");
-          break;
+        } else if (nodeIn.getClass().equals(ImageView.class)) {
+          ((ImageView) nodeIn).setImage(homeIcon);
         }
       }
     }
@@ -86,9 +95,10 @@ public class MenuController extends Application {
       Node nodeOut = loginButton.getChildren().get(0);
 
       for (Node nodeIn : ((HBox) nodeOut).getChildren()) {
-        if ((Label) nodeIn instanceof Label) {
+        if (nodeIn.getClass().equals(Label.class)) {
           ((Label) nodeIn).setText("Login");
-          break;
+        } else if (nodeIn.getClass().equals(ImageView.class)) {
+          ((ImageView) nodeIn).setImage(loginIcon);
         }
       }
     }
