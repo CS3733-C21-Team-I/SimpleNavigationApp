@@ -789,31 +789,49 @@ public class ParkingPeripheralServerManager extends DatabaseManager {
     }
   }
 
+  public int getSlotIdForTime(Timestamp startTime, Timestamp endTime) {
+    try {
+      String slotQuery =
+          "SELECT * FROM PARKING_SLOTS ps LEFT JOIN (SELECT P.ID, P.SLOT_ID FROM PARKING_SLOT_RESERVATIONS P WHERE NOT (((P.START_TIMESTAMP>=? AND P.RES_EDN_TIMESTAMP>=?) OR (P.START_TIMESTAMP<=? AND P.RES_EDN_TIMESTAMP<=?)))) as Pres on ps.ID = Pres.SLOT_ID WHERE Pres.ID IS NULL AND ps.IS_OCCUPIED=false";
+      PreparedStatement statement = databaseRef.getConnection().prepareStatement(slotQuery);
+      statement.setTimestamp(1, startTime);
+      statement.setTimestamp(2, startTime);
+      statement.setTimestamp(3, endTime);
+      statement.setTimestamp(4, endTime);
+      ResultSet rs = statement.executeQuery();
+
+      return rs.getInt("ID");
+    } catch (SQLException e) {
+      e.printStackTrace();
+      throw new IllegalStateException("Error thrown retrieving slotID for time");
+    }
+  }
+
+  public String getSlotCodeForTime(Timestamp startTime, Timestamp endTime) {
+    try {
+      String slotQuery =
+          "SELECT * FROM PARKING_SLOTS ps LEFT JOIN (SELECT P.ID, P.SLOT_ID FROM PARKING_SLOT_RESERVATIONS P WHERE NOT (((P.START_TIMESTAMP>=? AND P.RES_EDN_TIMESTAMP>=?) OR (P.START_TIMESTAMP<=? AND P.RES_EDN_TIMESTAMP<=?)))) as Pres on ps.ID = Pres.SLOT_ID WHERE Pres.ID IS NULL AND ps.IS_OCCUPIED=false";
+      PreparedStatement statement = databaseRef.getConnection().prepareStatement(slotQuery);
+      statement.setTimestamp(1, startTime);
+      statement.setTimestamp(2, startTime);
+      statement.setTimestamp(3, endTime);
+      statement.setTimestamp(4, endTime);
+      ResultSet rs = statement.executeQuery();
+
+      return rs.getString("CODE") + rs.getString("SLOT_NUMBER");
+    } catch (SQLException e) {
+      e.printStackTrace();
+      throw new IllegalStateException("Error thrown retrieving slotCode for time");
+    }
+  }
+
   public ParkingReservation createNewReservation(
       ParkingCustomer customer, Timestamp startTime, Timestamp endTime) {
     int slotId = -1;
     String slotCode = null;
 
-    try {
-      String slotQuery =
-          "SELECT * FROM PARKING_SLOTS ps LEFT JOIN (SELECT P.ID, P.SLOT_ID FROM PARKING_SLOT_RESERVATIONS P WHERE NOT (((P.START_TIMESTAMP>=? AND P.RES_EDN_TIMESTAMP>=?) OR (P.START_TIMESTAMP<=? AND P.RES_EDN_TIMESTAMP<=?)))) as Pres on ps.ID = Pres.SLOT_ID WHERE Pres.ID IS NULL AND ps.IS_OCCUPIED=false";
-      PreparedStatement statement = databaseRef.getConnection().prepareStatement(slotQuery);
-
-      statement.setTimestamp(1, startTime);
-      statement.setTimestamp(2, startTime);
-      statement.setTimestamp(3, endTime);
-      statement.setTimestamp(4, endTime);
-
-      ResultSet rs = statement.executeQuery();
-
-      if (rs.next()) {
-        slotId = rs.getInt("ID");
-        slotCode = rs.getString("CODE") + rs.getString("SLOT_NUMBER");
-      }
-
-    } catch (SQLException e) {
-      e.printStackTrace();
-    }
+    slotId = getSlotIdForTime(startTime, endTime);
+    slotCode = getSlotCodeForTime(startTime, endTime);
 
     if (slotId == -1 || slotCode == null)
       throw new IllegalStateException("Failed to find empty slot when printing ticket");
@@ -871,7 +889,7 @@ public class ParkingPeripheralServerManager extends DatabaseManager {
     }
   }
 
-  public List<Integer> currentParkingSlips() {
+  public List<Integer> getCurrentParkingSlips() {
     List<Integer> slips = new ArrayList<>();
     try {
       String query = "SELECT * FROM PARKING_SLIPS";
@@ -886,6 +904,34 @@ public class ParkingPeripheralServerManager extends DatabaseManager {
       return null;
     }
     return slips;
+  }
+
+  public ParkingReservation getReservationForId(int Id) {
+    try {
+      String query = "SELECT * FROM PARKING_SLOT_RESERVATIONS WHERE ID = ?";
+      PreparedStatement stmt = databaseRef.getConnection().prepareStatement(query);
+      stmt.setInt(1, Id);
+      ResultSet rs = stmt.executeQuery();
+
+      ParkingReservation resv;
+      if (rs.next()) {
+        Timestamp startTime = rs.getTimestamp("start_timestamp");
+        Timestamp endTime = rs.getTimestamp("res_edn_timestamp");
+        resv =
+            new ParkingReservation(
+                Id,
+                getParkingCustomerForId(rs.getInt("customer_ID")),
+                rs.getInt("slot_ID"),
+                getSlotCodeForTime(startTime, endTime),
+                startTime,
+                endTime,
+                rs.getDate("booking_Date"));
+        return resv;
+      } else return null;
+    } catch (SQLException e) {
+      e.printStackTrace();
+      return null;
+    }
   }
 
   public void slipPaid(int id) {
