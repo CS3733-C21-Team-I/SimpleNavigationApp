@@ -54,7 +54,6 @@ public class MenuController extends Application {
     menu.getChildren().get(1).setVisible(true);
     menu.getChildren().get(2).setVisible(true);
     menu.getChildren().get(7).setVisible(true);
-    menu.getChildren().get(10).setVisible(true);
     menu.getChildren().get(11).setVisible(true);
 
     if (user.hasPermission(REQUEST_TICKET)) {
@@ -72,7 +71,7 @@ public class MenuController extends Application {
       menu.getChildren().get(9).setVisible(true);
     }
     if (ApplicationDataController.getInstance().isLoggedIn()) {
-
+      menu.getChildren().get(10).setVisible(true);
       Node nodeOut = loginButton.getChildren().get(0);
 
       for (Node nodeIn : ((HBox) nodeOut).getChildren()) {
@@ -94,5 +93,4 @@ public class MenuController extends Application {
       }
     }
   }
-
 }
