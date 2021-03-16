@@ -58,6 +58,10 @@ public class MapPathfindingControllerMobile extends MobileMapController {
   @FXML
   public void initialize() {
     System.out.println("Initializing pathfinding controller");
+    start.setText(
+        UserDatabaseManager.getInstance()
+            .getLocationForUser(
+                ApplicationDataController.getInstance().getLoggedInUser().getUserId()));
     extraMenu.managedProperty().bind(extraMenu.visibleProperty());
     allDirections.managedProperty().bind(allDirections.visibleProperty());
     HamburgerSlideCloseTransition hamburgerTransition = new HamburgerSlideCloseTransition(ham);

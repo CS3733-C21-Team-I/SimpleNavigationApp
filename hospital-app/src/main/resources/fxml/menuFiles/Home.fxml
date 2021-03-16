@@ -12,6 +12,7 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -120,20 +121,29 @@
                                  </Accordion>
                            </children>
                         </VBox>
-                        <Button fx:id="mobileButton" mnemonicParsing="false" onAction="#goToMobile" prefHeight="56.0" prefWidth="321.0" style="-fx-background-color: #012D5A;" styleClass="circleButton" stylesheets="@../misc/css/main.css" text="Mobile View" textFill="WHITE">
-                           <graphic>
-                              <ImageView pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@menuImages/phone.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
+                        <Button fx:id="mobileButton" mnemonicParsing="false" onAction="#goToMobile" prefHeight="56.0" prefWidth="321.0" style="-fx-background-color: #012D5A;" styleClass="circleButton" stylesheets="@../misc/css/main.css" textFill="WHITE">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
                            <VBox.margin>
                               <Insets top="20.0" />
                            </VBox.margin>
+                           <graphic>
+                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                                 <children>
+                                    <ImageView pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@menuImages/phone.png" />
+                                       </image>
+                                    </ImageView>
+                                    <Label style="-fx-font-weight: bold;" text="Mobile View" textFill="WHITE">
+                                       <HBox.margin>
+                                          <Insets left="5.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                 </children>
+                              </HBox>
+                           </graphic>
                         </Button>
                      </children>
                      <padding>

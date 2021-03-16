@@ -344,35 +344,6 @@ public abstract class MobileMapController extends Application {
     return (selectedNode != null) && selectedNode.getMapID().equals(currentMapID);
   }
 
-  public boolean toggleNode(HospitalMapNode node) {
-    if (selectedNode == null) {
-      selectedNode = node;
-      return true;
-    } else if (selectedNode.equals(node)) {
-      selectedNode = null;
-    }
-    return false;
-  }
-
-  protected void makeNodeCircle(HospitalMapNode node) {
-    for (HospitalMapNode child : node.getConnections()) {
-      if (!node.getMapID().equals(child.getMapID())) {
-        Circle highlight =
-            makeCircle(
-                transformX(node.getxCoord()),
-                transformY(node.getyCoord()),
-                20 / scale,
-                Color.GREEN);
-        mapPane.getChildren().add(highlight);
-      }
-    }
-    Circle circle =
-        makeCircle(
-            transformX(node.getxCoord()), transformY(node.getyCoord()), 12 / scale, Color.RED);
-    circle = (Circle) setMouseActions(circle, node);
-    mapPane.getChildren().add(circle);
-  }
-
   protected abstract Node setMouseActions(Node circle, HospitalMapNode node);
 
   protected Circle makeCircle(double x, double y, double r, Color color) {
@@ -476,8 +447,6 @@ public abstract class MobileMapController extends Application {
         mapPane.setMaxHeight(mapImage.getFitHeight());
         mapPane.setPrefWidth(mapImage.getFitHeight() * imgWidth / imgHeight);
         mapPane.setMaxWidth(mapImage.getFitHeight() * imgWidth / imgHeight);
-        //      mapImage.getViewport().setWidth(mapImage.getFitHeight() * imgWidth / imgHeight);
-        //      mapImage.setMaxWidth(mapImage.getFitHeight() * imgWidth / imgHeight);
       }
       Rectangle clip = new Rectangle(mapPane.getPrefWidth(), mapPane.getPrefHeight());
       clip.setLayoutX(0);
