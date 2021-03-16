@@ -11,13 +11,20 @@ import java.time.temporal.ChronoUnit;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.StackPane;
 
 public class KioskController {
   @FXML private JFXRippler min10, min30, hour1, hour2, hour3, allDay, overnight;
   @FXML private Label parkingSlot, start, end, price, barCode, ticketID;
   @FXML private JFXButton print;
+  @FXML private StackPane ticketPane;
 
   private int minutes;
+
+  @FXML
+  public void initialize() {
+    ticketPane.setVisible(false);
+  }
 
   public void printTicket() {
     ParkingSlip slip =
