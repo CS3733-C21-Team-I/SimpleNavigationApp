@@ -35,7 +35,6 @@ public class PayParkingTicket {
   @FXML Label locationLabel;
   @FXML Label startTimeLabel;
   @FXML Label endTimeLabel;
-  @FXML Label priceLabel;
   @FXML Label ticketIDLabel;
   @FXML VBox paymentInfo;
   @FXML Label paymentInfoLabel;
@@ -55,7 +54,6 @@ public class PayParkingTicket {
     locationLabel.setVisible(false);
     startTimeLabel.setVisible(false);
     endTimeLabel.setVisible(false);
-    priceLabel.setVisible(false);
     ticketIDLabel.setVisible(false);
 
     parkingIDInput.setOnMouseClicked(e);
@@ -135,7 +133,6 @@ public class PayParkingTicket {
           locationLabel.setVisible(true);
           startTimeLabel.setVisible(true);
           endTimeLabel.setVisible(true);
-          priceLabel.setVisible(true);
           ticketIDLabel.setVisible(true);
 
           paymentInfo.setVisible(true);
@@ -156,12 +153,10 @@ public class PayParkingTicket {
 
   public void update(int i) {
     ParkingReservation a = ParkingPeripheralServerManager.getInstance().getReservationForId(i);
-    locationLabel.setText(a.getSlotCode());
-    startTimeLabel.setText(
-        "Start Time: " + a.getStartTimestamp().toLocalDateTime().format(resTimeFormat));
-    endTimeLabel.setText(
-        "End Time: " + a.getEndTimestamp().toLocalDateTime().format(resTimeFormat));
-    ticketIDLabel.setText(String.valueOf(a.getId()));
+    locationLabel.setText("Parking Spot: " + a.getSlotCode());
+    startTimeLabel.setText(a.getStartTimestamp().toLocalDateTime().format(resTimeFormat));
+    endTimeLabel.setText(a.getEndTimestamp().toLocalDateTime().format(resTimeFormat));
+    ticketIDLabel.setText("Ticket ID: " + String.valueOf(a.getId()));
   }
 
   public void submit() throws IOException {}

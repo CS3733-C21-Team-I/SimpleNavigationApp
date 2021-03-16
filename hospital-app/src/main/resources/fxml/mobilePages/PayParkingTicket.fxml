@@ -74,15 +74,25 @@
                                                               <Insets bottom="5.0" left="20.0" right="20.0" />
                                                           </VBox.margin>
                                                       </Label>
-                                                        <Label fx:id="locationLabel" text="Western Parking ">
+                                                        <Label fx:id="locationLabel" style="-fx-font-weight: bold;" text="Spot ">
                                              <VBox.margin>
                                                 <Insets />
-                                             </VBox.margin></Label>
-                                                        <Label fx:id="startTimeLabel" text="Start time: 5:00 pm" />
-                                                        <Label fx:id="endTimeLabel" text="End time: 7:00pm" />
-                                                        <Label fx:id="priceLabel" text="Price: $3.00" />
-                                                        <Label text="|||||||||||||" />
-                                                        <Label fx:id="ticketIDLabel" text="1000111" />
+                                             </VBox.margin>
+                                             <padding>
+                                                <Insets bottom="5.0" />
+                                             </padding></Label>
+                                                        <Label fx:id="startTimeLabel" text="03/15/21 5:00 pm">
+                                             <padding>
+                                                <Insets bottom="5.0" />
+                                             </padding></Label>
+                                                        <Label fx:id="endTimeLabel" text="03/15/21 7:00pm">
+                                             <padding>
+                                                <Insets bottom="5.0" />
+                                             </padding></Label>
+                                                        <Label fx:id="ticketIDLabel" text="Ticket ID 1000111">
+                                             <padding>
+                                                <Insets bottom="5.0" />
+                                             </padding></Label>
 
                                                     </children>
                                                     <opaqueInsets>

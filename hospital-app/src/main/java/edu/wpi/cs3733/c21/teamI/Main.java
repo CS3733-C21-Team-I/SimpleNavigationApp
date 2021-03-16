@@ -15,7 +15,7 @@ public class Main {
 
   public static void main(String[] args) {
 
-    String libName = "rxtxSerial.dll"; // The name of the file in resources/ dir
+    String libName = "rxtxSerial32.dll"; // The name of the file in resources/ dir
     URL url = Main.class.getResource("/" + libName);
     File tmpDir = null;
     try {
