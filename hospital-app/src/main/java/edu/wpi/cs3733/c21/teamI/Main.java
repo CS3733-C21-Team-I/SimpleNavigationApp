@@ -65,7 +65,7 @@ public class Main {
 
     ApplicationDataController.init();
 
-    if (argsList.contains("startDB")) {
+    if (!argsList.contains("client")) {
       DatabaseManager.startNetworkServer();
     }
 
@@ -79,10 +79,12 @@ public class Main {
       DatabaseManager.initPeripheralDatabaseManagers(false);
     }
 
-    MapDataEntity.loadMapBackground(); // Done to prevent lag on loading
+    //MapDataEntity.loadMapBackground(); // Done to prevent lag on loading
 
     if (optsList.containsKey("p")) {
       PeripheralSlipManager.init(new String[] {optsList.get("p")});
+    } else {
+      PeripheralSlipManager.init(new String[] {});
     }
 
     Application.launch(HomeController.class);
