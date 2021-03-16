@@ -122,8 +122,8 @@ public class MapPathfindingController extends MapController {
     if (foundPathExists()) {
       drawCalculatedPath(getFoundPath());
     }
-    // mapPane.getChildren().add(centerPoint);
-    // mapPane.getChildren().add(viewRect);
+    mapPane.getChildren().add(centerPoint);
+    mapPane.getChildren().add(viewRect);
   }
 
   private void populateDirections(List<DirectionStep> directionSteps) {
