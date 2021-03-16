@@ -81,6 +81,9 @@ public class MapPathfindingController extends MapController {
     algorithmPick.setVisible(isAdmin);
     algorithmPick.setManaged(isAdmin);
     algorithmPick.getItems().addAll("A*", "Depth First", "Breadth First", "Dijkstra");
+    reflectCovidStatus(
+        ApplicationDataController.getInstance().getLoggedInUser().getCovidRisk()
+            == User.CovidRisk.COVID_RISK);
     setupMapViewHandlers();
     currentMapID = "Faulkner Lot";
     campusTab(new ActionEvent());
@@ -391,16 +394,16 @@ public class MapPathfindingController extends MapController {
     System.out.print("NodeRestrictions:" + scorer.nodeTypesToAvoid);
   }
 
-  //  public void reflectCovidStatus(boolean isHighCovidRisk) {
-  //    if (isHighCovidRisk) {
-  //      scorer.nodeTypesToAvoid.add(NodeRestrictions.NON_COVID_RISK_VISITORS);
-  //      scorer.nodeTypesToAvoid.remove(NodeRestrictions.COVID_RISK_VISITORS);
-  //    } else {
-  //      scorer.nodeTypesToAvoid.remove(NodeRestrictions.NON_COVID_RISK_VISITORS);
-  //      scorer.nodeTypesToAvoid.add(NodeRestrictions.COVID_RISK_VISITORS);
-  //    }
-  //    System.out.print("NodeRestrictions:" + scorer.nodeTypesToAvoid);
-  //  }
+  public void reflectCovidStatus(boolean isHighCovidRisk) {
+    if (isHighCovidRisk) {
+      scorer.nodeTypesToAvoid.add(NodeRestrictions.NON_COVID_RISK_VISITORS);
+      scorer.nodeTypesToAvoid.remove(NodeRestrictions.COVID_RISK_VISITORS);
+    } else {
+      scorer.nodeTypesToAvoid.remove(NodeRestrictions.NON_COVID_RISK_VISITORS);
+      scorer.nodeTypesToAvoid.add(NodeRestrictions.COVID_RISK_VISITORS);
+    }
+    System.out.print("NodeRestrictions:" + scorer.nodeTypesToAvoid);
+  }
 
   @FXML
   public void toAboutPage(ActionEvent e) throws IOException {
@@ -418,10 +421,6 @@ public class MapPathfindingController extends MapController {
                 .add(FXMLLoader.load(getClass().getResource("/fxml/map/Pathfinding.fxml")));
           }
         });
-  }
-
-  protected void displayDirections(ArrayList<String> directions) {
-    ObservableList<String> items = FXCollections.observableArrayList(directions);
   }
 
   protected Node setMouseActions(Node circle, HospitalMapNode node) {

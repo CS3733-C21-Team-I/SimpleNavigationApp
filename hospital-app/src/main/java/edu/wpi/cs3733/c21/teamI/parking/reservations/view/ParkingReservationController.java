@@ -10,6 +10,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.layout.VBox;
 
 public class ParkingReservationController {
   @FXML JFXButton clearBtn, bookBtn;
@@ -17,7 +18,8 @@ public class ParkingReservationController {
   @FXML JFXTimePicker entryTime, exitTime;
   @FXML JFXTextField contNum, plateNum;
   @FXML JFXCheckBox handiCheck;
-  @FXML private Label parkingSlot, start, end, price, barCode, ticketID;
+  @FXML private Label parkingSlot, start, end, ticketID;
+  @FXML VBox ticket;
 
   private static final DateTimeFormatter resTimeFormat =
       DateTimeFormatter.ofPattern("MM/dd/yyyy hh:mm a");
@@ -34,19 +36,23 @@ public class ParkingReservationController {
   }
 
   public void checkFinished() {
-    bookBtn.setDisable(
+
+    boolean shouldDisable =
         entryTime.valueProperty().getValue() == null
             || entryDate.valueProperty().getValue() == null
             || exitTime.valueProperty().getValue() == null
             || exitDate.valueProperty().getValue() == null
-            || contNum.getText() == null
+            || contNum.getText().equals("")
             || contNum.getText().trim().length() <= 0
-            || plateNum.getText() == null
-            || plateNum.getText().trim().length() <= 0);
+            || plateNum.getText().equals("")
+            || plateNum.getText().trim().length() <= 0;
+
+    bookBtn.setDisable(shouldDisable);
+    //    System.out.println("CHECKING FINISHED: " + shouldDisable);
   }
 
   public void initialize() {
-    bookBtn.setDisable(false);
+    bookBtn.setDisable(true);
     entryTime.setOnAction(eh);
     entryDate.setOnAction(eh);
     exitTime.setOnAction(eh);
@@ -54,14 +60,16 @@ public class ParkingReservationController {
     contNum.setOnAction(eh);
     plateNum.setOnAction(eh);
     handiCheck.setOnAction(eh);
+    ticket.managedProperty().bind(ticket.visibleProperty());
+    ticket.setVisible(false);
   }
 
   public void redrawTicket(ParkingReservation res) {
-    parkingSlot.setText(res.getSlotCode());
+    parkingSlot.setText("Spot " + res.getSlotCode());
     start.setText(res.getStartTimestamp().toLocalDateTime().format(resTimeFormat));
     end.setText(res.getEndTimestamp().toLocalDateTime().format(resTimeFormat));
-    //    price.setText(res.);
-    ticketID.setText(String.valueOf(res.getId()));
+    ticketID.setText("Ticket ID " + res.getId());
+    ticket.setVisible(true);
   }
 
   public void submit() {

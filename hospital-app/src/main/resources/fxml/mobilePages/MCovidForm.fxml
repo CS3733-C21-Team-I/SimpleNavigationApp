@@ -47,7 +47,7 @@
                         <Font name="System Bold" size="15.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="parkingInput" maxWidth="169.0" onKeyTyped="#lookupParking" prefHeight="31.0" prefWidth="169.0">
+                  <TextField fx:id="parkingInput" maxWidth="169.0" onKeyReleased="#checkFinished" onKeyTyped="#lookupParking" prefHeight="31.0" prefWidth="169.0">
                      <VBox.margin>
                         <Insets bottom="20.0" left="30.0" right="30.0" />
                      </VBox.margin>
@@ -197,7 +197,7 @@
                         <Insets bottom="10.0" left="20.0" right="20.0" />
                      </VBox.margin>
                   </ScrollPane>
-<!--                  <JFXButton onAction="#skip" style="-fx-background-color: #0067b1; -fx-font-weight: bold;" text="Bypass Form" textFill="WHITE" />-->
+                  <JFXButton onAction="#skip" style="-fx-background-color: #0067b1; -fx-font-weight: bold;" text="Bypass Form" textFill="WHITE" />
                   <JFXButton fx:id="submitBttn" onAction="#submit" prefWidth="200.0" style="-fx-background-color: #0067b1; -fx-font-weight: bold;" styleClass="styledButton" stylesheets="@../misc/css/main.css" text="Submit">
                      <VBox.margin>
                         <Insets bottom="15.0" left="10.0" right="10.0" top="10.0" />
@@ -205,7 +205,7 @@
                   </JFXButton>
                </children>
             </VBox>
-            <ListView fx:id="parkingList" layoutX="71.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="10.0" prefHeight="82.0" prefWidth="169.0" visible="false" AnchorPane.bottomAnchor="374.0" AnchorPane.leftAnchor="68.0" />
+            <ListView fx:id="parkingList" layoutX="71.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="10.0" onMouseClicked="#checkFinished" prefHeight="82.0" prefWidth="169.0" visible="false" AnchorPane.bottomAnchor="374.0" AnchorPane.leftAnchor="68.0" />
          </children>
       </AnchorPane>
    </children>
