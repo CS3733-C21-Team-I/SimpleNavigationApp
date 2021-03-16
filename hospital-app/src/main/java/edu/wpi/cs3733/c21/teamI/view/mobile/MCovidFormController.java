@@ -11,6 +11,7 @@ import edu.wpi.cs3733.c21.teamI.database.UserDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.notification.Notification;
 import edu.wpi.cs3733.c21.teamI.ticket.CovidTicket;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicket;
+import edu.wpi.cs3733.c21.teamI.user.User;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -108,6 +109,14 @@ public class MCovidFormController {
     ObservableList<String> items = FXCollections.observableArrayList(matches);
     parkingList.setItems(items);
     parkingList.setVisible(true);
+  }
+
+  public void skip() throws IOException {
+    UserDatabaseManager.getInstance()
+        .updateCovidRiskForUser(
+            ApplicationDataController.getInstance().getLoggedInUser().getUserId(),
+            User.CovidRisk.NO_COVID_RISK);
+    goToWaitingScreen();
   }
 
   public void submit() throws IOException {
