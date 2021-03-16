@@ -14,6 +14,17 @@ public class MapDataEntity {
     return sourceMap;
   }
 
+  public static void loadMapBackground() {
+    new Thread(
+            new Runnable() {
+              @Override
+              public void run() {
+                sourceMap = NavDatabaseManager.getInstance().loadMapsFromMemory();
+              }
+            })
+        .start();
+  }
+
   public static Map<String, HospitalMap> getMap() {
     return getMap(false);
   }

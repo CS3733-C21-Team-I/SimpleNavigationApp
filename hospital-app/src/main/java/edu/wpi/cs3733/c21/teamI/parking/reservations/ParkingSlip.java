@@ -71,6 +71,10 @@ public class ParkingSlip {
     return entryTimestamp;
   }
 
+  public Timestamp getEndTimestamp() {
+    return new Timestamp(entryTimestamp.getTime() + TimeUnit.MINUTES.toMillis(durationMin));
+  }
+
   public int getDurationMin() {
     return durationMin;
   }

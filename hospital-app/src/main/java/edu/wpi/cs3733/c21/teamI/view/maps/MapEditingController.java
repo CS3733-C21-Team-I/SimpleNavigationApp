@@ -3,6 +3,7 @@ package edu.wpi.cs3733.c21.teamI.view.maps;
 import edu.wpi.cs3733.c21.teamI.database.NavDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.*;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.mapEditing.MapEditDataController;
+import edu.wpi.cs3733.c21.teamI.util.ImageLoader;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -206,7 +207,7 @@ public class MapEditingController extends MapController {
   }
 
   protected void drawEdges(HospitalMapNode parent) {
-    Image xIconImg = new Image("/fxml/map/mapImages/symbolIcons/redxicon.png");
+    Image xIconImg = ImageLoader.loadImage("/fxml/map/mapImages/symbolIcons/redxicon.png");
     for (HospitalMapNode child : parent.getConnections()) {
       HospitalMapNode startNode =
           dataCont.getActiveMap().getNodes().contains(parent) ? parent : child;

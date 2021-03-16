@@ -223,6 +223,11 @@ public class ParkingPeripheralServerManager extends DatabaseManager {
               + "PRIMARY KEY (id),"
               + "FOREIGN KEY (reservation_id) REFERENCES PARKING_SLOT_RESERVATIONS(id))");
 
+      statement.execute(
+          "CREATE TABLE NAV_LINK("
+              + "nav_id varchar(45) NOT NULL,"
+              + "slot_id int NOT NULL,"
+              + "FOREIGN KEY (slot_id) REFERENCES PARKING_SLOTS(id))");
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -232,6 +237,7 @@ public class ParkingPeripheralServerManager extends DatabaseManager {
   void dropTables() {
     try {
       Statement statement = databaseRef.getConnection().createStatement();
+      statement.addBatch("DROP TABLE NAV_LINK");
       statement.addBatch("DROP TABLE STAFF_PERMITS");
       statement.addBatch("DROP TABLE PARKING_SLIPS");
       statement.addBatch("DROP TABLE PARKING_SLOT_RESERVATIONS");
@@ -248,102 +254,126 @@ public class ParkingPeripheralServerManager extends DatabaseManager {
 
   void populateExampleData() {
     try {
-      Statement statement = databaseRef.getConnection().createStatement();
-      statement.addBatch(
-          "INSERT INTO PARKING_LOTS(NUMBER_OF_BLOCKS, NAME, IS_REENTRY_ALLOWED, IS_VALLET_AVAILABLE, IS_LOT_FULL) VALUES\n"
-              + "(4, 'Western Parking', false, false, false)");
-      statement.addBatch(
-          "INSERT INTO PARKING_BLOCKS(parking_lot_id, block_code, number_of_floors, is_block_full) VALUES\n"
-              + "(1, 'WA', 1, false),\n"
-              + "(1, 'WB', 1, false),\n"
-              + "(1, 'WC', 1, false),\n"
-              + "(1, 'WD', 1, false)");
-      statement.addBatch(
-          "INSERT INTO PARKING_FLOORS(block_id, floor_number, max_height_in_inch, number_slots, is_covered, is_accessible, is_floor_full, is_reserved_staff) VALUES\n"
-              + "(2, 1, 120, 8, true, true, false, false),\n"
-              + "(2, 2, 120, 8, false, false, false, false),\n"
-              + "(1, 1, 120, 8, false, true, false, true),\n"
-              + "(3, 1, 120, 6, false, true, false, false),\n"
-              + "(4, 1, 120, 6, false, true, false, false)");
-      statement.addBatch(
-          "INSERT INTO PARKING_SLOTS(slot_number, code, is_occupied, floor_id) VALUES\n"
-              + "(101, 'A', false, 1),\n"
-              + "(102, 'A', false, 1),\n"
-              + "(103, 'A', false, 1),\n"
-              + "(104, 'A', false, 1),\n"
-              + "(105, 'A', false, 1),\n"
-              + "(106, 'A', false, 1),\n"
-              + "(107, 'A', false, 1),\n"
-              + "(108, 'A', false, 1)");
-      statement.addBatch(
-          "INSERT INTO PARKING_SLOTS(slot_number, code, is_occupied, floor_id) VALUES\n"
-              + "(101, 'B', false, 2),\n"
-              + "(102, 'B', false, 2),\n"
-              + "(103, 'B', false, 2),\n"
-              + "(104, 'B', false, 2),\n"
-              + "(105, 'B', false, 2),\n"
-              + "(106, 'B', false, 2),\n"
-              + "(107, 'B', false, 2),\n"
-              + "(108, 'B', false, 2)");
-      statement.addBatch(
-          "INSERT INTO PARKING_SLOTS(slot_number, code, is_occupied, floor_id) VALUES\n"
-              + "(201, 'B', false, 3),\n"
-              + "(202, 'B', false, 3),\n"
-              + "(203, 'B', false, 3),\n"
-              + "(204, 'B', false, 3),\n"
-              + "(205, 'B', false, 3),\n"
-              + "(206, 'B', false, 3),\n"
-              + "(207, 'B', false, 3),\n"
-              + "(208, 'B', false, 3)");
-      statement.addBatch(
-          "INSERT INTO PARKING_SLOTS(slot_number, code, is_occupied, floor_id) VALUES\n"
-              + "(101, 'C', false, 4),\n"
-              + "(102, 'C', false, 4),\n"
-              + "(103, 'C', false, 4),\n"
-              + "(104, 'C', false, 4),\n"
-              + "(105, 'C', false, 4),\n"
-              + "(106, 'C', false, 4)");
-      statement.addBatch(
-          "INSERT INTO PARKING_SLOTS(slot_number, code, is_occupied, floor_id) VALUES\n"
-              + "(101, 'D', false, 5),\n"
-              + "(102, 'D', false, 5),\n"
-              + "(103, 'D', false, 5),\n"
-              + "(104, 'D', false, 5),\n"
-              + "(105, 'D', false, 5),\n"
-              + "(106, 'D', false, 5)");
-      statement.executeBatch();
+      //      Statement statement = databaseRef.getConnection().createStatement();
+      //      statement.addBatch(
+      //          "INSERT INTO PARKING_LOTS(NUMBER_OF_BLOCKS, NAME, IS_REENTRY_ALLOWED,
+      // IS_VALLET_AVAILABLE, IS_LOT_FULL) VALUES\n"
+      //              + "(4, 'Western Parking', false, false, false)");
+      //      statement.addBatch(
+      //          "INSERT INTO PARKING_BLOCKS(parking_lot_id, block_code, number_of_floors,
+      // is_block_full) VALUES\n"
+      //              + "(1, 'WA', 1, false),\n"
+      //              + "(1, 'WB', 1, false),\n"
+      //              + "(1, 'WC', 1, false),\n"
+      //              + "(1, 'WD', 1, false)");
+      //      statement.addBatch(
+      //          "INSERT INTO PARKING_FLOORS(block_id, floor_number, max_height_in_inch,
+      // number_slots, is_covered, is_accessible, is_floor_full, is_reserved_staff) VALUES\n"
+      //              + "(2, 1, 120, 8, true, true, false, false),\n"
+      //              + "(2, 2, 120, 8, false, false, false, false),\n"
+      //              + "(1, 1, 120, 8, false, true, false, true),\n"
+      //              + "(3, 1, 120, 6, false, true, false, false),\n"
+      //              + "(4, 1, 120, 6, false, true, false, false)");
+      //      statement.addBatch(
+      //          "INSERT INTO PARKING_SLOTS(slot_number, code, is_occupied, floor_id) VALUES\n"
+      //              + "(101, 'A', false, 1),\n"
+      //              + "(102, 'A', false, 1),\n"
+      //              + "(103, 'A', false, 1),\n"
+      //              + "(104, 'A', false, 1),\n"
+      //              + "(105, 'A', false, 1),\n"
+      //              + "(106, 'A', false, 1),\n"
+      //              + "(107, 'A', false, 1),\n"
+      //              + "(108, 'A', false, 1)");
+      //      statement.addBatch(
+      //          "INSERT INTO PARKING_SLOTS(slot_number, code, is_occupied, floor_id) VALUES\n"
+      //              + "(101, 'B', false, 2),\n"
+      //              + "(102, 'B', false, 2),\n"
+      //              + "(103, 'B', false, 2),\n"
+      //              + "(104, 'B', false, 2),\n"
+      //              + "(105, 'B', false, 2),\n"
+      //              + "(106, 'B', false, 2),\n"
+      //              + "(107, 'B', false, 2),\n"
+      //              + "(108, 'B', false, 2)");
+      //      statement.addBatch(
+      //          "INSERT INTO PARKING_SLOTS(slot_number, code, is_occupied, floor_id) VALUES\n"
+      //              + "(201, 'B', false, 3),\n"
+      //              + "(202, 'B', false, 3),\n"
+      //              + "(203, 'B', false, 3),\n"
+      //              + "(204, 'B', false, 3),\n"
+      //              + "(205, 'B', false, 3),\n"
+      //              + "(206, 'B', false, 3),\n"
+      //              + "(207, 'B', false, 3),\n"
+      //              + "(208, 'B', false, 3)");
+      //      statement.addBatch(
+      //          "INSERT INTO PARKING_SLOTS(slot_number, code, is_occupied, floor_id) VALUES\n"
+      //              + "(101, 'C', false, 4),\n"
+      //              + "(102, 'C', false, 4),\n"
+      //              + "(103, 'C', false, 4),\n"
+      //              + "(104, 'C', false, 4),\n"
+      //              + "(105, 'C', false, 4),\n"
+      //              + "(106, 'C', false, 4)");
+      //      statement.addBatch(
+      //          "INSERT INTO PARKING_SLOTS(slot_number, code, is_occupied, floor_id) VALUES\n"
+      //              + "(101, 'D', false, 5),\n"
+      //              + "(102, 'D', false, 5),\n"
+      //              + "(103, 'D', false, 5),\n"
+      //              + "(104, 'D', false, 5),\n"
+      //              + "(105, 'D', false, 5),\n"
+      //              + "(106, 'D', false, 5)");
+      //      statement.executeBatch();
 
-      List<Integer> northParkingSlotIds = new ArrayList();
       Lot eastSurfLot = createParkingLot("Eastern Surface Lot", false, true);
       addBlocksToLot(
           eastSurfLot, new Block("ESA"), new Block("ESB"), new Block("ESC"), new Block("ESD"));
-      for (Block b : eastSurfLot.getBlocks()) {
-        addFloorsToBlock(b, new Floor(1, false, true, false));
-        northParkingSlotIds.addAll(
-            addSlotsToFloor(b.getFloors().get(0), b.getBlockCode().charAt(2), 100, 20));
+      addFloorsToBlock(eastSurfLot.getBlocks().get(0), new Floor(1, false, true, false));
+      List<Integer> eastSurfAIds =
+          addSlotsToFloor(eastSurfLot.getBlocks().get(0).getFloors().get(0), 'A', 101, 20);
+      for (int i = 0; i < NodeToParkLink.eastSurfALinks.length; i++) {
+        addLink(NodeToParkLink.eastSurfALinks[i], eastSurfAIds.get(i));
+      }
+
+      addFloorsToBlock(eastSurfLot.getBlocks().get(1), new Floor(1, false, true, false));
+      List<Integer> eastSurfBIds =
+          addSlotsToFloor(eastSurfLot.getBlocks().get(1).getFloors().get(0), 'B', 101, 20);
+      for (int i = 0; i < NodeToParkLink.eastSurfBLinks.length; i++) {
+        addLink(NodeToParkLink.eastSurfBLinks[i], eastSurfBIds.get(i));
+      }
+
+      addFloorsToBlock(eastSurfLot.getBlocks().get(2), new Floor(1, false, true, false));
+      List<Integer> eastSurfCIds =
+          addSlotsToFloor(eastSurfLot.getBlocks().get(2).getFloors().get(0), 'C', 101, 20);
+      for (int i = 0; i < NodeToParkLink.eastSurfCLinks.length; i++) {
+        addLink(NodeToParkLink.eastSurfCLinks[i], eastSurfCIds.get(i));
+      }
+
+      addFloorsToBlock(eastSurfLot.getBlocks().get(3), new Floor(1, false, true, false));
+      List<Integer> eastSurfDIds =
+          addSlotsToFloor(eastSurfLot.getBlocks().get(3).getFloors().get(0), 'D', 101, 20);
+      for (int i = 0; i < NodeToParkLink.eastSurfDLinks.length; i++) {
+        addLink(NodeToParkLink.eastSurfDLinks[i], eastSurfDIds.get(i));
       }
 
       Lot eastLot = createParkingLot("Eastern Garage", false, false);
-      addBlocksToLot(eastSurfLot, new Block("MSP"));
-      for (int i = 1; i < 3; i++) {
+      addBlocksToLot(eastLot, new Block("MSP"));
+      for (int i = 1; i <= 3; i++) {
         Floor f =
             addFloorsToBlock(eastLot.getBlocks().get(0), new Floor(i, i != 3, true, false)).get(0);
-        addSlotsToFloor(f, 'E', i * 100, (i != 3) ? 46 : 47);
+        addSlotsToFloor(f, 'E', i * 100 + 1, (i != 3) ? 46 : 47);
       }
 
       Lot westSurfLot = createParkingLot("Western Surface Lot", false, false);
       addBlocksToLot(westSurfLot, new Block("WSA"), new Block("WSB"), new Block("WSC"));
       for (Block b : westSurfLot.getBlocks()) {
         addFloorsToBlock(b, new Floor(1, false, true, false));
-        addSlotsToFloor(b.getFloors().get(0), b.getBlockCode().charAt(2), 100, 43);
+        addSlotsToFloor(b.getFloors().get(0), b.getBlockCode().charAt(2), 101, 43);
       }
 
       Lot westLot = createParkingLot("West Garage", false, false);
-      addBlocksToLot(eastSurfLot, new Block("MSP"));
-      for (int i = 1; i < 5; i++) {
+      addBlocksToLot(westLot, new Block("MSP"));
+      for (int i = 1; i <= 5; i++) {
         Floor f =
-            addFloorsToBlock(eastLot.getBlocks().get(0), new Floor(i, i != 5, true, false)).get(0);
-        addSlotsToFloor(f, 'W', i * 1000, 116);
+            addFloorsToBlock(westLot.getBlocks().get(0), new Floor(i, i != 5, true, false)).get(0);
+        addSlotsToFloor(f, 'W', i * 1000 + 1, 116);
       }
 
     } catch (Exception e) {
@@ -353,7 +383,7 @@ public class ParkingPeripheralServerManager extends DatabaseManager {
     Lot westAdminLot = createParkingLot("West Admin Lot", true, false);
     addBlocksToLot(westAdminLot, new Block("WAL"));
     addFloorsToBlock(westAdminLot.getBlocks().get(0), new Floor(1, false, true, true));
-    addSlotsToFloor(westAdminLot.getBlocks().get(0).getFloors().get(0), 'H', 100, 29);
+    addSlotsToFloor(westAdminLot.getBlocks().get(0).getFloors().get(0), 'H', 101, 29);
   }
 
   public Lot createParkingLot(String name, boolean reentry, boolean vallet) {
@@ -375,6 +405,35 @@ public class ParkingPeripheralServerManager extends DatabaseManager {
     } catch (SQLException e) {
       printSQLException(e);
       throw new IllegalStateException("Exception creating Lot");
+    }
+  }
+
+  public void addLink(String navId, int slotId) {
+    try {
+      String query = "INSERT INTO NAV_LINK (NAV_ID, SLOT_ID) VALUES (?, ?)";
+      PreparedStatement statement = databaseRef.getConnection().prepareStatement(query);
+      statement.setString(1, navId);
+      statement.setInt(2, slotId);
+
+      statement.execute();
+    } catch (SQLException e) {
+      printSQLException(e);
+      throw new IllegalStateException("Exception when adding a nav link");
+    }
+  }
+
+  public int getLinkedSlotId(String navId) {
+    try {
+      String query = "SELECT * FROM NAV_LINK WHERE NAV_ID = ?";
+      PreparedStatement statement = databaseRef.getConnection().prepareStatement(query);
+      statement.setString(1, navId);
+      ResultSet rs = statement.executeQuery();
+
+      if (rs.next()) return rs.getInt("SLOT_ID");
+      else return -1;
+    } catch (SQLException e) {
+      printSQLException(e);
+      throw new IllegalStateException("Exception when getting linked slot");
     }
   }
 
@@ -668,8 +727,6 @@ public class ParkingPeripheralServerManager extends DatabaseManager {
    * @return the new Slip
    */
   public ParkingSlip createNewSlip(Timestamp startTime, int durationMin, int cost) {
-    int slotId = -1;
-    String slotCode = null;
 
     ParkingReservation reservation =
         createNewReservation(
@@ -685,7 +742,7 @@ public class ParkingPeripheralServerManager extends DatabaseManager {
       PreparedStatement preparedStatement =
           databaseRef.getConnection().prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 
-      preparedStatement.setInt(1, slotId);
+      preparedStatement.setInt(1, reservation.getId());
       preparedStatement.setTimestamp(2, startTime);
       preparedStatement.setInt(3, cost);
       preparedStatement.setBoolean(4, false);
@@ -743,8 +800,8 @@ public class ParkingPeripheralServerManager extends DatabaseManager {
       PreparedStatement statement = databaseRef.getConnection().prepareStatement(slotQuery);
 
       statement.setTimestamp(1, startTime);
-      statement.setTimestamp(2, endTime);
-      statement.setTimestamp(3, startTime);
+      statement.setTimestamp(2, startTime);
+      statement.setTimestamp(3, endTime);
       statement.setTimestamp(4, endTime);
 
       ResultSet rs = statement.executeQuery();
@@ -830,7 +887,7 @@ public class ParkingPeripheralServerManager extends DatabaseManager {
   public List<Integer> getOccupiedSlots() {
     List<Integer> out = new ArrayList<>();
     try {
-      String query = "SELECT ID FROM PARKING_SLOTS WHERE IS_OCCUPIED = true";
+      String query = "SELECT * FROM PARKING_SLOTS WHERE IS_OCCUPIED = true";
       PreparedStatement statement = databaseRef.getConnection().prepareStatement(query);
       ResultSet rs = statement.executeQuery();
 

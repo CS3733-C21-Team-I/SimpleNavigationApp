@@ -414,7 +414,23 @@ public class MapPathfindingController extends MapController {
 
   public void drawLocationNodes() {
     for (HospitalMapNode node : MapDataEntity.getNodesSet()) {
-      if (node instanceof LocationNode
+      if (node instanceof ParkingNode && node.getMapID().equals(currentMapID)) {
+        Color parkingColor;
+        double dimensions = 25 / scale;
+        if (!((ParkingNode) node).isOccupied()) {
+          parkingColor = Color.GREEN;
+        } else {
+          parkingColor = Color.RED;
+        }
+        Rectangle park =
+            new Rectangle(
+                transformX(node.getxCoord()) - dimensions / 2,
+                transformY(node.getyCoord()) - dimensions / 2,
+                dimensions,
+                2 * dimensions);
+        park.setFill(parkingColor);
+        mapPane.getChildren().add(park);
+      } else if (node instanceof LocationNode
           && node.getMapID().equals(currentMapID)) { // draw all location nodes on this level
 
         // draw parking spaces
