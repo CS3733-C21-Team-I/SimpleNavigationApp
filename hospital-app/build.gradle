@@ -34,13 +34,14 @@ dependencies {
             'org.apache.derby:derbyclient:10.14.2.0',
             'org.slf4j:slf4j-api:1.7.30',
             'org.slf4j:slf4j-simple:1.7.30',
-            files('lib/RXTXcomm.jar'),
+            files('lib/RXTXcomm.jar')
     )
     compile group: 'org.apache.derby', name: 'derby', version: '10.14.2.0'
     compile group: 'org.apache.derby', name: 'derbynet', version: '10.14.2.0'
     compile group: 'org.apache.derby', name: 'derbyclient', version: '10.14.2.0'
     compile group: 'com.jfoenix', name: 'jfoenix', version:'8.0.10'
     compile group: 'com.google.maps', name: 'google-maps-services', version: '0.17.0'
+    compile files('lib/RXTXcomm.jar')
     testCompile(
             "org.testfx:testfx-core:4.0.16-alpha",
             'org.junit.jupiter:junit-jupiter:5.6.0',
