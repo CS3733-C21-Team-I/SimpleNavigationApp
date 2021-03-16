@@ -76,8 +76,6 @@ public abstract class MapController extends Application {
   protected Color blue = Color.color(68.0 / 256.0, 136.0 / 256.0, 166.0 / 256.0);
   protected Color red = Color.color(217.0 / 256.0, 89.0 / 256.0, 89.0 / 256.0);
   protected Color color2 = Color.DARKBLUE;
-  public Circle centerPoint = makeCircle(500, 500, 13, Color.RED);
-  public Rectangle viewRect = makeRectangle(10, 10, 50, 50, Color.RED);
 
   /*public void initializeTabs() {
     campus.setOnSelectionChanged(
@@ -406,14 +404,6 @@ public abstract class MapController extends Application {
     return returnCircle;
   }
 
-  protected Rectangle makeRectangle(
-      double minX, double minY, double width, double height, Color color) {
-    viewRect = new Rectangle(minX, minY, width, height);
-    viewRect.setFill(color);
-    viewRect.setOpacity(0.2);
-    return viewRect;
-  }
-
   // Scaling code is from https://gist.github.com/james-d/ce5ec1fd44ce6c64e81a
   protected static final int MIN_PIXELS = 200;
 
@@ -661,7 +651,15 @@ public abstract class MapController extends Application {
   }
 
   public void zoomToPoint(
-      double centerX, double centerY, double width, double height, double padding) {
+      double centerX,
+      double centerY,
+      double width,
+      double height,
+      double padding,
+      double startXOffset,
+      double startYOffset,
+      double startWidth,
+      double startHeight) {
     width += padding * 2;
     height += padding * 2;
     if (height > width) {
@@ -676,26 +674,64 @@ public abstract class MapController extends Application {
     Point2D newDimensions = imageViewToImage(mapImage, new Point2D(width, height));
     Point2D newPos = imageViewToImage(mapImage, new Point2D(newMinX, newMinY));
 
-    mapImage.setViewport(
-        new Rectangle2D(newPos.getX(), newPos.getY(), newDimensions.getX(), newDimensions.getY()));
-    imgWidth = mapImage.getViewport().getWidth();
-    imgHeight = mapImage.getViewport().getHeight();
-    xOffset = mapImage.getViewport().getMinX();
-    yOffset = mapImage.getViewport().getMinY();
-    update();
+    Interpolator interp = Interpolator.EASE_BOTH;
+
+    Transition transition =
+        new Transition() {
+          {
+            setCycleDuration(Duration.millis(1500));
+          }
+
+          @Override
+          protected void interpolate(double frac) {
+            double zoomingWidth = interp.interpolate(startWidth, newDimensions.getX(), frac);
+            double zoomingHeight = interp.interpolate(startHeight, newDimensions.getY(), frac);
+            double zoomingX = interp.interpolate(startXOffset, newPos.getX(), frac);
+            double zoomingY = interp.interpolate(startYOffset, newPos.getY(), frac);
+            mapImage.setViewport(new Rectangle2D(zoomingX, zoomingY, zoomingWidth, zoomingHeight));
+            imgWidth = mapImage.getViewport().getWidth();
+            imgHeight = mapImage.getViewport().getHeight();
+            xOffset = mapImage.getViewport().getMinX();
+            yOffset = mapImage.getViewport().getMinY();
+            update();
+          }
+        };
+    transition.setOnFinished(
+        t -> {
+          mapImage.setViewport(
+              new Rectangle2D(
+                  newPos.getX(), newPos.getY(), newDimensions.getX(), newDimensions.getY()));
+          imgWidth = mapImage.getViewport().getWidth();
+          imgHeight = mapImage.getViewport().getHeight();
+          xOffset = mapImage.getViewport().getMinX();
+          yOffset = mapImage.getViewport().getMinY();
+          update();
+        });
+    transition.play();
   }
 
   public void zoomToFitNodes(HospitalMapNode a, HospitalMapNode b, double padding) {
+    double startXOffset = xOffset;
+    double startYOffset = yOffset;
+    double startWidth = imgWidth;
+    double startHeight = imgHeight;
     reset(mapImage, fullImgWidth, fullImgHeight);
-    update();
+
     double centerX = transformX(DirectionStep.calcCenterPointX(a, b));
     double centerY = transformY(DirectionStep.calcCenterPointY(a, b));
-
-    centerPoint = makeCircle(centerX, centerY, 10 / scale * fullImgHeight / imgHeight, Color.RED);
 
     double width = transformX(DirectionStep.calcWidth(a, b));
     double height = transformY(DirectionStep.calcHeight(a, b));
 
-    zoomToPoint(centerX, centerY, width, height, padding);
+    zoomToPoint(
+        centerX,
+        centerY,
+        width,
+        height,
+        padding,
+        startXOffset,
+        startYOffset,
+        startWidth,
+        startHeight);
   }
 }
