@@ -136,7 +136,7 @@ public abstract class MapController extends Application {
             .endY(transformY(end.getyCoord()))
             .stroke(color)
             .strokeLineCap(StrokeLineCap.ROUND)
-            .strokeDashArray(28.0 / scale)
+            .strokeDashArray(28.0 / scale * fullImgHeight / imgHeight)
             .strokeWidth(14 / scale * fullImgHeight / imgHeight)
             .build();
 
