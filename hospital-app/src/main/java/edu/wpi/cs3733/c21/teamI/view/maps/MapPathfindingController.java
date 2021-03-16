@@ -13,10 +13,13 @@ import edu.wpi.cs3733.c21.teamI.util.InputChecking;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -24,11 +27,10 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
-import javafx.scene.control.Tooltip;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
@@ -38,7 +40,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
-import javafx.scene.shape.Rectangle;
 import lombok.SneakyThrows;
 
 public class MapPathfindingController extends MapController {
@@ -46,8 +47,12 @@ public class MapPathfindingController extends MapController {
   @FXML Button adminMapToggle;
   @FXML JFXComboBox algorithmPick;
   @FXML TextField start, destination;
-  @FXML ListView startList, destList, directionsField;
+  @FXML ListView startList, destList;
+  @FXML VBox directionsField;
   @FXML VBox viewDisplay;
+
+  private ArrayList<StepType> floorChangeTypes =
+      new ArrayList<>(Arrays.asList(StepType.ELEVATOR, StepType.STAIR, StepType.EXIT));
 
   private EuclidianDistCalc scorer = new EuclidianDistCalc();
   private AlgorithmSelectionStrategyPattern pathFinderAlgorithm =
@@ -55,8 +60,10 @@ public class MapPathfindingController extends MapController {
 
   private List<HospitalMapNode> foundPath;
   private ArrayList<String> foundPathDescription;
-
   public static MapPathfindingController lastInitialized = null;
+
+  double overviewpadding = 100;
+  double stepPadding = 50;
 
   public MapPathfindingController() {}
 
@@ -115,10 +122,60 @@ public class MapPathfindingController extends MapController {
     mapPane.getChildren().clear();
     drawLocationNodes();
     if (foundPathExists()) {
-      ObservableList<String> items = FXCollections.observableArrayList(new ArrayList<String>());
-      directionsField.setItems(items);
       drawCalculatedPath(getFoundPath());
     }
+    //    mapPane.getChildren().add(centerPoint);
+    //    mapPane.getChildren().add(viewRect);
+  }
+
+  private void populateDirections(List<DirectionStep> directionSteps) {
+    directionsField.getChildren().clear();
+    Label floorLabel = new Label(currentMapID);
+    floorLabel.setAlignment(Pos.BASELINE_CENTER);
+    floorLabel.setMaxWidth(directionsField.getWidth());
+    floorLabel.setStyle("-fx-font-weight: bold; -fx-background-color: white");
+    floorLabel.setPadding(new Insets(10, 0, 0, 0));
+    directionsField.getChildren().add(floorLabel);
+    for (DirectionStep step : directionSteps) {
+      JFXButton button = new JFXButton(step.stepDetails);
+      button.wrapTextProperty().set(true);
+      button.setMaxWidth(directionsField.getWidth());
+      button.setRipplerFill(Color.valueOf("#0067b1"));
+      String styleString = "-fx-alignment: center-left; -fx-cursor:hand; ";
+      button
+          .styleProperty()
+          .bind(
+              Bindings.when(button.hoverProperty())
+                  .then(new SimpleStringProperty(styleString + "-fx-background-color: #cdeaff"))
+                  .otherwise(
+                      new SimpleStringProperty(styleString + "-fx-background-color: white")));
+      Image icon = new Image(step.getIconPath());
+      ImageView imgView = new ImageView(icon);
+      imgView.setFitHeight(20);
+      imgView.setFitWidth(20);
+      button.setGraphic(imgView);
+      button.setPadding(new Insets(10, 10, 10, 10));
+      button.setOnAction((event) -> zoomToStep(step, stepPadding));
+      directionsField.getChildren().add(button);
+      if (floorChangeTypes.contains(step.getStepType())) {
+        floorLabel = new Label(step.getPointB().getMapID());
+        floorLabel.setAlignment(Pos.CENTER);
+        floorLabel.setMaxWidth(directionsField.getWidth());
+        floorLabel.setStyle("-fx-font-weight: bold; -fx-background-color: white");
+        floorLabel.setPadding(new Insets(10, 0, 0, 0));
+        directionsField.getChildren().add(floorLabel);
+      }
+    }
+  }
+
+  @FXML
+  private EventHandler<ActionEvent> zoomToStep(DirectionStep step, double padding) {
+    // System.out.println("A: " + step.getPointA() + " B: " + step.getPointB());
+    if (!step.getPointA().getMapID().equals(currentMapID)) {
+      goToTab(step.getPointA().getMapID());
+    }
+    zoomToFitNodes(step.getPointA(), step.getPointB(), padding);
+    return null;
   }
 
   // start & end dialogue boxes stuff
@@ -202,15 +259,25 @@ public class MapPathfindingController extends MapController {
     // Zooms to fit entire path
     if (foundPath.size() >= 2) {
       goToTab(foundPath.get(0).getMapID());
-      zoomToFitNodes(foundPath.get(0), lastNodeOnSameFloor(foundPath), 600);
+      zoomToFitNodes(foundPath.get(0), lastNodeOnSameFloor(foundPath), overviewpadding);
     }
     return foundPath;
   }
 
   private HospitalMapNode lastNodeOnSameFloor(List<HospitalMapNode> path) {
     for (int i = path.size() - 1; i > 1; i--) {
-      if (path.get(i).getMapID().equals(path.get(0).getMapID())) {
+      if (path.get(i).getMapID().equals(currentMapID)) {
         System.out.println("Last Node on Floor: " + path.get(i).getID());
+        return path.get(i);
+      }
+    }
+    return null;
+  }
+
+  private HospitalMapNode firstNodeOnSameFloor(List<HospitalMapNode> path) {
+    for (int i = 0; i < path.size() - 2; i++) {
+      if (path.get(i).getMapID().equals(currentMapID)) {
+        System.out.println("First Node on Floor: " + path.get(i).getID());
         return path.get(i);
       }
     }
@@ -270,7 +337,7 @@ public class MapPathfindingController extends MapController {
       }
 
       showButtonToNextMapOnPath(foundPath);
-      displayDirections(getFoundPathDescription());
+      populateDirections(TextDirections.getDirectionSteps());
     }
   }
 
@@ -312,7 +379,7 @@ public class MapPathfindingController extends MapController {
     destination.setText("");
     clearFoundPath();
     ObservableList<String> items = FXCollections.observableArrayList(new ArrayList<String>());
-    directionsField.setItems(items);
+    directionsField.getChildren().clear();
     update();
   }
 
@@ -357,8 +424,6 @@ public class MapPathfindingController extends MapController {
 
   protected void displayDirections(ArrayList<String> directions) {
     ObservableList<String> items = FXCollections.observableArrayList(directions);
-    // System.out.println(items);
-    directionsField.setItems(items);
   }
 
   protected Node setMouseActions(Node circle, HospitalMapNode node) {
@@ -414,45 +479,33 @@ public class MapPathfindingController extends MapController {
 
   public void drawLocationNodes() {
     for (HospitalMapNode node : MapDataEntity.getNodesSet()) {
-      if (node instanceof ParkingNode && node.getMapID().equals(currentMapID)) {
-        Color parkingColor;
-        double dimensions = 25 / scale;
-        if (!((ParkingNode) node).isOccupied()) {
-          parkingColor = Color.GREEN;
-        } else {
-          parkingColor = Color.RED;
-        }
-        Rectangle park =
-            new Rectangle(
-                transformX(node.getxCoord()) - dimensions / 2,
-                transformY(node.getyCoord()) - dimensions / 2,
-                dimensions,
-                2 * dimensions);
-        park.setFill(parkingColor);
-        mapPane.getChildren().add(park);
-      } else if (node instanceof LocationNode
+      if (node instanceof LocationNode
           && node.getMapID().equals(currentMapID)) { // draw all location nodes on this level
 
         // draw parking spaces
         if (node instanceof ParkingNode) {
-          Color parkingColor;
+          Color strokeColor;
+          Color fillColor;
           double dimensions = 25 / scale;
           String describe = "";
           if (((ParkingNode) node).isOccupied()) {
-            parkingColor = Color.GREEN;
+            strokeColor = Color.GREEN;
+            fillColor = Color.WHITE;
             describe = "available";
           } else {
-            parkingColor = Color.RED;
+            strokeColor = Color.RED;
+            fillColor = Color.RED;
             describe = "full";
           }
-          Rectangle park =
-              new Rectangle(
+          Circle park =
+              new Circle(
                   transformX(node.getxCoord()) - dimensions / 2,
                   transformY(node.getyCoord()) - dimensions / 2,
-                  dimensions,
-                  2 * dimensions);
-          park = (Rectangle) setMouseActions(park, node);
-          park.setFill(parkingColor);
+                  8);
+          park = (Circle) setMouseActions(park, node);
+          park.setFill(fillColor);
+          park.setStroke(strokeColor);
+          park.setStrokeWidth(5);
           Tooltip t = new Tooltip(((LocationNode) node).getLongName() + " (" + describe + ")");
           bindTooltip(park, t);
           mapPane.getChildren().add(park);
@@ -618,5 +671,97 @@ public class MapPathfindingController extends MapController {
     double finishIconY = transformY(path.get(path.size() - 1).getyCoord()) - imgScale;
     // drawNode(path.get(path.size() - 1), red);
     displayImage(finishIcon, finishIconX, finishIconY, imgScale);
+  }
+
+  public void pathfindingButton(String imagePath, String nextMapID, int xCoord, int yCoord) {
+    Image Icon = null;
+
+    try {
+      Icon = new Image((getClass().getResource(imagePath)).toURI().toString());
+    } catch (URISyntaxException e) {
+      e.printStackTrace();
+    }
+
+    ImageView imageView = new ImageView(Icon);
+
+    double imageViewScale = 80 / scale;
+    double imgScale = 236 / scale;
+
+    imageView.setFitHeight(imageViewScale);
+    imageView.setPreserveRatio(true);
+    JFXButton bttn = new JFXButton("", imageView);
+    bttn.setStyle("-fx-cursor: hand;");
+    bttn.setOnAction(
+        new EventHandler<ActionEvent>() {
+
+          /** Implement what you want to be returned on click here */
+          @Override
+          public void handle(ActionEvent event) {
+            goToTab(nextMapID);
+            zoomToFitNodes(
+                firstNodeOnSameFloor(foundPath), lastNodeOnSameFloor(foundPath), overviewpadding);
+          }
+        });
+
+    bttn.setLayoutX(transformX(xCoord) - imgScale / 2);
+    bttn.setLayoutY(transformY(yCoord) - imgScale / 2);
+    mapPane.getChildren().add(bttn);
+  }
+
+  protected void showButtonToNextMapOnPath(List<HospitalMapNode> path) {
+    if (!path.get(path.size() - 1).getMapID().equals(currentMapID)) {
+      for (int i = 0; i < path.size(); i++) {
+
+        if (path.get(i) != path.get(path.size() - 1)
+            && !path.get(i + 1).getMapID().equals(path.get(i).getMapID())
+            && currentMapID.equals(path.get(i).getMapID())) {
+          String Id = path.get(i + 1).getMapID();
+          if (!Id.equals("Faulkner Lot")
+              && !path.get(i).getMapID().equals(("Faulkner Lot"))
+              && Integer.parseInt(Id.substring(Id.length() - 1))
+                  < Integer.parseInt(
+                      path.get(i)
+                          .getMapID()
+                          .substring(
+                              path.get(i).getMapID().length()
+                                  - 1))) { // "/fxml/map/mapImages/mapIcons/downArr.png"
+            pathfindingButton(
+                "/fxml/map/mapImages/mapIcons/downArr.png",
+                Id,
+                path.get(i).getxCoord(),
+                path.get(i).getyCoord());
+          }
+          if (!Id.equals("Faulkner Lot")
+              && !path.get(i).getMapID().equals(("Faulkner Lot"))
+              && Integer.parseInt(Id.substring(Id.length() - 1))
+                  > Integer.parseInt(
+                      path.get(i)
+                          .getMapID()
+                          .substring(
+                              path.get(i).getMapID().length()
+                                  - 1))) { // "/fxml/map/mapImages/mapIcons/upArr.png"
+            pathfindingButton(
+                "/fxml/map/mapImages/mapIcons/upArr.png",
+                Id,
+                path.get(i).getxCoord(),
+                path.get(i).getyCoord());
+          }
+          if (path.get(i).getMapID().equals(("Faulkner Lot"))) {
+            pathfindingButton(
+                "/fxml/map/mapImages/mapIcons/mapDown.png",
+                Id,
+                path.get(i).getxCoord(),
+                path.get(i).getyCoord());
+          }
+          if (Id.equals(("Faulkner Lot"))) {
+            pathfindingButton(
+                "/fxml/map/mapImages/mapIcons/mapUp.png",
+                Id,
+                path.get(i).getxCoord(),
+                path.get(i).getyCoord());
+          }
+        }
+      }
+    }
   }
 }

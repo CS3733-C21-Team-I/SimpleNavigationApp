@@ -2,7 +2,6 @@ package edu.wpi.cs3733.c21.teamI.view.maps;
 
 import static edu.wpi.cs3733.c21.teamI.hospitalMap.LocationCategory.*;
 
-import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTabPane;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.*;
 import edu.wpi.cs3733.c21.teamI.pathfinding.DirectionStep;
@@ -135,7 +134,7 @@ public abstract class MapController extends Application {
             .endY(transformY(end.getyCoord()))
             .stroke(color)
             .strokeLineCap(StrokeLineCap.ROUND)
-            .strokeDashArray(28.0 / scale)
+            .strokeDashArray(28.0 / scale * fullImgHeight / imgHeight)
             .strokeWidth(14 / scale * fullImgHeight / imgHeight)
             .build();
 
@@ -266,97 +265,6 @@ public abstract class MapController extends Application {
     displayImage(startIcon, startIconX, startIconY, imgScale);
   }
 
-  public void pathfindingButton(String imagePath, String nextMapID, int xCoord, int yCoord) {
-
-    Image Icon = null;
-    try {
-
-      Icon = new Image((getClass().getResource(imagePath)).toURI().toString());
-    } catch (URISyntaxException e) {
-      e.printStackTrace();
-    }
-    ImageView imageView = new ImageView(Icon);
-
-    double imageViewScale = 80 / scale;
-    double imgScale = 236 / scale;
-
-    imageView.setFitHeight(imageViewScale);
-    imageView.setPreserveRatio(true);
-    JFXButton bttn = new JFXButton("", imageView);
-    bttn.setStyle("-fx-cursor: hand;");
-    bttn.setOnAction(
-        new EventHandler<ActionEvent>() {
-
-          /** Implement what you want to be returned on click here */
-          @Override
-          public void handle(ActionEvent event) {
-            goToTab(nextMapID);
-            // System.out.println(Id);
-          }
-        });
-
-    bttn.setLayoutX(transformX(xCoord) - imgScale / 2);
-    bttn.setLayoutY(transformY(yCoord) - imgScale / 2);
-    mapPane.getChildren().add(bttn);
-  }
-
-  protected void showButtonToNextMapOnPath(List<HospitalMapNode> path) {
-    if (!path.get(path.size() - 1).getMapID().equals(currentMapID)) {
-      for (int i = 0; i < path.size(); i++) {
-
-        if (path.get(i) != path.get(path.size() - 1)
-            && !path.get(i + 1).getMapID().equals(path.get(i).getMapID())
-            && currentMapID.equals(path.get(i).getMapID())) {
-          String Id = path.get(i + 1).getMapID();
-          if (!Id.equals("Faulkner Lot")
-              && !path.get(i).getMapID().equals(("Faulkner Lot"))
-              && Integer.parseInt(Id.substring(Id.length() - 1))
-                  < Integer.parseInt(
-                      path.get(i)
-                          .getMapID()
-                          .substring(
-                              path.get(i).getMapID().length()
-                                  - 1))) { // "/fxml/map/mapImages/mapIcons/downArr.png"
-            pathfindingButton(
-                "/fxml/map/mapImages/mapIcons/downArr.png",
-                Id,
-                path.get(i).getxCoord(),
-                path.get(i).getyCoord());
-          }
-          if (!Id.equals("Faulkner Lot")
-              && !path.get(i).getMapID().equals(("Faulkner Lot"))
-              && Integer.parseInt(Id.substring(Id.length() - 1))
-                  > Integer.parseInt(
-                      path.get(i)
-                          .getMapID()
-                          .substring(
-                              path.get(i).getMapID().length()
-                                  - 1))) { // "/fxml/map/mapImages/mapIcons/upArr.png"
-            pathfindingButton(
-                "/fxml/map/mapImages/mapIcons/upArr.png",
-                Id,
-                path.get(i).getxCoord(),
-                path.get(i).getyCoord());
-          }
-          if (path.get(i).getMapID().equals(("Faulkner Lot"))) {
-            pathfindingButton(
-                "/fxml/map/mapImages/mapIcons/mapDown.png",
-                Id,
-                path.get(i).getxCoord(),
-                path.get(i).getyCoord());
-          }
-          if (Id.equals(("Faulkner Lot"))) {
-            pathfindingButton(
-                "/fxml/map/mapImages/mapIcons/mapUp.png",
-                Id,
-                path.get(i).getxCoord(),
-                path.get(i).getyCoord());
-          }
-        }
-      }
-    }
-  }
-
   protected void drawEndPoint(List<HospitalMapNode> path) throws IOException {
     double imgScale = 256 / scale;
     Image finishIcon = null;
@@ -377,8 +285,8 @@ public abstract class MapController extends Application {
   }
 
   protected void drawArrow(HospitalMapNode start, HospitalMapNode end) {
-    double arrowWidth = 25 / scale;
-    double arrowLength = 25 / scale;
+    double arrowWidth = 20 / scale * fullImgHeight / imgHeight;
+    double arrowLength = 20 / scale * fullImgHeight / imgHeight;
 
     double x1 = transformX(start.getxCoord());
     double x2 = transformX(end.getxCoord());
@@ -569,14 +477,13 @@ public abstract class MapController extends Application {
     double newMinY =
         clamp(mouse.getY() - (mouse.getY() - viewport.getMinY()) * scale, 0, height - newHeight);
     mapImage.setViewport(new Rectangle2D(newMinX, newMinY, newWidth, newHeight));
-    System.out.println(mapImage.getViewport());
     imgWidth = mapImage.getViewport().getWidth();
     imgHeight = mapImage.getViewport().getHeight();
     xOffset = mapImage.getViewport().getMinX();
     yOffset = mapImage.getViewport().getMinY();
     update();
 
-    System.out.println("mapImage  " + mapImage + "  Viewport  " + mapImage.getViewport());
+    // System.out.println("mapImage  " + mapImage + "  Viewport  " + mapImage.getViewport());
   }
 
   protected void resize() {
@@ -709,6 +616,10 @@ public abstract class MapController extends Application {
   // reset to the top left:
   protected void reset(ImageView imageView, double width, double height) {
     imageView.setViewport(new Rectangle2D(0, 0, width, height));
+    imgWidth = mapImage.getViewport().getWidth();
+    imgHeight = mapImage.getViewport().getHeight();
+    xOffset = mapImage.getViewport().getMinX();
+    yOffset = mapImage.getViewport().getMinY();
   }
 
   // shift the viewport of the imageView by the specified delta, clamping so
@@ -722,7 +633,7 @@ public abstract class MapController extends Application {
     double minX = clamp(viewport.getMinX() - delta.getX(), 0, maxX);
     double minY = clamp(viewport.getMinY() - delta.getY(), 0, maxY);
     imageView.setViewport(new Rectangle2D(minX, minY, viewport.getWidth(), viewport.getHeight()));
-    System.out.println(imageView.getViewport());
+    // System.out.println(imageView.getViewport());
   }
 
   protected double clamp(double value, double min, double max) {
@@ -739,112 +650,88 @@ public abstract class MapController extends Application {
         viewport.getMinY() + yProportion * viewport.getHeight());
   }
 
-  public void zoomToPoint(double x, double y, double width, double height, double padding) {
-    System.out.println("incoming width: " + width + "  height:  " + height + " " + x + " " + y);
-    //    imgWidth = fullImgWidth;
-    //    imgHeight = fullImgHeight;
-    //    width = transformX(width) + 2 * padding;
-    //    height = transformY(height) + 2 * padding;
-    //    System.out.println("outgoing width: " + width + "  height:  " + height);
-    //    imgWidth = width;
-    //    imgHeight = height;
-    //    width = imgWidth / 2;
-    double newMinX;
-    double newMinY;
-    //    if (height > width) {
-    //      width = height * imgWidth / imgHeight;
-    //    } else {
-    //      height = width * imgHeight / imgWidth;
-    //    }
+  public void zoomToPoint(
+      double centerX,
+      double centerY,
+      double width,
+      double height,
+      double padding,
+      double startXOffset,
+      double startYOffset,
+      double startWidth,
+      double startHeight) {
+    width += padding * 2;
+    height += padding * 2;
+    if (height > width) {
+      width = height * fullImgWidth / fullImgHeight;
+    } else {
+      height = width * fullImgHeight / fullImgWidth;
+    }
 
-    update();
-    System.out.println(width + " " + height);
-    newMinX = transformX(x) / (mapPane.getPrefWidth() / imgWidth) - width / 2; // - width / 2
-    newMinY = transformY(y) / (mapPane.getPrefHeight() / imgHeight) - height / 2; // - height / 2
-    System.out.println(newMinX + ", " + newMinY);
+    double newMinX = centerX - width / 2;
+    double newMinY = centerY - height / 2;
 
-    //    newMinX = x - width * 0.75;
-    //    newMinY = y - height * 0.75;
+    Point2D newDimensions = imageViewToImage(mapImage, new Point2D(width, height));
+    Point2D newPos = imageViewToImage(mapImage, new Point2D(newMinX, newMinY));
 
-    //    return x * (fullImgWidth / imgWidth) * mapPane.getPrefWidth() / 100000
-    //        - xOffset * mapPane.getPrefWidth() / imgWidth;
-    //    x = transformX(x);
-    //    y = transformY(y);
+    Interpolator interp = Interpolator.EASE_BOTH;
 
-    System.out.println("transformX " + x + " Y " + y);
-    //    double newMinX = x + width / 2;
-    //    double newMinY = y + height / 2;
+    Transition transition =
+        new Transition() {
+          {
+            setCycleDuration(Duration.millis(1500));
+          }
 
-    mapImage.setViewport(new Rectangle2D(newMinX, newMinY, width, height));
-    imgWidth = mapImage.getViewport().getWidth();
-    imgHeight = mapImage.getViewport().getHeight();
-    xOffset = mapImage.getViewport().getMinX();
-    yOffset = mapImage.getViewport().getMinY();
-    update();
-
-    System.out.println("mapImage  " + mapImage + " Viewport  " + mapImage.getViewport());
+          @Override
+          protected void interpolate(double frac) {
+            double zoomingWidth = interp.interpolate(startWidth, newDimensions.getX(), frac);
+            double zoomingHeight = interp.interpolate(startHeight, newDimensions.getY(), frac);
+            double zoomingX = interp.interpolate(startXOffset, newPos.getX(), frac);
+            double zoomingY = interp.interpolate(startYOffset, newPos.getY(), frac);
+            mapImage.setViewport(new Rectangle2D(zoomingX, zoomingY, zoomingWidth, zoomingHeight));
+            imgWidth = mapImage.getViewport().getWidth();
+            imgHeight = mapImage.getViewport().getHeight();
+            xOffset = mapImage.getViewport().getMinX();
+            yOffset = mapImage.getViewport().getMinY();
+            update();
+          }
+        };
+    transition.setOnFinished(
+        t -> {
+          mapImage.setViewport(
+              new Rectangle2D(
+                  newPos.getX(), newPos.getY(), newDimensions.getX(), newDimensions.getY()));
+          imgWidth = mapImage.getViewport().getWidth();
+          imgHeight = mapImage.getViewport().getHeight();
+          xOffset = mapImage.getViewport().getMinX();
+          yOffset = mapImage.getViewport().getMinY();
+          update();
+        });
+    transition.play();
   }
 
   public void zoomToFitNodes(HospitalMapNode a, HospitalMapNode b, double padding) {
+    double startXOffset = xOffset;
+    double startYOffset = yOffset;
+    double startWidth = imgWidth;
+    double startHeight = imgHeight;
+    reset(mapImage, fullImgWidth, fullImgHeight);
+
     double centerX = transformX(DirectionStep.calcCenterPointX(a, b));
     double centerY = transformY(DirectionStep.calcCenterPointY(a, b));
 
     double width = transformX(DirectionStep.calcWidth(a, b));
-    // double height = transformY(DirectionStep.calcHeight(a, b));
-    //    double x = centerX - width / 2;
-    //    double y = centerY - height / 2;
+    double height = transformY(DirectionStep.calcHeight(a, b));
 
-    //    if (height > width) {
-    //      width = height * imgWidth / imgHeight;
-    //    } else {
-    //      height = width * imgHeight / imgWidth;
-    //    }
-
-    //    mapImage.setViewport(new Rectangle2D(0, 0, width, height));
-    //    imgWidth = mapImage.getViewport().getWidth();
-    //    imgHeight = mapImage.getViewport().getHeight();
-    //    xOffset = mapImage.getViewport().getMinX();
-    //    yOffset = mapImage.getViewport().getMinY();
-
-    // System.out.println("Big picture " + fullImgWidth + " " + fullImgHeight);
-
-    // zoomToPoint(centerX, centerY, width, height, padding);
-    double delta = (200 - fullImgWidth) * ((fullImgWidth - width - padding * 2) / fullImgWidth);
-    double fartherX = fullImgWidth / 2 + (centerX - (fullImgWidth / 2)) * 1.15;
-    double fartherY = fullImgHeight / 2 + (centerY - (fullImgHeight / 2)) * 1.15;
-    updateScale(fartherX, fartherY, delta);
-  }
-
-  private void updateScale(double centerX, double centerY, double delta) {
-    Rectangle2D viewport = mapImage.getViewport();
-    double scale =
-        clamp(
-            Math.pow(1.001, delta),
-            // don't scale so we're zoomed in to fewer than MIN_PIXELS in any direction:
-            Math.min(MIN_PIXELS / viewport.getWidth(), MIN_PIXELS / viewport.getHeight()),
-            // don't scale so that we're bigger than image dimensions:
-            Math.max(fullImgWidth / viewport.getWidth(), fullImgHeight / viewport.getHeight()));
-    Point2D zoomCenter = imageViewToImage(mapImage, new Point2D(centerX, centerY));
-    System.out.println("SCALE: " + scale);
-    double newWidth = viewport.getWidth() * scale;
-    double newHeight = viewport.getHeight() * scale;
-    double newMinX =
-        clamp(
-            zoomCenter.getX() - (zoomCenter.getX() - viewport.getMinX()) * scale,
-            0,
-            fullImgWidth - newWidth);
-    double newMinY =
-        clamp(
-            zoomCenter.getY() - (zoomCenter.getY() - viewport.getMinY()) * scale,
-            0,
-            fullImgHeight - newHeight);
-    mapImage.setViewport(new Rectangle2D(newMinX, newMinY, newWidth, newHeight));
-    imgWidth = mapImage.getViewport().getWidth();
-    imgHeight = mapImage.getViewport().getHeight();
-    xOffset = mapImage.getViewport().getMinX();
-    yOffset = mapImage.getViewport().getMinY();
-    update();
-
-    System.out.println("Viewport:  " + mapImage.getViewport());
+    zoomToPoint(
+        centerX,
+        centerY,
+        width,
+        height,
+        padding,
+        startXOffset,
+        startYOffset,
+        startWidth,
+        startHeight);
   }
 }

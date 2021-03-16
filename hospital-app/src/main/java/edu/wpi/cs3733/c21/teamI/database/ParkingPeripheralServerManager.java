@@ -871,17 +871,17 @@ public class ParkingPeripheralServerManager extends DatabaseManager {
     }
   }
 
-  public List<Integer> currentParkingSlips(){
+  public List<Integer> currentParkingSlips() {
     List<Integer> slips = new ArrayList<>();
-    try{
+    try {
       String query = "SELECT * FROM PARKING_SLIPS";
       PreparedStatement stmt = databaseRef.getConnection().prepareStatement(query);
       ResultSet rs = stmt.executeQuery();
 
-      while(rs.next()){
+      while (rs.next()) {
         slips.add(rs.getInt("ID"));
       }
-    } catch(SQLException e){
+    } catch (SQLException e) {
       e.printStackTrace();
       return null;
     }

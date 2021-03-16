@@ -81,14 +81,18 @@ public class LotPane extends JFXListCell<Lot> {
       int unocupied = item.getUnocupied().get();
       occupancyLabel.setText("Slots: " + unocupied + "/" + item.getCapacity());
 
-      if (unocupied == 0)
-        setBackground(
-            new Background(
-                new BackgroundFill(Color.web("#FFCCCC"), CornerRadii.EMPTY, Insets.EMPTY)));
-      else
-        setBackground(
-            new Background(
-                new BackgroundFill(Color.web("#CCFFCC"), CornerRadii.EMPTY, Insets.EMPTY)));
+      //      if (unocupied == 0)
+      //        setBackground(
+      //            new Background(
+      //                new BackgroundFill(Color.web("#FFCCCC"), CornerRadii.EMPTY, Insets.EMPTY)));
+      //      else
+      //        setBackground(
+      //            new Background(
+      //                new BackgroundFill(Color.web("#CCFFCC"), CornerRadii.EMPTY, Insets.EMPTY)));
+
+      setBackground(
+          new Background(
+              new BackgroundFill(Color.web("#012D5A"), new CornerRadii(10.0), new Insets(1.0))));
 
       if (blocks.isEmpty()) {
         Callback<Block, Observable[]> extractor =
@@ -102,8 +106,26 @@ public class LotPane extends JFXListCell<Lot> {
         blocks = FXCollections.observableArrayList(extractor);
         blocks.setAll(item.getBlocks());
         blockList.setItems(blocks);
+
         System.out.println("Set blocks" + blocks.size());
       }
+
+      //      if (unocupied == 0)
+      //        blockList.setBackground(
+      //            new Background(
+      //                new BackgroundFill(Color.web("#FFCCCC"), new CornerRadii(10.0), new
+      // Insets(1.0))));
+      //      else
+      //        blockList.setBackground(
+      //            new Background(
+      //                new BackgroundFill(Color.web("#CCFFCC"), new CornerRadii(10.0), new
+      // Insets(1.0))));
+
+      blockList.setBackground(
+          new Background(
+              new BackgroundFill(Color.web("#CCFFCC"), new CornerRadii(10.0), new Insets(1.0))));
+      nameLabel.setStyle("-fx-text-fill: white");
+      occupancyLabel.setStyle("-fx-text-fill: white");
 
       setGraphic(vBox);
       setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
@@ -116,5 +138,7 @@ public class LotPane extends JFXListCell<Lot> {
     blockList.setCellFactory(new BlockListItemFactory());
 
     blocks = FXCollections.emptyObservableList();
+    blockList.setPrefWidth(255);
+    blockList.setPrefHeight(500);
   }
 }
