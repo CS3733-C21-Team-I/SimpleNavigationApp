@@ -56,8 +56,10 @@ public class MapPathfindingController extends MapController {
 
   private List<HospitalMapNode> foundPath;
   private ArrayList<String> foundPathDescription;
-
   public static MapPathfindingController lastInitialized = null;
+
+  double overviewpadding = 100;
+  double stepPadding = 50;
 
   public MapPathfindingController() {}
 
@@ -143,7 +145,7 @@ public class MapPathfindingController extends MapController {
       imgView.setFitWidth(20);
       button.setGraphic(imgView);
       button.setPadding(new Insets(10, 10, 10, 10));
-      button.setOnAction((event) -> zoomToStep(step, 0));
+      button.setOnAction((event) -> zoomToStep(step, stepPadding));
       directionsField.getChildren().add(button);
     }
   }
@@ -219,16 +221,25 @@ public class MapPathfindingController extends MapController {
     // Zooms to fit entire path
     if (foundPath.size() >= 2) {
       goToTab(foundPath.get(0).getMapID());
-      double padding = 100;
-      zoomToFitNodes(foundPath.get(0), lastNodeOnSameFloor(foundPath), padding);
+      zoomToFitNodes(foundPath.get(0), lastNodeOnSameFloor(foundPath), overviewpadding);
     }
     return foundPath;
   }
 
   private HospitalMapNode lastNodeOnSameFloor(List<HospitalMapNode> path) {
     for (int i = path.size() - 1; i > 1; i--) {
-      if (path.get(i).getMapID().equals(path.get(0).getMapID())) {
+      if (path.get(i).getMapID().equals(currentMapID)) {
         System.out.println("Last Node on Floor: " + path.get(i).getID());
+        return path.get(i);
+      }
+    }
+    return null;
+  }
+
+  private HospitalMapNode firstNodeOnSameFloor(List<HospitalMapNode> path) {
+    for (int i = 0; i < path.size() - 2; i++) {
+      if (path.get(i).getMapID().equals(currentMapID)) {
+        System.out.println("First Node on Floor: " + path.get(i).getID());
         return path.get(i);
       }
     }
@@ -625,5 +636,97 @@ public class MapPathfindingController extends MapController {
     double finishIconY = transformY(path.get(path.size() - 1).getyCoord()) - imgScale;
     // drawNode(path.get(path.size() - 1), red);
     displayImage(finishIcon, finishIconX, finishIconY, imgScale);
+  }
+
+  public void pathfindingButton(String imagePath, String nextMapID, int xCoord, int yCoord) {
+    Image Icon = null;
+
+    try {
+      Icon = new Image((getClass().getResource(imagePath)).toURI().toString());
+    } catch (URISyntaxException e) {
+      e.printStackTrace();
+    }
+
+    ImageView imageView = new ImageView(Icon);
+
+    double imageViewScale = 80 / scale;
+    double imgScale = 236 / scale;
+
+    imageView.setFitHeight(imageViewScale);
+    imageView.setPreserveRatio(true);
+    JFXButton bttn = new JFXButton("", imageView);
+    bttn.setStyle("-fx-cursor: hand;");
+    bttn.setOnAction(
+        new EventHandler<ActionEvent>() {
+
+          /** Implement what you want to be returned on click here */
+          @Override
+          public void handle(ActionEvent event) {
+            goToTab(nextMapID);
+            zoomToFitNodes(
+                firstNodeOnSameFloor(foundPath), lastNodeOnSameFloor(foundPath), overviewpadding);
+          }
+        });
+
+    bttn.setLayoutX(transformX(xCoord) - imgScale / 2);
+    bttn.setLayoutY(transformY(yCoord) - imgScale / 2);
+    mapPane.getChildren().add(bttn);
+  }
+
+  protected void showButtonToNextMapOnPath(List<HospitalMapNode> path) {
+    if (!path.get(path.size() - 1).getMapID().equals(currentMapID)) {
+      for (int i = 0; i < path.size(); i++) {
+
+        if (path.get(i) != path.get(path.size() - 1)
+            && !path.get(i + 1).getMapID().equals(path.get(i).getMapID())
+            && currentMapID.equals(path.get(i).getMapID())) {
+          String Id = path.get(i + 1).getMapID();
+          if (!Id.equals("Faulkner Lot")
+              && !path.get(i).getMapID().equals(("Faulkner Lot"))
+              && Integer.parseInt(Id.substring(Id.length() - 1))
+                  < Integer.parseInt(
+                      path.get(i)
+                          .getMapID()
+                          .substring(
+                              path.get(i).getMapID().length()
+                                  - 1))) { // "/fxml/map/mapImages/mapIcons/downArr.png"
+            pathfindingButton(
+                "/fxml/map/mapImages/mapIcons/downArr.png",
+                Id,
+                path.get(i).getxCoord(),
+                path.get(i).getyCoord());
+          }
+          if (!Id.equals("Faulkner Lot")
+              && !path.get(i).getMapID().equals(("Faulkner Lot"))
+              && Integer.parseInt(Id.substring(Id.length() - 1))
+                  > Integer.parseInt(
+                      path.get(i)
+                          .getMapID()
+                          .substring(
+                              path.get(i).getMapID().length()
+                                  - 1))) { // "/fxml/map/mapImages/mapIcons/upArr.png"
+            pathfindingButton(
+                "/fxml/map/mapImages/mapIcons/upArr.png",
+                Id,
+                path.get(i).getxCoord(),
+                path.get(i).getyCoord());
+          }
+          if (path.get(i).getMapID().equals(("Faulkner Lot"))) {
+            pathfindingButton(
+                "/fxml/map/mapImages/mapIcons/mapDown.png",
+                Id,
+                path.get(i).getxCoord(),
+                path.get(i).getyCoord());
+          }
+          if (Id.equals(("Faulkner Lot"))) {
+            pathfindingButton(
+                "/fxml/map/mapImages/mapIcons/mapUp.png",
+                Id,
+                path.get(i).getxCoord(),
+                path.get(i).getyCoord());
+          }
+        }
+      }
+    }
   }
 }
