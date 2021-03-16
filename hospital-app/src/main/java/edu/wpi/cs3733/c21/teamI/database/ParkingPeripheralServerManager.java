@@ -792,7 +792,7 @@ public class ParkingPeripheralServerManager extends DatabaseManager {
   public int getSlotIdForTime(Timestamp startTime, Timestamp endTime) {
     try {
       String slotQuery =
-          "SELECT * FROM PARKING_SLOTS ps LEFT JOIN (SELECT P.ID, P.SLOT_ID FROM PARKING_SLOT_RESERVATIONS P WHERE NOT (((P.START_TIMESTAMP>=? AND P.RES_EDN_TIMESTAMP>=?) OR (P.START_TIMESTAMP<=? AND P.RES_EDN_TIMESTAMP<=?)))) as Pres on ps.ID = Pres.SLOT_ID WHERE Pres.ID IS NULL AND ps.IS_OCCUPIED=false";
+          "SELECT ps.ID FROM PARKING_SLOTS ps LEFT JOIN (SELECT P.ID, P.SLOT_ID FROM PARKING_SLOT_RESERVATIONS P WHERE NOT (((P.START_TIMESTAMP>=? AND P.RES_EDN_TIMESTAMP>=?) OR (P.START_TIMESTAMP<=? AND P.RES_EDN_TIMESTAMP<=?)))) Pres on ps.ID = Pres.SLOT_ID WHERE Pres.ID IS NULL AND ps.IS_OCCUPIED=false";
       PreparedStatement statement = databaseRef.getConnection().prepareStatement(slotQuery);
       statement.setTimestamp(1, startTime);
       statement.setTimestamp(2, startTime);
@@ -893,10 +893,10 @@ public class ParkingPeripheralServerManager extends DatabaseManager {
     }
   }
 
-  public List<Integer> getCurrentParkingSlips() {
+  public List<Integer> getCurrentReservation() {
     List<Integer> slips = new ArrayList<>();
     try {
-      String query = "SELECT * FROM PARKING_SLIPS";
+      String query = "SELECT * FROM PARKING_SLOT_RESERVATIONS";
       PreparedStatement stmt = databaseRef.getConnection().prepareStatement(query);
       ResultSet rs = stmt.executeQuery();
 

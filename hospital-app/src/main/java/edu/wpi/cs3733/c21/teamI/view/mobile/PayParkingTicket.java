@@ -4,6 +4,8 @@ import com.jfoenix.controls.JFXButton;
 import edu.wpi.cs3733.c21.teamI.database.ParkingPeripheralServerManager;
 import edu.wpi.cs3733.c21.teamI.parking.reservations.ParkingReservation;
 import java.io.IOException;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -43,6 +45,9 @@ public class PayParkingTicket {
   @FXML TextField cvv;
   @FXML TextField cardExpDate;
   @FXML TextField zipCode;
+
+  private static final DateTimeFormatter resTimeFormat =
+      DateTimeFormatter.ofPattern("MM/dd/yyyy hh:mm a");
 
   public void initialize() {
     parkingInfo.setVisible(false);
@@ -115,15 +120,18 @@ public class PayParkingTicket {
   public void lookupParking() {
     // Integer matchString = Integer.parseInt(parkingIDInput.getText());
     try {
-      Integer idInput = Integer.parseInt(parkingIDInput.getText());
+      int idInput = Integer.parseInt(parkingIDInput.getText());
 
       List<Integer> ticketIDList =
-          ParkingPeripheralServerManager.getInstance().getCurrentParkingSlips();
+          ParkingPeripheralServerManager.getInstance().getCurrentReservation();
+      List<Integer> matches = new ArrayList<>();
       for (Integer ticketID : ticketIDList) {
         if (ticketID == idInput) {
-          System.out.println("Ticket number" + idInput + "is valid.");
+          matches.add(ticketID);
+
+          System.out.println("Ticket number" + ticketID + "is valid.");
           parkingInfo.setVisible(true);
-          // parkingInfoLabel.setVisible(true);
+          parkingInfoLabel.setVisible(true);
           locationLabel.setVisible(true);
           startTimeLabel.setVisible(true);
           endTimeLabel.setVisible(true);
@@ -131,14 +139,14 @@ public class PayParkingTicket {
           ticketIDLabel.setVisible(true);
 
           paymentInfo.setVisible(true);
-          // paymentInfoLabel.setVisible(true);
-          firstName.setVisible(false);
+          paymentInfoLabel.setVisible(true);
+          firstName.setVisible(true);
           lastName.setVisible(true);
           cardNum.setVisible(true);
           cvv.setVisible(true);
           cardExpDate.setVisible(true);
           zipCode.setVisible(true);
-          update(idInput);
+          update(ticketID);
         } else System.out.println("Ticket number" + idInput + "is not valid.");
       }
     } catch (NumberFormatException e) {
@@ -149,9 +157,10 @@ public class PayParkingTicket {
   public void update(int i) {
     ParkingReservation a = ParkingPeripheralServerManager.getInstance().getReservationForId(i);
     locationLabel.setText(a.getSlotCode());
-    startTimeLabel.setText("Start Time: " + a.getStartTimestamp().getTime());
-    endTimeLabel.setText("End Time: " + a.getEndTimestamp().getTime());
-    //  priceLabel.setText("Price: " + a.);
+    startTimeLabel.setText(
+        "Start Time: " + a.getStartTimestamp().toLocalDateTime().format(resTimeFormat));
+    endTimeLabel.setText(
+        "End Time: " + a.getEndTimestamp().toLocalDateTime().format(resTimeFormat));
     ticketIDLabel.setText(String.valueOf(a.getId()));
   }
 
