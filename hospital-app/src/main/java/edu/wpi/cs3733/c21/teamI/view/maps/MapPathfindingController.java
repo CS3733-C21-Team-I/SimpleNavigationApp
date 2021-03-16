@@ -124,13 +124,11 @@ public class MapPathfindingController extends MapController {
     if (foundPathExists()) {
       drawCalculatedPath(getFoundPath());
     }
-    //    mapPane.getChildren().add(centerPoint);
-    //    mapPane.getChildren().add(viewRect);
   }
 
   private void populateDirections(List<DirectionStep> directionSteps) {
     directionsField.getChildren().clear();
-    Label floorLabel = new Label(currentMapID);
+    Label floorLabel = new Label(directionSteps.get(0).getPointA().getMapID());
     floorLabel.setAlignment(Pos.BASELINE_CENTER);
     floorLabel.setMaxWidth(directionsField.getWidth());
     floorLabel.setStyle("-fx-font-weight: bold; -fx-background-color: white");
