@@ -32,17 +32,6 @@ public class HospitalMap implements Graph<HospitalMapNode> {
     Map<String, List<String>> newConnections = new HashMap<>();
 
     for (HospitalMapNode nodeToClone : toClone.nodes) {
-      //      if (nodeToClone instanceof HospitalMapNode)
-      //        newNodes.put(
-      //            nodeToClone.getID(),
-      //            new HospitalMapNode(
-      //                nodeToClone.getID(),
-      //                nodeToClone.getMapID(),
-      //                nodeToClone.getxCoord(),
-      //                nodeToClone.getyCoord(),
-      //                new ArrayList<>()));
-      //      else if (nodeToClone instanceof LocationNode)
-      //        newNodes.put(nodeToClone.getID(), new LocationNode());
       if (nodeToClone instanceof LocationNode) {
         newNodes.put(
             nodeToClone.getID(),
