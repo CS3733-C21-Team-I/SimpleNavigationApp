@@ -40,7 +40,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
-import javafx.scene.shape.Rectangle;
 import lombok.SneakyThrows;
 
 public class MapPathfindingController extends MapController {
@@ -429,24 +428,28 @@ public class MapPathfindingController extends MapController {
 
         // draw parking spaces
         if (node instanceof ParkingNode) {
-          Color parkingColor;
+          Color strokeColor;
+          Color fillColor;
           double dimensions = 25 / scale;
           String describe = "";
-          if (((ParkingNode) node).isOccupied()) {
-            parkingColor = Color.GREEN;
+          if (System.currentTimeMillis() % 2 == 0) { // ((ParkingNode) node).isOccupied()
+            strokeColor = Color.GREEN;
+            fillColor = Color.WHITE;
             describe = "available";
           } else {
-            parkingColor = Color.RED;
+            strokeColor = Color.RED;
+            fillColor = Color.RED;
             describe = "full";
           }
-          Rectangle park =
-              new Rectangle(
+          Circle park =
+              new Circle(
                   transformX(node.getxCoord()) - dimensions / 2,
                   transformY(node.getyCoord()) - dimensions / 2,
-                  dimensions,
-                  2 * dimensions);
-          park = (Rectangle) setMouseActions(park, node);
-          park.setFill(parkingColor);
+                  8);
+          park = (Circle) setMouseActions(park, node);
+          park.setFill(fillColor);
+          park.setStroke(strokeColor);
+          park.setStrokeWidth(5);
           Tooltip t = new Tooltip(((LocationNode) node).getLongName() + " (" + describe + ")");
           bindTooltip(park, t);
           mapPane.getChildren().add(park);
