@@ -111,7 +111,7 @@ public class MapPathfindingController extends MapController {
     update();
   }
 
-  protected void update() {
+  public void update() {
     mapPane.getChildren().clear();
     drawLocationNodes();
     if (foundPathExists()) {
