@@ -36,19 +36,23 @@ public class ParkingReservationController {
   }
 
   public void checkFinished() {
-    bookBtn.setDisable(
+
+    boolean shouldDisable =
         entryTime.valueProperty().getValue() == null
             || entryDate.valueProperty().getValue() == null
             || exitTime.valueProperty().getValue() == null
             || exitDate.valueProperty().getValue() == null
-            || contNum.getText() == null
+            || contNum.getText().equals("")
             || contNum.getText().trim().length() <= 0
-            || plateNum.getText() == null
-            || plateNum.getText().trim().length() <= 0);
+            || plateNum.getText().equals("")
+            || plateNum.getText().trim().length() <= 0;
+
+    bookBtn.setDisable(shouldDisable);
+    System.out.println("CHECKING FINISHED: " + shouldDisable);
   }
 
   public void initialize() {
-    bookBtn.setDisable(false);
+    bookBtn.setDisable(true);
     entryTime.setOnAction(eh);
     entryDate.setOnAction(eh);
     exitTime.setOnAction(eh);
