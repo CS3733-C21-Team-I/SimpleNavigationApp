@@ -12,6 +12,7 @@ import edu.wpi.cs3733.c21.teamI.util.InputChecking;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -26,11 +27,9 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
-import javafx.scene.control.Tooltip;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
@@ -49,6 +48,9 @@ public class MapPathfindingController extends MapController {
   @FXML TextField start, destination;
   @FXML ListView startList, destList;
   @FXML VBox directionsField;
+
+  private ArrayList<StepType> floorChangeTypes =
+      new ArrayList<>(Arrays.asList(StepType.ELEVATOR, StepType.STAIR, StepType.EXIT));
 
   private EuclidianDistCalc scorer = new EuclidianDistCalc();
   private AlgorithmSelectionStrategyPattern pathFinderAlgorithm =
@@ -124,6 +126,12 @@ public class MapPathfindingController extends MapController {
 
   private void populateDirections(List<DirectionStep> directionSteps) {
     directionsField.getChildren().clear();
+    Label floorLabel = new Label(currentMapID);
+    floorLabel.setAlignment(Pos.BASELINE_CENTER);
+    floorLabel.setMaxWidth(directionsField.getWidth());
+    floorLabel.setStyle("-fx-font-weight: bold; -fx-background-color: white");
+    floorLabel.setPadding(new Insets(10, 0, 0, 0));
+    directionsField.getChildren().add(floorLabel);
     for (DirectionStep step : directionSteps) {
       JFXButton button = new JFXButton(step.stepDetails);
       button.wrapTextProperty().set(true);
@@ -145,6 +153,14 @@ public class MapPathfindingController extends MapController {
       button.setPadding(new Insets(10, 10, 10, 10));
       button.setOnAction((event) -> zoomToStep(step, 0));
       directionsField.getChildren().add(button);
+      if (floorChangeTypes.contains(step.getStepType())) {
+        floorLabel = new Label(step.getPointB().getMapID());
+        floorLabel.setAlignment(Pos.CENTER);
+        floorLabel.setMaxWidth(directionsField.getWidth());
+        floorLabel.setStyle("-fx-font-weight: bold; -fx-background-color: white");
+        floorLabel.setPadding(new Insets(10, 0, 0, 0));
+        directionsField.getChildren().add(floorLabel);
+      }
     }
   }
 
