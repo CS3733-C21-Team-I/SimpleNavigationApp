@@ -800,7 +800,9 @@ public class ParkingPeripheralServerManager extends DatabaseManager {
       statement.setTimestamp(4, endTime);
       ResultSet rs = statement.executeQuery();
 
-      return rs.getInt("ID");
+      if (rs.next()) {
+        return rs.getInt("ID");
+      } else return -1;
     } catch (SQLException e) {
       e.printStackTrace();
       throw new IllegalStateException("Error thrown retrieving slotID for time");
@@ -818,7 +820,9 @@ public class ParkingPeripheralServerManager extends DatabaseManager {
       statement.setTimestamp(4, endTime);
       ResultSet rs = statement.executeQuery();
 
-      return rs.getString("CODE") + rs.getString("SLOT_NUMBER");
+      if (rs.next()) {
+        return rs.getString("CODE") + rs.getString("SLOT_NUMBER");
+      } else return null;
     } catch (SQLException e) {
       e.printStackTrace();
       throw new IllegalStateException("Error thrown retrieving slotCode for time");
