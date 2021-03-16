@@ -1,27 +1,18 @@
 package edu.wpi.cs3733.c21.teamI.user;
 
+import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import java.util.Set;
+import javafx.beans.property.SimpleStringProperty;
 
-public class User {
+public class User extends RecursiveTreeObject<User> {
 
   public static User baseUser;
-
   public Set<Role> userRoles;
-
   private Set<Permission> userPermissions;
   private String name;
-
-  public String getScreenName() {
-    return name;
-  }
-
-  public int getUserId() {
-    return userId;
-  }
-
   private int userId;
-
   private CovidRisk covidR;
+  private EntryApproval entryApproval;
 
   public User(int userId, String name, Set<Role> userRoles, Set<Permission> userPermissions) {
     this.userRoles = userRoles;
@@ -29,16 +20,7 @@ public class User {
     this.name = name;
     this.userId = userId;
     this.covidR = CovidRisk.PENDING;
-  }
-
-  /** @param permission */
-  public boolean hasPermission(User.Permission permission) {
-    // TODO - implement User.hasPermission
-    return userPermissions.contains(permission);
-  }
-
-  public String getName() {
-    return name;
+    this.entryApproval = EntryApproval.OFFSITE;
   }
 
   public enum Role {
@@ -57,6 +39,12 @@ public class User {
     NURSE,
     RELIGIOUS_CONSULT,
     TRANSPORTATION_EMPLOYEE
+  }
+
+  public enum EntryApproval {
+    APPROVED,
+    REJECTED,
+    OFFSITE // not yet arrived
   }
 
   public enum Permission {
@@ -87,11 +75,59 @@ public class User {
     NO_COVID_RISK
   }
 
-  public CovidRisk getCovidRisk() {
-    return covidR;
+  public SimpleStringProperty getRiskString() {
+    switch (covidR) {
+      case COVID_RISK:
+        return new SimpleStringProperty("RISK");
+      case NO_COVID_RISK:
+        return new SimpleStringProperty("CLEARED");
+      default:
+        return new SimpleStringProperty("PENDING");
+    }
+  }
+
+  public SimpleStringProperty getApprovalString() {
+    switch (entryApproval) {
+      case APPROVED:
+        return new SimpleStringProperty("APPROVED");
+      case REJECTED:
+        return new SimpleStringProperty("REJECTED");
+      default:
+        return new SimpleStringProperty("PENDING");
+    }
+  }
+
+  public EntryApproval getEntryApproval() {
+    return entryApproval;
+  }
+
+  public void setEntryApproval(EntryApproval entryApproval) {
+    this.entryApproval = entryApproval;
   }
 
   public void setCovidRisk(CovidRisk cov) {
     this.covidR = cov;
+  }
+
+  public CovidRisk getCovidRisk() {
+    return covidR;
+  }
+
+  public String getScreenName() {
+    return name;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public int getUserId() {
+    return userId;
+  }
+
+  /** @param permission */
+  public boolean hasPermission(User.Permission permission) {
+    // TODO - implement User.hasPermission
+    return userPermissions.contains(permission);
   }
 }
