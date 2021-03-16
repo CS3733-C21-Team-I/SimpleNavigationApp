@@ -125,6 +125,7 @@ public class MapPathfindingController extends MapController {
     directionsField.getChildren().clear();
     for (DirectionStep step : directionSteps) {
       JFXButton button = new JFXButton(step.stepDetails);
+      button.wrapTextProperty().set(true);
       button.setMaxWidth(directionsField.getWidth());
       button.setRipplerFill(Color.valueOf("#0067b1"));
       String styleString = "-fx-alignment: center-left; -fx-cursor:hand; ";
@@ -148,7 +149,10 @@ public class MapPathfindingController extends MapController {
 
   @FXML
   private EventHandler<ActionEvent> zoomToStep(DirectionStep step, double padding) {
-    //System.out.println("A: " + step.getPointA() + " B: " + step.getPointB());
+    // System.out.println("A: " + step.getPointA() + " B: " + step.getPointB());
+    if (!step.getPointA().getMapID().equals(currentMapID)) {
+      goToTab(step.getPointA().getMapID());
+    }
     zoomToFitNodes(step.getPointA(), step.getPointB(), padding);
     return null;
   }
