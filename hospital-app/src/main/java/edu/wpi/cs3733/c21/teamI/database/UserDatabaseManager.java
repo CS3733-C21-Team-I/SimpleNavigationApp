@@ -865,10 +865,10 @@ public class UserDatabaseManager extends DatabaseManager {
     try {
       Statement stmt = databaseRef.getConnection().createStatement();
       stmt.executeUpdate(
-              "UPDATE HOSPITAL_USERS SET entryApproval = '"
-                      + ent.toString()
-                      + "' WHERE user_id = "
-                      + userID);
+          "UPDATE HOSPITAL_USERS SET entryApproval = '"
+              + ent.toString()
+              + "' WHERE user_id = "
+              + userID);
     } catch (SQLException e) {
       e.printStackTrace();
     }
