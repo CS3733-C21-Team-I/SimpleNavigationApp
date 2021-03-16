@@ -8,19 +8,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TextDirections {
-  private static List<DirectionStep> directionSteps = new ArrayList<>();
+  private static List<DirectionStep> directionSteps;
+  private static StepType currStepType;
 
   public static ArrayList<String> getDirections(
       EuclidianDistCalc calc, List<HospitalMapNode> path) {
     ArrayList<String> directions = new ArrayList<>();
+    directionSteps = new ArrayList<>();
 
     if (path.size() < 2) {
       directions.add("No path was found.");
       return directions;
     }
 
-    DirectionStep pathOverview =
-        new DirectionStep(path.get(0), path.get(path.size() - 1), "Path Overview");
+    //    DirectionStep pathOverview =
+    //        new DirectionStep(path.get(0), path.get(path.size() - 1), "Path Overview");
 
     // describe start location
     String startDirection = "Begin ";
@@ -30,7 +32,7 @@ public class TextDirections {
     }
     startDirection += "facing " + compassDirection(first, path.get(1)) + ".";
     directions.add(startDirection);
-    directionSteps.add(new DirectionStep(first, path.get(1), startDirection));
+    directionSteps.add(new DirectionStep(first, path.get(1), startDirection, StepType.STRAIGHT));
 
     for (int i = 1; i < (path.size() - 1); i++) {
 
@@ -44,7 +46,7 @@ public class TextDirections {
         }
         directions.add(step);
         if (i < path.size() - 2) {
-          directionSteps.add(new DirectionStep(path.get(i), path.get(i + 1), step));
+          directionSteps.add(new DirectionStep(path.get(i), path.get(i + 1), step, currStepType));
         }
 
       } else {
@@ -57,7 +59,7 @@ public class TextDirections {
         if (!isRepeat(path, directions, i, step) && worthDescription(path.get(i))) {
           directions.add(step);
           if (i < path.size() - 2) {
-            directionSteps.add(new DirectionStep(path.get(i), path.get(i + 1), step));
+            directionSteps.add(new DirectionStep(path.get(i), path.get(i + 1), step, currStepType));
           }
         }
       }
@@ -91,19 +93,33 @@ public class TextDirections {
     String step = "";
 
     double turn = angleDegrees(calc, last, curr, next);
+    boolean isSlight = false;
     if (turn > 165 || turn < -165) {
+      currStepType = StepType.STRAIGHT;
       step += "Continue straight";
     } else {
       step += "Take a ";
       if (!(Math.abs(turn) < 120)) {
+        isSlight = true;
         step += "slight ";
       }
       if ((Math.abs(turn) < 60)) {
+        isSlight = true;
         step += "sharp ";
       }
       if (turn < 0) {
+        if (isSlight) {
+          currStepType = StepType.SLIGHT_RIGHT;
+        } else {
+          currStepType = StepType.RIGHT;
+        }
         step += "right";
       } else {
+        if (isSlight) {
+          currStepType = StepType.SLIGHT_LEFT;
+        } else {
+          currStepType = StepType.LEFT;
+        }
         step += "left";
       }
     }
@@ -120,12 +136,15 @@ public class TextDirections {
     if (type != null) {
       switch (type) {
         case ELEV:
+          currStepType = StepType.ELEVATOR;
           step = "Take the elevator to floor " + next.getMapID();
           break;
         case STAI:
+          currStepType = StepType.STAIR;
           step = "Take the stairs to floor " + next.getMapID();
           break;
         case EXIT:
+          currStepType = StepType.EXIT;
           step = "Enter the door to " + next.getMapID();
           break;
         default:

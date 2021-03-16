@@ -1,7 +1,7 @@
 package edu.wpi.cs3733.c21.teamI.pathfinding;
 
 import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMapNode;
-import javafx.scene.image.Image;
+import java.util.HashMap;
 
 public class DirectionStep {
   private final double width;
@@ -9,13 +9,15 @@ public class DirectionStep {
   private HospitalMapNode pointA;
   private HospitalMapNode pointB;
   public String stepDetails;
-  private Image icon;
-  // public DirectionStep prevStep;
-  // public DirectionStep nextStep;
+  private String iconPath;
   private double centerX;
   private double centerY;
+  private StepType stepType;
 
-  public DirectionStep(HospitalMapNode a, HospitalMapNode b, String textDirection) {
+  private HashMap<StepType, String> directionToIcon = new HashMap<>();
+
+  public DirectionStep(HospitalMapNode a, HospitalMapNode b, String textDirection, StepType type) {
+    initHashMap();
     pointA = a;
     pointB = b;
     stepDetails = textDirection;
@@ -23,6 +25,8 @@ public class DirectionStep {
     centerY = calcCenterPointY(a, b);
     width = calcWidth(a, b);
     height = calcHeight(a, b);
+    stepType = type;
+    assignIcon();
   }
 
   public static double calcCenterPointX(HospitalMapNode a, HospitalMapNode b) {
@@ -63,5 +67,25 @@ public class DirectionStep {
 
   public HospitalMapNode getPointB() {
     return pointB;
+  }
+
+  private void initHashMap() {
+    directionToIcon.put(StepType.LEFT, "fxml/map/mapImages/directionIcons/turn-left.png");
+    directionToIcon.put(StepType.RIGHT, "fxml/map/mapImages/directionIcons/turn-right.png");
+    directionToIcon.put(StepType.ELEVATOR, "fxml/map/mapImages/directionIcons/elevator.png");
+    directionToIcon.put(StepType.SLIGHT_LEFT, "fxml/map/mapImages/directionIcons/slight-left.png");
+    directionToIcon.put(
+        StepType.SLIGHT_RIGHT, "fxml/map/mapImages/directionIcons/slight-right.png");
+    directionToIcon.put(StepType.STAIR, "fxml/map/mapImages/directionIcons/stairs.png");
+    directionToIcon.put(StepType.STRAIGHT, "fxml/map/mapImages/directionIcons/straight.png");
+    directionToIcon.put(StepType.EXIT, "fxml/map/mapImages/directionIcons/exit.png");
+  }
+
+  private void assignIcon() {
+    iconPath = directionToIcon.get(stepType);
+  }
+
+  public String getIconPath() {
+    return iconPath;
   }
 }
