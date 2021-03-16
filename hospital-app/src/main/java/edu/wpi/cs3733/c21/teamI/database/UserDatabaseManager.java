@@ -56,6 +56,8 @@ public class UserDatabaseManager extends DatabaseManager {
     // TODO - implement UserDatabaseManager.getUserForId
 
     int userId;
+    User.CovidRisk risk;
+    User.EntryApproval entryApproval;
 
     try {
       Statement statement = databaseRef.getConnection().createStatement();
@@ -68,6 +70,8 @@ public class UserDatabaseManager extends DatabaseManager {
         throw new IllegalArgumentException("Attempted to acess nonexistant user");
       }
       userId = rs.getInt("USER_ID");
+      risk = User.CovidRisk.valueOf(rs.getString("covidRisk"));
+      entryApproval = User.EntryApproval.valueOf(rs.getString("entryApproval"));
     } catch (SQLException e) {
       // TODO Error logging
       e.printStackTrace();
@@ -81,7 +85,7 @@ public class UserDatabaseManager extends DatabaseManager {
       ResultSet rs =
           statement.executeQuery(
               "SELECT HR.ROLE_NAME FROM USER_TO_ROLE INNER JOIN HOSPITAL_ROLES HR on HR.ROLE_ID = USER_TO_ROLE.ROLE_ID WHERE USER_ID="
-                  + String.valueOf(userId));
+                  + userId);
 
       while (rs.next()) {
         // rolesSet.add(getRoleForDatabaseName(rs.getString("ROLE_NAME")));
@@ -106,7 +110,7 @@ public class UserDatabaseManager extends DatabaseManager {
         ResultSet rs =
             statement.executeQuery(
                 "SELECT RP.RESOURCE_NAME FROM ROLE_TO_PERMISSION INNER JOIN RESOURCE_PERMISSIONS RP on ROLE_TO_PERMISSION.RESOURCE_ID = RP.RESOURCE_ID WHERE ROLE_ID=(SELECT ROLE_ID FROM HOSPITAL_ROLES WHERE ROLE_NAME='"
-                    + getDatabaseNameForRole(role)
+                    + role.toString()
                     + "')");
 
         while (rs.next()) {
@@ -117,11 +121,14 @@ public class UserDatabaseManager extends DatabaseManager {
       // TODO ERROR Logging
       e.printStackTrace();
     }
-
-    return new User(userId, screenName, rolesSet, permissionSet);
+    User userOut = new User(userId, screenName, rolesSet, permissionSet);
+    userOut.setCovidRisk(risk);
+    userOut.setEntryApproval(entryApproval);
+    return userOut;
   }
 
-  public User getUserWithPassword(String screenName, String password) {
+  public User getUserWithPassword(String screenName, String password)
+      throws FailedToAuthenticateException {
     // TODO - implement UserDatabaseManager.getUserForId
 
     int userId;
@@ -140,8 +147,8 @@ public class UserDatabaseManager extends DatabaseManager {
       byte[] salt = rs.getBytes("SALT");
       byte[] hashed = rs.getBytes("hashed_password");
 
-      if (!Password.isExpectedPassword(password.toCharArray(), salt, hashed)) {
-        return null;
+      if (hashed != null && !Password.isExpectedPassword(password.toCharArray(), salt, hashed)) {
+        throw new FailedToAuthenticateException();
       }
 
     } catch (SQLException e) {
@@ -160,7 +167,7 @@ public class UserDatabaseManager extends DatabaseManager {
                   + userId);
 
       while (rs.next()) {
-        rolesSet.add(getRoleForDatabaseName(rs.getString("ROLE_NAME")));
+        rolesSet.add(User.Role.valueOf(rs.getString("ROLE_NAME")));
       }
 
       if (!rolesSet.contains(User.Role.BASE)) {
@@ -181,7 +188,7 @@ public class UserDatabaseManager extends DatabaseManager {
         ResultSet rs =
             statement.executeQuery(
                 "SELECT RP.RESOURCE_NAME FROM ROLE_TO_PERMISSION INNER JOIN RESOURCE_PERMISSIONS RP on ROLE_TO_PERMISSION.RESOURCE_ID = RP.RESOURCE_ID WHERE ROLE_ID=(SELECT ROLE_ID FROM HOSPITAL_ROLES WHERE ROLE_NAME='"
-                    + getDatabaseNameForRole(role)
+                    + role.toString()
                     + "')");
 
         while (rs.next()) {
@@ -218,6 +225,23 @@ public class UserDatabaseManager extends DatabaseManager {
       return "ERROR";
     }
   }
+  //
+  //  public User getUSerForId(int id){
+  //    try {
+  //      Statement statement = databaseRef.getConnection().createStatement();
+  //      ResultSet rs =
+  //              statement.executeQuery("SELECT * FROM HOSPITAL_USERS WHERE USER_ID=" + id);
+  //      if (rs.next()) {
+  //        User user = new User(
+  //                rs
+  //        );
+  //      }
+  //      return rs.getString("SCREENNAME");
+  //    } catch (SQLException e) {
+  //      e.printStackTrace();
+  //      return null;
+  //    }
+  //  }
 
   /** @param roleId */
   public List<String> getUsersWithRole(int roleId) {
@@ -237,9 +261,11 @@ public class UserDatabaseManager extends DatabaseManager {
               + " screenName varchar(30) NOT NULL ,"
               + "hashed_password blob(32),"
               + "salt blob(32),"
-              + "covidRisk varchar(25),"
+              + "covidRisk varchar(25) DEFAULT 'PENDING',"
+              + "entryApproval varchar(25) DEFAULT 'OFFSITE',"
               + "PRIMARY KEY (user_ID),"
-              + "CHECK (covidRisk in ('COVID_RISK', 'PENDING', 'NO_COVID_RISK'))"
+              + "CHECK (covidRisk in ('COVID_RISK', 'PENDING', 'NO_COVID_RISK')),"
+              + "CHECK (entryApproval in ('APPROVED', 'REJECTED', 'OFFSITE'))"
               + ")");
     } catch (SQLException e) {
       System.out.println("Error generating User table");
@@ -405,53 +431,6 @@ public class UserDatabaseManager extends DatabaseManager {
     }
   }
 
-  /**
-   * A hack probably want to implement custom typing?
-   *
-   * @param role the role to lookup
-   * @return String coresponding to ROLE_NAME column in database
-   */
-  private String getDatabaseNameForRole(User.Role role) {
-    switch (role) {
-      case BASE:
-        return "BASE";
-      case ADMIN:
-        return "ADMIN";
-      case PATIENT:
-        return "PATIENT";
-      case VISITOR:
-        return "VISITOR";
-      case EMPLOYEE:
-        return "EMPLOYEE";
-      default:
-        return "ERROR";
-    }
-  }
-
-  /**
-   * A hack probably want to implement custom typing?
-   *
-   * @param name the role to lookup
-   * @return Role coresponding to ROLE_NAME column in database
-   */
-  private User.Role getRoleForDatabaseName(String name) {
-    switch (name) {
-      case "EMPLOYEE":
-        return EMPLOYEE;
-      case "ADMIN":
-        return ADMIN;
-      case "VISITOR":
-        return VISITOR;
-      case "PATIENT":
-        return PATIENT;
-      case "BASE":
-        return BASE;
-      default:
-        new Exception("ERROR value found in HospitalRoles").printStackTrace();
-        return null;
-    }
-  }
-
   public List<String> getUsernamesWithPermission(User.Permission permission) {
     try {
       List<String> returnValues = new ArrayList<>();
@@ -489,7 +468,7 @@ public class UserDatabaseManager extends DatabaseManager {
     ourInstance.createNewRole(SANITATION_EMPLOYEE, "TODO", RESPOND_TO_SANITATION);
     ourInstance.createNewRole(MAINTENANCE_EMPLOYEE, "TODO", RESPOND_TO_MAINTENANCE);
     ourInstance.createNewRole(IT_EMPLOYEE, "TODO", RESPOND_TO_COMPUTER, RESPOND_TO_AV);
-    ourInstance.createNewRole(TRANSLATOR, "TODO", RESPOND_TO_TRANSLATOR, RESPOND_TO_LANGUAGE);
+    ourInstance.createNewRole(TRANSLATOR, "TODO", RESPOND_TO_TRANSLATOR);
     ourInstance.createNewRole(NURSE, "TODO", RESPOND_TO_MEDICINE_REQUEST, RESPOND_TO_TRANSPORT);
     ourInstance.createNewRole(RELIGIOUS_CONSULT, "TODO", RESPOND_TO_RELIGIOUS);
     ourInstance.createNewRole(VISITOR, "TODO", SUBMIT_COVD_TICKET);
@@ -497,6 +476,10 @@ public class UserDatabaseManager extends DatabaseManager {
 
     ourInstance.createNewUser("admin", "admin", ADMIN, EMPLOYEE);
     ourInstance.createNewUser("visitor", "visitor", VISITOR);
+    ourInstance.createNewUser("visitor1", "visitor1", VISITOR);
+    ourInstance.createNewUser("visitor2", "visitor2", VISITOR);
+    ourInstance.createNewUser("visitor3", "visitor3", VISITOR);
+    ourInstance.createNewUser("staff", "staff", EMPLOYEE);
 
     ourInstance.createNewEmployee(
         "Elvish Translator", "", "Huttese", "Dumbledolf", MALE, TRANSLATOR);
@@ -819,7 +802,7 @@ public class UserDatabaseManager extends DatabaseManager {
     return insertedEmployee;
   }
 
-  public void addUserForLocation(int userID, String mapID) {
+  public void addUserForLocation(int userID, String nodeID) {
     try {
       Statement stmt = databaseRef.getConnection().createStatement();
       stmt.executeUpdate(
@@ -827,7 +810,7 @@ public class UserDatabaseManager extends DatabaseManager {
               + "VALUES("
               + userID
               + ", '"
-              + mapID
+              + nodeID
               + "')");
     } catch (SQLException e) {
       e.printStackTrace();
@@ -840,15 +823,18 @@ public class UserDatabaseManager extends DatabaseManager {
       ResultSet rs =
           stmt.executeQuery(
               "SELECT * FROM USER_TO_NODE UN JOIN NAVNODES N ON UN.NODE_ID = N.NODE_ID WHERE USER_ID = "
-                  + String.valueOf(userID));
-      return rs.getString("long_Name");
+                  + userID);
+      if (rs.next()) {
+        return rs.getString("long_Name");
+      }
+      return null;
     } catch (SQLException e) {
       e.printStackTrace();
       return null;
     }
   }
 
-  public void addCovidRiskForUser(int userID, User.CovidRisk cov) {
+  public void updateCovidRiskForUser(int userID, User.CovidRisk cov) {
     try {
       Statement stmt = databaseRef.getConnection().createStatement();
       stmt.executeUpdate(
@@ -865,7 +851,52 @@ public class UserDatabaseManager extends DatabaseManager {
     try {
       Statement stmt = databaseRef.getConnection().createStatement();
       ResultSet rs = stmt.executeQuery("SELECT * FROM HOSPITAL_USERS WHERE user_id = " + userID);
-      return (User.CovidRisk.valueOf(rs.getString("covidRisk")));
+      if (rs.next()) {
+        return (User.CovidRisk.valueOf(rs.getString("covidRisk")));
+      }
+      return null;
+    } catch (SQLException e) {
+      e.printStackTrace();
+      return null;
+    }
+  }
+
+  public void updateEntryApprovalForUser(int userID, User.EntryApproval ent) {
+    try {
+      Statement stmt = databaseRef.getConnection().createStatement();
+      stmt.executeUpdate(
+          "UPDATE HOSPITAL_USERS SET entryApproval = '"
+              + ent.toString()
+              + "' WHERE user_id = "
+              + userID);
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+  }
+
+  public User.EntryApproval getEntryApprovalForUser(int userID) {
+    try {
+      Statement stmt = databaseRef.getConnection().createStatement();
+      ResultSet rs = stmt.executeQuery("SELECT * FROM HOSPITAL_USERS WHERE user_id = " + userID);
+      if (rs.next()) {
+        return (User.EntryApproval.valueOf(rs.getString("entryApproval")));
+      }
+      return null;
+    } catch (SQLException e) {
+      e.printStackTrace();
+      return null;
+    }
+  }
+
+  public List<String> getCurrentUsernames() {
+    List<String> cur = new ArrayList<>();
+    try {
+      Statement stmt = databaseRef.getConnection().createStatement();
+      ResultSet rs = stmt.executeQuery("SELECT screenName FROM HOSPITAL_USERS");
+      while (rs.next()) {
+        cur.add(rs.getString("screenName"));
+      }
+      return cur;
     } catch (SQLException e) {
       e.printStackTrace();
       return null;

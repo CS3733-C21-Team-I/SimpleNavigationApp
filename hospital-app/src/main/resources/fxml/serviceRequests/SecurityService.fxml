@@ -13,17 +13,17 @@
 
 <AnchorPane fx:id="background" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="622.0" prefWidth="704.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamI.ticket.view.SecurityRequestController">
    <children>
-      <JFXButton layoutX="138.0" layoutY="472.0" onAction="#clear" prefHeight="38.0" prefWidth="82.0" style="-fx-background-color: #0067b1;" styleClass="styledButton" stylesheets="@../fxmlResources/main.css" text="Clear" textFill="WHITE">
+      <JFXButton layoutX="138.0" layoutY="472.0" onAction="#clear" prefHeight="38.0" prefWidth="82.0" style="-fx-background-color: #0067b1;" styleClass="styledButton" stylesheets="@../misc/css/main.css" text="Clear" textFill="WHITE">
          <font>
             <Font size="14.0" />
          </font>
       </JFXButton>
-      <JFXButton layoutX="243.0" layoutY="472.0" onAction="#submit" style="-fx-background-color: #0067b1;" styleClass="styledButton" stylesheets="@../fxmlResources/main.css" text="Submit" textFill="WHITE">
+      <JFXButton fx:id="submitBtn" layoutX="243.0" layoutY="472.0" onAction="#submit" style="-fx-background-color: #0067b1;" styleClass="styledButton" stylesheets="@../misc/css/main.css" text="Submit" textFill="WHITE">
          <font>
             <Font size="14.0" />
          </font>
       </JFXButton>
-      <VBox  layoutX="42.0" layoutY="65.0" prefHeight="452.0" prefWidth="285.0" AnchorPane.bottomAnchor="150.0" AnchorPane.leftAnchor="42.0" AnchorPane.topAnchor="20.0">
+      <VBox layoutX="42.0" layoutY="65.0" prefHeight="452.0" prefWidth="285.0" AnchorPane.bottomAnchor="150.0" AnchorPane.leftAnchor="42.0" AnchorPane.topAnchor="20.0">
          <children>
             <JFXTextField fx:id="requestID" focusColor="#012d5a" promptText="Requester ID" unFocusColor="#012d5a">
                <VBox.margin>
@@ -72,7 +72,7 @@
             </JFXCheckBox>
          </children>
       </VBox>
-      <ListView fx:id="requestAssignedList" layoutX="61.0" layoutY="224.0" prefHeight="122.0" prefWidth="245.0" visible="false" />
-      <ListView fx:id="serviceLocationList" layoutX="61.0" layoutY="173.0" prefHeight="135.0" prefWidth="245.0" visible="false" />
+      <ListView fx:id="requestAssignedList" layoutX="61.0" layoutY="202.0" prefHeight="122.0" prefWidth="245.0" visible="false" AnchorPane.bottomAnchor="264.0" />
+      <ListView fx:id="serviceLocationList" layoutX="61.0" layoutY="185.0" prefHeight="135.0" prefWidth="245.0" visible="false" AnchorPane.bottomAnchor="302.0" />
    </children>
 </AnchorPane>

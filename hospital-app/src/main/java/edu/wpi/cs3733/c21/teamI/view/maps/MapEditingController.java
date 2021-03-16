@@ -2,11 +2,8 @@ package edu.wpi.cs3733.c21.teamI.view.maps;
 
 import edu.wpi.cs3733.c21.teamI.database.NavDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.*;
-import edu.wpi.cs3733.c21.teamI.hospitalMap.HospitalMapNode;
-import edu.wpi.cs3733.c21.teamI.hospitalMap.LocationCategory;
-import edu.wpi.cs3733.c21.teamI.hospitalMap.LocationNode;
-import edu.wpi.cs3733.c21.teamI.hospitalMap.MapDataEntity;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.mapEditing.MapEditDataController;
+import edu.wpi.cs3733.c21.teamI.util.ImageLoader;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -17,6 +14,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point2D;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -40,7 +38,7 @@ public class MapEditingController extends MapController {
 
   // setup stuff
   @FXML
-  public void initialize() throws IOException {
+  public void initialize() {
     System.out.println("Initializing editing controller...");
     navigateButton.setVisible(true);
     currentMapID = "Faulkner Lot";
@@ -54,7 +52,7 @@ public class MapEditingController extends MapController {
     replacePane.getChildren().clear();
     replacePane
         .getChildren()
-        .add(FXMLLoader.load(getClass().getResource("/fxml/Pathfinding.fxml")));
+        .add(FXMLLoader.load(getClass().getResource("/fxml/map/Pathfinding.fxml")));
   }
 
   // viewport stuff
@@ -81,7 +79,8 @@ public class MapEditingController extends MapController {
     try {
       Image background =
           new Image(
-              (getClass().getResource("/fxml/mapImages/" + currentMapID.replace(" ", "") + ".png"))
+              (getClass()
+                      .getResource("/fxml/map/mapImages/" + currentMapID.replace(" ", "") + ".png"))
                   .toURI()
                   .toString());
       mapImage.setImage(background);
@@ -185,6 +184,10 @@ public class MapEditingController extends MapController {
               LocationCategory.HALL,
               "I",
               node.getConnections());
+      if (selectedNode.contains(node)) {
+        selectedNode.remove(node);
+        selectedNode.add(newNode);
+      }
       dataCont.editNode(node.getID(), newNode);
     }
   }
@@ -196,13 +199,10 @@ public class MapEditingController extends MapController {
 
     } else if (selectedNode.size() == 1) {
       nodeMenu.setVisible(false);
-      if (selectedNode.get(0).equals(node)) {
-        selectedNode.clear();
-
-      } else {
+      if (!selectedNode.get(0).equals(node)) {
         dataCont.addEdge(node, selectedNode.get(0));
-        selectedNode.clear();
       }
+      selectedNode.clear();
     } else {
       nodeMenu.setVisible(true);
       selectedNode.clear();
@@ -211,7 +211,20 @@ public class MapEditingController extends MapController {
   }
 
   protected void drawEdges(HospitalMapNode parent) {
-    Image xIconImg = new Image("/fxml/fxmlResources/redxicon.png");
+    Image xIconImg = ImageLoader.loadImage("/fxml/map/mapImages/symbolIcons/redxicon.png");
+    int betweenFloors = 0;
+    int floorsDrawn = 0;
+
+    // can simplify
+    for (HospitalMapNode child : parent.getConnections()) {
+      if (!dataCont.getActiveMap().getNodes().contains(child)
+          || !dataCont.getActiveMap().getNodes().contains(parent)) {
+        betweenFloors++;
+      }
+    }
+
+    double edgeAngle = (2 * Math.PI / betweenFloors);
+
     for (HospitalMapNode child : parent.getConnections()) {
       HospitalMapNode startNode =
           dataCont.getActiveMap().getNodes().contains(parent) ? parent : child;
@@ -223,10 +236,17 @@ public class MapEditingController extends MapController {
             new HospitalMapNode(
                 null,
                 null,
-                (int) (startNode.getxCoord() - mapPane.getPrefWidth()),
-                (int) (startNode.getyCoord() - mapPane.getPrefWidth()),
+                (int)
+                    (startNode.getxCoord()
+                        + Math.sin((Math.PI * 1.25) + floorsDrawn * edgeAngle)
+                            * mapPane.getPrefWidth()),
+                (int)
+                    (startNode.getyCoord()
+                        + Math.cos((Math.PI * 1.25) + floorsDrawn * edgeAngle)
+                            * mapPane.getPrefWidth()),
                 null);
         color = Color.GREEN;
+        floorsDrawn++;
       }
       ImageView xMarker = new ImageView();
       xMarker.setImage(xIconImg);
@@ -285,6 +305,7 @@ public class MapEditingController extends MapController {
     }
   }
 
+  // TODO: Mass undo/redo
   @FXML
   protected void straightenSelected(ActionEvent e) {
     int minX = selectedNode.stream().mapToInt(HospitalMapNode::getxCoord).min().getAsInt();
@@ -299,16 +320,15 @@ public class MapEditingController extends MapController {
     for (HospitalMapNode selected : selectedNode) {
       if (maxX - minX > maxY - minY) {
         selected.setyCoord((int) yAvg);
-        dataCont.editNode(selected.getID(), selected);
       } else {
         selected.setxCoord((int) xAvg);
-        dataCont.editNode(selected.getID(), selected);
       }
+      dataCont.editNode(selected.getID(), selected);
     }
     update();
   }
 
-  protected Circle setMouseActions(Circle circle, HospitalMapNode node) {
+  protected Node setMouseActions(Node circle, HospitalMapNode node) {
     circle.setOnMouseEntered(
         t -> {
           Circle newCircle =
@@ -321,15 +341,23 @@ public class MapEditingController extends MapController {
         t -> {
           if (t.getButton() == MouseButton.PRIMARY) {
             if (!isDrag) {
-              if (t.isShiftDown() && node.getMapID().equals(selectedNode.get(0).getMapID())) {
+              if (selectedNode.size() == 0 && t.isShiftDown()
+                  || t.isShiftDown()
+                      && node.getMapID().equals(selectedNode.get(0).getMapID())) { //
+                System.out.println("gotHere");
+                System.out.println(
+                    node.NodeAsList()); // t.isShiftDown() && selectedNode.size() == 0
                 shift = true;
+                // selectedNode.add(node);
                 if (selectedNode.contains(node)) {
                   selectedNode.remove(node);
                 } else {
                   selectedNode.add(node);
                 }
                 nodeMenu.setVisible(selectedNode.size() == 1);
-              } else {
+              }
+              //
+              else {
                 shift = false;
                 toggleNode(node);
               }
@@ -340,6 +368,7 @@ public class MapEditingController extends MapController {
               int currentX = (int) (mousePress.getX() / fullImgWidth * 100000);
               int currentY = (int) (mousePress.getY() / fullImgHeight * 100000);
 
+              // TODO: Mass undo/redo
               if (shift) {
                 int x = 0, y = 0;
                 for (HospitalMapNode n : this.selectedNode) {

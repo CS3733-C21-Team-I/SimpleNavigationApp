@@ -6,7 +6,6 @@ import edu.wpi.cs3733.c21.teamI.database.ServiceTicketDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.ticket.*;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 import javafx.beans.Observable;
 import javafx.beans.property.SimpleStringProperty;
@@ -27,9 +26,12 @@ public class ServiceRequestTableController implements Initializable {
 
   @FXML private JFXTextField IDTextField;
 
+  @FXML private JFXButton markCompleteButton;
+
   ServiceTableIntermediateController interController;
 
   ObservableList<ServiceTicket> ticketList;
+
   FilteredList<ServiceTicket> filteredList;
 
   @Override
@@ -56,20 +58,16 @@ public class ServiceRequestTableController implements Initializable {
               System.out.println(newValue + ": " + newValue.length());
               treeView.setPredicate(
                   ServiceTicketTreeItem -> {
-                    Boolean flag =
+                    return (Boolean)
                         ServiceTicketTreeItem.getValue()
                             .getTicketType()
                             .toString()
                             .contains(newValue.toUpperCase());
-
-                    return flag;
                   });
               filteredList.setPredicate(
                   ServiceTicket -> {
-                    Boolean flag =
+                    return (Boolean)
                         ServiceTicket.getTicketType().toString().contains(newValue.toUpperCase());
-
-                    return flag;
                   });
               update();
             });
@@ -104,15 +102,11 @@ public class ServiceRequestTableController implements Initializable {
     assignIDCol.setCellValueFactory(
         param -> {
           StringBuilder listString = new StringBuilder();
-          List<Integer> userIDs = param.getValue().getValue().getAssignedUserID();
-          for (Integer s : userIDs) {
-            if (userIDs.indexOf(s) < userIDs.size() - 1) {
-              listString.append(s).append(", ");
-            } else {
-              listString.append(s);
-            }
+          for (Integer s : param.getValue().getValue().getAssignedUserID()) {
+            listString.append(s).append(", ");
           }
-          return new SimpleStringProperty(listString.toString());
+          return new SimpleStringProperty(
+              listString.toString().substring(0, listString.toString().length() - 2));
         });
 
     JFXTreeTableColumn<ServiceTicket, String> locationCol = new JFXTreeTableColumn<>("Location");
@@ -188,19 +182,18 @@ public class ServiceRequestTableController implements Initializable {
 
   public void update() {
     // treeView.setEditable(true);
+
     ticketList.clear();
     ticketList.addAll(ServiceTicketDatabaseManager.getInstance().getServiceTicketDB());
+
+    treeView.setOnMouseClicked(
+        t -> {
+          markCompleteButton.setDisable(true);
+        });
 
     System.out.println(treeView.getRoot().getChildren().size());
 
     if (treeView.getRoot() != null) {
-      //      boolean allMatch =
-      //          treeView.getRoot().getChildren().stream()
-      //                  .filter(treeView.getPredicate())
-      //                  .map(c -> c.getValue().getTicketType())
-      //                  .distinct()
-      //                  .count()
-      //              == 1;
       boolean allMatch =
           filteredList.stream().map(ServiceTicket::getTicketType).distinct().count() == 1;
 

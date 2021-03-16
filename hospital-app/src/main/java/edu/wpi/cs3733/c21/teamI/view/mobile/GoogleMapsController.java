@@ -77,11 +77,7 @@ public class GoogleMapsController extends Application {
   public void autoComplete() {
     String currText = addressSearch.getText();
 
-    if (currText.length() <= 0) {
-      autofillView.setVisible(false);
-    } else {
-      autofillView.setVisible(true);
-    }
+    autofillView.setVisible(currText.length() > 0);
 
     AutocompletePrediction[] result =
         PlacesApi.placeAutocomplete(context, currText, token).awaitIgnoreError();
@@ -122,7 +118,7 @@ public class GoogleMapsController extends Application {
         DirectionsApi.getDirections(context, origin, destination).awaitIgnoreError();
 
     Gson gson = new GsonBuilder().setPrettyPrinting().create();
-    System.out.println(gson.toJson(result));
+    //    System.out.println(gson.toJson(result));
   }
 
   private String formDirectionsUrl(String originID, String destinationID) {
@@ -131,7 +127,7 @@ public class GoogleMapsController extends Application {
     url += "&origin=start&origin_place_id=" + originID;
     url += "&destination=end&destination_place_id=" + destinationID;
 
-    System.out.println("URL:   " + url);
+    //    System.out.println("URL:   " + url);
     return url;
   }
 
@@ -143,19 +139,17 @@ public class GoogleMapsController extends Application {
 
     Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-    String id = result.candidates[0].placeId;
-
-    System.out.println(id);
-    return id;
+    //    System.out.println(id);
+    return result.candidates[0].placeId;
   }
 
   public void goToCovidForm(ActionEvent actionEvent) throws IOException {
-    System.out.println(((JFXButton) actionEvent.getSource()).getScene());
+    //    System.out.println(((JFXButton) actionEvent.getSource()).getScene());
     root.getChildren().clear();
     root.getChildren()
-        .add(FXMLLoader.load(getClass().getResource("/fxml/MobilePages/MCovidForm.fxml")));
+        .add(FXMLLoader.load(getClass().getResource("/fxml/mobilePages/MCovidForm.fxml")));
   }
 
   @Override
-  public void start(Stage primaryStage) throws Exception {}
+  public void start(Stage primaryStage) {}
 }

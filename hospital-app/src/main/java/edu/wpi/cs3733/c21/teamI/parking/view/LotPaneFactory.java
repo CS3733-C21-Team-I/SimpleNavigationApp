@@ -9,8 +9,7 @@ public class LotPaneFactory implements Callback<JFXListView<Lot>, JFXListCell<Lo
 
   @Override
   public JFXListCell<Lot> call(JFXListView<Lot> param) {
-    LotPane pane = new LotPane();
 
-    return pane;
+    return new LotPane();
   }
 }

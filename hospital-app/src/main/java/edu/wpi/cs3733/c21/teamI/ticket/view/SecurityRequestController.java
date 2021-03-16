@@ -1,23 +1,23 @@
 package edu.wpi.cs3733.c21.teamI.ticket.view;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
 import edu.wpi.cs3733.c21.teamI.database.NavDatabaseManager;
+import edu.wpi.cs3733.c21.teamI.database.NotificationManager;
 import edu.wpi.cs3733.c21.teamI.database.ServiceTicketDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.database.UserDatabaseManager;
+import edu.wpi.cs3733.c21.teamI.notification.Notification;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicket;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicketDataController;
 import edu.wpi.cs3733.c21.teamI.ticket.ticketTypes.SecurityTicket;
 import edu.wpi.cs3733.c21.teamI.user.User;
-import edu.wpi.cs3733.c21.teamI.view.ViewManager;
-import java.io.IOException;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
 public class SecurityRequestController {
@@ -27,6 +27,7 @@ public class SecurityRequestController {
   @FXML CheckBox emergency;
   @FXML ListView serviceLocationList, requestAssignedList;
   @FXML AnchorPane background;
+  @FXML JFXButton submitBtn;
 
   @FXML JFXComboBox securityType;
 
@@ -49,16 +50,45 @@ public class SecurityRequestController {
       ticket.addAssignedUserID(AssignedID);
       int id = ServiceTicketDatabaseManager.getInstance().addTicket(ticket);
       ServiceTicketDatabaseManager.getInstance().addEmployeeForTicket(id, AssignedID);
+      Notification notif =
+          new Notification(
+              AssignedID, "You have a new Security Request Ticket.", "String timestamp");
+      NotificationManager.getInstance().addNotification(notif);
     } catch (Exception o) {
       System.out.println("Error" + o);
     }
   }
 
-  public void navigate(ActionEvent e) throws IOException {
-    ViewManager.navigate(e);
+  public void checkFinished() {
+    submitBtn.setDisable(
+        securityType.valueProperty().getValue() == null
+            || requestID.getText() == null
+            || requestID.getText().trim().length() <= 0
+            || requestAssigned.getText() == null
+            || requestAssigned.getText().trim().length() <= 0
+            || !checkLocation(locationText.getText()));
   }
 
+  public boolean checkLocation(String loc) {
+    boolean check = false;
+    for (Object req : serviceLocationList.getItems()) {
+      check = check || loc.equals(req);
+    }
+    return check;
+  }
+
+  EventHandler<ActionEvent> eh =
+      new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent event) {
+          checkFinished();
+        }
+      };
+
   public void initialize() {
+    securityType.getItems().addAll("Police Officer", "On-site Security Employee", "Other");
+    securityType.getSelectionModel().select("2");
+    submitBtn.setDisable(true);
     ServiceTicketDataController.setupRequestView(
         background,
         serviceLocationList,
@@ -67,9 +97,20 @@ public class SecurityRequestController {
         requestAssigned,
         locationText);
 
-    securityType.getItems().addAll("Police Officer", "On-site Security Employee", "Other");
-    securityType.getSelectionModel().select("2");
+    requestID.setOnAction(eh);
+    securityType.setOnAction(eh);
+    requestAssigned.setOnAction(eh);
+    locationText.setOnAction(eh);
+    background.addEventHandler(MouseEvent.MOUSE_CLICKED, meh);
   }
+
+  EventHandler<MouseEvent> meh =
+      new EventHandler<MouseEvent>() {
+        @Override
+        public void handle(MouseEvent event) {
+          checkFinished();
+        }
+      };
 
   public void clear() {
     description.clear();
@@ -79,6 +120,7 @@ public class SecurityRequestController {
     serviceLocationList.setVisible(false);
     requestAssignedList.setVisible(false);
     securityType.getSelectionModel().select(2);
+    checkFinished();
   }
 
   public void lookup(KeyEvent e) {

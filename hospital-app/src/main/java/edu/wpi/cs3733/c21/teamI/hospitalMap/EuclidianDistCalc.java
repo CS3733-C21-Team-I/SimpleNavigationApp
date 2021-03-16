@@ -27,8 +27,6 @@ public class EuclidianDistCalc implements PriorityCalc<HospitalMapNode> {
   public boolean isValid(HospitalMapNode node) {
     boolean canAccess = true;
 
-    // TODO: when enumeration exists, exclude nodeTypesToAvoid
-
     for (NodeRestrictions restriction : nodeTypesToAvoid) {
       if (node.getNodeRestrictions().contains(restriction)) {
         canAccess = false;

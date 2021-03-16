@@ -43,7 +43,7 @@ public class FloorListItem extends JFXListCell<Floor> {
     } else {
 
       if (mLLoader == null) {
-        mLLoader = new FXMLLoader(getClass().getResource("/fxml/FloorListItem.fxml"));
+        mLLoader = new FXMLLoader(getClass().getResource("/fxml/parking/FloorListItem.fxml"));
         mLLoader.setController(this);
 
         try {
@@ -60,15 +60,20 @@ public class FloorListItem extends JFXListCell<Floor> {
       if (unocupied == 0)
         setBackground(
             new Background(
-                new BackgroundFill(Color.web("#FFCCCC"), CornerRadii.EMPTY, Insets.EMPTY)));
+                new BackgroundFill(Color.web("#FFCCCC"), new CornerRadii(10.0), new Insets(1.0))));
       else
         setBackground(
             new Background(
-                new BackgroundFill(Color.web("#CCFFCC"), CornerRadii.EMPTY, Insets.EMPTY)));
+                new BackgroundFill(Color.web("#CCFFCC"), new CornerRadii(10.0), new Insets(1.0))));
 
       accessibilityLabel.setVisible(item.isDisabledAcessable());
       coveredLabel.setVisible(item.isCovered());
       staffOnlyLabel.setVisible(item.isStaffOnly());
+
+      gridPane.setStyle(
+          "    -fx-border-radius: 10.0;\n"
+              + "    -fx-border-width: 2.0; -fx-border-insets: 1.0;\n"
+              + "    -fx-border-color: black;\n");
 
       setGraphic(gridPane);
       setContentDisplay(ContentDisplay.GRAPHIC_ONLY);

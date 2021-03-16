@@ -64,17 +64,31 @@ public class NavDatabaseManager extends DatabaseManager {
                   String longName = nodeResults.getString("LONG_NAME");
                   String teamAssigned = nodeResults.getString("TEAM_ASSIGNED");
                   String locationCategory = nodeResults.getString("location_category");
-                  node =
-                      new LocationNode(
-                          nodeId,
-                          mapId,
-                          xCoord,
-                          yCoord,
-                          shortName,
-                          longName,
-                          LocationCategory.valueOf(locationCategory),
-                          teamAssigned,
-                          new ArrayList<>());
+                  if (locationCategory.equals("PARK")) {
+                    node =
+                        new ParkingNode(
+                            nodeId,
+                            mapId,
+                            xCoord,
+                            yCoord,
+                            shortName,
+                            longName,
+                            LocationCategory.valueOf(locationCategory),
+                            teamAssigned,
+                            new ArrayList<>());
+                  } else {
+                    node =
+                        new LocationNode(
+                            nodeId,
+                            mapId,
+                            xCoord,
+                            yCoord,
+                            shortName,
+                            longName,
+                            LocationCategory.valueOf(locationCategory),
+                            teamAssigned,
+                            new ArrayList<>());
+                  }
                   break;
                 default:
                   throw new IllegalStateException(
@@ -559,10 +573,14 @@ public class NavDatabaseManager extends DatabaseManager {
           "INSERT INTO NODE_ATTRIBUTE (NODERESTRICTION) VALUES\n"
               + "                                                    ('PPE_REQUIRED'),\n"
               + "                                                    ('STAFF_ONLY'),\n"
-              + "                                                    ('WHEELCHAIR_INACCESSIBLE')");
+              + "                                                    ('WHEELCHAIR_INACCESSIBLE'),\n"
+              + "                                                    ('NON_COVID_RISK_VISITORS'),\n"
+              + "                                                    ('COVID_RISK_VISITORS')");
 
       stmt.addBatch(
           "INSERT INTO NODE_TO_ATTRIBUTE (NODE_ID, ATTRIBUTE_ID) VALUES\n"
+              + "('IEXIT00101', (SELECT ATTRIBUTE_ID FROM NODE_ATTRIBUTE WHERE NODERESTRICTION='NON_COVID_RISK_VISITORS')),"
+              + "('IEXIT00201', (SELECT ATTRIBUTE_ID FROM NODE_ATTRIBUTE WHERE NODERESTRICTION='COVID_RISK_VISITORS')),"
               + "('ISTAI00101', (SELECT ATTRIBUTE_ID FROM NODE_ATTRIBUTE WHERE NODERESTRICTION='WHEELCHAIR_INACCESSIBLE')),"
               + "('ISTAI00102', (SELECT ATTRIBUTE_ID FROM NODE_ATTRIBUTE WHERE NODERESTRICTION='WHEELCHAIR_INACCESSIBLE')),"
               + "('ISTAI00103', (SELECT ATTRIBUTE_ID FROM NODE_ATTRIBUTE WHERE NODERESTRICTION='WHEELCHAIR_INACCESSIBLE')),"

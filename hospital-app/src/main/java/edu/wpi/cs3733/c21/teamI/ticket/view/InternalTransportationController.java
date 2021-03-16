@@ -3,18 +3,20 @@ package edu.wpi.cs3733.c21.teamI.ticket.view;
 import com.jfoenix.controls.*;
 import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
 import edu.wpi.cs3733.c21.teamI.database.NavDatabaseManager;
+import edu.wpi.cs3733.c21.teamI.database.NotificationManager;
 import edu.wpi.cs3733.c21.teamI.database.ServiceTicketDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.database.UserDatabaseManager;
+import edu.wpi.cs3733.c21.teamI.notification.Notification;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicket;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicketDataController;
 import edu.wpi.cs3733.c21.teamI.ticket.ticketTypes.InternalTransportationTicket;
 import edu.wpi.cs3733.c21.teamI.user.User;
-import edu.wpi.cs3733.c21.teamI.view.ViewManager;
-import java.io.IOException;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
 public class InternalTransportationController {
@@ -65,14 +67,54 @@ public class InternalTransportationController {
       System.out.println(ticket);
       int id = ServiceTicketDatabaseManager.getInstance().addTicket(ticket);
       ServiceTicketDatabaseManager.getInstance().addEmployeeForTicket(id, AssignedID);
+      Notification notif =
+          new Notification(
+              AssignedID,
+              "You have a new Internal Transportation Request Ticket.",
+              "String timestamp");
+      NotificationManager.getInstance().addNotification(notif);
     } catch (Exception o) {
       System.out.println("Error" + o);
     }
   }
 
-  public void navigate(ActionEvent e) throws IOException {
-    ViewManager.navigate(e);
+  //
+  public void checkFinished() {
+    submitBttn.setDisable(
+        internalDate.valueProperty().getValue() == null
+            || internalTime.valueProperty().getValue() == null
+            || internalDestination.getText() == null
+            || internalDestination.getText().trim().length() <= 0
+            || !checkEmployeeID(requestAssigned.getText())
+            || !checkLocation(internalLocation.getText())
+            || (!stretcherRadio.isSelected() && !wheelchairRadio.isSelected())
+            || requesterID.getText() == null
+            || requesterID.getText().trim().length() <= 0);
   }
+
+  public boolean checkEmployeeID(String employeeText) {
+    boolean check = false;
+    for (Object req : requestAssignedList.getItems()) {
+      check = check || employeeText.equals(req);
+    }
+    return check;
+  }
+
+  public boolean checkLocation(String loc) {
+    boolean check = false;
+    for (Object req : serviceLocationList.getItems()) {
+      check = check || loc.equals(req);
+    }
+    return check;
+  }
+
+  EventHandler<ActionEvent> eh =
+      new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent event) {
+          checkFinished();
+        }
+      };
 
   public void clear() {
     internalDetails.clear();
@@ -81,14 +123,17 @@ public class InternalTransportationController {
     requesterID.clear();
     stretcherRadio.setSelected(false);
     wheelchairRadio.setSelected(false);
+    internalDestination.clear();
     //    emergency.setSelected(false);
     internalDate.valueProperty().set(null);
     internalTime.valueProperty().set(null);
     serviceLocationList.setVisible(false);
     requestAssignedList.setVisible(false);
+    checkFinished();
   }
 
   public void initialize() {
+    submitBttn.setDisable(true);
     ServiceTicketDataController.setupRequestView(
         background,
         serviceLocationList,
@@ -96,7 +141,25 @@ public class InternalTransportationController {
         requesterID,
         requestAssigned,
         internalLocation);
+
+    internalDate.setOnAction(eh);
+    internalTime.setOnAction(eh);
+    requesterID.setOnAction(eh);
+    requestAssigned.setOnAction(eh);
+    internalLocation.setOnAction(eh);
+    internalDestination.setOnAction(eh);
+    stretcherRadio.setOnAction(eh);
+    wheelchairRadio.setOnAction(eh);
+    background.addEventHandler(MouseEvent.MOUSE_CLICKED, meh);
   }
+
+  EventHandler<MouseEvent> meh =
+      new EventHandler<MouseEvent>() {
+        @Override
+        public void handle(MouseEvent event) {
+          checkFinished();
+        }
+      };
 
   public void lookup(KeyEvent e) {
     ServiceTicketDataController.lookupNodes(e, serviceLocationList, internalLocation);

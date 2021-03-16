@@ -39,7 +39,6 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
       PreparedStatement stmt = databaseRef.getConnection().prepareStatement(query);
       stmt.setInt(1, id);
       ResultSet rs = stmt.executeQuery();
-
       ServiceTicket ticket;
       if (rs.next()) {
         ticket =
@@ -83,7 +82,6 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
       PreparedStatement stmt = databaseRef.getConnection().prepareStatement(query);
       stmt.setInt(1, requestID);
       ResultSet rs = stmt.executeQuery();
-
       int tixID = 0;
       ServiceTicket ticket;
       while (rs.next()) {
@@ -487,7 +485,6 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
       PreparedStatement stmt = databaseRef.getConnection().prepareStatement(query);
       stmt.setInt(1, id);
       ResultSet rs = stmt.executeQuery();
-
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -637,7 +634,7 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
         cur.setTicketID(tixID);
         cur.setAssignedUserID(getEmployeesForId(tixID));
         tix.add(cur);
-      }
+   
     } catch (SQLException e) {
       e.printStackTrace();
     }

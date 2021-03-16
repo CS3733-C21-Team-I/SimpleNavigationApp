@@ -8,10 +8,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TextDirections {
+  private static List<DirectionStep> directionSteps;
+  private static StepType currStepType;
 
   public static ArrayList<String> getDirections(
       EuclidianDistCalc calc, List<HospitalMapNode> path) {
     ArrayList<String> directions = new ArrayList<>();
+    directionSteps = new ArrayList<>();
 
     if (path.size() < 2) {
       directions.add("No path was found.");
@@ -26,6 +29,7 @@ public class TextDirections {
     }
     startDirection += "facing " + compassDirection(first, path.get(1)) + ".";
     directions.add(startDirection);
+    directionSteps.add(new DirectionStep(first, path.get(1), startDirection, StepType.STRAIGHT));
 
     for (int i = 1; i < (path.size() - 1); i++) {
 
@@ -38,6 +42,9 @@ public class TextDirections {
           step = "Proceed to floor " + path.get(i + 1).getMapID() + ".";
         }
         directions.add(step);
+        if (i < path.size() - 2) {
+          directionSteps.add(new DirectionStep(path.get(i), path.get(i + 1), step, currStepType));
+        }
 
       } else {
         step = describeStep(calc, path.get(i - 1), path.get(i), path.get(i + 1));
@@ -48,6 +55,9 @@ public class TextDirections {
 
         if (!isRepeat(path, directions, i, step) && worthDescription(path.get(i))) {
           directions.add(step);
+          if (i < path.size() - 2) {
+            directionSteps.add(new DirectionStep(path.get(i), path.get(i + 1), step, currStepType));
+          }
         }
       }
     }
@@ -55,10 +65,20 @@ public class TextDirections {
     // describe end location
     HospitalMapNode last = path.get(path.size() - 1);
     if (last instanceof LocationNode) {
-      directions.add("Continue until you reach " + ((LocationNode) last).getLongName() + ".");
+      String detail = "Continue until you reach " + ((LocationNode) last).getLongName() + ".";
+      directions.add(detail);
+      // directionSteps.add(new DirectionStep(last, null, detail));
     }
 
+    //    for (DirectionStep d : directionSteps) {
+    //      System.out.println(d.stepDetails);
+    //    }
+
     return directions;
+  }
+
+  public static List<DirectionStep> getDirectionSteps() {
+    return directionSteps;
   }
 
   public static boolean isFloorChange(HospitalMapNode curr, HospitalMapNode next) {
@@ -70,19 +90,32 @@ public class TextDirections {
     String step = "";
 
     double turn = angleDegrees(calc, last, curr, next);
+    boolean isSlight = false;
     if (turn > 165 || turn < -165) {
+      currStepType = StepType.STRAIGHT;
       step += "Continue straight";
     } else {
       step += "Take a ";
       if (!(Math.abs(turn) < 120)) {
+        isSlight = true;
         step += "slight ";
       }
       if ((Math.abs(turn) < 60)) {
         step += "sharp ";
       }
       if (turn < 0) {
+        if (isSlight) {
+          currStepType = StepType.SLIGHT_RIGHT;
+        } else {
+          currStepType = StepType.RIGHT;
+        }
         step += "right";
       } else {
+        if (isSlight) {
+          currStepType = StepType.SLIGHT_LEFT;
+        } else {
+          currStepType = StepType.LEFT;
+        }
         step += "left";
       }
     }
@@ -91,7 +124,7 @@ public class TextDirections {
 
   public static boolean worthDescription(HospitalMapNode node) {
     return node.getConnections().size() > 2;
-  };
+  }
 
   public static String describeFloorchangeStep(LocationNode curr, HospitalMapNode next) {
     String step = "";
@@ -99,12 +132,15 @@ public class TextDirections {
     if (type != null) {
       switch (type) {
         case ELEV:
+          currStepType = StepType.ELEVATOR;
           step = "Take the elevator to floor " + next.getMapID();
           break;
         case STAI:
+          currStepType = StepType.STAIR;
           step = "Take the stairs to floor " + next.getMapID();
           break;
         case EXIT:
+          currStepType = StepType.EXIT;
           step = "Enter the door to " + next.getMapID();
           break;
         default:
@@ -124,11 +160,8 @@ public class TextDirections {
         return true;
       }
     }
-    if (instruction.equals("Continue straight.")
-        && directions.get(directions.size() - 1).equals("Continue straight.")) {
-      return true;
-    }
-    return false;
+    return instruction.equals("Continue straight.")
+        && directions.get(directions.size() - 1).equals("Continue straight.");
   }
 
   public static String compassDirection(HospitalMapNode start, HospitalMapNode facing) {
@@ -184,7 +217,6 @@ public class TextDirections {
     Double conversionRatio = 224.0; // 100% of Picture width is 224 meters according to Google Earth
 
     // System.out.println(percentageDiff);
-    int finalDistance = (int) ((percentageDiff * conversionRatio) / 100000);
-    return finalDistance;
+    return (int) ((percentageDiff * conversionRatio) / 100000);
   }
 }

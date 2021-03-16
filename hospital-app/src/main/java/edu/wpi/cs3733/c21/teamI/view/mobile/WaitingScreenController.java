@@ -1,5 +1,10 @@
 package edu.wpi.cs3733.c21.teamI.view.mobile;
 
+import static javafx.animation.Animation.INDEFINITE;
+
+import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
+import edu.wpi.cs3733.c21.teamI.database.UserDatabaseManager;
+import edu.wpi.cs3733.c21.teamI.user.User;
 import java.io.IOException;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -15,32 +20,45 @@ import javafx.util.Duration;
 public class WaitingScreenController extends Application {
 
   @FXML StackPane root;
+  Timeline timeline;
 
   @FXML
-  public void initialize() throws InterruptedException, IOException {
-    Timeline timeline =
+  public void initialize() {
+    this.timeline =
         new Timeline(
             new KeyFrame(
-                Duration.seconds(5),
+                Duration.seconds(1),
                 ev -> {
-                  try {
-                    returnReviewDescision();
-                  } catch (IOException e) {
-                    e.printStackTrace();
+                  User.CovidRisk risk =
+                      UserDatabaseManager.getInstance()
+                          .getUserForScreenname(
+                              ApplicationDataController.getInstance()
+                                  .getLoggedInUser()
+                                  .getScreenName())
+                          .getCovidRisk();
+
+                  if (risk != User.CovidRisk.PENDING) {
+                    try {
+                      returnReviewDescision();
+                    } catch (IOException e) {
+                      e.printStackTrace();
+                    }
                   }
                 }));
-    timeline.setCycleCount(1);
+    timeline.setCycleCount(INDEFINITE);
     timeline.play();
   }
 
+  @FXML
   public void returnReviewDescision() throws IOException {
+    timeline.stop();
     root.getChildren().clear();
     root.getChildren()
-        .add(FXMLLoader.load(getClass().getResource("/fxml/MobilePages/MobileNoticePage.fxml")));
+        .add(FXMLLoader.load(getClass().getResource("/fxml/mobilePages/MobileNoticePage.fxml")));
   }
 
   @Override
-  public void start(Stage primaryStage) throws Exception {}
+  public void start(Stage primaryStage) {}
 
   @FXML
   public void exit(MouseEvent e) {

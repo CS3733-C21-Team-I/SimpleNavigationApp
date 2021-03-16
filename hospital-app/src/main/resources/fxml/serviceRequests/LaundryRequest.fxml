@@ -12,15 +12,15 @@
 <AnchorPane fx:id="background" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="465.0" prefWidth="537.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamI.ticket.view.LaundryRequestController">
    <children>
       <JFXTextArea fx:id="laundryRequestDetails" layoutX="82.0" layoutY="31.0" prefHeight="82.0" prefWidth="154.0" promptText="Request Details" />
-      <JFXButton fx:id="laundryClear" layoutX="351.0" layoutY="383.0" onAction="#clearForm" style="-fx-background-color: #0067b1;" styleClass="styledButton" stylesheets="@../fxmlResources/main.css" text="Clear" textFill="WHITE" />
+      <JFXButton fx:id="laundryClear" layoutX="351.0" layoutY="383.0" onAction="#clearForm" style="-fx-background-color: #0067b1;" styleClass="styledButton" stylesheets="@../misc/css/main.css" text="Clear" textFill="WHITE" />
       <JFXTextField fx:id="laundryRequesterID" focusColor="#012d5a" layoutX="86.0" layoutY="282.0" promptText="Requester ID" unFocusColor="#012d5a" />
       <JFXDatePicker fx:id="laundryPickupDate" defaultColor="#012d5a" layoutX="86.0" layoutY="124.0" promptText="Pickup Date" />
       <JFXTimePicker fx:id="laundryPickupTime" defaultColor="#012d5a" layoutX="86.0" layoutY="178.0" promptText="Pickup Time" />
       <JFXCheckBox fx:id="laundryCheckbox" checkedColor="#0067b1" layoutX="84.0" layoutY="388.0" prefHeight="27.0" prefWidth="87.0" text="Dry Clean" unCheckedColor="#012d5a" />
       <JFXTextField fx:id="laundryAssigned" focusColor="#012d5a" layoutX="86.0" layoutY="338.0" onKeyPressed="#lookupUser" promptText="Assigned Employee" unFocusColor="#012d5a" />
-      <JFXButton fx:id="laundrySubmit" layoutX="432.0" layoutY="383.0" onAction="#submitForm" style="-fx-background-color: #0067b1;" styleClass="styledButton" stylesheets="@../fxmlResources/main.css" text="Submit" textFill="WHITE" />
+      <JFXButton fx:id="laundrySubmit" layoutX="432.0" layoutY="383.0" onAction="#submitForm" style="-fx-background-color: #0067b1;" styleClass="styledButton" stylesheets="@../misc/css/main.css" text="Submit" textFill="WHITE" />
       <JFXTextField fx:id="laundryPickupLocation" focusColor="#012d5a" layoutX="86.0" layoutY="229.0" onKeyTyped="#lookup" promptText="Pickup Location" unFocusColor="#012d5a" />
-      <ListView fx:id="serviceLocationList" layoutX="86.0" layoutY="256.0" prefHeight="102.0" prefWidth="145.0" visible="false" />
-      <ListView fx:id="requestAssignedList" layoutX="83.0" layoutY="373.0" prefHeight="91.0" prefWidth="154.0" visible="false" />
+      <ListView fx:id="serviceLocationList" layoutX="86.0" layoutY="256.0" prefHeight="102.0" prefWidth="145.0" visible="false" AnchorPane.bottomAnchor="110.0" AnchorPane.leftAnchor="86.0" AnchorPane.rightAnchor="281.0" AnchorPane.topAnchor="262.0" />
+      <ListView fx:id="requestAssignedList" layoutX="83.0" layoutY="373.0" prefHeight="91.0" prefWidth="154.0" visible="false" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="86.0" AnchorPane.rightAnchor="281.0" AnchorPane.topAnchor="371.0" />
    </children>
 </AnchorPane>

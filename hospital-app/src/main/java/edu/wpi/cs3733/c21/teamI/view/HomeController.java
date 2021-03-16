@@ -1,37 +1,39 @@
 package edu.wpi.cs3733.c21.teamI.view;
 
+import static javafx.animation.Animation.INDEFINITE;
+
 import com.jfoenix.controls.JFXDrawer;
 import com.jfoenix.controls.JFXHamburger;
 import com.jfoenix.transitions.hamburger.HamburgerSlideCloseTransition;
 import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
+import edu.wpi.cs3733.c21.teamI.database.NotificationManager;
+import edu.wpi.cs3733.c21.teamI.notification.Notification;
 import edu.wpi.cs3733.c21.teamI.user.User;
 import java.io.IOException;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import javafx.animation.Animation;
+import javafx.animation.*;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
 
 public class HomeController extends Application {
-
-  @FXML Label dateTime;
-
-  @FXML Button serviceRequests, map;
 
   @FXML StackPane replacePane;
 
@@ -39,12 +41,21 @@ public class HomeController extends Application {
 
   @FXML Label timeLabel;
 
-  @FXML JFXDrawer drawer;
+  @FXML JFXDrawer drawer, notifDrawer;
 
   @FXML JFXHamburger ham1;
 
-  ProfileController profileController;
-  VisitorMenuController visitorMenuController;
+  @FXML AnchorPane drawerPane;
+
+  @FXML Button mobileButton;
+
+  @FXML StackPane homePane;
+
+  @FXML VBox page;
+
+  @FXML StackPane sidePane, spacer;
+
+  Notification lastNotif;
 
   @FXML
   public void initClock() {
@@ -61,7 +72,7 @@ public class HomeController extends Application {
                   }
                 }),
             new KeyFrame(Duration.seconds(1)));
-    clock.setCycleCount(Animation.INDEFINITE);
+    clock.setCycleCount(INDEFINITE);
     clock.play();
   }
 
@@ -69,7 +80,7 @@ public class HomeController extends Application {
   public void goToMobile() throws IOException {
     Group root = new Group();
     root.getChildren()
-        .add(FXMLLoader.load(getClass().getResource("/fxml/MobilePages/GoogleMaps.fxml")));
+        .add(FXMLLoader.load(getClass().getResource("/fxml/mobilePages/GoogleMaps.fxml")));
     Scene mobile = new Scene(root);
     Stage stage = new Stage();
     stage.setScene(mobile);
@@ -99,89 +110,171 @@ public class HomeController extends Application {
 
   @Override
   public void start(Stage primaryStage) throws Exception {
-    Parent root = FXMLLoader.load(getClass().getResource("/fxml/menuFiles/Menu.fxml"));
+    Parent root = FXMLLoader.load(getClass().getResource("/fxml/PageFrame.fxml"));
     primaryStage.setTitle("Hospital App");
     Scene applicationScene = new Scene(root, 973, 800);
-    ViewManager.setReplacePane(replacePane);
     primaryStage.setScene(applicationScene);
-    primaryStage.setMinHeight(800);
-    primaryStage.setMinWidth(1000);
     primaryStage.setMaximized(true);
     primaryStage.show();
   }
 
-  public ProfileController getProfileController() {
-    return profileController;
-  }
-
-  public void setProfileController(ProfileController profileController) {
-    this.profileController = profileController;
-  }
-
-  public VisitorMenuController getVisitorMenuController() {
-    return visitorMenuController;
-  }
-
-  public void setVisitorMenuController(VisitorMenuController visitorMenuController) {
-    this.visitorMenuController = visitorMenuController;
-  }
-
   @FXML
   public void update() {
-    VBox box = null;
+    HBox hBox = null;
     try {
+      FXMLLoader vLoader = new FXMLLoader(getClass().getResource("/fxml/menuFiles/Menu.fxml"));
+      sidePane.getChildren().clear();
+      sidePane.getChildren().add(vLoader.load());
+      sidePane.setAlignment(Pos.CENTER);
+      ViewManager.homeController = this;
+      FXMLLoader hLoader =
+          new FXMLLoader(getClass().getResource("/fxml/menuFiles/NotificationContent.fxml"));
+      hBox = hLoader.load();
       if (ApplicationDataController.getInstance()
           .getLoggedInUser()
-          .hasPermission(User.Permission.REQUEST_TICKET)) {
-        System.out.println("I am an admin");
-        FXMLLoader vLoader =
-            new FXMLLoader(getClass().getResource("/fxml/menuFiles/AdminMenu.fxml"));
-        box = vLoader.load();
-        ((AdminMenuController) vLoader.getController()).setHomeController(this);
+          .hasPermission(User.Permission.VIEW_TICKET)) {
         titleLabel.setText("Admin Portal");
+        replacePane.getChildren().clear();
         replacePane
             .getChildren()
-            .add(FXMLLoader.load(getClass().getResource("/fxml/ServiceRequestTableView.fxml")));
+            .add(
+                FXMLLoader.load(
+                    getClass().getResource("/fxml/menuFiles/ServiceRequestTableView.fxml")));
       } else {
-        FXMLLoader vLoader =
-            new FXMLLoader(getClass().getResource("/fxml/menuFiles/VisitorMenu.fxml"));
-        box = vLoader.load();
-        ((VisitorMenuController) vLoader.getController()).setHomeController(this);
         titleLabel.setText("General Portal");
-        replacePane.getChildren().add(FXMLLoader.load(getClass().getResource("/fxml/Home.fxml")));
+        replacePane.getChildren().clear();
+        replacePane
+            .getChildren()
+            .add(FXMLLoader.load(getClass().getResource("/fxml/menuFiles/Home.fxml")));
       }
-      //
-      // replacePane.getChildren().add(FXMLLoader.load(getClass().getResource("/fxml/Home.fxml")));
     } catch (IOException e) {
       e.printStackTrace();
     }
-    drawer.setSidePane(box);
-  }
-
-  public StackPane getReplacePane() {
-    return replacePane;
+    notifDrawer.setSidePane(hBox);
   }
 
   @FXML
-  public void initialize() throws IOException {
+  public void displayNotification(Notification notification, String msg) {
+    notifDrawer.open();
+    notifDrawer.toFront();
+    ((Label) notifDrawer.lookup("#notifMessage")).setText(msg);
+    System.out.println(
+        "Setting Notification " + notification.getNotificationID() + " to hasDisplayed");
+    Notification o =
+        NotificationManager.getInstance().updateNotification(notification.getNotificationID());
+  }
+
+  @FXML
+  public void initialize() {
+    if (mobileButton != null) {
+      mobileButton.managedProperty().bind(mobileButton.visibleProperty());
+      mobileButton.setVisible(ApplicationDataController.getInstance().isLoggedIn());
+    }
     if (timeLabel != null) {
       initClock();
       update();
+      drawerPane
+          .heightProperty()
+          .addListener(
+              (obs, oldVal, newVal) -> {
+                Rectangle clip = new Rectangle(drawerPane.getWidth(), drawerPane.getHeight());
+                clip.setLayoutX(0);
+                clip.setLayoutY(0);
+                drawerPane.setClip(clip);
+              });
+      drawerPane
+          .widthProperty()
+          .addListener(
+              (obs, oldVal, newVal) -> {
+                Rectangle clip = new Rectangle(drawerPane.getWidth(), drawerPane.getHeight());
+                clip.setLayoutX(0);
+                clip.setLayoutY(0);
+                drawerPane.setClip(clip);
+              });
+      notifDrawer.setOnDragDetected(
+          e -> {
+            notifDrawer.open();
+          });
+
+      final TranslateTransition translateLeftAnchor =
+          new TranslateTransition(Duration.millis(500), sidePane);
+      spacer.setVisible(false);
+      spacer.setManaged(false);
 
       HamburgerSlideCloseTransition hamburgerTransition = new HamburgerSlideCloseTransition(ham1);
       hamburgerTransition.setRate(-1);
       ham1.addEventHandler(
           MouseEvent.MOUSE_CLICKED,
           (e) -> {
+            HBox.setHgrow(drawerPane, Priority.NEVER);
+            KeyValue widthValue;
+            drawerPane.setPrefWidth(drawerPane.getWidth());
             hamburgerTransition.setRate(hamburgerTransition.getRate() * -1);
             hamburgerTransition.play();
+            spacer.setVisible(false);
+            spacer.setManaged(false);
 
-            if (drawer.isOpened()) {
-              drawer.close();
+            if (hamburgerTransition.getRate() == -1) {
+              widthValue =
+                  new KeyValue(drawerPane.prefWidthProperty(), drawerPane.getWidth() + 130);
+              KeyFrame frame = new KeyFrame(Duration.seconds(0.5), widthValue);
+              Timeline timeline = new Timeline(frame);
+              timeline.setOnFinished(
+                  p -> {
+                    HBox.setHgrow(drawerPane, Priority.ALWAYS);
+                  });
+              timeline.play();
             } else {
-              drawer.open();
+              widthValue =
+                  new KeyValue(drawerPane.prefWidthProperty(), drawerPane.getWidth() - 130);
+              KeyFrame frame = new KeyFrame(Duration.seconds(0.5), widthValue);
+              Timeline timeline = new Timeline(frame);
+              timeline.setOnFinished(
+                  p -> {
+                    spacer.setVisible(true);
+                    spacer.setManaged(true);
+                    HBox.setHgrow(drawerPane, Priority.ALWAYS);
+                    //                    StackPane.setMargin(drawerPane, new Insets(0, 0, 0, 400));
+                  });
+
+              timeline.play();
             }
+            translateLeftAnchor.play();
           });
+      MouseEvent fakeLeftClick =
+          new MouseEvent(
+              MouseEvent.MOUSE_CLICKED,
+              1,
+              2,
+              3,
+              4,
+              MouseButton.PRIMARY,
+              5,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              null);
+      ham1.fireEvent(fakeLeftClick);
     }
+  }
+
+  public StackPane getReplacePane() {
+    return replacePane;
+  }
+
+  public void closeNotif() {
+    notifDrawer.close();
+    notifDrawer.toBack();
+  }
+
+  public void setTitleLabel(String labelName) {
+    titleLabel.setText(labelName);
   }
 }

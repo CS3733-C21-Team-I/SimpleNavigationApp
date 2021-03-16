@@ -1,6 +1,6 @@
 package edu.wpi.cs3733.c21.teamI.database;
 
-import edu.wpi.cs3733.c21.teamI.Notification.Notification;
+import edu.wpi.cs3733.c21.teamI.notification.Notification;
 import edu.wpi.cs3733.c21.teamI.user.User;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -37,6 +37,7 @@ public class NotificationManager extends DatabaseManager {
               + "userID integer NOT NULL,\n"
               + "details varchar(450),\n"
               + "timestamp varchar(50),\n"
+              + "hasDisplayed boolean DEFAULT false,\n"
               + "PRIMARY KEY (notif_ID),\n"
               + "FOREIGN KEY (userID) REFERENCES HOSPITAL_USERS(user_ID))");
     } catch (SQLException e) {
@@ -54,10 +55,24 @@ public class NotificationManager extends DatabaseManager {
     }
   }
 
+  public Notification updateNotification(int notifID) {
+    try {
+      Statement stmt = databaseRef.getConnection().createStatement();
+      Notification nt = getNotificationForId(notifID);
+      nt.setHasDisplayed(true);
+      stmt.executeUpdate(
+          "UPDATE notification SET hasDisplayed = '" + true + "' WHERE NOTIF_ID = " + notifID);
+      return nt;
+    } catch (SQLException e) {
+      e.printStackTrace();
+      return null;
+    }
+  }
+
   public int addNotification(Notification nt) {
     try {
       String query =
-          "INSERT INTO notification(userID, details, time)\n"
+          "INSERT INTO notification(userID, details, timestamp)\n"
               + "VALUES ("
               + nt.getUserID()
               + ", '"
@@ -82,7 +97,7 @@ public class NotificationManager extends DatabaseManager {
   public void removeNotification(int id) {
     try {
       Statement stmt = databaseRef.getConnection().createStatement();
-      stmt.execute("DELETE FROM notification WHERE NOTIF_ID = " + String.valueOf(id));
+      stmt.execute("DELETE FROM notification WHERE NOTIF_ID = " + id);
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -91,12 +106,12 @@ public class NotificationManager extends DatabaseManager {
   public Notification getNotificationForId(int id) {
     try {
       Statement stmt = databaseRef.getConnection().createStatement();
-      ResultSet rs =
-          stmt.executeQuery("SELECT * FROM notification WHERE NOTIF_ID = " + String.valueOf(id));
+      ResultSet rs = stmt.executeQuery("SELECT * FROM notification WHERE NOTIF_ID = " + id);
       if (rs.next()) {
         Notification notif =
             new Notification(
                 rs.getInt("userID"), rs.getString("details"), rs.getString("timestamp"));
+        notif.setHasDisplayed(rs.getBoolean("hasDisplayed"));
         return notif;
       } else return null;
     } catch (SQLException e) {
@@ -110,14 +125,14 @@ public class NotificationManager extends DatabaseManager {
     try {
       Statement stmt = databaseRef.getConnection().createStatement();
       ResultSet rs =
-          stmt.executeQuery(
-              "SELECT * FROM notification WHERE USERID = " + String.valueOf(user.getUserId()));
+          stmt.executeQuery("SELECT * FROM notification WHERE USERID = " + user.getUserId());
       Notification nt;
       while (rs.next()) {
         nt =
             new Notification(
                 rs.getInt("userID"), rs.getString("details"), rs.getString("timestamp"));
         nt.setNotificationID(rs.getInt("notif_ID"));
+        nt.setHasDisplayed(rs.getBoolean("hasDisplayed"));
         notifs.add(nt);
       }
     } catch (SQLException e) {

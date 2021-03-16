@@ -3,8 +3,6 @@ package edu.wpi.cs3733.c21.teamI.view;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXRadioButton;
-import java.awt.*;
-import java.io.IOException;
 import java.util.ArrayList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -49,7 +47,7 @@ public class CovidFormController {
     submitBttn.setDisable(true);
   }
 
-  public void submit() throws IOException {
+  public void submit() {
     boolean symptoms = false, waitingForResult, isCovidRisk = false;
 
     if (!soreThroatCheckbox.isSelected()
@@ -81,7 +79,7 @@ public class CovidFormController {
       waitingForResult = true;
     }
 
-    if (symptoms == true) {
+    if (symptoms) {
       isCovidRisk = true;
     }
   }

@@ -14,6 +14,17 @@ public class MapDataEntity {
     return sourceMap;
   }
 
+  public static void loadMapBackground() {
+    new Thread(
+            new Runnable() {
+              @Override
+              public void run() {
+                sourceMap = NavDatabaseManager.getInstance().loadMapsFromMemory();
+              }
+            })
+        .start();
+  }
+
   public static Map<String, HospitalMap> getMap() {
     return getMap(false);
   }
@@ -39,11 +50,49 @@ public class MapDataEntity {
   public static HospitalMapNode getNodeByLongName(String longName) {
     Set<HospitalMapNode> nodesLookup = getNodesSet(false);
     for (HospitalMapNode node : nodesLookup) {
-      if (node.getClass() == LocationNode.class
-          && ((LocationNode) node).getLongName().equals(longName)) {
+      if (node instanceof LocationNode && ((LocationNode) node).getLongName().equals(longName)) {
         return (LocationNode) node;
       }
     }
     return null;
+  }
+
+  public static ArrayList<NodeIconData> getNodeByNodeType(LocationCategory nodeType) {
+    // ArrayList<ArrayList<NodeIconData>> allIconData =new ArrayList<>();
+    ArrayList<NodeIconData> iconData = new ArrayList<>();
+    Set<HospitalMapNode> nodesLookup = getNodesSet(false);
+    for (HospitalMapNode node : nodesLookup) {
+
+      if (node.getClass() == LocationNode.class
+          && ((LocationNode) node).getLocationCategory().equals(nodeType)) {
+
+        iconData.add(new NodeIconData(node.getxCoord(), node.getyCoord(), node.getMapID()));
+      }
+    }
+    return iconData;
+  }
+
+  public static class NodeIconData {
+    public int getXcoord() {
+      return xcoord;
+    }
+
+    public int getYcoord() {
+      return ycoord;
+    }
+
+    public String getFloor() {
+      return floor;
+    }
+
+    private int xcoord;
+    private int ycoord;
+    private String floor;
+
+    NodeIconData(int xcoord, int ycoord, String floor) {
+      this.xcoord = xcoord;
+      this.ycoord = ycoord;
+      this.floor = floor;
+    }
   }
 }
