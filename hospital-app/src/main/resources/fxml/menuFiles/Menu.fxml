@@ -51,7 +51,7 @@
       </HBox>
       <HBox minHeight="0.0" prefWidth="211.0" style="-fx-background-color: #012D5A;">
          <children>
-            <JFXRippler fx:id="COVIDButton" alignment="CENTER_RIGHT" maskType="RECT" onMouseClicked="#navigate" prefHeight="60.0" prefWidth="199.0" ripplerFill="#0067b1">
+            <JFXRippler fx:id="COVIDButton" alignment="CENTER_RIGHT" maskType="RECT" onMouseClicked="#navigate" prefHeight="60.0" prefWidth="211.0" ripplerFill="#0067b1">
                <control>
                   <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
                      <children>
@@ -68,7 +68,7 @@
                               <Image url="@menuImages/outline_health_and_safety_white_18dp.png" />
                            </image>
                            <HBox.margin>
-                              <Insets right="7.0" />
+                              <Insets right="19.0" />
                            </HBox.margin>
                         </ImageView>
                      </children>
@@ -88,7 +88,7 @@
       </HBox>
       <HBox minHeight="0.0" prefWidth="211.0" style="-fx-background-color: #012D5A;">
          <children>
-            <JFXRippler fx:id="navigateButton" alignment="CENTER_RIGHT" maskType="RECT" onMouseClicked="#navigate" prefHeight="60.0" prefWidth="199.0" ripplerFill="#0067b1">
+            <JFXRippler fx:id="navigateButton" alignment="CENTER_RIGHT" maskType="RECT" onMouseClicked="#navigate" prefHeight="60.0" prefWidth="211.0" ripplerFill="#0067b1">
                <control>
                   <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
                      <children>
@@ -105,7 +105,7 @@
                               <Image url="@menuImages/outline_map_white_18dp.png" />
                            </image>
                            <HBox.margin>
-                              <Insets right="7.0" />
+                              <Insets right="19.0" />
                            </HBox.margin>
                         </ImageView>
                      </children>
@@ -125,7 +125,7 @@
       </HBox>
       <HBox minHeight="0.0" prefWidth="211.0" style="-fx-background-color: #012D5A;">
          <children>
-            <JFXRippler fx:id="giftsButton" alignment="CENTER_RIGHT" maskType="RECT" onMouseClicked="#navigate" prefHeight="60.0" prefWidth="199.0" ripplerFill="#0067b1">
+            <JFXRippler fx:id="giftsButton" alignment="CENTER_RIGHT" maskType="RECT" onMouseClicked="#navigate" prefHeight="60.0" prefWidth="211.0" ripplerFill="#0067b1">
                <control>
                   <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
                      <children>
@@ -142,7 +142,7 @@
                               <Image url="@menuImages/gift-32.png" />
                            </image>
                            <HBox.margin>
-                              <Insets right="11.0" />
+                              <Insets right="23.0" />
                            </HBox.margin>
                         </ImageView>
                      </children>
@@ -162,7 +162,7 @@
       </HBox>
       <HBox minHeight="0.0" prefWidth="211.0" style="-fx-background-color: #012D5A;">
          <children>
-            <JFXRippler fx:id="requestButton" alignment="CENTER_RIGHT" maskType="RECT" onMouseClicked="#navigate" prefHeight="60.0" prefWidth="199.0" ripplerFill="#0067b1">
+            <JFXRippler fx:id="requestButton" alignment="CENTER_RIGHT" maskType="RECT" onMouseClicked="#navigate" prefHeight="60.0" prefWidth="211.0" ripplerFill="#0067b1">
                <control>
                   <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
                      <children>
@@ -179,7 +179,7 @@
                               <Image url="@menuImages/outline_build_white_18dp.png" />
                            </image>
                            <HBox.margin>
-                              <Insets right="19.0" />
+                              <Insets right="32.0" />
                            </HBox.margin>
                         </ImageView>
                      </children>
@@ -202,7 +202,7 @@
       </HBox>
       <HBox minHeight="0.0" prefWidth="211.0" style="-fx-background-color: #012D5A;">
          <children>
-            <JFXRippler fx:id="ticketButton" alignment="CENTER_RIGHT" maskType="RECT" onMouseClicked="#navigate" prefHeight="60.0" prefWidth="199.0" ripplerFill="#0067b1">
+            <JFXRippler fx:id="ticketButton" alignment="CENTER_RIGHT" maskType="RECT" onMouseClicked="#navigate" prefHeight="60.0" prefWidth="211.0" ripplerFill="#0067b1">
                <control>
                   <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
                      <children>
@@ -219,7 +219,7 @@
                               <Image url="@menuImages/baseline_pending_actions_white_18dp.png" />
                            </image>
                            <HBox.margin>
-                              <Insets right="11.0" />
+                              <Insets right="23.0" />
                            </HBox.margin>
                         </ImageView>
                      </children>
@@ -239,7 +239,7 @@
       </HBox>
       <HBox minHeight="0.0" prefWidth="211.0" style="-fx-background-color: #012D5A;">
          <children>
-            <JFXRippler fx:id="employeeButton" alignment="CENTER_RIGHT" maskType="RECT" onMouseClicked="#navigate" prefHeight="60.0" prefWidth="199.0" ripplerFill="#0067b1">
+            <JFXRippler fx:id="employeeButton" alignment="CENTER_RIGHT" maskType="RECT" onMouseClicked="#navigate" prefHeight="60.0" prefWidth="211.0" ripplerFill="#0067b1">
                <control>
                   <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
                      <children>
@@ -256,7 +256,7 @@
                               <Image url="@menuImages/baseline_groups_white_18dp.png" />
                            </image>
                            <HBox.margin>
-                              <Insets right="11.0" />
+                              <Insets right="23.0" />
                            </HBox.margin>
                         </ImageView>
                      </children>
@@ -276,7 +276,7 @@
       </HBox>
       <HBox minHeight="0.0" prefWidth="211.0" style="-fx-background-color: #012D5A;">
          <children>
-            <JFXRippler fx:id="reservationButton" alignment="CENTER_RIGHT" maskType="RECT" onMouseClicked="#navigate" prefHeight="60.0" prefWidth="199.0" ripplerFill="#0067b1">
+            <JFXRippler fx:id="reservationButton" alignment="CENTER_RIGHT" maskType="RECT" onMouseClicked="#navigate" prefHeight="60.0" prefWidth="211.0" ripplerFill="#0067b1">
                <control>
                   <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
                      <children>
@@ -293,7 +293,7 @@
                               <Image url="@menuImages/car.png" />
                            </image>
                            <HBox.margin>
-                              <Insets right="11.0" />
+                              <Insets right="23.0" />
                            </HBox.margin>
                         </ImageView>
                      </children>
@@ -313,7 +313,7 @@
       </HBox>
       <HBox minHeight="0.0" prefWidth="211.0" style="-fx-background-color: #012D5A;">
          <children>
-            <JFXRippler fx:id="parkingButton" alignment="CENTER_RIGHT" maskType="RECT" onMouseClicked="#navigate" prefHeight="60.0" prefWidth="199.0" ripplerFill="#0067b1">
+            <JFXRippler fx:id="parkingButton" alignment="CENTER_RIGHT" maskType="RECT" onMouseClicked="#navigate" prefHeight="60.0" prefWidth="211.0" ripplerFill="#0067b1">
                <control>
                   <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
                      <children>
@@ -330,7 +330,7 @@
                               <Image url="@menuImages/parkingAdmin.png" />
                            </image>
                            <HBox.margin>
-                              <Insets right="11.0" />
+                              <Insets right="23.0" />
                            </HBox.margin>
                         </ImageView>
                      </children>
@@ -350,7 +350,7 @@
       </HBox>
       <HBox minHeight="0.0" prefWidth="211.0" style="-fx-background-color: #012D5A;">
          <children>
-            <JFXRippler fx:id="trackerButton" alignment="CENTER_RIGHT" maskType="RECT" onMouseClicked="#navigate" prefHeight="60.0" prefWidth="210.0" ripplerFill="#0067b1">
+            <JFXRippler fx:id="trackerButton" alignment="CENTER_RIGHT" maskType="RECT" onMouseClicked="#navigate" prefHeight="60.0" prefWidth="211.0" ripplerFill="#0067b1">
                <control>
                   <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
                      <children>
@@ -387,7 +387,7 @@
       </HBox>
       <HBox minHeight="0.0" prefWidth="201.0" style="-fx-background-color: #012D5A;">
          <children>
-            <JFXRippler fx:id="logoutButton" alignment="CENTER_RIGHT" maskType="RECT" onMouseClicked="#logout" prefHeight="60.0" prefWidth="199.0" ripplerFill="#0067b1">
+            <JFXRippler fx:id="logoutButton" alignment="CENTER_RIGHT" maskType="RECT" onMouseClicked="#logout" prefHeight="60.0" prefWidth="211.0" ripplerFill="#0067b1">
                <control>
                   <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
                      <children>
@@ -404,7 +404,7 @@
                               <Image url="@menuImages/baseline_logout_white_18dp.png" />
                            </image>
                            <HBox.margin>
-                              <Insets right="9.0" />
+                              <Insets right="21.0" />
                            </HBox.margin>
                         </ImageView>
                      </children>
@@ -424,7 +424,7 @@
       </HBox>
       <HBox minHeight="0.0" prefWidth="201.0" style="-fx-background-color: #012D5A;">
          <children>
-            <JFXRippler alignment="CENTER_RIGHT" maskType="RECT" onMouseClicked="#exit" prefHeight="60.0" prefWidth="199.0" ripplerFill="#0067b1">
+            <JFXRippler alignment="CENTER_RIGHT" maskType="RECT" onMouseClicked="#exit" prefHeight="60.0" prefWidth="211.0" ripplerFill="#0067b1">
                <control>
                   <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
                      <children>
@@ -441,7 +441,7 @@
                               <Image url="@menuImages/baseline_close_white_18dp.png" />
                            </image>
                            <HBox.margin>
-                              <Insets right="7.0" />
+                              <Insets right="19.0" />
                            </HBox.margin>
                         </ImageView>
                      </children>
