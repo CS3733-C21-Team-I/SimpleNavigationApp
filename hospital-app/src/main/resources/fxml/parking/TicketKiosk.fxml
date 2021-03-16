@@ -240,14 +240,6 @@
                            <children>
                               <VBox alignment="CENTER" style="-fx-background-color: white; -fx-border-color: black;" VBox.vgrow="NEVER">
                                  <children>
-                                    <Label fx:id="parkingSlot" text="Northern Parking 5">
-                                       <VBox.margin>
-                                          <Insets top="10.0" />
-                                       </VBox.margin>
-                                       <font>
-                                          <Font name="System Bold" size="25.0" />
-                                       </font>
-                                    </Label>
                                     <Label fx:id="start" text="Start Time: 5:00 pm">
                                        <VBox.margin>
                                           <Insets top="10.0" />
@@ -272,25 +264,9 @@
                                           <Font size="25.0" />
                                        </font>
                                     </Label>
-                                    <Label fx:id="barCode" text="||||||||||||||||||||||||||||">
-                                       <VBox.margin>
-                                          <Insets top="10.0" />
-                                       </VBox.margin>
-                                       <font>
-                                          <Font size="25.0" />
-                                       </font>
-                                    </Label>
-                                    <Label fx:id="ticketID" text="100001">
-                                       <VBox.margin>
-                                          <Insets top="10.0" />
-                                       </VBox.margin>
-                                       <font>
-                                          <Font size="25.0" />
-                                       </font>
-                                    </Label>
                                  </children>
                                  <padding>
-                                    <Insets bottom="60.0" left="60.0" right="60.0" top="60.0" />
+                                    <Insets bottom="60.0" left="30.0" right="30.0" top="60.0" />
                                  </padding>
                               </VBox>
                            </children>

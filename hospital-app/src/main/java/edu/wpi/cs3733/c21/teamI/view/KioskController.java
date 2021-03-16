@@ -6,8 +6,11 @@ import edu.wpi.cs3733.c21.teamI.database.ParkingPeripheralServerManager;
 import edu.wpi.cs3733.c21.teamI.parking.reservations.ParkingSlip;
 import edu.wpi.cs3733.c21.teamI.parking.reservations.PeripheralSlipManager;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.Calendar;
+import java.util.Date;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
@@ -23,6 +26,7 @@ public class KioskController {
 
   @FXML
   public void initialize() {
+    ticketPane.managedProperty().bind(ticketPane.visibleProperty());
     ticketPane.setVisible(false);
   }
 
@@ -38,6 +42,7 @@ public class KioskController {
 
   @FXML
   public void redrawTicket(MouseEvent e) {
+    ticketPane.setVisible(true);
     System.out.println(e.getSource());
     String priceString = "";
     if (e.getSource() == min10) {
@@ -72,6 +77,11 @@ public class KioskController {
                       ChronoUnit.MINUTES);
       priceString = "12.00";
     }
+    SimpleDateFormat sdf = new SimpleDateFormat("hh:mm aa");
+    Calendar date = Calendar.getInstance();
+    long t = date.getTimeInMillis();
+    start.setText("Start Time: " + sdf.format(new Date(t)));
+    end.setText("End Time: " + sdf.format(t + (minutes * 60000)));
     price.setText("Price: $" + priceString);
   }
 }
