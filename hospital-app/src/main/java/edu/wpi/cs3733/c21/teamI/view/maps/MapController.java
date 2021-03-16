@@ -790,25 +790,7 @@ public abstract class MapController extends Application {
     double centerY = transformY(DirectionStep.calcCenterPointY(a, b));
 
     double width = transformX(DirectionStep.calcWidth(a, b));
-    // double height = transformY(DirectionStep.calcHeight(a, b));
-    //    double x = centerX - width / 2;
-    //    double y = centerY - height / 2;
 
-    //    if (height > width) {
-    //      width = height * imgWidth / imgHeight;
-    //    } else {
-    //      height = width * imgHeight / imgWidth;
-    //    }
-
-    //    mapImage.setViewport(new Rectangle2D(0, 0, width, height));
-    //    imgWidth = mapImage.getViewport().getWidth();
-    //    imgHeight = mapImage.getViewport().getHeight();
-    //    xOffset = mapImage.getViewport().getMinX();
-    //    yOffset = mapImage.getViewport().getMinY();
-
-    // System.out.println("Big picture " + fullImgWidth + " " + fullImgHeight);
-
-    // zoomToPoint(centerX, centerY, width, height, padding);
     double delta = (200 - fullImgWidth) * ((fullImgWidth - width - padding * 2) / fullImgWidth);
     double fartherX = fullImgWidth / 2 + (centerX - (fullImgWidth / 2)) * 1.15;
     double fartherY = fullImgHeight / 2 + (centerY - (fullImgHeight / 2)) * 1.15;
