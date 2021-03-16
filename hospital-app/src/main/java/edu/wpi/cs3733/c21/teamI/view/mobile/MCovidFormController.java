@@ -80,6 +80,7 @@ public class MCovidFormController {
             (ChangeListener<String>)
                 (ov, oldVal, newVal) -> {
                   parkingInput.setText(newVal);
+                  checkFinished();
                   parkingList.setVisible(false);
                 });
     background.setOnMouseClicked(
@@ -233,7 +234,11 @@ public class MCovidFormController {
         !(IsCheckboxGroupChecked(symptoms) | noneCheckbox.isSelected())
             || !(IsCheckboxGroupChecked(closeContactChecks) | noneCheckbox2.isSelected())
             || !(covidYesRadioBtn.isSelected() | covidNoRadioBtn.isSelected())
-            || parkingInput.getText().equals(""));
+            || !NavDatabaseManager.getInstance()
+                .getParkingLongNames()
+                .contains(parkingInput.getText()));
+    System.out.println("OPTIONS: " + NavDatabaseManager.getInstance().getParkingLongNames());
+    System.out.println("SELECTED:  " + parkingInput.getText());
   }
 
   public boolean IsCheckboxGroupChecked(ArrayList<JFXCheckBox> checkboxElements) {
