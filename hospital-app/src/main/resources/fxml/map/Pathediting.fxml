@@ -30,7 +30,7 @@
                                 <Tab fx:id="floor2" onSelectionChanged="#floor2Tab" text="Floor 2" />
                                 <Tab fx:id="floor3" onSelectionChanged="#floor3Tab" text="Floor 3" />
                                 <Tab fx:id="floor4" onSelectionChanged="#floor4Tab" text="Floor 4" />
-                                <Tab fx:id="floor6" onSelectionChanged="#floor5Tab" text="Floor 5" />
+                                <Tab fx:id="floor5" onSelectionChanged="#floor5Tab" text="Floor 5" />
                             </tabs>
                         </JFXTabPane>
                         <StackPane fx:id="imageContainer" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="0.0" prefWidth="0.0" style="-fx-background-color: white;" VBox.vgrow="ALWAYS">
