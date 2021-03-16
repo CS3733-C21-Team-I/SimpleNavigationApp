@@ -869,7 +869,7 @@ public class ParkingPeripheralServerManager extends DatabaseManager {
 
     if (customer == null)
       return new ParkingReservation(
-          createdReservation, slotId, slotCode, startTime, endTime, bookingDate);
+          createdReservation, null, slotId, slotCode, startTime, endTime, bookingDate);
     else
       return new ParkingReservation(
           createdReservation, customer, slotId, slotCode, startTime, endTime, bookingDate);

@@ -1,13 +1,18 @@
 package edu.wpi.cs3733.c21.teamI.view.mobile;
 
 import com.jfoenix.controls.JFXButton;
+import edu.wpi.cs3733.c21.teamI.database.ParkingPeripheralServerManager;
+import edu.wpi.cs3733.c21.teamI.parking.reservations.ParkingReservation;
 import java.io.IOException;
+import java.util.List;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -24,12 +29,14 @@ public class PayParkingTicket {
   @FXML AnchorPane screen;
   @FXML TextField parkingIDInput;
   @FXML VBox parkingInfo;
+  @FXML Label parkingInfoLabel;
   @FXML Label locationLabel;
   @FXML Label startTimeLabel;
   @FXML Label endTimeLabel;
   @FXML Label priceLabel;
   @FXML Label ticketIDLabel;
   @FXML VBox paymentInfo;
+  @FXML Label paymentInfoLabel;
   @FXML TextField firstName;
   @FXML TextField lastName;
   @FXML TextField cardNum;
@@ -39,11 +46,50 @@ public class PayParkingTicket {
 
   public void initialize() {
     parkingInfo.setVisible(false);
+    parkingInfoLabel.setVisible(false);
+    locationLabel.setVisible(false);
+    startTimeLabel.setVisible(false);
+    endTimeLabel.setVisible(false);
+    priceLabel.setVisible(false);
+    ticketIDLabel.setVisible(false);
+
+    parkingIDInput.setOnMouseClicked(e);
+
     paymentInfo.setVisible(false);
+    paymentInfoLabel.setVisible(false);
+    firstName.setVisible(false);
+    lastName.setVisible(false);
+    cardNum.setVisible(false);
+    cvv.setVisible(false);
+    cardExpDate.setVisible(false);
+    zipCode.setVisible(false);
+
+    firstName.setOnAction(eh);
+    lastName.setOnAction(eh);
+    cardNum.setOnAction(eh);
+    cvv.setOnAction(eh);
+    cardExpDate.setOnAction(eh);
+    zipCode.setOnAction(eh);
+
     submitBtn1.setDisable(true);
     submitPayment.setDisable(true);
     lookupParking();
   }
+
+  EventHandler<MouseEvent> e =
+      new EventHandler<MouseEvent>() {
+        @Override
+        public void handle(MouseEvent event) {
+          checkFinishedForTicketID();
+        }
+      };
+  EventHandler<javafx.event.ActionEvent> eh =
+      new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent event) {
+          checkFinishedForTransaction();
+        }
+      };
 
   public void goToPathfinding(ActionEvent e) throws IOException {
     root.getChildren().clear();
@@ -67,27 +113,46 @@ public class PayParkingTicket {
 
   @FXML
   public void lookupParking() {
-    String matchString = parkingIDInput.getText();
-    // java.util.List<String> ticketIDs = ParkingSlip.getId();
+    // Integer matchString = Integer.parseInt(parkingIDInput.getText());
+    try {
+      Integer idInput = Integer.parseInt(parkingIDInput.getText());
 
-    System.out.println(matchString);
-    //      //  for (String ticketID : ticketIDs) {
-    //            if (ticketID.equals(matchString)) {
-    //                System.out.println("Ticket number" + matchString + "is valid.");
-    parkingInfo.setVisible(true);
-    paymentInfo.setVisible(true);
-    update();
-    //            }
-    //            else System.out.println("Ticket number" + matchString + "is not valid.");
-    //        }
+      List<Integer> ticketIDList =
+          ParkingPeripheralServerManager.getInstance().getCurrentParkingSlips();
+      for (Integer ticketID : ticketIDList) {
+        if (ticketID == idInput) {
+          System.out.println("Ticket number" + idInput + "is valid.");
+          parkingInfo.setVisible(true);
+          // parkingInfoLabel.setVisible(true);
+          locationLabel.setVisible(true);
+          startTimeLabel.setVisible(true);
+          endTimeLabel.setVisible(true);
+          priceLabel.setVisible(true);
+          ticketIDLabel.setVisible(true);
+
+          paymentInfo.setVisible(true);
+          // paymentInfoLabel.setVisible(true);
+          firstName.setVisible(false);
+          lastName.setVisible(true);
+          cardNum.setVisible(true);
+          cvv.setVisible(true);
+          cardExpDate.setVisible(true);
+          zipCode.setVisible(true);
+          update(idInput);
+        } else System.out.println("Ticket number" + idInput + "is not valid.");
+      }
+    } catch (NumberFormatException e) {
+
+    }
   }
 
-  public void update() {
-    //    locationLabel.setText("Western Parking" );//need location from ticket
-    //    startTimeLabel.setText("Start Time: " + slipID.getEntryTimestamp());
-    //    endTimeLabel.setText("End Time: " + slipID.g);
-    //    priceLabel.setText("Price: " + slipID.getBaseCost());
-    //    ticketIDLabel.setText(String.valueOf(slipID.getId()));
+  public void update(int i) {
+    ParkingReservation a = ParkingPeripheralServerManager.getInstance().getReservationForId(i);
+    locationLabel.setText(a.getSlotCode());
+    startTimeLabel.setText("Start Time: " + a.getStartTimestamp().getTime());
+    endTimeLabel.setText("End Time: " + a.getEndTimestamp().getTime());
+    //  priceLabel.setText("Price: " + a.);
+    ticketIDLabel.setText(String.valueOf(a.getId()));
   }
 
   public void submit() throws IOException {}
