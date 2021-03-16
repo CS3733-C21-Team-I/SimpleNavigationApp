@@ -102,6 +102,9 @@
                             <VBox.margin>
                                 <Insets bottom="10.0" />
                             </VBox.margin>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
                         </JFXButton>
                         <HBox alignment="CENTER" prefHeight="100.0">
                             <children>
@@ -187,6 +190,9 @@
                      <VBox.margin>
                         <Insets top="20.0" />
                      </VBox.margin>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
                   </JFXButton>
                         <HBox style="-fx-border-color: #0459ae; -fx-border-width: 2;">
                             <children>
@@ -224,6 +230,9 @@
                                  <HBox.margin>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                  </HBox.margin>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
                               </JFXButton>
                               <JFXButton buttonType="RAISED" onAction="#load" style="-fx-background-color: #0067b1;" text="Load" textFill="WHITE">
                                  <font>
@@ -232,6 +241,9 @@
                                  <HBox.margin>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                  </HBox.margin>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
                               </JFXButton>
                            </children>
                         </HBox>
