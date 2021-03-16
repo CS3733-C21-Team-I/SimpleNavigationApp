@@ -120,7 +120,7 @@
                                  </Accordion>
                            </children>
                         </VBox>
-                        <Button fx:id="mobileButton" mnemonicParsing="false" onAction="#goToMobile" prefHeight="56.0" prefWidth="321.0" style="-fx-background-color: #012D5A;" styleClass="circleButton" stylesheets="@../misc/css/main.css">
+                        <Button fx:id="mobileButton" mnemonicParsing="false" onAction="#goToMobile" prefHeight="56.0" prefWidth="321.0" style="-fx-background-color: #012D5A;" styleClass="circleButton" stylesheets="@../misc/css/main.css" text="Mobile View" textFill="WHITE">
                            <graphic>
                               <ImageView pickOnBounds="true" preserveRatio="true">
                                  <image>
