@@ -16,6 +16,10 @@ repositories {
     }
 }
 
+run {
+    systemProperty "java.library.path", "$projectDir\\lib"
+}
+
 dependencies {
     implementation(
             'com.jfoenix:jfoenix:8.0.10',
@@ -30,6 +34,7 @@ dependencies {
             'org.apache.derby:derbyclient:10.14.2.0',
             'org.slf4j:slf4j-api:1.7.30',
             'org.slf4j:slf4j-simple:1.7.30',
+            files('lib/RXTXcomm.jar'),
     )
     compile group: 'org.apache.derby', name: 'derby', version: '10.14.2.0'
     compile group: 'org.apache.derby', name: 'derbynet', version: '10.14.2.0'

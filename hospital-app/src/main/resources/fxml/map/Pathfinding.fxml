@@ -94,7 +94,7 @@
                         </StackPane>
                     </children>
                 </VBox>
-                <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="350.0" minWidth="350.0" prefWidth="350.0" style="-fx-background-color: #012D5A;" HBox.hgrow="NEVER">
+                <VBox fx:id="viewDisplay" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="350.0" minWidth="350.0" prefWidth="350.0" style="-fx-background-color: #012D5A;" HBox.hgrow="NEVER">
                     <children>
                         <JFXButton fx:id="adminMapToggle" buttonType="RAISED" onAction="#toggleEditMap" style="-fx-background-color: #0067b1;" text="Admin view" textFill="WHITE">
                             <font>
@@ -214,15 +214,15 @@
                 </VBox>
             </children>
         </HBox>
-        <ListView fx:id="startList" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="112.0" prefWidth="259.0" visible="false">
-            <StackPane.margin>
-                <Insets right="50.0" top="195.0" />
-            </StackPane.margin>
+        <ListView fx:id="startList" maxHeight="114.0" maxWidth="205.0" minHeight="112.0" minWidth="199.0" prefHeight="114.0" prefWidth="199.0" visible="false">
+         <StackPane.margin>
+            <Insets right="104.0" top="188.0" />
+         </StackPane.margin>
         </ListView>
-        <ListView fx:id="destList" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="112.0" prefWidth="260.0" visible="false">
-            <StackPane.margin>
-                <Insets right="50.0" top="245.0" />
-            </StackPane.margin>
+        <ListView fx:id="destList" editable="true" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="123.0" prefWidth="205.0" visible="false">
+         <StackPane.margin>
+            <Insets right="104.0" top="238.0" />
+         </StackPane.margin>
         </ListView>
     </children>
 </StackPane>

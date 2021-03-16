@@ -26,9 +26,12 @@ public class ServiceRequestTableController implements Initializable {
 
   @FXML private JFXTextField IDTextField;
 
+  @FXML private JFXButton markCompleteButton;
+
   ServiceTableIntermediateController interController;
 
   ObservableList<ServiceTicket> ticketList;
+
   FilteredList<ServiceTicket> filteredList;
 
   @Override
@@ -179,8 +182,14 @@ public class ServiceRequestTableController implements Initializable {
 
   public void update() {
     // treeView.setEditable(true);
+
     ticketList.clear();
     ticketList.addAll(ServiceTicketDatabaseManager.getInstance().getServiceTicketDB());
+
+    treeView.setOnMouseClicked(
+        t -> {
+          markCompleteButton.setDisable(true);
+        });
 
     System.out.println(treeView.getRoot().getChildren().size());
 

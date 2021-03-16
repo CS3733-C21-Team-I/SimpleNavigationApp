@@ -3,6 +3,7 @@ package edu.wpi.cs3733.c21.teamI.view.maps;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
+import edu.wpi.cs3733.c21.teamI.database.NavDatabaseManager;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.*;
 import edu.wpi.cs3733.c21.teamI.pathfinding.*;
 import edu.wpi.cs3733.c21.teamI.ticket.ServiceTicketDataController;
@@ -33,6 +34,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
@@ -45,6 +47,7 @@ public class MapPathfindingController extends MapController {
   @FXML JFXComboBox algorithmPick;
   @FXML TextField start, destination;
   @FXML ListView startList, destList, directionsField;
+  @FXML VBox viewDisplay;
 
   private EuclidianDistCalc scorer = new EuclidianDistCalc();
   private AlgorithmSelectionStrategyPattern pathFinderAlgorithm =
@@ -108,7 +111,7 @@ public class MapPathfindingController extends MapController {
     update();
   }
 
-  protected void update() {
+  public void update() {
     mapPane.getChildren().clear();
     drawLocationNodes();
     if (foundPathExists()) {
@@ -128,6 +131,21 @@ public class MapPathfindingController extends MapController {
   }
 
   protected void setupMapViewHandlers() {
+    List<String> locations = NavDatabaseManager.getInstance().getLocationNodeLongNames();
+
+    start.setOnMouseClicked(
+        (MouseEvent e) -> {
+          ObservableList<String> items = FXCollections.observableArrayList(locations);
+          startList.setItems(items);
+          startList.setVisible(true);
+        });
+    destination.setOnMouseClicked(
+        (MouseEvent e) -> {
+          ObservableList<String> items = FXCollections.observableArrayList(locations);
+          destList.setItems(items);
+          destList.setVisible(true);
+        });
+
     startList
         .getSelectionModel()
         .selectedItemProperty()
@@ -152,6 +170,11 @@ public class MapPathfindingController extends MapController {
             startList.setVisible(false);
             destList.setVisible(false);
           }
+        });
+    viewDisplay.setOnMouseClicked(
+        (MouseEvent e) -> {
+          startList.setVisible(false);
+          destList.setVisible(false);
         });
   }
 
@@ -391,7 +414,23 @@ public class MapPathfindingController extends MapController {
 
   public void drawLocationNodes() {
     for (HospitalMapNode node : MapDataEntity.getNodesSet()) {
-      if (node instanceof LocationNode
+      if (node instanceof ParkingNode && node.getMapID().equals(currentMapID)) {
+        Color parkingColor;
+        double dimensions = 25 / scale;
+        if (!((ParkingNode) node).isOccupied()) {
+          parkingColor = Color.GREEN;
+        } else {
+          parkingColor = Color.RED;
+        }
+        Rectangle park =
+            new Rectangle(
+                transformX(node.getxCoord()) - dimensions / 2,
+                transformY(node.getyCoord()) - dimensions / 2,
+                dimensions,
+                2 * dimensions);
+        park.setFill(parkingColor);
+        mapPane.getChildren().add(park);
+      } else if (node instanceof LocationNode
           && node.getMapID().equals(currentMapID)) { // draw all location nodes on this level
 
         // draw parking spaces
