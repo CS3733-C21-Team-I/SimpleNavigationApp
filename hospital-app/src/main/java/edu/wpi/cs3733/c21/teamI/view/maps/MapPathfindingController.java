@@ -425,7 +425,6 @@ public class MapPathfindingController extends MapController {
                   break;
               }
           }
-
         }
       }
     }

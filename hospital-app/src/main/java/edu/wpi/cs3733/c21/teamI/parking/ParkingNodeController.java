@@ -79,6 +79,6 @@ public class ParkingNodeController {
     }
 
     if (MapPathfindingController.lastInitialized != null)
-    MapPathfindingController.lastInitialized.update();
+      MapPathfindingController.lastInitialized.update();
   }
 }

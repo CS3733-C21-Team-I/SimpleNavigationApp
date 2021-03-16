@@ -727,8 +727,6 @@ public class ParkingPeripheralServerManager extends DatabaseManager {
    * @return the new Slip
    */
   public ParkingSlip createNewSlip(Timestamp startTime, int durationMin, int cost) {
-    int slotId = -1;
-    String slotCode = null;
 
     ParkingReservation reservation =
         createNewReservation(
@@ -744,7 +742,7 @@ public class ParkingPeripheralServerManager extends DatabaseManager {
       PreparedStatement preparedStatement =
           databaseRef.getConnection().prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 
-      preparedStatement.setInt(1, slotId);
+      preparedStatement.setInt(1, reservation.getId());
       preparedStatement.setTimestamp(2, startTime);
       preparedStatement.setInt(3, cost);
       preparedStatement.setBoolean(4, false);

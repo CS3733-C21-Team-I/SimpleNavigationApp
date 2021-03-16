@@ -117,6 +117,7 @@ public class ArduinoSlipSerial implements SerialPortEventListener, SlipSerialInt
       output.write(id.getBytes(StandardCharsets.UTF_8));
       output.write(4);
     } catch (IOException e) {
+      System.out.println("Exception");
       e.printStackTrace();
     }
   }
