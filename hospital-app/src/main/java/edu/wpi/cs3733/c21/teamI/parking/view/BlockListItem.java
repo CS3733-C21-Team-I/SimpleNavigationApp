@@ -103,6 +103,6 @@ public class BlockListItem extends JFXListCell<Block> {
     floors = FXCollections.emptyObservableList();
 
     setPadding(new Insets(0, 0, 0, 0));
-    floorList.setPrefWidth(480);
+    floorList.setPrefWidth(450);
   }
 }
