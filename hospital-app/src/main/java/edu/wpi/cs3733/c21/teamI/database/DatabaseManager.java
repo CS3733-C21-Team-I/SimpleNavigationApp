@@ -52,8 +52,8 @@ public abstract class DatabaseManager {
     // database potential path change
     Map<String, HospitalMap> maps =
         HospitalMapCSVBuilder.loadCSV(
-            System.getProperty("user.dir") + "/MapINodes.csv",
-            System.getProperty("user.dir") + "/MapIEdges.csv");
+            System.getProperty("user.dir") + "/hospital-app/MapINodes.csv",
+            System.getProperty("user.dir") + "/hospital-app/MapIEdges.csv");
 
     NavDatabaseManager.getInstance().saveMapsIntoMemory(maps.values());
     UserDatabaseManager.populateExampleData();
