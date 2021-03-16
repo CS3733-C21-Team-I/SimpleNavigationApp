@@ -88,4 +88,8 @@ public class DirectionStep {
   public String getIconPath() {
     return iconPath;
   }
+
+  public StepType getStepType() {
+    return stepType;
+  }
 }
