@@ -4,12 +4,35 @@ import edu.wpi.cs3733.c21.teamI.database.DatabaseManager;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.MapDataEntity;
 import edu.wpi.cs3733.c21.teamI.parking.reservations.PeripheralSlipManager;
 import edu.wpi.cs3733.c21.teamI.view.HomeController;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.nio.file.Files;
 import java.util.*;
 import javafx.application.Application;
 
 public class Main {
 
   public static void main(String[] args) {
+
+    String libName = "rxtxSerial32.dll"; // The name of the file in resources/ dir
+    URL url = Main.class.getResource("/" + libName);
+    File tmpDir = null;
+    try {
+      tmpDir = Files.createTempDirectory("my-native-lib").toFile();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    tmpDir.deleteOnExit();
+    File nativeLibTmpFile = new File(tmpDir, libName);
+    nativeLibTmpFile.deleteOnExit();
+    try (InputStream in = url.openStream()) {
+      Files.copy(in, nativeLibTmpFile.toPath());
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    System.load(nativeLibTmpFile.getAbsolutePath());
 
     List<String> argsList = new ArrayList<String>();
     Map<String, String> optsList = new HashMap<>();
