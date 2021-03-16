@@ -634,7 +634,7 @@ public class ServiceTicketDatabaseManager extends DatabaseManager {
         cur.setTicketID(tixID);
         cur.setAssignedUserID(getEmployeesForId(tixID));
         tix.add(cur);
-   
+      }
     } catch (SQLException e) {
       e.printStackTrace();
     }
