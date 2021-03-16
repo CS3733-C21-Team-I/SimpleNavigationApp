@@ -57,7 +57,7 @@ public class ViewManager {
                             ApplicationDataController.getInstance().isLoggedIn()
                                 ? "logoutButton"
                                 : "loginButton"))));
-        homeController.setTitleLabel("Login Page");
+        homeController.setTitleLabel("Login");
         break;
       }
       if (id.equals(button)) {
@@ -66,12 +66,24 @@ public class ViewManager {
             .add(FXMLLoader.load(ViewManager.class.getResource(navigationMap.get(button))));
         String label =
             button.substring(0, 1).toUpperCase(Locale.ROOT)
-                + button.substring(1, button.length() - 6)
-                + " Page";
+                + button.substring(1, button.length() - 6);
         homeController.setTitleLabel(label);
         if (id.equals("navigateButton")) {
-          homeController.setTitleLabel("Navigation Page");
+          homeController.setTitleLabel("Navigation");
+        } else if (id.equals("COVIDButton")) {
+          homeController.setTitleLabel("COVID Form");
+        } else if (id.equals("requestButton")) {
+          homeController.setTitleLabel("Service Request Display");
+        } else if (id.equals("ticketButton")) {
+          homeController.setTitleLabel("Service Request Ticket");
+        } else if (id.equals("reservationButton")) {
+          homeController.setTitleLabel("Parking Reservation");
+        } else if (id.equals("parkingButton")) {
+          homeController.setTitleLabel("Admin Parking");
+        } else if (id.equals("trackerButton")) {
+          homeController.setTitleLabel("COVID Tracker");
         }
+
         break;
       }
       if (button.equals("navigateButton")) {
