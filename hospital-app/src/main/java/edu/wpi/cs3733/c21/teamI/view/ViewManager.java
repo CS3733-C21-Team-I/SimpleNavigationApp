@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXRippler;
 import edu.wpi.cs3733.c21.teamI.ApplicationDataController;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.MapDataEntity;
 import java.io.IOException;
+import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -56,12 +57,33 @@ public class ViewManager {
                             ApplicationDataController.getInstance().isLoggedIn()
                                 ? "logoutButton"
                                 : "loginButton"))));
+        homeController.setTitleLabel("Login");
         break;
       }
       if (id.equals(button)) {
         replacePane
             .getChildren()
             .add(FXMLLoader.load(ViewManager.class.getResource(navigationMap.get(button))));
+        String label =
+            button.substring(0, 1).toUpperCase(Locale.ROOT)
+                + button.substring(1, button.length() - 6);
+        homeController.setTitleLabel(label);
+        if (id.equals("navigateButton")) {
+          homeController.setTitleLabel("Navigation");
+        } else if (id.equals("COVIDButton")) {
+          homeController.setTitleLabel("COVID Form");
+        } else if (id.equals("requestButton")) {
+          homeController.setTitleLabel("Service Request Display");
+        } else if (id.equals("ticketButton")) {
+          homeController.setTitleLabel("Service Request Ticket");
+        } else if (id.equals("reservationButton")) {
+          homeController.setTitleLabel("Parking Reservation");
+        } else if (id.equals("parkingButton")) {
+          homeController.setTitleLabel("Admin Parking");
+        } else if (id.equals("trackerButton")) {
+          homeController.setTitleLabel("COVID Tracker");
+        }
+
         break;
       }
       if (button.equals("navigateButton")) {
