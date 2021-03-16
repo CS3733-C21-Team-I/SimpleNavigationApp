@@ -104,7 +104,6 @@ public class TextDirections {
         step += "slight ";
       }
       if ((Math.abs(turn) < 60)) {
-        isSlight = true;
         step += "sharp ";
       }
       if (turn < 0) {

@@ -494,7 +494,7 @@ public abstract class MapController extends Application {
     yOffset = mapImage.getViewport().getMinY();
     update();
 
-    System.out.println("mapImage  " + mapImage + "  Viewport  " + mapImage.getViewport());
+    // System.out.println("mapImage  " + mapImage + "  Viewport  " + mapImage.getViewport());
   }
 
   protected void resize() {
@@ -627,6 +627,12 @@ public abstract class MapController extends Application {
   // reset to the top left:
   protected void reset(ImageView imageView, double width, double height) {
     imageView.setViewport(new Rectangle2D(0, 0, width, height));
+    imgWidth = mapImage.getViewport().getWidth();
+    imgHeight = mapImage.getViewport().getHeight();
+    xOffset = mapImage.getViewport().getMinX();
+    yOffset = mapImage.getViewport().getMinY();
+    // updateView();
+    // update();
   }
 
   // shift the viewport of the imageView by the specified delta, clamping so
@@ -640,7 +646,7 @@ public abstract class MapController extends Application {
     double minX = clamp(viewport.getMinX() - delta.getX(), 0, maxX);
     double minY = clamp(viewport.getMinY() - delta.getY(), 0, maxY);
     imageView.setViewport(new Rectangle2D(minX, minY, viewport.getWidth(), viewport.getHeight()));
-    System.out.println(imageView.getViewport());
+    // System.out.println(imageView.getViewport());
   }
 
   protected double clamp(double value, double min, double max) {
@@ -674,6 +680,8 @@ public abstract class MapController extends Application {
     Point2D newPos = imageViewToImage(mapImage, new Point2D(newMinX, newMinY));
 
     viewRect = makeRectangle(newMinX, newMinY, width, height, Color.RED);
+    // reset(mapImage, fullImgWidth, fullImgHeight);
+
     mapImage.setViewport(
         new Rectangle2D(newPos.getX(), newPos.getY(), newDimensions.getX(), newDimensions.getY()));
     imgWidth = mapImage.getViewport().getWidth();
@@ -682,7 +690,7 @@ public abstract class MapController extends Application {
     yOffset = mapImage.getViewport().getMinY();
     update();
 
-    // System.out.println("mapImage  " + mapImage + " Viewport  " + mapImage.getViewport());
+    System.out.println("Viewport:  " + mapImage.getViewport());
   }
 
   public void zoomToFitNodes(HospitalMapNode a, HospitalMapNode b, double padding) {
@@ -694,11 +702,6 @@ public abstract class MapController extends Application {
     double width = transformX(DirectionStep.calcWidth(a, b));
     double height = transformY(DirectionStep.calcHeight(a, b));
 
-    //    double delta = (200 - fullImgWidth) * ((fullImgWidth - width - padding * 2) /
-    // fullImgWidth);
-    //    double fartherX = fullImgWidth / 2 + (centerX - (fullImgWidth / 2)) * 1.15;
-    //    double fartherY = fullImgHeight / 2 + (centerY - (fullImgHeight / 2)) * 1.15;
-    //    updateScale(fartherX, fartherY, delta);
     zoomToPoint(centerX, centerY, width, height, padding);
   }
 
@@ -712,7 +715,7 @@ public abstract class MapController extends Application {
             // don't scale so that we're bigger than image dimensions:
             Math.max(fullImgWidth / viewport.getWidth(), fullImgHeight / viewport.getHeight()));
     Point2D zoomCenter = imageViewToImage(mapImage, new Point2D(centerX, centerY));
-    System.out.println("SCALE: " + scale);
+    // System.out.println("SCALE: " + scale);
     double newWidth = viewport.getWidth() * scale;
     double newHeight = viewport.getHeight() * scale;
     double newMinX =
@@ -733,6 +736,6 @@ public abstract class MapController extends Application {
     yOffset = mapImage.getViewport().getMinY();
     update();
 
-    System.out.println("Viewport:  " + mapImage.getViewport());
+    // System.out.println("Viewport:  " + mapImage.getViewport());
   }
 }
