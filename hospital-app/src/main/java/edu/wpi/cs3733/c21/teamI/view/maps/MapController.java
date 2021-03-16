@@ -287,8 +287,8 @@ public abstract class MapController extends Application {
   }
 
   protected void drawArrow(HospitalMapNode start, HospitalMapNode end) {
-    double arrowWidth = 25 / scale;
-    double arrowLength = 25 / scale;
+    double arrowWidth = 20 / scale * fullImgHeight / imgHeight;
+    double arrowLength = 20 / scale * fullImgHeight / imgHeight;
 
     double x1 = transformX(start.getxCoord());
     double x2 = transformX(end.getxCoord());
