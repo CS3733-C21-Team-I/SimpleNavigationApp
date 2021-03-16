@@ -82,6 +82,7 @@ public class MapEditDataController {
   public void deleteEdge(HospitalMapNode fromNode, HospitalMapNode toNode) {
     deleteElementsAfterPointer(undoRedoPointer);
     System.out.println("Deleting edge: " + fromNode + " : " + toNode);
+    System.out.println("Deleting edge with IDs: " + fromNode.getID() + " : " + toNode.getID());
     MapEditCommand command = new DeleteEdgeCommand(this, fromNode, toNode);
     command.execute();
     dataOperations.push(command);

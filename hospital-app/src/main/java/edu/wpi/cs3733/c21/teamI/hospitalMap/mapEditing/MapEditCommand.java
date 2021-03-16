@@ -77,7 +77,7 @@ class EditNodeCommand extends MapEditCommand {
     for (HospitalMapNode node : controller.getActiveMap().getNodes()) {
       boolean connected = false;
       for (HospitalMapNode connection : node.getConnections()) {
-        if (connection.getID() == nodeEditedId) {
+        if (connection.getID().equals(nodeEditedId)) {
           connected = true;
           break;
         }

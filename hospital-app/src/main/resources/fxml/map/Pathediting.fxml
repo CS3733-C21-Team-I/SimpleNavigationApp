@@ -76,12 +76,15 @@
                                                 <Cursor fx:constant="HAND" />
                                             </cursor>
                                         </Button>
-                                        <Button fx:id="saveButton" layoutX="23.0" layoutY="197.0" mnemonicParsing="false" style="-fx-background-color: rgb(1, 45, 90); -fx-text-fill: white; " styleClass="styledButton" text="Save">
+                                        <Button fx:id="saveButton" layoutX="40.0" layoutY="197.0" mnemonicParsing="false" style="-fx-background-color: rgb(1, 45, 90); -fx-text-fill: white; " styleClass="styledButton" text="Save">
                                             <cursor>
                                                 <Cursor fx:constant="HAND" />
                                             </cursor>
                                         </Button>
                                     </children>
+                           <padding>
+                              <Insets right="20.0" />
+                           </padding>
                                 </AnchorPane>
                             </children>
                             <VBox.margin>

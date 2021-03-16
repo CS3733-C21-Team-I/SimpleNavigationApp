@@ -184,6 +184,10 @@ public class MapEditingController extends MapController {
               LocationCategory.HALL,
               "I",
               node.getConnections());
+      if (selectedNode.contains(node)) {
+        selectedNode.remove(node);
+        selectedNode.add(newNode);
+      }
       dataCont.editNode(node.getID(), newNode);
     }
   }
