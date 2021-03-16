@@ -102,6 +102,7 @@ public class LotPane extends JFXListCell<Lot> {
         blocks = FXCollections.observableArrayList(extractor);
         blocks.setAll(item.getBlocks());
         blockList.setItems(blocks);
+
         System.out.println("Set blocks" + blocks.size());
       }
 
@@ -116,5 +117,7 @@ public class LotPane extends JFXListCell<Lot> {
     blockList.setCellFactory(new BlockListItemFactory());
 
     blocks = FXCollections.emptyObservableList();
+    blockList.setPrefWidth(300);
+    blockList.setPrefHeight(500);
   }
 }
