@@ -208,6 +208,19 @@ public class MapEditingController extends MapController {
 
   protected void drawEdges(HospitalMapNode parent) {
     Image xIconImg = ImageLoader.loadImage("/fxml/map/mapImages/symbolIcons/redxicon.png");
+    int betweenFloors = 0;
+    int floorsDrawn = 0;
+
+    // can simplify
+    for (HospitalMapNode child : parent.getConnections()) {
+      if (!dataCont.getActiveMap().getNodes().contains(child)
+          || !dataCont.getActiveMap().getNodes().contains(parent)) {
+        betweenFloors++;
+      }
+    }
+
+    double edgeAngle = (2 * Math.PI / betweenFloors);
+
     for (HospitalMapNode child : parent.getConnections()) {
       HospitalMapNode startNode =
           dataCont.getActiveMap().getNodes().contains(parent) ? parent : child;
@@ -219,10 +232,17 @@ public class MapEditingController extends MapController {
             new HospitalMapNode(
                 null,
                 null,
-                (int) (startNode.getxCoord() - mapPane.getPrefWidth()),
-                (int) (startNode.getyCoord() - mapPane.getPrefWidth()),
+                (int)
+                    (startNode.getxCoord()
+                        + Math.sin((Math.PI * 1.25) + floorsDrawn * edgeAngle)
+                            * mapPane.getPrefWidth()),
+                (int)
+                    (startNode.getyCoord()
+                        + Math.cos((Math.PI * 1.25) + floorsDrawn * edgeAngle)
+                            * mapPane.getPrefWidth()),
                 null);
         color = Color.GREEN;
+        floorsDrawn++;
       }
       ImageView xMarker = new ImageView();
       xMarker.setImage(xIconImg);
