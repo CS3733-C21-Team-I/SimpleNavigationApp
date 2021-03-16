@@ -1,7 +1,5 @@
 package edu.wpi.cs3733.c21.teamI.view.maps;
 
-import static edu.wpi.cs3733.c21.teamI.hospitalMap.LocationCategory.*;
-
 import com.jfoenix.controls.JFXTabPane;
 import edu.wpi.cs3733.c21.teamI.hospitalMap.*;
 import edu.wpi.cs3733.c21.teamI.pathfinding.DirectionStep;
@@ -58,7 +56,7 @@ public abstract class MapController extends Application {
   @FXML Tab floor2;
   @FXML Tab floor3;
   @FXML Tab floor4;
-  @FXML Tab floor6;
+  @FXML Tab floor5;
   protected Tab currentTab = null;
 
   final double scale = 3.05;
@@ -510,16 +508,22 @@ public abstract class MapController extends Application {
   public void goToTab(String floorID) {
     if (floorID.equals("Faulkner Lot")) {
       goToCampus();
+      tabPane.getSelectionModel().select(campus);
     } else if (floorID.equals("Faulkner 1")) {
       goToFloor1();
+      tabPane.getSelectionModel().select(floor1);
     } else if (floorID.equals("Faulkner 2")) {
       goToFloor2();
+      tabPane.getSelectionModel().select(floor2);
     } else if (floorID.equals("Faulkner 3")) {
       goToFloor3();
+      tabPane.getSelectionModel().select(floor3);
     } else if (floorID.equals("Faulkner 4")) {
       goToFloor4();
+      tabPane.getSelectionModel().select(floor4);
     } else if (floorID.equals("Faulkner 5")) {
       goToFloor5();
+      tabPane.getSelectionModel().select(floor5);
     }
   }
 
@@ -603,11 +607,11 @@ public abstract class MapController extends Application {
   }
 
   private void goToFloor5() {
-    if (floor6 != currentTab) {
+    if (floor5 != currentTab) {
       System.out.println("Tab 6");
       currentMapID = "Faulkner 5";
       updateView();
-      currentTab = floor6;
+      currentTab = floor5;
       startZoomPan(mapPane);
       resize();
     }

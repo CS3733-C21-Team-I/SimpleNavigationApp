@@ -48,7 +48,7 @@ public class ParkingReservationController {
             || plateNum.getText().trim().length() <= 0;
 
     bookBtn.setDisable(shouldDisable);
-    System.out.println("CHECKING FINISHED: " + shouldDisable);
+    //    System.out.println("CHECKING FINISHED: " + shouldDisable);
   }
 
   public void initialize() {
