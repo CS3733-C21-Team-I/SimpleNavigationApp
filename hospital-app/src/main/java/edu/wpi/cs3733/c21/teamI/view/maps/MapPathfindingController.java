@@ -118,6 +118,8 @@ public class MapPathfindingController extends MapController {
     if (foundPathExists()) {
       drawCalculatedPath(getFoundPath());
     }
+    // mapPane.getChildren().add(centerPoint);
+    // mapPane.getChildren().add(viewRect);
   }
 
   private void populateDirections(List<DirectionStep> directionSteps) {
@@ -141,7 +143,7 @@ public class MapPathfindingController extends MapController {
       imgView.setFitWidth(20);
       button.setGraphic(imgView);
       button.setPadding(new Insets(10, 10, 10, 10));
-      button.setOnAction((event) -> zoomToStep(step, 50));
+      button.setOnAction((event) -> zoomToStep(step, 0));
       directionsField.getChildren().add(button);
     }
   }
@@ -217,7 +219,8 @@ public class MapPathfindingController extends MapController {
     // Zooms to fit entire path
     if (foundPath.size() >= 2) {
       goToTab(foundPath.get(0).getMapID());
-      zoomToFitNodes(foundPath.get(0), lastNodeOnSameFloor(foundPath), 600);
+      double padding = 100;
+      zoomToFitNodes(foundPath.get(0), lastNodeOnSameFloor(foundPath), padding);
     }
     return foundPath;
   }
@@ -286,7 +289,6 @@ public class MapPathfindingController extends MapController {
 
       showButtonToNextMapOnPath(foundPath);
       populateDirections(TextDirections.getDirectionSteps());
-      //      displayDirections(getFoundPathDescription());
     }
   }
 
