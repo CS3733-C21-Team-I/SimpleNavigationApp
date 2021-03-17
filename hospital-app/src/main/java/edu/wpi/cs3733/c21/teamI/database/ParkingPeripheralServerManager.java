@@ -938,19 +938,6 @@ public class ParkingPeripheralServerManager extends DatabaseManager {
     }
   }
 
-  public void slipPaid(int id) {
-    try {
-
-      String query = "UPDATE PARKING_SLIPS SET EXIT_TIMESTAMP = ?, IS_PAID = true WHERE ID = ?";
-      PreparedStatement statement = databaseRef.getConnection().prepareStatement(query);
-      statement.setTimestamp(1, new Timestamp(System.currentTimeMillis()));
-      statement.setInt(2, id);
-      statement.execute();
-    } catch (SQLException e) {
-      e.printStackTrace();
-    }
-  }
-
   public List<Integer> getOccupiedSlots() {
     List<Integer> out = new ArrayList<>();
     try {
@@ -965,5 +952,56 @@ public class ParkingPeripheralServerManager extends DatabaseManager {
       printSQLException(e);
     }
     return out;
+  }
+
+  public ParkingSlip getSlipForId(int id) {
+    try {
+      String query = "SELECT * FROM PARKING_SLIPS WHERE ID = id";
+      PreparedStatement statement = databaseRef.getConnection().prepareStatement(query);
+
+      ResultSet rs = statement.executeQuery();
+
+      if (!rs.next()) return null;
+
+      ParkingReservation reservation = getReservationForId(rs.getInt("RESERVATION_ID"));
+
+      return new ParkingSlip(
+              id,
+               reservation,
+               rs.getTimestamp("entry_timestamp"),
+              0,
+              rs.getInt("base_cost") / 100.0);
+
+    } catch (SQLException e) {
+      e.printStackTrace();
+      return null;
+    }
+  }
+
+  public void updatePenalty(int id, double penalty) {
+    try {
+      int p = (int) (penalty * 100.0);
+
+      String query = "UPDATE PARKING_SLIPS SET PENALTY = ? WHERE ID = ?";
+      PreparedStatement statement = databaseRef.getConnection().prepareStatement(query);
+      statement.setInt(1, p);
+      statement.setInt(2, id);
+      statement.execute();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+  }
+
+  public void slipPaid(int id) {
+    try {
+
+      String query = "UPDATE PARKING_SLIPS SET EXIT_TIMESTAMP = ?, IS_PAID = true WHERE ID = ?";
+      PreparedStatement statement = databaseRef.getConnection().prepareStatement(query);
+      statement.setTimestamp(1, new Timestamp(System.currentTimeMillis()));
+      statement.setInt(2, id);
+      statement.execute();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
   }
 }
