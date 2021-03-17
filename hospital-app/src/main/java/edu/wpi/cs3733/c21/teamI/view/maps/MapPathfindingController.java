@@ -484,7 +484,7 @@ public class MapPathfindingController extends MapController {
           Color strokeColor;
           Color fillColor;
           String describe;
-          if (((ParkingNode) node).isOccupied()) {
+          if (!((ParkingNode) node).isOccupied()) {
             strokeColor = Color.GREEN;
             fillColor = Color.WHITE;
             describe = "available";

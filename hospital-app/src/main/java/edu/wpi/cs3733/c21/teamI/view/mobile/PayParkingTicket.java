@@ -173,7 +173,7 @@ public class PayParkingTicket {
     DecimalFormat priceFormat = new DecimalFormat("$00.00");
 
     ammountOwedLabel.setText(
-            "Total Amount: " + priceFormat.format(a.getBaseCost() + a.getPenalty()));
+        "Total Amount: " + priceFormat.format(a.getBaseCost() + a.getPenalty()));
     baseRateLabel.setText("Base Rate: " + priceFormat.format(a.getBaseCost()));
     overagesLabel.setText("Overages: " + priceFormat.format(a.getPenalty()));
 
@@ -184,8 +184,6 @@ public class PayParkingTicket {
     ticketIDLabel.setText("Ticket ID: " + a.getId());
 
     ParkingPeripheralServerManager.getInstance().slipPaid(a.getId());
-
-
   }
 
   public void submit() throws IOException {}

@@ -86,6 +86,4 @@ public class ParkingSlip {
   public double getPenalty() {
     return penalty;
   }
-
-
 }
