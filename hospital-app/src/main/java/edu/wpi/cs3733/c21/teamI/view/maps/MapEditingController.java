@@ -342,7 +342,6 @@ public class MapEditingController extends MapController {
               if (selectedNode.size() == 0 && t.isShiftDown()
                   || t.isShiftDown()
                       && node.getMapID().equals(selectedNode.get(0).getMapID())) { //
-                System.out.println("gotHere");
                 System.out.println(
                     node.NodeAsList()); // t.isShiftDown() && selectedNode.size() == 0
                 shift = true;

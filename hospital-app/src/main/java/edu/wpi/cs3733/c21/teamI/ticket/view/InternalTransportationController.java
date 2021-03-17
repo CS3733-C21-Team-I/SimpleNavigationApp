@@ -43,7 +43,6 @@ public class InternalTransportationController {
     if (internalDate.getValue() != null) inDate = internalDate.getValue().toString();
     if (internalTime.getValue() != null) inTime = internalTime.getValue().toString();
 
-    System.out.println(inDate);
     try {
       int RequestID = ApplicationDataController.getInstance().getLoggedInUser().getUserId();
       int AssignedID =
@@ -64,7 +63,6 @@ public class InternalTransportationController {
               wheelchairRadio.isSelected());
 
       ticket.addAssignedUserID(AssignedID);
-      System.out.println(ticket);
       int id = ServiceTicketDatabaseManager.getInstance().addTicket(ticket);
       ServiceTicketDatabaseManager.getInstance().addEmployeeForTicket(id, AssignedID);
       Notification notif =

@@ -18,7 +18,6 @@ public class ServiceViewController extends Application {
     String id = ((JFXRippler) e.getSource()).getId();
     replaceRequest.getChildren().clear();
     if (id.equals("medicineButton")) {
-      System.out.println("Medicine Button Clicked");
       replaceRequest
           .getChildren()
           .add(
@@ -26,7 +25,6 @@ public class ServiceViewController extends Application {
                   getClass().getResource("/fxml/serviceRequests/MedicineDelivery.fxml")));
     } else if (id.equals("securityButton")) {
       //      titleLabel.setText("Language Service Request");
-      System.out.println("Security Button Clicked");
       replaceRequest
           .getChildren()
           .add(

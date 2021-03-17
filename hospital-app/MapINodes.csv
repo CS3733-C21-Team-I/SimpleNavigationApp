@@ -2,7 +2,7 @@ nodeId,xcoord,ycoord,floor,building,nodetype,type,longname,shortname,teamassigne
 ISTAI00301,52681,27379,1,Faulkner,STAI,LOC,Staircase E1,STAIRE,I,Faulkner 1
 IHALL03001,82936,74970,1,Faulkner,Temp,POS,,,,Faulkner 1
 PHALL00101,41186,34855,1,Faulkner,Temp,POS,,,,Faulkner 1
-IHALL01101,50465,27379,1,Faulkner,Temp,POS,,,,Faulkner 1
+IHALL01101,50671,27384,1,Faulkner,Temp,POS,,,,Faulkner 1
 IHALL01501,74332,50293,1,Faulkner,Temp,POS,,,,Faulkner 1
 IREST00201,53040,33776,1,Faulkner,REST,LOC,Restroom B1,RESTB,I,Faulkner 1
 IDEPT00301,38083,60869,1,Faulkner,DEPT,LOC,Endoscopy,ENDO,I,Faulkner 1
@@ -11,30 +11,31 @@ IDEPT00501,56482,33911,1,Faulkner,DEPT,LOC,MRI/CT,MRI/CT,I,Faulkner 1
 IELEV00301,53810,76733,1,Faulkner,ELEV,LOC,Elevator Z1,ELEVZ,I,Faulkner 1
 IHALL01901,44035,55891,1,Faulkner,Temp,POS,,,,Faulkner 1
 IELEV00101,48238,27379,1,Faulkner,ELEV,LOC,Elevator X1,ELEVX,I,Faulkner 1
-IHALL01701,50447,55891,1,Faulkner,Temp,POS,,,,Faulkner 1
+IHALL01701,50653,55896,1,Faulkner,Temp,POS,,,,Faulkner 1
 IDEPT00101,36531,55816,1,Faulkner,DEPT,LOC,Emergency Department,EMER,I,Faulkner 1
 ISERV00301,55719,63702,1,Faulkner,SERV,LOC,Linens,LINEN,I,Faulkner 1
 IDEPT00701,61865,35074,1,Faulkner,DEPT,LOC,Radiology,RADIO,I,Faulkner 1
 IDEPT00901,57313,55670,1,Faulkner,DEPT,LOC,Operation Rooms,ORS,I,Faulkner 1
 ISERV00101,51348,70320,1,Faulkner,SERV,LOC,QR MAT Management,QRMANG,I,Faulkner 1
 ILAB00101,44077,39835,1,Faulkner,LAB,LOC,Blood Draw Lab,BDLAB,I,Faulkner 1
-BadSol1615936765,50457,14647,1,Faulkner,Temp,POS,,,,Faulkner 1
+BadSol1615936765,50619,14765,1,Faulkner,Temp,POS,,,,Faulkner 1
 ILAB00301,51341,62162,1,Faulkner,LAB,LOC,VASC Lab,VASCLAB,I,Faulkner 1
-IHALL02301,50465,70387,1,Faulkner,Temp,POS,,,,Faulkner 1
-IHALL02101,50464,58364,1,Faulkner,Temp,POS,,,,Faulkner 1
+IHALL02301,50671,70392,1,Faulkner,Temp,POS,,,,Faulkner 1
+IHALL02101,50670,58369,1,Faulkner,Temp,POS,,,,Faulkner 1
 IHALL00201,44994,34855,1,Faulkner,Temp,POS,,,,Faulkner 1
 IHALL02701,56588,63702,1,Faulkner,Temp,POS,,,,Faulkner 1
 IHALL00401,46408,34855,1,Faulkner,Temp,POS,,,,Faulkner 1
 IHALL02501,50464,76828,1,Faulkner,Temp,POS,,,,Faulkner 1
 IDEPT01001,83007,76380,1,Faulkner,DEPT,LOC,Operation Room,OR,I,Faulkner 1
-IHALL00601,50465,34855,1,Faulkner,Temp,POS,,,,Faulkner 1
+IHALL00601,50671,34860,1,Faulkner,Temp,POS,,,,Faulkner 1
 IHALL00801,53038,35074,1,Faulkner,Temp,POS,,,,Faulkner 1
 IHALL02901,56588,78391,1,Faulkner,Temp,POS,,,,Faulkner 1
+BadSol1615986185,50555,11100,1,Faulkner,Temp,POS,,,,Faulkner 1
 BadSol4,34991,34513,1,Faulkner,Temp,POS,,,,Faulkner 1
 ISTAI00201,94643,85781,1,Faulkner,STAI,LOC,Staircase D1,STAIRD,I,Faulkner 1
 ISTAI00401,52117,20211,1,Faulkner,STAI,LOC,Staircase F,STAIRF,I,Faulkner 1
 BadSol1,34996,23845,1,Faulkner,HALL,LOC,Emergency Entrance,EENTR,I,Faulkner 1
-IHALL01201,50465,19976,1,Faulkner,Temp,POS,,,,Faulkner 1
+IHALL01201,50671,19981,1,Faulkner,Temp,POS,,,,Faulkner 1
 IHALL01001,59395,35074,1,Faulkner,Temp,POS,,,,Faulkner 1
 IHALL03101,94573,74735,1,Faulkner,Temp,POS,,,,Faulkner 1
 IDEPT00201,44031,54640,1,Faulkner,DEPT,LOC,Special testing,SPTEST,I,Faulkner 1
@@ -43,23 +44,25 @@ IREST00101,46404,33490,1,Faulkner,REST,LOC,Restroom A1,RESTA,I,Faulkner 1
 IDEPT00401,48168,36192,1,Faulkner,DEPT,LOC,Cardiac Rehab,CREHAB,I,Faulkner 1
 IHALL01401,56588,49836,1,Faulkner,Temp,POS,,,,Faulkner 1
 IELEV00201,47110,78143,1,Faulkner,ELEV,LOC,Elevator Y1,ELEVY,I,Faulkner 1
-IHALL01801,50476,37735,1,Faulkner,Temp,POS,,,,Faulkner 1
-IRETL00101,46452,14689,1,Faulkner,FOOD,LOC,Starbucks,SB,I,Faulkner 1
+IHALL01801,50682,37740,1,Faulkner,Temp,POS,,,,Faulkner 1
+IRETL00101,46188,15721,1,Faulkner,FOOD,LOC,Starbucks,SB,I,Faulkner 1
 IDEPT00601,51482,37720,1,Faulkner,DEPT,LOC,Pre-Admittance Screening,PSCREEN,I,Faulkner 1
 IDEPT00801,74289,51198,1,Faulkner,DEPT,LOC,Recovery,RECOV,I,Faulkner 1
 ISERV00201,41185,33371,1,Faulkner,SERV,LOC,Admitting,ADM,I,Faulkner 1
 ILAB00201,51412,58284,1,Faulkner,LAB,LOC,PULM Lab,PULMLAB,I,Faulkner 1
-IHALL02201,50464,62134,1,Faulkner,Temp,POS,,,,Faulkner 1
+BadSol1615985955,51569,17154,1,Faulkner,Temp,POS,,,,Faulkner 1
+BadSol1615985953,49046,17388,1,Faulkner,Temp,POS,,,,Faulkner 1
+IHALL02201,50670,62139,1,Faulkner,Temp,POS,,,,Faulkner 1
 IHALL02001,38040,55891,1,Faulkner,Temp,POS,,,,Faulkner 1
 IHALL00301,44973,39766,1,Faulkner,Temp,POS,,,,Faulkner 1
 IHALL02601,50464,78176,1,Faulkner,Temp,POS,,,,Faulkner 1
 IHALL00501,48186,34855,1,Faulkner,Temp,POS,,,,Faulkner 1
-IHALL02401,50432,71865,1,Faulkner,Temp,POS,,,,Faulkner 1
+IHALL02401,50638,71870,1,Faulkner,Temp,POS,,,,Faulkner 1
 IHALL00701,51895,35074,1,Faulkner,Temp,POS,,,,Faulkner 1
 IHALL00901,56497,35074,1,Faulkner,Temp,POS,,,,Faulkner 1
 IHALL02801,56588,74983,1,Faulkner,Temp,POS,,,,Faulkner 1
 ISTAI00101,49235,71780,1,Faulkner,STAI,LOC,Staircase C1,STAIRC,I,Faulkner 1
-IKIOS00101,54722,14457,1,Faulkner,KIOS,LOC,Navigation Kiosk,KIOSK,I,Faulkner 1
+IKIOS00101,54444,14765,1,Faulkner,KIOS,LOC,Navigation Kiosk,KIOSK,I,Faulkner 1
 ILAB00401,59017,78382,1,Faulkner,LAB,LOC,LAB,LAB,I,Faulkner 1
 ISTAI00103,49424,72032,3,Faulkner,STAI,LOC,Staircase C3,STAIRC,I,Faulkner 3
 ISTAI00203,52808,26321,3,Faulkner,STAI,LOC,Staircase E3,STAIRE,I,Faulkner 3

@@ -43,7 +43,6 @@ public class KioskController {
   @FXML
   public void redrawTicket(MouseEvent e) {
     ticketPane.setVisible(true);
-    System.out.println(e.getSource());
     String priceString = "";
     if (e.getSource() == min10) {
       minutes = 10;

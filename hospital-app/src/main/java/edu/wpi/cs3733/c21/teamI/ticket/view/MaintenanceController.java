@@ -34,7 +34,6 @@ public class MaintenanceController {
           UserDatabaseManager.getInstance()
               .getUserForScreenname(requestAssigned.getText())
               .getUserId();
-      System.out.println(AssignedID);
       ticket =
           new ServiceTicket(
               RequestID,
