@@ -45,6 +45,12 @@ public class PayParkingTicket {
   @FXML TextField cardExpDate;
   @FXML TextField zipCode;
 
+  @FXML private Label ammountOwedLabel;
+
+  @FXML private Label baseRateLabel;
+
+  @FXML private Label overagesLabel;
+
   private static final DateTimeFormatter resTimeFormat =
       DateTimeFormatter.ofPattern("MM/dd/yyyy hh:mm a");
 
@@ -55,6 +61,10 @@ public class PayParkingTicket {
     startTimeLabel.setVisible(false);
     endTimeLabel.setVisible(false);
     ticketIDLabel.setVisible(false);
+
+    ammountOwedLabel.setVisible(false);
+    baseRateLabel.setVisible(false);
+    overagesLabel.setVisible(false);
 
     parkingIDInput.setOnMouseClicked(e);
 
@@ -134,6 +144,10 @@ public class PayParkingTicket {
           startTimeLabel.setVisible(true);
           endTimeLabel.setVisible(true);
           ticketIDLabel.setVisible(true);
+
+          ammountOwedLabel.setVisible(true);
+          overagesLabel.setVisible(true);
+          baseRateLabel.setVisible(true);
 
           paymentInfo.setVisible(true);
           paymentInfoLabel.setVisible(true);
