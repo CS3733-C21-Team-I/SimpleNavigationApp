@@ -4,6 +4,8 @@ import com.jfoenix.controls.JFXButton;
 import edu.wpi.cs3733.c21.teamI.database.ParkingPeripheralServerManager;
 import edu.wpi.cs3733.c21.teamI.parking.reservations.ParkingSlip;
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.text.DecimalFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -166,11 +168,24 @@ public class PayParkingTicket {
 
   public void update(int i) {
     ParkingSlip a = ParkingPeripheralServerManager.getInstance().getSlipForId(i);
+    a.calculatePenalty(new Timestamp(System.currentTimeMillis()));
+
+    DecimalFormat priceFormat = new DecimalFormat("$00.00");
+
+    ammountOwedLabel.setText(
+            "Total Amount: " + priceFormat.format(a.getBaseCost() + a.getPenalty()));
+    baseRateLabel.setText("Base Rate: " + priceFormat.format(a.getBaseCost()));
+    overagesLabel.setText("Overages: " + priceFormat.format(a.getPenalty()));
+
     locationLabel.setText("Parking Spot: " + a.getReservation().getSlotCode());
     startTimeLabel.setText(a.getEntryTimestamp().toLocalDateTime().format(resTimeFormat));
     endTimeLabel.setText(
         a.getReservation().getEndTimestamp().toLocalDateTime().format(resTimeFormat));
     ticketIDLabel.setText("Ticket ID: " + a.getId());
+
+    ParkingPeripheralServerManager.getInstance().slipPaid(a.getId());
+
+
   }
 
   public void submit() throws IOException {}
