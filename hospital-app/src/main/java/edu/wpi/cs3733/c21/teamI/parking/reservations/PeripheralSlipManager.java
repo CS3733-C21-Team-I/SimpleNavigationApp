@@ -2,6 +2,7 @@ package edu.wpi.cs3733.c21.teamI.parking.reservations;
 
 import edu.wpi.cs3733.c21.teamI.serial.ArduinoSlipSerial;
 import edu.wpi.cs3733.c21.teamI.serial.SlipSerialInterface;
+import java.time.format.DateTimeFormatter;
 
 public class PeripheralSlipManager {
 
@@ -32,17 +33,25 @@ public class PeripheralSlipManager {
   public void addTicket(ParkingSlip slip) {
 
     String date =
-        slip.getEntryTimestamp().toLocalDateTime().toLocalDate().format(serial.getDateFormat());
+        slip.getEntryTimestamp()
+            .toLocalDateTime()
+            .toLocalDate()
+            .format(isConnected ? serial.getDateFormat() : DateTimeFormatter.ISO_DATE);
 
     System.out.println(date);
 
-    String timeFormat = "hh:mma";
     String startTime =
-        slip.getEntryTimestamp().toLocalDateTime().toLocalTime().format(serial.getTimeFormat());
+        slip.getEntryTimestamp()
+            .toLocalDateTime()
+            .toLocalTime()
+            .format(isConnected ? serial.getTimeFormat() : DateTimeFormatter.ISO_TIME);
     System.out.println(startTime);
 
     String endTime =
-        slip.getEndTimestamp().toLocalDateTime().toLocalTime().format(serial.getTimeFormat());
+        slip.getEndTimestamp()
+            .toLocalDateTime()
+            .toLocalTime()
+            .format(isConnected ? serial.getTimeFormat() : DateTimeFormatter.ISO_TIME);
     System.out.println(endTime);
 
     String cost = serial.getCostFormat().format(slip.getBaseCost());
