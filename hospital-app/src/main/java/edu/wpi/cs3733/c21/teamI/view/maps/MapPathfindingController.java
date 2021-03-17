@@ -483,8 +483,7 @@ public class MapPathfindingController extends MapController {
         if (node instanceof ParkingNode) {
           Color strokeColor;
           Color fillColor;
-          double dimensions = 25 / scale;
-          String describe = "";
+          String describe;
           if (((ParkingNode) node).isOccupied()) {
             strokeColor = Color.GREEN;
             fillColor = Color.WHITE;
@@ -494,15 +493,11 @@ public class MapPathfindingController extends MapController {
             fillColor = Color.RED;
             describe = "full";
           }
-          Circle park =
-              new Circle(
-                  transformX(node.getxCoord()) - dimensions / 2,
-                  transformY(node.getyCoord()) - dimensions / 2,
-                  8);
+          Circle park = new Circle(transformX(node.getxCoord()), transformY(node.getyCoord()), 6);
           park = (Circle) setMouseActions(park, node);
           park.setFill(fillColor);
           park.setStroke(strokeColor);
-          park.setStrokeWidth(5);
+          park.setStrokeWidth(4);
           Tooltip t = new Tooltip(((LocationNode) node).getLongName() + " (" + describe + ")");
           bindTooltip(park, t);
           mapPane.getChildren().add(park);

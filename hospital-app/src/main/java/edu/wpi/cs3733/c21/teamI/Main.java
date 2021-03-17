@@ -1,7 +1,6 @@
 package edu.wpi.cs3733.c21.teamI;
 
 import edu.wpi.cs3733.c21.teamI.database.DatabaseManager;
-import edu.wpi.cs3733.c21.teamI.hospitalMap.MapDataEntity;
 import edu.wpi.cs3733.c21.teamI.parking.reservations.PeripheralSlipManager;
 import edu.wpi.cs3733.c21.teamI.view.HomeController;
 import java.io.File;
@@ -16,7 +15,10 @@ public class Main {
 
   public static void main(String[] args) {
 
-    String libName = "rxtxSerial.dll"; // The name of the file in resources/ dir
+    String libName =
+            System.getProperty("sun.arch.data.model").equals("32")
+                    ? "rxtxSerial32.dll"
+                    : "rxtxSerial.dll"; // The name of the file in resources/ dir
     URL url = Main.class.getResource("/" + libName);
     File tmpDir = null;
     try {
@@ -79,7 +81,7 @@ public class Main {
       DatabaseManager.initPeripheralDatabaseManagers(false);
     }
 
-    //MapDataEntity.loadMapBackground(); // Done to prevent lag on loading
+    // MapDataEntity.loadMapBackground(); // Done to prevent lag on loading
 
     if (optsList.containsKey("p")) {
       PeripheralSlipManager.init(new String[] {optsList.get("p")});

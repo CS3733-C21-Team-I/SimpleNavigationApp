@@ -80,7 +80,7 @@
                               <Insets left="20.0" />
                            </VBox.margin>
                         </Label>
-                        <JFXTextField fx:id="plateNum" focusColor="#012d5a">
+                        <JFXTextField fx:id="plateNum" focusColor="#012d5a" onKeyReleased="#checkFinished">
                            <VBox.margin>
                               <Insets left="45.0" right="50.0" />
                            </VBox.margin>
@@ -96,7 +96,7 @@
                               <Insets left="20.0" />
                            </VBox.margin>
                         </Label>
-                        <JFXTextField fx:id="contNum" focusColor="#012d5a">
+                        <JFXTextField fx:id="contNum" focusColor="#012d5a" onKeyReleased="#checkFinished">
                            <VBox.margin>
                               <Insets left="45.0" right="50.0" />
                            </VBox.margin>
@@ -142,9 +142,9 @@
                   </VBox>
                   <VBox alignment="CENTER">
                      <children>
-                        <VBox alignment="CENTER" style="-fx-background-color: white; -fx-border-color: black;" VBox.vgrow="NEVER">
+                        <VBox fx:id="ticket" alignment="CENTER" style="-fx-background-color: white; -fx-border-color: black;" VBox.vgrow="NEVER">
                            <children>
-                              <Label fx:id="parkingSlot" text="Northern Parking 5">
+                              <Label fx:id="parkingSlot">
                                  <VBox.margin>
                                     <Insets top="10.0" />
                                  </VBox.margin>
@@ -152,7 +152,7 @@
                                     <Font name="System Bold" size="25.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="start" text="Start Time: 5:00 pm">
+                              <Label fx:id="start">
                                  <VBox.margin>
                                     <Insets top="10.0" />
                                  </VBox.margin>
@@ -160,7 +160,7 @@
                                     <Font size="25.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="end" text="End Time: 7:00 pm">
+                              <Label fx:id="end">
                                  <VBox.margin>
                                     <Insets top="10.0" />
                                  </VBox.margin>
@@ -168,23 +168,7 @@
                                     <Font size="25.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="price" text="Price: $0.00">
-                                 <VBox.margin>
-                                    <Insets top="10.0" />
-                                 </VBox.margin>
-                                 <font>
-                                    <Font size="25.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="barCode" text="||||||||||||||||||||||||||||">
-                                 <VBox.margin>
-                                    <Insets top="10.0" />
-                                 </VBox.margin>
-                                 <font>
-                                    <Font size="25.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="ticketID" text="100001">
+                              <Label fx:id="ticketID">
                                  <VBox.margin>
                                     <Insets top="10.0" />
                                  </VBox.margin>

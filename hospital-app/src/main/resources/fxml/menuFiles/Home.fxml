@@ -46,16 +46,11 @@
                                          <TitledPane animated="false" text="Visitor Check-In">
                                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="217.0" prefWidth="439.0">
                                                  <Button layoutX="163.0" layoutY="161.0" mnemonicParsing="false" styleClass="styledButton" text="Check In" />
-                                          <JFXTextField layoutX="68.0" layoutY="32.0" promptText="Visitor Name" />
-                                          <JFXTextField layoutX="68.0" layoutY="83.0" promptText="Patient Name" />
-                                          <JFXButton buttonType="RAISED" layoutX="301.0" layoutY="64.0" style="-fx-background-color: #0067b1;" text="Submit" textFill="WHITE">
-                                             <font>
-                                                <Font size="18.0" />
-                                             </font>
-                                          </JFXButton>
+                                          <JFXTextField layoutX="125.0" layoutY="35.0" promptText="Visitor Name" />
+                                          <JFXTextField layoutX="125.0" layoutY="86.0" promptText="Patient Name" />
                                              </AnchorPane>
                                          </TitledPane>
-                                         <TitledPane animated="false" prefHeight="120.0" prefWidth="450.0" text="Visting Hours">
+                                         <TitledPane animated="false" text="Visting Hours">
                                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                                  <Text layoutX="14.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Non-essential visitors are not allowed at this time. Please call 617-983-4507 for questions about visiting hours." wrappingWidth="399.9999956637621">
                                              <font>
@@ -64,7 +59,7 @@
                                           </Text>
                                              </AnchorPane>
                                          </TitledPane>
-                                         <TitledPane animated="false" prefHeight="310.0" prefWidth="450.0" text="Request PPE">
+                                         <TitledPane animated="false" text="Request PPE">
                                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="286.0" prefWidth="448.0">
                                                  <Text layoutX="41.0" layoutY="29.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Required PPE includes: a mask, gown, face shield, and gloves according to CDC guidelines. To request PPE, please submit this form prior to your visit." wrappingWidth="356.82373046875">
                                              <font>
@@ -88,7 +83,7 @@
                                           </JFXButton>
                                              </AnchorPane>
                                          </TitledPane>
-                                         <TitledPane animated="false" prefHeight="238.0" prefWidth="450.0" text="COVID-19 Policy">
+                                         <TitledPane animated="false" text="COVID-19 Policy">
                                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="139.0" prefWidth="448.0">
                                                  <Text layoutX="25.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Individuals will be prohibited from visiting if they have:" wrappingWidth="399.9999956637621">
                                              <font>

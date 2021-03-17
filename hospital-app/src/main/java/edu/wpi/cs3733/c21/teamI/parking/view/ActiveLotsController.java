@@ -104,7 +104,7 @@ public class ActiveLotsController extends Application {
 
   public void launchKiosk(ActionEvent e) throws IOException {
     StackPane root = FXMLLoader.load(getClass().getResource("/fxml/parking/TicketKiosk.fxml"));
-    Scene scene = new Scene(root);
+    Scene scene = new Scene(root, 900, 1000);
     Stage stage = new Stage();
     stage.setScene(scene);
     stage.setTitle("Parking Ticket Kiosk");

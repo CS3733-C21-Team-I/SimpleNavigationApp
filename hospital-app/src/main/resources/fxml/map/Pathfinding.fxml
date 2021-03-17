@@ -34,7 +34,7 @@
                                 <Tab fx:id="floor2" onSelectionChanged="#floor2Tab" text="Floor 2" />
                                 <Tab fx:id="floor3" onSelectionChanged="#floor3Tab" text="Floor 3" />
                                 <Tab fx:id="floor4" onSelectionChanged="#floor4Tab" text="Floor 4" />
-                                <Tab fx:id="floor6" onSelectionChanged="#floor5Tab" text="Floor 5" />
+                                <Tab fx:id="floor5" onSelectionChanged="#floor5Tab" text="Floor 5" />
                             </tabs>
                         </JFXTabPane>
                         <StackPane fx:id="imageContainer" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="0.0" prefWidth="0.0" style="-fx-background-color: white;" VBox.vgrow="ALWAYS">
@@ -103,6 +103,9 @@
                             <VBox.margin>
                                 <Insets bottom="10.0" />
                             </VBox.margin>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
                         </JFXButton>
                         <JFXComboBox fx:id="algorithmPick" onAction="#switchAlgorithm" prefHeight="10.0" prefWidth="215.0" promptText="Path Algorithm" style="-fx-background-color: ffffff;">
                             <padding>
@@ -111,6 +114,9 @@
                             <VBox.margin>
                                 <Insets top="10.0" />
                             </VBox.margin>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
                         </JFXComboBox>
                         <HBox alignment="CENTER" prefHeight="115.0" prefWidth="330.0">
                             <children>
@@ -153,6 +159,9 @@
                                     <HBox.margin>
                                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                     </HBox.margin>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
                                 </JFXButton>
                                 <JFXButton fx:id="clear" buttonType="RAISED" onAction="#onClear" prefHeight="40.0" prefWidth="90.0" style="-fx-background-color: #0067b1;" text="Clear" textFill="WHITE">
                                     <font>
@@ -161,6 +170,9 @@
                                     <HBox.margin>
                                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                     </HBox.margin>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
                                 </JFXButton>
                             </children>
                             <VBox.margin>
@@ -174,6 +186,9 @@
                             <padding>
                                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                             </padding>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
                         </JFXCheckBox>
                           <Label text="Route Details:" textFill="WHITE">
                               <font>
@@ -197,11 +212,17 @@
                                     <HBox.margin>
                                         <Insets right="20.0" />
                                     </HBox.margin>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
                                 </JFXButton>
                                 <JFXButton fx:id="googleMapsButton" buttonType="RAISED" onAction="#toGoogleMaps" style="-fx-background-color: #0067b1;" text="Google Maps" textFill="WHITE">
                                     <font>
                                         <Font name="System Bold" size="18.0" />
                                     </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
                                 </JFXButton>
                             </children>
                             <VBox.margin>

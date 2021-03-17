@@ -262,7 +262,7 @@
                               </HBox>
                               <HBox prefHeight="41.0" prefWidth="250.0" style="-fx-background-color: #012D5A;" GridPane.rowIndex="10">
                                  <children>
-                                    <JFXRippler fx:id="computerButton1" onMouseClicked="#navigate" ripplerFill="#0067b1">
+                                    <JFXRippler fx:id="audioButton" onMouseClicked="#navigate" ripplerFill="#0067b1">
                                        <children>
                                           <HBox alignment="CENTER_LEFT" prefHeight="43.0" prefWidth="250.0" style="-fx-background-color: #012D5A;">
                                              <children>

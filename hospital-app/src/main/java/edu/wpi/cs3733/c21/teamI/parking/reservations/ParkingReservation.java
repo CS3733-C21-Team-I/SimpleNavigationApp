@@ -14,22 +14,6 @@ public class ParkingReservation {
 
   public ParkingReservation(
       int id,
-      int slotId,
-      String slotCode,
-      Timestamp startTimestamp,
-      Timestamp endTimestamp,
-      Date bookingDate) {
-    this.id = id;
-    this.slotId = slotId;
-    this.customer = null;
-    this.slotCode = slotCode;
-    this.startTimestamp = startTimestamp;
-    this.endTimestamp = endTimestamp;
-    this.bookingDate = bookingDate;
-  }
-
-  public ParkingReservation(
-      int id,
       ParkingCustomer customer,
       int slotId,
       String slotCode,
