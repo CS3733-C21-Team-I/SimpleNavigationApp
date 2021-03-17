@@ -16,9 +16,9 @@ public class Main {
   public static void main(String[] args) {
 
     String libName =
-            System.getProperty("sun.arch.data.model").equals("32")
-                    ? "rxtxSerial32.dll"
-                    : "rxtxSerial.dll"; // The name of the file in resources/ dir
+        System.getProperty("sun.arch.data.model").equals("32")
+            ? "rxtxSerial32.dll"
+            : "rxtxSerial.dll"; // The name of the file in resources/ dir
     URL url = Main.class.getResource("/" + libName);
     File tmpDir = null;
     try {

@@ -55,7 +55,6 @@ public class ServiceRequestTableController implements Initializable {
         .textProperty()
         .addListener(
             (observable, oldValue, newValue) -> {
-              System.out.println(newValue + ": " + newValue.length());
               treeView.setPredicate(
                   ServiceTicketTreeItem -> {
                     return (Boolean)
@@ -159,8 +158,6 @@ public class ServiceRequestTableController implements Initializable {
   }
 
   public void markComplete() {
-    System.out.println(treeView.getSelectionModel().getSelectedItem().getValue().getTicketId());
-    //
     interController.markCompleted(
         treeView.getSelectionModel().getSelectedItem().getValue().getTicketId());
     update();
@@ -191,17 +188,9 @@ public class ServiceRequestTableController implements Initializable {
           markCompleteButton.setDisable(true);
         });
 
-    System.out.println(treeView.getRoot().getChildren().size());
-
     if (treeView.getRoot() != null) {
       boolean allMatch =
           filteredList.stream().map(ServiceTicket::getTicketType).distinct().count() == 1;
-
-      for (TreeItem<ServiceTicket> t : treeView.getRoot().getChildren()) {
-        System.out.println(t.getValue().getTicketType());
-      }
-
-      System.out.println(allMatch);
 
       if (allMatch) {
         if (treeView.getColumns().size() == 7) {
@@ -211,7 +200,6 @@ public class ServiceRequestTableController implements Initializable {
         }
       } else {
         if (treeView.getColumns().size() != 7) {
-          System.out.println("Trimming back columns");
           treeView.getColumns().remove(7, treeView.getColumns().size());
         }
       }

@@ -966,11 +966,7 @@ public class ParkingPeripheralServerManager extends DatabaseManager {
       ParkingReservation reservation = getReservationForId(rs.getInt("RESERVATION_ID"));
 
       return new ParkingSlip(
-              id,
-               reservation,
-               rs.getTimestamp("entry_timestamp"),
-              0,
-              rs.getInt("base_cost") / 100.0);
+          id, reservation, rs.getTimestamp("entry_timestamp"), 0, rs.getInt("base_cost") / 100.0);
 
     } catch (SQLException e) {
       e.printStackTrace();

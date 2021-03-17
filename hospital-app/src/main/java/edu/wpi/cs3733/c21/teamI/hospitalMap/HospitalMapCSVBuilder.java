@@ -110,7 +110,6 @@ public class HospitalMapCSVBuilder {
           nodesString.append(((LocationNode) node).getTeamAssigned() + ",");
           nodesString.append(mapId + "\n");
         } else {
-          System.out.println("Saving pos");
           nodesString.append(node.getID() + ",");
           nodesString.append(node.getxCoord() + ",");
           nodesString.append(node.getyCoord() + ",");

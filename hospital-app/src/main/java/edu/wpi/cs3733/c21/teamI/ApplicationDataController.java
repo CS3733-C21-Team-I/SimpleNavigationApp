@@ -47,9 +47,6 @@ public class ApplicationDataController {
     if (user == null) return false;
 
     loggedInUser = user;
-    for (User.Role role : user.userRoles) {
-      System.out.println(role.toString());
-    }
     return true;
   }
 

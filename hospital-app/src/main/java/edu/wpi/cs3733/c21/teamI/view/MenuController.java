@@ -79,7 +79,6 @@ public class MenuController extends Application {
       Node nodeOut = loginButton.getChildren().get(0);
 
       HBox h = (HBox) nodeOut;
-      System.out.println("hbox children: " + h.getChildren());
 
       boolean btnChanged = false;
       for (Node nodeIn : ((HBox) nodeOut).getChildren()) {

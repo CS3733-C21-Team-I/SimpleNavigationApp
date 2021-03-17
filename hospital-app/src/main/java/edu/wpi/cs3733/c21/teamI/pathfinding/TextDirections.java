@@ -175,7 +175,6 @@ public class TextDirections {
     }
     // get angle assuming east is 0 degrees
     double facingAngle = Math.toDegrees(Math.atan2(deltaY, deltaX));
-    System.out.println(facingAngle);
 
     if (Math.abs(facingAngle) > 25 && Math.abs(facingAngle) < 155) {
       if (facingAngle > 0) direction += "south";

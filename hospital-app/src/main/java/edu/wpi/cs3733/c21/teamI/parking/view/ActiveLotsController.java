@@ -95,7 +95,6 @@ public class ActiveLotsController extends Application {
                     for (Lot lot : lots) {
                       lot.refreshUnocupied();
                     }
-                    System.out.println("this is called every 5 seconds on UI thread");
                   }
                 }));
     fiveSecondsWonder.setCycleCount(Timeline.INDEFINITE);
