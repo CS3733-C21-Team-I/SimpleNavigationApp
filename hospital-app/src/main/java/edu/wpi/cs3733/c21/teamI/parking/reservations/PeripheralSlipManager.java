@@ -54,7 +54,10 @@ public class PeripheralSlipManager {
             .format(isConnected ? serial.getTimeFormat() : DateTimeFormatter.ISO_TIME);
     System.out.println(endTime);
 
-    String cost = serial.getCostFormat().format(slip.getBaseCost());
+    String cost =
+        isConnected
+            ? (serial.getCostFormat().format(slip.getBaseCost()))
+            : (String.valueOf(slip.getBaseCost()));
     System.out.println(cost);
 
     System.out.println(String.valueOf(slip.getId()));
