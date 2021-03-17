@@ -89,6 +89,21 @@
                                              <padding>
                                                 <Insets bottom="5.0" />
                                              </padding></Label>
+                                                        <Label fx:id="baseRateLabel" text="Base Rate: $XX.XX">
+                                                            <padding>
+                                                                <Insets bottom="5.0" />
+                                                            </padding>
+                                                        </Label>
+                                                        <Label fx:id="overagesLabel" text="Overages: $XX.XX">
+                                                            <padding>
+                                                                <Insets bottom="5.0" />
+                                                            </padding>
+                                                        </Label>
+                                                        <Label fx:id="ammountOwedLabel" text="Total Amount: $XX.XX">
+                                                            <padding>
+                                                                <Insets bottom="5.0" />
+                                                            </padding>
+                                                        </Label>
                                                         <Label fx:id="ticketIDLabel" text="Ticket ID 1000111">
                                              <padding>
                                                 <Insets bottom="5.0" />
