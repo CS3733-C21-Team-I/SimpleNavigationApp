@@ -2,7 +2,7 @@ package edu.wpi.cs3733.c21.teamI.view.mobile;
 
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.cs3733.c21.teamI.database.ParkingPeripheralServerManager;
-import edu.wpi.cs3733.c21.teamI.parking.reservations.ParkingReservation;
+import edu.wpi.cs3733.c21.teamI.parking.reservations.ParkingSlip;
 import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -130,8 +130,7 @@ public class PayParkingTicket {
     try {
       int idInput = Integer.parseInt(parkingIDInput.getText());
 
-      List<Integer> ticketIDList =
-          ParkingPeripheralServerManager.getInstance().getCurrentReservation();
+      List<Integer> ticketIDList = ParkingPeripheralServerManager.getInstance().getCurrentSlips();
       List<Integer> matches = new ArrayList<>();
       for (Integer ticketID : ticketIDList) {
         if (ticketID == idInput) {
@@ -166,11 +165,12 @@ public class PayParkingTicket {
   }
 
   public void update(int i) {
-    ParkingReservation a = ParkingPeripheralServerManager.getInstance().getReservationForId(i);
-    locationLabel.setText("Parking Spot: " + a.getSlotCode());
-    startTimeLabel.setText(a.getStartTimestamp().toLocalDateTime().format(resTimeFormat));
-    endTimeLabel.setText(a.getEndTimestamp().toLocalDateTime().format(resTimeFormat));
-    ticketIDLabel.setText("Ticket ID: " + String.valueOf(a.getId()));
+    ParkingSlip a = ParkingPeripheralServerManager.getInstance().getSlipForId(i);
+    locationLabel.setText("Parking Spot: " + a.getReservation().getSlotCode());
+    startTimeLabel.setText(a.getEntryTimestamp().toLocalDateTime().format(resTimeFormat));
+    endTimeLabel.setText(
+        a.getReservation().getEndTimestamp().toLocalDateTime().format(resTimeFormat));
+    ticketIDLabel.setText("Ticket ID: " + a.getId());
   }
 
   public void submit() throws IOException {}

@@ -893,10 +893,10 @@ public class ParkingPeripheralServerManager extends DatabaseManager {
     }
   }
 
-  public List<Integer> getCurrentReservation() {
+  public List<Integer> getCurrentSlips() {
     List<Integer> slips = new ArrayList<>();
     try {
-      String query = "SELECT * FROM PARKING_SLOT_RESERVATIONS";
+      String query = "SELECT * FROM PARKING_SLIPS";
       PreparedStatement stmt = databaseRef.getConnection().prepareStatement(query);
       ResultSet rs = stmt.executeQuery();
 
