@@ -893,10 +893,10 @@ public class ParkingPeripheralServerManager extends DatabaseManager {
     }
   }
 
-  public List<Integer> getCurrentReservation() {
+  public List<Integer> getCurrentSlips() {
     List<Integer> slips = new ArrayList<>();
     try {
-      String query = "SELECT * FROM PARKING_SLOT_RESERVATIONS";
+      String query = "SELECT * FROM PARKING_SLIPS";
       PreparedStatement stmt = databaseRef.getConnection().prepareStatement(query);
       ResultSet rs = stmt.executeQuery();
 
@@ -966,11 +966,7 @@ public class ParkingPeripheralServerManager extends DatabaseManager {
       ParkingReservation reservation = getReservationForId(rs.getInt("RESERVATION_ID"));
 
       return new ParkingSlip(
-              id,
-               reservation,
-               rs.getTimestamp("entry_timestamp"),
-              0,
-              rs.getInt("base_cost") / 100.0);
+          id, reservation, rs.getTimestamp("entry_timestamp"), 0, rs.getInt("base_cost") / 100.0);
 
     } catch (SQLException e) {
       e.printStackTrace();
