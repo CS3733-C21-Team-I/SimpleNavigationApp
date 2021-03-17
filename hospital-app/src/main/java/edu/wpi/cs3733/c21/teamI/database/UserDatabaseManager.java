@@ -519,7 +519,7 @@ public class UserDatabaseManager extends DatabaseManager {
         "Canadian Translator", "", "Missandai", "of Narth", FEMALE, TRANSLATOR);
     ourInstance.createNewEmployee("Mandarin Translator", "", "Babel", "Fish", OTHER, TRANSLATOR);
 
-    ourInstance.createNewEmployee("Nurse Joy", "", "", "Joy", FEMALE, NURSE);
+    ourInstance.createNewEmployee("Nurse Joy", "password", "", "Joy", FEMALE, NURSE);
     ourInstance.createNewEmployee("Nurse Ratched", "", "", "Ratched", FEMALE, NURSE);
     ourInstance.createNewEmployee("Nurse Petrelli", "", "Peter", "Petrelli", MALE, NURSE);
     ourInstance.createNewEmployee(
