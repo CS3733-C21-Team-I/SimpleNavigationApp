@@ -55,6 +55,7 @@ public class Main {
               throw new IllegalArgumentException("Expected arg after: " + args[i]);
             // -opt
             optsList.put(args[i], args[i + 1]);
+            System.out.println("Added opt: " + args[i] + " " + args[i + 1]);
             i++;
           }
           break;
@@ -83,9 +84,11 @@ public class Main {
 
     // MapDataEntity.loadMapBackground(); // Done to prevent lag on loading
 
-    if (optsList.containsKey("p")) {
-      PeripheralSlipManager.init(new String[] {optsList.get("p")});
+    if (optsList.containsKey("-p")) {
+      System.out.println("Thermal Printer connected at Port: " + optsList.get("-p"));
+      PeripheralSlipManager.init(new String[] {optsList.get("-p")});
     } else {
+      System.out.println("No thermal printer connected");
       PeripheralSlipManager.init(new String[] {});
     }
 
